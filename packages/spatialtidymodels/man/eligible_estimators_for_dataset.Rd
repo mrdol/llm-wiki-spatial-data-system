@@ -7,7 +7,8 @@
 eligible_estimators_for_dataset(
   dataset,
   include_installed = TRUE,
-  evidence = c("scientific_evidence", "benchmark_use", "all")
+  evidence = c("scientific_evidence", "published_model", "benchmark_use",
+    "generated_candidate", "all")
 )
 }
 \arguments{
@@ -17,8 +18,10 @@ eligible_estimators_for_dataset(
 installed.}
 
 \item{evidence}{Which evidence layer to return. \code{"scientific_evidence"}
-returns only paper/manual-supported estimator routes. \code{"benchmark_use"}
-returns technical benchmark routes. \code{"all"} returns both.}
+returns legacy paper/manual-supported routes; \code{"published_model"} returns
+routes explicitly documented in a source; \code{"benchmark_use"} returns
+technical benchmark routes. \code{"all"} returns all executable routes except
+tentative generated candidates.}
 }
 \value{
 A data frame with estimator metadata and evidence columns.

@@ -65,14 +65,15 @@ DATASETS <- list(
     near_n_reps = 8L, near_test_size = 20L
   ),
 
-  # Dataset agricole: les coordonnees source sont longitude/latitude, mais les
-  # modeles spatiaux ont besoin de distances metriques; on projette en UTM 20S.
+  # Dataset agricole: la passe manuelle utilise exclusivement la coupe 1999,
+  # identique a l'echantillon de l'article Anselin et al. (2004). Les deux
+  # campagnes ne sont pas empilees faute d'identifiant longitudinal stable.
   lasrosas = list(
-    rds = "data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn.rds",
-    # La formule canonique de mission utilise les noms transformes de GeoDa,
-    # pas les noms bruts presents dans ce .rds. Pour cette passe de validation,
-    # on utilise une formule numerique simplifiee et on ecarte topo.
-    y = "yield", x = c("nitro", "bv"),
+    rds = "data/final_datasets/sf/R_agridat_lasrosas.corn_lasrosas.corn_1999.rds",
+    # Le script manuel accepte une liste de colonnes et non une formule R.
+    # Il conserve donc les deux variables de la specification publiee; le
+    # benchmark package applique la formule quadratique et les interactions.
+    y = "yield", x = c("nitro", "topo"),
     coords_raw = c("long", "lat"), raw_crs = 4326, target_crs = 32720,
     drop_cols = "geom_origine",
     near_n_reps = 20L, near_test_size = 100L

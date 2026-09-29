@@ -1,0 +1,237 @@
+# Règles de lecture dirigée des TEI GROBID.
+#
+# Objectif : guider les scripts vers les sections empiriques utiles
+# (données, prétraitements, tableaux de variables, modèles appliqués) et
+# déprioriser les équations génériques d'estimateurs ou de simulations.
+
+high_priority_sections:
+  data_source:
+    score: 35
+    title_patterns:
+      - data
+      - dataset
+      - study area
+      - case study
+      - empirical application
+      - materials
+      - sample
+      - study site
+      - data source
+    content_patterns:
+      # "coordinates", "longitude", "latitude", "census" seuls ont ete
+      # retires : trop topicaux (ils apparaissent aussi dans une prose
+      # theorique qui utilise un exemple geographique sans decrire un
+      # dataset reellement utilise dans le papier). "data set"/"dataset"
+      # sont conserves : desormais que score_section() ne fait plus une
+      # simple somme non bornee entre roles (voir plus bas), ils restent
+      # un signal utile sans faire saturer le score des sections theoriques.
+      - data set
+      - dataset
+      - downloaded
+      - obtained from
+      - available at
+      - retrieved from
+      - collected from
+      - provided by
+      - shapefile
+      - we use data from
+      - the data used in this study
+      - sample consists of
+      - the sample includes
+      - "data source:"
+
+  preprocessing:
+    score: 30
+    title_patterns:
+      - data processing
+      - preprocessing
+      - variable construction
+      - covariates
+      - measures
+      - transformation
+      - cleaning
+    content_patterns:
+      - transformed
+      - log
+      - normalized
+      - standardi
+      - excluded
+      - missing
+      - merged
+      - joined
+      - covariates
+      - explanatory variables
+
+  empirical_model:
+    score: 40
+    title_patterns:
+      - model specification
+      - empirical model
+      - empirical strategy
+      - econometric specification
+      - estimation strategy
+      - methodology
+      - methods
+      - regression model
+      - spatial model
+    content_patterns:
+      - dependent variable
+      - response variable
+      - explanatory variables
+      - independent variables
+      - covariates
+      - we estimate
+      - we model
+      - regression
+      - spatial lag
+      - spatial error
+      - geographically weighted
+      - gwr
+      - mgwr
+      - sem
+      - sdm
+      - sar
+
+  results_model:
+    score: 22
+    title_patterns:
+      - results
+      - empirical results
+      - model results
+      - estimation results
+    content_patterns:
+      - coefficient
+      - estimate
+      - rmse
+      - mae
+      - aic
+      - aicc
+      - r-squared
+      - moran
+
+table_patterns:
+  variable_tables:
+    score: 45
+    caption_patterns:
+      - variables
+      - descriptive statistics
+      - summary statistics
+      - dependent variable
+      - explanatory variables
+      - independent variables
+      - covariates
+      - data description
+      - data source
+      - list of
+      - missing observations
+      - cross-checking
+
+  model_tables:
+    score: 30
+    caption_patterns:
+      - model results
+      - regression results
+      - estimates
+      - coefficients
+      - performance
+      - comparison
+      - rmse
+      - aic
+      - aicc
+      - estimation results
+      - estimation
+      - spatial dependence
+      - test for
+      - test statistics
+
+low_priority_sections:
+  generic_theory:
+    penalty: 45
+    title_patterns:
+      - theoretical framework
+      - theory
+      - asymptotic
+      - estimator
+      - proof
+      - objective function
+      - likelihood
+    content_patterns:
+      - theorem
+      - proof
+      - asymptotic
+      - consistency
+      - convergence
+      - estimator
+      - objective function
+
+  simulation:
+    penalty: 35
+    title_patterns:
+      - simulation
+      - monte carlo
+      - synthetic
+      - numerical experiment
+    content_patterns:
+      - simulation
+      - monte carlo
+      - synthetic data
+      - generated data
+
+  background:
+    penalty: 20
+    title_patterns:
+      - introduction
+      - related work
+      - literature review
+      - conclusion
+      - discussion
+    content_patterns:
+      - this paper is organized
+      - future work
+
+evidence_patterns:
+  data_source:
+    - downloaded
+    - obtained from
+    - available at
+    - data source
+    - dataset
+    - shapefile
+    - repository
+    - github
+    - zenodo
+    - figshare
+    - dataverse
+    - dryad
+    - supplementary
+
+  preprocessing:
+    - log
+    - transformed
+    - normalized
+    - standardized
+    - missing values
+    - excluded
+    - selected
+    - merged
+    - joined
+
+  empirical_formula:
+    - dependent variable
+    - response variable
+    - explanatory variables
+    - independent variables
+    - covariates
+    - we estimate
+    - we model
+    - specification
+    - regression
+
+  generic_formula:
+    - theorem
+    - proof
+    - asymptotic
+    - objective function
+    - estimator
+    - monte carlo
+    - simulation

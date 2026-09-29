@@ -314,6 +314,27 @@ it is not spatially valid merely because those variables are present.
 - Which base learners support spatial or spatio-temporal features?
 - Which stopping criterion should be standardized for project comparisons: validation error, AIC, AICc, gMDL, or another metric?
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "gamboost"
+    package: "mboost"
+    backend: "mboost::gamboost"
+    requires_coords: false
+    requires_W: false
+    spatial_args: ""
+    tunable_parameters: "mstop"
+    family: "gam_spatial"
+    role: "variant"
+    reference_estimator: "gam_spatial"
+    variant_family: "boosting"
+    dashboard_group: "Boosting"
+    notes: "Baseline GAMBoost gradient-based via mboost::gamboost()."
+```
+
 ## Related Pages
 
 - [[gam]]

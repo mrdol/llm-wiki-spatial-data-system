@@ -137,6 +137,38 @@ The manual `tidymodels` benchmark registers two native `parsnip` variants:
 
 Both use `parsnip::mars(mode = "regression")` with engine `earth`.
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "earth"
+    package: "earth"
+    backend: "earth::earth"
+    requires_coords: false
+    requires_W: false
+    spatial_args: ""
+    tunable_parameters: ""
+    family: "earth"
+    role: "reference"
+    dashboard_group: "Machine Learning"
+    notes: "Baseline MARS native tidymodels sur X seules."
+  - estimator: "earth_xy"
+    package: "earth"
+    backend: "earth::earth"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords_as_covariates"
+    tunable_parameters: ""
+    family: "earth"
+    role: "variant"
+    reference_estimator: "earth"
+    variant_family: "coordinate_augmented"
+    dashboard_group: "Machine Learning"
+    notes: "Baseline MARS native tidymodels sur X et coordonnees brutes."
+```
+
 ## Related Pages
 
 - [[gam]]

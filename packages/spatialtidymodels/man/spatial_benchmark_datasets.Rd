@@ -26,7 +26,7 @@ An object of class \code{sf} (inherits from \code{data.frame}) with 322 rows and
 
 An object of class \code{sf} (inherits from \code{data.frame}) with 519 rows and 16 columns.
 
-An object of class \code{sf} (inherits from \code{data.frame}) with 3443 rows and 14 columns.
+An object of class \code{sf} (inherits from \code{data.frame}) with 1738 rows and 14 columns.
 }
 \usage{
 georgia
@@ -52,6 +52,8 @@ and is also known by \code{benchmark_spatial_dataset()}.
 
 \code{georgia}, \code{columbus_crime}, \code{london_hp}, \code{boston_housing}, \code{dub_voter},
 \code{ewhp}, and \code{lasrosas}.
+The bundled \code{lasrosas} object is the documented 1999 cross-section; the
+two-campaign source object remains in the repository for provenance.
 }
 
 \examples{

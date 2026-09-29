@@ -1,0 +1,1243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Semiparametric estimation and testing of smooth coefficient spatial autoregressive models ✩</title>
+				<funder ref="#_34Xcjgg">
+					<orgName type="full">Alabama Agricultural Experiment Station</orgName>
+				</funder>
+				<funder ref="#_Qm8HMn5">
+					<orgName type="full">Social Sciences and Humanities Research Council of Canada Insightful</orgName>
+				</funder>
+				<funder ref="#_4QXfn4Z">
+					<orgName type="full">Southern Economic Association</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-04-19">19 April 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Emir</forename><surname>Malikov</surname></persName>
+							<email>emalikov@auburn.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Agricultural Economics and Rural Sociology</orgName>
+								<orgName type="institution">Auburn University</orgName>
+								<address>
+									<settlement>Auburn</settlement>
+									<region>AL</region>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Yiguo</forename><surname>Sun</surname></persName>
+							<email>yisun@uoguelph.ca</email>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics and Finance</orgName>
+								<orgName type="institution">University of Guelph</orgName>
+								<address>
+									<region>ON</region>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Semiparametric estimation and testing of smooth coefficient spatial autoregressive models ✩</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2017-04-19">19 April 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C9C5E1E9C5AD488636D5BDB283E35974</idno>
+					<idno type="DOI">10.1016/j.jeconom.2017.02.005</idno>
+					<note type="submission">Received 21 June 2015 Received in revised form 16 July 2016 Accepted 27 February 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Consistent test Constrained estimation Local linear fitting Nonparametric GMM Partially linear Quadratic moments SAR Spatial lag</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper considers a flexible semiparametric spatial autoregressive (mixed-regressive) model in which unknown coefficients are permitted to be nonparametric functions of some contextual variables to allow for potential nonlinearities and parameter heterogeneity in the spatial relationship. Unlike other semiparametric spatial dependence models, ours permits the spatial autoregressive parameter to meaningfully vary across units and thus allows the identification of a neighborhood-specific spatial dependence measure conditional on the vector of contextual variables. We propose several (locally) nonparametric GMM estimators for our model. The developed two-stage estimators incorporate both the linear and quadratic orthogonality conditions and are capable of accommodating a variety of data generating processes, including the instance of a pure spatially autoregressive semiparametric model with no relevant regressors as well as multiple partially linear specifications. All proposed estimators are shown to be consistent and asymptotically normal. We also contribute to the literature by putting forward two test statistics to test for parameter constancy in our model. Both tests are consistent.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>While spatial econometric methods have solidly become part of a standard methodological toolkit of applied researchers in many fields of economics that deal with spatial data which include applications such as land use, hedonic pricing or cross-country growth studies, most empirical work has confined its analysis to linear spatial models only. However, to paraphrase <ref type="bibr" target="#b37">Paelinck and Klaassen (1979)</ref>, econometric relations in space result more often than not in highly nonlinear specifications (as cited in van Gastel <ref type="bibr" target="#b49">and Paelinck, 1995)</ref>. For instance, allowing for nonlinearities in the hedonic house price function is often argued to be crucial in order to obtain realistic marginal valuations of housing attributes (e.g., see <ref type="bibr" target="#b38">Parmeter et al., 2007)</ref>. Taking such potential nonlinearities in spatial models for granted is likely to lead to inconsistent parameter estimates and thus misleading conclusions.</p><p>This paper proposes a semiparametric method to handling nonlinearity (and parameter heterogeneity) in models of spatial dependence. We extend a particular class of semiparametric models in which parameters of a linear regression are permitted to be unspecified smooth functions of some contextual variables <ref type="bibr" target="#b18">(Hastie and Tibshirani, 1993;</ref><ref type="bibr" target="#b5">Cai et al., 2000;</ref><ref type="bibr" target="#b31">Li et al., 2002)</ref> to the case of data with spatial dependence. Specifically, we generalize a popular parametric spatial autoregressive mixed-regressive model by allowing its coefficients, including the spatial autoregressive parameter, to be nonparametric functions of unknown form [for concreteness, see Eq. (2.1)].</p><p>While our ''smooth coefficient'' spatial autoregressive model closely relates to the family of partially linear semiparametric spatial models recently proposed in the literature <ref type="bibr" target="#b45">(Su and Jin, 2010;</ref><ref type="bibr" target="#b44">Su, 2012;</ref><ref type="bibr" target="#b52">Zhang, 2013;</ref><ref type="bibr" target="#b48">Sun et al., 2014)</ref>, its distinct feature is that it permits the spatial autoregressive parameter to meaningfully vary across units. The latter may be highly desirable from a practitioner's point of view since it allows the identification of a neighborhood-specific spatial dependence measure conditional on the vector of contextual variables. For instance, when a spatial autoregressive model is game-theoretically rationalized as a ''response function'', our model empowers a researcher to estimate heterogeneous ''reaction'' parameters that can vary with some environmental control factors. Some potential applications of our model, for instance, include the estimation of growth models that explicitly account for technological interdependence between countries in the presence of spillover effects. Such technological interdependence is usually formulated in the form of spatial externalities (e.g., see <ref type="bibr" target="#b10">Ertur and Koch, 2007)</ref>. However, the intensity of knowledge spillovers is naturally expected to greatly depend on institutional and cultural compatibility of neighboring countries <ref type="bibr" target="#b21">(Kelejian et al., 2013)</ref>. Our smooth coefficient spatial autoregressive model presents a practical, easy-to-implement way to allow for such indirect effects of institutions on the degree of spatial dependence in the cross-country conditional convergence regressions.</p><p>Our semiparametric treatment of nonlinearities is also relatively more flexible than pioneer nonlinear modeling approaches in spatial dependence models put forward by <ref type="bibr">van</ref>  <ref type="bibr" target="#b49">Gastel and Paelinck (1995)</ref>, <ref type="bibr" target="#b3">Baltagi and Li (2001)</ref>, <ref type="bibr" target="#b36">Pace et al. (2004)</ref> and <ref type="bibr" target="#b51">Yang et al. (2006)</ref>. At the same time, like in all these studies as well as many others (e.g., <ref type="bibr" target="#b22">Kelejian and Prucha, 1998</ref><ref type="bibr" target="#b30">, 1999</ref><ref type="bibr">, 2010;</ref><ref type="bibr" target="#b27">Lee, 2004</ref><ref type="bibr" target="#b28">Lee, , 2007;;</ref><ref type="bibr" target="#b45">Su and Jin, 2010;</ref><ref type="bibr" target="#b44">Su, 2012)</ref>, the consistency of our estimator rests on an admittedly rather restrictive assumption of a correctly pre-specified spatial weighting matrix. Dispensing with this assumption requires either making an alternative assumption of strong spatial mixing along with spatial stationarity or modeling spatial weights as nonparametric functions of the distance between neighbors (see <ref type="bibr">Sun, 2016 and the references therein)</ref>. The acute disadvantage of both of these alternative approaches is an inability to quantify a spatial autoregressive parameter (a ''reaction'' parameter) which many empirical studies are specifically interested in. In this paper, we therefore abstract from the issue concerning the correct specification of spatial weights. <ref type="foot" target="#foot_0">1</ref>We propose several (locally) nonparametric Generalized Method of Moments (GMM) estimators for our model. The developed estimators incorporate both the linear and quadratic orthogonality conditions and are capable of accommodating a variety of data generating processes, including the instance of a pure spatially autoregressive semiparametric model with no relevant regressors as well as multiple partially linear specifications. To this end, we contribute to the literature on four fronts. First, our paper is the first (to the best of our knowledge) attempt in the nonparametric estimation literature to make use of local quadratic orthogonality conditions, which are necessary for the IV identification of spatially autoregressive models in the case when all explanatory covariates are irrelevant in predicting the outcome variable (see <ref type="bibr" target="#b28">Lee, 2007)</ref>. Second, we propose a two-stage estimation procedure whereby we first obtain an initial estimator of unknown parameter functions using feasible, but likely not so strong, instruments which we then use for the construction of more natural instruments suggested by the model's reduced form. Again, to our knowledge, no prior attempt has been made in the nonparametric econometrics literature to study such a class of estimators which themselves are based on the estimated instruments. Third, we also consider two special cases of our model by allowing some of its parameter functions to be constant thus resulting in a partially linear specification. Our proposed estimators present an alternative to those by <ref type="bibr" target="#b44">Su (2012)</ref> and <ref type="bibr" target="#b52">Zhang (2013)</ref> who study a similar class of partially linear spatial models. Unlike their estimators, ours however preserves its consistency property if the true model is a pure spatial autoregression. Fourth, we discuss ways of ensuring that the estimated model satisfies the non-singularity condition needed to rule out unstable Nash equilibria. In the instance of a mixed-regressive model, we impose this non-singularity restriction via the ''tilting'' procedure à la <ref type="bibr" target="#b15">Hall and Huang (2001)</ref> whose theoretical results we generalize to the case of GMM estimators in the presence of endogenous regressors. Under fairly mild regularity conditions, we show that all our proposed estimators are consistent and asymptotically normal.</p><p>Further, we contribute to the literature by putting forward two test statistics to test for parameter constancy in our model. These model specification tests allow us to discriminate between a standard linear spatial autoregressive and our semiparametric models. The first consistent test utilizes a popular residual-based specification test technique which we extend to spatial data with cross-sectional dependence. 2 Given the well-known poor performance of nonparametric residual-based tests in finite samples, we also suggest a (wild) bootstrap procedure for it which we show to be asymptotically valid in approximating the null distribution of our test statistic regardless of whether the null hypothesis holds true or not. However, our residual-based test is impractical when the spatial model has no regressors. We therefore propose an alternative consistent test statistic à la <ref type="bibr" target="#b19">Henderson et al. (2008)</ref> which provides a vehicle for testing for parameter constancy in our model even when the model is a pure spatial autoregression.</p><p>We investigate the finite sample performance of the proposed estimators and test statistics in a small set of Monte Carlo experiments. The results are encouraging and show that all estimators and tests perform well in finite samples with considerable improvements as the sample size increases. Overall, simulation experiments lend support to our asymptotic results. To showcase our methodology, we then apply it to estimate a spatial hedonic price function using the well-known Harrison and Rubenfeld's house price data from <ref type="bibr" target="#b13">Gilley and Pace (1996)</ref>, where we let unknown parameter functions to vary with the NO x concentration in the air. We find that spatial dependence between house prices is statistically significant only at higher values of the NO x concentration in the air and that the degree of this spatial dependence, on average, increases as the air quality declines. This finding suggests that locational similarity may matter little for house valuations in pollution-free localities.</p><p>The rest of the paper proceeds as follows. Section 2 outlines the model. We present our estimators in Section 3, where we also provide their large-sample statistical properties. In Section 4, we consider two different types of partially linear spatial autoregressive models. Section 5 discusses specification tests for parameter constancy. The results of Monte Carlo simulations are described in Section 6. Section 7 concludes.</p><p>Throughout the paper, we use M to denote a generic finite constant that can take different values at different appearances and vec {A} stacks columns of an n×m matrix A into an (nm)×1 vector. Lastly, tr {A} refers to the trace of a square matrix A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Semiparametric spatial autoregressive model</head><p>Consider a semiparametric generalization of the conventional (linear) spatial autoregressive mixed-regressive model, where the 2 Asymptotic properties of such a test have been studied for independent data (e.g., <ref type="bibr" target="#b53">Zheng, 1996;</ref><ref type="bibr" target="#b32">Li and Wang, 1998;</ref><ref type="bibr" target="#b43">Stengos and Sun, 2001)</ref>, weakly dependent time series data (e.g., <ref type="bibr" target="#b11">Fan and Li, 1999;</ref><ref type="bibr" target="#b30">Li, 1999)</ref> and integrated time series data (e.g., <ref type="bibr" target="#b12">Gao et al., 2009;</ref><ref type="bibr" target="#b50">Wang and Phillips, 2012;</ref><ref type="bibr" target="#b47">Sun et al., 2015)</ref>, to mention few among many contributions.</p><p>coefficients are now permitted to be unknown smooth functions of some relevant exogenous variables, i.e.,</p><formula xml:id="formula_0">y i = ρ(z i ) ∑ j̸ =i w ij y j + x ′ i β(z i ) + u i ∀ i = 1, . . . , n, (2.1)</formula><p>where y i is the (scalar) outcome variable of interest; x i and z i are p×1 and q×1 vectors of exogenous covariates, respectively, and x i can contain a constant 1; w ij is the (i, j)th element of a given n × n non-stochastic spatial weighting matrix W such that w ii = 0 for all i. Further, β(z i ) is a conformable vector of unknown slope parameter functions of z i , and ρ(z i ) is an unknown (scalar) spatial lag parameter function of z i . The random disturbance u i is identically and independently distributed over i conditional on (x i , z i ) with zero mean and finite variance, i.e., u i |x i , z i ∼ i.i.d. (0, σ 2 u ). We proceed by rewriting model (2.1) in the matrix form as</p><formula xml:id="formula_1">y = ρ(Z)Wy + mtx {X, β(Z)} + u, (2.2) where y = (y 1 , . . . , y n ) ′ and u = (u 1 , . . . , u n ) ′ are n × 1 vectors; ρ(Z) ≡ diag {ρ(z 1 ), . . . , ρ(z n )}</formula><p>is an n×n diagonal matrix of spatial autoregressive parameter functions; and mtx{•} is the operator that stacks up x ′ i β(z i ) into an n × 1 vector with the i subscript matching those of y, u and ρ(Z). Also, X = [ x 1 . . . x n ] ′ and Z = [ z 1 . . . z n ] ′ are n × p and n × q data matrices, respectively. To facilitate the economic interpretation of ρ(z i ) as the ''reaction'' parameter (and to rule out unstable Nash equilibria), we assume the following condition for ρ(•) to ensure the non-singularity of</p><formula xml:id="formula_2">I n -ρ(Z)W: 3 max 1≤i≤n |λ i {ρ(Z)W}| &lt; 1, (2.3)</formula><p>where λ i {A} is the ith eigenvalue of an n × n matrix A.</p><p>Model (2.1) nests a standard smooth coefficient model with strictly exogenous covariates <ref type="bibr" target="#b5">(Cai et al., 2000;</ref><ref type="bibr" target="#b31">Li et al., 2002)</ref> as a special case when ρ(z i ) = 0 for all i, which implies no spatial interaction in the outcome variable y i . In many applications, it is however imperative to allow for potential spatial dependence in the data. For instance, house prices are widely believed to be spatially autoregressive because residential property values tend to reflect shared local amenities as well as observed and unobserved neighborhood characteristics. While these characteristics can be partly controlled for using locality fixed effects, such an approach may be quite unsatisfactory since it does not let characteristics of neighboring houses affect the price of a given house <ref type="bibr" target="#b2">(Anselin and Lozano-Gracia, 2009)</ref>. However, by including the spatial lag in a house pricing function, we are able to accommodate such crossneighbor effects as can be seen from the following expansion of the reduced form of Eq. ( <ref type="formula" target="#formula_22">2</ref>.2) under the non-singularity condition in (2.3):</p><formula xml:id="formula_3">E[y|X, Z] = [I n -ρ(Z)W] -1 mtx {X, β(Z)} = ∞ ∑ s=0 [ ρ(Z)W</formula><p>] s mtx {X, β(Z)} .</p><p>(2.4) From (2.4), it is evident that the conditional mean of y i depends not only on its own x i and z i but also on its neighbors' x j and z j for j ̸ = i. Perhaps more importantly, house prices are likely to be spatially autoregressive because the very process of property valuation at its core relies on sale price information for comparable houses in the local neighborhood that real estate agents base their appraisals on. The latter is known as the ''sales comparison approach'' to a real estate appraisal which can systematically influence equilibrium prices in the housing market, especially if 3 See <ref type="bibr" target="#b26">Kelejian and Prucha (2010)</ref> for an excellent discussion of the assumptions concerning the parameter space of a spatial autoregressive parameter.</p><p>property owners have limited information about the market (see the reference in <ref type="bibr" target="#b42">Small and Steimetz, 2012)</ref>. Our model will be able to accommodate this spatial dependence in house prices while also allowing for nonlinearities and parameter heterogeneity in the house valuation function.</p><p>Studies of institutional change provide another example of applications where it is crucial to explicitly model spatial dependence in the data. Existing theoretical and empirical work indicate that institutional development in one country affects that of its neighbors <ref type="bibr" target="#b35">(Mukand and Rodrik, 2005)</ref>, where the institutional diffusion may be driven, say, by lobbying of multinational corporations for the harmonization of the commercial law across countries, requirements for members of a trade pact to standardize regulations or even military conflicts (see <ref type="bibr" target="#b21">Kelejian et al., 2013)</ref>. The semiparametric model we propose is equipped to examine such institutional diffusions across space while also allowing for nonlinearities and heterogeneity in institutional spillovers.</p><p>Lastly, in the instance when ρ(z i ) is a non-zero constant for all i, our model nests a partially linear smooth coefficient spatial autoregressive model as a special case (see <ref type="bibr" target="#b48">Sun et al., 2014)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 1.</head><p>The differentiation between the two sets of covariates, x i and z i , is a practitioner's prerogative which is likely to change from one empirical application to another. The assignment of relevant regressors into either of the two sets of variables may be done on the basis of practical convenience or, better yet, economic theory suggesting the direct (X) and indirect, contextual (Z) determinants of the spatially correlated outcome variable. From the theory's point of view however, our results do not require the variables in x i to be different from or unrelated to those in z i .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Nonparametric GMM estimator</head><p>We propose to estimate the unknown coefficient functions [ ρ(z i ), β(z i ) ′ ] ′ in (2.1) by a local linear regression approach. First, we rewrite Eq. (2.1) in a compact form as follows:</p><formula xml:id="formula_4">y i = m ′ i γ(z i ) + u i ∀ i = 1, . . . , n, (3.1)</formula><p>where</p><formula xml:id="formula_5">m i ≡ [( ∑ j̸ =i w ij y j ) , x ′ i ] ′ and γ(z i ) ≡ [ ρ(z i ), β(z i ) ′ ] ′ are (p+<label>1</label></formula><p>)×1 vectors. Model (3.1) seemingly takes the form of the standard semiparametric smooth coefficient model subject to endogeneity in one of the covariates, namely, the spatial lag term ∑ j̸ =i w ij y j . We estimate the above model using the (locally) nonparametric GMM estimator along the lines of <ref type="bibr" target="#b6">Cai and Li (2008)</ref> subject to the nonsingularity condition (2.3). Under the assumption that smooth parameter functions are twice continuously differentiable in the neighborhood of z, each element in γ(•) can then be approximated by its first-order Taylor expansion around z, i.e., γ s (</p><formula xml:id="formula_6">z i ) ≈ γ s (z) + ∇γ s (z) ′ (z i -z) at point z i close to z for s = 1, . . . , p + 1, where ∇γ s (z) ≡ [∂γ s (z)/∂z 1 , . . . , ∂γ s (z)/∂z q ] ′ is a q × 1 vector of the first-order derivative of γ s (•).</formula><p>Therefore, for z i close to z, we can approximate (3.1) by</p><formula xml:id="formula_7">y i ≈ m ′ i θ(z)Z i (z) + u i = [Z i (z) ⊗ m i ] ′ vec{θ(z)} + u i ∀ i = 1, . . . , n, (3.2) where Z i (z) ≡ [1, (z i -z) ′ H -1</formula><p>] ′ is a (q + 1) × 1 vector with H = diag{h 1 , . . . , h q } being a q × q diagonal bandwidth matrix, and</p><formula xml:id="formula_8">θ(z) ≡ ⎡ ⎢ ⎣ γ 1 (z) ∇γ 1 (z) ′ H . . . . . . γ p+1 (z) ∇γ p+1 (z) ′ H ⎤ ⎥ ⎦ denotes a (p + 1) × (q + 1) parameter matrix.</formula><p>Before introducing our estimator, we first take a closer look at the spatial lag term. Denoting S n (Z) ≡ [I n -ρ(Z)W] -1 and G n (Z) ≡ WS n (Z), we have the reduced form of our model in (2.2):</p><formula xml:id="formula_9">y = S n (Z) (mtx {X, β(Z)} + u) ,</formula><p>from where it is evident that the spatial lag term Wy</p><formula xml:id="formula_10">= G n (Z) [mtx {X, β (Z)} + u] is endogenous because E [ (G n (Z) u) ′ u ] = σ 2 u E [tr {G n (Z)}] ̸ = 0 in general. Now, let P n be some n × n matrix satisfying E [ (P n u) ′ u ] = 0.</formula><p>We then can rewrite Wy as follows:</p><formula xml:id="formula_11">Wy = G n (Z) mtx {X, β (Z)}+P n u+[G n (Z) -P n ] u,</formula><p>where both G n (Z) mtx {X, β (Z)} and P n u are uncorrelated with u. This observation suggests that G n (Z) mtx {X, β (Z)} and P n u can be reasonable valid instruments for Wy. There are multiple choices for the matrix P n with a zero-trace P n = G n (Z) -n -1 tr{G n (Z)} I n and a zero-diagonal P n = G n (Z) -diag {G n (Z)} being among the most popular specifications in the parametric spatial regression literature (e.g., <ref type="bibr" target="#b23">Kelejian and Prucha, 1999;</ref><ref type="bibr" target="#b28">Lee, 2007)</ref>. However, note that neither G n (Z) mtx {X, β (Z)} nor P n u are feasible instruments due to the presence of unknown smooth coefficients ρ (Z) and β (Z) in G n (Z). In this paper, we therefore propose to first obtain an initial consistent estimator of unknown parameter functions using feasible instruments (in Section 3.1) and then to construct a second-stage estimator (in Section 3.2) which instruments for the endogenous spatial lag with G n (Z) mtx {X, β (Z)} and P n u constructed using the initial first-stage consistent estimator of ρ (•) and β (•). In what follows, we describe these two proposed estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">First-stage estimator</head><p>The expansion in (2.4) suggests that WX, WZ, W 2 X, W 2 Z, . . . with linearly dependent columns removed can be valid instruments for the endogenous spatial lag term Wy. Also note that both</p><formula xml:id="formula_12">matrices P n,l = W l -n -1 tr { W l } I n and P n,l = W l -diag { W l } for l = 1, 2, . . . satisfy E [ ( P n,l u</formula><p>) ′ u ] = 0. We thus have identified feasible instruments which can be employed to obtain an initial estimator for our model in (3.2).</p><p>Define an n × d matrix of instruments</p><formula xml:id="formula_13">Q n = [Q 1n , X] ≡ [ Q n,1 . . . Q n,n</formula><p>] ′ , where Q 1n contains linearly independent in- struments taken from { WX, WZ, W 2 X, W 2 Z, . . . }</p><p>. We then obtain the following kernel-weighted (local) orthogonal conditions:</p><formula xml:id="formula_14">E [ Q(z) ′ K H (z) ( y -M(z)vec{θ(z)} )] ≈ 0 d (3.3) and E [ ( y -M(z)vec{θ(z)} ) ′ P n,l K H (z) ( y -M(z)vec{θ(z)} ) ] ≈ 0 ∀ l = 1, 2, . . . , m (3.4) for a finite integer m, where M(z) = [ Z 1 (z) ⊗ m 1 . . . Z n (z) ⊗ m n ] ′ is an n × [(p + 1)(q + 1)] data matrix; Q(z) = [ Z 1 (z) ⊗ Q n,1 . . . Z n (z) ⊗ Q n,n ] ′ is an n × [d(q + 1)] instrument matrix; K H (z) = diag {K H (z 1 , z), . . . , K H (z n , z)} is an n × n diagonal matrix of kernel weights with K H (z i , z) = K ( H -1 (z i -z) )</formula><p>being a product kernel.</p><p>Denoting</p><formula xml:id="formula_15">g n (θ) = ⎡ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎣ ( y -M(z)vec{θ} ) ′ P n,1 K H (z) ( y -M(z)vec{θ} ) . . . ( y -M(z)vec{θ} ) ′ P n,m K H (z) ( y -M(z)vec{θ} ) Q(z) ′ K H (z) ( y -M(z) vec{θ} ) ⎤ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎦ (3.5)</formula><p>for a (p + 1) × (q + 1) vector θ, we construct our initial first-stage nonparametric GMM estimator:</p><formula xml:id="formula_16">vec { θ(z) } = arg min θ(z) g n (θ(z)) ′ g n (θ(z)) .</formula><p>(3.6) Below, we list assumptions used to derive the limiting distribution of our proposed estimator.</p><formula xml:id="formula_17">Assumption 1. {(x i , z i , u i )} is i.i.d. over index i, y i is generated according to (2.1) satisfying (2.3). Also, E ( ∥x i ∥ 2(2+δ 1 ) ) &lt; M and E [ ∥z i ∥ 4(2+δ 1 ) ] &lt; M for some δ 1 &gt; 0. (i) E [u i |x i = x, z i = z] = 0, E [ u 2 i |x i = x, z i = z ] = σ 2 u &gt; 0 and E [ |u i | 4+δ ⏐ ⏐ ⏐xi = x, z i = z</formula><p>] &lt; M for any x ∈ R p and z ∈ R q and some δ &gt; 0;</p><p>(ii) There exists a positive integer N such that both W and [I n -ρ (Z) W] -1 have finite row-and column-sum matrix norms for all n &gt; N; (iii) P n,l is an n × n matrix with finite row-and column-sum matrix norms for all n &gt; N and tr { P n,l } = 0 for all l = 1, . . . , m, where m ≥ 1 is a finite positive integer. And, the n × d instrument matrix Q n has a full rank d ≥ p + 1.</p><p>Here, the row-and column-sum matrix norms of some n × n matrix A are respectively defined as</p><formula xml:id="formula_18">∥A∥ row = max 1≤i≤n ∑ n j=1 ⏐ ⏐ a ij ⏐ ⏐ and ∥A∥ column = max 1≤j≤n ∑ n i=1 ⏐ ⏐ a ij ⏐ ⏐ .</formula><p>Assuming u i has a finite (4 + δ)th-order conditional moment in Assumption 1(i) is necessary to apply the central limit theorem derived by <ref type="bibr" target="#b24">Kelejian and Prucha (2001)</ref>.</p><formula xml:id="formula_19">Assumption 2. (i) ρ (z), β (z), f (z) and E [ Q n,i m ′ i |z i = z ]</formula><p>are all twice continuously differentiable in a neighborhood of z, where</p><formula xml:id="formula_20">f (z) &gt; 0 is the probability density function of z i evaluated at point z; (ii) E (   Q n,i   2+δ 1 |z i = z )</formula><p>is continuous and bounded in the neighborhood of z for some δ 1 &gt; 0.</p><p>Assumption 3. The kernel function k (v) is a symmetric probability density function with a compact support [-1, 1]. Also, we define</p><formula xml:id="formula_21">µ i,j (k) = ∫ k i (v) v j dv and R 2 (K ) = ∫ K 2 (v) dv, where K (v) = ∏ q j=1 k ( v j ) and v = [ v 1 , . . . , v q ] ′ . Assumption 4. As n → ∞, ∥H∥ → 0, n |H| → ∞,</formula><p>and lim n→∞ n |H| ∥H∥ 4 = c 0 &gt; 0, a finite constant, where |H| = ∏ q j=1 h j and ∥H∥ 2 = ∑ q j=1 h 2 j . Theorem 1. Under Assumptions 1-4, and if B (H, z) is nonsingular at an interior point z, we have</p><formula xml:id="formula_22">√ n |H| ( γ(z) -γ(z) - µ 1,2 (k) 2 Bias (H, z) ) d → N ( 0 p+1 , f -1 (z) R 2 (K ) plim n→∞ B (H, z) -1 × Ω (z) plim n→∞ B (H, z) -1 ) , where Bias (H, z) = S p+1 B (H, z) -1 A (H, z) ′ = O p (<label>∥H∥ 2 )</label></formula><p>, S p+1 equals the first p + 1 rows of the identity matrix I [(p+1)(q+1)] , and A (H, z), B (H, z) , and Ω(z) are respectively defined in Lemmas 1-3 in Appendix A.</p><p>Theorem 1 states that the local linear estimator of the varying coefficients ρ (z) and β (z) has the conventional bias term of order</p><formula xml:id="formula_23">O p (<label>∥H∥ 2 )</label></formula><p>and asymptotic variance of order O p ( (n |H|) -1/2 ) . Remark 2. As discussed in Lemma 2, B (H, z) can be singular if X is irrelevant in predicting y or β(z) = 0 p holds true over its domain. However, this problem occurs only to the local linear regression approach and not to the local constant approach. Thus, the estimator derived from the nonparametric GMM via a local constant fitting does not suffer from the singularity problem even if X is irrelevant for y.</p><p>Next, notice that, since θ(z) in (3.6) does not have an analytic formula due to the use of the quadratic moment (3.4), the computation of our estimator can be significantly slow for relatively large samples. However, if one is reasonably confident that β (z) is a non-zero vector over at least one non-empty subset, we are able to construct an alternative consistent estimator of γ(z) which has a simple closed-form formula and hence is fast to compute. This alternative estimator uses the linear local orthogonal condition in (3.3) only. 4  Specifically, we are interested in minimizing the following (local) objective function:</p><formula xml:id="formula_24">min θ(z) [ Q(z) ′ K H (z) ( y -M(z)vec{θ(z)} )] ′ × Q(z) ′ K H (z) ( y -M(z)vec{θ(z)} ) , (3.7) which yields vec { θ(z) } = [ M(z) ′ Ξ H (z)M(z) ] -1 M(z) ′ Ξ H (z)y, (3.8)</formula><p>where</p><formula xml:id="formula_25">Ξ H (z) ≡ K H (z) ′ Q(z)Q(z) ′ K H (z).</formula><p>Following the proof of Theorem 1, we obtain the limit result for vec { θ(z) } as follows. Corollary 2. Under Assumptions 1-4 and assuming E 1 (z) ′ E 1 (z) is non-singular, at an interior point z, we have</p><formula xml:id="formula_26">√ n |H| ( γ(z) -γ(z) - µ 1,2 (k) 2 Bias (H, z) ) d → N ( 0 p+1 , σ 2 u f (z) R 2 (K ) Σ(z)</formula><p>) ,</p><p>where Bias (H,</p><formula xml:id="formula_27">z) = [ E 1 (z) ′ E 1 (z) ] -1 E 1 (z) ′ E 2 (H, z) ′ = O ( ∥H∥ 2 ) , Σ(z) = [ E 1 (z) ′ E 1 (z) ] -1 [ E 1 (z) ′ E 3 (z)E 1 (z)</formula><p>] [</p><formula xml:id="formula_28">E ′ 1 (z)E 1 (z)</formula><p>] -1 and E 1 (z), E 2 (H, z) and E 3 (z) are respectively defined in (A.8), (A.9)   and (A.24) in Appendix A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Second-stage estimator</head><p>Having obtained the initial estimator of unknown parameter functions ρ(•) and β(•) in (3.6), we can now construct the feasible versions of our originally desired instruments, namely, Q1n = Ĝn (Z) mtx { X, β (Z) } and, e.g., the zero-trace Pn = Ĝn (Z) -</p><p>n -1 tr { Ĝn (Z) } I n , where Ĝn (Z) = W[I n -ρ (Z) W] -1 . With this, we derive our second-stage nonparametric GMM estimator: vec { θ(z) } = arg min θ(z)</p><formula xml:id="formula_29">g n (θ(z)) ′ g n (θ(z)) , (3.9)</formula><p>where the moment function is defined as</p><formula xml:id="formula_30">g n (θ) = ⎡ ⎣ ( y -M(z)vec{θ} ) ′ Pn K H 0 (z) ( y -M(z)vec{θ} ) Q(z) ′ K H 0 (z) ( y -M(z)vec{θ} ) ⎤ ⎦ , (3.10) 4</formula><p>Note that Q n is not a valid instrument matrix if X and Z are both irrelevant in predicting y, which occurs if β (z) = 0 p and ρ (z) = ρ 0 over their domains and our model (2.1) becomes a pure spatial autoregression</p><formula xml:id="formula_31">y i = ρ 0 ∑ j̸ =i w ij y j + u i ∀ i.</formula><p>See <ref type="bibr" target="#b28">Lee (2007)</ref> for the detailed discussion in a parametric spatial autoregressive framework.</p><p>H 0 is the new q × q diagonal bandwidth matrix; and M(z), Q(z) and vec{θ} are as defined earlier except for Q(z) being constructed using Q1n in place of Q 1n .</p><p>Asymptotic results for our second-stage estimator require the following additional assumptions. Assumption 5.</p><formula xml:id="formula_32">sup z∈Sz ∥γ (z) -γ (z)∥ = O p ( ∥H∥ 2 + √ ln n/(n |H|) ) . Assumption 6. (i) ∥H∥ → 0, ∥H 0 ∥ → 0 , n |H| → ∞, n |H 0 | → ∞, and n |H 0 | ∥H 0 ∥ 4 = O (1); (ii) ∥H∥ 4 / ( |H 0 | ∥H 0 ∥ 2 ) → 0, n |H| |H 0 | ∥H 0 ∥ 2 /ln n → ∞, and n √ |H| |H 0 | ∥H 0 ∥ 3 /ln n → ∞.</formula><p>Assumption 5 strengthens the pointwise consistency result for γ (z) to a uniform convergence result over its domain S z . This is a reasonable result to be expected if one assumes that S z is a compact subset of R q and v j k (v) satisfies Lipschitz condition for 0 ≤ j ≤ 3 by closely following the proof in <ref type="bibr" target="#b34">Masry (1996)</ref>. If the random variable z i contains a component taking values along the real line, Assumption 5 will hold for an expanding subset growing at proper speed <ref type="bibr" target="#b16">(Hansen, 2008)</ref>. Assumption 6 regulates the choice of the two bandwidth matrices for the first-and second-stage estimators. For ease of discussion, we set H = diag {h, . . . , h} and</p><formula xml:id="formula_33">H 0 = diag {h 0 , . . . , h 0 } with h = cn -α and h 0 = c 0 n -α 0 . Assumption 6(ii) implies α 0 = 1/(4 + q). Assumption 6(i) requires α 0 (2 + q) /4 &lt; α &lt; min {[1 -(q + 3) α 0 ] 2/q, [1 -(q + 2) α 0 ]</formula><p>/q} which, when combined with Assumption 6(ii), implies that q &lt; 2. When q = 1, Assumption 6 states that α 0 = 1/5 and 0.15 &lt; α &lt; 0.4 so that we can set α 0 = α = 1/5 in both steps. However, when z i contains more than one continuous variable, one needs to apply a higher-order local polynomial approach in the first-stage estimation to ensure the optimal convergence rate in the second-stage estimation. For instance, if we apply the local r th-order polynomial approach with an odd integer r ≥ 1, ∥H∥ 4 / (</p><formula xml:id="formula_34">|H 0 | ∥H 0 ∥ 2 ) = o (1) in Assumption 6(ii) will be replaced by ∥H∥ 2(r+1) / ( |H 0 | ∥H 0 ∥ 2 ) = o (1). With α 0 = 1/(4 + q), we have α 0 (2 + q) /[2 (r + 1)] &lt; α &lt; [1 -(q + 3) α 0 ] 2/q which implies that q &lt; √ 4r + 5 -1. So, if q = 2,</formula><p>r &gt; 1 is required, and hence we can apply the local cubic polynomial approach in the first-stage estimation in that instance.</p><p>Theorem 3. Under Assumptions 1-3, 5 and 6, at an interior point z, we have</p><formula xml:id="formula_35">√ n |H 0 | ( γ(z) -γ(z) - µ 1,2 (k) 2 Bias (H 0 , z) ) d → N ( 0 p+1 , f -1 (z) plim n→∞ B (H 0 , z) -1 Ω(z) plim n→∞ B (H 0 , z) -1</formula><p>) ,</p><p>where Bias (H 0 , z) = S p+1 B (H 0 , z) -1 A (H 0 , z) ′ , and A (H 0 , z), B (H 0 , z) and Ω(z) are respectively defined in Lemmas 4-6 in Appendix A.</p><p>Theorem 3 states that the second-stage estimator is consistent and has an asymptotic normal distribution at the usual nonparametric convergence rate with the proper order of a local polynomial estimation approach. Intuitively, the second-stage estimator is expected to be asymptotically more efficient than its first-stage counterpart because the instruments employed in the first-stage estimation have lower predictive power for Wy than those used in the second stage. This intuition is confirmed by our Monte Carlo simulations in Section 6.1. However, we are unable to analytically verify this result since both asymptotic variances in Theorems 1 and 3 take complex forms.</p><p>Remark 3. The consistency and asymptotic normality results for the second-stage estimator continue to hold if we use the zero-</p><formula xml:id="formula_36">diagonal Pn = Ĝn (Z) -diag { Ĝn (Z) } in (3.10).</formula><p>Naturally, the definition of A (H 0 , z), B (H 0 , z) and Ω(z) referenced in Theorem 3 will change accordingly.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Non-singularity constraint</head><p>Until now, we have proceeded with the estimation of (2.1) as if it were a standard smooth coefficient model subject to endogeneity in one of its covariates, namely Wy. However, recall that the said endogenous covariate is a spatially-weighted average of the left-hand-side variable. To ensure that the outcome variable y is uniquely defined by (2.2), the non-singularity condition in (2.3) needs to be satisfied. We do so using the ''tilting'' procedure proposed by <ref type="bibr" target="#b15">Hall and Huang (2001)</ref> and <ref type="bibr" target="#b9">Du et al. (2013)</ref>. Here, we generalize <ref type="bibr" target="#b15">Hall and Huang's (2001)</ref> theoretical results to the case of GMM estimators in the presence of endogenous regressors. The procedure essentially mutes or magnifies the impact of any given data point used in the estimation. This allows us to impose the non-singularity restriction post-estimation via a quadratic programming technique. The idea is to reweigh observations used in the estimation so that the non-singularity constraint is satisfied in the local neighborhood of point z:</p><formula xml:id="formula_37">max 1≤i≤n |λ i {ρ(z)W}| &lt; 1. (3.11)</formula><p>Since the estimator derived using not only linear orthogonality condition (3.3) but also quadratic condition (3.4) does not have an analytical solution, the ''tilting'' procedure proposed by <ref type="bibr" target="#b15">Hall and Huang (2001)</ref> does not apply. We therefore limit our attention to a more practical estimator in (3.8) which makes use of linear moments only and hence is valid when β (z) ̸ = 0 p over at least one non-empty subset. 5  In order to facilitate the imposition of condition (3.11) in the neighborhood of z, we assume that max 1≤i≤n |λ i {W}| ≤ 1 holds true, which is satisfied if one standardizes a raw spatial weighting matrix by dividing all of its elements by its largest eigenvalue in absolute value. Then, the non-singularity condition (3.11) is satisfied if |ρ(z)| &lt; 1 <ref type="bibr">(Kelejian and</ref><ref type="bibr">Prucha, 2004, 2010)</ref>. To impose the latter condition, we rewrite the kernel estimator of ρ(z) from (3.8) as a weighted average of the outcome variable:</p><formula xml:id="formula_38">ρ(z) = n ∑ i=1 ω i (X, z)y i , (3.12)</formula><p>where</p><formula xml:id="formula_39">ω i (X, z) is the ith (column) element in the first row of [ M(z) ′ Ξ H (z)M(z) ] -1 M(z) ′ Ξ H (z).</formula><p>Following Hall and Huang (2001), we can generalize (3.12) as</p><formula xml:id="formula_40">ρ(z|p) = n n ∑ i=1 p i ω i (X, z) y i ,<label>(3.13)</label></formula><p>where p = (p 1 , . . . , p n ) ′ is the sequence of additional weights such that ∑ n i=1 p i = 1. Note that p i equals 1/n (i.e., uniform weights) in the case of an un constrained estimator in (3.12).</p><p>If necessary, we can impose the non-singularity condition by selecting weights p to minimize the</p><formula xml:id="formula_41">L 2 -metric D(p) = (1/ni n -p) ′ (1/ni n -p) subject to i ′ n p = 1 and -i n &lt; [ ρ(z 1 |p), . . . ,ρ(z n |p)</formula><p>] ′ &lt; i n , where i n is an n × 1 vector of ones. Here, D(p) is the sum of squared deviations of p i from the unrestricted value of 1/n. In our choice of the distance metric, we thus follow <ref type="bibr">Du et al. 5</ref> In practice, when estimating the estimators in (3.6) and (3.9), which incorporate quadratic orthogonality conditions, the non-singularity condition (3.11) may be easily imposed via box constraints on ρ(z) during the numerical optimization.</p><p>(2013), which allows p to be both positive and negative. 6 The minimization problem is solved via a standard quadratic programming technique. Let p be the solution to this optimization problem. To derive the asymptotic results for ρ(z|p), we need the following additional assumptions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 7. (i) The random variable z</head><formula xml:id="formula_42">i has a compact support, i.e., S z = [a, b] = [a 1 , b 1 ] × • • • × [ a q , b q ]</formula><p>is a compact subset of R q and has a common Lebesgue probability density f (z</p><formula xml:id="formula_43">) satisfying inf z∈Sz f (z) &gt; 0; (ii) β (z) ̸ = 0 p over at least one non-empty interval; (iii) the kernel function k (v) satisfies ⏐ ⏐ v j k (v) -s j k (s) ⏐ ⏐ ≤ M |v -s| for any v, s ∈ R and 0 ≤ j ≤ 3.</formula><p>Assumption 8. Let A n,ϵ = {j : ρ(z|p) = ±(1 -ϵ)} for a given very small ϵ ∈ (0, 1) and</p><formula xml:id="formula_44">W n be an n × ⏐ ⏐ A n,ϵ ⏐ ⏐ matrix with a typical element ω i (X, z j )y i for j = 1, . . . , ⏐ ⏐ A n,ϵ ⏐ ⏐ , where A n,ϵ = { j 1 , . . . , j |An,ϵ| } ⊆ {1, . . . , n}. Here, W n has a full rank of ⏐ ⏐ A n,ϵ ⏐ ⏐ with λ min { E [ W ′ n W n ] /n } n→∞ -→c 1 &gt; 0 for a finite constant c 1 . Assumption 7 is required to ensure that ρ(z) converges to ρ(z)</formula><p>uniformly over z ∈ S z . Assumption 8 holds if matrix Z has a full rank and the partial derivative of ω i (X, z j )y i with respect to z j does not equal zero for all i. Note that it is not essential to know the value of ϵ since it is introduced to ensure that ρ(z|p) does not reach ±1.</p><p>Under these additional assumptions, below we provide the limit result for the constrained estimator ρ(z|p).</p><p>Theorem 4. Under Assumptions 1-4, 7 and 8, we have: (i) there exists</p><formula xml:id="formula_45">{p i } i≤n such that max 1≤i≤n |p i | = O p ( n -1 ) holds for all z ∈ S z ; (ii) ρ(z|p) = ρ(z) + O p ( (n |H|) -1/2 ) for an interior point z ∈ S z .</formula><p>By Corollary 2 and Theorem 4, we show that ρ(z|p) = ρ(z)</p><formula xml:id="formula_46">+ O p ( ∥H∥ 2 + (n |H|) -1/2 )</formula><p>. Hence, ρ(z|p) is a consistent estimator of ρ(z) and has the same convergence rate as ρ(z) does. From the proof of this theorem in Appendix A, we obtain</p><formula xml:id="formula_47">√ n |H| ( ρ(z|p) -ρ(z) -S 1,(p+1) Bias (H, z) -(n |H|) -1/2 ∆ (z) ) d → N ( 0, S 1,(p+1) Σ(z)S ′ 1,(<label>p+1</label></formula><formula xml:id="formula_48">)</formula><p>) ,</p><p>where Bias (H, z) and Σ(z) are defined in Corollary 2, S 1,r is the first row of the identity matrix I r , and ∆ (z) is some continuous function of z. Thus, compared with ρ(z), ρ(z|p) has an additional vanishing asymptotic bias term of order O p</p><formula xml:id="formula_49">( (n |H|) -1/2 )</formula><p>resulting from the ''tilting'' procedure. However, the two estimators have the same asymptotic variance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Special case: Partially linear spatial autoregressive model</head><p>In this section, we consider two special cases of our model in (2.1) by allowing some of the varying coefficients to be constant. That is, we study a partially linear semiparametric spatially autoregressive model. The primary advantage of such a model (over a fully semiparametric specification) is its potential for efficiency gains stemming from the additional information about constancy of some of the parameter functions.</p><p>Such partially linear semiparametric models have been extensively studied for sampling with no spatial or cross-sectional dependence by, e.g., <ref type="bibr" target="#b0">Ahmad et al. (2005)</ref>, <ref type="bibr" target="#b20">Kai et al. (2011)</ref> and <ref type="bibr" target="#b7">Cai and Xiao (2012)</ref>. In the spatial autoregression literature, <ref type="bibr" target="#b44">Su (2012)</ref> and <ref type="bibr" target="#b52">Zhang (2013)</ref> both focus on the case when ρ (z i ) = ρ 0 over its domain, however, with varying assumptions about <ref type="bibr" target="#b44">Su (2012)</ref> assumes that x i = 1. The nonparametric GMM <ref type="bibr">6 Hall and Huang (2001)</ref> use a power divergence metric which has a rather complicated form and is only valid for non-negative weights.</p><formula xml:id="formula_50">x ′ i β (z i ) (in our notation). Zhang (2013) assumes that x ′ i β (z i ) = x ′ i β 1 + β 2 (z i ), whereas</formula><p>estimators proposed in these papers are however inconsistent if the true model is a pure spatial autoregressive model without other regressors. In contrast, the estimators that we put forward here do not suffer from such a problem.</p><p>Specifically, we study the case when</p><formula xml:id="formula_51">x ′ i β (z i ) = x ′ 1i β 1 +x ′ 2i β 2 (z i ), where x i = [ x ′ 1i , x ′ 2i ] ′ is partitioned into two p j × 1 sub-vectors x ji for j = 1, 2, and β (z i ) = [ β ′ 1 , β 2 (z i ) ′</formula><p>] ′ is accordingly split into a p 1 ×1 vector of constant parameters β 1 and p 2 ×1 vector of varying parameter functions β 2 (•). Depending on whether the spatial lag parameter ρ (z i ) is also constant or not, we study two alternative partially linear specifications of our model. Section 4.1 treats ρ (z i ) as a varying function, while Section 4.2 lets ρ (z i ) be constant.</p><p>To keep our notation simple and to make a better connection with the results derived earlier, throughout this section we adhere by the notation used in Section 3 wherever possible and redefine variables when necessary.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Nonlinear in the spatial autoregressive parameter</head><p>Consider the following partially linear model:</p><formula xml:id="formula_52">y i = ρ(z i ) ∑ j̸ =i w ij y j + x ′ 1i β 1 + x ′ 2i β 2 (z i ) + u i ∀ i = 1, . . . , n (4.1) for which we redefine m i ≡ [( ∑ j̸ =i w ij y j ) , x ′ 2i ] ′ , γ (z i ) ≡ [ ρ(z), β 2 (z i ) ′ ] ′ . Also, let ẏi ≡ y i -x ′ 1i β 1 .</formula><p>Closely following the methodology introduced in Section 3, we have the following kernel-weighted orthogonal moment conditions:</p><formula xml:id="formula_53">E [ Q(z) ′ K H (z) ( ẏ -M(z)vec{θ(z)} )] ≈ 0 d (4.2) E [ ( ẏ -M(z)vec{θ(z)} ) ′ P n,l K H (z) ( ẏ -M(z)vec{θ(z)} ) ] ≈ 0 ∀ l = 1, 2, . . . , m (4.3)</formula><p>for some finite positive integer m, where ẏ = [ẏ 1 , . . . , ẏn ] ′ ; Q (z), P n,l and K H (z) are as defined earlier in Section 3; and both M(z) and θ(z) are defined in the same fashion as in Section 3 but using newly redefined m i and γ (•).</p><p>Then, our nonparametric GMM estimator is given by</p><formula xml:id="formula_54">[ β1 (z) ′ , vec { θ(z) } ′ ] ′ = arg min β 1 ,θ(z) g n (θ(z)) ′ g n (θ(z)) ,<label>(4.4)</label></formula><p>where g n (•) has the same form as in (3.5) with y being replaced with ẏ.</p><p>Since model (4.1) is nested within our model (2.1), the asymptotic normality result shown in Theorem 1 continues to hold for θ(z) and is thus omitted. Remark 2 applies here too.</p><p>Lastly, we estimate constant parameters β 1 in the second stage by β1</p><formula xml:id="formula_55">= n -1 ∑ n i=1 β(-i) 1 (z i ), where β(-i) 1 (z i ) is a leave-one-out</formula><p>(first-stage) estimator computed via (4.4) while excluding the ith unit. We make use of the leave-one-out technique in order to remove an asymptotic bias term of order O p ( (n |H|) -1/2 ) in the estimation of β 1 . To this end, we make the following assumption. → 0 as n → ∞.</p><p>Theorem 5. Under Assumptions 1-3 and 5 and 9, we have</p><formula xml:id="formula_56">√ n ( β1 -β 1 ) d → N ( 0 p 1 , Ω 0 ) ,</formula><p>where Ω 0 is defined in Lemma 11 in Supplementary Appendix.</p><p>Theorem 5 shows that β1 is a root-n consistent estimator of β 1 if the bandwidth converges to zero at a faster speed than the optimal bandwidth would suggest.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Linear in the spatial autoregressive parameter</head><p>Next, consider a partially linear model with the constant spatial autoregressive parameter:</p><formula xml:id="formula_57">y i = ρ 0 ∑ j̸ =i w ij y j + x ′ 1i β 1 + x ′ 2i β 2 (z i ) + u i ∀ i = 1, . . . , n, (4.5)</formula><p>where both the ρ 0 and β 1 are constant parameters. Incidentally, <ref type="bibr" target="#b48">Sun et al. (2014)</ref> study a special case of (4.5) where β 1 = 0 p 1 .</p><p>Extending their estimation method, one can apply a local linear regression method to recover β 2 (•) and a profile likelihood method to recover ρ 0 and β 1 . Given that a likelihood-based method may not be computationally feasible in many instances with moderateor large-sized samples <ref type="bibr" target="#b23">(Kelejian and Prucha, 1999)</ref>, we propose a nonparametric GMM estimator which differs from the one introduced in <ref type="bibr" target="#b48">Sun et al. (2014)</ref>.</p><formula xml:id="formula_58">Specifically, we define m 1i ≡ [( ∑ j̸ =i w ij y j ) , x ′ 1i ] ′ , m i ≡ x 2i , γ 0 ≡ [ ρ 0 , β ′ 1 ] ′ , γ (z) ≡ β 2 (z) and ẏi ≡ y i -m ′ 1i γ 0 .</formula><p>In addition, we redefine S n ≡ [I n -ρ 0 W] -1 and G n ≡ WS n . Again, we have the same form of the kernel-weighted orthogonal moment conditions given in (4.2)-(4.3) with the newly redefined ẏ, M(z) and θ(z). The corresponding nonparametric GMM estimator is</p><formula xml:id="formula_59">[ γ0 (z) ′ , vec { θ(z) } ′ ] ′ = arg min γ 0 ,θ(z) g n (θ(z)) ′ g n (θ(z)) , (4.6)</formula><p>where g n (•) has the same form as in (3.5) with y being replaced with ẏ. As in Section 4.1, we estimate constant parameters γ 0 in the second stage viaγ</p><formula xml:id="formula_60">0 = n -1 ∑ n i=1 γ(-i) 0 (z i ), whereγ (-i) 0 (z i ) is a leave-</formula><p>one-out (first-stage) estimator computed via (4.6) while excluding the ith unit.</p><p>Theorem 6. Under Assumptions 1-3, 5 and 9, we have</p><formula xml:id="formula_61">√ n ( γ0 -γ 0 ) d → N ( 0 p 1 +1 , Ω 1 )</formula><p>where Ω 1 is as defined in Lemma 15 in Supplementary Appendix.</p><p>Analogous to the estimator in (4.4), the asymptotic normality result continues to hold for θ(z) and is thus omitted. Remark 2 carries to this section too. Lastly, Theorem 6 shows thatγ 0 is a rootn consistent estimator of γ 0 if we undersmooth in the first stage.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Consistent testing for a linear spatial autoregressive model</head><p>Given that our semiparametric model nests the parametric linear spatial autoregressive model as a special case, one may naturally wish to formally discriminate between the two models. In this section, we propose two test statistics for testing the null hypothesis of a linear spatial autoregressive model against a smooth coefficient spatial autoregressive model defined in (2.1). The proposed are, essentially, specification tests for parameter constancy. Specifically, we consider the following null and alternative hypotheses:</p><formula xml:id="formula_62">H 0 : Pr { [ ρ(z i ), β(z i ) ′ ] ′ = [ ρ 0 , β ′ 0 ] ′ } = 1 for some [ ρ 0 , β ′ 0 ] ∈ Θ ⊂ R 1+p H 1 : Pr { [ ρ(z i ), β(z i ) ′ ] ′ = [ ρ, β ′ ] ′ } &lt; 1 for any [ ρ, β ′ ] ∈ Θ,</formula><p>where Θ is a compact subset of R 1+p . With model (2.1) as the model under the alternative hypothesis, we are interested in testing whether it is necessary to allow for parameter heterogeneity when studying spatial autoregressive models. In what follows, we adhere by our original notation used in Section 3.</p><p>The first specification test we propose is based on the following residual-based test statistic:</p><formula xml:id="formula_63">T n = 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i ûi ûj K H ( z i , z j ) ,<label>(5.1)</label></formula><p>where ûi</p><formula xml:id="formula_64">= y i -m ′ i γ with γ = [ ρ, β′ ] ′ being a consistent estimator of [ ρ 0 , β ′ 0 ] ′ , and K H ( z i , z j ) = K ( H -1 (z i -z j )</formula><p>)</p><p>. Under H 0 , model (2.1) becomes a linear spatial autoregressive model, i.e.,</p><formula xml:id="formula_65">y i = ρ 0 ∑ j̸ =i w ij y j + x ′ i β 0 + u i , i = 1, .</formula><p>. . , n with an i.i.d. zeromean finite-variance error u i . Hence, <ref type="bibr" target="#b28">Lee's (2007)</ref> GMM estimator can be used to estimate ρ 0 and β 0 . Further, the test does not require β 0 ̸ = 0 p so long as one can obtain a consistent estimator for ρ 0 and β 0 under H 0 . Since our test statistic involves the construction of an estimator of [ ρ, β ′ ] ′ , the following assumption is required to regulate the limiting performance of the estimator under the alternative hypothesis.</p><formula xml:id="formula_66">Assumption 10. (i) Under H 1 , there exists γ = [ ρ, β ′ ] ′ such that γ -γ = O p ( n -1/2 ) ; (ii) sup z∈Sz E ( u 6 i |z i = z ) ≤ M; (iii) β (z) ̸ = 0 p</formula><p>holds over at least one non-empty subset.</p><p>With the properly chosen instrumental variables as discussed in <ref type="bibr" target="#b28">Lee (2007)</ref>, following his proof, one can show that Assumption 10(i) holds. Assumption 10(ii) is required to calculate the stochastic order of the test statistic under H 1 . We make Assumption 10(iii) because our test statistic J n given below has the same limiting distribution under both the null and alternative hypotheses if β (z) = 0 p . Below we give the limiting distribution of the test statistic and relegate the proof to Appendix B.</p><p>Theorem 7. Under Assumptions 1-4 and 10, we have, under H 0 ,</p><formula xml:id="formula_67">J n = n √ |H|T n / √ σ 2 n d → N (0, 1) , where σ 2 n = 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i û2 i û2 j K 2 H (z i , z j ) p → 2σ 4 u R 2 (K ) E [f (z)]</formula><p>,</p><formula xml:id="formula_68">and under H 1 , Pr {|J n | ≥ M n } → 0 for any non-stochastic, positive sequence M n = o ( n √ |H| ) .</formula><p>Theorem 7 indicates that J n is a consistent test. Since the test statistic is based on the fact that E [ε i E (ε i |z i )] equals zero un- der H 0 and takes a positive value under H 1 , where</p><formula xml:id="formula_69">ε i = y i - ρ ∑ j̸ =i w ij y j -x ′ i β for i = 1, . . . , n, the proposed test is a one-sided test.</formula><p>That is, we reject the null hypothesis if the test statistic J n is greater than c α , where c α is the upper 100α percentile of a standard normal distribution for a given α ∈ (0, 1).</p><p>However, it is well-known that the residual-based nonparametric tests perform rather poorly in finite samples leading to a widely popular use of bootstrap methods in order to improve their finite sample performance. Sharing this sentiment, below we propose a bootstrap procedure for our test statistic J n : <ref type="bibr" target="#b28">Lee's (2007)</ref> efficient GMM estimator to obtain residuals ûi</p><formula xml:id="formula_70">Step 1. Estimate the linear model under the null, i.e., y i = ρ ∑ j̸ =i w ij y j + x ′ i β + ε i , via</formula><formula xml:id="formula_71">= y i -ρ∑ j̸ =i w ij y j -x ′ i β for all i = 1, . . . , n. Step 2.</formula><p>Obtain two-point wild bootstrap errors by setting u * i = aû i with probability r and u * i = bû i with probability 1 -r, where a = ( 1 -√ 5 ) /2, b = ( 1 + √ 5 ) /2 and r = ( 1 + √ 5 ) / ( 2 √ 5 ) . Then, compute y * = [I n -ρW] -1 ( X β + u * ) and call {( x i , z i , y * i )} n i=1 the bootstrap sample. Step 3. Reestimate the model under the null via efficient GMM estimator using the constructed bootstrap sample, i.e., y *</p><formula xml:id="formula_72">i = ρ ∑ j̸ =i w ij y * j + x ′ i β + u * i to obtain bootstrap residuals û * i = y * i - ρ * ∑ j̸ =i w ij y * j -x ′ i β * for all i = 1, . . . , n. Step 4. Compute the bootstrap test statistic J * n = n √ |H|T * n / √ σ * 2 n , where T * n = ( n 2 |H| ) -1 ∑ n i=1 ∑ n j̸ =i û * i û * j K H ( z i , z j ) and σ * 2 n = 2 ( n 2 |H| ) -1 ∑ n i=1 ∑ n j̸ =i û * 2 i û * 2 j K H ( z i , z j ) . Step 5. Repeat steps 1-4 B times.</formula><p>Step 6. Use the empirical distribution of B + 1 bootstrap statistics, where the first bootstrap test statistic equals the test statistic calculated from the raw data, to obtain the upper 100α percentile value c * α . Use this c * α to approximate the upper percentile value of the test statistic J n under H 0 .</p><p>Theorem 8. Under Assumptions 1-4 and 10, we have</p><formula xml:id="formula_73">sup s∈R ⏐ ⏐ Pr * ( J * n ≤ s ) -Φ (s) ⏐ ⏐ = o p (1) , (5.2) where Pr * (•) = Pr ( •| {( x i , z i , y * i )} n i=1</formula><p>) , and Φ (•) is the standard normal cumulative distribution function.</p><p>Theorem 8 shows that the proposed bootstrap method is asymptotically valid in approximating the null distribution of J n regardless of whether the null hypothesis holds true or not. Specifically, the result in (5.2) means that the bootstrap test statistic J * n converges to a standard normal random variable in distribution in probability.</p><p>As discussed earlier, our test statistic J n has its limitations when Assumption 10(iii) is violated. In what follows, we therefore propose an alternative test statistic à la <ref type="bibr" target="#b19">Henderson et al. (2008)</ref> which provides a vehicle for discriminating between H 0 and H 1 even when β (z) = 0 p . The new test statistic is defined as</p><formula xml:id="formula_74">D n = 1 n n ∑ i=1 [ m ′ i γ -m ′ i γ (z i ) ] 2 , (5.3)</formula><p>where γ (z i ) is estimated via local constant regression approach following the methodology we propose in Section 3. The below theorem gives the limit property of D n .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 9.</head><p>Under Assumptions 1-5 and 10(i), we have: D n → 0 under H 0 , and</p><formula xml:id="formula_75">D n = 2n -1 ∑ n i=1 [ m ′ i ( γ -γ 0 )] 2 + o p (1) = O e (1) under H 1 .</formula><p>Theorem 9 states that D n is a consistent, one-sided test. It is reasonable to expect the proposed test statistic to be asymptotically normal after some proper scaling but we are unable to derive its limit distribution due to the complexity of our estimator γ (•). We therefore suggest employing a bootstrap procedure to approximate the finite sample null distribution of D n . For details on the appropriate bootstrap procedure, see <ref type="bibr" target="#b19">Henderson et al. (2008)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Finite sample performance</head><p>We first study the finite sample performance of our proposed estimators and test statistics in a small set of Monte Carlo simulations. We then showcase our methodology by applying it to estimate a spatial hedonic price function using the wellknown <ref type="bibr" target="#b17">Harrison and Rubenfeld's (1978)</ref> house price data from <ref type="bibr" target="#b13">Gilley and Pace (1996)</ref>, where we let unknown parameter functions to vary with the NO x concentration in the air. To conserve space, we relegate the discussion of empirical application to Supplementary Appendix and, in what follows, we only report the results of Monte Carlo simulations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1.">Estimators</head><p>We generate the data using the following process:</p><formula xml:id="formula_76">y i = ρ(z i ) ∑ j̸ =i w ij y j + x i β(z i ) + u i ∀ i = 1, . . . , n, (6.1)</formula><p>where the variables are randomly drawn as follows: z i ∼ i.i.d. U(0, 1), ξ i ∼ i.i.d. N(0, 1) and u i ∼ i.i.d. N(0, 0.5); all are mutually independent. Variables x i and z i correlate as follows:</p><formula xml:id="formula_77">x i = 0.5z i +ξ i .</formula><p>As in <ref type="bibr" target="#b28">Lee (2007)</ref> and <ref type="bibr" target="#b33">Liu et al. (2010)</ref>, rather than generating {w ij }, we instead use the spatial weighting matrix from the crime study for 49 districts in Columbus, OH from <ref type="bibr" target="#b1">Anselin (1988)</ref>. The spatial weighting matrix is contiguity-based and uses the (firstorder) queen definition for Columbus and corresponds to a sample of n = 49. To increase the sample size, we generate a blockdiagonal spatial matrix with the original 49 × 49 Columbus matrix used as a diagonal block.</p><p>We consider sample sizes n = {98, 245, 490}. For each n, we simulate the model 500 times. We use the same <ref type="bibr" target="#b41">Silverman's (1986)</ref> rule-of-thumb bandwidth for the smoothing variable z i in all stages, i.e., h = h 0 = 1.06 × σz n -1/5 , where σz is the sample standard deviation of z i . For each simulation, we compute the root mean squared error (RMSE) and the mean absolute error (MAE) for each coefficient function and report their averages computed over 500 simulations.</p><p>In the first stage, we use the following feasible instruments:</p><formula xml:id="formula_78">Q 1n = (Wx, Wz), where x = (x 1 , . . . , x n ) ′ and z = (z 1 , . . . , z n ) ′ , for linear moment conditions and P n,l = W l -n -1 tr { W l } I n for l =</formula><p>1, 2 for quadratic moments. For the second-stage estimation, we</p><formula xml:id="formula_79">set Q1n = Ĝn (z) mtx { x, β (z) } and Pn = Ĝn (z) -n -1 tr { Ĝn (z) } I n ,</formula><p>where Ĝn (z) = W[I n -ρ (z) W] -1 ; all constructed using the first- stage estimates of ρ(z i ) and β(z i ). 7   We begin by first considering the case when x i is a relevant variable, i.e., β(z i ) ̸ = 0. In particular, the coefficient functions are specified as follows: β(z i ) = 1 -z 2 i and ρ(z i ) = 0.75 × sin(π z i ).</p><p>Here, we use a local linear fitting. Table <ref type="table" target="#tab_0">1</ref> reports the corresponding results for both the first-and second-stage nonparametric GMM estimators fitted using two sets of orthogonality conditions: (i) linear and quadratic moments (left panel) and (ii) linear moments only (right panel).</p><p>For each of the two stages, we also report the results for the local linear least squares estimator of β (z i ) from the equa- tion constructed by moving the endogenous spatial lag term ρ (z i ) ∑ j̸ =i w ij y j to the left-hand side of model (2.1) and replacing unknown ρ (z i ) with its estimator ρ * (z i ), where the latter equals ρ (z i ) in the first stage and ρ (z i ) in the second stage. It is attractive to explore such a model for likely efficiency gains in finite samples. More concretely, we apply the conventional local linear least squares approach to [I n -ρ * (Z)W] y = mtx {X, β(Z)}+u to obtain, in the local neighborhood of z:</p><formula xml:id="formula_80">y * ≈ X (z)vec{B(z)} + u * , (6.2) where y * ≡ [I n -ρ * (Z)W] y; X (z) = [ Z 1 (z) ⊗ x 1 . . . Z n (z) ⊗ x n ] ′ is an n × [p(q + 1)] data matrix; and B(z) ≡ [ β(z) [ ∇β 1 (z) . . . ∇β p (z) ] ′ ]</formula><p>. It is easy to show that the resulting nonparametric least squares estimator is given by</p><formula xml:id="formula_81">vec { B(z) } = [ X (z) ′ K H (z)X (z) ] -1 X (z) ′ K H (z)y * . (6.3)</formula><p>The results in Table <ref type="table" target="#tab_0">1</ref> indicate that, in all instances, the estimation of both ρ(•) and β(•) coefficients becomes more stable as the 7 Throughout, to ensure the non-singularity of I n -ρ(z)W, we impose (3.11) via either box constraints on ρ(z) during the numerical optimization when employing quadratic moments or the post-estimation ''tilting'' procedure when making use of linear moments only.</p><p>sample size increases. Both the RMSE and MAE decline significantly as n increases. Regardless of the instrument set, as expected, the second-stage estimator delivers a sizable improvement over its first-stage counterpart, with a greater impact exhibited for the estimation of ρ(•). We also observe that adding quadratic orthogonality conditions leads to an increase in accuracy of the first-stage estimator only. Similarly, the reestimation of β(•) via least squares also yields better results in the first stage only.</p><p>Next, we turn to the case when x i is irrelevant in explaining y i , i.e., β(z i ) = 0. The coefficient functions are specified as follows:</p><p>β(z i ) = 0 for all z i and ρ(z i ) = 0.75 × sin(π z i ). In this instance, we estimate our first-and second-stage nonparametric GMM estimators via a local constant approach 8 using the following two sets of orthogonality conditions: (i) linear and quadratic moments (left panel) and (ii) quadratic moments only (right panel). The first set of instruments is meant to simulate the case when the researcher is not aware that β(z i ) = 0, whereas the second set assumes the researcher knows that the model is a pure spatial autoregressive model with no covariates (and hence, only ρ(•) is estimated).</p><p>Table <ref type="table" target="#tab_1">2</ref> presents the results. Consistent with our theory, all estimators improve with an increase in the sample size. The secondstage estimator offers some gains in the estimation of the ρ(•) coefficient function primarily only when the model incorrectly presumes that β(z) ̸ = 0; no gains are exhibited for β(•) in this case (left panel of Table <ref type="table" target="#tab_1">2</ref>). In line with one's intuition, the results indicate that the estimator of a correctly specified pure spatial autoregressive model (right panel of Table <ref type="table" target="#tab_1">2</ref>) outperforms that of a ''misspecified'' model which includes an invalid instrument Wx in its instrument set.</p><p>Overall, simulation experiments lend support to asymptotic results for our proposed estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2.">Specification tests</head><p>We next examine the small sample performance of our proposed specification tests. As earlier, we consider sample sizes n = {98, 245, 490}. For each n, we simulate the model 500 times. Test statistics are bootstrapped 299 times each to obtain the 1%, 5%, 10% and 20% upper percentile (critical) values of their null distributions.</p><p>We first study our residual-based statistic J n . To assess its size and power, we consider the following two experimental designs for the data-generating process given in (6.1):</p><p>(i) Linear model: β(z i ) = 0.75 and ρ(z i ) = 0.5 for all z i . (ii) Nonlinear model: β(z i ) = 1 -z 2 i and ρ(z i ) = 0.75 ×sin(πz i ).</p><p>The residuals under the null hypothesis necessary for the construction of J n are estimated via <ref type="bibr" target="#b28">Lee's (2007)</ref> GMM estimator using the same linear and quadratic instruments as the ones we use in the first-stage estimation in Section 6.1. To assess the sensitivity of the results to the choice of bandwidth for z i , we try different values of the scale parameter in the Silverman's (1986) rule-of-thumb bandwidth: c = {0.80, 1.06, 1.50}. Table <ref type="table" target="#tab_2">3</ref> reports the estimated size [design (i)] and power [design (ii)] of our test computed as rejection frequencies over 500 simulations. We find that out test statistic J n exhibits a relatively good size across all considered sample sizes and bandwidth values. From the right panel of Table <ref type="table" target="#tab_2">3</ref>, we also see that the power of the test increases with the sample size as anticipated.</p><p>Given that the applicability of the J n statistic does not extend to the case of pure spatial autoregressive models, we next analyze the performance of our second test statistic D n . To examine its size and power, we consider the following four experimental designs for the data-generating process given in (6.1): 8 Consistent with Remark 2.    (i) Linear model:</p><p>-Relevant x i : β(z i ) = 0.75 and ρ(z i ) = 0.5 for all z i ; -Irrelevant x i : β(z i ) = 0 for all z i and ρ(z i ) = 0.5 for all z i .</p><p>(ii) Nonlinear model:</p><p>-</p><formula xml:id="formula_82">Relevant x i : β(z i ) = 1 -z 2 i and ρ(z i ) = 0.75 × sin(π z i ); -Irrelevant x i : β(z i ) = 0 for all z i and ρ(z i ) = 0.75 × sin(π z i ).</formula><p>We use <ref type="bibr" target="#b41">Silverman's (1986)</ref> rule-of-thumb bandwidth with c = 1.06 throughout. For the case of a relevant x i , both the model under H 0 and the model under H 1 are estimated using linear and quadratic moments. However, in the case of a pure spatial autoregressive model, we make use of quadratic moments only thus assuming that the irrelevancy of x i is an a priori knowledge. The results reported in Table <ref type="table" target="#tab_3">4</ref> show that the D n test has quite accurate size across all n regardless whether x i is relevant or not. It exhibits superb power when x i is relevant in predicting y i . The power is also decent and rises with the sample size when the true model is a pure spatial autoregression.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">Conclusion</head><p>Most empirical work that deals with spatial data employs standard linear spatial models. These models are however prone to misspecification due to a rather strong assumption of linearity of the spatial relationship. The literature has long ago recognized that econometric relations in space result more often than not in highly nonlinear specifications.</p><p>This paper offers a semiparametric method to handling nonlinearity (and parameter heterogeneity) in models of spatial dependence. Specifically, we consider a semiparametric spatial autoregressive (mixed-regressive) model in which unknown coefficients are permitted to be nonparametric functions of some contextual variables to allow for potential nonlinearities and parameter heterogeneity in the spatial relationship. Unlike other semiparametric spatial dependence models, ours permits the spatial autoregressive parameter to meaningfully vary across units. The latter may be highly desirable from a practitioner's point of view since it allows the identification of a neighborhood-specific spatial dependence measure conditional on the vector of contextual variables.</p><p>We propose several (locally) nonparametric GMM estimators for our model. The developed two-stage estimators incorporate both the linear and quadratic orthogonality conditions and are capable of accommodating a variety of data generating processes, including the instance of a pure spatially autoregressive semiparametric model with no relevant regressors as well as multiple partially linear specifications. All proposed estimators are shown to be consistent and asymptotically normal. We also contribute to the literature by putting forward two test statistics to test for parameter constancy in our model. Both tests are consistent.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix</head><p>To simplify notation, we define the following:</p><formula xml:id="formula_83">π i ≡ K H (z i , z) = K(H -1 (z i -z)); A s n = A n + A ′ n for any n × n matrix A n ; ▽ 2 g(z) = ∂ 2 g(z)/∂z∂z ′ is the second-order derivative of a differentiable function g : R q</formula><p>→ R; i s and 0 s is an s × 1 vector of ones and zeros, respectively; i s×t and 0 s×t is an s×t matrix of ones and zeros, respectively;</p><formula xml:id="formula_84">∑ i̸ =j ≡ ∑ n i=1 ∑ n j̸ =i and ∑ i̸ =j̸ =i ′ ≡ ∑ n i=1 ∑ n j̸ =i ∑ n j̸ =i̸ =i ′ . Also, X n = O e (a n ) means that X n = O p (a n ) but not X n = o p (a n ),</formula><p>and A n ≈ B n indicates that B n is the leading term of A n .</p><formula xml:id="formula_85">Appendix A. Brief mathematical proofs of Theorems 1-4 Proof of Theorem 1. Define θ n = ξ n [γ (z) -γ (z) [▽γ (z) -▽ γ (z)] H], a (p + 1) ×(q + 1) matrix, y * i = y i -m ′ i γ (z)-m ′ i ▽ γ (z) (z i -z) and u i (θ) = y * i -ξ -1 n m ′ i θZ i (z)</formula><p>, where {ξ n } is a sequence of positive constants such that 0 &lt; M 1 &lt; ∥θ n ∥ &lt; M 2 &lt; ∞ for all n. Then, we can rewrite (3.5) as</p><formula xml:id="formula_86">g n (θ) = ⎡ ⎢ ⎢ ⎣ u(θ) ′ P n,1 K H (z)u (θ) . . . u(θ) ′ P n,m K H (z)u (θ) Q(z) ′ K H (z)u (θ) ⎤ ⎥ ⎥ ⎦ , (A.1)</formula><p>where u (θ) is an n × 1 vector with a typical element being equal to u i (θ). Then, we have</p><formula xml:id="formula_87">∂g n (θ) ∂vec (θ) ′ = -ξ -1 n ⎡ ⎢ ⎢ ⎢ ⎣ u(θ) ′ [ P n,1 K H (z) ] s M (z) . . . u(θ) ′ [ P n,l K H (z) ] s M (z) Q(z) ′ K H (z)M (z) ⎤ ⎥ ⎥ ⎥ ⎦ . Minimizing the GMM objective function referenced in (3.6) is equivalent to minimizing Λ n (θ) = g n (θ) ′ g n (θ) over θ ∈ S, where the latter is a compact subset of R p+1 × R q+1 . Since θ n minimizes Λ n (θ) = g n (θ) ′ g n (θ), we have that 0 (p+1)(q+1) = ∂g n (θ n ) ′ ∂vec (θ) g n (θ n ) = ∂g n (θ n ) ′ ∂vec (θ) [ g n (0) + ∂g n ( θn ) ∂vec (θ) ′ vec (θ n ) ] ,</formula><p>where θn lies between θ n and 0 (p+1)(q+1) . From above, we obtain</p><formula xml:id="formula_88">vec (θ n ) = - [ ∂g n (θ n ) ′ ∂vec (θ) ∂g n ( θn ) ∂vec(θ) ′ ] -1 ∂g n (θ n ) ′ ∂vec (θ) g n (0) .</formula><p>Denoting Ξ H (z) ≡ K H (z)Q(z)Q(z) ′ K H (z), we decompose the two components of vec (θ n ) above as follows</p><formula xml:id="formula_89">A n (z) ≡ - ∂g n (θ n ) ′ ∂vec (θ) g n (0) = 1 2ξ n m ∑ l=1 M(z) ′ [ P n,l K H (z) ] s u (θ n ) y * ′ [ P n,l K H (z) ] s y * + 1 ξ n M(z) ′ Ξ H (z)y * and B n (z) ≡ ∂g n (θ n ) ′ ∂vec (θ) ∂g n ( θn ) ∂vec(θ) ′ = 1 ξ 2 n m ∑ l=1 [ u(θ n ) ′ [ P n,l K H (z) ] s M(z) ] ′ u ( θn ) ′ [ P n,l K H (z) ] s M(z) + 1 ξ 2 n M(z) ′ Ξ H (z)M(z).</formula><p>For each i, we define a (p</p><formula xml:id="formula_90">+ 1) × 1 vector Π (z * i ) whose lth element equals Π l (z * i ) = (z i -z) ′ ▽ 2 γ l (z * i )(z i -z),</formula><p>and z * i lies between z i and z for l = 1, . . . , p + 1. Then, we have y</p><formula xml:id="formula_91">* i = u i + m ′ i Π (z * i )/2. Further, we define an n × 1 vector C (z), whose ith term equals m ′ i Π (z * i )/2, along with Γ 1,l = u ′ [ P n,l K H (z) ] s C(z), Γ 2,l = C(z) ′ [ P n,l K H (z) ] s C(z), Γ 3,l = u ′ [ P n,l K H (z) ] s u, Ψ 1,l = u ′ [ P n,l K H (z) ] s M(z), Ψ 2,l = C(z) ′ [ P n,l K H (z) ] s M(z) and Ψ 3,l = M(z) ′ [ P n,l K H (z) ] s M(z) for l = 1, . . . , m. Then, we have A n (z) = A n1 (z)+ A n2 (z) -A n3 (z) with A n1 (z) = 1 2ξ n m ∑ l=1 [ Γ 2,l ( Ψ 1,l + Ψ 2,l ) ′ + ( 2Γ 1,l + Γ 3,l ) Ψ ′ 1,l ] + 1 ξ n M(z) ′ Ξ H (z)C(z) A n2 (z) = 1 2ξ n m ∑ l=1 ( 2Γ 1,l + Γ 3,l ) Ψ ′ 2,l + 1 ξ n M(z) ′ Ξ H (z)u A n3 (z) = 1 2ξ 2 n m ∑ l=1 ( 2Γ 1,l + Γ 2,l + Γ 3,l ) Ψ 3,l vec (θ n ) ,<label>and</label></formula><formula xml:id="formula_92">B n (z) = 1 ξ 2 n m ∑ l=1 ( Ψ 1,l + Ψ 2,l - 1 ξ n [ vec ( θn )] ′ Ψ 3,l ) ′ × ( Ψ 1,l + Ψ 2,l - 1 ξ n [ vec ( θn )] ′ Ψ 3,l ) + 1 ξ 2 n M(z) ′ Ξ H (z)M(z).</formula><p>By Lemmas 1-3, we have</p><formula xml:id="formula_93">(n |H|) -2 ξ n A n1 (z) = f 2 (z) A (H, z) ′ + o p ( ∥H∥ 2 ) (n |H|) -3/2 ξ n A n2 (z) d → N ( 0 [(p+1)(q+1)] , f 3 (z) R 2 (K ) Ω (z) ) (A.2)</formula><p>and</p><formula xml:id="formula_94">(n |H|) -2 ξ 2 n A n3 (z) = O p (( ∥H∥ 2 + (n |H|) -1/2 ) ∥H∥ -1 ) (n |H|) -2 ξ 2 n B n (z) = f 2 (z) B (H, z) + O p ( (ξ n ∥H∥) -1 + (ξ n ∥H∥) -2 ) + o p (1) (A.3)</formula><p>uniformly over all θn ∈ S. Therefore, we have</p><formula xml:id="formula_95">ξ n ( [ γ (z) -γ (z) [▽γ (z) -▽γ (z)] H ] - [ (n |H|) -2 ξ 2 n B n (z) ] -1 (n |H|) -2 ξ n A n1 (z) ) = ξ n √ n |H| [ ξ 2 n B n (z) (n |H|) 2 ] -1 ξ n A n2 (z) (n |H|) 3/2 + [ ξ 2 n B n (z) (n |H|) 2 ] -1 ξ 2 n A n3 (z) (n |H|) 2 .</formula><p>(A.4) Combining (A.2)-(A.4) with the fact that ∥θ n ∥ &lt; M for all n, we can deduce that ξ n must be of order</p><formula xml:id="formula_96">√ n |H|. The logic is as follows. First, if ξ n / √ n |H| → ∞, it implies that √ n |H| [γ (z) -γ (z) [▽γ (z) -▽γ (z)] H] → 0 as n → ∞. By (A.</formula><p>2)-(A.4) and Assumption 4, we obtain</p><formula xml:id="formula_97">√ n |H| ([ γ (z) -γ (z) [▽γ (z) -▽γ (z)] H ] -B (H, z) -1 A (H, z) ′ ) d = B (H, z) -1 N ( 0 (p+1)(q+1) , f 3 (z) R 2 (K ) Ω (z) ) + O p ( √ n |H| ξ n ( ∥H∥ 2 + (n |H|) -1/2 ) ∥H∥ -1</formula><p>) ,</p><p>where A n d =B n means that A n and B n have the same distribution asymptotically. Since the first term is of order O e (1), a contradic- tion occurs. Now, suppose that ξ n / √ n |H| → 0 holds true. By (A.2)-(A.4) and Assumption 4 , we have θ n = o p (1) which contradicts the fact that ∥θ n ∥ is uniformly bounded and positive.</p><p>Therefore, applying the exclusion method, we have shown that ξ n must be of order √ n |H| exactly, which gives</p><formula xml:id="formula_98">√ n |H| ([ γ (z) -γ (z) [▽γ (z) -▽γ (z)] H ] -B (H, z) -1 A (H, z) ′ ) d = B (H, z) -1 N ( 0 (p+1)(q+1) , f 3 (z) R 2 (K ) Ω (z) )</formula><p>. This completes the proof of this theorem. ■</p><p>In the following three lemmas, we define j (H,z) = j,Q (H, z) + j,P (H, z) for j = {A, B} and Ω (z) = Ω Q (z) + Ω P (z) + Ω Q ,P (z), where the subscripts Q and P mean that the variable comes from the use of Q n and { P n,l u } as an instrument, respectively, while the ''double'' subscript Q , P indicates the use of both types of instruments.</p><formula xml:id="formula_99">Lemma 1. Under Assumptions 1-4, we obtain (n |H|) -2 ξ n A n1 (z) = f 2 (z) A (H, z) ′ +o p ( ∥H∥ 2 ) . (ii) (i) If β (z) ̸ = 0 p holds over at least one non-empty subset, we have A,Q (H, z) = µ 1,2 (k) 2 [ E 2 (H, z) E 1 (z) 0 ′ q(p+1) ] (A.5) A,P (H, z) = [ 1, 0 ′ q ] ⊗ m ∑ l=1 ( F 3,l (H, z) [ F 1,l (H, z) + 1 4 F 2,l (z) ] + 2F 4,l (H, z) F 1,l (H, z) ) , (A.6)</formula><p>where E 1 (z), E 2 (H, z), F 1,l (H, z), F 2 (z), F 3,l (H, z) and F 4,l (H, z) are defined below;</p><p>(ii) If β (z) = 0 p holds over its domain and ρ (z) is not con- stant over at least one non-empty subset, we have A,Q (H,</p><formula xml:id="formula_100">z) = O p ( ∥H∥ 2 (n |H|) -1/2 ) and A,P (H,z) = 2 [ 1, 0 ′ q ] ⊗ ∑ m l=1 F 4,l (H, z) F 1,l (H, z); (iii) If both β (z) = 0 p and ρ (z) = ρ 0 hold over their domains, we have A,Q (H, z) = 0 (p+1)(q+1) and A,P (H,z) = O p ( ( n √ |H| ) -1 ) .</formula><p>Proof. We first consider case (i). Applying straightforward calculation, we obtain</p><formula xml:id="formula_101">1 n |H| Q(z) ′ K H (z)M(z) = 1 n |H| n ∑ i=1 π i [ Z i (z)Z i (z) ′ ] ⊗ ( Q n,i m ′ i ) = f (z) [ 1 0 ′ q 0 q µ 1,2 (k) I q ] ⊗ E 1 (z) + O p ( ∥H∥ 2 + (n |H|) -1/2 ) (A.7)</formula><p>and</p><formula xml:id="formula_102">1 n |H| C(z) ′ K H (z)Q(z) = 1 2n |H| n ∑ i=1 π i m ′ i Π (z * i ) [ Z i (z) ′ ⊗ Q ′ n,i ] = f (z) 2 µ 1,2 (k) [ E 2 (H, z) 0 ′ qd ] × ( 1 + O p ( ∥H∥ 2 + (n |H|) -1/2 ))</formula><p>, where we define</p><formula xml:id="formula_103">E 1 (z) ≡ lim n→∞ n -1 n ∑ i=1 E [ Q n,i m ′ i |z i = z ] (A.8) E 2 (H, z) ≡ n -1 n ∑ i=1 ( tr { H ∂ 2 ρ(z) ∂z∂z ′ H } E [ (Wy) i Q ′ n,i |z i = z ] + E [ tr { H ∂ 2 [ β(z) ′ x i ] ∂z∂z ′ H } Q ′ n,i ⏐ ⏐ ⏐ ⏐ ⏐ z i = z ] ) . (A.9)</formula><p>This gives (A.5).</p><p>Next, let the (i</p><formula xml:id="formula_104">, j)th element of G n (Z) = W[I n -ρ (Z) W] -1 be g ij . Since { P n,l }</formula><p>has finite row-and column-sum norms for all l, letting p l,ij be the (i, j)th element of P n,l , we obtain that</p><formula xml:id="formula_105">Ψ 1,l n |H| = 1 n |H| n ∑ i=1 n ∑ j=1 ( p l,ij π j + p l,ji π i ) u i ( Z ′ j (z) ⊗ m ′ j ) = 2 n |H| n ∑ i=1 p l,ii π i Z ′ i (z) ⊗ [ g ii u 2 i , u i x ′ i ] + O p ( (n |H|) -1/2 [ 1, ∥H∥ -1 i ′ q ] ⊗ i ′ p+1 ) = 2f (z) [ 1, 0 ′ q ] ⊗ F 1,l (H, z) + o p (1) (A.10) Ψ 2,l n |H| = 1 2n |H| n ∑ i=1 n ∑ j=1 ( p l,ij π j + p l,ji π i ) m ′ i Π (z * i ) ( Z ′ j (z) ⊗ m ′ j ) = 1 2n |H| ∑ i̸ =j p l,ij π j m ′ i Π (z * i ) ( Z ′ j (z) ⊗ m ′ j ) + O p (∥H∥) = 1 2 f (z) [ 1, 0 ′ q ] ⊗ F 2,l (z) + o p (1) (A.11)</formula><p>and</p><formula xml:id="formula_106">Γ 2,l n |H| = 1 4n |H| n ∑ i=1 n ∑ j=1 ( p l,ij π j + p l,ji π i ) m ′ i Π (z * i )Π (z * j ) ′ m j = 1 2n |H| ∑ i̸ =j p l,ij π j m ′ i Π (z * i )Π (z * j ) ′ m j + O p ( ∥H∥ 4 ) = 1 2 f (z) F 3,l (H, z) + O p ( ∥H∥ 4 + (n |H|) -1/2 ∥H∥ 2 )</formula><p>, where we define</p><formula xml:id="formula_107">F 1,l (H, z) = [ σ 2 u (n |H| f (z)) -1 n ∑ i=1 p l,ii g ii π i , 0 ′ p ] (A.12) F 2,l (z) = n -1 ∑ i̸ =j E [ p l,ij m ′ i Π (z * i )m ′ j |z j = z ]</formula><p>(A.13) and</p><formula xml:id="formula_108">F 3,l (H, z) = 1 n ∑ i̸ =j tr { HE [ p l,ij m ′ i Π (z * i ) ( (Wy) j ∂ 2 ρ (z) ∂z∂z ′ + ∂ 2 ( x ′ j β (z) ) ∂z∂z ′ )⏐ ⏐ ⏐ ⏐ ⏐ z j = z ] H } . (A.14) Since { P n,l }</formula><p>has finite row-and column-sum norms for all l, we have F 1,l (H, z) = O p (1), F 2,l (z) = O (1) and F 3,l (H,</p><formula xml:id="formula_109">z) = O (<label>∥H∥ 2 )</label></formula><p>. In addition, denoting ū ≡ G n (Z) u and ȳ ≡ G n (Z) mtx {X, β (Z)}, we have Wy = ȳ + ū, where the ith elements of n × 1 vectors ū and ȳ are respectively denoted by ūi and ȳi</p><p>. Next, define mi ≡ [ ȳi , x ′ i ] ′ and</p><formula xml:id="formula_110">η i (z) ≡ (z i -z) ′ ▽ 2 ρ ( z * i ) (z i -z). With Γ1,l ≡ u ′ [ P n,l K H (z) ] s C(z) and Γ1,l ≡ u ′ [ P n,l K H (z)</formula><p>] s C(z), where the ith elements of C(z) and C(z) are respectively equal to m′ i Π (z * i )/2 and ūi η i (z) /2, and given that tr {</p><formula xml:id="formula_111">P n,l } = 0, we obtain Γ1,l n |H| = 1 2n |H| n ∑ i=1 n ∑ j=1 ( p l,ij π j + p l,ji π i ) u i ūj η j (z) = 1 n |H| n ∑ i=1 p l,ii g ii π i u 2 i η i (z) + O p ( ( n √ |H| ) -1 ) = f (z) F 4,l (H, z) + O p ( ( n √ |H| ) -1 ) and Γ1,l Ψ 1,l (n |H|) 2 = O p ( ∥H∥ 2 √ n |H| ) and Γ 3,l Ψ 1,l (n |H|) 2 = O p ( 1 n √ |H|</formula><p>) ,</p><p>where</p><formula xml:id="formula_112">F 4,l (H, z) = σ 2 u n |H| f (z) n ∑ i=1 p l,ii g ii π i η i (z) = O p ( ∥H∥ 2 ) . (A.15)</formula><p>Therefore, we verify (A.6), combining all the above results together.</p><p>Next, we consider case (ii). In this instance,</p><formula xml:id="formula_113">m i = [ ūi , x ′ i ] ′ and E 1 (z) ≡ [ 0 d , n -1 ∑ n i=1 E [ Q n,i x ′ i |z i = z ]]</formula><p>. In addition, we have</p><formula xml:id="formula_114">1 n |H| C(z) ′ K H (z)Q(z) = 1 2n |H| n ∑ i=1 π i ūi η i (z) [ Z ′ i (z) ⊗ Q ′ n,i ] = O p ( ∥H∥ 2 (n |H|) -1/2 ) , Γ 2,l n |H| = 1 4n |H| n ∑ i=1 n ∑ j=1 ( p l,ij π j + p l,ji π i ) ūi ūj η i (z)η j (z) = 1 2n |H| ∑ i̸ =j p l,ij π j ūi ūj η i (z)η j (z) + O p ( ∥H∥ 4 ) = O p ( ∥H∥ 2 /n + ∥H∥ 4 )</formula><p>and</p><formula xml:id="formula_115">Ψ 2,l n |H| = 1 2n |H| n ∑ i=1 n ∑ j=1 ( p l,ij π j + p l,ji π i ) η i (z)Z ′ j (z) ⊗ [ ūi ūj , ūi x ′ j ] = O p (<label>∥H∥ 2 )</label></formula><p>. Combining all the above results together gives (n</p><formula xml:id="formula_116">|H|) -2 ξ n A n1 (z) ≈ (n |H|) -2 ∑ m l=1 Γ1,l Ψ ′ 1,l , which verifies case (ii).</formula><p>Lastly, note that if both β (z) = 0 p and ρ (z) ≡ ρ 0 hold over their domains [i.e., case(iii)], we have C (z</p><formula xml:id="formula_117">) = 0 n , which im- plies Γ 1,l = 0, Γ 2,l = 0 and Ψ 2,l = 0 ′ (p+1)(q+1) . Hence, (n |H|) -2 ξ n A n1 (z) = (2n |H|) -2 ∑ m l=1 Γ 3,l Ψ ′ 1,l = O p ( ( n √ |H| ) -1 )</formula><p>. This completes the proof of this lemma. ■ Remark. If diag { P n,l } = 0 for all l, we have A,P (H, z) = 4 -1 [</p><formula xml:id="formula_118">1, 0 ′ q ] ⊗ ∑ m l=1 [ F 3,l (H, z) F 2,l (z)</formula><p>] in case (i), A,P (H, z) = o p ( n -1/2 + ∥H∥ 4 ) in case (ii), and A,P (H, z) = o p ( (</p><formula xml:id="formula_119">n √ |H| ) -1 )</formula><p>in case (iii).</p><p>Lemma 2. Under Assumptions 1-4, we obtain</p><formula xml:id="formula_120">(n |H|) -2 ξ 2 n B n (z) = f 2 (z) B (H, z) + O p ( (ξ n ∥H∥) -1 + (ξ n ∥H∥) -2 ) + o p (1) , (A.16) where B,Q (H, z) = [ 1 0 ′ q 0 q µ 2 1,2 (k) I q ] ⊗ [ E 1 (z) ′ E 1 (z) ] B,P (H, z) = [ 1 0 ′ q 0 q 0 q×q ] ⊗ { m ∑ l=1 [ 2F 1,l (H,z) + 1 2 F 2,l (z) ] ′ × [ 2F 1,l (H, z) + 1 2 F 2,l (z) ] } . Proof. By (A.7), we have 1 (n |H|) 2 M(z) ′ Ξ H (z)M(z) = 1 (n |H|) 2 M(z) ′ K H (z)Q(z)Q(z) ′ K H (z)M(z) = B,Q (H, z) ( 1 + o p (1) ) . (A.17)</formula><p>In addition, we have</p><formula xml:id="formula_121">Ψ 3,l n |H| = 1 n |H| n ∑ i=1 n ∑ j=1 ( p l,ij π j + p l,ji π i ) [ Z i (z)Z ′ j (z) ] ⊗<label>(</label></formula><formula xml:id="formula_122">m i m ′ j ) = [ O p (<label>1</label></formula><formula xml:id="formula_123">) O p ( ∥H∥ -1 i ′ q ) O p ( ∥H∥ -1 i ′ q ) O p ( i q×q ) ] ⊗ O p ( i (p+1)×(<label>p+1</label></formula><formula xml:id="formula_124">)</formula><p>)</p><p>.</p><p>Combining this result with (A.17), (A.10) and (A.11) yields</p><formula xml:id="formula_125">(n |H|) -2 ξ 2 n B n (z) = 1 (n |H|) 2 m ∑ l=1 [ ( Ψ 1,l + Ψ 2,l ) ′ ( Ψ 1,l + Ψ 2,l ) ] + 1 (n |H|) 2 M(z) ′ Ξ H (z)M(z) + O p ( ξ -1 n ∥H∥ -1 + ξ -2 n ∥H∥ -2 ) = B,P (H, z) + B,Q (H, z) + o p (1) + O p ( ξ -1 n ∥H∥ -1 + ξ -2 n ∥H∥ -2 ) .</formula><p>This completes the proof of this lemma.</p><formula xml:id="formula_126">■ Remark. If diag { P n,l } = 0 for all l, we have B,P (H, z) = 4 -1 diag { 1, 0 q } ⊗ [∑ m l=1 F 2,l (z) ′ F 2,l (z) ] . Further, E 1 (z) ≡ [ 0 d , n -1 ∑ n i=1 E [ Q n,i x ′ i |z i = z ]] if β (z) = 0 p holds over its domain, which leads to a singular B (H, z) because E 1 (z) ′ E 1 (z) be- comes singular. However, this problem vanishes if one uses a local constant estimator (instead of a local linear one) because ∑ m l=1 [ 2F 1,l (H,z) + 1 2 F 2,l (z) ] + E 1 (z) ′ E 1 (z) can be non-singular. Lemma 3. Under Assumptions 1-4, we obtain (n |H|) -3/2 ξ n A n,2 (z) d → N ( 0, f 3 (z) R 2 (K ) Ω (z) ) , (A.18)</formula><p>where Ω (z) is defined in the proof.</p><p>Proof. By (A.7) and (A.11), we have</p><formula xml:id="formula_127">(n |H|) -3/2 ξ n A n,2 (z) = f (z) 4 √ n |H| m ∑ l=1 ( 2 Γ1,l + Γ 3,l ) [ 1, 0 ′ q ] ′ ⊗ F 2,l (z) ′ + f (z) √ n |H| ∆ n (z) ′ Q(z) ′ K H (z)u + o p (1) ≡ Ān,2 (z) + o p (1) , where ∆ n (z) ≡ diag { 1, µ 1,2 (k) I q } ⊗ E 1 (z). Letting α ̸ = 0 be a [(p + 1) (q + 1)] × 1 vector, we define Λ n (z) ≡ α ′ Ān,2 (z) = u ′ A n u + b ′ n u,<label>(A.19)</label></formula><p>where</p><formula xml:id="formula_128">A n = f (z) 4 √ n |H| m ∑ l=1 [ P n,l K H (z) ] s [ 1, 0 ′ q ] ⊗ F 2,l (z) α b n = f (z) √ n |H| ( 1 2 m ∑ l=1 [ P n,l K H (z) ] s C(z) [ 1, 0 ′ q ] ⊗ F 2,l (z) + K H (z)Q (z) ∆ n (z) ) α.</formula><p>Since both A n and b n are exogenous, we can apply <ref type="bibr" target="#b24">Kelejian and Prucha's (2001)</ref> central limit theorem for linear-quadratic forms with minor modification. That is, we need to check the following two conditions:</p><formula xml:id="formula_129">n ∑ i=1 E [ ⏐ ⏐ b n,i ⏐ ⏐ 2+δ 1 ] → 0 for some δ 1 &gt; 0 (A.20) 0 &lt; c 0 &lt; Var [Λ n (z)] &lt; c 1 &lt; ∞, (A.21)</formula><p>where b n,i is the ith element of b n . First, we verify (A.20). Applying direct calculations gives</p><formula xml:id="formula_130">b n,i = f (z) 4 √ n |H| α ′ m ∑ l=1 [ 1 0 q ] ⊗ F 2,l (z) ′ n ∑ j=1 ( p l,ij π j + p l,ji π i ) m′ j Π (z * j ) + f (z) √ n |H| π i [ Z ′ i (z) ⊗ Q ′ n,i ] ∆ n (z) α. Applying Minkowski's inequality gives E ⎛ ⎜ ⎝ ⏐ ⏐ ⏐ ⏐ ⏐ ⏐ n ∑ j=1 ( p l,ij π j + p l,ji π i ) m′ j Π (z * j ) ⏐ ⏐ ⏐ ⏐ ⏐ ⏐ 2+δ 1 ⎞ ⎟ ⎠ ≤ ⎡ ⎣ n ∑ j=1 ( E ⏐ ⏐ ( p l,ij π j + p l,ji π i ) m′ j Π (z * j ) ⏐ ⏐ 2+δ 1 ) 1/(2+δ 1 ) ⎤ ⎦ 2+δ 1 ≤ M |H| and E ⏐ ⏐ π i [ Z ′ i (z) ⊗ Q ′ n,i ] ∆ n (z) α ⏐ ⏐ 2+δ 1 ≤ ME [ π i ∥Z i (z)∥   Q n,i   ] 2+δ 1 ≤ M |H| if E [   Q n,i   2+δ 1 |z i = z ] &lt; M is continuous and bounded in the neighborhood of z, E [ ∥x i ∥ 2(2+δ 1 ) ] &lt; M and E [ ∥z i ∥ 4(2+δ 1 ) ] &lt; M. Hence, we obtain E [ ⏐ ⏐ b n,i ⏐ ⏐ 2+δ 1 ] ≤ M |H| (n |H|) -(2+δ 1 )/2 . This gives (A.20).</formula><p>Second, we verify (A.21). Note that E [Λ n (z)] = 0 since tr { P n,l } = 0 for all l, and</p><formula xml:id="formula_131">Var [Λ n (z)] = 2σ 4 u E [ tr { A 2 n }] + ( E [ u 4 1 ] -2σ 4 u ) n ∑ i=1 E [ a 2 n,ii ] + σ 4 u ∑ i̸ =j E ( a n,ii a n,jj ) + σ 2 u E [ b ′ n b n ] + 2E [ u 3 1 ] n ∑ i=1 E [ a n,ii b n,i ] , (A.22)</formula><p>where a n,ij is the (i, j)th element of A n . Then, we obtain</p><formula xml:id="formula_132">∑ i̸ =j E [ a n,ii a n,jj ] = f 2 (z) 4n |H| α ′ m ∑ l=1 m ∑ l ′ =1 [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] α ∑ i̸ =j E [ p l,ii p l ′ ,jj π i π j ] = O (|H|) and E [ tr { A 2 n }] = f 2 (z) 16n |H| α ′ m ∑ l=1 m ∑ l ′ =1 [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] αE × [ tr { [ P n,l K H (z) ] s [ P n,l ′ K H (z) ] s }] = f 2 (z) 16n |H| α ′ m ∑ l=1 m ∑ l ′ =1 [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] α n ∑ i=1 n ∑ j=1 E × [( p l,ij π j + p l,ji π i ) ( p l ′ ,ij π j + p l ′ ,ji π i )] = f 2 (z) 8n |H| α ′ m ∑ l=1 m ∑ l ′ =1 [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] α n ∑ i=1 E [ p l,ii p l ′ ,ii π 2 i ] + O ( n -1 ) = n ∑ i=1 E [ a 2 n,ii ] /2 + O ( n -1 ) so that 2σ 4 u E [ tr ( A 2 n )] + ( E [ u 4 1 ] -2σ 4 u ) ∑ n i=1 E [ a 2 n,ii ] + σ 4 u ∑ i̸ =j E ( a n,ii a n,jj ) = Var ( u 2 1 ) ∑ n i=1 E [ a 2 n,ii ] + O ( n -1 + |H| ) . By definition, we have n ∑ i=1 E [ a 2 n,ii ] = f 2 (z) 4n |H| α ′ m ∑ l=1 m ∑ l ′ =1 [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] α n ∑ i=1 E [ p l,ii p l ′ ,ii π 2 i ] ≈ f 3 (z) R 2 (K ) α ′ Ω 1 (z) α/4.</formula><p>Hence, we obtain</p><formula xml:id="formula_133">Ω 1 (z) = [ 1 0 ′ q 0 q 0 q×q ] ⊗ m ∑ l=1 m ∑ l ′ =1 F 2,l (z) ′ F 2,l ′ (z) × lim n→∞ n -1 n ∑ i=1 E [ p l,ii p l ′ ,ii |z i = z ] . (A.23) Next, we have b ′ n b n = f 2 (z) 4n |H| m ∑ l=1 m ∑ l ′ =1 C(z) ′ [ P n,l K H (z) ] s [ P n,l ′ K H (z) ] s × C(z) α ′ [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] α + f 2 (z) 2n |H| α ′ m ∑ l=1 [ 1 0 q ] ⊗ F 2,l (z) ′ C(z) ′ [ P n,l K H (z) ] s × K H (z)Q (z) ∆ n (z) α + f 2 (z) n |H| [∆ n (z) α] ′ Q(z) ′ K 2 H (z)Q (z) ∆ n (z) α ≡ f 2 (z) [ α ′ A n1 α/4 + α ′ A n2 ∆ n (z) α/2 + [∆ n (z) α] ′ A n3 ∆ n (z) α ] ,</formula><p>where the definition of A nj for j = 1, 2, 3 is to be clear from the context below.</p><p>Applying standard calculations, we obtain</p><formula xml:id="formula_134">E [A n1 ] = 1 n |H| [ 1 0 ′ q 0 q 0 q×q ] ⊗ m ∑ l=1 m ∑ l ′ =1 [ F 2,l (z) ′ F 2,l ′ (z) ] × E [ C(z) ′ [ P n,l K H (z) ] s [ P n,l ′ K H (z) ] s C(z) ] = 1 4n |H| m ∑ l=1 m ∑ l ′ =1 n ∑ i=1 n ∑ i ′ =1 n ∑ j=1 E [( p l,ij π j + p l,ji π i ) × ( p l ′ ,i ′ j π j + p l ′ ,ji ′ π i ′ ) m′ i Π (z * i ) m′ i ′ Π (z * i ′ ) ] × [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] = 1 4n |H| m ∑ l=1 m ∑ l ′ =1 ∑ i ′ ̸ =i̸ =j E [ p l,ij p l ′ ,i ′ j π 2 j m′ i Π (z * i ) m′ i ′ Π (z * i ′ ) ] × [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] + O ( ∥H∥ 2 ) ≈ f (z) R 2 (K ) S 1 (z) /4, E [A n2 ] = 1 n |H| E [ m ∑ l=1 [ 1 0 q ] ⊗ F 2,l (z) ′ C(z) ′ × [ P n,l K H (z) ] s K H (z)Q (z) ] = 1 2n |H| m ∑ l=1 [ 1 0 q ] ⊗ F 2,l (z) ′ n ∑ i=1 n ∑ j=1 × E [( p l,ij π j + p l,ji π i ) π j m′ i Π (z * i )Z ′ j (z) ⊗ Q ′ n,j ] = 1 2n |H| m ∑ l=1 [ 1 0 q ] ⊗ F 2,l (z) ′ × ∑ i̸ =j E [ p l,ij π 2 j m′ i Π (z * i ) [ Z ′ j (z) ⊗ Q ′ n,j ]] + O ( ∥H∥ 2 ) ≈ f (z) R 2 (K ) S 2 (z) /2 and E [A n3 ] = 1 n |H| E [ Q(z) ′ K 2 H (z)Q (z) ] = 1 n |H| n ∑ i=1 E [ π 2 i [ Z i (z)Z ′ i (z) ] ⊗ ( Q n,i Q ′ n,i )] ≈ f (z) [ R 2 (K ) 0 ′ q 0 q µ 2,2 (k) I q ] ⊗ E 3 (z) ,</formula><p>where we make use of the following definitions:</p><formula xml:id="formula_135">S 1 (z) ≡ [ 1 0 ′ q 0 q 0 q×q ] ⊗ m ∑ l=1 m ∑ l ′ =1 F 2,l (z) ′ F 2,l ′ (z) × lim n→∞ 1 n ∑ i ′ ̸ =i̸ =j E [ p l,ij p l ′ ,i ′ j m′ i Π (z * i ) m′ i ′ Π (z * i ′ )|z j = z ] S 2 (z) ≡ [ 1 0 ′ q 0 q 0 q×q ] ⊗ m ∑ l=1 F 2,l (z) ′ × lim n→∞ 1 n ∑ i̸ =j E [ p l,ij m′ i Π (z * i )Q ′ n,j |z j = z ] E 3 (z) ≡ lim n→∞ n -1 n ∑ i=1 E [ Q n,i Q ′ n,i |z i = z ] . (A.24) Moreover, we have n ∑ i=1 E [ a n,ii b n,i ] = f 2 (z) 8n |H| m ∑ l=1 m ∑ l ′ =1 α ′ [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ F 2,l (z) ′ F 2,l ′ (z) ] α × n ∑ i=1 n ∑ j=1 E [ p l,ii π i ( p l ′ ,ij π j + p l ′ ,ji π i ) m′ j Π (z * j ) ] + f 2 (z) 2n |H| m ∑ l=1 m ∑ l ′ =1 α ′ [ 1 0 q ] ⊗ F 2,l (z) ′ × n ∑ i=1 E [ p l ′ ,ii π 2 i [ Z ′ i (z) ⊗ Q ′ n,i ] ] ∆ n (z) α = f 2 (z) 2n |H| m ∑ l=1 m ∑ l ′ =1 α ′ [ 1 0 q ] ⊗ F 2,l (z) ′ × n ∑ i=1 E [ p l ′ ,ii π 2 i [ Z ′ i (z) ⊗ Q ′ n,i ] ] ∆ n (z) α + O ( ∥H∥ 2 ) = f 3 (z) R 2 (K ) α ′ Ω 2 (z) α/2</formula><p>where</p><formula xml:id="formula_136">Ω 2 (z) ≡ [ 1 0 ′ q 0 q 0 q×q ] ⊗ [ m ∑ l=1 m ∑ l ′ =1 F 2,l (z) ′ lim n→∞ n -1 × n ∑ i=1 E [ p l ′ ,ii Q ′ n,i |z i = z ] lim n→∞ E 1 (z) ] . (A.25)</formula><p>Combining the above results, we get <ref type="bibr">(A.21)</ref>. Then, applying Theorem 1 in <ref type="bibr" target="#b24">Kelejian and Prucha (2001)</ref> and the Cramér's Wold device completes the proof of <ref type="bibr">(A.18)</ref>. This completes the proof of this lemma.</p><formula xml:id="formula_137">Ω Q (z) = [ 1 0 ′ q 0 q µ 2 1,2 (k) µ 2,2 (k) /R 2 (K ) I q ] ⊗ [ E ′ 1 (z) E 3 (z) E 1 (z) ] (A.26) Ω P (z) = Var ( u 2 1 ) Ω 1 (z) + S 1 (z) /4 = [ 1 0 ′ q 0 q 0 q×q ] ⊗ m ∑ l=1 m ∑ l ′ =1 F 2,l (z) ′ F 2,l ′ (z) × ( Var ( u 2 1 ) lim n→∞ n -1 n ∑ i=1 E [ p l,ii p l ′ ,ii |z i = z ] + 1 4 lim n→∞ 1 n ∑ i ′ ̸ =i̸ =j E [ p l,ij p l ′ ,i ′ j m′ i × Π (z * i ) m′ i ′ Π (z * i ′ )|z j = z ] ) (A.27) Ω Q ,P (z) = Ω 2 (z) / 2 + S 2 (z) ∆ n (z) /2 = 2 -1 [ 1 0 ′ q 0 q 0 q×q ] ⊗ m ∑ l=1 F 2,l (z) ′ × ( m ∑ l ′ =1 lim n→∞ n -1 n ∑ i=1 E [ p l ′ ,ii Q ′ n,i |z i = z ] + lim n→∞ 1 n ∑ i̸ =j E [ p l,ij m′ i Π (z * i )Q ′ n,j |z j = z ] ⎞ ⎠ × lim n→∞ E 1 (z) . (A.28) Hence, we have Var [Λ n (z)] converges to f 3 (z) R 2 (K ) α ′ Ω (z) α &gt; 0. This verifies</formula><formula xml:id="formula_138">■ Remark. If β (z) = 0 p over its domain, we have F 2,l (z) = O ( ∥H∥ 2 /n ) for all l, so that Ω P (z) = O ( ∥H∥ 4 /n 2 ) , Ω Q ,P (z) = O ( ∥H∥ 2 /n )</formula><p>and</p><formula xml:id="formula_139">Ω Q (z) = [ 1 0 ′ q 0 q µ 2 1,2 (k) µ 2,2 (k) /R 2 (K ) I q ] ⊗ [ 0 0 ′ p 0 p E 13 (z) ′ E 3 (z) E 13 (z) ] , (A.29)</formula><p>where</p><formula xml:id="formula_140">E 13 (z) = n -1 ∑ n i=1 E [ Q n,i x ′ i |z i = z ]</formula><p>. Hence, Ω (z) becomes singular.</p><p>Proof of Theorem 3. In this theorem, we have Ĝn</p><formula xml:id="formula_141">(Z) = W Ŝn (Z), Ŝn (Z) = [I n -ρ (Z) W] -1 = S n (Z) + ( [I n -ρ (Z) W] -1 -[I n - ρ (Z) W] -1 ) , Q1n = Ĝn (Z) mtx { X, β (Z) } = Q 1n + [ Ĝn (Z) -G n (Z) ] mtx { X, β (Z) } + G n (Z) mtx { X, β (Z) -β (Z) } (A.30) and Pn = Ĝn (Z) -n -1 tr { Ĝn (Z) } I n = P n + Ĝn (Z) -G n (Z) -n -1 tr { Ĝn (Z) -G n (Z) } I n . (A.31)</formula><p>In addition, closely following the proof of Theorem 1, we also denote</p><formula xml:id="formula_142">Ân1 (z) = 1 2ξ n [ Γ2 ( Ψ1 + Ψ2 ) ′ + ( 2 Γ1 + Γ3 ) Ψ ′ 1 ] + 1 ξ n M(z) ′ ΞH 0 (z)C(z) Ân2 (z) = 1 2ξ n ( 2 Γ1 + Γ3 ) Ψ ′ 2 + 1 ξ n M(z) ′ ΞH 0 (z)u Ân3 (z) = 1 2ξ 2 n ( 2 Γ1 + Γ2 + Γ3 ) Ψ3 vec (θ n ) (A.32)</formula><p>and</p><formula xml:id="formula_143">Bn (z) = 1 ξ 2 n ( Ψ1 + Ψ2 - 1 ξ n [ vec ( θn )] ′ Ψ3 ) × ( Ψ1 + Ψ2 - 1 ξ n [ vec ( θn )] ′<label>Ψ3</label></formula><p>)</p><formula xml:id="formula_144">+ 1 ξ 2 n M(z) ′ ΞH 0 (z)M(z), (A.33) where Γ1 ≡ u ′ [ Pn K H 0 (z) ] s C(z), Γ2 ≡ C(z) ′ [ Pn K H 0 (z) ] s C(z), Γ3 ≡ u ′ [ Pn K H 0 (z) ] s u, Ψ1 ≡ u ′ [ Pn K H 0 (z) ] s M(z), Ψ2 ≡ C(z) ′ [ Pn K H 0 (z) ] s M(z), Ψ3 ≡ M(z) ′ [ Pn K H 0 (z) ] s M(z), ΞH 0 (z) ≡ K H 0 (z) Q (z) Q(z) ′ K H 0 (z).</formula><p>This notation is analogous to that ''without the hat'' used in the proof of Theorem 1 except for the replacement of P n and Q 1n with Pn and Q1n , respectively. Closely following the proof of Theorem 1, we have ξ n = √ n |H 0 |, and A (H 0 , z), B (H 0 , z) and Ω (z) are defined in Lemma 4-6, respectively. This completes the proof of this theorem. ■ Lemma 4. Under Assumptions 1-3, 5 and 6, we obtain (n</p><formula xml:id="formula_145">|H 0 |) -2 ξ n Ân1 (z) = A (H 0 , z) ′ + o p ( ∥H 0 ∥ 2 )</formula><p>, where A,Q (H 0 , z) and A,P (H 0 , z) are the same as in Lemma 1 with the l subscript and ∑ m l=1 dropped from A,P (H 0 , z).</p><p>Proof. Once we show Ân1 (z</p><formula xml:id="formula_146">) = A n1 (z) [ 1 + o p (1) ]</formula><p>, this lemma's result follows from Lemma 1.</p><p>First, we have</p><formula xml:id="formula_147"> Ŝ n (Z) -S n (Z)   sp =   [I n -ρ (Z) W] -1 -[I n -ρ (Z) W] -1   sp =   [I n -ρ (Z) W] -1 × [ρ (Z) -ρ (Z)] W[I n -ρ (Z) W] -1   sp ≤   [I n -ρ (Z) W] -1   sp ∥[ρ (Z) -ρ (Z)] W∥ sp ×   [I n -ρ (Z) W] -1   sp where we denote ∥A∥ sp ≡ λ 1/2 max ( AA ′ ) . Note that ∥A∥ sp ≤ ∥A∥, where ∥A∥ = √ tr { AA ′ }</formula><p>. By Weyl's theorem [42, p. 117], we have</p><formula xml:id="formula_148">  [I n -ρ (Z) W] -1   sp =   [I n -ρ (Z) W] -1   sp + O ( ∥[ρ (Z) -ρ (Z)] W∥ row )</formula><p>, where we obtain, under Assumption 5, that</p><formula xml:id="formula_149">∥[ρ (Z) -ρ (Z)] W∥ row = O p ( ∥H∥ 2 + √ ln n n |H| ) . In addition,   [I n -ρ (Z) W] -1   sp ≤ M almost surely under Assumption 1. Therefore, we obtain  Ŝ n (Z) -S n (Z)   sp = O p ( ∥[ρ (Z) -ρ (Z)] W∥ sp ) = O p ( ∥H∥ 2 + √ ln n n |H| ) . (A.34) It then follows that ⏐ ⏐ n -1 tr { Ĝn (Z) -G n (Z) }⏐ ⏐ = ⏐ ⏐ ⏐ ⏐ ⏐ n -1 n ∑ i=1 e ′ i W [ Ŝn (Z) -S n (Z) ] e i ⏐ ⏐ ⏐ ⏐ ⏐ ≤ n -1 n ∑ i=1   e ′ i W   ×  Ŝ n (Z) -S n (Z)   sp ∥e i ∥ = O p ( ∥H∥ 2 + √ ln n/(n |H|) ) , (A.35)</formula><p>where e i denotes the ith column of the identify matrix I n .</p><p>Next, we work on each component of (n z) given in (A.32).</p><formula xml:id="formula_150">|H 0 |) -2 ξ n Ân1<label>(</label></formula><p>(i) By Assumption 5 and (A.34) we obtain</p><formula xml:id="formula_151">1 n |H 0 | Q(z) ′ K H 0 (z)M(z) = 1 n |H 0 | Q(z) ′ K H 0 (z)M(z) + O p ( ∥H∥ 2 + √ ln n/(n |H|) ) 1 n |H 0 | C(z) ′ K H 0 (z) Q(z) = 1 n |H 0 | C(z) ′ K H 0 (z)Q(z) + o p ( ∥H 0 ∥ 2 ) .</formula><p>(ii) By (A.31), we have</p><formula xml:id="formula_152">Ψ1 n |H 0 | = 1 n |H 0 | u ′ [ Pn K H 0 (z) ] s M(z) = Ψ 1 n |H 0 | + 1 n |H 0 | u ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s M(z) - 2 n 2 |H 0 | tr { Ĝn (Z) -G n (Z) } u ′ K H 0 (z)M(z) = Ψ 1 n |H 0 | + o p (1) (A.36)</formula><p>since applying (A.34) gives</p><formula xml:id="formula_153">1 n |H 0 |   u ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s M(z)    ≤ 1 n |H 0 |  Ŝ n (Z) -S n (Z)   sp × (   u ′ W     K H 0 (z)M(z)   +   u ′ K H 0 (z)     W ′ M(z)   ) = O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( ( √ |H 0 | ∥H 0 ∥ ) -1 ) = o p (1)</formula><p>under Assumption 6. Similarly, we have</p><formula xml:id="formula_154">Ψ2 n |H 0 | = 1 n |H 0 | C(z) ′ [ Pn,l K H 0 (z) ] s M(z) = Ψ 2 n |H 0 | + 1 n |H 0 | C(z) ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s M(z) - 2 n 2 |H 0 | tr { Ĝn (Z) -G n (Z) } C(z) ′ K H 0 (z)M(z) = Ψ 2 n |H 0 | + O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( |H 0 | -1/2 ) + O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( ∥H 0 ∥ 2 ) = Ψ 2 n |H 0 | + o p (<label>1</label></formula><p>) (A.37) by (A.35) under Assumption 6, since applying (A.34) gives</p><formula xml:id="formula_155">1 n |H 0 |   C(z) ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s M(z)    ≤ 1 n |H 0 |  Ŝ n (Z) -S n (Z)   sp × (   C(z) ′ W     K H 0 (z)M(z)   +   C(z) ′ K H 0 (z)     W ′ M(z)   ) = O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( |H 0 | -1/2 )</formula><p>. Furthermore, following the proof of (A.36), we obtain</p><formula xml:id="formula_156">Γ2 n |H 0 | = 1 n |H 0 | C(z) ′ [ Pn K H 0 (z) ] s C(z) = Γ 2 n |H 0 | + 1 n |H 0 | C(z) ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s C(z) - 2 n 2 |H 0 | tr { Ĝn (Z) -G n (Z) } C(z) ′ K H 0 (z)C(z) = Γ 2 n |H 0 | + O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( ∥H 0 ∥ 2 |H 0 | -1/2 ) + O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( ∥H 0 ∥ 4 ) = Γ 2 n |H 0 | + o p ( ∥H 0 ∥ 2 )</formula><p>under Assumption 5. Next, following the proof of (A.37), we obtain</p><formula xml:id="formula_157">Γ 1 n |H 0 | = 1 n |H 0 | u ′ [ Pn K H 0 (z) ] s C(z) = Γ1 n |H 0 | + 1 n |H 0 | u ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s C(z) - 2 n 2 |H 0 | tr { Ĝn (Z) -G n (Z) } u ′ K H 0 (z) C(z) = Γ1 n |H 0 | + O p ( ∥H∥ 2 + √ ln n/(n |H|) ) × O p ( ∥H 0 ∥ 2 + (n |H 0 |) -1/2 ) = Γ1 n |H 0 | + o p ( ∥H 0 ∥ 2 ) , where ⏐ ⏐ ⏐ ⏐ 1 n |H 0 | u ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s C(z) ⏐ ⏐ ⏐ ⏐ ≤ 1 n |H 0 |  Ŝ n (Z) -S n (Z)   sp × (  u ′ W     K H 0 (z) C(z)   +   u ′ K H 0 (z)     W C(z)   ) = O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( (n |H 0 |) -1/2 ) .</formula><p>(iii) Under Assumptions 5 and 6, we have</p><formula xml:id="formula_158">Γ 1 Ψ 1 (n |H|) 2 = Γ1 Ψ 1 (n |H 0 |) 2 + ( 1 (n |H 0 |) 2 u ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s × C(z) + 1 n 3 |H 0 | 2 tr { Ĝn (Z) -G n (Z) } u ′ K H 0 (z) C(z) ) × u ′ [ P n K H 0 (z) ] s M(z) = Γ1 Ψ 1 (n |H 0 |) 2 ( 1 + o p (1)</formula><p>) by (A.35), and</p><formula xml:id="formula_159">1 (n |H 0 |) 2 u ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s C(z)u ′ [ P n K H 0 (z) ] s M(z) = 1 (n |H 0 |) 2 n ∑ i=1 n ∑ j=1 [( ĝij -g ij ) π j + ( ĝji -g ji ) π i ] × u i m′ j Π (z * j ) n ∑ i ′ =1 n ∑ j ′ =1 ( p i ′ j ′ π j ′ + p j ′ i ′ π i ′ ) u i ′ Z j ′ (z) ′ ⊗ m ′ j ′ ≈ 1 (n |H 0 |) 2 n ∑ i=1 n ∑ j=1 [( ĝij -g ij ) π j + ( ĝji -g ji ) π i ] u 2 i m′ j Π (z * j ) × n ∑ j ′ =1 ( p ij ′ π j ′ + p j ′ i π i ) Z j ′ (z) ′ ⊗ m ′ j ′ ≈ 1 (n |H 0 |) 2 n ∑ i=1 n ∑ j ′ =1 p j ′ i n ∑ j=1 [( ĝji -g ji ) π 2 i ] × u 2 i m′ j Π (z * j )Z j ′ (z) ′ ⊗ m ′ j ′ = O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( 1 n|H 0 | 3/2 ∥H 0 ∥ ) = O p ( ∥H∥ 2 + √ ln n/(n |H|) √ n |H 0 | ∥H 0 ∥ 3 ) O p ( ∥H 0 ∥ 2 √ n |H 0 | ) = o p ( ∥H 0 ∥ 2 √ n |H 0 | ) along with 1 (n |H 0 |) 2 u ′ K H 0 (z) C(z)u ′ [ P n K H 0 (z) ] s M(z) = 1 (n |H 0 |) 2 n ∑ i=1 π i u i m′ i Π (z * i ) × n ∑ i ′ =1 n ∑ j ′ =1 ( p i ′ j ′ π j ′ + p j ′ i ′ π i ′ ) u i ′ m′ j ′ Π (z * j ′ ) ≈ 1 (n |H 0 |) 2 n ∑ i=1 n ∑ j ′ =1 ( p ij ′ π j ′ π i + p j ′ i π 2 i ) u 2 i m′ i Π (z * i ) m′ j ′ Π (z * j ′ ) ≈ 2 (n |H 0 |) 2 n ∑ i=1 p ii π 2 i u 2 i [ m′ i Π (z * i ) ] 2 + 1 (n |H 0 |) 2 n ∑ i=1 ∑ j ′ ̸ =i p j ′ i π 2 i u 2 i m′ i Π (z * i ) m′ j ′ Π (z * j ′ ) = O p ( (n |H 0 |) -1 ∥H 0 ∥ 4 ) + O p ( (n |H 0 |) -1 ∥H 0 ∥ 2 ) = O p ( (n |H 0 |) -1 ∥H 0 ∥ 2 ) .</formula><p>This completes the proof of this lemma. ■ Lemma 5. Under Assumptions 1-3, 5 and 6, we obtain</p><formula xml:id="formula_160">ξ n (n |H 0 |) 2 Bn (z) = f 2 (z) B (H 0 , z) + o p (1) , (A.38)</formula><p>where B (H 0 , z) is as defined in Lemma 2 except for the l subscript and ∑ m l=1 being removed.</p><p>Proof. By Lemma 2, we only need to show that (n</p><formula xml:id="formula_161">|H 0 |) -2 ξ n ( Bn (z) -B n (z) ) = o p (1).</formula><p>Making use of the results in the proof of Lemma 4, we only need to show the following</p><formula xml:id="formula_162">Ψ3 n |H 0 | = 1 n |H 0 | M(z) ′ [ Pn K H 0 (z) ] s M(z) = Ψ 3 n |H 0 | + 1 n |H 0 | M(z) ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s M(z) - 2 n 2 |H 0 | tr { Ĝn (Z) -G n (Z) } M(z) ′ K H 0 (z)M(z) = Ψ 3 n |H 0 | + O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( |H 0 | -1/2 )</formula><p>by (A.35) under Assumption 6, since applying (A.34) gives</p><formula xml:id="formula_163">1 n |H 0 |   M(z) ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s M(z)    ≤ 2 n |H 0 |  Ŝ n (Z) -S n (Z)   sp (   M(z) ′ W     K H 0 (z)M(z)   ) = O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( |H 0 | -1/2 ) = o p (1)</formula><p>and</p><formula xml:id="formula_164">Γ3 n |H 0 | = 1 n |H 0 | u ′ [ Pn K H 0 (z) ] s u = Γ 3 n |H 0 | + 1 n |H 0 | u ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s u - 2 n 2 |H 0 | tr { Ĝn (Z) -G n (Z) } u ′ K H 0 (z)u = Γ 3 n |H 0 | ( 1 + o p (1) ) because we have 1 n |H 0 |   u ′ [( Ĝn (Z) -G n (Z) ) K H 0 (z) ] s u    ≤ 2 n |H 0 |  Ŝ n (Z) -S n (Z)   sp   u ′ W     K H 0 (z)u   = O p ( ∥H∥ 2 + √ ln n/(n |H|) ) O p ( (n |H 0 |) -1/2 ) .</formula><p>This completes the proof of this lemma. ■ Lemma 6. Under Assumptions 1-3, 5 and 6, we obtain</p><formula xml:id="formula_165">ξ n Ân,2 (z) (n |H 0 |) 3/2 d → N ( 0, f 3 (z) R 2 (K ) Ω (z) ) , (A.39)</formula><p>where Ω (z) is as defined in Lemma 3 except for the l subscript and ∑ m l=1 being removed.</p><p>Proof. By means of the results in Lemmas 8 and 9 (see Supplementary Appendix), we can show that</p><formula xml:id="formula_166">ξ n Ân,2 (z) (n |H 0 |) 3/2 = ξ n A n,2 (z) (n |H 0 |) 3/2 + o p (1) .</formula><p>Then, applying Lemma 3 completes the proof of this lemma. ■ Proof of Theorem 4. We first discuss the existence of p, where</p><formula xml:id="formula_167">p = arg min p∈R n (1/ni n -p) ′ (1/ni n -p) subject to i ′ n p = 1 and -i n &lt; [ ρ(z 1 |p), . . . ,ρ(z n |p) ] ′ &lt; i n . For some very small constant ϵ ∈ (0, 1), our restrictions can be equivalently written as |ρ(z|p)| ≤ 1-ϵ or 1-ϵ+ρ(z|p) ≥ 0 and 1- ϵ-ρ(z|p) ≥ 0. Since ∑ n i=1 p i = 1, we have R 1 (z) ≡ 1-ϵ+ρ(z|p) ≡ ∑ n i=1 p i r 1,i (z) and R 2 (z) ≡ 1 -ϵ -ρ(z|p) ≡ ∑ n i=1 p i r 2,i (z),</formula><p>where r 1,i (z) = nω i (X, z)y i + 1 -ϵ and r 2,i (z) = -nω i (X, z)y i + 1 -ϵ are both continuous functions of z ∈ R q for all i ∈ {1, . . . , n}.</p><p>Let d 1 (z) and d 2 (z) be the numerator and denominator of ρ (z), respectively, where the former can be written as</p><formula xml:id="formula_168">d 1 (z) = n ∑ i=1 π i y i n ∑ j=1 π j (Wy) j Z j (z) ′ Z i (z)Q ′ nj Q ni ≡ n ∑ i=1 d 1,i (X, z) y i . Hence, we have ω i (X, z) ≡ d 1,i (X, z) /d 2 (z) for all i. Under Assumption 3, we have π i = 0 and r 1,i (z) = r 2,i (z) = 1 -ϵ &gt; 0 if ⏐ ⏐ z l,i -z l ⏐ ⏐ &gt; h l for some l ∈ {1, .</formula><p>. . , q}, where z l,i and z l are the lth element of the q × 1 vector z i and z, respectively. Consequently, for a given bandwidth matrix H, we can construct a sequence of overlapping open subsets</p><formula xml:id="formula_169">O i j = ( o L 1,i j , o U 1,i j ) ×• • •× ( o L q,i j , o U q,i j ) ⊂ R q such that (i) for each j, both r 1,i j (z) &gt; 0 and r 2,i j (z) &gt; 0 hold for z ∈ O i j ; (ii) S z ⊆ ∪ k j=1 O i j for {i 1 , . . . , i k } ⊆ {1, . . . , n};</formula><p>(iii) for any give z ∈ S z , z is contained in at least one of the subsets. Then, following the induction method used in the proof of Theorem 4.1 in <ref type="bibr" target="#b15">Hall and Huang (2001)</ref>, we can show that there exists a solution p such that i ′ n p = 1 ,p i ∈ (0, 1) for all i and R j (z) &gt; 0 for all z ∈ S z and j = 1, 2.</p><p>Next, we study the property of p. We define the Lagrangian function of our optimization problem as follows:</p><formula xml:id="formula_170">L (p, ζ , ϕ, ψ) = n ∑ i=1 ( p i -n -1 ) 2 + ζ ( n ∑ i=1 p i -1 ) - n ∑ j=1 ϕ j ( ρ(z j |p) + 1 -ϵ ) - n ∑ j=1 ψ j ( 1 -ϵ -ρ(z j |p) ) ,</formula><p>where ρ(z|p) = n ∑ n i=1 p i ω i (X, z)y i , ϕ = [ϕ 1 , . . . , ϕ n ] ′ and ψ = [ψ 1 , . . . , ψ n ] ′ . Under Assumption 6 and the proof of the existence ofp, the Karush-Kuhn-Tucker theorem holds so that there exist ζ , ϕ and ψ such that</p><formula xml:id="formula_171">2 ( pi -n -1 ) + ζ -n n ∑ j=1 ( ϕ j -ψ j ) ω i (X, z j )y i = 0 (A.40) ϕ j ( ρ(z j |p) + 1 -ϵ ) = 0 ∀ j (A.41) ψ j ( 1 -ϵ -ρ(z j |p) ) = 0 ∀ j (A.42) n ∑ i=1 pi = 1 (A.43) and ϕ j ≥ 0, ψ j ≥ 0 and ϵ -1 ≤ ρ(z j |p) ≤ 1 -ϵ for all 1 ≤ j ≤ n. Solving (A.40) yields pi = 1 n + n 2 n ∑ j=1 ( ϕ j -ψ j ) ω i (X, z j )y i - ζ 2 . (A.44) Combining (A.43) with (A.44), we have ζ = ∑ n j=1 ( ϕ j -ψ j ) ∑ n i=1 ω i (X, z j )y i = ∑ n j=1 ( ϕ j -ψ j ) ρ ( z j ) , which implies that pi = 1 n + n 2 n ∑ j=1 ( ϕ j -ψ j ) ω i (X, z j )y i - 1 2 n ∑ j=1 ( ϕ j -ψ j ) ρ ( z j ) = 1 n + 1 2 n ∑ j=1 ( ϕ j -ψ j ) [ nω i (X, z j )y i -ρ ( z j )] . (A.45) It then follows that ρ(z j |p) = ρ ( z j ) + 1 2 n ∑ i=1 n ∑ l=1 (ϕ l -ψ l ) × [nω i (X, z l )y i -ρ (z l )] nω i (X, z j )y i = ρ ( z j ) + 1 2 n ∑ l=1 (ϕ l -ψ l ) n ∑ i=1 [nω i (X, z l )y i -ρ (z l )] × [ nω i (X, z j )y i -ρ ( z j )] . (A.46) Let A n1 = { j : ϕ j &gt; 0 } = {j s , s = 1, . . . , |A n1 |} and A n2 = { j : ψ j &gt; 0 } = { j ′ s , s = 1, . . . , |A n2 | } ,</formula><p>where |A n1 | and |A n2 | define the number of elements in A n1 and A n2 , respectively. By (A.41), we have ρ(z j |p) = ϵ -1 for j ∈ A n1 . By (A.42), we have ρ(z j |p) = 1 -ϵ for j ∈ A n2 . Clearly, A n1 and A n2 share no common elements since</p><formula xml:id="formula_172">ϵ ∈ (0, 1), hence |A n1 | + |A n2 | ≤ n. Therefore, for j t ∈ A n1 , having denoted χ i,l = nω i (X, z l )y i -ρ (z l ), we obtain ρ ( z jt ) + 1 -ϵ = 1 2 ( |A n2 | ∑ s=1 ψ j ′ s n ∑ i=1 χ i,jt χ i,j ′ s - |A n1 | ∑ s=1 ϕ js n ∑ i=1 χ i,jt χ i,js</formula><p>) .</p><p>(A.47)</p><p>For j ′ t ∈ A n2 , we obtain ρ ( </p><formula xml:id="formula_173">z j ′ t ) -(1 -ϵ) = 1 2 ( |A n2 | ∑ s=1 ψ j ′ s n ∑ i=1 χ i,j ′ t χ i,j ′ s - |A n1 | ∑ s=1 ϕ ls n ∑ i=1 χ i,j ′ t χ i,js ) . (A.48) Let δ = [ -φ j 1 , . . . , -φ j |An1| , ψ j ′ 1 , . . . , ψ j ′ |An2| ] ′ , b = [ρ ( z j 1 ) + 1-ϵ, . . . ,ρ ( z j |An1| ) +1-ϵ,ρ ( z j ′ 1 ) -(1 -ϵ) , . . . ,ρ ( z j ′ |An2| ) - (1 -ϵ)] ′ . Further, let α ′ i = [ χ i,j 1 , . . . , χ i,j |An1| , χ i,j ′ 1 , . . . , χ i,j ′ |An2|</formula><formula xml:id="formula_174">pi = 1 n - 1 2 α ′ i δ = 1 n -α ′ i ( A ′ n A n ) -1 b.</formula><p>(A.49) Therefore, we obtain</p><formula xml:id="formula_175">∑ n i=1 ( pi -n -1 ) 2 = b ′ ( A ′ n A n ) -1 ∑ n i=1 α i α ′ i ( A ′ n A n ) -1 b = b ′ ( A ′ n A n ) -1 b.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>By Corollary 2 and Assumption 5, we have sup</head><formula xml:id="formula_176">z∈Sz |ρ (z) -ρ (z)| = O p ( ∥H∥ 2 + √ ln n/(nH)</formula><p>) by, say, <ref type="bibr" target="#b34">Masry (1996)</ref>, so b</p><formula xml:id="formula_177">′ b = ∑ |A n1 | s=1 ( ρ ( z js ) + 1 -ϵ ) 2 + ∑ |A n2 | s=1 ( ρ ( z j ′ s ) -(1 -ϵ) ) 2 = O p (|A n1 | + |A n2 |) = O p (n). Then, we obtain b ′ ( A ′ n A n /n 3 ) -1 b ≤ λ -1 min ( A11 ′ n A n /n 3 ) b ′ b = O p (n) since λ min { A ′ n A n /n 3 } = λ min { W ′ n W n /n } + o p (1) = λ min { E [ W ′ n W n /n ]} + o p (1) under Assumption 6. Hence, ∑ n i=1 ( pi -n -1 ) 2 = O p ( n -2 ) , which gives max 1≤i≤n ⏐ ⏐ pi -n -1 ⏐ ⏐ = O p ( n -1 )</formula><p>. This proves Theorem 4(i).</p><p>Lastly, we study the distance between ρ(z|p) and ρ (z). By Hölder's inequality, we have </p><formula xml:id="formula_178">ρ(z|p) -ρ (z) = n ∑ i=1 (np i -1) ω i (X, z)y i ≤    √ n ∑ i=1 (np i -1) 2    √ n ∑ i=1 ω 2 i (X, z)y 2 i = O p (1) O p ( (n |H|) -1/2 ) = O p ( (n |H|) -1/2 ) ,<label>where</label></formula><formula xml:id="formula_179">∑ n i=1 ω 2 i (X, z)y 2 i = d -2 2 (z) ∑ n i=1 d 2 1,i (X, z)y 2 i , d 2 (z) = O p ( (n |H|) -2 ) by (A.17), and (n |H|) -4 × ∑ n i=1 d 2 1,i (X, z)y 2 i = O p ( (n |H|) -</formula><formula xml:id="formula_180">n = ( n 2 |H| ) -1 ∑ n i=1 ∑ n j̸ =i ûi ûj K H ( z i , z j ) , where ûi = y i -m ′ i γ and γ = [ ρ, β′ ] ′ .</formula><p>First, under H 0 , we haveû i = m ′ i ( γ 0 -γ) +u i . Hence, we have</p><formula xml:id="formula_181">T n = 1 n 2 |H| ( γ 0 -γ) ′ n ∑ i=1 n ∑ j̸ =i m i m ′ j K H ( z i , z j ) ( γ 0 -γ) + 2 n 2 |H| ( γ 0 -γ) ′ n ∑ i=1 n ∑ j̸ =i m i u j K H ( z i , z j ) + 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i u i u j K H ( z i , z j ) ≡ T n1 + 2T n2 + T n3 , (B.1)</formula><p>where the definitions of T nj , j = 1, 2, 3, should be apparent from the following context. <ref type="bibr" target="#b28">Lee (2007)</ref> showed that γ 0 -γ = O p (n -1/2 ), and it is straightforward to show that, under H 0 , T n1 = O p (n -1 ), T n2 = O p ( n -1 ) and T n3 = O p ( (</p><formula xml:id="formula_182">n √ |H| ) -1 )</formula><p>. Hence, T n3 is the leading term of T n under H 0 and E [T n3 ] = 0. Applying Hall's (1984, Th.1) central limit theorem for a second-order degenerate U-statistic, one can show that</p><formula xml:id="formula_183">n √ |H|T n3 d → N ( 0, 2σ 4 u R 2 (K ) E [f (z)] ) (B.2) since, denoting χ i ≡ [ u i , z ′ i ] ′ , H n ( χ i , χ j ) ≡ |H| -1/2 u i u j K H ( z i , z j ) and G n ( χ 1 , χ 2 ) ≡ E [ H n ( χ 1 , χ i ) H n ( χ 2 , χ i ) |χ 1 , χ 2 ] , for i ̸ = j we have E [ G 2 n ( χ 1 , χ 2 )] + n -1 E [ H 4 n ( χ 1 , χ 2 )] [ E [ H 2 n ( χ 1 , χ 2 )]] 2 = O ( ∥H∥ 2 ) + O ( (n |H|) -1 ) O (1) = o (1) .</formula><p>Second, under H 1 , we have ûi = m ′ i [γ (z i ) -γ] + u i . We decompose T n as</p><formula xml:id="formula_184">T n = 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i [γ (z i ) -γ] ′ m i m ′ j [γ (z i ) -γ] K H ( z i , z j ) + 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i [γ (z i ) -γ] ′ m i u j K H ( z i , z j ) + 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i u i u j K H ( z i , z j ) ≡ T a n1 + 2T a n2 + T n3 ,</formula><p>where T n3 is as defined in (B.1). Given the proof above, we have</p><formula xml:id="formula_185">T n3 = O p ( ( n √ |H| )<label>-1 )</label></formula><p>. In addition, applying straightforward calculations, we obtain</p><formula xml:id="formula_186">T a n2 = 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i [γ (z i ) -γ] ′ m i u j K H ( z i , z j ) = 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i [γ (z i ) -γ] ′ m i u j K H ( z i , z j ) + 2 n 2 |H| (γ -γ) ′ n ∑ i=1 n ∑ j̸ =i m i u j K H ( z i , z j ) = O p ( n -1/2 ) + O p ( n -1 ) = O p ( n -1/2 )</formula><p>.</p><p>Next, we show that T a n1 = O p (1). Under H 1 , Assumption 10(i) states that there exists γ ∈ Θ such that γγ = O p ( n -1/2 )</p><p>. Then, we have</p><formula xml:id="formula_187">T a n1 = 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i [γ (z i ) -γ] ′ m i m ′ j [γ (z i ) -γ] K H ( z i , z j ) = 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i [γ (z i ) -γ] ′ m i m ′ j [γ (z i ) -γ] K H ( z i , z j ) + 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i [γ (z i ) -γ] ′ m i m ′ j K H ( z i , z j ) (γ -γ) + 2 n 2 |H| (γ -γ) n ∑ i=1 n ∑ j̸ =i m i m ′ j K H ( z i , z j ) (γ -γ) = T a n1,1 + O p ( n -1/2 ) + O p ( n -1 ) , (B.3)</formula><p>where, denoting</p><formula xml:id="formula_188">ς i ≡ ȳi [ρ (z i ) -ρ] + x ′ i [β (z i ) -β], we have m ′ i [γ (z i ) -γ] = ς i + ūi [ρ (z i ) -ρ]</formula><p>and</p><formula xml:id="formula_189">T a n1,1 = 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i [γ (z i ) -γ] ′ m i m ′ j [ γ ( z j ) -γ ] K H ( z i , z j ) = 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i ς i ς j K H ( z i , z j ) + O p ( n -1/2 ) = 1 n 2 |H| ς ′ K H (Z) ς + O p ( n -1/2 ) ≤ 1 n 2 |H| ς ′ ςλ max {K H (Z)} + O p ( n -1/2 ) ,</formula><p>where ς is an n × 1 vector with a typical element being equal to ς i , and K H (Z) is an n × n matrix with zero elements on the principal diagonal, the (i, j)th element being equal to K H ( z i , z j ) for i ̸ = j and the largest eigenvalue λ max {K H (Z)} = max ∥ϖ ∥=1 ϖ ′ K H (Z) ϖ for any n × 1 vector ϖ ̸ = 0 n . Under Assumption 1, we have n -1 ς ′ ς = O p (1), in addition to which we can show that λ max {K H (Z)} = O p (n |H|) since</p><formula xml:id="formula_190">E [|λ max {K H (Z)}|] ≤ max ∥ϖ ∥=1 n ∑ i=1 n ∑ j̸ =i |ϖ i | ⏐ ⏐ ϖ j ⏐ ⏐ E [ K H ( z i , z j )] = |H| [ E [f (z 1 )] + O ( ∥H∥ 2 )] × max ∥ϖ ∥=1 n ∑ i=1 n ∑ j̸ =i |ϖ i | ⏐ ⏐ ϖ j ⏐ ⏐ ≤ Mn |H| [ E [f (z 1 )] + O ( ∥H∥ 2 )]</formula><p>and applying Hőlder's inequality gives</p><formula xml:id="formula_191">[∑ n i=1 |ϖ i | ] 2 ≤ n ∥ϖ ∥ 2 .</formula><p>Hence, we obtain T a n1,1 = O p (1). Furthermore, redefining χ i ≡ [</p><formula xml:id="formula_192">x ′ i , z ′ i ] ′ and H n ( χ i , χ j ) ≡ |H| -1 [β (z i ) -β] ′ x i x ′ j [ β ( z j ) -β ] K H ( z i , z j )</formula><p>and because Powell   et al. (1989), we have</p><formula xml:id="formula_193">E [ H 2 n ( χ i , χ j )] = O ( |H| -1 ) = o (n), applying Lemma 3.1 in</formula><formula xml:id="formula_194">1 n 2 |H| n ∑ i=1 n ∑ j̸ =i [β (z i ) -β] ′ x i x ′ j [ β ( z j ) -β ] K H ( z i , z j ) = E [ H n ( χ i , χ j )] + o p (<label>1</label></formula><formula xml:id="formula_195">) p → E [ f (z 1 ) ( E [ x ′ 1 |z 1 ] [β (z 1 ) -β]</formula><p>) 2 ] &gt; 0.</p><p>However, we are unable to show that T a n1,1 converges to a positive constant since {ȳ i } is not an independent sequence. Lastly, if β (z) = 0 p holds over its domain, we have T a nj = O p ( n -1 ) for j = 1, 2 and T n3 = O p ( (</p><formula xml:id="formula_196">n √ |H| ) -1 )</formula><p>under H 1 . This means n √ |H|T n has the same distribution under both H 0 and H 1 .</p><p>Therefore, our test fails to differentiate the null hypothesis from the alternative hypothesis. Combining the above results with Lemma 7 completes the proof of this theorem.</p><formula xml:id="formula_197">■ Lemma 7. Under H 0 , σ 2 p → 2σ 4 u R 2 (K ) E [f (z)]; under H 1 , σ 2 = O p (1), where σ 2 = 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i û2 i û2 j K 2 H (z i , z j ).</formula><p>Proof. Under H 0 , following the proof of Theorem 7, we can show that the leading term of σ 2 is given by</p><formula xml:id="formula_198">⃗ σ 2 = 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i u 2 i u 2 j K 2 H (z i , z j ),</formula><p>which is a standard second-order U-statistic with H n</p><formula xml:id="formula_199">( χ i , χ j ) ≡ 2|H| -1 u 2 i u 2 j K 2 H (z i , z j ) and χ i ≡ ( u i , z ′ i ) ′ . Given that E [ H 2 n ( χ i , χ j )] = O (1) = o (n),</formula><p>applying Lemma 3.1 of Powell et al. (1989) gives ⃗ σ 2 = E [ ⃗ σ 2 ] + o p (1), where it is easy to show that E [ ⃗ σ 2 ] = 2σ 4 u R 2 (K ) E [f (z)] + o (1). Under H 1 , we can show that the leading term of σ 2 is given by</p><formula xml:id="formula_200">σ 2 = 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i { u i + m ′ i [γ (z i ) -γ] } 2 × { u j + m ′ j [ γ ( z j ) -γ ]} 2 K 2 H (z i , z j ) = 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i { u i u j + m ′ i [γ (z i ) -γ] u j + m ′ j [ γ ( z j ) -γ ] u i + m ′ i [γ (z i ) -γ] m ′ j [ γ ( z j ) -γ ]} 2 × K 2 H (z i , z j ) = 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i u 2 i u 2 j K 2 H (z i , z j ) + 4 n 2 |H| n ∑ i=1 n ∑ j̸ =i { m ′ i [γ (z i ) -γ] } 2 u 2 j K 2 H (z i , z j ) + 2 n 2 |H| n ∑ i=1 n ∑ j̸ =i { m ′ i [γ (z i ) -γ] m ′ j [ γ ( z j ) -γ ]} 2 × K 2 H (z i , z j ) + O p ( (n |H|) -1/2 ) = O p (1)</formula><p>under Assumption 1-4 and 10 (ii), following steps in the proof of Theorem 7. This completes the proof of this lemma. ■ Proof of Theorem 8. Since Φ (s) is a continuous c.d.f., applying Pola's Theorem <ref type="bibr" target="#b4">(Bhattacharya and Rao, 1986)</ref>, we only need to show that Pr * ( J * n ≤ s ) -Φ (s) = o p (1) for any given value of s.</p><p>The bootstrap test statistic T * n = (</p><formula xml:id="formula_201">n 2 |H| ) -1 ∑ n i=1 ∑ n j̸ =i û * i û * j K H ( z i , z j ) , whereû * i = y * i -ρ * ∑ j̸ =i w ij y * j -x ′ i β * = m * ′ i ( γ -γ * ) + u * i and m * i = [ ∑ j̸ =i w ij y * j , x ′ i ] ′</formula><p>. Hence, we have</p><formula xml:id="formula_202">T * n = 1 n 2 |H| ( γ -γ * ) ′ n ∑ i=1 n ∑ j̸ =i m * i m * ′ j K H ( z i , z j ) ( γ -γ * ) + 2 n 2 |H| ( γ -γ * ) ′ n ∑ i=1 n ∑ j̸ =i m * i u * j K H ( z i , z j ) + 1 n 2 |H| n ∑ i=1 n ∑ j̸ =i u * i u * j K H ( z i , z j ) ≡ T * n1 + 2T * n2 + T * n3 , (B.4)</formula><p>where T * nj for j = 1, 2, 3 are defined in the order of their appearance in the first equality.</p><p>Let E * [•] = E [ •| {( x i , z i , y * i )} n i=1 ] . The wild bootstrap method implies that E * [ u * i ] = 0, E * [ u * 2 i ] = û2 i , and E * [ u * 3 i ] = û3 i for all i, where ûi = m ′ i (γγ) + ε i is the estimated residual from a parametric linear spatial autoregressive model. Since γγ * = O p (n -1/2 ) and E * [</p><formula xml:id="formula_203">u * i ] = 0, it is easy to show that T * n1 = O p (n -1 ), T * n2 = O p ( n -1 )</formula><p>and</p><formula xml:id="formula_204">T * n3 = O p ( ( n √ |H| )<label>-1 )</label></formula><p>. Hence, T * n3 is the leading term of T * n . Since { u * i } is independent but not identically distributed, we apply de Jong's (1987) central limit theorem for a second-order degenerate U-statistic to show the asymptotic result for n √ |H|T * n3 .</p><p>Specifically, denoting χ</p><formula xml:id="formula_205">* i ≡ [ u * i , z ′ i ] ′ and H * n ( χ * i , χ * j ) ≡ 2 ( n 2 |H| ) -1 u * i u * j K H ( z i , z j )</formula><p>, we have</p><formula xml:id="formula_206">T * n3 = n ∑ i=1 n ∑ j=i+1 H * n ( χ * i , χ * j )</formula><p>,</p><p>where</p><formula xml:id="formula_207">E * [ H * n ( χ * i , χ * j ) |χ * j ]</formula><p>= 0 for all i ̸ = j. In addition, we have</p><formula xml:id="formula_208">σ * 2 n = E * [ T * 2 n3 ] = 4 n 4 |H| 2 n ∑ i=1 n ∑ j=i+1 n ∑ i ′ =1 n ∑ j ′ =i ′ +1 E * [ u * i u * j u * i ′ u * j ′ ] × K H ( z i , z j ) K H ( z i ′ , z j ′ ) = 4 n 4 |H| 2 n ∑ i=1 n ∑ j=i+1 û2 i û2 j K 2 H ( z i , z j ) =<label>2σ</label></formula><p>2 n 2 |H| , and σ * 2 n = O p ( ( n 2 |H| ) -1 ) by Lemma 7. Further, defining ω ij ≡ H * n ( χ * i , χ * j )</p><p>, we can easily show that</p><formula xml:id="formula_209">G * I ≡ ∑ n i=1 ∑ n j=i+1 E * [ ω 4 ij ] = O p (<label>(</label></formula><formula xml:id="formula_210">n 4 |H| 3 ) -1 ) , G * II ≡ ∑ n i=1 ∑ n j=i+1 ∑ n l=j+1 E * [ ω 2 ij ω 2 il + ω 2 ji ω 2 jl + ω 2 li ω 2 lj ] = O p (<label>(</label></formula><formula xml:id="formula_211">n 5 |H| 2 ) -1 ) and G * IV ≡ ∑ n i=1 ∑ n j=i+1 ∑ n l=j+1 ∑ n t=l+1 E * [ ω ij ω il ω tj ω tl + ω ij ω it ω lj ω lt + ω il ω it ω jl ω jt ] = O p (<label>(</label></formula><formula xml:id="formula_212">n 4 |H| ) -</formula><p>1 ) because both u i and m i have finite fourth moments. Hence, G * I , G * II and G * IV are all of order o p ( σ * 4 n ) . By Proposition 3.2 in de Jong (1987), we then obtain n √ |H|T * n3 / √ σ * 2 n d → N (0, 1). This completes the proof of this theorem. ■ Proof of Theorem 9. Under H 0 , we have</p><formula xml:id="formula_213">D n = 1 n n ∑ i=1 [ m ′ i γ -m ′ i γ (z i ) ] 2 = 1 n n ∑ i=1 { m ′ i [ γ (z i ) -γ 0 ]} 2 - 2 n n ∑ i=1 m ′ i [ γ (z i ) -γ 0 ] ( γ -γ 0 ) ′ m i + 2 n n ∑ i=1 [ m ′ i ( γ -γ 0 )] 2 = O p ( ∥H∥ 4 + ln n n|H| )</formula><p>under Assumption 5. Under H 1 , we have</p><formula xml:id="formula_214">D n = 1 n n ∑ i=1 [ m ′ i γ -m ′ i γ (z i ) ] 2 = 1 n n ∑ i=1 { m ′ i [ γ (z i ) -γ 0 ]} 2 - 2 n n ∑ i=1 m ′ i [ γ (z i ) -γ 0 ] ( γ -γ 0 ) ′ m i + 2 n n ∑ i=1 [ m ′ i ( γ -γ 0 )] 2 = 2 n n ∑ i=1 [ m ′ i ( γ -γ 0 )] 2 + O p ( ∥H∥ 2 + √ ln n n|H| ) ≈ 2 n n ∑ i=1 [ m ′ i ( γ -γ 0 )] 2 = O e (1) .</formula><p>This completes the proof of this theorem. ■ Appendix C. Supplementary data</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Assumption 9 .</head><label>9</label><figDesc>∥H∥ → 0, ln n/(n |H|) → ∞ and n ∥H∥ 4</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>]</head><figDesc>be the ith row of an n × (|A n1 | + |A n2 |) matrix A n . Then, we can rewrite (A.47) and (A.48) in the matrix form: A ′ n A n δ = 2b, where A ′ n A n equals n times the sample covariance of {α i } n i=1 and is nonsingular under Assumption 6. Hence, δ = 2 (</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>The proposed test statistic is T</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Simulation results for the estimators when x i is relevant.</figDesc><table><row><cell></cell><cell cols="2">Linear &amp; quadratic moments</cell><cell></cell><cell cols="2">Linear moments only</cell><cell></cell></row><row><cell></cell><cell>n = 98</cell><cell>n = 245</cell><cell>n = 490</cell><cell>n = 98</cell><cell>n = 245</cell><cell>n = 490</cell></row><row><cell></cell><cell>First stage</cell><cell></cell><cell></cell><cell>First stage</cell><cell></cell><cell></cell></row><row><cell>ρ(z i )</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.2335</cell><cell>0.1451</cell><cell>0.1067</cell><cell>0.2786</cell><cell>0.2009</cell><cell>0.1638</cell></row><row><cell>MAE</cell><cell>0.1844</cell><cell>0.1146</cell><cell>0.0846</cell><cell>0.2096</cell><cell>0.1418</cell><cell>0.1081</cell></row><row><cell>β(z i )</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.1163</cell><cell>0.0764</cell><cell>0.0564</cell><cell>0.1205</cell><cell>0.0821</cell><cell>0.0598</cell></row><row><cell>MAE</cell><cell>0.0884</cell><cell>0.0582</cell><cell>0.0425</cell><cell>0.0917</cell><cell>0.0612</cell><cell>0.0443</cell></row><row><cell>β(z i ) via LS</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.0992</cell><cell>0.0641</cell><cell>0.0477</cell><cell>0.1025</cell><cell>0.0681</cell><cell>0.0509</cell></row><row><cell>MAE</cell><cell>0.0791</cell><cell>0.0515</cell><cell>0.0383</cell><cell>0.0811</cell><cell>0.0538</cell><cell>0.0401</cell></row><row><cell></cell><cell>Second stage</cell><cell></cell><cell></cell><cell>Second stage</cell><cell></cell><cell></cell></row><row><cell>ρ(z i )</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.2078</cell><cell>0.1299</cell><cell>0.0959</cell><cell>0.2011</cell><cell>0.1203</cell><cell>0.0878</cell></row><row><cell>MAE</cell><cell>0.1665</cell><cell>0.1034</cell><cell>0.0761</cell><cell>0.1586</cell><cell>0.0960</cell><cell>0.0699</cell></row><row><cell>β(z i )</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.1010</cell><cell>0.0660</cell><cell>0.0483</cell><cell>0.0994</cell><cell>0.0643</cell><cell>0.0474</cell></row><row><cell>MAE</cell><cell>0.0802</cell><cell>0.0528</cell><cell>0.0388</cell><cell>0.0798</cell><cell>0.0516</cell><cell>0.0381</cell></row><row><cell>β(z i ) via LS</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.0974</cell><cell>0.0634</cell><cell>0.0470</cell><cell>0.0975</cell><cell>0.0632</cell><cell>0.0468</cell></row><row><cell>MAE</cell><cell>0.0777</cell><cell>0.0508</cell><cell>0.0377</cell><cell>0.0774</cell><cell>0.0507</cell><cell>0.0375</cell></row></table><note><p>Notes: The reported are the averages of respective statistics over 500 simulations. LS stands for least squares.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2</head><label>2</label><figDesc>Simulation results for the estimators when x i is irrelevant.</figDesc><table><row><cell></cell><cell cols="2">Linear &amp; quadratic moments</cell><cell></cell><cell cols="2">Quadratic moments only</cell><cell></cell></row><row><cell></cell><cell>n = 98</cell><cell>n = 245</cell><cell>n = 490</cell><cell>n = 98</cell><cell>n = 245</cell><cell>n = 490</cell></row><row><cell></cell><cell>First stage</cell><cell></cell><cell></cell><cell>First stage</cell><cell></cell><cell></cell></row><row><cell>ρ(z i )</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.2451</cell><cell>0.1841</cell><cell>0.1592</cell><cell>0.2094</cell><cell>0.1751</cell><cell>0.1587</cell></row><row><cell>MAE</cell><cell>0.1979</cell><cell>0.1495</cell><cell>0.1320</cell><cell>0.1735</cell><cell>0.1458</cell><cell>0.1335</cell></row><row><cell>β(z i )</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.0761</cell><cell>0.0524</cell><cell>0.0395</cell><cell></cell><cell></cell><cell></cell></row><row><cell>MAE</cell><cell>0.0638</cell><cell>0.0436</cell><cell>0.0331</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>Second stage</cell><cell></cell><cell></cell><cell>Second stage</cell><cell></cell><cell></cell></row><row><cell>ρ(z i )</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.2214</cell><cell>0.1759</cell><cell>0.1548</cell><cell>0.2076</cell><cell>0.1737</cell><cell>0.1573</cell></row><row><cell>MAE</cell><cell>0.1810</cell><cell>0.1457</cell><cell>0.1324</cell><cell>0.1720</cell><cell>0.1445</cell><cell>0.1321</cell></row><row><cell>β(z i )</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>RMSE</cell><cell>0.0767</cell><cell>0.0524</cell><cell>0.0395</cell><cell></cell><cell></cell><cell></cell></row><row><cell>MAE</cell><cell>0.0645</cell><cell>0.0437</cell><cell>0.0331</cell><cell></cell><cell></cell><cell></cell></row></table><note><p>Note: The reported are the averages of respective statistics over 500 simulations.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3</head><label>3</label><figDesc>Simulation results for the J n statistic when x i is relevant.</figDesc><table><row><cell>Sign. level</cell><cell>Estimated size</cell><cell></cell><cell></cell><cell cols="2">Estimated power</cell><cell></cell></row><row><cell></cell><cell>n = 98</cell><cell>n = 245</cell><cell>n = 490</cell><cell>n = 98</cell><cell>n = 245</cell><cell>n = 490</cell></row><row><cell>c = 0.8</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1%</cell><cell>0.012</cell><cell>0.006</cell><cell>0.008</cell><cell>0.164</cell><cell>0.548</cell><cell>0.868</cell></row><row><cell>5%</cell><cell>0.034</cell><cell>0.080</cell><cell>0.054</cell><cell>0.359</cell><cell>0.756</cell><cell>0.954</cell></row><row><cell>10%</cell><cell>0.073</cell><cell>0.134</cell><cell>0.100</cell><cell>0.485</cell><cell>0.813</cell><cell>0.988</cell></row><row><cell>20%</cell><cell>0.153</cell><cell>0.247</cell><cell>0.218</cell><cell>0.615</cell><cell>0.898</cell><cell>0.996</cell></row><row><cell>c = 1.06</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1%</cell><cell>0.010</cell><cell>0.012</cell><cell>0.006</cell><cell>0.171</cell><cell>0.569</cell><cell>0.870</cell></row><row><cell>5%</cell><cell>0.034</cell><cell>0.075</cell><cell>0.054</cell><cell>0.376</cell><cell>0.770</cell><cell>0.966</cell></row><row><cell>10%</cell><cell>0.071</cell><cell>0.126</cell><cell>0.092</cell><cell>0.493</cell><cell>0.827</cell><cell>0.986</cell></row><row><cell>20%</cell><cell>0.153</cell><cell>0.260</cell><cell>0.192</cell><cell>0.630</cell><cell>0.894</cell><cell>1.00</cell></row><row><cell>c = 1.5</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1%</cell><cell>0.010</cell><cell>0.012</cell><cell>0.006</cell><cell>0.141</cell><cell>0.556</cell><cell>0.878</cell></row><row><cell>5%</cell><cell>0.042</cell><cell>0.070</cell><cell>0.048</cell><cell>0.363</cell><cell>0.780</cell><cell>0.970</cell></row><row><cell>10%</cell><cell>0.080</cell><cell>0.116</cell><cell>0.086</cell><cell>0.510</cell><cell>0.839</cell><cell>0.988</cell></row><row><cell>20%</cell><cell>0.158</cell><cell>0.234</cell><cell>0.198</cell><cell>0.640</cell><cell>0.902</cell><cell>1.00</cell></row></table><note><p>Note: The reported are the rejection frequencies over 500 simulations.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4</head><label>4</label><figDesc>Simulation results for the D n statistic.</figDesc><table><row><cell>Sign. level</cell><cell>Estimated size</cell><cell></cell><cell></cell><cell cols="2">Estimated power</cell><cell></cell></row><row><cell></cell><cell>n = 98</cell><cell>n = 245</cell><cell>n = 490</cell><cell>n = 98</cell><cell>n = 245</cell><cell>n = 490</cell></row><row><cell>Relevant x i</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1%</cell><cell>0.008</cell><cell>0.012</cell><cell>0.006</cell><cell>0.932</cell><cell>1.00</cell><cell>1.00</cell></row><row><cell>5%</cell><cell>0.043</cell><cell>0.053</cell><cell>0.056</cell><cell>0.997</cell><cell>1.00</cell><cell>1.00</cell></row><row><cell>10%</cell><cell>0.101</cell><cell>0.117</cell><cell>0.112</cell><cell>1.00</cell><cell>1.00</cell><cell>1.00</cell></row><row><cell>20%</cell><cell>0.224</cell><cell>0.207</cell><cell>0.205</cell><cell>1.00</cell><cell>1.00</cell><cell>1.00</cell></row><row><cell cols="2">Irrelevant x i (Pure SAR Model)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1%</cell><cell>0.010</cell><cell>0.006</cell><cell>0.014</cell><cell>0.035</cell><cell>0.149</cell><cell>0.392</cell></row><row><cell>5%</cell><cell>0.061</cell><cell>0.064</cell><cell>0.064</cell><cell>0.158</cell><cell>0.382</cell><cell>0.652</cell></row><row><cell>10%</cell><cell>0.130</cell><cell>0.116</cell><cell>0.132</cell><cell>0.281</cell><cell>0.500</cell><cell>0.768</cell></row><row><cell>20%</cell><cell>0.245</cell><cell>0.235</cell><cell>0.235</cell><cell>0.440</cell><cell>0.672</cell><cell>0.892</cell></row><row><cell cols="7">Notes: The reported are the rejection frequencies over 500 simulations. SAR stands for spatially autoregressive.</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>Furthermore, theoretical basis for the widely-believed sensitivity of the esti- mates to the choice of spatial weights remains rather unclear, as recently argued by<ref type="bibr" target="#b29">LeSage and Pace (2014)</ref>.</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>NY Camp Econometrics X, 2015 Midwest Econometrics Group Meeting at the St. Louis Fed, 85th Annual Meeting of the <rs type="funder">Southern Economic Association</rs> and the 2015 <rs type="projectName">Tsinghua International Conference for Econometrics in Beijing for many helpful comments and suggestions</rs>. This project was supported by the <rs type="funder">Alabama Agricultural Experiment Station</rs> and the <rs type="programName">Hatch program</rs> of the <rs type="institution">National Institute of Food and Agriculture, U.S. Department of Agriculture</rs>. <rs type="person">Yiguo Sun</rs> gratefully acknowledges financial support from the <rs type="funder">Social Sciences and Humanities Research Council of Canada Insightful</rs> Grant <rs type="grantNumber">435-2016-0340</rs>. Any remaining errors are our own.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funded-project" xml:id="_4QXfn4Z">
+					<orgName type="project" subtype="full">Tsinghua International Conference for Econometrics in Beijing for many helpful comments and suggestions</orgName>
+				</org>
+				<org type="funding" xml:id="_34Xcjgg">
+					<orgName type="program" subtype="full">Hatch program</orgName>
+				</org>
+				<org type="funding" xml:id="_Qm8HMn5">
+					<idno type="grant-number">435-2016-0340</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Supplementary material containing proofs of Theorems 5-6 and the empirical application can be found online at <ref type="url" target="http://dx.doi.org/10.1016/j.jeconom.2017.02.005">http://dx.doi.  org/10.1016/j.jeconom.2017.02.005</ref>.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Efficient estimation of a semiparametric partially linear varying coefficient model</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Ahmad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Leelahanon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="258" to="283" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Dordrecht, Kluwer</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Errors in variables and spatial effects in hedonic house price models of ambient air quality</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Lozano-Gracia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Empir. Econom</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="5" to="34" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">LM tests for functional form and spatial correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. Reg. Sci. Rev</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="194" to="225" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Normal Approximations and Asymptotic Expansions</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">N</forename><surname>Bhattacharya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">R</forename><surname>Rao</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1986">1986</date>
+			<publisher>Krieger</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Efficient estimation and inferences for varying-coefficient models</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="issue">451</biblScope>
+			<biblScope unit="page" from="888" to="902" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation of varying coefficient dynamic panel data models</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1321" to="1342" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Semiparametric quantile regression estimation in dynamic models with partially varying coefficients</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Xiao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="413" to="425" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">A central limit theorem for generalized quadratic forms</title>
+		<author>
+			<persName><forename type="first">Jong</forename><surname>De</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Probab. Theory Related Fields</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="261" to="277" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Nonparametric kernel regression with multiple predictors and multiple shape constraints</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Parmeter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Racine</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist. Sinica</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1347" to="1371" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Growth, technological interdependence and spatial externalities: Theory and evidence</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="1033" to="1062" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Central limit theorem for degenerate U-statistics of absolutely regular processes with applications to model specification testing</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Nonparametr. Stat</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="245" to="271" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Nonparametric specification testing for non-linear time series with nonstationarity</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>King</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tjøstheim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="1869" to="1892" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">On the H arrison and Rubenfeld data</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">W</forename><surname>Gilley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Environ. Econ. Manag</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="403" to="405" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Central limit theorem for integrated square error of multivariate nonparametric density estimators</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Multivariate Anal</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="16" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Nonparametric kernel regression subject to monotonicity constraints</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-S</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="624" to="647" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Uniform convergence rates for kernel estimation with dependent data</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">E</forename><surname>Hansen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="726" to="748" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Hedonic housing prices and the demand for clean air</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Harrison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Rubenfeld</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Environ. Econ. Manag</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="81" to="102" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Varying-coefficient models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. B Stat. Methodol</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="757" to="796" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation and testing of fixed effects panel data models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Henderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">144</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="257" to="275" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">New efficient estimation and variable selection methods for semiparametric varying-coefficient partially linear models</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Kai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="305" to="332" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Spatial spillovers in the development of institutions</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Murrell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Shepotylo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Dev. Econ</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="page" from="297" to="315" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive models with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Real Estate Finance Econ</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A generalized moment estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Internat. Econom. Rev</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">On the asymptotic distribution of the moran I test statistic with applications</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="page" from="219" to="257" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimation of simultaneous systems of spatially interrelated cross sectional equations</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">118</biblScope>
+			<biblScope unit="page" from="27" to="50" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial econometric models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1926" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">GMM and 2SLS estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">The biggest myth in spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="217" to="249" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Consistent model specification tests for time series econometric models</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="page" from="101" to="147" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Semiparametric smooth coefficient models</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T.-T</forename><surname>Fu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Bus. Econom. Statist</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="412" to="422" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A simple consistent bootstrap test for a parametric regression functional form</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="page" from="145" to="165" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">An efficient GMM estimator of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Bollinger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="303" to="319" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Multivariate local polynomial regression for time series: Uniform strong consistency and rates</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Masry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Time Series Anal</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="571" to="599" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">In search of the holy grail: Policy convergence, experimentation, and economic performance</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">W</forename><surname>Mukand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Rodrik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Amer. Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="374" to="383" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Simultaneous spatial and functional form transformation</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">C</forename><surname>Slawson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Spatial Econometrics</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H P</forename><surname>Paelinck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">H</forename><surname>Klaassen</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics</title>
+		<meeting><address><addrLine>Saxon House, Farnborough</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation of a hedonic price function</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Parmeter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Henderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Kumbhakar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="695" to="699" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Semiparametric estimation of index coefficients</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Powell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Stock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Stoker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="1403" to="1430" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A Matrix Handbook for Statisticians</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">A F</forename><surname>Seber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley Series in Probability and Statistics</title>
+		<imprint>
+			<publisher>John Wiley &amp; Sons, Inc</publisher>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<title level="m" type="main">Density Estimation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">W</forename><surname>Silverman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1986">1986</date>
+			<publisher>Chapman and Hall</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Spatial hedonics and the willingness to pay for residential amenities</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">A</forename><surname>Small</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S C</forename><surname>Steimetz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="635" to="647" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Consistent model specification test for a regression function based on nonparametric wavelet estimation</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Stengos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Rev</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="41" to="60" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Semiparametric GMM estimation of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="543" to="560" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Profile quasi-maximum likelihood estimation of partially linear spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="18" to="33" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">Functional-coefficient spatial autoregressive models with nonparametric spatial weights</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+		<respStmt>
+			<orgName>Working Paper. University of Guelph</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">A consistent nonparametric test on semiparametric smooth coefficient models with integrated time series</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">A semiparametric spatial dynamic model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hongjia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="700" to="727" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Computation of Box-Cox transform parameters: A new method and its application to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A J J</forename><surname>Van Gastel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H P</forename><surname>Paelinck</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">New Directions in Spatial Econometrics</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">A specification test for nonlinear nonstationary models</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C B</forename><surname>Phillips</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="727" to="758" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Functional form and spatial dependence in dynamic panels</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">K</forename><surname>Tse</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ. Lett</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="page" from="138" to="145" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">A pairwise difference estimator for partially linear spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat. Econ. Anal</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="176" to="194" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">A consistent test of function form via nonparametric estimation techniques</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">X</forename><surname>Zheng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="263" to="289" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

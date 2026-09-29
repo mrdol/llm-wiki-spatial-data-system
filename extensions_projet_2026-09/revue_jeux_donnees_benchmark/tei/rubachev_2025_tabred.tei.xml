@@ -1,0 +1,1699 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">TABRED: ANALYZING PITFALLS AND FILLING THE GAPS IN TABULAR DEEP LEARNING BENCHMARKS</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Ivan</forename><surname>Rubachev</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">HSE University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Nikolay</forename><surname>Kartashev</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">HSE University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Yury</forename><surname>Gorishniy</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">HSE University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Artem</forename><surname>Babenko</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">HSE University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">TABRED: ANALYZING PITFALLS AND FILLING THE GAPS IN TABULAR DEEP LEARNING BENCHMARKS</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">05E5FF4ABE0798E757F8DA5065D69D76</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:14+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Advances in machine learning research drive progress in real-world applications. To ensure this progress, it is important to understand the potential pitfalls on the way from a novel method's success on academic benchmarks to its practical deployment. In this work, we analyze existing tabular deep learning benchmarks and find two common characteristics of tabular data in typical industrial applications that are underrepresented in the datasets usually used for evaluation in the literature. First, in real-world deployment scenarios, distribution of data often changes over time. To account for this distribution drift, time-based train/test splits should be used in evaluation. However, existing academic tabular datasets often lack timestamp metadata to enable such evaluation. Second, a considerable portion of datasets in production settings stem from extensive data acquisition and feature engineering pipelines. This can have an impact on the absolute and relative number of predictive, uninformative, and correlated features compared to academic datasets. In this work, we aim to understand how recent research advances in tabular deep learning transfer to these underrepresented conditions. To this end, we introduce TabReD -a collection of eight industry-grade tabular datasets. We reassess a large number of tabular ML models and techniques on TabReD. We demonstrate that evaluation on both time-based data splits and richer feature sets leads to different methods ranking, compared to evaluation on random splits and smaller number of features, which are common in academic benchmarks. Furthermore, simple MLP-like architectures and GBDT show the best results on the TabReD datasets, while other methods are less effective in the new setting.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">INTRODUCTION</head><p>During several recent years, research on tabular machine learning has grown rapidly. Plenty of works have proposed neural network architectures <ref type="bibr" target="#b33">(Klambauer et al., 2017;</ref><ref type="bibr" target="#b58">Wang et al., 2020;</ref><ref type="bibr" target="#b19">Gorishniy et al., 2021;</ref><ref type="bibr">2022;</ref><ref type="bibr" target="#b31">2024;</ref><ref type="bibr" target="#b9">Chen et al., 2023a;</ref><ref type="bibr">b;</ref><ref type="bibr" target="#b60">Ye et al., 2024)</ref> that are competitive or even superior to "shallow" GBDT models <ref type="bibr" target="#b45">(Prokhorenkova et al., 2018;</ref><ref type="bibr" target="#b30">Ke et al., 2017;</ref><ref type="bibr" target="#b11">Chen &amp; Guestrin, 2016)</ref>, which has strengthened research interest in the field. Furthermore, specialized workshops devoted to table representation learning are organized on the top-tier ML conferences<ref type="foot" target="#foot_0">foot_0</ref> , which highlights the importance of this research line to the community.</p><p>An important benefit of machine learning research is the practical application of novel methods developed in academia. However, some conditions encountered in real-world deployment can challenge the benefits of the proposed methods. To study how different methods perform under these conditions, one needs a representative group of datasets. In this work, we study the specifics of datasets from the existing academic benchmarks, and which common practical conditions are unrepresented in them. We investigate each dataset from the popular tabular DL benchmarks and identify some of them as synthetic, untraceable or non-tabular. Moreover, we find and highlight eleven datasets containing leaks. Importantly, in our analysis, we found two data characteristics common in industrial tabular ML applications that are underrepresented in the current academic benchmarks.</p><p>First, in practice, data is often subject to a gradual temporal shift. To account for this, in practice, datasets are often split into train/validation/test parts according to timestamps of datapoints <ref type="bibr" target="#b23">(Herman et al., 2024;</ref><ref type="bibr" target="#b54">Stein, 2002;</ref><ref type="bibr" target="#b7">Baranchuk et al., 2023;</ref><ref type="bibr" target="#b28">Ji et al., 2023;</ref><ref type="bibr">Huyen, 2022)</ref>. This scenario differs from the already covered <ref type="bibr" target="#b18">(Gardner et al., 2023)</ref> distribution shift, because the shift is gradual and the time data representing the degree of this shift is available to the developer. In fact, even among academic benchmarks, there is a big number of datasets with strong time dependencies between instances (e.g. electricity market prediction (van Rijn, 2020), flight delay estimation <ref type="bibr" target="#b6">(Ballesteros, 2019)</ref>, bike sharing demand <ref type="bibr" target="#b56">(van Rijn, 2014)</ref>, and others). However, even in such cases, random splits are used in papers instead of time-based splits. Which makes it possible to draw conclusions on I.I.D. data, but creates a gap between datasets and a real-world application from which they come. Moreover, timestamp or other task-appropriate split metadata is often simply not available.</p><p>Second, we find that datasets with large numbers of predictive features and extensive feature engineering are scarce in academic benchmarks. Conversely, such feature-rich datasets are common in many industrial settings <ref type="bibr" target="#b17">(Fu &amp; Soman, 2021;</ref><ref type="bibr" target="#b52">Simha, 2020;</ref><ref type="bibr" target="#b29">Kakade, 2021;</ref><ref type="bibr" target="#b3">Anil et al., 2022;</ref><ref type="bibr" target="#b58">Wang et al., 2020</ref>), but they are often proprietary and unavailable to the academic community.</p><p>In light of these discoveries, we study a question of transferability of novel methods in tabular DL to these underrepresented conditions. To answer this question and fill the gap in existing academic benchmarks, we introduce the TabReD benchmark -a collection of eight datasets, all drawn from real-world industrial applications with tabular data. All TabReD datasets come with time-based splits into train, validation and test parts. Furthermore, because of additional investments in data acquisition and feature engineering, all datasets in TabReD have more features. This stems from adopting the preprocessing steps from production ML pipelines and Kaggle competition forums, where extensive data engineering is often highly prioritized.</p><p>We evaluate numerous tabular methods on the TabReD benchmark. We find that most of the tested novel architectures and techniques that show improvements on academic benchmarks do not show benefits on our datasets, while simple MLP architecture with embeddings and GBDT methods show top performance across the new benchmark.</p><p>To summarize, our paper presents the following contributions:</p><p>• We analyze the existing tabular DL benchmarks in academia, find data leakage issues, use of non-tabular, synthetic or untraceable datasets. We find that temporally-evolving and feature-rich datasets are underrepresented in academic benchmarks.</p><p>• We introduce TabReD -a collection of eight industry-grade tabular datasets that span a wide range of domains, from finance to food delivery services. With TabReD we increase the coverage of industrial tabular ML use-cases in academic benchmarks.</p><p>• We evaluate a large number of tabular DL techniques on TabReD. We find that, in the featurerich, time-evolving setting facilitated by TabReD: (1) GBDT and MLPs with embeddings <ref type="bibr" target="#b20">(Gorishniy et al., 2022)</ref> demonstrate the best average performance; (2) more complex DL methods turn out to be less effective. We demonstrate that correct evaluation on datasets with temporally shifted validation and test sets is crucial as it leads to significant differences in rankings and relative performance of methods, compared to commonly used random-split based evaluation. We also demonstrate that richness of feature sets influences model ranking and negatively affects augmentations and retrieval models. In particular, we observe that XGBoost performance margin diminishes in correct evaluation setups.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">RELATED WORK</head><p>Tabular deep learning is a dynamically developing research area, with the recent works proposing new model architectures <ref type="bibr" target="#b33">(Klambauer et al., 2017;</ref><ref type="bibr" target="#b58">Wang et al., 2020;</ref><ref type="bibr" target="#b19">Gorishniy et al., 2021;</ref><ref type="bibr">2022;</ref><ref type="bibr" target="#b31">2024;</ref><ref type="bibr" target="#b9">Chen et al., 2023a;</ref><ref type="bibr">b)</ref>, regularizations <ref type="bibr" target="#b27">(Jeffares et al., 2023)</ref>, (pre-)training pipelines <ref type="bibr" target="#b5">(Bahri et al., 2021;</ref><ref type="bibr" target="#b47">Rubachev et al., 2022;</ref><ref type="bibr" target="#b39">Lee et al., 2024)</ref> and other solutions <ref type="bibr" target="#b24">(Hollmann et al., 2023)</ref>. Since the common way to justify the usage of new approaches is to empirically compare them against the baselines, the choice of the benchmarks for evaluation is critical.</p><p>Tabular deep learning benchmarks. Since tabular tasks occur in a large number of applications from various domains, there is no single dataset that would be sufficient for evaluation. A typical tabular DL paper reports the results on several tasks from different domains, usually coming from one of the public data repositories. The two traditional data sources for tabular datasets are the UCI<ref type="foot" target="#foot_1">foot_1</ref> and OpenML<ref type="foot" target="#foot_2">foot_2</ref> repositories, currently holding thousands of datasets. Unfortunately, datasets available in public repositories do not cover all tabular ML use cases. In particular, we find that some conditions of industrial tabular ML applications are underrepresented in these public repositories.</p><p>Another source of datasets is the Kaggle<ref type="foot" target="#foot_3">foot_3</ref> platform, which hosts a plethora of ML competitions, including ones with tabular data. Datasets from competitions are often provided by people solving particular real-world problems, making Kaggle an attractive source of datasets for tabular ML research. Surprisingly, many popular benchmarks rely on UCI and OpenML and underutilize tabular datasets from Kaggle. For example, out of 100 academic datasets that we analyze in section 3, only four come from Kaggle competitions. While there are certainly problematic datasets on Kaggle (e.g. containing data leakage, synthetic or duplicate data), with careful selection one can find high quality datasets.</p><p>To construct TabReD, we utilize several datasets from Kaggle tabular data competitions, and we also introduce four new datasets from real ML production systems at a large tech company.</p><p>Tabzilla <ref type="bibr" target="#b42">(McElfresh et al., 2023)</ref> and the <ref type="bibr" target="#b22">Grinsztajn et al. (2022)</ref> benchmark have gained adoption in the research community. For example, such papers as <ref type="bibr" target="#b21">Gorishniy et al. (2024)</ref>, <ref type="bibr" target="#b10">Chen et al. (2023b)</ref>, <ref type="bibr" target="#b16">Feuer et al. (2024)</ref>, evaluate performance on these benchmarks. Both benchmarks primarily rely on the OpenML repository as a source of datasets, and filter datasets semi-automatically based on metadata like size and baseline performance. In our work, we look closer at all the datasets and find data-leakage issues and non-tabular, synthetic and anonymous/unknown datasets sometimes "sneaking" through automatic filters. Furthermore, these datasets do not represent conditions of temporal shift and extensive feature engineering that are common in practical applications.</p><p>TableShift <ref type="bibr" target="#b18">(Gardner et al., 2023)</ref> and WildTab <ref type="bibr" target="#b36">(Kolesnikov, 2023)</ref> propose tabular benchmarks with distribution shifts between train/test subsets. These benchmarks are closer in spirit to TabReD, as both describe evaluation in unrepresented conditions. However, both benchmarks focus on out-ofdistribution robustness and provide domain generalization methods comparison. We study a broader set of methods, including recent SoTA tabular neural networks. Furthermore, both benchmarks consider more "extreme" shifts, compared to the more ubiquitous gradual temporal shift which is present in all TabReD datasets.</p><p>The field of benchmarks for time-series focuses on prediction of target variables in the future, as does our benchmark. Works such as Shchur et al. (2023) and Ansari et al. (2024) both contain benchmarks that focus on data with time-shift. However, TabReD also focuses on feature-rich scenarios, in which time feature does not overwhelm many other features in importance. For an extended discussion of time-series methods and TabReD, see Appendix E.</p><p>Benchmarking Under Temporal Shift. Wild-Time <ref type="bibr" target="#b59">(Yao et al., 2022)</ref> proposed a benchmark consisting of five datasets with temporal shift and identified a 20% performance drop due to temporal shift on average. However, tabular data was not the focus of the Wild-Time benchmark.</p><p>The presence of temporal shift and the importance of evaluating models under temporal shifts was discussed in many research and application domains including approximate neighbors search <ref type="bibr" target="#b7">(Baranchuk et al., 2023)</ref>, recommender systems <ref type="bibr" target="#b48">(Shani &amp; Gunawardana, 2011)</ref>, finance applications <ref type="bibr" target="#b54">(Stein, 2002;</ref><ref type="bibr" target="#b23">Herman et al., 2024)</ref>, health insurance <ref type="bibr" target="#b28">(Ji et al., 2023)</ref> and in general ML systems best practices <ref type="bibr">(Huyen, 2022)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">A CLOSER LOOK AT THE EXISTING TABULAR DL BENCHMARKS</head><p>In this section, we take a closer look at the existing benchmarks for tabular deep learning. We analyze dataset sizes, number of features, the presence of temporal shift and its treatment. We also point out the issues of some datasets that we find notable. The first such issue is the presence of leakage. We believe that an inadvertent usage of datasets with leaks has a negative impact on the quality of evaluation. We provide a list of such datasets in the corresponding section below. The second issue is the untraceable or synthetic nature of the data. Without knowing the source of the data and what it represents, it is unclear how transferable are advances on these datasets. The third issue is the usage of the data that belongs to other domains, e.g. image data flattened into an array of values. While such datasets correspond to a valid and useful task, it is unclear how useful are advances on such datasets in practice, since other domain-specific methods usually perform significantly better for this type of data.</p><p>Table <ref type="table" target="#tab_0">1</ref> summarizes our analysis of 100 unique classification and regression datasets from academic benchmarks <ref type="bibr" target="#b20">(Gorishniy et al., 2022;</ref><ref type="bibr" target="#b22">Grinsztajn et al., 2022;</ref><ref type="bibr" target="#b21">Gorishniy et al., 2024;</ref><ref type="bibr" target="#b42">McElfresh et al., 2023;</ref><ref type="bibr" target="#b10">Chen et al., 2023b;</ref><ref type="bibr" target="#b18">Gardner et al., 2023)</ref>. We also provide detailed meta-data collected in the process with short descriptions of tasks, original data sources, data quality issues and notes on temporal splits in the Appendix F. Our main findings are as follows.</p><p>Data Leakage, Synthetic and Non-Tabular Datasets. First, a considerable number of tabular datasets have some form of data leakage (11 out of 100). Leakage stems from data preparation errors, near-duplicate instances or inappropriate data splits used for testing. A few of these leakage issues have been reported in prior literature <ref type="bibr" target="#b21">(Gorishniy et al., 2024)</ref>, but as there are no common protocols for deprecating datasets in ML <ref type="bibr" target="#b40">(Luccioni et al., 2022)</ref>, datasets with leakage issues are still used. Here is the list of datasets where we identified leaks: eye movements, visualizing soil, Gesture Phase, sulfur, artificial-characters, compass, Bike Sharing Demand, electricity, Facebook Comments Volume, SGEMM GPU kernel performance, Shifts Weather (in-domain-subset). For some datasets the data source is untraceable, or the data is known to be synthetic without the generation process details or description -there are 13 such datasets. Last, we find that 25 datasets used in academic benchmarks are not inherently tabular by the categorization proposed in <ref type="bibr" target="#b35">Kohli et al. (2024)</ref>. These datasets either represent raw data stored in a table form (e.g. flattened images) or homogenous features extracted from some raw data source.</p><p>Dataset Size and Feature Engineering. We find that most datasets from the academic benchmarks have less than 60 features and less than a hundred thousands instances available. Many academic datasets come from publicly available data, which often contain only high-level statistics (e.g. only the source and destination airport and airline IDs for the task of predicting flight delays in the dataset by <ref type="bibr" target="#b6">Ballesteros (2019)</ref>). In contrast, many in-the-wild industrial ML applications utilize as much information and data as possible (e.g. <ref type="bibr" target="#b17">Fu &amp; Soman, 2021;</ref><ref type="bibr" target="#b52">Simha, 2020;</ref><ref type="bibr" target="#b29">Kakade, 2021)</ref>. Unfortunately, not many such datasets from in-the-wild applications are openly available for research. Kaggle competitions sometimes come close to this kind of industry-grade tabular data, but using competition data is less common in current academic benchmarks (only 4 datasets are from Kaggle competitions). To highlight the difference of previous benchmarks with ours, we provide information on correlated features in subsection A.3.</p><p>Lack of canonical splits or timestamp metadata. All benchmarks except the ones focused on distribution shift do not discuss the question of data splits used for model evaluation, beyond standard experimental evaluation setups (e.g. random split proportions or cross-validation folds). We find that 53 existing datasets (excluding datasets with issues) potentially contain data drifts related to the passage of time, as the data was collected over time. It is a standard industry practice to use time-based splits for validation in such cases <ref type="bibr" target="#b48">(Shani &amp; Gunawardana, 2011;</ref><ref type="bibr" target="#b54">Stein, 2002;</ref><ref type="bibr" target="#b28">Ji et al., 2023;</ref><ref type="bibr">Huyen, 2022)</ref>. However, only 15 datasets have timestamps available for such splits.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">CONSTRUCTING THE TABRED BENCHMARK</head><p>In this section, we introduce the new Tabular benchmark with Real-world industrial Datasets (TabReD). To construct TabReD we utilize datasets from Kaggle competitions and industrial ML applications at a large tech company. We adhere to the following criteria when selecting datasets for TabReD. (1) Datasets should be inherently tabular, as discussed in section 3 and <ref type="bibr" target="#b35">Kohli et al. (2024)</ref>.</p><p>(2) Feature engineering and feature collection efforts should be as close as possible to the industry practices. We adapt feature-engineering code by studying competition forums for Kaggle datasets, and we use the exact features from production ML systems for the newly introduced datasets. (3) We also take care to avoid leakage in the newly introduced datasets. (4) Datasets should have timestamps available and should have enough samples for the time-based train/test split.</p><p>We summarize the main information about our benchmark in</p><p>Table 2. The complete description of each included dataset can be found in Appendix B. An analysis of feature collinearity is provided in subsection A.3. We also provide the table with our annotations of Kaggle competition, used to filter datasets from Kaggle in Appendix D.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">ON THE ROLE AND LIMITATIONS OF TABRED</head><p>We see the TabReD benchmark as an important addition to the landscape of tabular datasets. While the current benchmarks already allow analyzing how well does a method work in I.I.D. conditions with non-rich feature sets, TabReD allows studying interaction of a method with the properties that are underrepresented in current benchmarks, including the time-based splits and the "feature-rich" data representation. And, as we will show in section 5, these properties become a non-trivial challenge for some tabular models and techniques. Thus, TabReD enables an additional evaluation in the industrial-like setting that can help in identifying limitations of novel methods.</p><p>However, TabReD is not a replacement for current benchmarks, and has certain limitations. First, it is biased towards industry-relevant ML applications, with large sample sizes, extensive feature engineering and temporal data drift. Second, TabReD does not cover some important domains such as medicine, science, and social data. Finally, we note that the lack of precise feature information may limit some potential future applications of these datasets, like leveraging feature names and descriptions with LLMs. 5 HOW DO TABULAR DL TECHNIQUES TRANSFER TO TABRED CONDITIONS?</p><p>In this section, we use TabReD to analyze how tabular deep learning advances on academic benchmarks transfer to the temporally evolving, feature-rich industrial setting it represents. In subsection 5.1 we introduce our experimental setup and list techniques and baselines considered in our study. In subsection 5.2 we evaluate all these techniques on TabReD and discuss the results. In subsection 5.3 we contrast results on academic datasets with TabReD and show that some techniques useful in academic settings are less effective on TabReD than others. In subsection 5.4 we analyze the influence of temporal shift and rich feature sets on evaluation results and method comparison. We also study distribution shift robustness methods on TabReD in subsection A.2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">EXPERIMENTAL SETUP AND TABULAR DEEP LEARNING TECHNIQUES</head><p>Experimental setup. We adopt training, evaluation and tuning setup from <ref type="bibr" target="#b21">Gorishniy et al. (2024)</ref>. We tune hyperparameters for most methods<ref type="foot" target="#foot_4">foot_4</ref> using Optuna from <ref type="bibr" target="#b0">Akiba et al. (2019)</ref>, for DL models we use the AdamW optimizer and optimize MSE loss or binary cross entropy depending on the dataset. By default, each dataset is temporally split into train, validation and test sets. Each model is selected by the performance on the validation set and evaluated on the test set (both for hyperparameter tuning and early-stopping). Test set results are aggregated over 15 random seeds for all methods, and the standard deviations are taken into account to ensure the differences are statistically significant. We randomly subsample large datasets (Homecredit Default, Cooking Time, Delivery ETA and Weather) to make more extensive hyperparameter tuning feasible. For extended description of our experimental setup including data preprocessing, dataset statistics, statistical testing procedures and exact tuning hyperparameter spaces, see Appendix C. Below, we describe the techniques we evaluate on TabReD.</p><p>Non DL Baselines. We include three main implementations of Gradient Boosted Decision Trees: XGBoost <ref type="bibr" target="#b11">(Chen &amp; Guestrin, 2016)</ref>, LightGBM <ref type="bibr" target="#b30">(Ke et al., 2017)</ref> and CatBoost <ref type="bibr" target="#b45">(Prokhorenkova et al., 2018)</ref>, as well-established non-DL baselines for tabular data prediction. We also include Random Forest <ref type="bibr" target="#b8">(Breiman, 2001)</ref> and linear model as the basic simple ML baselines to ensure that datasets are non-trivial and are not saturated by simplest baselines.</p><p>Tabular DL Baselines. We include two baselines from <ref type="bibr" target="#b19">(Gorishniy et al., 2021)</ref> -MLP and FT-Transformer. We use MLP as the simplest DL baseline and FT-Transformer as a representative baseline for the attention-based tabular DL models. Attention-based models are often considered state-of-the-art (e.g. <ref type="bibr" target="#b19">Gorishniy et al., 2021;</ref><ref type="bibr" target="#b53">Somepalli et al., 2021;</ref><ref type="bibr" target="#b37">Kossen et al., 2021;</ref><ref type="bibr" target="#b9">Chen et al., 2023a)</ref> in tabular deep learning research.</p><p>Other Tabular DL Models. In addition to baseline methods, we include DCNv2 as it was repeatedly used in real-world production settings as reported by <ref type="bibr" target="#b58">(Wang et al., 2020;</ref><ref type="bibr" target="#b3">Anil et al., 2022)</ref>. We also test alternative MLP-like backbones in ResNet <ref type="bibr" target="#b19">(Gorishniy et al., 2021)</ref> and SNN <ref type="bibr" target="#b33">(Klambauer et al., 2017)</ref>. We also include Trompt <ref type="bibr" target="#b10">(Chen et al., 2023b)</ref>, it was shown to outperform Transformer for tabular data variants <ref type="bibr" target="#b53">(Somepalli et al., 2021;</ref><ref type="bibr" target="#b19">Gorishniy et al., 2021)</ref> on the benchmark from <ref type="bibr" target="#b22">Grinsztajn et al. (2022)</ref>. Its strong performance on an established academic benchmark aligns well with our goal of finding out how results obtained on academic benchmarks generalize to TabReD.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Numerical Feature Embeddings.</head><p>We include MLP with embeddings for numerical features from <ref type="bibr" target="#b20">Gorishniy et al. (2022)</ref>. Numerical embeddings provide considerable performance improvements on academic datasets, and make simple MLP models compete with attention-based models and GBDTs. Furthermore, the success of this architectural modification was replicated on academic benchmarks in <ref type="bibr" target="#b60">Ye et al. (2024)</ref> and <ref type="bibr" target="#b25">Holzmüller et al. (2024)</ref>. We find this simple, effective and proven technique important to evaluate in a new setting.</p><p>Retrieval-based models are a recent addition to the tabular DL model arsenal. We evaluate TabR from <ref type="bibr" target="#b21">Gorishniy et al. (2024)</ref> and ModernNCA from <ref type="bibr" target="#b60">Ye et al. (2024)</ref>. Both retrieval-based models demonstrate impressive performance on common academic datasets from <ref type="bibr" target="#b19">Gorishniy et al. (2021)</ref>; <ref type="bibr" target="#b22">Grinsztajn et al. (2022)</ref> and outperform strong GBDT baselines with a sizeable margin, which warrants their evaluation on TabReD. We exclude numerical embeddings from both models to test the efficacy of retrieval in a new setting in isolation.</p><p>Improved Training Methodologies like the use of cut-mix like data augmentations <ref type="bibr" target="#b53">(Somepalli et al., 2021;</ref><ref type="bibr" target="#b9">Chen et al., 2023a)</ref> or auxiliary training objectives with augmentations and long training schedules <ref type="bibr" target="#b47">(Rubachev et al., 2022;</ref><ref type="bibr" target="#b39">Lee et al., 2024)</ref> have produced considerable gains on academic benchmarks. We include two methods from <ref type="bibr" target="#b47">Rubachev et al. (2022)</ref>, namely long training with data-augmentations "MLP aug." and a method with an additional reconstruction loss "MLP aug. rec." 6 .</p><p>Ensembles are considered a go-to solution for improving performance in many ML competitions.</p><p>Ensembles have also shown effectiveness in academic tabular DL settings <ref type="bibr" target="#b19">(Gorishniy et al., 2021;</ref><ref type="bibr">Shwartz-Ziv &amp; Armon, 2021)</ref>. We test this technique on TabReD as well.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">RESULTS</head><p>In this section, we evaluate all techniques outlined above. Results are summarized in Table <ref type="table" target="#tab_2">3</ref>. Below, we highlight our key takeaways. GBDT and MLP with embeddings (MLP-PLR) are the overall best models on the TabReD benchmark. These findings suggest that numerical feature embeddings <ref type="bibr" target="#b20">(Gorishniy et al., 2022)</ref>, which have shown success in academic datasets, maintain their utility in the new evaluation scenario. Ensembles also bring consistent performance improvements to MLP and MLP-PLR in line with the existing knowledge on prior benchmarks and practice.</p><p>FT-Transformer is a runner-up, however, it can be slower to train because of the attention module that causes quadratic scaling of computational complexity w.r.t. the number of features. The latter point is relevant for TabReD, since the TabReD datasets have more features than an average academic dataset.</p><p>SNN, DCNv2, ResNet and Trompt are no better than the MLP baseline. Although Trompt showed promising results on a benchmark from <ref type="bibr" target="#b22">Grinsztajn et al. (2022)</ref>, it failed to generalize to TabReD. Furthermore, efficiency-wise, Trompt is significantly slower than MLP, and even slower than FT-Transformer.</p><p>Retrieval-Based Models prove to be less performant on TabReD. One notable exception is the Weather dataset, where TabR has the second-best result. ModernNCA is closer to the MLP baseline on average, but its benefits seen on academic benchmarks do not transfer to the TabReD setting either. We expand on potential challenges TabReD presents for retrieval-based models in the following section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Improved Training Methodologies.</head><p>Better training recipes that leverage long pre-training on target datasets mostly do not transfer to the setting presented by TabReD. Homesite Insurance and Weather datasets are the only exceptions, where training recipes bring some performance improvements.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">COMPARISON WITH PRIOR BENCHMARKS</head><p>To further illustrate the utility of the TabReD benchmark for differentiating tabular DL techniques, we compare results for a range of recently proposed methods on an existing academic benchmark from <ref type="bibr" target="#b21">Gorishniy et al. (2024)</ref> and on TabReD. We look at four techniques in this section: improved model architectures (MLP-PLR and XGBoost as a reference classic baseline), ensembling, improved training methodologies ("MLP aug.", "MLP aug. rec.") and retrieval-based models (ModernNCA, TabR). The results are in Figure <ref type="figure">1</ref>. We summarize our key observations below.</p><p>-2</p><formula xml:id="formula_0">0 2 0.0% MLP 2.21% XGBoost 1.68% MLP-PLR 0.68%</formula><p>MLP ens.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>2.47%</head><p>MLP-PLR ens.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1.34%</head><p>MLP aug.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1.3%</head><p>MLP aug. rec.</p><p>1.8% ModernNCA 1.34% TabR Benchmark from Gorishniy et al. (2024) 0.0% MLP 0.91% XGBoost 0.61% MLP-PLR 0.67% MLP ens.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>1.28%</head><p>MLP-PLR ens.</p><p>-1.48% MLP aug.</p><p>-1.98%</p><p>MLP aug. rec.</p><p>-1.05%</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ModernNCA</head><p>-2.78%</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TabR</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TabReD</head><p>Percentage Change Over MLP</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Models Ensembles</head><p>Training Methods Retrieval-Based Models Figure 1: Comparison of tabular DL algorithmic improvements on TabReD and on a popular academic benchmark. We plot average relative percentage improvement over the MLP baseline on both benchmarks. Ensembling and Numerical Embeddings successfully transfer to TabReD. However, success of retrieval-based models and improved training methods is limited to academic benchmarks.</p><p>We can see that ensembling and embeddings for numerical features are beneficial on both benchmarks. But two remaining techniques: improved training recipes and retrieval-based models underperform on TabReD, while showing consistently high performance on academic datasets.</p><p>We hypothesize that the two TabReD dataset characteristics are at play here. First, feature complexities like multicollinearity and presence of noisy features of more feature-rich TabReD datasets might affect neighbors selection and the feature-shuffle augmentation (for a comparison of feature complexities, see subsection A.3). Second, retrieval-based models rely on an assumption that train objects (used in retrieval) are useful for predicting test instances. This can be violated by the presence of gradual temporal shift. A similar argument may explain the underperformance of long training recipes, as those models might also implicitly "memorize" harder train-set examples through longer training <ref type="bibr" target="#b46">(Rahaman et al., 2019;</ref><ref type="bibr" target="#b15">Feldman &amp; Zhang, 2020)</ref>. Understanding these phenomena is an interesting avenue for future research.</p><p>Summary. Overall, the above results reinforce TabReD as an effective tool for uncovering practical failure modes of methods that were previously unidentifiable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4">THE EFFECTS OF TEMPORAL SHIFT AND FEATURE ENGINEERING</head><p>In this section, we investigate the importance of two TabReD dataset characteristics. For this, we create two variations of the datasets. First, we use random splits instead of the time-based ones. We keep train validation and test set sizes the same and randomly shuffle objects to obtain the random splits. Second, we remove the least important features to imitate setups with less feature engineering, we keep top 20 most important features. We use XGBoost feature importances as the easiest and most performant feature selection method according to <ref type="bibr" target="#b12">Cherepanova et al. (2023)</ref>.</p><p>We are interested in methods ranking and relative performance differences between three dataset variations: default TabReD, randomly-split TabReD and non-"feature-rich" TabReD. For this experiment, we consider multiple techniques: ensembling, MLP aug. rec., MLP-PLR, XGBoost and TabR-S. This selection covers all major paradigms discussed in subsection 5.1 -retrieval-based models, parametric DL, improved training techniques, ensembling and strong non-DL baselines. Furthermore, those methods have diverse performance on our benchmark (see Table <ref type="table" target="#tab_2">3</ref>). Results are summarized in Table <ref type="table" target="#tab_3">4</ref>. An extended discussion and per-dataset results are available in the Appendix A. Below, we highlight key takeaways. Feature-Rich Datasets. We see that TabR on datasets with fewer features is among the best performing methods, which may hint to some issues with the L2 distance in neighbors computation or the implicit feature engineering in TabR. Furthermore, improved training methodologies for the MLP (aug. rec.) are less detrimental in this setup, and they are even helpful for some datasets (see per-dataset results in subsection A.3). PLR embeddings and ensembling are stable in terms of relative improvement over MLP on both feature-rich and simplified datasets. Note that feature selection significantly reduces the overall solution quality (by 5.65% on average when comparing MLPs).</p><p>Summary. From the above results, we conclude that both temporal shifts and rich feature sets are important in TabReD as eliminating these characteristics from datasets can have a significant effect on all aspects involved in the comparison between models: absolute metric values, relative difference in performance and, finally, the relative ranking of models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">FUTURE WORK</head><p>We have demonstrated the importance of taking temporal shifts into account and benchmarked a wide range of prominent tabular DL techniques on TabReD. However, there are still many research questions and techniques like continual learning, gradual temporal shift mitigation methods, missing data imputation and feature selection, that could be explored with TabReD. The question of why some techniques fail to transfer from academic benchmarks to TabReD is worth further investigation, we posit that two key data characteristics in temporal data drift and feature complexities like multicollinearity, noisy features are at play here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">CONCLUSION</head><p>In this work, we analyzed the existing tabular DL benchmarks typically used in the literature and identified their limitations. Also, we described two conditions common in typical deployment scenarios that are underrepresented in current benchmarks. We then composed a new benchmark TabReD that closely reflects these conditions and follows the best industrial practices. We carefully evaluated many recent tabular DL developments in TabReD settings and found that simple baselines like MLP with embeddings and deep ensembles, as well as GBDT methods such as XGBoost, CatBoost and LightGBM work the best, while more complicated tabular DL methods fail to transfer their increased performance from academic benchmarks.</p><p>TabReD benchmark facilitates two possible use-cases. First, a method that shows good performance in non-time-shifting and non-feature-rich scenarios set by previous benchmarks could be tested on TabReD, which will demonstrate how a method works under TabReD's conditions. Second, methods specifically focusing on time-shifting data and rich feature sets can be benchmarked on TabReD. We believe that TabReD can serve as an important step towards more representative evaluation and will become a testing ground for future methods of tabular DL.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>REPRODUCIBILITY STATEMENT</head><p>We describe our experimental setup in subsection 5.1 and Appendix C. The code is available at <ref type="url" target="https://github.com/yandex-research/tabred">https://github.com/yandex-research/tabred</ref> </p><p>• Dataset downloading and preprocessing is handled by the provided code. Look for the preprocessing folder in the repository.</p><p>• Newly introduced datasets are avaialable at <ref type="url" target="https://www.kaggle.com/pcovkrd84mejm/datasets">https://kaggle.com/TabReD</ref> • Further instructions to reproduce experiments and plots are in the README.md</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A ADDITIONAL RESULTS AND ARTIFACTS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.1 EXPLORATION OF TABRED DATASETS: SHIFTS</head><p>In this section, we explore the temporal shift aspect of the TabReD datasets.</p><p>We plot standard deviations of MLP ensemble predictions over time together with model errors over the same timeframe. The plots are in Figure <ref type="figure" target="#fig_0">2</ref>. These plots show a more nuanced view of the distribution shift in TabReD, and it's relationship to model performance:</p><p>20 15 -02 -01 20 15 -02 -15 20 15 -03 -01 20 15 -03 -15 20 15 -04 -01 20 15 -04 -15 20 15 -05 -01 20 15 -05 -15 0.18 0.19 0.20 0.21 0.22 0.23 Ensemble Predictions Std. Homesite Insurance 20 15 -02 -01 20 15 -02 -15 20 15 -03 -01 20 15 -03 -15 20 15 -04 -01 20 15 -04 -15 20 15 -05 -01 20 15 -05 -15 0.04 0.06 0.08 0.10 0.12 0.14 Error • Some datasets exhibit trends where the shift increases over time and the error rate increases with it (this can be seen on Homesite Insurance and Sberbank Housing).</p><p>• In addition to global shift over time, some datasets exhibit strong seasonal behavior (e.g. there are specific times of day in the test set where performance drops significantly on the Cooking Time dataset).</p><p>• However, sometimes data shift might lead to seemingly better performance over time (e.g. as time goes by model predictions might improve). As variance and irreducible noise in the target variable can decrease over time, it could cause the performance metrics to improve over time. It is important to note that the model still suffers from the detrimental effects of the distributional shift, since if it was trained on the examples from the same domain as the one comprising the OOD test set, the performance would have been even better). The evolution of the degree of data shift and model errors on Homecredit Default is an example of such behavior. <ref type="bibr">Koh et al. (2021)</ref> define distribution shifts as a situation where "the training distribution differs from the test distribution". We would like to highlight that on our datasets, not only the distribution of some features changes from train to test, but these features are important for the models we used. We measure Wasserstein distance between train and test distributions of the target variable Y for the random and temporal data splits and an average Wasserstein distance between train and test for top-20 most important features. We can see that the distances between train and test are much more severe in the case of temporal split, which demonstrates by definition the existence of the distribution shift. We show our results in Figure <ref type="figure" target="#fig_1">3</ref>. Per-dataset and model results comparing rankings and relative performance differences of methods on temporally and randomly split datasets are in Figure <ref type="figure">4</ref>.</p><p>Temporal Split Random Split 0.24 0.26 0.28 0.30 RMSE ↓ Sberbank Housing Temporal Split Random Split 0.460 0.465 0.470 0.475 0.480 Cooking Time Temporal Split Random Split 0.530 0.535 0.540 0.545 0.550 0.555 Delivery ETA Temporal Split Random Split 0.161 0.162 0.163 0.164 Maps Routing Temporal Split Random Split 1.35 1.40 1.45 1.50 1.55 Weather Temporal Split Random Split 0.950 0.955 0.960 0.965 AUC-ROC ↑ Homesite Insurance Temporal Split Random Split 0.575 0.600 0.625 0.650 0.675 0.700 Ecom Offers Temporal Split Random Split 0.845 0.850 0.855 0.860 0.865 HomeCredit Default MLP MLP (PLR) XGBoost TabR Figure 4: Comparison of performance on out-of-time and random in-domain test sets. The first row contains regression datasets, the metric is RMSE (lower is better). The second row contains binary classification datasets, the metric is AUC-ROC (higher is better). We can see the change in relative ranks and performance difference in addition to the overall performance drop. In particular, XGBoost lead decreases when comparing performance on task-appropriate time-shifted test sets. Temporal Shift's Influence on Performance. We see that the spread of scores depending on random initialization for each model and data split is generally larger on the time-split based test set (most notable difference is on Sberbank Housing, Delivery ETA and Ecom Offers). This hints that temporal shift is present in the proposed datasets. Temporal Shift's Influence on Ranking and Relative Difference. We can see that the ranking of different model categories and the spreads between model performance scores change when we use randomly split test sets. One notable example is XGBoost decreasing its performance margin to MLPs when evaluated on temporally shifted test sets (Sberbank Housing, Cooking Time, Delivery ETA, Weather, Ecom Offers and Quote Conversion datasets -most clearly seen comparing MLP-PLR with XGBoost). This might indicate that GBDTs are less robust to shifts, conversely performing better on random splits, by possibly exploiting time-based leakage. Another notable example is TabR-S outperforming the baseline MLP (Cooking Time and Homesite Insurance) and even XGBoost (Weather). A.2 DISTRIBUTION SHIFT ROBUSTNESS METHODS</p><p>We evaluate two methods that aim to mitigate the effect of distribution shift. The first one is DeepCORAL <ref type="bibr" target="#b55">(Sun &amp; Saenko, 2016)</ref>, we adapt the method to the temporal shift setting by bucketing timestamps into different domains, similar to Wild-Time <ref type="bibr" target="#b59">(Yao et al., 2022)</ref>. The second method is Deep Feature Reweighting (DFR) <ref type="bibr" target="#b32">(Kirichenko et al., 2023)</ref>, we adapt the method by finetuning the representation of the MLP baseline on the latter instances of the train dataset. In this section, we explore the "feature-rich" aspect of TabReD datasets. For this, we plot the linear feature correlations and unary feature importances. To compute feature importances we use the mutual information in sklearn <ref type="bibr" target="#b44">(Pedregosa et al., 2011)</ref> using methods from <ref type="bibr" target="#b38">Kraskov et al. (2004)</ref>.</p><p>Correlations together with feature-target mutual information for two benchmarks are in Figure <ref type="figure" target="#fig_2">5</ref>.</p><p>Per-dataset and model results for the rich feature set vs small feature set comparison in subsection 5.4 is in Figure <ref type="figure">6</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B TABRED DATASET DETAILS</head><p>In this section, we provide more detailed dataset descriptions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.1 DATASETS SOURCED FROM KAGGLE COMPETITIONS</head><p>Below, we provide short descriptions of datasets and corresponding tasks.</p><p>Homesite Insurance. This is a dataset from a Kaggle competition hosted by Homesite Insurance <ref type="bibr" target="#b13">(Darrel, 2015)</ref>. The task is predicting whether a customer will buy a home insurance policy based on user and insurance policy features (user, policy, sales and geographic information). Each row in the dataset corresponds to a potential [customer, policy] pair, the target indicates whether a customer bought the policy.</p><p>Ecom Offers. This is a dataset from a Kaggle competition hosted by the online book and game retailer DMDave (DMDave, 2014). The task in this dataset is a representative example of modeling customer loyalty in e-commerce. Concretely, the task is classifying whether a customer will redeem a discount offer based on features from two months' worth of transaction history. We base our feature engineering on one of the top solutions (MLWave, 2014).</p><p>HomeCredit Default. This is a second iteration of the popular HomeCredit tabular competition <ref type="bibr" target="#b23">(Herman et al., 2024)</ref>. The task is to predict whether bank clients will default on a loan, based on bank internal information and external information like credit bureau and tax registry data. This year competition focus was the model prediction stability over time. Compared to the more popular prior competition, this time there is more data and the timestamps are available. We base feature engineering and preprocessing code on top solutions <ref type="bibr" target="#b31">(Kim, 2024)</ref>.</p><p>Sberbank Housing. This dataset is from a Kaggle competition, hosted by Sberbank <ref type="bibr" target="#b1">(Alexey Matveev, 2017)</ref>. This dataset provides information about over 30000 transactions made in the Moscow housing market. The task is to predict the sale price of each property using the provided features describing each property condition, location, and neighborhood, as well as country economic indicators at the moment of the sale. We base our preprocessing code on discussions and solutions from the competition <ref type="bibr" target="#b2">(Alijs &amp; Johnpateha, 2017;</ref><ref type="bibr" target="#b51">Sidorova, 2017)</ref>. We replace NaN values with the mean value of a variable (zero after the quantile normalization). For categorical features with unmatched values in validation and test sets we encode such values as a special unknown category.</p><p>In tuning and evaluation setup, we closely follow the procedure described in <ref type="bibr" target="#b19">(Gorishniy et al., 2021;</ref><ref type="bibr" target="#b31">2024)</ref>.</p><p>When comparing the models, we take standard deviations over 15 random initializations into account.</p><p>We provide the ranks each method achieved below. In</p><p>Table 3, following (Gorishniy et al., 2024), we rank method A below method B if |B mean -A mean | &lt; B stddev and B score is better. To further demonstrate the statistical significance of our findings, we ran a Tamhane's T2 test of statistical significance for multiple comparisons. Results for Tamhane's test are in Table 6</p><p>We run hyperparameter optimization for 100 iterations for most models, the exceptions are FT-Transformer (which is significantly less efficient on datasets with hundreds of features) where we were able to run 25</p><p>For the exact hyperparameter search spaces, please see the source code. Tuning configs (exp/ ** /tuning.toml) together with the code are always the main sources of truth.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.3 ADDITIONAL IMPLEMENTATION DETAILS</head><p>We have taken each method's implementation from the respective official code sources, except for Trompt, which doesn't have an official code repository yet and instead was reproduced by us according to the information in the paper. We use default hyperparameters for the Trompt model from the paper <ref type="bibr" target="#b10">(Chen et al., 2023b)</ref>.</p><p>For the DFR <ref type="bibr" target="#b32">(Kirichenko et al., 2023</ref>) baseline, we finetune the last layer on the last 20% of datapoints.</p><p>For CORAL <ref type="bibr" target="#b55">(Sun &amp; Saenko, 2016)</ref> we define domains by splitting instances based on a timestamp variable into 9 chunks.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D KAGGLE COMPETITIONS TABLE</head><p>We provide annotated-kaggle-competitions.csv with annotated Kaggle competitions in the supplementary repository. We used this table during sourcing the datasets from Kaggle. There are minimal annotations and notes. We annotate only tabular competitions with more than 500 competitors. We provide annotations for non-tabular datasets in this table.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>E DISCUSSION OF INEFFECTIVENESS OF TIME-SERIES AND FORECASTING METHODS ON TABRED Discussion of timeshift-agnostic vs forecasting methods</head><p>We believe there is a separation between forecasting tasks and our non-I.I.D. tabular prediction tasks.</p><p>For our datasets, we specifically chose datasets with rich features, where the time feature does not overwhelm the importance of other features. In this regard, our task is different from time-series tasks. When looking at the discussion section on Kaggle, we notice that none of the competitions from which we source our data have a competitive solution based on forecasting. Here are the details:</p><p>• On Sberbank Housing dataset, the only mention of forecasting is for feature engineering (<ref type="url" target="https://www.kaggle.com/competitions/sberbank-russian-housing-market/discussion/35631">Kaggle forum discussion</ref>). Even in that context, forecasting was not successful and failed to improve performance of the downstream model</p><p>• On Homesite Insurance dataset, the only mention of utilizing time-series is again for feature engineering, and again it only gives an insignificant boost to the score of 2e-4 (<ref type="url" target="https://www.kaggle.com/competitions/homesite-quote-conversion/discussion/18826">Kaggle forum  discussion</ref>). All top decisions mentioned in discussion utilize shift-agnostic models such as XGBoost.</p><p>• On the E-Commerse dataset, time and forecasting is not mentioned at all, and the top solution focuses on feature engineering approaches (<ref type="url" target="https://www.kaggle.com/competitions/acquire-valued-shoppers-challenge/discussion/9756">Kaggle forum discussion</ref>).</p><p>• On HomeCredit dataset, the mistake in metric choice by hosts resulted in some conditions using unrealistic hacks to win. Nevertheless, in the discussion process, competitors agreed, than when evaluation by pure AUC, feature engineering is more critical (<ref type="url" target="https://www.kaggle.com/competitions/home-credit-credit-risk-model-stability/discussion/497167">Kaggle forum  discussion</ref>).</p><p>• For our newly introduced datasets, no forecasting experiments have proved useful in production, and simple shift-agnostic tabular ML models have proven to be useful in real-world applications scenarios.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>F DETAILED ACADEMIC DATASETS OVERVIEW</head><p>In this section, we go through each dataset, and list its problems and prior uses in literature. We specify whether time-based splits should preferably be used for the dataset and whether it is available (e.g. datasets come with timestamps).</p><p>We also adhere to the definition of tabular dataset proposed by <ref type="bibr" target="#b35">Kohli et al. (2024)</ref> and annotate the existing datasets with one of five categories: raw data (the least tabular type), homogeneously extracted features HomE (e.g. similar features from one source, like image descriptors or features), heterogeneous extracted features HetE (different concepts, still extracted from one source) and semi-tabular/tabular (when there are multiple sources for HetE features).</p><p>The full table with annotation is available in the root of the code repository in the academic-datasets-summary.csv file. We also provide commentary and annotations directly in the appendix below.</p><p><ref type="url" target="https://archive.ics.uci.edu/dataset/241/one+hundred+plant+species+leaves+data+set">100-PLANTS-TEXTURE</ref> Tags: HomE #Samples: 1599 #Features: 65 Year: 2012 Comments: This is a small dataset with images and image-based features. The dataset first appeared in the paper "Plant Leaf Classification Using Probabilistic Integration of Shape, Texture and Margin Features. Signal Processing, Pattern Recognition and Applications", written by Mallah et al in 2013, and contains texture features extracted from the images of the leaves taken from Royal Botanic Gardens in Kew, UK. The task at hand is to recognize which leave is being described by the given features. While this feature extraction was a beneficial way to handle vision-based information in the early 2010s, modern approaches to CV focus on the specific architectures better suited for image data. <ref type="url" target="https://ieeexplore.ieee.org/document/6575194">ALOI</ref> Tags: HomE #Samples: 108000 #Features: 128 Year: 2005 Comments: The dataset describes a collection of images provided by Geusebroek et al. The features used in this version are color histogram values. <ref type="url" target="https://archive.ics.uci.edu/dataset/2/adult">ADULT</ref> Tags: Tabular, Timesplit Needed #Samples: 48842 #Features: 33 Year: 1994 Comments: One of the most popular tabular datasets, Adult was created by Barry Becker based on the 1994 Census database. The target variable is a binary indicator of whether a person has a yearly income above 50000$. <ref type="url" target="https://openml.org/d/296">AILERONS</ref> Tags: Raw #Samples: 13750 #Features: 40 Year: 2014 Comments: This data set addresses a control problem, namely flying an F16 aircraft. The attributes describe the status of the aeroplane, while the goal is to predict the control action on the ailerons of the aircraft. According to the descriptions available, the dataset first appears in a collection of regression datasets by Luis Torgo and Rui Camacho made in 2014, but the original website with the description (ncc.up.pt/ ltorgo/Regression/DataSets.html) seems to no longer respond. The task of controlling a vehicle through machine learning has gained a large interest in recent years, but it is not done through tabular machine learning, instead often utilizing RL and using wider range of sensors than those used in the non-self-driving version of the vehicle. <ref type="url" target="https://archive.ics.uci.edu/dataset/143/statlog+australian+credit+approval">AUSTRALIAN</ref> Tags: Tabular, Timesplit Needed #Samples: 690 #Features: 15 Year: 1987 Comments: Anonymized credit approval dataset. Corresponds to a real-life task, but is very small, with only 15 features, and no way to create a time/or even user-based validation split, no time variable is available <ref type="url" target="https://openml.org/d/42712">BIKE SHARING DEMAND</ref> Tags: Leak, Tabular, Timesplit Needed, Timesplit Possible #Samples: 17379 #Features: 6 Year: 2012 Comments: This dataset was produced based on the data from the Capital Bikeshare system from 2011 and 2012. The task is to predict the count of bikes in use based on time and weather conditions. No forecasting FE is done, only weather and date are available, forecasting tasks in the real-world, if solved by tabular models involve extensive feature engineering. While the task is to predict demand at a specific time, the time-based split is not performed, although it is possible. Due to the random i.i.d. split of the dataset, while predicting on a test object models could use information from the train examples close in time to the test one, which wouldn't be possible in real-life conditions, since a model is used after it is trained. <ref type="url" target="https://www.kaggle.com/c/bioresponse/overview">BIORESPONSE</ref> Tags: HomE #Samples: 3751 #Features: 1777 Year: 2012 Comments: These datasets present a classification problem on molecules. The underlying data is not tabular, graph-based methods, incorporating 3d structure are known to outperform manual descriptors (<ref type="url" target="https://ogb.stanford.edu/docs/lsc/leaderboards/#pcqm4mv2">https://ogb.stanford.edu/docs/lsc/leaderboards/#pcqm4mv2</ref>), this is not a mainstream task in its formulation. For more up to date, datasets and classification tasks on molecules one could use <ref type="url" target="https://moleculenet.org">https://moleculenet.org</ref> for example <ref type="url" target="https://datahack.analyticsvidhya.com/contest/black-friday/#ProblemStatement">BLACK FRIDAY</ref> Tags: Timesplit Needed #Samples: 166821 #Features: 9 Year: 2019 Comments: No time split, predicting customer's purchase amount from demographic features. "A retail company "ABC Private Limited" wants to understand the customer purchase behaviour (specifically, purchase amount) against various products of different categories. They have shared purchase summaries of various customers for selected high-volume products from last month. The data set also contains customer demographics (age, gender, marital status, city type, stay in currentcity), product details (product id and product category) and Total purchase amount from last month." No way to check if the dataset is real. Potential leakage. The task looks artificial we need to predict the purchase amount based on 6 users and 3 product features (there are 5k users and 3k unique users and products on 160k samples, the mean price for a product is a strong baseline). <ref type="url" target="https://openml.org/d/42688">BRAZILIAN HOUSES</ref> Tags: Tabular, Timesplit Needed #Samples: 10692 #Features: 8 Year: 2020 Comments: Similar to other housing market prediction tasks, the data is a snapshot of listings on a Brazilian website with houses to rent. No way to create a time split. <ref type="url" target="https://en.wikipedia.org/wiki/HTTP_404">BROKEN MACHINE</ref> Tags: Synthetic or Untraceable, Tabular #Samples: 900000 #Features: 58 Year: 2021? Comments: This dataset was not described anywhere, and the link to the original publication on Kaggle is no longer working. <ref type="url" target="https://www.sciencedirect.com/science/article/abs/pii/S016771529600140X">CALIFORNIA HOUSING</ref> Tags: Tabular, Timesplit Needed #Samples: 20640 #Features: 8 Year: 1990</p><p>Comments: This data comes from 1990 US Census data. Each object describes a block group, which on average includes 1425.5 individuals. The features include information about housing units inside a block group, as well as median income reported in the area. The target variable is the ln of a median house price. Due to the fact that the target variable is averaged across a large number of houses, KNN algorithms using the coordinates of a block are very effective. Housing prices are quickly changing in time, which presents an additional challenge for tabular ML models, however, on this dataset a time-based split is impossible. The provided features are also shallow in comparison to a dataset that may be used in an industrial scenario, e.g. housing dataset included in our publication includes hundreds of features as opposed to this dataset, which includes only 8.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CHURN MODELLING</head><p>Tags: Synthetic or Untraceable, Tabular, Timesplit Needed</p><p>#Samples: 10000 #Features: 11 Year: 2020 Comments: This dataset describes a set of customers of a bank, with a task of classifying whether a user will stay with the bank. Not a time split. Unknown source (may be synthetic). Not rich information. Narrow, No License. No canonical split (No time dimension) <ref type="url" target="https://k4all.org/project/large-scale-learning-challenge/">EPSILON</ref> Tags: Synthetic or Untraceable, Tabular #Samples: 500000 #Features: 2000 Year: 2008</p><p>Comments: This dataset comes from a 2008 competition "Large Scale Learning Challenge" by the K4all foundation. The source of the data is unclear, the dataset might be synthetic.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>FACEBOOK COMMENTS VOLUME</head><p>Tags: Leak, Tabular, Timesplit Needed #Samples: 197080 #Features: 51 Year: 2016</p><p>Comments: This dataset presents information about a facebook post and the target is to determine how many comments will appear within a period of time. Leakage. Same comments from different points in time, random split is inappropriate. This case is described in the appendix of a TabR paper, as this model was able to exploit the leak do get extreme performance improvements</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>GESTURE PHASE</head><p>Tags: Leak, Tabular, Timesplit Needed, Timesplit Possible #Samples: 9873 #Features: 32 Year: 2016</p><p>Comments: The task of this dataset is to classify gesture phases. Features are the speed and the acceleration from kinect. There are 7 videos from 3 users (3 gesture sequences from 2 and one from an additional user). The paper, which introduced the dataset mentions that using the same user (but a different story) for evaluation influences the score. Tabular DL papers, use random split on this dataset -this is not assessing the performance on new users, not even on new sequences of one user, not a canonical split. Without canonical split, the task contains leakage, which is easily exploited by using retrieval methods or overtuning models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>HELENA</head><p>Tags: Synthetic or Untraceable, HetE #Samples: 65196 #Features: 27 Year: 2018</p><p>Comments: The data was provided by AutoML challenge, and the dataset was created from objects from another domain, such as text, audio, or video, compressed into tabular form.</p><p><ref type="url" target="https://openml.org/d/42769">HIGGS</ref> Tags: Tabular #Samples: 940160 #Features: 24 Year: 2014 Comments: Physics simulation data. <ref type="url" target="https://www.dcc.fc.up.pt/~ltorgo/Regression/census.html">HOUSE 16H</ref> Tags: Tabular, Timesplit Needed #Samples: 22784 #Features: 16 Year: 1990 Comments: No time features, comes from the US Census 1990. Feature selection was performed, non correlated features were selected for house 16H(hard). Narrow, by definition, less important features. Learning problem, not the most representative for the real world task <ref type="url" target="http://automl.chalearn.or">JANNIS</ref> Tags: HetE #Samples: 83733 #Features: 54 Year: 2018 Comments: The data was provided by AutoML challenge, and the dataset was created from objects from another domain, such as text, audio, or video, compressed into tabular form. <ref type="url" target="http://proceedings.mlr.press/v7/guyon09/guyon09.pdf">KDDCUP09 UPSELLING</ref> Tags: Tabular, Timesplit Needed #Samples: 5032 #Features: 45 Year: 2009 Comments: Real-world data and problem from Orange telecom company, the taks is binary classification of upselling. All variables are anonyimzed, the time is not available (but predictions in this problem do happen in the future) only i.i.d train with labels is available <ref type="url" target="https://openml.org/d/1120">MAGICTELESCOPE</ref> Tags: Tabular #Samples: 13376 #Features: 10 Year: 2004 Comments: Physics simulation <ref type="url" target="https://openml.org/d/42570">MERCEDES BENZ GREENER MANUFACTURING</ref> Tags: Tabular #Samples: 4209 #Features: 359 Year: 2017</p><p>Comments: This dataset presents features about a Mercedes car, the task is to determine the time it will take to pass testing.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MIAMIHOUSING2016</head><p>Tags: Tabular, Timesplit Needed, Timesplit Possible</p><p>#Samples: 13932 #Features: 14 Year: 2016 Comments: The dataset comes from publicly available information on house sales in Miami in 2016. While this dataset has several improvements when compared to the california housing dataset, such as not averaging prices in a block, as well as availability of date of sale, the features are still shallow when compared to the housing dataset presented in this paper. <ref type="url" target="https://openml.org/d/41150">MINIBOONE</ref> Tags: Tabular #Samples: 72998 #Features: 50 Year: 2005 Comments: Physics simulation <ref type="url" target="https://openml.org/d/42724">ONLINENEWSPOPULARITY</ref> Tags: Timesplit Needed #Samples: 39644 #Features: 59 Year: 2015 Comments: This dataset contains information about articles published by Mashable, and posits a task of predicting number of shared of each article. Features are mostly NLP related, e.g. LDA and number of specific keywords. Would be better solved by NLP approaches. <ref type="url" target="https://www.kaggle.com/competitions/otto-group-product-classification-challenge/">OTTO GROUP PRODUCTS</ref> Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 61878 #Features: 93 Year: 2015 Comments: This data comes from 2015 kaggle competition hosted by The Otto Group. The objective is to classify a product's category. Each row corresponds to a single product. There are a total of 93 numerical features, which represent counts of different events. All features have been obfuscated and will not be defined any further. No time meta-feature, no way to ensure there is no time leak (what are the events? what if the distribution of these counts shifts over time?). No canonical split available, no details on the competition website on the nature of the features <ref type="url" target="https://openml.org/d/43144">SGEMM GPU KERNEL PERFORMANCE</ref> Tags: Leak, Tabular #Samples: 241600 #Features: 9 Year: 2018 Comments: Leakage. The task is to predict the time that it takes to multiply two matrices, but 3 out of 4 target variables are given. With them included, all other features have zero random forest importance. <ref type="url" target="https://www.kaggle.com/competitions/santander-customer-transaction-prediction">SANTANDER CUSTOMER TRANSACTIONS</ref> Tags: Tabular, Timesplit Needed #Samples: 200000 #Features: 200 Year: 2019</p><p>Comments: The data comes from 2019 kaggle competition by Santander. The task is to predict whether a customer will make a specific transaction. Performed processing is unknown. Time-based split is appropriate but not possible to perform.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SHIFTS WEATHER (IN-DOMAIN-SUBSET)</head><p>Tags: Leak, Tabular, Timesplit Possible <ref type="url" target="https://community.fico.com/s/explainable-machine-learning-challenge">TABLESHIFT HELOC</ref> Tags: Tabular, Timesplit Needed #Samples: 10000 #Features: 23 Year: 2018 Comments: TableShift uses the Home Equity Line of Credit (HELOC) Dataset from the FICO Explainable Machine Learning Challenge TABLESHIFT HYPERTENTION Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 846000 #Features: 14 Year: 2021 Comments: Determine whether a person has hypertension from a telephone survey. We use data provided by the Behavioral Risk Factors Surveillance System (BRFSS). BRFSS is a large-scale telephone survey conducted by the Centers of Disease Control and Prevention. <ref type="url" target="https://arxiv.org/abs/2312.07577">TABLESHIFT ICU HOSPITAL MORTALITY</ref> Tags: Semi-Tabular, Timesplit Needed #Samples: 23944 #Features: 7520 Year: 2016 Comments: The data comes from MIMIC-III, describing records from Beth Israel Deaconess Medical Center. The data used in this dataset would be more effectively processed as time series and sequences. <ref type="url" target="https://tableshift.org/">TABLESHIFT ICU LENGTH OF STAY</ref> Tags: Semi-Tabular, Timesplit Needed #Samples: 23944 #Features: 7520 Year: 2016 Comments: The data comes from MIMIC-III, describing records from Beth Israel Deaconess Medical Center. The data used in this dataset would be more effectively processed as time series and sequences. TABLESHIFT INCOME Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 1600000 #Features: 15 Year: 2018</p><p>Comments: The task is to predict person's income based on their answers to a survey. Data is provided by American Community Survey.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TABLESHIFT PUBLIC COVERAGE</head><p>Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 5900000 #Features: 11 Year: 2018</p><p>Comments: The task is to predict whether a person is covered by public health insurance based on their answers to a survey. Data is provided by American Community Survey.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TABLESHIFT READMISSION</head><p>Tags: Tabular, Timesplit Needed #Samples: 99000 #Features: 47 Year: 2008</p><p>Comments: "This study used the Health Facts database (Cerner Corporation, Kansas City, MO), a national data warehouse that collects comprehensive clinical records across hospitals throughout the United States." Clinical patient with diabetes data. 47 features with questionnaire like information (num previous visits, which medication patients were using, which diagnosis patients had). No time feature available.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TABLESHIFT SEPSIS</head><p>Tags: Semi-Tabular, Timesplit Needed #Samples: 1500000 #Features: 41 Year: 2019</p><p>Comments: Predict whether a person will develop sepsis in the next 6 months based on the data about their health, including questionnaire answers and patient records.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TABLESHIFT UNEMPLOYMENT</head><p>Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 1700000 #Features: 18 Year: 2018</p><p>Comments: The task is to predict whether a person is unemployed based on their answers to a survey. Data is provided by American Community Survey.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TABLESHIFT VOTING</head><p>Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 8000 #Features: 55 Year: 2020</p><p>Comments: The prediction target for this dataset is to determine whether an individual will vote in the U.S presidential election, from a detailed questionnaire. It seems like the data goes all the way back to 1948, which makes this not realistic when not using time split <ref type="url" target="https://arxiv.org/pdf/2206.15407">VESSEL POWER R</ref> Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 554642 #Features: 10 Year: 2022</p><p>Comments: The dataset describes information about a shipping line, with the task of determining how much power is needed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>VESSEL POWER S</head><p>Tags: Synthetic or Untraceable, Tabular, Timesplit Needed, Timesplit Possible</p><p>#Samples: 546543 #Features: 10 Year: 2022 Comments: Synthetic version of Vessel Power dataset <ref type="url" target="https://archive.ics.uci.edu/dataset/203/yearpredictionmsd">YEAR</ref> Tags: HomE #Samples: 515345 #Features: 90 Year: 2011 Comments: This dataset describes musical compositions, with the target variable being a year in which the composition was created. Another domain (audio features -extracted from audio, thus suitable for tabular DL, but DL for audio on raw data is preferable in this domain. Year prediction, solved as a regression task. Dataset does not correspond to a real-world problem (the year meta-data is easy to obtain, no need for prediciton). Problem with the formulation -solving as a classification problem might be preferable (98 <ref type="url" target="https://www.agnostic.inf.ethz.ch/">ADA-AGNOSTIC</ref> Tags: Tabular, Timesplit Needed #Samples: 4562 #Features: 49 Year: 1994 Comments: This dataset is a processed version of the popular Adult dataset. This particular rendition of the well known dataset first appeared in the competition "Agnostic Learning vs. Prior Knowledge" that took place at IJCNN 2007. The differences with the original Adult include some features or categorical values being dropped and missing values being preprocessed. Overall, this rendition is plagued by the same problems that the original Adult dataset has, making it serve as a duplicate less useful for analysing tabular machine learning in the context of large benchmarks. <ref type="url" target="https://openml.org/d/41672">AIRLINES</ref> Tags: Tabular, Timesplit Needed #Samples: 539382 #Features: 8 Year: 2006 Comments: The airlines dataset was created for the Data Expo competition in 2006 by Elena Ikonomovska. Unfortunately, the competition link provided in the secondary sources does not work anymore. The proposed task for the dataset is to predict flight delays based on Airline, flight number, time, source and destination. While the data is sourced in the real world, and the task of predicting the delay of the flight certainly could be solved with tabular deep learning, the provided features lack most information essential to predicting the delay. Time based train/val/test split is important but impossible to produce with this dataset. <ref type="url" target="http://automl.chalearn.org">ALBERT</ref> Tags: Synthetic or Untraceable, HetE #Samples: 425240 #Features: 79 Year: 2018 Comments: This is an anonymized dataset with unknown origin. Based on the source description, the original data could be of any modality. There is no way to control a train / test split without task details. <ref type="url" target="https://pages.stern.nyu.edu/~jsimonof/AnalCatData">ANALCATDATA SUPREME</ref> Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 4052 #Features: 7 Year: 2003 Comments: The analcatdata supreme dataset first appeared in the 2003 book "Analysing Categorical Data" by Jeffrey S. Simonoff. This dataset contains a collection of decisions made by the Supreme Court of the United Stated from 1953 to 1988. The information used is very shallow, and the data was introduced for domain specific analysis, not to compare performance on random splits of the dataset <ref type="url" target="https://ieeexplore.ieee.org/document/327470">ARTIFICIAL-CHARACTERS</ref> Tags: Leak, Synthetic or Untraceable, Raw #Samples: 10218 #Features: 8 Year: 1993</p><p>Comments: This database has been artificially generated. It describes the structure of the capital letters A, C, D, E, F, G, H, L, P, R, indicated by a number 1-10, in that order (A=1,C=2,...). Each letter's structure is described by a set of segments (lines) which resemble the way an automatic program would segment an image. The dataset consists of 600 such descriptions per letter.</p><p>Originally, each 'instance' (letter) was stored in a separate file, each consisting of between 1 and 7 segments, numbered 0,1,2,3,... Here they are merged. That means that the first 5 instances describe the first 5 segments of the first segmentation of the first letter (A). Also, the training set (100 examples) and test set (the rest) are merged. The next 7 instances describe another segmentation (also of the letter A) and so on.</p><p>Not a tabular data task (synthetic letter classification). When used as a tabular dataset, leak could easily be exploited through the "V7: diagonal, this is the length of the diagonal of the smallest rectangle which includes the picture of the character. The value of this attribute is the same in each object." <ref type="url" target="https://archive.ics.uci.edu/dataset/8/audiology+standardized">AUDIOLOGY</ref> Tags: Tabular, Timesplit Needed</p><p>#Samples: 226 #Features: 70 Year: 1987 Comments: The audiology dataset has been provided by Professor Jergen at Baylor College of Medicine in 1987, and contains information describing the hearing ability of different patients <ref type="url" target="http://archive.ics.uci.edu/dataset/12/balance+scale">BALANCE-SCALE</ref> Tags: Synthetic or Untraceable #Samples: 625 #Features: 5 Year: 1994 Comments: This data set was generated to model psychological experimental results. Each example is classified as having the balance scale tip to the right, tip to the left, or be balanced. The attributes are the left weight, the left distance, the right weight, and the right distance. The correct way to find the class is the greater of (left-distance * left-weight) and (right-distance * right-weight). If they are equal, it is balanced. This is not a real world problem. Just the data from psychological study, easily solvable with one equation <ref type="url" target="https://core.ac.uk/download/pdf/55616194.pdf">BANK-MARKETING</ref> Tags: Tabular, Timesplit Needed #Samples: 10578 #Features: 7 Year: 2010 Comments: Dataset describes 17 marketing campaigns by a bank from 2008 to 2010. A set of features is not very rich, but reasonable (ideally there would be more user features and statistics). <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=1468">CNAE-9</ref> Tags: HomE #Samples: 1080 #Features: 857 Year: 2009 Comments: This dataset only offers the frequencies of 800 words as features, the data is purely from the NLP domain <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=25">COLIC</ref> Tags: Tabular, Timesplit Needed #Samples: 368 #Features: 27 Year: 1989 Comments: The dataset of horses symptoms and whether or not they required surgery. <ref type="url" target="https://www.kaggle.com/datasets/danofer/compass?select=cox-violent-parsed.csv">COMPASS</ref> Tags: Leak, Tabular, Timesplit Needed #Samples: 16644 #Features: 17 Year: 2017 Comments: This dataset's task is to determine whether a person will be arrested again after their release based on simple statistical features. The dataset first appeared in the paper "It's COMPASlicated: The Messy Relationship between RAI Datasets and Algorithmic Fairness Benchmarks" by Bao et al. Seemingly there are a lot of duplicates in the data, which leads to leakage when the random split is applied. Retrieval methods such as TabR achieve large performance gains. <ref type="url" target="https://dl.acm.org/doi/10.5555/928509">COVERTYPE</ref> Tags: Tabular, Timesplit Needed #Samples: 423680 #Features: 54 Year: 1998 Comments: This dataset comes from 1998 study comparing different methods for predicting forest cover types from cartographic variables. No time features are included. Not representative of a real-world task: predicting forest cover-type solely from geological and cartographic features comes up less frequently, than directly processing GNSS data <ref type="url" target="https://openml.org/d/197">CPU ACT</ref> Tags: Tabular, Timesplit Needed #Samples: 8192 #Features: 21 Year: 1999 Comments: This data represents logs from a server computer. The task is to predict the portion of time that cpu runs in user mode. <ref type="url" target="https://www.kaggle.com/c/GiveMeSomeCredit/data?select=cs-training.csv">CREDIT</ref> Tags: Tabular, Timesplit Needed #Samples: 16714 #Features: 10 Year: 2011 Comments: Dataset from the kaggle competition hosted by "Credit Fusion". Corresponds to a realworld prediction problem. Not possible to create an out-of-time evaluation set. Relatively (relative to the modern dataset, e.g. <ref type="url" target="https://www.kaggle.com/competitions/amex-default-prediction/overview">https://www.kaggle.com/competitions/amex-default-prediction/overview</ref>) few features available. <ref type="url" target="https://archive.ics.uci.edu/dataset/27/credit+approval">CREDIT-APPROVAL</ref> Tags: Tabular, Timesplit Needed #Samples: 690 #Features: 16 Year: 1987 Comments: Same as Australian (but without preprocessing) <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=44096">CREDIT-G</ref> Tags: Tabular, Timesplit Needed #Samples: 10000 #Features: 21 Year: 1994 Comments: This dataset includes a number of simple features useful for determining whether the bank can expect a return on a credit. The nature of labels is not explained, time feature is not used <ref type="url" target="https://www.diamondse.info/diamond-prices.asp">DIAMONDS</ref> Tags: Tabular, Timesplit Needed #Samples: 53940 #Features: 9 Year: 2015 Comments: The exact source of the data is unclear. The task is to predict the price of a diamond by its characteristics. Diamond prices fluctuate in time, however no timestamp information is available. <ref type="url" target="https://openml.org/d/151">ELECTRICITY</ref> Tags: Leak, Tabular, Timesplit Needed, Timesplit Possible #Samples: 38474 #Features: 7 Year: 1998 Comments: Data comes from the Australian New South Wales Electricity Market. The task is to predict whether electricity prices will go up or down. When a random split is used, there is a leak in the data, and retrieval methods such as TabR can achieve near 100% accuracy. <ref type="url" target="https://openml.org/d/216">ELEVATORS</ref> Tags: Raw #Samples: 16599 #Features: 16 Year: 2014 Comments: This data set addresses a control problem, namely flying an F16 aircraft. The attributes describe the status of the aeroplane, while the goal is to predict the control action on the ailerons of the aircraft. According to the descriptions available, the dataset first appears in a collection of regression datasets by Luis Torgo and Rui Camacho made in 2014, but the original website with the description (ncc.up.pt/ ltorgo/Regression/DataSets.html) seems to no longer respond. The task of controlling a vehicle through machine learning has gained a large interest in recent years, but it is not done through tabular machine learning, instead often utilizing RL and using a wider range of sensors than those used in the non-self-driving version of the vehicle. <ref type="url" target="https://openml.org/d/1044">EYE MOVEMENTS</ref> Tags: Leak, Tabular #Samples: 7608 #Features: 20 Year: 2005 Comments: Time-series, Grouped data. This is a grouped dataset, some models are able to find a leak and predict based on an assignment number perfectly (MLP-PLR for example). <ref type="url" target="https://www.kaggle.com/datasets/stefanoleone992/fifa-22-complete-player-dataset">FIFA</ref> Tags: Tabular, Timesplit Needed #Samples: 18063 #Features: 5 Year: 2021 Comments: This dataset contains information about FIFA soccer players in 2021, and the target variable is their wages. The provided features include age, weight, height, and information about time spent in the player's club, as well as the price in release clause. This dataset does not correspond to any real-world task, and the provided features are very shallow, as they luck any information about a player's performance in previous games <ref type="url" target="http://automl.chalearn.org">GUILLERMO</ref> Tags: HetE #Samples: 20000 #Features: 4297 Year: 2018 Comments: The data was provided by AutoML challenge, and the dataset was created from objects from another domain, such as text, audio, or video, compressed into tabular form. <ref type="url" target="https://openml.org/search?type=data&amp;status=active&amp;id=51">HEART-H</ref> Tags: Tabular, Timesplit Needed #Samples: 294 #Features: 14 Year: 1988 Comments: This dataset was originally created by Andras Janosi et al. in 1988. A very small dataset including features describing person's questionnaire responses as well as some compressed test results. Statistics are too shallow to adequately solve the task at hand. <ref type="url" target="https://openml.org/d/42731">HOUSE SALES</ref> Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 21613 #Features: 15 Year: 2015 Comments: This dataset was created based on public records of house sales from May 2014 to May 2015. While this dataset has several improvements when compared to the California housing dataset, such as not averaging prices in a block, as well as availability of date of sale, the features are still shallow when compared to the housing dataset presented in this paper. <ref type="url" target="https://openml.org/d/537">HOUSES</ref> Tags: Tabular, Timesplit Needed #Samples: 20640 #Features: 8 Year: 1990 Comments: Data source bias, repeated dataset (unknown source in the description, but this is literally california housing with a different name and two features slightly altered) <ref type="url" target="https://openml.org/d/300">ISOLET</ref> Tags: HomE #Samples: 7797 #Features: 613 Year: 1994 Comments: The dataset describes features extracted from audio recordings of the name of each letter of the English alphabet. The task is to classify the phoneme. This task would be better solved by raw audio processing. <ref type="url" target="http://automl.chalearn.or">JASMINE</ref> Tags: Synthetic or Untraceable, HetE #Samples: 2984 #Features: 145 Year: 2018 Comments: The data was provided by AutoML challenge, and the dataset was created from objects from another domain, such as text, audio, or video, compressed into tabular form. <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=41003">JUNGLE-CHESS</ref> Tags: Synthetic or Untraceable, Raw #Samples: 44819 #Features: 7 Year: 2014 Comments: Game simulation, not a real ML task. <ref type="url" target="https://openml.org/search?type=data&amp;status=active&amp;id=1067">KC1</ref> Tags: HetE #Samples: 2109 #Features: 22 Year: 2004 Comments: This dataset was created by Mike Chapman at NASA, and it contains features associated with the software quality. The task is to predict whether the code has any defects. Nowadays, the task of code quality analysis is solved mainly using NLP methods and is not tabular. <ref type="url" target="https://kdd.ics.uci.edu/databases/ipums/ipums.html">KDD IPUMS LA 97-SMALL</ref> Tags: Tabular, Timesplit Needed #Samples: 5188 #Features: 20 Year: 1997 Comments: The data is a subsample of census responses from the Los Angeles area for years 1970, 1980 and 1990. Unknown target variable (some categorical column from census binarized). Not a real-world task, based on census data. <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=10">LYMPH</ref> Tags: Tabular, Timesplit Needed #Samples: 148 #Features: 19 Year: 1988 Comments: This dataset was collected in November 1988 for University Medical Centre, Institute of Oncology, Ljubljana, Yugoslavia by Bojan Cestnik. It includes results of lymph test. The task is to classify lymph in one of four categories. Unfortunately, the dataset contains only 2 samples with normal lymph, making it hard for the dataset to be used for training a real-world model categorizing lymph. Tags: Tabular, Timesplit Needed #Samples: 163065 #Features: 3 Year: 2019 Comments: Public medicare data from 2019. According to openml analysis, only one of the features is important for prediction. <ref type="url" target="https://archive.ics.uci.edu/dataset/72/multiple+features">MFEAT-FOURIER   Tags: HomE   #Samples: 2000  #Features: 77  Year: 1998   Comments: One of a set of 6 datasets describing features of handwritten numerals (0 -9) extracted  from a collection of Dutch utility maps.   MFEAT-ZERNIKE</ref> Tags: HomE #Samples: 2000 #Features: 48 Year: 1998</p><p>Comments: One of a set of 6 datasets describing features of handwritten numerals (0 -9) extracted from a collection of Dutch utility maps.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MONKS-PROBLEMS-2</head><p>Tags: Synthetic or Untraceable #Samples: 601 #Features: 7 Year: 1992</p><p>Comments: Simple toy synthetic, the task of determining whether there are exactly two ones among the 6 binary variables.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>NOMAO</head><p>Tags: Tabular #Samples: 34465 #Features: 119 Year: 2013</p><p>Comments: Active learning dataset, the task is determining whether two geo-location points are the same. Hand-labeled by an expert of Nomao.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>NYC-TAXI-GREEN-DEC-2016</head><p>Tags: Tabular, Timesplit Needed #Samples: 581835 #Features: 9 Year: 2016</p><p>Comments: The data was provided by the New York City Taxi and Limousine Commission, and the task is to predict tip amount based on simple features describing the trip.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>PARTICULATE-MATTER-UKAIR-2017</head><p>Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 394299 #Features: 6 Year: 2017</p><p>Comments: Hourly particulate matter air pollution data of Great Britain for the year 2017. Time features available, prior work uses random split. There are only 6 features, describing time and location. This is a time-series forecasting problem (2 features from the original dataset missing). This is more likely a time-series problem, as there are not many heterogeneous features related to the task, only time-based features <ref type="url" target="https://sci2s.ugr.es/keel/dataset.php?cod=105#sub2">PHONEME</ref> Tags: HomE #Samples: 5404 #Features: 6 Year: 1993</p><p>Comments: The dataset describes a collection of phonemes and presents a task of classifying between nasal and oral sounds. The phonemes are transcribed as follows: sh as in she, dcl as in dark, iy as the vowel in she, aa as the vowel in dark, and ao as the first vowel in water., DL in audio outperforms shallow methods, when applied to raw data. Here we only have 5 features extracted from the raw data (its audio)</p><p><ref type="url" target="https://archive.ics.uci.edu/dataset/158/poker+hand">POKER-HAND</ref> Tags: Synthetic or Untraceable, Tabular #Samples: 1025009 #Features: 9 Year: 2007 Comments: A task of classifying a poker hand based on it's content. One line non-ML solution exists, does not correspond to a real-world ML problem. <ref type="url" target="https://openml.org/d/722">POL</ref> Tags: Tabular, Timesplit Needed #Samples: 10082 #Features: 26 Year: 1995 Comments: The data describes a telecommunication problem, no further information is available. <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=470">PROFB</ref> Tags: Tabular, Timesplit Needed #Samples: 672 #Features: 10 Year: 1992 Comments: Dataset describing professional football games. The task is to predict whether the favoured team was playing home. <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=1494">QSAR-BIODEG</ref> Tags: HetE #Samples: 155 #Features: 42 Year: 2013 Comments: The QSAR biodegradation dataset was built by the Milano Chemometrics and QSAR Research Group. Nowadays, a different approach based on graph neural networks is taken towards the task of predicting the characteristics of molecules, which is why this is not really a realistic use-case for tabular DL <ref type="url" target="https://openml.org/d/41160">RL</ref> Tags: Synthetic or Untraceable, Tabular #Samples: 4970 #Features: 12 Year: 2018 Comments: Unknown real-life problem. Small, not many features, No canonical split. Retrieval methods such as TabR achieve large performance gains, which could signal that there is leakage in the data. <ref type="url" target="https://openml.org/d/42803">ROAD-SAFETY</ref> Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 111762 #Features: 32 Year: 2015 Comments: The data describes road accidents in Great Britain from 1979 to 2015. The task is to predict sex of a driver based on information about an accident. Retrieval methods such as TabR achieve large performance gains, which could signal that there is leakage in the data. <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=44987">SOCMOB</ref> Tags: Tabular, Timesplit Needed #Samples: 1156 #Features: 6 Year: 1973 Comments: An instance represents the number of sons that have a certain job A given the father has the job B (additionally conditioned on race and family structure). Just statistic data, not a real task <ref type="url" target="https://www.openml.org/search?type=data&amp;sort=version&amp;status=any&amp;order=asc&amp;exact_name=splice&amp;id=46">SPLICE</ref> Tags: Raw #Samples: 3190 #Features: 61 Year: 1992 Comments: The task is to classify parts of genom as splice regions. The features are just a subsequence of DNA, more of an NLP task <ref type="url" target="https://openml.org/d/23515">SULFUR</ref> Tags: Leak, Tabular #Samples: 10081 #Features: 6 Year: 2007 Comments: Leakage. In this dataset, there originally were 2 closely related target variables: H2S concentration and SO2 concentration. However, the version used in the aforementioned tabular benchmarks contains one of these target variables as a feature. According to the observed feature importance, the new feature is much more informative about the target variable than any of the old ones: the original features only describe the outputs of the physical sensors, while the new one already uses the knowledge about the chemical makeup of the gas. Due to the described problems, which stem from the accidental error in the data preparation, the current version of this dataset does not seem close to the intent of the original dataset authors. <ref type="url" target="https://www.frontiersin.org/articles/10.3389/fmats.2021.714752/full">SUPERCONDUCT</ref> Tags: Tabular #Samples: 21263 #Features: 79 Year: 2021 Comments: This dataset presents information about superconductors, with a task of predicting critical temperature. <ref type="url" target="https://www.openml.org/search?type=data&amp;status=active&amp;id=54">VEHICLE</ref> Tags: HetE #Samples: 846 #Features: 19 Year: 1987 Comments: This dataset was created from the vehicle silhouettes in 1987, the task is to classify a car class by its silhouette. <ref type="url" target="https://openml.org/d/688">VISUALIZING SOIL</ref> Tags: Leak, Tabular #Samples: 8641 #Features: 4 Year: 1993 Comments: Leakage. This dataset describes a series of measurements of soil resistivity taken on a grid. The original intended target variable was the resistivity of the soil, however, it wasn't the first variable, and the technical variable #1 became the target variable in the later versions of this dataset on OpenML and in the tabular benchmarks. This makes the task absurd and trivial, as a simple if between two linear transforms of two different other features in the dataset performs on par with the best algorithm mentioned in the TabR paper, beating 4 others. <ref type="url" target="https://archive.ics.uci.edu/ml/datasets/wine+quality">WINE</ref> Tags: Tabular #Samples: 2554 #Features: 11 Year: 2009 Comments: This dataset was published by Cortez et al. in 2009, and it contains the chemical properties of different wines. The task is to predict the quality of wine. <ref type="url" target="https://openml.org/d/287">WINE QUALITY</ref> Tags: Tabular #Samples: 6497 #Features: 11 Year: 2009 Comments: This dataset was published by Cortez et al. in 2009, and it contains chemical properties of different wines. The task is to predict the quality of wine. <ref type="url" target="https://pubmed.ncbi.nlm.nih.gov/14502479/">YPROP 4 1</ref> Tags: HomE #Samples: 8885 #Features: 62 Year: 2003 Comments: This dataset describes a series of chemical formulas, with a task of predicting one attribute of a molecule based on many others. The task would be better solved by graph DL methods.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2 :</head><label>2</label><figDesc>Figure2: Relationship between distribution shift and performance on a subset of TabReD datasets. We use std in ensemble of MLP predictions as a proxy for the distribution shift. On the right side, we show errors (MAE for regression and error rate for binary classification)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 :</head><label>3</label><figDesc>Figure3: Wasserstein distance between train and test distributions of Y (left) and top-20 most important features (right). Green represents the case of temporal split, while red represents the random split. The distance is higher in the case of temporal split.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Feature correlations and importance via mutual information with target. On the left are datasets from Gorishniy et al. (2024), on the right are TabReD datasets. Datasets on the right are clearly more complex in terms of number of features and their correlation and importance patterns. The only comparably complex dataset on the left is Microsoft.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>The dataset first appeared in the 2021 paper concerning distributional shift. Leakage. In-domain version used. Samples from the future used for prediction. Retrieval methods such as TabR achieve large performance improvements.SPEEDDATINGTags: Tabular, Timesplit Needed #Samples: 8378 #Features: 121 Year: 2004 Comments: This dataset describes experimental speed dating events that took place from 2002 to 2004. The data describes the responses of participants to a questionnaire, and the target variable is whether they matched or not. Predict whether the student answers correctly. Features include: student-, problem-, and school-level features, the dataset also contains affect predictions for students based on an experimental affect detector implemented in ASSISTments. Timesplit is not possible. TABLESHIFT CHILDHOOD LEAD Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 27000 #Features: 8 Year: 2023 Comments: The data comes from CDC National Health and Nutrition Examination Survey, and the task in this dataset is to predict whether a person has high blood lead levels based on answers to a questionnaire. The task is to predict the completion rate for a college. The College Scorecard is an institution-level dataset compiled by the U.S. Department of Education from 1996-present TABLESHIFT DIABETES Tags: Tabular, Timesplit Needed, Timesplit Possible #Samples: 1444176 #Features: 26 Year: 2021 Comments: Determine Diabetes diagnosis from a telephone survey. We use data provided by the Behavioral Risk Factors Surveillance System (BRFSS). BRFSS is a large-scale telephone survey conducted by the Centers of Disease Control and Prevention. Data source bias (US based surveys), comes from ACS. Narrow. No time split provided in the benchmark version.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>The landscape of existing tabular deep learning benchmarks compared to TabReD. We report median dataset sizes, number of features, the number of datasets with various issues. The "Time-splits" column is reported only for the datasets without issues. We see that the datasets semiautomatically gathered from OpenML (Tabzilla and<ref type="bibr" target="#b22">Grinsztajn et al. (2022)</ref>) contain more quality issues. Furthermore, no benchmark besides TabReD focuses on temporal-shift based evaluation and less than half of datasets in each benchmark have timestamp metadata needed for time-based validation availability. * -the median full dataset size. In experiments, to reduce compute requirements, we use subsampled versions of the TabReD datasets.</figDesc><table><row><cell>Benchmark</cell><cell cols="8">Dataset Sizes (Q 50 ) #Samples #Features Data-Leakage Issues (#Issues / #Datasets) Synthetic or Untraceable Non-Tabular Needed Possible Used Time-split</cell></row><row><cell cols="2">Grinsztajn et al. (2022) Tabzilla (McElfresh et al., 2023) WildTab (Kolesnikov, 2023) TableShift (Gardner et al., 2023) 840,582 16,679 3,087 546,543 Gorishniy et al. (2024) 57,909</cell><cell>13 23 10 23 20</cell><cell>7 / 44 3 / 36 1 * / 3 0 / 15 1 * / 10</cell><cell>1 / 44 6 / 36 1 / 3 0 / 15 1 / 10</cell><cell>7 / 44 12 / 36 0 / 3 0 / 15 0 / 10</cell><cell>22 12 1 15 7</cell><cell>5 0 1 8 1</cell><cell>✗</cell></row><row><cell>TabReD (ours)</cell><cell>7,163,150 **</cell><cell>261</cell><cell>✗</cell><cell>✗</cell><cell>✗</cell><cell>✓</cell><cell>✓</cell><cell>✓</cell></row></table><note><p>* -the original dataset, introduced in<ref type="bibr" target="#b41">(Malinin et al., 2021)</ref> </p><p>has the canonical OOD split, but the standard IID split commonly used contains time-based leakage. *</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Short description of datasets in TabReD. Numbers in parentheses denote full dataset sizes. We use random subsets of large datasets to make extensive hyperparameter tuning feasible.</figDesc><table><row><cell>Dataset</cell><cell># Samples</cell><cell cols="2"># Features Source Task Description</cell></row><row><cell cols="3">Sberbank Housing 28K Ecom Offers 160K Homesite Insurance 260K HomeCredit Default 381K (1.5M) 696 392 119 299 Cooking Time 319K (12.8M) 192 Delivery ETA 350K (17.0M) 223 Maps Routing 279K (13.6M) 986 Weather 423K (16.9M) 103</cell><cell>Kaggle Real estate price prediction Kaggle Predict whether a user will redeem an offers Kaggle Insurance plan acceptance prediction Kaggle Loan default prediction New Restaurant order cooking time estimation New Grocery delivery courier ETA prediction New Navigation app ETA from live road-graph features New Weather prediction (temperature)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>Performance comparison of tabular ML models on new datasets. Bold entries represent the best methods on each dataset, with standard deviations over 15 seeds taken into account. The last column contains algorithm rank averaged over all datasets (for details, see the subsection C.2). The ranks in bold correspond to the top-3 classical ML methods and the top-3 DL methods.</figDesc><table><row><cell>Methods</cell><cell cols="2">Classification (ROC AUC ↑) Homesite Insurance Ecom Offers HomeCredit Default</cell><cell>Sberbank Housing</cell><cell>Regression (RMSE ↓) Cooking Time Delivery ETA Maps Routing</cell><cell>Weather</cell><cell>Average Rank</cell></row><row><cell cols="2">Classical ML Baselines</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>XGBoost LightGBM CatBoost RandomForest Linear</cell><cell>0.9601 0.5763 0.9603 0.5758 0.9606 0.5596 0.9570 0.5764 0.9290 0.5665</cell><cell>0.8670 0.8664 0.8621 0.8269 0.8168</cell><cell>0.2419 0.2468 0.2482 0.2640 0.2509</cell><cell cols="3">0.4823 0.5468 0.1616 1.4671 2.9 ± 1.5 0.4826 0.5468 0.1618 1.4625 3.1 ± 1.5 0.4823 0.5465 0.1619 1.4688 3.4 ± 1.7 0.4884 0.5959 0.1653 1.5838 7.8 ± 2.0 0.4882 0.5579 0.1709 1.7679 8.8 ± 2.7</cell></row><row><cell cols="2">Tabular DL Models</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="2">MLP SNN DCNv2 ResNet FT-Transformer 0.9622 0.5775 0.9500 0.6015 0.9492 0.5996 0.9392 0.5955 0.9469 0.5998 MLP (PLR) 0.9621 0.5957 Trompt 0.9588 0.5803</cell><cell>0.8545 0.8551 0.8466 0.8493 0.8571 0.8568 0.8355</cell><cell>0.2508 0.2858 0.2770 0.2743 0.2440 0.2438 0.2509</cell><cell cols="3">0.4820 0.5504 0.1622 1.5470 5.0 ± 1.8 0.4838 0.5544 0.1651 1.5649 6.6 ± 2.0 0.4842 0.5532 0.1672 1.5782 7.6 ± 2.3 0.4825 0.5527 0.1625 1.5021 5.8 ± 2.0 0.4820 0.5542 0.1625 1.5104 4.8 ± 1.6 0.4812 0.5527 0.1616 1.5177 3.8 ± 1.4 0.4809 0.5519 0.1624 1.5187 5.4 ± 2.1</cell></row><row><cell>Ensembles</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>MLP ens. MLP-PLR ens.</cell><cell>0.9503 0.6019 0.9629 0.5981</cell><cell>0.8557 0.8585</cell><cell>0.2447 0.2381</cell><cell cols="3">0.4815 0.5494 0.1620 1.5186 4.1 ± 2.0 0.4806 0.5518 0.1612 1.4953 2.4 ± 1.5</cell></row><row><cell cols="2">Training Methodologies</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>MLP aug. MLP aug. rec.</cell><cell>0.9523 0.6011 0.9531 0.5960</cell><cell>0.8449 0.7453</cell><cell>0.2659 0.2515</cell><cell cols="3">0.4832 0.5532 0.1631 1.5193 6.0 ± 2.0 0.4834 0.5541 0.1636 1.5160 6.8 ± 2.8</cell></row><row><cell cols="3">Retrieval Augmented Tabulard DL</cell><cell></cell><cell></cell><cell></cell></row><row><cell>TabR ModernNCA</cell><cell>0.9487 0.5943 0.9514 0.5765</cell><cell>0.8501 0.8531</cell><cell>0.2820 0.2593</cell><cell cols="3">0.4828 0.5514 0.1639 1.4666 6.0 ± 2.2 0.4825 0.5498 0.1625 1.5062 5.6 ± 1.6</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 :</head><label>4</label><figDesc>Temporal shift and feature engineering influence on model performance. We report the relative percentage improvement to the MLP baseline averaged over all datasets. We see significant performance differences in different conditions. (1) XGBoost performance margin diminishes on temporal data splits. (2) TabR and MLP aug. rec. are better on random splits and datasets with fewer features. (3) MLP-PLR and ensembling are relatively less affected methods and are similarly useful in all three settings.</figDesc><table><row><cell>TabReD TabReD Random splits TabReD 20 features *</cell><cell>0.67 0.28 0.52</cell><cell>-1.98 -0.47 -0.13</cell><cell>0.61 0.47 0.69</cell><cell>1.28 0.96 0.98</cell><cell>-2.78 0.6 1.09</cell><cell>0.91 2.02 0.97</cell></row></table><note><p>* -Note that MLP with all features has an advantage of 5.65% over MLP with 20 features.</p><p>MLP ens. MLP aug. rec. MLP-PLR MLP-PLR ens. TabR XGBoost Temporal Shift. We see a significant difference in perfomance of XGBoost and TabR between random and time-based splits. TabR improvement is mostly due to the Weather dataset (see perdataset results in subsection A.1), while XGBoost improvements are more universal. Interestingly, XGBoost performance margin diminishes on temporal data splits. Ensembling and PLR feature embeddings are stable in terms of relative improvement over MLP on both splits.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 :</head><label>5</label><figDesc>Study of distribution shift robustness methods on TabReD.</figDesc><table><row><cell>Methods</cell><cell cols="2">Classification (ROC AUC ↑) Homesite Insurance Ecom Offers HomeCredit Default</cell><cell>Sberbank Housing</cell><cell>Regression (RMSE ↓) Cooking Time Delivery ETA Maps Routing</cell><cell>Weather</cell><cell>Average Rank</cell></row><row><cell cols="2">MLP CORAL 0.9498 0.6004 0.9500 0.6015 DFR 0.9499 0.6013</cell><cell>0.8545 0.8549 0.8545</cell><cell>0.2508 0.2645 0.2494</cell><cell cols="3">0.4820 0.5504 0.1622 1.5470 1.0 ± 0.0 0.4821 0.5498 0.1622 1.5591 1.4 ± 0.7 0.4819 0.5515 0.1626 1.5513 1.4 ± 0.5</cell></row></table><note><p>Both DFR and DeepCORAL do not improve upon the MLP baseline, in line with recent work by<ref type="bibr" target="#b18">Gardner et al. (2023)</ref></p><p>;<ref type="bibr" target="#b36">Kolesnikov (2023)</ref> </p><p>for other distribution shifts.</p><p>A.3 EXPLORATION OF TABRED DATASETS: FEATURE CORRELATIONS</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 :</head><label>6</label><figDesc>Model ranks computed with Tamhane's T2 statistical test. Ranking in not significantly altered compared to our simple testing procedure.</figDesc><table><row><cell>Methods</cell><cell cols="3">Classification (ROC AUC ↑) Homesite Insurance Ecom Offers HomeCredit Default</cell><cell>Sberbank Housing</cell><cell cols="3">Regression (RMSE ↓) Cooking Time Delivery ETA Maps Routing</cell><cell>Weather</cell></row><row><cell cols="2">Clasical ML Baselines</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>XGBoost LightGBM CatBoost RandomForest Linear Model</cell><cell>3 3 2 4 9</cell><cell>3 3 4 3 3</cell><cell>1 2 3 7 8</cell><cell>1 2 2 4 3</cell><cell>3 4 3 6 7</cell><cell>2 2 1 7 6</cell><cell>1 2 3 8 9</cell><cell>2 1 2 7 8</cell></row><row><cell cols="2">Deep Learning Methods</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>MLP SNN DCNv2 ResNet FT-Transformer MLP (PLR) Trompt MLP aug. MLP aug. rec. TabR ModernNCA CORAL DFR</cell><cell>6 6 8 7 1 1 4 5 5 6 5 6 6</cell><cell>1 1 2 1 3 2 3 1 2 2 3 1 1</cell><cell>4 4 6 6 4 4 6 6 9 5 5 4 4</cell><cell>2 4 4 4 1 1 4 4 3 4 4 4 2</cell><cell>2 5 5 3 2 1 4 4 5 4 3 2 2</cell><cell>3 5 4 4 5 4 5 5 5 3 3 3 4</cell><cell>4 8 9 5 4 1 8 6 7 7 5 4 5</cell><cell>5 6 7 3 3 4 6 4 4 1 3 6 5</cell></row><row><cell cols="5">C.2 TUNING, EVALUATION, AND MODEL COMPARISONS</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>Table Representation Learning Workshop, NeurIPS</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>https://archive.ics.uci.edu</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>https://www.openml.org</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>https://www.kaggle.com</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>Trompt is the only exception, due to the method's time complexity. For Trompt we evaluate the default configuration proposed in the respective paper.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_5"><p>In the original work the methods are called "MLP sup" and "MLP rec-sup", we use subscript aug to highlight that methods use augmentations and differentiate them from traditional supervised baselines</p></note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The first row contains regression datasets, the metric is RMSE (lower is better). The second row contains binary classification datasets, the metric is AUC-ROC (higher is better). In additon to the expected overall performance drop we can see considerable improvement for the TabR model on datasets with less features, where it becomes competitive with XGBoost.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.2 NEW DATASETS FROM IN-THE-WILD ML APPLICATIONS</head><p>Here, we describe the datasets used by various ML applications that we publish with TabReD. All of these datasets were preprocessed for later use by a model in production ML systems. We apply deterministic transforms to anonymize the data for some datasets. We only publish the preprocessed data, as the feature engineering code and internal logs are proprietary. We will provide further details regarding licenses, preprocessing and data composition in the datasheet with supplementary materials upon acceptance (we can't disclose dataset details due to submission anonymity).</p><p>Cooking Time. For this dataset, the task is to determine how long it will take for a restaurant to prepare an order placed in a food delivery app. Features are constructed based on the information about the order contents and historical information about cooking time for the restaurant and brand, the target is a logarithm of minutes it took to cook the placed order.</p><p>Delivery ETA. For this dataset, the task is to determine the estimated time of arrival of an order from an online grocery store. Features are constructed based on the courier availability, navigation data and various aggregations of historical information for different time slices, the target is the logarithm of minutes it took to deliver an order. Maps Routing. For this dataset, the task is to predict the travel time in the car navigation system based on the current road conditions. The features are aggregations of the road graph statistics for the particular route and various road details (like speed limits). The target is the logarithm of seconds per kilometer.</p><p>Weather. For this dataset, the task is weather temperature forecasting. This is a dataset similar to the one introduced in <ref type="bibr" target="#b41">(Malinin et al., 2021)</ref>, except it is larger, and the time-based split is available and used by default. The features are from weather station measurements and weather forecast physical models. The target is the true temperature for the moment in time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C EXTENDED EXPERIMENTAL SETUP DESCRIPTION</head><p>This section is for extended information on the experimental setup.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.1 SOURCE CODE</head><p>We include source code for reproducing the results in the supplementary material archive with a brief README.md with instructions on reproducing the experiments. We also publish code for dataset preparation.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 6 :</head><label>6</label><figDesc>Comparison of performance on all features and top 20 features.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Optuna: A next-generation hyperparameter optimization framework</title>
+		<author>
+			<persName><forename type="first">Takuya</forename><surname>Akiba</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shotaro</forename><surname>Sano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Toshihiko</forename><surname>Yanase</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Takeru</forename><surname>Ohta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Masanori</forename><surname>Koyama</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">KDD</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">Datacanary</forename><surname>Alexey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Matveev</forename></persName>
+		</author>
+		<ptr target="https://kaggle.com/competitions/sberbank-russian-housing-market.17" />
+		<title level="m">Anastasia Sidorova 50806198. Sberbank russian housing market</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<author>
+			<persName><forename type="first">Johnpateha</forename><surname>Alijs</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/competitions/sberbank-russian-housing-market/discussion/35684.17" />
+		<title level="m">Sberbank russian housing market 1st place solution</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">On the factory floor: Ml engineering for industrial-scale ads recommendation models</title>
+		<author>
+			<persName><forename type="first">Rohan</forename><surname>Anil</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sandra</forename><surname>Gadanho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Da</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nijith</forename><surname>Jacob</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zhuoshu</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dong</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Todd</forename><surname>Phillips</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Cristina</forename><surname>Pop</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kevin</forename><surname>Regan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gil</forename><forename type="middle">I</forename><surname>Shamir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Rakesh</forename><surname>Shivanna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Qiqi</forename><surname>Yan</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">6</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<author>
+			<persName><forename type="first">Abdul</forename><surname>Fatir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ansari</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lorenzo</forename><surname>Stella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Caner</forename><surname>Turkmen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Xiyuan</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Pedro</forename><surname>Mercado</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Huibin</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Oleksandr</forename><surname>Shchur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Syama</forename><surname>Sundar Rangapuram</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sebastian</forename><surname>Pineda Arango</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shubham</forename><surname>Kapoor</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2403.07815</idno>
+		<title level="m">Learning the language of time series</title>
+		<imprint>
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Scarf: Self-supervised contrastive learning using random feature corruption</title>
+		<author>
+			<persName><forename type="first">Dara</forename><surname>Bahri</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Heinrich</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yi</forename><surname>Tay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Donald</forename><surname>Metzler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICLR</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<author>
+			<persName><forename type="first">Alexander</forename><surname>Guillermo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Segura</forename><surname>Ballesteros</surname></persName>
+		</author>
+		<ptr target="https://openml.org/d/41672" />
+		<title level="m">Openml airlines dataset</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Dedrift: Robust similarity search under content drift</title>
+		<author>
+			<persName><forename type="first">Dmitry</forename><surname>Baranchuk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Matthijs</forename><surname>Douze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yash</forename><surname>Upadhyay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Zeki</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yalniz</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the IEEE/CVF International Conference on Computer Vision</title>
+		<meeting>the IEEE/CVF International Conference on Computer Vision</meeting>
+		<imprint>
+			<date type="published" when="2023">2023</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Random forests</title>
+		<author>
+			<persName><forename type="first">Leo</forename><surname>Breiman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mach. Learn</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="5" to="32" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">Excelformer: A neural network surpassing gbdts on tabular data</title>
+		<author>
+			<persName><forename type="first">Jintai</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jiahuan</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Danny</forename><surname>Ziyi Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jian</forename><surname>Wu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007">2023a. 1, 2, 6, 7</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Trompt: Towards a better deep neural network for tabular data</title>
+		<author>
+			<persName><forename type="first">Kuan-Yu</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ping-Han</forename><surname>Chiang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hsin-Rung</forename><surname>Chou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ting-Wei</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tien-Hao</forename><surname>Chang</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">ICML</title>
+		<imprint>
+			<date type="published" when="2023">2023b. 1, 2, 3, 4, 6, 19</date>
+			<biblScope unit="volume">202</biblScope>
+			<biblScope unit="page" from="4392" to="4434" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Xgboost: A scalable tree boosting system</title>
+		<author>
+			<persName><forename type="first">Tianqi</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Carlos</forename><surname>Guestrin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">SIGKDD</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">6</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A performance-driven benchmark for feature selection in tabular deep learning</title>
+		<author>
+			<persName><forename type="first">Valeriia</forename><surname>Cherepanova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Roman</forename><surname>Levin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gowthami</forename><surname>Somepalli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jonas</forename><surname>Geiping</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bayan Bruss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrew</forename><forename type="middle">G</forename><surname>Wilson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tom</forename><surname>Goldstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Micah</forename><surname>Goldblum</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="41956" to="41979" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Homesite quote conversion</title>
+		<author>
+			<persName><forename type="first">Will</forename><surname>Cukierski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Darrel</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stephen</forename><forename type="middle">D</forename><surname>Stayton</surname></persName>
+		</author>
+		<ptr target="https://kaggle.com/competitions/homesite-quote-conversion.16" />
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Acquire valued shoppers challenge</title>
+		<author>
+			<persName><forename type="first">Will</forename><surname>Cukierski Dmdave</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Todd</surname></persName>
+		</author>
+		<ptr target="https://kaggle.com/competitions/acquire-valued-shoppers-challenge.16" />
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">What neural networks memorize and why: Discovering the long tail via influence estimation</title>
+		<author>
+			<persName><forename type="first">Vitaly</forename><surname>Feldman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chiyuan</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="2881" to="2891" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Tunetables: Context optimization for scalable prior-data fitted networks</title>
+		<author>
+			<persName><forename type="first">Benjamin</forename><surname>Feuer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robin</forename><forename type="middle">Tibor</forename><surname>Schirrmeister</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Valeriia</forename><surname>Cherepanova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chinmay</forename><surname>Hegde</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Micah</forename><surname>Goldblum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Niv</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Colin</forename><surname>White</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2402.11137</idno>
+		<imprint>
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Real-time data infrastructure at uber</title>
+		<author>
+			<persName><forename type="first">Yupeng</forename><surname>Fu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chinmay</forename><surname>Soman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2021 International Conference on Management of Data</title>
+		<meeting>the 2021 International Conference on Management of Data</meeting>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Benchmarking distribution shift in tabular data with tableshift</title>
+		<author>
+			<persName><forename type="first">Joshua P</forename><surname>Gardner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zoran</forename><surname>Popovi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ludwig</forename><surname>Schmidt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Thirty-seventh Conference on Neural Information Processing Systems Datasets and Benchmarks Track</title>
+		<imprint>
+			<date type="published" when="2023">2023. 2, 3, 4, 16</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Revisiting deep learning models for tabular data</title>
+		<author>
+			<persName><forename type="first">Yury</forename><surname>Gorishniy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ivan</forename><surname>Rubachev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Valentin</forename><surname>Khrulkov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Artem</forename><surname>Babenko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NeurIPS</title>
+		<imprint>
+			<date type="published" when="2021">2021. 1, 2, 6, 7, 19</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">On embeddings for numerical features in tabular deep learning</title>
+		<author>
+			<persName><forename type="first">Yury</forename><surname>Gorishniy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ivan</forename><surname>Rubachev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Artem</forename><surname>Babenko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NeurIPS</title>
+		<imprint>
+			<date type="published" when="2007">2022. 1, 2, 4, 6, 7</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Tabr: Tabular deep learning meets nearest neighbors in 2023</title>
+		<author>
+			<persName><forename type="first">Yury</forename><surname>Gorishniy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ivan</forename><surname>Rubachev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nikolay</forename><surname>Kartashev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniil</forename><surname>Shlenskii</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Akim</forename><surname>Kotelnikov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Artem</forename><surname>Babenko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICLR</title>
+		<imprint>
+			<date type="published" when="2024">2024. 1, 2, 3, 4, 6, 8, 17, 19</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Why do tree-based models still outperform deep learning on typical tabular data?</title>
+		<author>
+			<persName><forename type="first">Leo</forename><surname>Grinsztajn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Edouard</forename><surname>Oyallon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gael</forename><surname>Varoquaux</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NeurIPS, the &quot;Datasets and Benchmarks&quot; track</title>
+		<imprint>
+			<date type="published" when="2008">2022. 3, 4, 6, 8</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Home credit -credit risk model stability</title>
+		<author>
+			<persName><forename type="first">Daniel</forename><surname>Herman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tomas</forename><surname>Jelinek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Walter</forename><surname>Reade</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Maggie</forename><surname>Demkin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Addison</forename><surname>Howard</surname></persName>
+		</author>
+		<ptr target="https://kaggle.com/competitions/home-credit-credit-risk-model-stability.2" />
+		<imprint>
+			<date type="published" when="2024">2024</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">16</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Tabpfn: A transformer that solves small tabular classification problems in a second</title>
+		<author>
+			<persName><forename type="first">Noah</forename><surname>Hollmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Samuel</forename><surname>Müller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Katharina</forename><surname>Eggensperger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ICLR</title>
+		<imprint>
+			<biblScope unit="issue">2</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<author>
+			<persName><forename type="first">David</forename><surname>Holzmüller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Léo</forename><surname>Grinsztajn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingo</forename><surname>Steinwart</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2407.04491</idno>
+		<title level="m">Better by default: Strong pre-tuned mlps and boosted trees on tabular data</title>
+		<imprint>
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<author>
+			<persName><forename type="first">C</forename><surname>Huyen</surname></persName>
+		</author>
+		<ptr target="https://books.google.ru/books?id=EThwEAAAQBAJ.2" />
+		<title level="m">Designing Machine Learning Systems. O&apos;Reilly Media, 2022. ISBN 9781098107918</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">5</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Tangos: Regularizing tabular neural networks through gradient orthogonalization and specialization</title>
+		<author>
+			<persName><forename type="first">Alan</forename><surname>Jeffares</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tennison</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jonathan</forename><surname>Crabbé</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fergus</forename><surname>Imrie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van Der Schaar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ICLR</title>
+		<imprint>
+			<biblScope unit="issue">2</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Large-scale study of temporal shift in health insurance claims</title>
+		<author>
+			<persName><forename type="first">Christina</forename><forename type="middle">X</forename><surname>Ji</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ahmed</forename><forename type="middle">M</forename><surname>Alaa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Sontag</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conference on Health, Inference, and Learning</title>
+		<imprint>
+			<date type="published" when="2023">2023</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">5</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<title level="m" type="main">Ml feature serving infrastructure at lyft</title>
+		<author>
+			<persName><forename type="first">Vinay</forename><surname>Kakade</surname></persName>
+		</author>
+		<ptr target="https://eng.lyft.com/ml-feature-serving-infrastructure-at-lyft-d30bf" />
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Lightgbm: A highly efficient gradient boosting decision tree</title>
+		<author>
+			<persName><forename type="first">Guolin</forename><surname>Ke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Qi</forename><surname>Meng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Taifeng</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wei</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Weidong</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Qiwei</forename><surname>Ye</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tie-Yan</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in neural information processing systems</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page">6</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<author>
+			<persName><forename type="first">Seungyun</forename><surname>Kim</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/code/yuuniekiri/fork-of-home-credit-catboost-inference.17" />
+		<title level="m">fork-of-home-credit-catboost-inference kaggle kernel</title>
+		<imprint>
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Last layer re-training is sufficient for robustness to spurious correlations</title>
+		<author>
+			<persName><forename type="first">Polina</forename><surname>Kirichenko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Pavel</forename><surname>Izmailov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrew</forename><surname>Gordon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wilson</forename></persName>
+		</author>
+		<ptr target="https://openreview.net/forum" />
+	</analytic>
+	<monogr>
+		<title level="m">The Eleventh International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2023">2023</date>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page">20</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Self-normalizing neural networks</title>
+		<author>
+			<persName><forename type="first">Günter</forename><surname>Klambauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Unterthiner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andreas</forename><surname>Mayr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sepp</forename><surname>Hochreiter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NIPS</title>
+		<imprint>
+			<date type="published" when="2006">2017. 1, 2, 6</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Wilds: A benchmark of in-the-wild distribution shifts</title>
+		<author>
+			<persName><forename type="first">Pang</forename><surname>Wei Koh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shiori</forename><surname>Sagawa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Henrik</forename><surname>Marklund</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sang</forename><surname>Michael Xie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marvin</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Akshay</forename><surname>Balsubramani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Weihua</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michihiro</forename><surname>Yasunaga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Richard</forename><forename type="middle">Lanas</forename><surname>Phillips</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Irena</forename><surname>Gao</surname></persName>
+		</author>
+		<idno>PMLR, 2021. 14</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International conference on machine learning</title>
+		<imprint>
+			<biblScope unit="page" from="5637" to="5664" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Towards quantifying the effect of datasets for benchmarking: A look at tabular machine learning</title>
+		<author>
+			<persName><forename type="first">Ravin</forename><surname>Kohli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Matthias</forename><surname>Feurer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Katharina</forename><surname>Eggensperger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bernd</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ICLR 2024 Data-centric Machine Learning Research Workshop</title>
+		<imprint>
+			<date type="published" when="1920">2024. 4, 5, 20</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m" type="main">Wild-tab: A benchmark for out-of-distribution generalization in tabular regression</title>
+		<author>
+			<persName><forename type="first">Sergey</forename><surname>Kolesnikov</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2023">2023. 3, 4, 16</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">Self-attention between datapoints: Going beyond individual input-output pairs in deep learning</title>
+		<author>
+			<persName><forename type="first">Jannik</forename><surname>Kossen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Neil</forename><surname>Band</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Clare</forename><surname>Lyle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aidan</forename><forename type="middle">N</forename><surname>Gomez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tom</forename><surname>Rainforth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yarin</forename><surname>Gal</surname></persName>
+		</author>
+		<editor>NeurIPS</editor>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Estimating mutual information</title>
+		<author>
+			<persName><forename type="first">Alexander</forename><surname>Kraskov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Harald</forename><surname>Stögbauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peter</forename><surname>Grassberger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Physical Review E-Statistical, Nonlinear, and Soft Matter Physics</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">16</biblScope>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Binning as a pretext task: Improving self-supervised learning in tabular domains</title>
+		<author>
+			<persName><forename type="first">Kyungeun</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ye Seul</forename><surname>Sim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hyeseung</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Moonjung</forename><surname>Eo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Suhee</forename><surname>Yoon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sanghyu</forename><surname>Yoon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Woohyung</forename><surname>Lim</surname></persName>
+		</author>
+		<ptr target="https://openreview.net/forum?id=ErkzxOlOLy.2" />
+	</analytic>
+	<monogr>
+		<title level="m">Forty-first International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2024">2024</date>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A framework for deprecating datasets: Standardizing documentation, identification, and communication</title>
+		<author>
+			<persName><forename type="first">Alexandra</forename><surname>Sasha Luccioni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Frances</forename><surname>Corry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hamsini</forename><surname>Sridharan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mike</forename><surname>Ananny</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jason</forename><surname>Schultz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kate</forename><surname>Crawford</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2022 ACM Conference on Fairness, Accountability, and Transparency</title>
+		<meeting>the 2022 ACM Conference on Fairness, Accountability, and Transparency</meeting>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="page" from="199" to="212" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Shifts: A dataset of real distributional shift across multiple large-scale tasks</title>
+		<author>
+			<persName><forename type="first">Andrey</forename><surname>Malinin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Neil</forename><surname>Band</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">German</forename><surname>Chesnokov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yarin</forename><surname>Gal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mark</forename><surname>John</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Francis</forename><surname>Gales</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alexey</forename><surname>Noskov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrey</forename><surname>Ploskonosov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Liudmila</forename><surname>Prokhorenkova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ivan</forename><surname>Provilkov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Raina</forename><surname>Vatsal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Raina</forename><surname>Vyas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mariya</forename><surname>Shmatova</surname></persName>
+		</author>
+		<idno>ArXiv, abs/2107.07455v3</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Panos Tigas, and Boris Yangel</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page">18</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<monogr>
+		<title level="m" type="main">When do neural nets outperform boosted trees on tabular data?</title>
+		<author>
+			<persName><forename type="first">Duncan</forename><surname>Mcelfresh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sujay</forename><surname>Khandagale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jonathan</forename><surname>Valverde</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ganesh</forename><surname>Ramakrishnan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Micah</forename><surname>Goldblum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Colin</forename><surname>White</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2305.02997</idno>
+		<imprint>
+			<date type="published" when="2023">2023</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">4</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<author>
+			<persName><surname>Github Mlwave</surname></persName>
+		</author>
+		<ptr target="https://github.com/MLWave/kaggle_acquire-valued-shoppers-challenge.16" />
+		<title level="m">kaggle-acquire-valued-shoppers-challenge</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Scikit-learn: Machine learning in Python</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pedregosa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Varoquaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gramfort</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Michel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Thirion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Grisel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Blondel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Prettenhofer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Weiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Dubourg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanderplas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Passos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cournapeau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brucher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Perrot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Duchesnay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page">16</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Catboost: unbiased boosting with categorical features</title>
+		<author>
+			<persName><forename type="first">Liudmila</forename><surname>Prokhorenkova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gleb</forename><surname>Gusev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aleksandr</forename><surname>Vorobev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Anna</forename><surname>Veronika Dorogush</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrey</forename><surname>Gulin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">NeurIPS</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">6</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">On the spectral bias of neural networks</title>
+		<author>
+			<persName><forename type="first">Aristide</forename><surname>Nasim Rahaman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Devansh</forename><surname>Baratin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Felix</forename><surname>Arpit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Min</forename><surname>Draxler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fred</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yoshua</forename><surname>Hamprecht</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aaron</forename><surname>Bengio</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Courville</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International conference on machine learning</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="5301" to="5310" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<monogr>
+		<title level="m" type="main">Revisiting pretraining objectives for tabular deep learning</title>
+		<author>
+			<persName><forename type="first">Ivan</forename><surname>Rubachev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Artem</forename><surname>Alekberov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yury</forename><surname>Gorishniy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Artem</forename><surname>Babenko</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2207.03208</idno>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<monogr>
+		<title level="m" type="main">Evaluating recommendation systems</title>
+		<author>
+			<persName><forename type="first">Guy</forename><surname>Shani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Asela</forename><surname>Gunawardana</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2011. 3, 5</date>
+			<biblScope unit="page" from="257" to="297" />
+		</imprint>
+	</monogr>
+	<note>Recommender systems handbook</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Autogluon-timeseries: Automl for probabilistic time series forecasting</title>
+		<author>
+			<persName><forename type="first">Oleksandr</forename><surname>Shchur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ali</forename><surname>Caner Turkmen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nick</forename><surname>Erickson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Huibin</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alexander</forename><surname>Shirkov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tony</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bernie</forename><surname>Wang</surname></persName>
+		</author>
+		<idno>PMLR, 2023. 3</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Automated Machine Learning</title>
+		<imprint>
+			<biblScope unit="page" from="9" to="10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<title level="m" type="main">Tabular data: Deep learning is not all you need</title>
+		<author>
+			<persName><forename type="first">Ravid</forename><surname>Shwartz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">-Ziv</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Amitai</forename><surname>Armon</surname></persName>
+		</author>
+		<idno>arXiv, 2106.03253v1, 2021. 7</idno>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<monogr>
+		<title level="m" type="main">Additional data -tverskoe issue</title>
+		<author>
+			<persName><forename type="first">Anastasia</forename><surname>Sidorova</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/competitions/sberbank-russian-housing-market/discussion/34364.17" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<monogr>
+		<title level="m" type="main">Zipline -a declarative feature engineering framework</title>
+		<author>
+			<persName><forename type="first">Nikhil</forename><surname>Simha</surname></persName>
+		</author>
+		<ptr target="https://youtu.be/LjcKCm0G_OY.2" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<monogr>
+		<title level="m" type="main">SAINT: improved neural networks for tabular data via row attention and contrastive pre-training. arXiv</title>
+		<author>
+			<persName><forename type="first">Gowthami</forename><surname>Somepalli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Micah</forename><surname>Goldblum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Avi</forename><surname>Schwarzschild</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Bayan</forename><surname>Bruss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tom</forename><surname>Goldstein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2106.01342v1, 2021</date>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page">7</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<monogr>
+		<title level="m" type="main">Benchmarking default prediction models: Pitfalls and remedies in model validation. Moody&apos;s KMV</title>
+		<author>
+			<persName><surname>Roger M Stein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">20305. 2002. 2, 3, 5</date>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Deep coral: Correlation alignment for deep domain adaptation</title>
+		<author>
+			<persName><forename type="first">Baochen</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kate</forename><surname>Saenko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">European Conference on Computer Vision</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page">20</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<monogr>
+		<author>
+			<persName><forename type="first">Jan</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<ptr target="https://openml.org/d/42712.2" />
+		<title level="m">Openml electricity dataset</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<monogr>
+		<title level="m" type="main">Openml bike sharing demand dataset</title>
+		<author>
+			<persName><forename type="first">Jan</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<ptr target="https://openml.org/d/151.2" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Dcn v2: Improved deep &amp; cross network and practical lessons for web-scale learning to rank systems</title>
+		<author>
+			<persName><forename type="first">Ruoxi</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Rakesh</forename><surname>Shivanna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Derek</forename><forename type="middle">Z</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sagar</forename><surname>Jain</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dong</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lichan</forename><surname>Hong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ed</forename><forename type="middle">H</forename><surname>Chi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">arXiv</title>
+		<imprint>
+			<date type="published" when="2006">2008. 13535v2, 2020. 1, 2, 6</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Wildtime: A benchmark of in-the-wild distribution shift over time</title>
+		<author>
+			<persName><forename type="first">Huaxiu</forename><surname>Yao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Caroline</forename><surname>Choi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bochuan</forename><surname>Cao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yoonho</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Pang</forename><surname>Wei W Koh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chelsea</forename><surname>Finn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page">16</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<monogr>
+		<author>
+			<persName><forename type="first">Han-Jia</forename><surname>Ye</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Huai-Hong</forename><surname>Yin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">De-Chuan</forename><surname>Zhan</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2407.03257</idno>
+		<title level="m">Modern neighborhood components analysis: A deep tabular baseline two decades later</title>
+		<imprint>
+			<date type="published" when="2024">2024</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">6</biblScope>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

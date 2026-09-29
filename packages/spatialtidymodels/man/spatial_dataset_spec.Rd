@@ -4,7 +4,16 @@
 \alias{spatial_dataset_spec}
 \title{Define a dataset for \code{benchmark_spatial_datasets()}}
 \usage{
-spatial_dataset_spec(name, data, formula, coords)
+spatial_dataset_spec(
+  name,
+  data,
+  formula,
+  coords,
+  W = NULL,
+  response_typology = NULL,
+  glm_link = NULL,
+  inla_time = NULL
+)
 }
 \arguments{
 \item{name}{Short dataset name.}
@@ -14,6 +23,23 @@ spatial_dataset_spec(name, data, formula, coords)
 \item{formula}{Model formula.}
 
 \item{coords}{Coordinate column names.}
+
+\item{W}{Optional spatial weights matrix or \code{listw} object aligned with
+\code{data}. If omitted, eligible spatial models build a kNN structure from
+\code{coords}.}
+
+\item{response_typology}{\code{NULL} (treated as \code{"continuous"}), \code{"continuous"},
+\code{"binary"} or \code{"count"}. Lets \code{benchmark_spatial_datasets()} route each
+dataset of a mixed suite correctly. See \code{\link[=benchmark_spatial]{benchmark_spatial()}}.}
+
+\item{glm_link}{\code{NULL} (default link of the family) or an explicit link
+(e.g. \code{"probit"}) for the estimators that fit a generalized linear model
+when \code{response_typology} is \code{"binary"} or \code{"count"}. See
+\code{\link[=benchmark_spatial]{benchmark_spatial()}}.}
+
+\item{inla_time}{\code{NULL} or the name of the time column of a panel dataset,
+required only by the \code{inla_spde_st}/\code{inla_spde_st_group} estimators. See
+\code{\link[=benchmark_spatial]{benchmark_spatial()}}.}
 }
 \value{
 A \code{spatial_dataset_spec} object.

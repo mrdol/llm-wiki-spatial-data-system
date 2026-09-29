@@ -1,0 +1,28 @@
+{
+  "schema": "plasmode_priorities_v1",
+  "date": "2026-09-09",
+  "repetitions": 40,
+  "datasets": ["georgia", "meuse"],
+  "generators": ["polynomial", "forest"],
+  "methods": ["linear", "polynomial", "gam_covariates", "gam_spatial", "forest"],
+  "lambda": 0,
+  "snr": 3,
+  "innovation": "Gaussian iid, shared standard draws across generators",
+  "split": "same fixed calibration sites and three east-west folds as 2026-09-08 pilot; no buffer",
+  "forest": {
+    "trees": 300,
+    "mtry": 2,
+    "min_node_size": 5,
+    "generator_seed": 909100,
+    "threads": 1
+  },
+  "tuning": "none; prespecified configurations; algorithmic seeds fixed across repetitions",
+  "target": "conditional mean risk on fixed evaluation sites; all X observed",
+  "uncertainty": "innovation Monte Carlo only, conditional on source, generator fit, seeds and folds",
+  "observation_draws": 10000,
+  "observation_alphas": [0, 0.25, 0.5],
+  "script_md5": {
+    "extensions_projet_2026-09/revue_donnees_semi_synthetiques/plasmode_pilot.R": "2281b73a2b525406f596ebf88f628135",
+    "extensions_projet_2026-09/revue_donnees_semi_synthetiques/priorites_plasmode.R": "43974c77359c9c5401ce41cff38e7d4f"
+  }
+}

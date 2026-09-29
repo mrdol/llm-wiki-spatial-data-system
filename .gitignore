@@ -8,6 +8,11 @@ __pycache__/
 data/downloads/
 data/Final_datasets/
 data/candidates/datasets/
+data/manual_downloads/
+data/browser_profiles/
+data/data_retrievals/
+data/reference/
+data/raw/
 
 data/dataframes/
 raw/paper/
@@ -41,8 +46,32 @@ Infos/
 .codex_memory/outputs/*.json
 !.codex_memory/outputs/.gitkeep
 
+# Local MCP server registration (machine-specific paths)
+.mcp.json
+
 # Knowledge graph generated artifacts
 .kg/
 corpus/papers/tei/
 
 
+
+2.env
+
+# LaTeX build artifacts (mémoire, slides, manuscrit)
+*.aux
+*.fdb_latexmk
+*.fls
+*.nav
+*.snm
+*.toc
+*.synctex.gz
+Mémoire/**/*.out
+extensions_projet_2026-09/redaction_datapaper/latex_scientific_data/.tectonic-cache/
+extensions_projet_2026-09/redaction_datapaper/latex_scientific_data/build/
+extensions_projet_2026-09/redaction_datapaper/latex_scientific_data/tmp/
+
+# Scratch files and agent temp dirs
+/tmp/
+/.codex_tmp/
+/.tmp_*.py
+/nul

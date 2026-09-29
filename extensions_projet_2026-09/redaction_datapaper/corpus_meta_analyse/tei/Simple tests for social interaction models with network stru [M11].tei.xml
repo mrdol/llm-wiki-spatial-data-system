@@ -1,0 +1,974 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Simple tests for social interaction models with network structures</title>
+				<funder ref="#_amgAQe7 #_sTPxXTb #_RHa4KJR">
+					<orgName type="full">National Science Foundation</orgName>
+					<orgName type="abbreviated">NSF</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-10-25">25 October 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Osman</forename><surname>Dog</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Süleyman</forename><surname>Taṣ</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Economics Program</orgName>
+								<orgName type="institution">CUNY</orgName>
+								<address>
+									<region>Queens College New York NY</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Anil</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Illinois at Urbana-Champaign</orgName>
+								<address>
+									<settlement>Champaign</settlement>
+									<region>IL</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Illinois at Urbana-Champaign</orgName>
+								<address>
+									<settlement>Champaign</settlement>
+									<region>IL</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Simple tests for social interaction models with network structures</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2017-10-25">25 October 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">8E87F3B52E3C060D64E45318EAFC15E3</idno>
+					<idno type="DOI">10.1080/17421772.2017.1374550</idno>
+					<note type="submission">Received 1 September 2016; in revised form 1 April 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We consider an extended spatial autoregressive model that can incorporate possible endogenous interactions, exogenous interactions, unobserved group fixed effects and the correlation of unobservables. In the generalized method of moments (GMM) and the maximum likelihood (ML) frameworks, we introduce simple gradient-based robust test statistics that can be used to test for the presence of the endogenous effects, the correlation of unobservables and the contextual effects. These test statistics are robust to local parametric misspecifications and only require consistent estimates from a transformed linear regression model to compute. We carry out an extensive Monte Carlo study to investigate the size and power properties of the proposed tests. The results show that the proposed tests have good finite sample properties, and are useful for testing the presence of the various effects in a social interaction model.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>INTRODUCTION</head><p>In a social interaction model, an individual's outcome is affected by the outcomes and the characteristics of the reference group's members, i.e., the peers. The effects channelled through the outcomes of the reference group's members are known as the endogenous effects, and the effects arising from the characteristics of the reference group's members are called the contextual effects. Identification of these effects within an estimation framework is important because their policy implications greatly differ. <ref type="bibr" target="#b27">Manski (1993)</ref> shows that endogenous and contextual effects cannot be separately identified in a linear-in-means model. This identification problem, known as the 'reflection problem', has led to various adjustments to the linear-in-means specification to allow for partial or full identification of these effects <ref type="bibr" target="#b6">(Bramoullé, Djebbari, &amp; Fortin, 2009;</ref><ref type="bibr" target="#b7">Brock &amp; Durlauf, 2001;</ref><ref type="bibr" target="#b8">Burridge, Elhorst, &amp; Zigova, 2016;</ref><ref type="bibr" target="#b9">Calvo-Armengol, Patacchini, &amp; Zenou, 2009;</ref><ref type="bibr" target="#b15">Goldsmith-Pinkham &amp; Imbens, 2013;</ref><ref type="bibr" target="#b17">Hsieh &amp; Lee, 2016;</ref><ref type="bibr" target="#b21">Lee, 2007;</ref><ref type="bibr" target="#b24">Lin, 2010;</ref><ref type="bibr">Liu &amp; Lee, 2010)</ref>.</p><p>Tools from spatial econometrics can be used to reformulate social interaction models in such a way that identification of various effects becomes available. For spatial econometric models, see, for example, <ref type="bibr" target="#b1">Anselin (1988)</ref>, <ref type="bibr" target="#b23">LeSage and Pace (2009)</ref>, and <ref type="bibr" target="#b12">Elhorst (2010</ref><ref type="bibr" target="#b13">Elhorst ( , 2014))</ref>. The group relation can be represented by means of a so-called spatial weights (or connectivity) matrix. The outcomes of a group's members are included in the model through a so-called spatial lag operator which constructs a new variable consisting of a weighted average of the group members' outcomes. Similarly, the contextual effects are formulated through a spatial lag of the group members' characteristics. This class of models is referred to as social interaction models with network structures <ref type="bibr" target="#b21">(Lee, 2007;</ref><ref type="bibr" target="#b22">Lee, Liu, &amp; Lin, 2010;</ref><ref type="bibr" target="#b26">Liu, Patacchini, &amp; Zenou, 2014)</ref>.</p><p>In the literature, diagnostic testing procedures for social interaction models with network structures have received scant attention. Gradient or score-based tests within the generalized method of moments (GMM) or maximum likelihood (ML) frameworks can be formulated to test the presence of various effects by following <ref type="bibr" target="#b36">White (1982)</ref>, <ref type="bibr" target="#b28">Newey (1985a</ref><ref type="bibr" target="#b28">Newey ( , 1985b))</ref>, <ref type="bibr" target="#b35">Tauchen (1985)</ref>, <ref type="bibr" target="#b30">Newey and West (1987)</ref> and <ref type="bibr" target="#b33">Smith (1987)</ref>. However, these gradient-based tests (i.e., the Lagrange multiplier (LM) tests) are not robust to local parametric misspecifications in the alternative model. Within the ML framework, <ref type="bibr" target="#b10">Davidson and MacKinnon (1987)</ref>, <ref type="bibr" target="#b32">Saikkonen (1989)</ref>, and <ref type="bibr" target="#b5">Bera and Yoon (1993)</ref> show that the conventional LM test statistic has a non-central chisquare distribution when the alternative hypothesis deviates (locally) from the true data-generating process (DGP). <ref type="bibr" target="#b4">Bera, Montes-Rojas, and Sosa-Escudero (2010)</ref> extend this result to a GMM framework and show that the asymptotic distribution of the LM test is a non-central chi-square distribution when the alternative model deviates locally from the true DGP. Thus, conventional LM tests will over-reject the true null hypothesis, and will lead to incorrect inference under a parametric misspecification scenario. <ref type="bibr" target="#b5">Bera and Yoon (1993)</ref> and <ref type="bibr" target="#b4">Bera et al. (2010)</ref> formulate robust (or adjusted) tests that asymptotically have a central chi-square distribution irrespective of the local deviation of the alternative model from the true DGP.</p><p>In this paper, we formulate robust LM tests in the GMM and ML frameworks for a social interaction model with a network structure. We derive the asymptotic distribution of these tests under the null and the local alternatives within the context of our social interaction model. These tests can be used to detect the presence of the endogenous effects, correlation of unobservables and the contextual effects. Besides being robust to local parametric misspecifications in the alternative model, these tests are computationally very simple and only require estimates from a transformed linear regression model. We design an extensive Monte Carlo study to investigate the size and power properties of our proposed tests. Our results show that the proposed tests have good finite sample properties and can be useful for the identification of the source of dependence in a social interaction model.</p><p>The paper is organized as follows. The next section introduces the social interaction model. The third section reviews the GMM estimation approach and introduces the GMM gradient tests for testing linear and nonlinear restrictions on the spatial autoregressive parameters. We adjust these procedures for our social interaction model and formulate the robust LM test statistics. The fourth section considers the ML estimation approach for the model and formulates various versions of the LM tests. The fifth section introduces test statistics for testing the presence of contextual effects in both GMM and ML frameworks. The sixth section shows the relationships between the test statistics. The seventh to ninth sections compare the size and power properties of tests through a Monte Carlo study. The tenth section concludes. Some technical details are relegated to Appendices A-D in the supplemental data available online.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>THE MODEL SPECIFICATION</head><p>We consider a group interaction setting that consists of R groups. Let m r be the number of individuals in the rth group, and n = R r=1 m r be the total number of individuals. Let Y r = (Y 1r , Y 2r , . . . , Y m r r ) ′ be the m r × 1 vector of observed outcomes in the rth group. Then the DGP stated for the rth group is given by:</p><formula xml:id="formula_0">Y r = l 0 W r Y r + X 1r b 01 + W r X 2r b 02 + l m r a 0r + u r ,<label>(1)</label></formula><formula xml:id="formula_1">u r = r 0 M r u r + 1 r , for r = 1, . . . , R,<label>(2)</label></formula><p>where the network weights matrices W r and M r are m r × m r matrices with known constant terms and zero diagonal elements. The matrices of exogenous variables are denoted with X 1r and X 2r , which have dimensions of m r × k 1 and m r × k 2 respectively. 1 The corresponding parameter vectors for the exogenous variables are denoted by β 01 and β 02 . The endogenous social interaction effects are captured by W r Y r with the scalar coefficient λ 0 . The contextual effects are captured by W r X 2r with the matching parameter vector of β 02 . The model differs from the cross-sectional spatial econometric models by including the unobserved group fixed effects, denoted by l m r a 0r , where l m r is an m r × 1 vector of ones and a 0r represents the unobserved group fixed effects. The regression disturbance term u r = (u 1r , . . . , u m r r ) ′ and the innovation term 1 r = (1 1r , . . . , 1 m r r ) ′ are m r -dimensional vectors. The distributional assumption is imposed on the elements of ε r by assuming that 1 ir 's are i.i.d. with mean zero and variance s 2 0 . Finally, the unobserved correlated effects within the rth group are captured by M r u r with the scalar coefficient ρ 0 . In the spatial econometric literature, λ 0 and ρ 0 are called the spatial autoregressive parameters.</p><p>The network structure specified through the weights matrices W r and M r has implications for the estimation approach adopted. In <ref type="bibr" target="#b21">Lee (2007)</ref>, W r = ((1)/(m r -1))(l m r l ′ m r -I m r ) is the m r × m r network matrix, which indicates that each individual in the group is equally affected by the other members of the group. Hence, the spatial lag term W r Y r denotes the average outcome for group r. The zero diagonal property of W r indicates that Y ir is not included in the calculation of the group mean outcome for the ith individual, which is not the case in <ref type="bibr" target="#b27">Manski (1993)</ref>. The network matrices considered in <ref type="bibr" target="#b22">Lee et al. (2010)</ref> may differ from above W r , but their rows still sum to a constant. In the case where this property is violated, the likelihood function of the model cannot be derived, and therefore <ref type="bibr" target="#b25">Liu and Lee (2010)</ref> propose two-stage least squares (2SLS) and GMM methods for estimation.</p><p>In certain interaction scenarios, elements of the weights matrices might be a function of the sample size n. For the cross-sectional spatial autoregressive models without group fixed effects, <ref type="bibr" target="#b20">Lee (2004)</ref> assumes a large group interaction setting and specifies elements of the weights matrix by w ij = O(1/h n ). Here, w ij is the (i, j)th element of the weights matrix W and {h n } is a sequence of real numbers that can be bounded or divergent with the property that lim n 1 h n /n = 0. For the case where W r = ((1)/(m r -1))(l m r l ′ m r -I m r ), we have h n = m r -1 and h n /n = (m r -1)/n, where n = R r=1 m r . If there is no variation in group sizes and the increase in n is generated by the increase in m r and R, then clearly lim n 1 h n /n = 0. However, as shown in <ref type="bibr" target="#b21">Lee (2007)</ref>, the endogenous effects cannot be identified in this case. In addition, Lee shows that both the endogenous and exogenous effects are weakly identified and their rates of convergence can be quite low when all group sizes are large, even if there is group size variation. Therefore, following <ref type="bibr" target="#b22">Lee et al. (2010)</ref> and <ref type="bibr" target="#b25">Liu and Lee (2010)</ref>, we assume an interaction scenario in which {h n } is bounded.</p><p>In order to write the model for the entire sample, define</p><formula xml:id="formula_2">Y = (Y ′ 1 , . . . , Y ′ R ) ′ , X = (X ′ 1 , . . . , X ′ R ) ′ with X r = (X 1r , W r X 2r ), u = (u ′ 1 , . . . , u ′ R ) ′ , a 0 = (a 01 , . . . , a 0R ) ′ and 1 = (1 ′ 1 , . . . , 1 ′ R ) ′ . Let D({C r } R r=1</formula><p>) be the operator that creates a block diagonal matrix in which the diagonal blocks are m r × n r matrices C r . Let W = D (W 1 , … , W R ), M = D(M 1 , … , M R ) and l n = D(l m 1 , . . . , l m R ). Then the model for the entire sample is given by:</p><formula xml:id="formula_3">Y = l 0 WY + X b 0 + l n a 0 + u, u = r 0 Mu + 1,<label>(3)</label></formula><p>where b 0 = (b ′ 01 , b ′ 02 ) ′ . To obtain the reduced form of (3), define R(ρ) = (I n -ρM) and S(λ) = (I n -λW). At the true parameter values, let R(ρ 0 ) = R and S(λ 0 ) = S. Then if R and S are non-singular, the reduced form of the model becomes:</p><formula xml:id="formula_4">Y = S -1 X b 0 + S -1 l n a 0 + S -1 R -1 1.<label>(4)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>THE GMM ESTIMATION APPROACH</head><p>The model can be stated in terms of innovations as follows:</p><formula xml:id="formula_5">RY = RZd 0 + Rl n a 0 + 1,<label>(5)</label></formula><p>where Z = (WY, X ) and d 0 = (l 0 , b ′ 0 ) ′ . To wipe out fixed effects from ( <ref type="formula" target="#formula_5">5</ref>), an orthogonal projector that projects a vector to the column space of Rl n can be used. For this purpose, the rth diagonal block of Rl n , R r l m r = A × (1, r 0 ) ′ , where A = (l m r , M r l m r ), can be used to construct a projector. Define J r = I m r -A(A ′ A) -A ′ , where A -is the generalized inverse of A. In the case where M r has rows all sum to a constant c such that R r l m r = (1cr 0 )l m r , the projector reduces to the usual deviation from group mean maker J r = I m r -(1/m r )l m r l ′ m r . In any case, since J r R r l m r = 0, the fixed effects can be eliminated from ( <ref type="formula" target="#formula_5">5</ref>). Let J = D (J 1 , … , J R ). Then the pre-multiplication of (5) by J yields:</p><formula xml:id="formula_6">JRY = JRZd 0 + J 1.<label>(6)</label></formula><p>The GMM estimation approach requires the following assumptions.</p><p>Assumption 1:. The innovation terms 1 ir 's are i.i.d. with zero mean and variance s 2 0 , and E(|1 ir | 4+t ) , 1 for some τ &gt; 0, for all i = 1, … , m r and r = 1, … , R.</p><p>Assumption 2:. (i) The matrix X has full column rank of k = k 1 + k 2 with uniformly bounded elements, and lim</p><formula xml:id="formula_7">n 1 (1/n)X ′ X is a finite non-singular matrix; and (ii) x(r) = lim n 1 (1/n) f ′ (r)f (r),</formula><p>where f(ρ) = JR(ρ)E(Z), exists and is not singular for all values of ρ such that R(ρ) is not singular.</p><p>Assumption 3:. The row and column sums of matrices W, M, S -1 , and R -1 are bounded uniformly in absolute value. 2   Assumption 4:. The parameter vector u 0 = (r 0 , d ′ 0 ) ′ is in the interior of bounded parameter space Θ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The moment conditions</head><p>The internal instrumental variables (IVs) for the endogenous variable JRZ can be determined from the reduced form of the model in (4). By definition, the best set of instruments is</p><formula xml:id="formula_8">f = JRE(Z ) = (JRGXβ 0 + JRGl n α 0 , JRX), where G = WS -1 . Since R = I n -ρ 0 M, the best IV set is a linear combination of IVs in Q ∞ = J(Q 0 , MQ 0 ), where Q 0 = (GX, Gl n , X ). Furthermore, since G = 1 j=0 l j W j+1 , Q 0 is a linear combination of elements of Q 0 1 = (WX , W 2 X , , Wl n , W 2 l n , . . . , X ).</formula><p>Since l n has R columns, the number of IVs increases as the number of groups increases. Let Q 0 K be a sub-matrix of Q 0 1 and define Q K = J (Q 0 K , MQ 0 K ) as the n × K IV matrix, where K ≥ k + 1. Then the linear moment function is defined by g 1 (d 0 ) = Q ′ K J 1 and it satisfies the orthogonality condition under Assumption 1:</p><formula xml:id="formula_9">E(g 1 (d 0 )) = E(Q ′ K J 1) = Q ′ K E(1) = 0 K ×1 ,<label>(7)</label></formula><p>where Jε(θ 0 ) = JR(Y -Zδ 0 ). The result in (4) indicates that the endogenous term JRZ is also a function of a stochastic term. <ref type="bibr" target="#b25">Liu and Lee (2010)</ref> formulate additional quadratic moment functions to exploit the information in the stochastic part. Both types of moment functions can be used in the GMM framework to estimate all parameters jointly. Let U 1 ,…,U q be n × n non-stochastic matrices satisfying tr(JU j ) = 0 for j = 1, … , q. 3 Using these non-stochastic matrices, additional quadratic moment functions can be formulated as E(ε′(θ 0 )JU j Jε(θ 0 )) for j = 1, … , q, where ε(θ 0 ) = JR(Y -Zδ 0 ). Let g 2 (θ) = (ε′(θ)JU 1 Jε(θ), … , ε′(θ)JU q Jε(θ))′ be the set of quadratic moment functions. The combined set of moment functions for the GMM estimation is then given by:</p><formula xml:id="formula_10">g(u) = [g ′ 1 (u), g ′ 2 (u)] ′ ,<label>(8)</label></formula><p>where θ = (ρ, δ′)′. The population moment condition for each quadratic moment function in ( <ref type="formula" target="#formula_10">8</ref>)</p><formula xml:id="formula_11">is satisfied since E(1 ′ (u 0 )JU j J 1(u 0 )) = s 2 0 tr(JU j J</formula><p>) = 0 for all j by assumption. 4 Let T j = JU j J for j = 1,…,q, H = MR -1 , G = RGR -1 and A s = A + A′ for any square matrix A. Also, let vec (•) be the operator that creates a column vector from the elements of an input matrix, vec D (•) be the operator that creates a column vector from the diagonal elements of an input matrix, and e i be the ith unit column vector of dimension k + 1. Define Ω = E [g(θ 0 )g′ (θ 0 )] and</p><formula xml:id="formula_12">D 2 = E[∂g 2 (u)/∂u ′ | u 0 ].</formula><p>For our generic set of moment functions in (8), these matrices are given by:</p><formula xml:id="formula_13">V = s 2 0 Q ′ K Q K m 3 Q ′ K v m 3 v ′ Q K (m 4 -3s 4 0 )v ′ v + s 4 0 Y , (<label>9</label></formula><formula xml:id="formula_14">)</formula><formula xml:id="formula_15">D 2 = -s 2 0 tr(T s 1 H ) tr(T s 1 G) 0 1×k tr(T s 2 H ) tr(T s 2 G) 0 1×k . . . . . . . . . tr(T s q H ) tr(T s q G) 0 1×k ⎡ ⎢ ⎢ ⎢ ⎢ ⎣ ⎤ ⎥ ⎥ ⎥ ⎥ ⎦ , (<label>10</label></formula><formula xml:id="formula_16">)</formula><p>where μ 3 and μ 4 are respectively the third and the fourth moments of 1 ir , ω = [vec D (T 1 ), … , vec D (T q )] and Y = (1/2)[vec (T s 1 ), . . . , vec (T s q )] ′ [vec (T s 1 ), . . . , vec (T s q )]. The optimal GMM estimation requires an initial estimate of Ω. The result in (9) indicates that a consistent estimate of Ω can be recovered from the consistent estimates of s 2 0 , μ 3 and μ 4 under the stated assumptions. Let V be an initial consistent estimate of Ω. Then the optimal GMM estimator (GMME) is defined by:</p><formula xml:id="formula_17">û = arg min u[Q g ′ (u) V-1 g(u).<label>(11)</label></formula><p>The GMME defined in (11) is consistent but may not be centred properly around the true parameter vector. The asymptotic bias arises because the dimension of g 1 (θ) increases as the number of groups increases, i.e., the many IV problem. Under the condition that K 3/2 /n 0, Liu and Lee (2010) establish the following fundamental result:</p><formula xml:id="formula_18">n √ ( û -u 0 -Bias) d N [0 (k+2)×1 , H -1 ],<label>(12)</label></formula><p>where</p><formula xml:id="formula_19">H = s -2 0 D(0, x(r 0 )) + lim n 1 (1/n) D ′ 2 V 22 D 2 , V 22 = [(m 4 -3s 4 0 )v ′ v + s 4 0 Y -(m 2 3 /s 2 0 )v ′ P K v] -1 , Bias = [s -2 0 D(0, Z ′ R ′ P K RZ) + Ď′ 2 V 22 Ď′ 2 ] -1 [tr(P K MR -1 ), tr(P K G)e ′ 1 ] ′ , Ď2 = D 2 - (m 3 /s 2 0 )[0, v ′ P K RZ], D 2 = D 2 -(m 3 /s 2 0 )[0, v ′ f ] and P K = Q K (Q ′ K Q K ) -Q ′ K . 5</formula><p>GMM gradient tests for the spatial autoregressive parameters This section formulates the GMM gradient tests when the number of linear IVs is fixed, i.e., when K is fixed. The standard LM test statistic requires computation of the restricted model implied by the null hypotheses. Consider the set of restrictions given by π(θ 0 ) = 0, where p:Q R p is a continuously differentiable function such that its Jacobian ∂p(u 0 )/∂u ′ is finite and has full row rank p.</p><p>Then the restricted GMME is defined by ûr = arg min {u:p(u)=0} g ′ (u)</p><p>V-1 g(u). The restricted estimator can also be defined in an alternative way by using the implicit function theorem to state the set of restrictions in an explicit way. By the implicit function theorem, there exists a continuously differentiable function k:R k+2-p R k+2 such that ∂κ(ϱ)/ϱ′ has full row rank k + 2p, where ϱ is the vector of free parameters. Define @ = arg min @ g ′ (k(@)) V-1 g(k(@)). Then the restricted GMME is alternatively defined by ûr = k( @ ). Let G a (u) = (∂g(u)/∂a ′ ) and C a (u</p><formula xml:id="formula_20">) = (1/n)G ′ a (u) V-1 g(u), where a = ρ, λ, β. Define G(θ) = [G ρ (θ), G λ (θ), G β (θ)], C(θ) = [C ρ (θ), C λ (θ), C β (θ)] and B(u) = (1/n)G ′ (u) V-1 G(u). 6</formula><p>The LM test is based on the idea that the sample gradients evaluated at ûr should be close to zero when the restrictions are valid. The test statistic is given by:</p><formula xml:id="formula_21">LM g 0 ( ûr ) = n C ′ ( ûr )[B( ûr )] -1 C( ûr ). (<label>13</label></formula><formula xml:id="formula_22">)</formula><p>In the literature, asymptotic properties of the LM tests have been investigated using a local parametric misspecification in the alternative model <ref type="bibr" target="#b4">(Bera et al., 2010;</ref><ref type="bibr" target="#b3">Bera &amp; Bilias, 2001;</ref><ref type="bibr" target="#b5">Bera &amp; Yoon, 1993;</ref><ref type="bibr" target="#b10">Davidson &amp; MacKinnon, 1987;</ref><ref type="bibr" target="#b32">Saikkonen, 1989)</ref>. <ref type="bibr" target="#b5">Bera and Yoon (1993)</ref> and <ref type="bibr" target="#b4">Bera et al. (2010)</ref> formulate robust LM tests when there is a local parametric misspecification in the alternative model. We consider similar robust LM tests for the following null hypotheses:</p><p>1. On the correlation of the error terms:</p><formula xml:id="formula_23">H r 0 :r 0 = r w ,<label>(14)</label></formula><p>2. On the endogenous effects:</p><formula xml:id="formula_24">H l 0 :l = l w , (<label>15</label></formula><formula xml:id="formula_25">)</formula><p>where r w and l w are hypothesized known quantities. For these hypotheses, we construct LM tests that are robust to local parametric misspecifications. For this purpose, we consider sequences of local alternatives formulated for the hypotheses in ( <ref type="formula" target="#formula_23">14</ref>) and ( <ref type="formula" target="#formula_24">15</ref>). These sequences of local alternatives (also known as the Pitman drifts) take the following forms: H l A :l 0 = l w + d l / n √ , and</p><formula xml:id="formula_26">H r A :r 0 = r w + d r / n</formula><p>√ , where δ λ and δ ρ are bounded scalars. As will be illustrated, this device is not only the basis for the ensuing discussion on power properties of the test statistics, but it is also instrumental in the formulation of the robust test statistics. Let</p><formula xml:id="formula_27">H = s -2 0 D(0, x(r 0 )) + lim n 1 (1/n) D ′ 2 V 22 D 2 .</formula><p>To formulate the test statistics, consider the following partition of B(θ) and H:</p><formula xml:id="formula_28">B(u) = B rr (u) 1×1 B rl (u) 1×1 B rb (u) 1×k B lr (u) 1×1 B ll (u) 1×1 B lb (u) 1×k B br (u) k×1 B bl (u) k×1 B bb (u) k×k ⎡ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎣ ⎤ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎦ , H = H rr 1×1 H rl 1×1 H rb 1×k H lr 1×1 H ll 1×1 H lb 1×k H br k×1 H bl k×1 H bb k×k ⎡ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎣ ⎤ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎦ .<label>(16)</label></formula><p>Let ũ = (r w , l w , b′ ) ′ be the restricted GMME under the joint null hypothesis H 0 :r 0 = r w and l 0 = l w . The LM test statistic for this joint null hypothesis can be expressed as:</p><formula xml:id="formula_29">LM g rl ( ũ) = n C ′ rl ( ũ)[B 1•3 ( ũ)] -1 C rl ( ũ),<label>(17)</label></formula><p>where</p><formula xml:id="formula_30">C rl ( ũ)=[C ′ r ( ũ),C ′ l ( ũ)] ′ , B 1•3 ( ũ)=B 11 ( ũ)-B 13 ( ũ)B -1 bb ( ũ)B 31 ( ũ), B 11 ( ũ)= B rr ( ũ) B rl ( ũ) B lr ( ũ) B ll ( ũ) , and B 31 ( ũ)=B ′ 13 ( ũ)=[B br ( ũ),B bl ( ũ)].</formula><p>Now we consider the problem of testing H r 0 when H l 0 holds. Then the standard LM test can be stated as:</p><formula xml:id="formula_31">LM g r ( ũ) = n C ′ r ( ũ)[B r•b ( ũ)] -1 C r ( ũ),<label>(18)</label></formula><p>where</p><formula xml:id="formula_32">B r•b ( ũ) = B rr ( ũ) -B rb ( ũ)B -1 bb ( ũ)B br ( ũ).</formula><p>The distribution of (18) under H r A and H l A can be investigated from the first-order Taylor expansion of the pseudo-gradients C r ( ũ) and C b ( ũ) around θ 0 . These expansions can be stated as:</p><formula xml:id="formula_33">n √ C r ( ũ) = n √ C r (u 0 ) - 1 n G ′ r (u 0 ) V-1 G r ( u)d r - 1 n G ′ r (u 0 ) V-1 G l ( u)d l + 1 n G ′ r (u 0 ) V-1 G b ( u) n √ ( b -b 0 ) + o p (1), (<label>19</label></formula><formula xml:id="formula_34">) n √ C b ( ũ) = n √ C b (u 0 ) - 1 n G ′ b (u 0 ) V-1 G r ( u)d r - 1 n G ′ b (u 0 ) V-1 G l ( u)d l + 1 n G ′ b (u 0 ) V-1 G b ( u) n √ ( b -b 0 ) + o p (1),<label>(20)</label></formula><p>where u lies between ũ and θ 0 . Using the asymptotic results in Lemma 1 (see Appendix A in the supplemental data online), we obtain the following result from ( <ref type="formula" target="#formula_33">19</ref>) and (20).</p><formula xml:id="formula_35">n √ C r ( ũ) = [ -1, H rb H -1 bb ] × -n √ C r (u 0 )-n √ C b (u 0 ) -[H rr -H rb H -1 bb H br ]d r -[H rl -H rb H -1 bb H bl ]d l + o p (1). (<label>21</label></formula><formula xml:id="formula_36">)</formula><p>Under our stated assumptions, the pseudo-gradients have an asymptotic normal distribution as shown in Lemma 1. Thus, the result in (21) implies that</p><formula xml:id="formula_37">n √ C r ( ũ) d N ( -H r•b d o -H rl•b d l , H r•b ), where H r•b = [H rr -H rb H -1 bb H br ],<label>and</label></formula><formula xml:id="formula_38">H rl•b = [H rl -H rb H -1 bb H bl ]. 7 Hence, LM g r ( ũ) d x 2 1 (q 1 ) under H r</formula><p>A and H l A , where</p><formula xml:id="formula_39">q 1 = d 2 r H r•b + d ′ r H rl•b d l + d ′ l H ′ rl•b d r + d 2 l H ′ rl•b H -1 r•b H rl•b is the non-centrality parameter. 8</formula><p>In the case where H r A and H l 0 hold, the result in (21) implies that</p><formula xml:id="formula_40">n √ C r ( ũ) d N ( -H r•b d r , H r•b ). Hence, LM g r ( ũ) d x 2 1 (q 2 ) under H r</formula><p>A and H l 0 , where</p><formula xml:id="formula_41">q 2 = d 2 r H r•b .</formula><p>Therefore, under H r 0 and H l 0 , LM g r ( ũ) has a central chi-square distribution and hence asymptotically correct size. In case where H r 0 and</p><formula xml:id="formula_42">H l A hold, the result in (21) indicates that n √ C r ( ũ) d N ( -H rl•ta d l , H r•b ). Hence, LM g r ( ũ) d x 2 1 (q 3 ) under H r 0 and H l A , where q 3 = d 2 l H ′ rl•b H -1 r•b H rl•b .</formula><p>This result indicates that LM g r ( ũ) will over reject H r 0 :r 0 = r w when there is a local parametric misspecification in the alternative model.</p><p>Next, we adjust the asymptotic mean and variance of n √ C r ( ũ) so that the resulting score statistic LM g r ( ũ) has asymptotically a centred chi-square distribution irrespective of whether</p><formula xml:id="formula_43">H l 0 or H l A holds. Let n √ [C r ( ũ) -H rl•b H -1 l•b C l ( ũ)]</formula><p>be the adjusted unfeasible pseudo-gradient, which has a zero asymptotic mean. Under our assumptions, a feasible version of the adjusted pseudo-gradient is given by</p><formula xml:id="formula_44">n √ C w r ( ũ) = n √ [C r ( ũ) -B rl•b ( ũ)B -1 l•b ( ũ)C l ( ũ)], where B l•b ( ũ) = [B ll ( ũ) -B lb ( ũ)B -1 bb ( ũ)B bl ( ũ)], and B rl•b ( ũ) = [B rl ( ũ) -B rb ( ũ)B -1 bb ( ũ)B bl ( ũ)</formula><p>]. Then we can use this adjusted pseudo-gradient to formulate the robust test statistics, denoted by LM gw r ( ũ). In the following proposition, we provide this test along with the results summarized so far.</p><p>Proposition 1:. Under Assumptions 1-4, the following results hold.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Under H r</head><p>A and H l A , we have:</p><formula xml:id="formula_45">LM g r ( ũ) d x 2 1 (q 1 ),<label>(22)</label></formula><p>where</p><formula xml:id="formula_46">q 1 = d 2 r H r•b + d r H rl•b d l + d l H ′ rl•b d r + d 2 l H ′ rl•b H -1 r•b H rl•b . 2. Under H r</formula><p>0 and irrespective of whether H l 0 or H l A holds, we have:</p><formula xml:id="formula_47">LM gw r ( ũ) = n C w ′ r ( ũ)[B r•b ( ũ) -B rl•b ( ũ)B -1 l•b ( ũ)B ′ rl•b ( ũ)] -1 C w r ( ũ) d x 2 1 , (<label>23</label></formula><formula xml:id="formula_48">) where B r•b ( ũ) = [B rr ( ũ) -B rb ( ũ)B -1 bb ( ũ)B br ( ũ)].</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Under H r</head><p>A and irrespective of whether H l 0 or H l A holds, we have:</p><formula xml:id="formula_49">LM gw r ( ũ) d x 2 1 (q 4 ),<label>(24)</label></formula><p>where</p><formula xml:id="formula_50">q 4 = d 2 r (H r•b -H rl•b H -1 l•b H ′ rl•b ).</formula><p>Proof:. See Appendix D in the supplemental data online.</p><p>The non-centrality parameters reported in Proposition 1 can be used for the power analysis. The tail probability of a non-central chi-square distribution is increasing in the non-centrality parameter and is decreasing in the degrees of freedom. Also, the non-centrality parameter is related to the approximate slope of a test. If the asymptotic distribution of a test has a relatively larger noncentrality parameter, then the test has a relatively larger approximate slope <ref type="bibr" target="#b28">(Newey, 1985a)</ref>. Under</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>H r</head><p>A and H l 0 , we have LM gw r ( ũ</p><formula xml:id="formula_51">) d x 2 1 (q 4 ) and LM g r ( ũ) d x 2 1 (q 2 ) from Proposition 1. It follows that q 2 -q 4 ≥ 0, which indicates that LM gw r ( ũ) has less asymptotic power than LM g r ( ũ)</formula><p>when there is no local parametric misspecification, i.e., when λ 0 = 0.</p><p>The results in Proposition 1 can also be replicated for the hypothesis in (15). For this purpose, we consider the null hypothesis H l 0 :l 0 = l w when H r 0 :r 0 = r w holds. Then the LM test can be formulated as:</p><formula xml:id="formula_52">LM g l ( ũ) = n C ′ l ( ũ)[B l•b ( ũ)] -1 C l ( ũ),<label>(25)</label></formula><p>where</p><formula xml:id="formula_53">B l•b ( ũ) = B ll ( ũ) -B lb ( ũ)B -1 bb ( ũ)B bl ( ũ).</formula><p>The asymptotic distribution of (25) under H l A and H r A can be investigated from the first order Taylor expansions of the pseudo-gradients C l ( ũ) and C b ( ũ) around θ 0 . These expansions yield:</p><formula xml:id="formula_54">n √ C l ( ũ) = [ -1, H lb H -1 bb ] × -n √ C l (u 0 ) -n √ C b (u 0 ) -[H lr -H lb H -1 bb H br ]d r -[H ll -H lb H -1 bb H bl ]d l + o p (1). (<label>26</label></formula><formula xml:id="formula_55">)</formula><p>Applying the asymptotic normality of pseudo-gradients from Lemma 1 (see Appendix A in the supplemental data online) to ( <ref type="formula" target="#formula_54">26</ref>), we obtain n √ C l ( ũ</p><formula xml:id="formula_56">) d N [ -H l•b d l -H lr.b d r , H l•b ],</formula><p>where</p><formula xml:id="formula_57">H l•b = [H ll -H lb H -1 bb H bl ],<label>and</label></formula><formula xml:id="formula_58">H lr•b = [H lr -H lb H -1 bb H br ]. Hence, LM g l ( ũ) d x 2 1 (z 1 ) under H r A and H l A , where z 1 = d 2 l H l•b + d r H lr•b d l + d l H ′ lr•b d r + d 2 r H ′ lr•b H -1 l•b H lr•b is the non-centrality parameter. Let LM gw l ( ũ)</formula><p>be the robust version of LM g l ( ũ), which can be obtained by adjusting the asymptotic mean and variance of n</p><formula xml:id="formula_59">√ C l ( ũ). To this end, let C w l ( ũ) = [C l ( ũ) -B lr•b ( ũ)B -1 r•b ( ũ)C r ( ũ)] be the adjusted pseudo-gradient, where B lr•b ( ũ) = [B lr ( ũ) -B lb ( ũ)B -1 bb ( ũ)B bl ( ũ)].</formula><p>In the following proposition, we summarize the asymptotic properties of LM g l ( ũ) and LM gw l ( ũ). Proposition 2: Assumptions 1-4 ensure the following results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Under H l</head><p>A and H r A , we have:</p><formula xml:id="formula_60">LM g l ( ũ) d x 2 1 (z 1 ),<label>(27)</label></formula><p>where</p><formula xml:id="formula_61">z 1 = d 2 l H l•b + d r H lr•b d l + d l H ′ lr•b d r + d 2 r H ′ lr•b H -1 l•b H lr•b . 2. Under H l 0 and irrespective of whether H r 0 or H r A holds: LM gw l ( ũ) = n C w ′ l ( ũ)[B l•b ( ũ) -B lr•b ( ũ)B -1 r•b ( ũ)B ′ lr•b ( ũ)] -1 C w l ( ũ) d x 2 1 .<label>(28)</label></formula><p>3. Under H l A and irrespective of whether H r 0 or H r A holds, we have:</p><formula xml:id="formula_62">LM gw l ( ũ) d x 2 1 (z 2 ),<label>(29)</label></formula><p>where</p><formula xml:id="formula_63">z 2 = d 2 l (H l•b -H lr•b H -1 r•b H ′ lr•b ).</formula><p>Proof: See Appendix D in the supplemental data online.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>THE ML ESTIMATION APPROACH</head><p>As mentioned above, if the spatial weights matrices do not have rows that sum to a unique constant, i.e., W r l r ≠ cl r , where c is a constant, then the log-likelihood function of the model cannot be derived <ref type="bibr">(Liu &amp; Lee, 2010)</ref>. Therefore, in this section we consider the ML estimation of our model when W r l m r = M r l m r = l m r holds. 9</p><p>Log-likelihood function In the third section, we state that if M r has rows all sum to a constant c such that R r l m r = (1cr 0 )l m r , the projector reduces to the usual deviation from group mean maker <ref type="bibr" target="#b22">Lee et al. (2010)</ref> use the orthonormal matrix, F r , l m r / m r √ consisting of the eigenvectors of J r , to wipe out group fixed effects from the model. 10  Denote</p><formula xml:id="formula_64">J r = I m r -(1/m r )l m r l ′ m r .</formula><formula xml:id="formula_65">Y * r = F ′ r Y r , X * r = F ′ r X r , 1 * r = F ′ r 1 r , W * r = F ′ r W r F r , M * r = F ′ r M r F r , S * r (l) = F ′ r S r (l)F r = I m * r -lW * r and R * r (r) = F ′ r R r (r)F r = I m * r -rW * r . Using Lemma 2 (see Appendix A in the supplemental data online), the transformation of the dependent vari- able R r Y r to F ′ r R r Y r yields: R * r Y * r = l 0 R * r W * r Y * r + R * r X * r b 0 + 1 * r .<label>(30)</label></formula><p>Let u = (r, l, b ′ , s 2 ) ′ be the parameter vector. The log-likelihood function for the entire sample for (30) can be written as:</p><formula xml:id="formula_66">ln L(u) = - n * 2 ln (2ps 2 ) + R r=1 ln |S * r (l)| + R r=1 ln |R * r (r)| - 1 2s 2 R r=1 1 * ′ r (u)1 * r (u),<label>(31)</label></formula><p>where n* = n-R and</p><formula xml:id="formula_67">1 * r (u) = R * r (r)S * r (l)Y * r -R r (r)X * r b. Using Lemma 2, it can be shown that 1 * ′ r (u)1 * r (u) = 1 ′ r (u)J r 1 r (u), where ε r (θ) = R r (ρ)S r (λ)Y r -R r (ρ)X r β.</formula><p>Then again using Lemma 2, the log-likelihood function in (31) can be written as:</p><formula xml:id="formula_68">ln L(u) = - n * 2 ln (2ps 2 ) + ln |S(l)| + ln |R(r)| -R ln ((1 -l)(1 -r)) - 1 2s 2 1 ′ (u)J 1(u),<label>(32)</label></formula><p>where</p><formula xml:id="formula_69">ε(θ) = R(ρ)S(λ)Y -R(ρ)Xβ.</formula><p>Thus, the log-likelihood can be evaluated without the calculation of F r . For a given value of λ and ρ, the ML estimator (MLE) of β 0 and s 2 0 can computed from the first order conditions of the log likelihood function. These estimators are:</p><formula xml:id="formula_70">b (l, r) = (X ′ R ′ (r)JR(r)X ) -1 X ′ R ′ (r)JR(r)S(l)Y , (<label>33</label></formula><formula xml:id="formula_71">) ŝ2 (l, r) = 1 n * Y ′ S ′ (l)R ′ (r)P(r)R(r)S(l)Y ,<label>(34)</label></formula><p>where</p><formula xml:id="formula_72">P(r) = J -JR(r)X (X ′ R ′ (r)JR(r)X ) -1 X ′ R ′ (r)J .</formula><p>Then the concentrated log-likelihood function is given by:</p><formula xml:id="formula_73">ln L(l, r) = - n * 2 ( ln (2p) + 1) - n * 2 ln ŝ2 (l, r) + ln |S(l)| + ln |R(r)| -R ln ((1 -l)(1 -r)). (<label>35</label></formula><formula xml:id="formula_74">)</formula><p>The MLE of λ 0 and ρ 0 is obtained by the maximization of (35). We assume the following conditions for the consistency and the asymptotic distribution of the MLE.</p><p>Assumption 5: The innovation terms 1 ir s are i.i.d. normal with zero mean and variance s 2 0 for all i = 1, … , m r and r = 1, … , R. 11   Assumption 6: (i) The elements X are uniformly bounded constants for all n; (ii) X has the full rank of k = k 1 + k 2 ; and (iii) lim n 1 (1/n)X ′ R ′ JRX exists and is not singular.</p><p>Assumption 7: (i) The row and column sums of W and M are bounded uniformly in absolute value; (ii) λ 0 and ρ 0 are in the interior of a compact parameter space Γ; and (iii) the row and column sums of S -1 (l) and R -1 (r) are bounded uniformly in absolute value for all (λ, ρ) ∈ Γ.</p><p>Under Assumptions 5-7, the following result for the MLE û can be established <ref type="bibr" target="#b22">(Lee et al., 2010</ref></p><formula xml:id="formula_75">): 12 n * √ ( û -u 0 ) d N [0, ( lim n 1 S) -1 ],<label>(36)</label></formula><p>where</p><formula xml:id="formula_76">S = E[ -(1/n * )((∂ 2 ln L(u 0 ))/(∂u∂u ′ ))]. 13</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>LM tests for spatial autoregressive parameters</head><p>In this section, we consider the LM statistics for testing H r 0 and H l 0 . Our test statistics are similar to those suggested in <ref type="bibr" target="#b2">Anselin, Bera, Florax, and Yoon (1996)</ref>. Note that the test statistics suggested in <ref type="bibr" target="#b2">Anselin et al. (1996)</ref> cannot be directly used for our model, since the log-likelihood function of our model is so different and complex from the one used in <ref type="bibr" target="#b2">Anselin et al. (1996)</ref> to formulate the test statistics. When there are no group fixed effects, i.e., α 0 = 0, our model reduces to the cross-sectional model studied in <ref type="bibr" target="#b2">Anselin et al. (1996)</ref>. Thus, our results can be considered as an extension of results in Anselin et al.</p><p>Denote</p><formula xml:id="formula_77">g = (b ′ , s 2 ) ′ and g 0 = (b ′ 0 , s 2 0 ) ′ . Let L a (u) = (1/n * )((∂ln L(u))/(∂a)), L aa (u) = (1/n * )((∂ 2 L(a))/(∂a∂a ′</formula><p>)), where a = ρ, λ, γ, I(θ) = Σ(θ), and I = lim n 1 S. 14 With these new notations, the standard LM test statistic for the restrictions of the form π(θ 0 ) = 0 is given by:</p><formula xml:id="formula_78">LM m 0 ( ûr ) = n * L ′ ( ûr )[I ( ûr )] -1 L( ûr ),<label>(37)</label></formula><p>where ûr = arg max {u:p(u)=0} ln L(u) is the restricted MLE and I ( ûr ) is the plug in estimator of I.</p><p>In order to formulate robust and non-robust test statistics, consider the following partition of I(θ) and I:</p><formula xml:id="formula_79">I (u) = I rr (u) 1×1 I rl (u) 1×1 I rg (u) 1×(k+1) I lr (u) 1×1 I ll (u) 1×1 I lg (u) 1×(k+1) I gr (u) (k+1)×1 I gl (u) (k+1)×1 I gg (u) (k+1)×(k+1) ⎡ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎣ ⎤ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎦ , I = I rr 1×1 I rl 1×1 I rg 1×(k+1) I lr 1×1 I ll 1×1 I lg 1×(k+1) I gr (k+1)×1 I gl (k+1)×1 I gg (k+1)×(k+1) ⎡ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎢ ⎣ ⎤ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎥ ⎦ .<label>(38)</label></formula><p>Let ũ = (r w , l w , g) ′ be the restricted MLE when H 0 :r 0 = r w , l 0 = l w holds. First, we consider the LM test for the joint null hypothesis H 0 :r 0 = r w , l 0 = l w . The test statistic is given by:</p><formula xml:id="formula_80">LM m rl ( ũ) = n * L ′ rl ( ũ)[I 1•3 ( ũ)] -1 L rl ( ũ),<label>(39)</label></formula><p>where Next, we formulate test statistics that are similar to those stated in Propositions 1 and 2 for the null hypotheses given in ( <ref type="formula" target="#formula_23">14</ref>) and ( <ref type="formula" target="#formula_24">15</ref>). Again, we first consider the problem of testing H r 0 :r 0 = r * when H l 0 :l 0 = l w holds. Then the one directional test statistic can be formulated as:</p><formula xml:id="formula_81">L rl ( ũ) = [L r ( ũ), L l ( ũ)] ′ , I 1•</formula><formula xml:id="formula_82">LM m r ( ũ) = n * L ′ r ( ũ)[I r•g ( ũ)] -1 L r ( ũ),<label>(40)</label></formula><p>where</p><formula xml:id="formula_83">I r•g ( ũ) = I rr ( ũ) -I rg ( ũ)I -1 gg ( ũ)I gr ( ũ).</formula><p>The distribution of (40) under H r A and H l A can be investigated from the first-order Taylor expansion of L r ( ũ) and L g ( ũ) around θ 0 . The Taylor expansions can be derived as: 15</p><formula xml:id="formula_84">n * √ L r ( ũ) = n * √ L r (u 0 ) -L rr (u 0 )d r -L rl (u 0 )d l + n * √ L rg (u 0 )( g -g 0 ) + o p (1), (<label>41</label></formula><formula xml:id="formula_85">)</formula><formula xml:id="formula_86">n * √ L g ( ũ) = n * √ L g (u 0 ) -L gr (u 0 )d r -L gl (u 0 )d l + n * √ L gg (u 0 )( g -g 0 ) + o p (1). (<label>42</label></formula><formula xml:id="formula_87">)</formula><p>Using ( <ref type="formula" target="#formula_84">41</ref>), (42) and Lemma 3 (see Appendix A in the supplemental data online), we can obtain the following result:</p><formula xml:id="formula_88">n * √ L r ( ũ) = [1, -I rg I -1 gg ] × n * √ L r (u 0 ) n * √ L g (u 0 ) + [I rr -I rg I -1 gg I gr ]d r + [I rl -I rg I -1 gg I gl ]d l + o p (1). (<label>43</label></formula><formula xml:id="formula_89">)</formula><p>The asymptotic distribution of n * √ L r ( ũ) can be determined from ( <ref type="formula" target="#formula_88">43</ref> . This last result along with (43) can be used to determine the asymptotic distributions of LM m r and its robust version LM mw r under the null and the local alternatives. We summarize these asymptotic results in the following proposition.</p><p>Proposition 3: Under Assumptions 5-7, the following results hold.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Under H r</head><p>A and H l A , we have:</p><formula xml:id="formula_90">LM m r ( ũ) d x 2 1 (w 1 ),<label>(44)</label></formula><p>where</p><formula xml:id="formula_91">w 1 = d 2 r I r•g + d r I rl•g d l + d l I ′ rl•g d r + d 2 l I ′ rl•g I -1 r•g I rl•g . 2. Under H r</formula><p>0 :r 0 = r w and irrespective of whether H l 0 or H l A holds, we have:</p><formula xml:id="formula_92">LM mw r ( ũ) = n * L w ′ r ( ũ)[I r•g ( ũ) -I rl•g ( ũ)I -1 l•g ( ũ)I ′ rl•g ( ũ)] -1 L w r ( ũ) d x 2 1 , (<label>45</label></formula><formula xml:id="formula_93">)</formula><p>where</p><formula xml:id="formula_94">L w r ( ũ) = [L r ( ũ) -I rl•g ( ũ)I -1 l•g ( ũ)L l ( ũ)]</formula><p>is the adjusted score function,</p><formula xml:id="formula_95">I rl•g ( ũ) = I rl ( ũ) -I rg ( ũ)I -1 gg ( ũ)I gl ( ũ) and I l•g ( ũ) = I ll ( ũ) -I lg ( ũ)I -1 gg ( ũ)I gl ( ũ). 3. Under H r</formula><p>A and irrespective of whether H l 0 or H l A holds, we have:</p><formula xml:id="formula_96">LM mw r ( ũ) d x 2 1 (w 2 ),<label>(46)</label></formula><p>where</p><formula xml:id="formula_97">w 2 = d 2 r (I r•g -I rl•g I -1 l•g I ′ rl•g ).</formula><p>Proof: See Appendix D in the supplemental data online.</p><p>Now, we consider the null hypothesis H l 0 :l 0 = l w , when H r 0 :r 0 = r w holds. Then the onedirectional LM test for this hypothesis can be expressed as:</p><formula xml:id="formula_98">LM m l ( ũ) = n * L ′ l ( ũ)[I l•g ( ũ)] -1 L l ( ũ),<label>(47)</label></formula><p>where</p><formula xml:id="formula_99">I l•g ( ũ) = I ll ( ũ) -I lg ( ũ)I -1 gg ( ũ)I gl ( ũ).</formula><p>The distribution of (47) can be investigated from the first-order Taylor expansion of L l ( ũ) and L g ( ũ) around θ 0 when H l A and H r A hold. It can be shown that these first-order expansions are:</p><formula xml:id="formula_100">n * √ L l ( ũ) = n * √ L l (u 0 ) -L lr (u 0 )d r -L ll (u 0 )d l + n * √ L lg (u 0 )( g -g 0 ) + o p (1), (<label>48</label></formula><formula xml:id="formula_101">)</formula><formula xml:id="formula_102">n * √ L g ( ũ) = n * √ L g (u 0 ) -L gr (u 0 )d r -L gl (u 0 )d l + n * √ L gg (u 0 )( g -g 0 ) + o p (1). (<label>49</label></formula><formula xml:id="formula_103">)</formula><p>Then using ( <ref type="formula" target="#formula_100">48</ref>), (49) and Lemma 3, we can obtain:</p><formula xml:id="formula_104">n * √ L l ( ũ) = [1, -I rg I -1 gg ] × n * √ L l (u 0 ) n * √ L g (u 0 ) + [I lr -I lg I -1 gg I gr ]d r + [I ll -I lg I -1 gg I gl ]d l + o p (1). (<label>50</label></formula><formula xml:id="formula_105">)</formula><p>The asymptotic distribution of n * √ L l ( ũ) in ( <ref type="formula" target="#formula_104">50</ref>) can be determined from the asymptotic distribution of score functions in the right hand side of (50). Hence, we can show that Proposition 4. Under our Assumptions 5-7, the following results hold.</p><formula xml:id="formula_106">n * √ L a ( ũ) d N (I l•g d l + I lr•g d r , I l•g</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Under H l</head><p>A and H r A , we have:</p><formula xml:id="formula_107">LM m l ( ũ) d x 2 1 (c 1 ),<label>(51)</label></formula><p>where</p><formula xml:id="formula_108">c 1 = d 2 l I l•g + d r I lr•g d l + d l I ′ lr•g d r + d 2 r I ′ lr•g I -1 l•g I lr•g . 2.</formula><p>For the robust test LM mw l ( ũ), under H l 0 and irrespective of whether H r 0 or H r A holds, we have:</p><formula xml:id="formula_109">LM mw l ( ũ) = n * L w ′ l ( ũ)[I l•g ( ũ) -I lr•g ( ũ)I -1 r•g ( ũ)I ′ lr•g ( ũ)] -1 L w r ( ũ) d x 2 1 , (<label>52</label></formula><formula xml:id="formula_110">)</formula><p>where</p><formula xml:id="formula_111">L w l ( ũ) = [L l ( ũ) -I lr•g ( ũ)I -1 r•g ( ũ)L r ( ũ)]</formula><p>is the adjusted gradient, and</p><formula xml:id="formula_112">I lr•g ( ũ) = [I lr ( ũ) -I lg ( ũ)I -1 gg ( ũ)I gr ( ũ)].</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Under H l</head><p>A and irrespective of whether H r 0 or H r A holds, we have:</p><formula xml:id="formula_113">LM mw l ( ũ) d x 2 1 (c 2 ),<label>(53)</label></formula><p>where</p><formula xml:id="formula_114">c 2 = d 2 l (I l•g -I lr•g I -1 r•g I ′ lr•g ).</formula><p>Proof: See Appendix D in the supplemental data online.</p><p>Note that Propositions 3 and 4 show that the robust tests have less asymptotic power than the corresponding one directional tests when there is no parametric misspecification in the model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TEST STATISTICS FOR CONTEXTUAL EFFECTS</head><p>The contextual effects are measured by k 2 × 1 parameter vector β 02 in our model. In the spatial econometric literature, the associated matrix W r X 2r is called the spatial Durbin term (e. g., <ref type="bibr" target="#b23">LeSage &amp; Pace, 2009;</ref><ref type="bibr" target="#b13">Elhorst, 2014;</ref><ref type="bibr" target="#b16">Halleck Vega &amp; Elhorst, 2015;</ref><ref type="bibr" target="#b8">Burridge et al., 2016)</ref>. In this section, we consider the GMM gradient tests and the ML score tests for hypotheses about β 02 .</p><p>First, we state the test statistics in the GMM framework. For notational simplicity, let ψ 0 = β 02 , f 0 = (r 0 , l 0 ) ′ and γ 0 = β 01 be true parameter vectors. Then ψ, φ and γ denote arbitrary parameter values in the parameter space. Let u 0 = (c ′ 0 , f ′ 0 , g ′ 0 ) ′ be the parameter vector of the model. We assume that G(θ), C(θ), B(θ) and H, which are defined in the third section, are partitioned according to dimensions of ψ, φ and γ. Consider H </p><formula xml:id="formula_115">LM g c ( ũ) = n C ′ c ( ũ)[B c•g ( ũ)] -1 C c ( ũ),<label>(54)</label></formula><p>where</p><formula xml:id="formula_116">B c•g ( ũ) = B cc ( ũ) -B cg ( ũ)B -1 gg ( ũ)B gc ( ũ) and ũ = (c ′ w , f ′ w , g) ′</formula><p>is the restricted optimal GMME. In the following proposition, we summarize the asymptotic results for LM g c ( ũ) and its robust version.</p><p>Proposition 5: Under Assumptions 1-4, the following results hold.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Under H c</head><p>A and H f A , we have:</p><formula xml:id="formula_117">LM g c ( ũ) d x 2 k 2 (h 1 ),<label>(55)</label></formula><p>where</p><formula xml:id="formula_118">h 1 = d ′ c H c•g d c + d ′ c H cf•g d f + d ′ f H ′ cf•g d c + d ′ f H ′ cf•g H -1 c•g H cf•g d f . 2. Under H c</formula><p>0 and irrespective of whether H f 0 or H f A holds, we have:</p><formula xml:id="formula_119">LM gw c ( ũ) = n C w ′ c ( ũ)[B c•g ( ũ) -B cf•g ( ũ)B -1 f•g ( ũ)B ′ cf•g ( ũ)] -1 C w c ( ũ) d x 2 k 2 , (<label>56</label></formula><formula xml:id="formula_120">)</formula><p>where</p><formula xml:id="formula_121">C w c ( ũ) = [C c ( ũ) -B cf•g ( ũ)B -1 f•g ( ũ)C f ( ũ)]</formula><p>is the adjusted pseudo-gradient, and</p><formula xml:id="formula_122">B c•g ( ũ) = [B cc ( ũ) -B cg ( ũ)B -1 gg ( ũ)B gc ( ũ)].</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Under H c</head><p>A and irrespective of whether H f 0 or H f A holds, we have:</p><formula xml:id="formula_123">LM gw c ( ũ) d x 2 k 2 (h 2 ), (<label>57</label></formula><formula xml:id="formula_124">) where h 2 = d ′ c (H c•g -H cf•g H -1 f•g H ′ cf•g )d c .</formula><p>Proof: See Appendix D in the supplemental data online.</p><p>Next, we state the test statistics in the ML framework. Let ψ 0 = β 02 , f 0 = (r 0 , l 0 ) ′ and g 0 = (b ′ 01 , s 2 0 ) ′ be true parameter vectors. The combined parameter vector is denoted by</p><formula xml:id="formula_125">u 0 = (c ′ 0 , f ′ 0 , g ′ 0 ) ′ .</formula><p>We assume that I(θ) and I defined in the fourth section are partitioned according to dimensions of ψ, φ and γ. The LM test statistic for H c 0 when H f 0 holds is, then, given by:</p><formula xml:id="formula_126">LM m c ( ũ) = n * L ′ c ( ũ)[I c•g ( ũ)] -1 L c ( ũ),<label>(58)</label></formula><p>where</p><formula xml:id="formula_127">I c•g ( ũ) = I cc ( ũ) -I cg ( ũ)I -1 gg ( ũ)I gc ( ũ) and ũ = (c ′ w , f ′ w , g) ′</formula><p>is the restricted MLE. The next proposition summarizes asymptotic results for this test statistic and its robust version.</p><p>Proposition 6: Under our Assumptions 5-7, the following results hold.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Under H c</head><p>A and H f A , we have:</p><formula xml:id="formula_128">LM m c ( ũ) d x 2 k 2 (m 1 ),<label>(59)</label></formula><p>where</p><formula xml:id="formula_129">m 1 = d ′ c I c•g d c + d ′ c I cf•g d f + d ′ f I ′ cf•g d c + d ′ f I ′ cf•g I -1 c•g I cf•g d f . 2. Under H c 0 and irrespective of whether H f 0 or H f A holds, the distribution of the robust test LM mw c ( ũ) is given by LM mw c ( ũ) = n * L w ′ c ( ũ)[I c•g ( ũ) -I cf•g ( ũ)I -1 f•g ( ũ)I ′ cf•g ( ũ)] -1 L w c ( ũ) d x 2 k 2 , (<label>60</label></formula><formula xml:id="formula_130">)</formula><p>where </p><formula xml:id="formula_131">L w c ( ũ) = [L c ( ũ) -I cf•g ( ũ)I -1 f•g ( ũ)L f ( ũ)]</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Under H c</head><p>A and irrespective of whether H f 0 or H f A holds, we have:</p><formula xml:id="formula_132">LM mw c ( ũ) d x 2 k 2 (m 2 ), (<label>61</label></formula><formula xml:id="formula_133">)</formula><p>where</p><formula xml:id="formula_134">m 2 = d ′ c (I c•g -I cf•g I -1 f•g I ′ cf•g )d c .</formula><p>Proof: See Appendix D in the supplemental data online.</p><p>Under H c A and H f 0 , Propositions 5 and 6 respectively, show that η 1 -η 2 ≥ 0 and μ 1 -μ 2 ≥ 0. That is, the robust versions of tests have less asymptotic power than the corresponding one directional tests when there is no parametric misspecification in the model, i.e., when f 0 = f w .</p><p>Remark 1: The test statistics suggested in Propositions 5 and 6 are robust to the local presence of λ 0 and ρ 0 . Note that Propositions 5 and 6 are general enough and can easily be adjusted to formulate the test statistics for some other hypotheses of interest. For example, the test statistic that is only robust to the local presence of λ 0 can be obtained simply by setting φ 0 = λ 0 and g = (r 0 , b ′ 01 ) ′ in Proposition 5, and φ 0 = λ 0 and g = (r 0 , b ′ 01 , s 2 0 ) ′ in Proposition 6. Similarly, the test statistic that is only robust to the local presence of ρ 0 can be obtained by setting φ 0 = ρ 0 and g = (l 0 , b ′ 01 ) ′ in Proposition 5, and φ 0 = ρ 0 and g = (l 0 , b ′ 01 , s 2 0 ) ′ in Proposition 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>RELATIONSHIP BETWEEN TEST STATISTICS</head><p>There are four important observations in regard to the robust tests. First, the robust tests share the optimality property of the Neyman's C(α) test <ref type="bibr" target="#b5">(Bera &amp; Yoon, 1993)</ref>. It is important to note that the motivation for both tests are different. In the case of the robust test, the one-directional test statistic is adjusted so that it has a central chi-square distribution when the alternative model has a local parametric misspecification. On the other hand, the C(α) test is developed in a framework that involves several nuisance parameters. In such a framework, an optimal test is the one that has the highest power among the class of tests obtaining the same size. To achieve optimality, the C(α) test statistic is constructed in such a way that it is orthogonal to the gradients with respect to the nuisance parameters. The C(α) test can be computed using any consistent estimator and it reduces to the standard LM test when it is formulated from the optimal restricted GMME or the restricted MLE. Second, the robust tests are formulated by an estimator obtained under the joint null hypothesis H 0 :r 0 = r w , l 0 = l w . Under the joint null, the model reduces to a one-way panel data type model Y r = X 1r b 01 + W r X 2r b 02 + l m r a 0r + 1 r , which can be estimated by an ordinary least squares (OLS) estimator. Therefore, the computation of test statistics does not require any nonlinear optimization routines. On the other hand, the conditional LM tests (see LM jA r , LM jA l LM jA c and LM jA c , where j = g, m, in Tables <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref>) require the estimation of spatial parameters, which can be computationally involved.</p><p>Third, it is easy to check whether a robust test reduces to a one-directional test. Recall that the adjusted gradients are in the forms of</p><formula xml:id="formula_135">L w l ( ũ) = [L l ( ũ) -I lr•g ( ũ)I -1 r•g ( ũ)L r ( ũ)] and C w l ( ũ) = [C l ( ũ) -B lr•b ( ũ)B -1 r•b ( ũ)C r ( ũ)] for H 0 :l 0 = l w .</formula><p>Hence, the robust tests formulated with these adjusted gradients reduce to the corresponding one-directional tests when I lr.g = 0 and B lr•b = 0. In such cases, the one directional tests are valid under the local presence of ρ in the alternative model. Similarly, in the case of H 0 :c 0 = c w , the robust test statistics reduce to the corresponding one directional test statistics when I cf•g = 0 and B cf•g = 0.</p><p>Finally, the test statistic for the joint null H 0 :r 0 = r w , l 0 = l w can be decomposed into two orthogonal components: (i) the robust test statistic; and (ii) the one directional test statistic. In the context of the GMM framework, the joint test statistic is formulated with [B 1•3 ( ũ)] -1 in (26). By the inverse of the partitioned matrix, we have:</p><formula xml:id="formula_136">[B 1•3 ( ũ)] -1 = A -1 1 -A -1 1 B 12•3 B -1 2•3 -B -1 l•b B lr•b A -1 1 B -1 l•b + B -1 l•b B lr•b A -1 1 B rl•b B -1 l•b = B -1 r•b + B -1 r•b B rl•b A -1 2 B lr•b B -1 r•b -B r•b B -1 rl•b A -1 2 -A -1 2 B lr•b B -1 r•b A -1 2 , (<label>62</label></formula><formula xml:id="formula_137">)</formula><p>where</p><formula xml:id="formula_138">A 1 = [B r•b -B rl•b B -1 l•b B lr•b ] and A 2 = [B l•b -B lr•b B -1 r•b B rl•b ].</formula><p>A similar result can be obtained for [I 1•3 ( ũ)] -1 . These results can be used to establish relationships between the test statistics as shown in the next corollary.</p><p>Corollary 1: In the GMM framework, we have the following relations:</p><formula xml:id="formula_139">LM g rl = LM g l + LM gw r = LM g r + LM gw l .<label>(63)</label></formula><p>Similarly, in the ML framework, the following relations hold:</p><formula xml:id="formula_140">LM m rl = LM m l + LM mw r = LM m r + LM mw l .<label>(64)</label></formula><p>Proof: See Appendix D in the supplemental data online.</p><p>The results in ( <ref type="formula" target="#formula_139">63</ref>) and ( <ref type="formula" target="#formula_140">64</ref>) show that the robust tests can also be computed from the joint and the one directional tests.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MONTE CARLO SIMULATIONS</head><p>To shed light on the performance of the proposed tests in finite samples, we conduct a Monte Carlo study based on two different DGPs. Note that the computations of one directional and robust tests statistics require ũ, which is the OLS estimator when ρ 0 = 0 and λ 0 = 0 in the model. A summary of tests statistics is given in Tables <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref>. As indicated, all test statistics will be available when they are evaluated at ũ, except the conditional test statistics LM A r , LM A l and LM A c . In Tables <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref>, the test statistic LM A r is for H 0 :ρ 0 = 0 in the presence of λ 0 , LM A l is for H 0 :λ 0 = 0 in the presence of ρ 0 , and LM A c is for H 0 :ψ 0 = 0 in the presence of φ 0 . These test statistics can be calculated by using the general results in (13) and (37), and their</p><p>Table 1. Summary of test statistics for spatial autoregressive parameters.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>GMM Parameters</head><p>Test statistic Null hypothesis</p><formula xml:id="formula_141">ρ 0 λ 0 H 0 :ρ 0 = 0 - Set to zero LM g r in (18) H 0 :ρ 0 = 0 - Unrestricted, estimated LM gA r in (13) H 0 :ρ 0 = 0 - Unrestricted, not estimated LM gw r in (46) H 0 :λ 0 = 0 Set to zero - LM g l in (25) H 0 :λ 0 = 0 Unrestricted, estimated - LM gA l in (13) H 0 :λ 0 = 0 Unrestricted, not estimated - LM gw l in (53) H 0 :λ 0 = 0, ρ 0 = 0 - - LM g rl in (13) ML H 0 :ρ 0 = 0 - Set to zero LM m r in (40) H 0 :ρ 0 = 0 - Unrestricted, estimated LM mA r in (37) H 0 :ρ 0 = 0 - Unrestricted, not estimated LM mw r in (45) H 0 :λ 0 = 0 Set to zero - LM m l in (47) H 0 :λ 0 = 0 Unrestricted, estimated - LM mA l in (37) H 0 :λ 0 = 0 Unrestricted, not estimated - LM mw l in (52) H 0 :λ 0 = 0, ρ 0 = 0 - - LM m rl in (<label>39</label></formula><formula xml:id="formula_142">)</formula><p>computations require the estimation of the corresponding restricted models by the GMME and the MLE. We consider two DGPs:</p><formula xml:id="formula_143">DGP 1: Y r = S -1 r X 1r b 01 + S -1 r W r X 2r b 02 + S -1 r l m r a r + S -1 r R -1 r 1 r , (<label>65</label></formula><formula xml:id="formula_144">) DGP 2: Y r = S -1 r X 3r b 01 + S -1 r W r X 3r b 02 + S -1 r l m r a r + S -1 r R -1 r 1 r .<label>(66)</label></formula><p>In DGP 1, X 1r and X 2r are m r × 1 vectors of independent standard normal random variables with the associated coefficient vector (b 01 , b 02 ) ′ = (1.2, 0.6) ′ . In DGP 2, we use the US county-level data set of <ref type="bibr" target="#b31">Pace and Barry (1997)</ref> on the 1980 presidential election. More specifically, X 3r = (X 3r,1 , X 3r,2 ), where X 3r,1 is the standardized value of log income per capita and X 3r,2 is the standardized value of the homeownership rate. The data set describes 3107 US counties, of which we use the first n observations in the Monte Carlo study. For the parameter values, we set (b ′ 01 , b ′ 02 ) ′ = (1.2, 0.6, -0.4, 0.1) ′ in DGP 2. For each group r = 1, 2, … , R, α r is a random draw from N(0, 1). The disturbance terms 1 ir 's are independently generated from two distributions: (i) N(0, 1) and (ii) Gamma(1, 1) -1. The Gamma distribution allows for positive skewness and excess kurtosis.</p><p>For the interaction scenario, we consider an experiment where the number of groups is R = 60. We allow m r to vary across R groups by randomly assigning a value from the set of integers {10, 11, … , 15} to each group size. The total number of observations n varies between 600 and 900. Following <ref type="bibr" target="#b25">Liu and Lee (2010)</ref>, the weights matrix W r is generated in two steps. We first draw an integer value q ir uniformly from the set of integer values {1, 2, 3, 4}. Then if q ir + i ≤ m r , the (i + 1)th, , (i + q ir )th elements of the ith row of W r are set to one and the rest of the elements in the ith row are set to zero. On the other hand, if q ir + i . m r , the first (q ir + im r ) entries of the ith row are set to one and the others are set to zero. Then W is generated as the row-normalized D(W 1 , … , W R ), and we let M = W.</p><p>For the size analysis of test statistics for endogenous effects and/or correlated effects in Table <ref type="table">1</ref>, we set λ 0 = 0 and ρ 0 = 0 in (65) and (66). Following Halleck <ref type="bibr" target="#b16">Vega and Elhorst (2015)</ref>, we refer to these models as the spatial lag of X (SLX) models. For the power analysis of these test statistics, we consider three specifications for the alternative model. The first alternative is the spatial lag model (SARAR(1, 0)) where we allow for spatial dependence in the dependent variable but not in the disturbance term, i.e., ρ 0 = 0. Note that SARAR(1, 0) specification can also be considered as a null model for LM ρ statistics for testing H 0 :ρ 0 = 0. The second alternative model is the spatial error model (SARAR(0, 1)) which allows for spatial dependence in the disturbances but not in the dependent variable, i.e., λ 0 = 0. Similarly, SARAR(0, 1) can also be considered as another null model for the one-directional LM statistics for testing H 0 :λ 0 = 0. Finally, the third alternative model allows for both type of spatial dependence, namely SARAR(1, 1). In the relevant alternative models, we let spatial parameters λ 0 and ρ 0 take on values from 0.1 to 0.6 with an increment of 0.1.</p><p>In the case of tests for the contextual effects in Table <ref type="table" target="#tab_0">2</ref>, we only use DGP 2 to study the size and power properties of test statistics. For the size analysis, we set b 02 = 0 2×1 and let λ 0 and ρ 0 vary between 0.1 and 0.6. For the power analysis, we set λ 0 = 0.3 and ρ 0 = 0.2, and let elements of β 02 take on values from {-1, -0.5, 0.5, 1}. All Monte Carlo simulations are based on 1000 repetitions.</p><p>Finally, we need to specify the set of moment functions for the GMM approach. As we mentioned before, we are interested in the case where the number of instruments is kept fixed as the number of observations grows without a bound. Therefore, we choose a simple set of moment functions:</p><formula xml:id="formula_145">Q 1r = J r (X r , W r X r , W 2 r X r ), U 1r = J r W r J r -tr(J r W r J r )J r /tr(J r ) and U 2r = J r W 2 r J r -tr(J r W 2 r J r )J r /tr(J r ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>RESULTS FOR ENDOGENOUS EFFECTS AND CORRELATED EFFECTS</head><p>In this section, we investigate the finite sample properties of the test statistics for endogenous effects and correlated effects. In the following, we first evaluate the empirical rejection frequency of each test under the null hypothesis, and then proceed to the power analysis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results on size properties</head><p>To present simulation results on size properties, we use the P-value discrepancy plots suggested in <ref type="bibr" target="#b11">Davidson and MacKinnon (1998)</ref>, which are based on the empirical distribution functions (edf) of p-values. Let τ be a test statistic, and τ j for j = 1, . . . , R be the R realizations of τ generated in a Monte Carlo experiment. Let F(x) be the cumulative distribution function (cdf) of the asymptotic distribution of τ evaluated at x. Then the p-value associated with τ j , denoted by p(τ j ), is given by p(τ j ) = 1-F(τ j ). An estimate of the cdf of p(τ) can be constructed simply from the edf of p(τ j ). Consider a sequence of points denoted by x i for i = 1, … , m from the interval (0, 1). Then an estimate of cdf of p(τ) is given by:</p><formula xml:id="formula_146">F (x i ) = 1 R R j=1 1(p(t j ) ≤ x i ).<label>(67)</label></formula><p>As stated in <ref type="bibr" target="#b11">Davidson and MacKinnon (1998)</ref>, there is no decisive way to choose the sequence x i from (0, 1). In practice, the main attention is typically paid to the type-I errors which are set at levels smaller than or equal to 10%. We choose the following sequence and focus on levels smaller than or equal to 10%. {x i } m i=1 = {0.001:0.001:0.010 0.015:0.005:0.990 0.991:0.001:0.999} (</p><formula xml:id="formula_147">)<label>68</label></formula><p>The P-value discrepancy plot is defined as the plot of F (x i )x i against x i under the assumption that the true DGP is characterized by the null hypothesis. If F(x) approximates the finite sample distribution of τ well enough, then each p(τ j ) will have a uniform distribution over (0, 1). Hence, the P-value plot, obtained by a plot of F (x i ) against x i , should be close to the 45°line. Therefore, a P-value discrepancy plot highlights the differences between the empirical distribution function and the 45°line. The discrepancies from the horizontal axis in a P-value discrepancy plot suggest an empirical distribution that differs from the asymptotic distribution used to determine the critical values.</p><p>To assess the significance of discrepancies in a P-value discrepancy plot, we construct a pointwise 95% confidence interval for a nominal size by using a normal approximation to the binomial distribution. Let α denote the nominal size at which the test is carried out. Using a normal approximation to the binomial distribution, a point-wise 95% confidence interval centred on α is given by a + 1.96 [a(1a)/R] 1/2 , and thus it would include rejection rates between a -1.96 [a(1a)/R] 1/2 and a + 1.96 [a(1a)/R] 1/2 . We use this approach to insert a 95% point-wise confidence interval in a P-value discrepancy plot. In the discrepancy plots, this interval will be represented by the red solid lines (for some examples, see <ref type="bibr" target="#b34">Taṣ pınar &amp; Doğan, 2017)</ref>.</p><p>To save space, the size results based on the SLX models will be presented through the P-value discrepancy plots while the size results based on SARAR(1, 0) or SARAR(0, 1) are summarized in tables. When the null model is SARAR(1,0) or SARAR(0,1), we focus solely on the nominal size of 5% and provide size deviations at this level only.</p><p>The general observations on the size properties of tests from Figures <ref type="figure" target="#fig_5">1</ref><ref type="figure" target="#fig_6">2</ref>and Tables 3-4 are listed below. For notational simplicity, if a superscript 'g' or 'm' is not specified for a test, it means that the observation made holds for both the GMM-based test and the ML-based test:</p><p>. Figures <ref type="figure" target="#fig_5">1</ref> and <ref type="figure" target="#fig_6">2</ref> present the size properties of test statistics under H 0 :λ 0 = ρ 0 = 0. They show that all LM tests based on GMM are generally oversized regardless of the normality of the errors. In both, the maximum size distortion is always less than 0.03 and the size distortions generally lie inside the 95% point-wise confidence interval and therefore they are acceptable. . In Figure <ref type="figure" target="#fig_5">1</ref>, LM gA r and LM gA l are generally oversized and their size discrepancies lie outside the 95% point-wise confidence interval. For example, for the nominal size of 5%, the actual rejection rate of LM gA r is about 7%. In Figure <ref type="figure" target="#fig_6">2</ref>, LM gA l , LM gw l and LM gA r are oversized especially in panel (a). . Figures <ref type="figure" target="#fig_5">1</ref> and <ref type="figure" target="#fig_6">2</ref> clearly indicate that the size distortions of all ML-based tests generally lie inside the 95% point-wise confidence interval and are smaller compared to the GMM-based tests. Surprisingly, the ML-based tests perform in a similar fashion even when the errors are not normally distributed. . Tables <ref type="table" target="#tab_1">3</ref> and <ref type="table" target="#tab_2">4</ref> provide some evidence on the magnitude of size distortions as a function of the size of local parametric misspecification in the alternative model. We would expect that the robust versions of one directional tests, LM w r and LM w l , to perform relatively better than LM ρ and LM λ respectively. Overall, this seems to be the case, especially when the null model is SARAR(0, 1).</p><p>. Tables <ref type="table" target="#tab_1">3</ref> and <ref type="table" target="#tab_2">4</ref> show that LM A r and LM A l perform well in all cases. This is not surprising as these tests require the estimation of the spatial parameter λ 0 and ρ 0 respectively.</p><p>. When the null model is SARAR (1,0) in Tables <ref type="table" target="#tab_1">3</ref> and <ref type="table" target="#tab_2">4</ref>, LM w r performs satisfactorily for small values of λ 0 in the alternative model. Indeed, when λ 0 is less than 0.3, LM w r always performs better than LM ρ . On the other hand, when the local misspecification deteriorates as λ 0 gets larger, LM w r severely over rejects the null model, although still beats LM ρ in all cases. Recall that LM w r uses the least squares residuals from the transformed model and implements a correction on the test statistics for a local parametric misspecification of the alternative model, i.e., ignoring the spatial lag. The bias of the least squares residuals depends on the strength of spatial dependence as well as on the connectedness of the weights matrix. Therefore, we can expect poor performance for the robust tests as λ 0 deviates from zero substantially. Note that when the null model is SARAR (1,0), LM w r performs relatively better in Table <ref type="table" target="#tab_1">3</ref> than in Table <ref type="table" target="#tab_2">4</ref>. These results suggest that the performance of tests statistics should be investigated under realistic DGPs.</p><p>. In Table <ref type="table" target="#tab_1">3</ref>, LM w l performs satisfactorily regardless of the strength of spatial dependence in the alternative model and beats LM λ in all cases. In Table <ref type="table" target="#tab_1">3</ref>, LM gw l performs generally better than LM gA l , even though the latter requires the estimation of ρ 0 . This result may seem surprising at first, but note that in this case the least squares residuals are still consistent under the parametric misspecification of the alternative model. The relative performances of LM mw l and LM mA l are reversed, when we move from the GMM-based tests to the ML-based tests.</p><p>That is, LM mA l performs relatively better than LM mw l in most cases. In Table <ref type="table" target="#tab_2">4</ref>, the robust test based on the ML is performing relatively better than the one based on GMM. Also, the robust tests have relatively larger size distortions in Table <ref type="table" target="#tab_2">4</ref> than in Table <ref type="table" target="#tab_1">3</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results on power properties</head><p>The results on the power properties of tests are presented in Tables <ref type="table">5</ref><ref type="table">6</ref><ref type="table">7</ref><ref type="table" target="#tab_3">8</ref>. 16 The general observations on the power properties of our proposed tests are listed as follows:</p><p>. In Tables <ref type="table">5</ref> and <ref type="table">6</ref>, the null model is the SLX model and the alternative model is either SARAR(1,0) or SARAR(0,1). When the alternative model is SARAR(1,0), the results in both tables indicate that all test statistics for λ 0 have satisfactory power. LM w l and LM A l present very similar performance but the former has the computational advantage and is robust to local deviations of ρ 0 from zero. The power of tests are relatively slightly lower in Table <ref type="table">6</ref>. . In Tables <ref type="table">5</ref> and <ref type="table">6</ref>, the test statistics for H 0 :ρ 0 = 0 should lack of power when the alternative model is SARAR(1,0). The conditional test statistic, LM A r , lacks power in all cases. The robust test statistic, LM w r , lacks power when λ 0 locally deviates from zero. Both LM ρ and LM rl have good power against the positive spatial lag term in both tables. These results clearly show that the application of LM ρ and LM rl can lead to incorrect inference.</p><p>. There are similar findings in Tables <ref type="table">5</ref> and <ref type="table">6</ref> when the alternative model is SARAR(0,1). All one directional tests and the two directional tests for H 0 :ρ 0 = 0 have satisfactory power. In both tables, LM ρ has more power than LM w r and LM A r , and the difference in power levels gets smaller when ρ 0 = 0.2 in the alternative model. In both tables, LM rl is indistinguishable from the one directional tests, but they cannot point the true alternative model and could lead to incorrect inference.</p><p>. In Tables <ref type="table">5</ref> and <ref type="table">6</ref>, when the alternative model is SARAR(0,1), the conditional test statistic, LM A l reports power around the nominal size level in all cases. The robust test statistic LM w l indicates less power only when ρ 0 locally deviates from zero, which is in line with our  </p><formula xml:id="formula_148">λ 0 LM g r LM gw r LM gA r LM g r LM gw r LM gA r LM m r LM mw r LM mA r LM m r LM mw r LM mA r H 0 : SARAR(1, 0)<label>0</label></formula><p>.1 0.455 0.055 0.068 0.441 0.055 0.072 0.415 0.050 0.051 0.410 0.054 0.056 0.2 0.946 0.061 0.070 0.937 0.057 0.067 0.936 0.053 0.051 0.929 0.052 0.050 0.3 1.000 0.088 0.070 0.999 0.099 0.065 1.000 0.069 0.049 0.999 0.073 0.048 0.4 1.000 0.188 0.073 1.000 0.201 0.068 1.000 0.103 0.049 1.000 0.120 0.049 0.5 1.000 0.392 0.065 1.000 0.406 0.069 1.000 0.166 0.043 1.000 0.186 0.048 0.6 1.000 0.655 0.069 1.000 0.646 0.065 1.000 0.244 0.050 1.000 0.258 0.046</p><formula xml:id="formula_149">H 0 : SARAR(0, 1) ρ 0 LM g l LM gw l LM gA l LM g l LM gw l LM gA l LM m l LM mw l LM mA l LM m l LM mw l LM mA l 0.1 0.</formula><p>177 0.059 0.068 0.173 0.049 0.058 0.159 0.060 0.056 0.166 0.054 0.046 0.2 0.499 0.051 0.061 0.455 0.048 0.060 0.464 0.060 0.047 0.447 0.057 0.046 0.3 0.786 0.057 0.066 0.760 0.054 0.064 0.760 0.076 0.053 0.760 0.070 0.050 0.4 0.934 0.051 0.060 0.913 0.051 0.065 0.931 0.073 0.047 0.926 0.076 0.053 0.5 0.981 0.052 0.064 0.971 0.051 0.065 0.983 0.078 0.048 0.979 0.081 0.048 0.6 0.992 0.062 0.071 0.988 0.054 0.072 0.995 0.092 0.052 0.995 0.089 0.051 22 Osman Dogȃn et al. SPATIAL ECONOMIC ANALYSIS </p><formula xml:id="formula_150">λ 0 LM g r LM gw r LM gA r LM g r LM gw r LM gA r LM m r LM mw r LM mA r LM m r LM mw r LM mA r H 0 : SARAR(1, 0)<label>0</label></formula><p>.1 0.372 0.059 0.053 0.358 0.069 0.059 0.347 0.061 0.050 0.346 0.059 0.057 0.2 0.873 0.200 0.067 0.899 0.170 0.041 0.865 0.075 0.056 0.890 0.060 0.042 0.3 0.992 0.354 0.059 0.995 0.366 0.060 0.992 0.054 0.050 0.995 0.068 0.066 0.4 1.000 0.497 0.064 1.000 0.500 0.060 1.000 0.063 0.049 1.000 0.066 0.063 0.5 1.000 0.590 0.063 1.000 0.549 0.071 1.000 0.067 0.058 1.000 0.075 0.063 0.6 1.000 0.711 0.071 1.000 0.671 0.063 1.000 0.077 0.046 1.000 0.099 0.052</p><formula xml:id="formula_151">H 0 : SARAR(0, 1) ρ 0 LM g l LM gw l LM gA l LM g l LM gw l LM gA l LM m l LM mw l LM mA l LM m l LM mw l LM mA l 0.1 0.</formula><p>360 0.043 0.069 0.349 0.046 0.049 0.332 0.065 0.065 0.348 0.051 0.044 0.2 0.851 0.065 0.068 0.865 0.061 0.058 0.839 0.073 0.054 0.866 0.061 0.059 0.3 0.992 0.111 0.048 0.990 0.095 0.058 0.991 0.062 0.043 0.989 0.073 0.055 0.4 1.000 0.191 0.045 1.000 0.184 0.052 1.000 0.055 0.044 1.000 0.070 0.063 0.5 1.000 0.282 0.067 1.000 0.257 0.053 1.000 0.086 0.047 1.000 0.070 0.061 0.6 1.000 0.357 0.065 1.000 0.342 0.064 1.000 0.089 0.056 1.000 0.088 0.064 Simple tests for social interaction models with network structures 23 SPATIAL ECONOMIC ANALYSIS</p><p>Table 5. Power of tests at the 5% level under data-generating process (DGP) 1.</p><p>GMM ML</p><formula xml:id="formula_152">λ 0 LM g r LM gw r LM gA r LM g l LM gw l LM gA l LM g rl LM m r LM mw r LM mA r LM m l LM mw l LM mA l LM m rl H 1 : SARAR(1, 0)<label>0</label></formula><p>.1 0.455 0.055 0.068 0.830 0.652 0.674 0.753 0.415 0.050 0.051 0.826 0.667 0.646 0.747 0.2 0.946 0.061 0.070 1.000 0.997 0.997 1.000 0.936 0.053 0.051 1.000 0.997 0.995 1.000 0.3 1.000 0.088 0.070 1.000 1.000 1.000 1.000 1.000 0.069 0.049 1.000 1.000 1.000 1.000 0.4 1.000 0.188 0.073 1.000 1.000 1.000 1.000 1.000 0.103 0.049 1.000 1.000 1.000 1.000 0.5 1.000 0.392 0.065 1.000 1.000 1.000 1.000 1.000 0.166 0.043 1.000 1.000 1.000 1.000 0.6 1.000 0.655 0.069 1.000 1.000 1.000 1.000 1.000 0.244 0.050 1.000 1.000 1.000 1.000 H 1 : SARAR(0, 1) ρ 0 0.1 0.408 0.297 0.327 0.177 0.059 0.068 0.327 0.387 0.288 0.287 0.159 0.060 0.056 0.309 0.2 0.897 0.748 0.772 0.499 0.051 0.061 0.834 0.886 0.745 0.739 0.464 0.060 0.047 0.822 0.3 0.997 0.970 0.975 0.786 0.057 0.066 0.994 0.996 0.971 0.971 0.760 0.076 0.053 0.993 0.4 1.000 0.998 0.998 0.934 0.051 0.060 1.000 1.000 0.999 0.998 0.931 0.073 0.047 1.000 0.5 1.000 1.000 1.000 0.981 0.052 0.064 1.000 1.000 1.000 1.000 0.983 0.078 0.048 1.000 0.6 1.000 1.000 1.000 0.992 0.062 0.071 1.000 1.000 1.000 1.000 0.995 0.092 0.052 1.000 24 Osman Dogȃn et al. SPATIAL ECONOMIC ANALYSIS</p><p>Table 6. Power of tests at the 5% level under data-generating process (DGP) 2.</p><p>GMM ML</p><formula xml:id="formula_153">λ 0 LM g r LM gw r LM gA r LM g l LM gw r LM gA l LM g rl LM m r LM mw r LM mA r LM m l LM mw l LM mA l LM m rl H 1 : SARAR(1, 0)<label>0</label></formula><p>.1 0.372 0.059 0.053 0.387 0.078 0.085 0.309 0.347 0.061 0.050 0.375 0.082 0.084 0.310 0.2 0.873 0.200 0.067 0.886 0.226 0.107 0.840 0.865 0.075 0.056 0.887 0.123 0.088 0.826 0.3 0.992 0.354 0.059 0.995 0.435 0.133 0.994 0.992 0.054 0.050 0.994 0.173 0.078 0.992 0.4 1.000 0.497 0.064 1.000 0.586 0.266 1.000 1.000 0.063 0.049 1.000 0.304 0.101 1.000 0.5 1.000 0.590 0.063 1.000 0.759 0.538 1.000 1.000 0.067 0.058 1.000 0.562 0.165 1.000 0.6 1.000 0.711 0.071 1.000 0.895 0.814 1.000 1.000 0.077 0.046 1.000 0.796 0.264 1.000 H 1 : SARAR(0, 1) ρ 0 0.1 0.373 0.063 0.070 0.360 0.043 0.069 0.279 0.353 0.078 0.065 0.332 0.065 0.065 0.287 0.2 0.864 0.164 0.154 0.851 0.065 0.068 0.803 0.856 0.152 0.142 0.839 0.073 0.054 0.803 0.3 0.993 0.286 0.244 0.992 0.111 0.048 0.989 0.993 0.268 0.216 0.991 0.062 0.043 0.989 0.4 1.000 0.468 0.347 1.000 0.191 0.045 1.000 1.000 0.413 0.278 1.000 0.055 0.044 1.000 0.5 1.000 0.556 0.455 1.000 0.282 0.067 1.000 1.000 0.569 0.368 1.000 0.086 0.047 1.000 0.6 1.000 0.634 0.564 1.000 0.357 0.065 1.000 1.000 0.681 0.395 1.000 0.089 0.056 1.000 Simple tests for social interaction models with network structures 25 SPATIAL ECONOMIC ANALYSIS</p><p>Table 7. Power of Tests at the 5% level under data-generating process (DGP) 1.</p><p>GMM ML</p><formula xml:id="formula_154">λ 0 ρ 0 LM g r LM gw r LM gA r LM g l LM gw l LM gA l LM g rl LM m r LM mw r LM mA r LM m l LM mw l LM mA l LM m rl H 1 : SARAR(1, 1)<label>0</label></formula><p>.1 0.1 0.922 0.257 0.331 0.967 0.644 0.662 0.962 0.914 0.299 0.289 0.966 0.666 0.635 0.961 0.1 0.2 0.998 0.685 0.786 0.996 0.645 0.678 0.999 0.998 0.755 0.749 0.996 0.675 0.645 0.999 0.1 0.3 1.000 0.947 0.976 0.999 0.623 0.681 1.000 1.000 0.974 0.970 1.000 0.663 0.644 1.000 0.1 0.4 1.000 0.997 0.999 1.000 0.614 0.694 1.000 1.000 0.999 0.999 1.000 0.662 0.660 1.000 0.1 0.5 1.000 1.000 1.000 1.000 0.605 0.714 1.000 1.000 1.000 1.000 1.000 0.657 0.679 1.000 0.1 0.6 1.000 1.000 1.000 1.000 0.581 0.752 1.000 1.000 1.000 1.000 1.000 0.641 0.718 1.000 0.2 0.1 0.998 0.149 0.322 1.000 0.996 0.996 1.000 0.998 0.321 0.279 1.000 0.996 0.994 1.000 0.2 0.2 1.000 0.510 0.798 1.000 0.996 0.997 1.000 1.000 0.786 0.765 1.000 0.996 0.995 1.000 0.2 0.3 1.000 0.850 0.982 1.000 0.992 0.995 1.000 1.000 0.977 0.976 1.000 0.992 0.994 1.000 0.2 0.4 1.000 0.969 0.999 1.000 0.992 0.997 1.000 1.000 0.998 0.998 1.000 0.992 0.995 1.000 0.2 0.5 1.000 0.995 1.000 1.000 0.989 0.998 1.000 1.000 1.000 1.000 1.000 0.988 0.997 1.000 0.2 0.6 1.000 1.000 1.000 1.000 0.986 0.999 1.000 1.000 1.000 1.000 1.000 0.986 0.998 1.000 0.3 0.1 1.000 0.062 0.340 1.000 1.000 1.000 1.000 1.000 0.382 0.294 1.000 1.000 1.000 1.000 0.3 0.2 1.000 0.243 0.816 1.000 1.000 1.000 1.000 1.000 0.810 0.785 1.000 1.000 1.000 1.000 0.3 0.3 1.000 0.565 0.980 1.000 1.000 1.000 1.000 1.000 0.971 0.976 1.000 1.000 1.000 1.000 0.3 0.4 1.000 0.820 0.998 1.000 1.000 1.000 1.000 1.000 0.996 0.998 1.000 1.000 1.000 1.000 0.3 0.5 1.000 0.930 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.3 0.6 1.000 0.980 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.4 0.1 1.000 0.045 0.359 1.000 1.000 1.000 1.000 1.000 0.464 0.316 1.000 1.000 1.000 1.000 0.4 0.2 1.000 0.062 0.828 1.000 1.000 1.000 1.000 1.000 0.828 0.796 1.000 1.000 1.000 1.000 0.4 0.3 1.000 0.205 0.986 1.000 1.000 1.000 1.000 1.000 0.973 0.981 1.000 1.000 1.000 1.000 0.4 0.4 1.000 0.442 1.000 1.000 1.000 1.000 1.000 1.000 0.998 1.000 1.000 1.000 1.000 1.000 0.4 0.5 1.000 0.639 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.4 0.6 1.000 0.789 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.5 0.1 1.000 0.158 0.360 1.000 1.000 1.000 1.000 1.000 0.536 0.312 1.000 1.000 1.000 1.000 0.5 0.2 1.000 0.063 0.849 1.000 1.000 1.000 1.000 1.000 0.855 0.820 1.000 1.000 1.000 1.000 0.5 0.3 1.000 0.044 0.990 1.000 1.000 1.000 1.000 1.000 0.976 0.985 1.000 1.000 1.000 1.000 0.5 0.4 1.000 0.098 0.999 1.000 1.000 1.000 1.000 1.000 0.997 0.999 1.000 1.000 1.000 1.000 0.5 0.5 1.000 0.202 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.5 0.6 1.000 0.329 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 0.6 0.1 1.000 0.434 0.365 1.000 1.000 1.000 1.000 1.000 0.577 0.320 1.000 1.000 1.000 1.000 0.6 0.2 1.000 0.237 0.857 1.000 1.000 1.000 1.000 1.000 0.856 0.824 1.000 1.000 1.000 1.000 0.6 0.3 1.000 0.106 0.991 1.000 1.000 1.000 1.000 1.000 0.970 0.988 1.000 1.000 1.000 1.000 0.6 0.4 1.000 0.056 1.000 1.000 1.000 1.000 1.000 1.000 0.994 1.000 1.000 1.000 1.000 1.000 0.6 0.5 1.000 0.038 1.000 1.000 1.000 1.000 1.000 1.000 0.999 1.000 1.000 1.000 1.000 1.000 0.6 0.6 1.000 0.060 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 Simple tests for social interaction models with network structures 27 SPATIAL ECONOMIC ANALYSIS </p><formula xml:id="formula_155">λ 0 ρ 0 LM g r LM gw r LM gA r LM g l LM gw l LM gA l LM g rl LM m r LM mw r LM mA r LM m l LM mw l LM mA l LM m rl 0.1<label>0</label></formula><p>.1 0.913 0.140 0.082 0.914 0.110 0.073 0.866 0.907 0.086 0.069 0.909 0.082 0.071 0.855 0.1 0.2 0.999 0.294 0.138 1.000 0.231 0.072 0.996 0.999 0.131 0.120 1.000 0.080 0.078 0.996 0.1 0.3 1.000 0.426 0.231 1.000 0.332 0.079 1.000 1.000 0.228 0.193 1.000 0.104 0.086 1.000 0.1 0.4 1.000 0.575 0.304 1.000 0.439 0.087 1.000 1.000 0.331 0.253 1.000 0.098 0.096 1.000 0.1 0.5 1.000 0.657 0.386 1.000 0.546 0.118 1.000 1.000 0.404 0.323 1.000 0.125 0.151 1.000 0.1 0.6 1.000 0.705 0.510 1.000 0.591 0.157 1.000 1.000 0.507 0.401 1.000 0.132 0.199 1.000 0.2 0.1 0.995 0.375 0.073 0.996 0.365 0.100 0.994 0.994 0.074 0.061 0.997 0.123 0.090 0.996 0.2 0.2 1.000 0.503 0.151 1.000 0.504 0.103 1.000 1.000 0.102 0.129 1.000 0.140 0.128 1.000 0.2 0.3 1.000 0.600 0.245 1.000 0.591 0.113 1.000 1.000 0.168 0.224 1.000 0.134 0.184 1.000 0.2 0.4 1.000 0.689 0.355 1.000 0.654 0.143 1.000 1.000 0.221 0.329 1.000 0.155 0.264 1.000 0.2 0.5 1.000 0.738 0.515 1.000 0.716 0.252 1.000 1.000 0.310 0.528 1.000 0.158 0.429 1.000 0.2 0.6 1.000 0.762 0.690 1.000 0.747 0.430 1.000 1.000 0.340 0.667 1.000 0.169 0.576 1.000 0.3 0.1 1.000 0.531 0.090 1.000 0.568 0.140 1.000 1.000 0.072 0.094 1.000 0.186 0.141 1.000 0.3 0.2 1.000 0.617 0.189 1.000 0.641 0.153 1.000 1.000 0.100 0.180 1.000 0.188 0.193 1.000 0.3 0.3 1.000 0.675 0.342 1.000 0.703 0.202 1.000 1.000 0.142 0.355 1.000 0.211 0.340 1.000 0.3 0.4 1.000 0.716 0.538 1.000 0.733 0.344 1.000 1.000 0.198 0.568 1.000 0.223 0.539 1.000 0.3 0.5 1.000 0.753 0.757 1.000 0.780 0.594 1.000 1.000 0.254 0.803 1.000 0.197 0.763 1.000 0.3 0.6 1.000 0.790 0.880 1.000 0.830 0.831 1.000 1.000 0.315 0.916 1.000 0.259 0.903 1.000 0.4 0.1 1.000 0.609 0.127 1.000 0.712 0.252 1.000 1.000 0.084 0.102 1.000 0.326 0.173 1.000 0.4 0.2 1.000 0.683 0.316 1.000 0.746 0.357 1.000 1.000 0.115 0.314 1.000 0.356 0.410 1.000 0.4 0.3 1.000 0.710 0.549 1.000 0.786 0.499 1.000 1.000 0.166 0.577 1.000 0.367 0.614 1.000 0.4 0.4 1.000 0.745 0.817 1.000 0.786 0.712 1.000 1.000 0.214 0.835 1.000 0.330 0.833 1.000 0.4 0.5 1.000 0.798 0.946 1.000 0.823 0.917 1.000 1.000 0.267 0.951 1.000 0.344 0.951 1.000 28 Osman Dogȃn et al. SPATIAL ECONOMIC ANALYSIS Downloaded by [University of Massachusetts, Amherst] at 10:16 25 October 2017 0.4 0.6 1.000 0.798 0.987 1.000 0.835 0.980 1.000 1.000 0.363 0.997 1.000 0.320 0.997 1.000 0.5 0.1 1.000 0.672 0.168 1.000 0.827 0.553 1.000 1.000 0.083 0.150 1.000 0.558 0.313 1.000 0.5 0.2 1.000 0.737 0.449 1.000 0.851 0.674 1.000 1.000 0.106 0.459 1.000 0.578 0.615 1.000 0.5 0.3 1.000 0.768 0.785 1.000 0.857 0.812 1.000 1.000 0.198 0.811 1.000 0.576 0.860 1.000 0.5 0.4 1.000 0.742 0.957 1.000 0.830 0.966 1.000 1.000 0.267 0.964 1.000 0.561 0.977 1.000 0.5 0.5 1.000 0.795 0.990 1.000 0.857 0.991 1.000 1.000 0.350 0.996 1.000 0.532 0.996 1.000 0.5 0.6 1.000 0.814 0.999 1.000 0.863 0.999 1.000 1.000 0.346 1.000 1.000 0.577 1.000 1.000 0.6 0.1 1.000 0.754 0.220 1.000 0.914 0.873 1.000 1.000 0.069 0.196 1.000 0.844 0.503 1.000 0.6 0.2 1.000 0.794 0.638 1.000 0.919 0.920 1.000 1.000 0.106 0.652 1.000 0.827 0.836 1.000 0.6 0.3 1.000 0.785 0.918 1.000 0.902 0.981 1.000 1.000 0.210 0.925 1.000 0.795 0.971 1.000 0.6 0.4 1.000 0.816 0.995 1.000 0.908 0.999 1.000 1.000 0.267 0.991 1.000 0.803 0.998 1.000 0.6 0.5 1.000 0.813 0.999 1.000 0.895 1.000 1.000 1.000 0.304 0.998 1.000 0.784 1.000 1.000 0.6 0.6 1.000 0.816 1.000 1.000 0.907 1.000 1.000 1.000 0.384 1.000 1.000 0.790 1.000 1.000 Simple tests for social interaction models with network structures 29 SPATIAL ECONOMIC ANALYSIS asymptotic results. Again, LM λ and LM lr do not lack power and therefore can lead to incorrect inference.</p><p>. In Tables <ref type="table">7</ref> and <ref type="table" target="#tab_3">8</ref>, the alternative model is SARAR(1,1) and λ 0 and ρ 0 values vary from 0.1 to 0.6. Both GMM and ML based one directional test statistics have relatively higher power than the corresponding robust test statistics, especially when λ 0 and ρ 0 are close to zero. In all cases, LM lr has higher power and is indistinguishable from the one directional tests statistics LM ρ and LM λ . The conditional test statistics LM A r and LM A l achieve higher power than the onedirectional robust test in most cases, but not as much as the one-and two-directional test statistics.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>RESULTS FOR CONTEXTUAL EFFECTS</head><p>In this section, we investigate the size and power properties of test statistics for the contextual effects. We consider the following test statistics: (i) the robust test statistics LM w c of Propositions 5 and 6; (ii) the conditional test statistics in ( <ref type="formula" target="#formula_21">13</ref>) and (37); and (iii) the F-statistic. The computation of</p><formula xml:id="formula_156">LM w c is based on the OLS estimator of Y r = X 3r b 01 + l m r a r + 1 r , while the compu- tation of conditional test LM A c is based on the restricted ML estimation of Y r = S -1 r X 3r b 01 + S -1 r l m r a r + S -1 r R -1 r 1 r .</formula><p>Hence, the conditional test statistics require the estimation of both λ 0 and ρ 0 . To compute the F-statistic, estimations of the restricted model</p><formula xml:id="formula_157">Y r = X 3r b 01 + l m r a r + 1 r and the unrestricted model Y r = X 3r b 01 + W r X 3r b 02 + l m r a r + 1 r are needed.</formula><p>It is clear that the robust test statistic has the computational advantage as it only requires an OLS estimation. Note that we use only DGP 2 to investigate the size and power properties. Here, the hypothesis of interest is H 0 :c 0 = 0 2×1 , where ψ 0 = β 02 . To investigate power properties, we vary the values of β 02 between -1 and 1 in the alternative model</p><formula xml:id="formula_158">Y r = S -1 r X 3r b 01 + S -1 r W r X 3r b 02 + S -1 r l m r a r + S -1 r R -1 r 1 r</formula><p>, and set λ 0 = 0.3 and ρ 0 = 0.2. The results are presented in Tables <ref type="table" target="#tab_5">9</ref> and <ref type="table" target="#tab_6">10</ref>. The main observations from these results are listed as follows:</p><p>. The size properties are presented in Table <ref type="table" target="#tab_4">9</ref>. The conditional test statistic LM A c is properly sized in all cases. The F-statistic is always oversized and only reports small size distortions in the first block of Table <ref type="table" target="#tab_4">9</ref>, where λ 0 = 0. In all other cases, it reports very large size distortions.</p><p>. The robust test statistic is under-sized when λ 0 locally deviates from zero. As λ 0 gets larger, we observe that size distortions of the robust test get larger. The presence of spatial lag dependence in the true DGP has relatively more distorting effects on the size performance of the robust LM tests and the F-test. . Overall, the robust test statistic outperforms the F-statistic in terms of size distortions. The performance of all test statistics seem to be not affected by the distribution of disturbance terms. . All test statistics have satisfactory power levels except for some negative combinations b 02,1 and b 02,2 . . As expected, the robust test statistic has relatively lower power than other test statistics. The power of LM w c increases asymmetrically as b 02,1 moves away from zero, and increases faster on the positive side.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CONCLUSIONS</head><p>In this paper, we have formulated robust LM tests within the GMM and the ML frameworks for a social interaction model with a network structure. These tests are robust in the sense that their null asymptotic distributions are still a central chi-square distribution when the alternative model has a local parametric misspecification. We have shown that the asymptotic null distribution of the standard LM test deviates from the central chi-square distribution when the alternative model is misspecified. Hence, the robust tests are size-resistant as they produce, asymptotically, correct size. Within the context of our social interaction model, we formally showed the asymptotic distributions of our proposed tests under the null and the local alternative hypotheses. These tests can be used to test the presence of the endogenous effects, the correlated effects, and the contextual effects in a social interaction model. One attractive feature of our proposed tests is that their test statistics are easy to compute and only require the least squares estimates from a transformed linear regression model. Therefore, our proposed tests can easily be made available for practical applications using standard statistical software. In a Monte Carlo study, we investigated the size and power properties of our proposed tests. Our results showed that the robust tests have good finite sample properties and can be useful for the detection of the source of dependence in a social interaction model. The Monte Carlo results showed evidence for the analytical results that the robust tests are valid when the alternative model locally deviates from the true DGP. Of course, more simulation work and empirical applications are needed to confirm further the finite sample properties of our suggested tests.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>NOTES</head><p>1 X 1r and X 2r may or may not be the same. 2 For some properties of the matrices that have row and column sums bounded uniformly in absolute value, see <ref type="bibr" target="#b19">Kelejian and Prucha (2010)</ref>. 3 The row and column sums of these matrices are assumed to be uniformly bounded in absolute value. That is, Assumption 3 holds for these matrices. 4 The conditions for the identification of parameters can be investigated from the moment functions. Identification requires that E(g(u)) = 0 if and only if u = u 0 <ref type="bibr">(Newey &amp; McFadden, 1994, Lemma 2.3</ref>). <ref type="bibr" target="#b25">Liu and Lee (2010)</ref> state the identification conditions. Here, we simply assume that u 0 is identified. 5 The bias term is O(K /n), and the result in (12) indicates that it will vanish only when (K 2 /n) 0. 6 The test statistics suggested in this section are formulated with G(u) and B(u). Appendix B in the supplemental data online gives explicit expressions for these terms. 7 The distribution of n √ C r ( ũ) has the asymptotic mean -[H r•a d r + H rl•b d l ]. The negative sign arises since we define the objective function differently. Appendix B in the supplemental data online defines the objective function as Q = -g ′ (u)</p><p>V-1 g(u) and û = arg max u[Q Q. 8 For a definition of the non-central chi-square distribution, see <ref type="bibr">Anderson (2003, pp. 81-82)</ref>. 9 The LM test statistics suggested here are only valid for models that have row-normalized weights matrices. 10 F r has the following properties: F ′ r l m r = 0, F ′ r F r = I m * r , where m * r = m r -1 and F r F ′ = J r . For some other properties, see Lemma 2 in Appendix A in the supplemental data online. <ref type="bibr" target="#b8">Burridge et al. (2016)</ref> provide an explicit expression for F r . 11 The existence of (4 + t)th moments of 1 ir are required when 1 ir s are simply i.i.d. <ref type="bibr" target="#b18">(Kelejian &amp; Prucha, 2001</ref>). 12  <ref type="bibr" target="#b22">Lee et al. (2010)</ref> investigate the identification conditions in the ML framework and state these conditions. Here, we simply assume that the parameters are identified. 13 The explicit forms of S is given in Appendix C in the supplemental data online. 14 The test statistics suggested here are formulated with L(u) and I (u). Appendix C in the supplemental data online gives explicit expressions for these terms. 15 See <ref type="bibr" target="#b14">Fuller (1996)</ref>, Corollary 5.1.5. 16 For brevity, we only provide power results for the case where the disturbance terms are normally distributed. The results based on the gamma distribution are similar and available from the authors upon request.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>3 ( ũ) = I 11 ( ũ) -I 13 ( ũ)I -1 gg ( ũ)I 31 ( ũ), I 11 ( ũ) = I rr ( ũ) I rl ( ũ) I lr ( ũ) I ll ( ũ) , and I 31 ( ũ) = I ′ 13 ( ũ) = [I gr ( ũ), I gl ( ũ)].</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>) by using the asymptotic normality of score functions (see Lemma 3 in Appendix A). Hence, we can obtain n * √ L r ( ũ) d N (I r•g d r + I rl•g d l , I r•g ), where I r•g = [I rr -I rg I -1 gg I gr ] and I rl•g = [I rl -I rg I -1 gg I gl ]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>), where I l•g = [I ll -I lg I -1 gg I gl ], and I lr•g = [I lr -I lg I -1 gg I gr ]. This last result together with (50) implies the following proposition.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>c 0 :c 0 = c w and H f 0 :f 0 = f w , where c w and f w are hypothesized values under the null. The sequences of local alternatives are H c A :c 0 = c w + d c / n √ and H f A :f 0 = f w + d f / n √ , where δ ψ and δ φ are bounded vectors. We can determine the GMM gradient test statistics for H c 0 :c 0 = c w by following the similar arguments used for Proposition 1. The GMM gradient test for H c 0 when H f 0 holds is:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>is the adjusted score function,I cf•g ( ũ) = I cf ( ũ) -I cg ( ũ)I -1 gg ( ũ)I gf ( ũ) and I f•g ( ũ) = I ff ( ũ) -I fg ( ũ)I -1 gg ( ũ)I gf ( ũ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Size discrepancy plots under data-generating process (DGP) 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Size discrepancy plots under data-generating process (DGP) 2.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 .</head><label>2</label><figDesc>Summary of test statistics for contextual effects.</figDesc><table><row><cell>GMM</cell><cell cols="2">Parameters</cell><cell></cell><cell></cell></row><row><cell>Null hypothesis</cell><cell>ρ 0</cell><cell>λ 0</cell><cell cols="2">Test statistic</cell></row><row><cell>H 0 :β 02 = 0</cell><cell>Set to zero</cell><cell>Set to zero</cell><cell cols="2">LM g c in (54)</cell></row><row><cell>H 0 :β 02 = 0</cell><cell>Unrestricted, estimated</cell><cell>Unrestricted, estimated</cell><cell cols="2">LM gA c in (13)</cell></row><row><cell>H 0 :β 02 = 0</cell><cell>Unrestricted, not estimated</cell><cell>Unrestricted, not estimated</cell><cell cols="2">LM gw c in (56)</cell></row><row><cell>ML</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>H 0 :β 02 = 0</cell><cell>Set to zero</cell><cell>Set to zero</cell><cell cols="2">LM m c in (58)</cell></row><row><cell>H 0 :β 02 = 0</cell><cell>Unrestricted, estimated</cell><cell>Unrestricted, estimated</cell><cell cols="2">LM mA c in (37)</cell></row><row><cell>H 0 :β 02 = 0</cell><cell>Unrestricted, not estimated</cell><cell>Unrestricted, not estimated</cell><cell>LM mw c</cell><cell>in (60)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3 .</head><label>3</label><figDesc>Empirical size of tests at the 5% level under data-generating process (DGP) 1.</figDesc><table><row><cell>Normal distribution</cell><cell>Gamma distribution</cell><cell>Normal distribution</cell><cell>Gamma distribution</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 4 .</head><label>4</label><figDesc>Empirical size of tests at the 5% level under data-generating process (DGP) 2.</figDesc><table><row><cell>Normal distribution</cell><cell>Gamma distribution</cell><cell>Normal distribution</cell><cell>Gamma distribution</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 8 .</head><label>8</label><figDesc>Power of tests at the 5% level under data-generating process (DGP) 2.</figDesc><table><row><cell>GMM</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 9 .</head><label>9</label><figDesc>Size of tests at the 5% level: H 0 : SARAR(1, 1).</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>Normal</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>Gamma</cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">GMM</cell><cell>ML</cell><cell></cell><cell></cell><cell cols="2">GMM</cell><cell>ML</cell><cell></cell><cell></cell></row><row><cell>λ 0</cell><cell>ρ 0</cell><cell>LM gw c</cell><cell>LM gA c</cell><cell>LM mw c</cell><cell>LM mA c</cell><cell>F</cell><cell>tLM gw c</cell><cell>LM gA c</cell><cell>LM mw c</cell><cell>LM mA c</cell><cell>F</cell></row><row><cell>0.00</cell><cell>0.00</cell><cell>0.014</cell><cell>0.042</cell><cell>0.013</cell><cell>0.051</cell><cell>0.078</cell><cell>0.017</cell><cell>0.029</cell><cell>0.015</cell><cell>0.046</cell><cell>0.057</cell></row><row><cell>0.00</cell><cell>0.05</cell><cell>0.022</cell><cell>0.043</cell><cell>0.018</cell><cell>0.056</cell><cell>0.071</cell><cell>0.020</cell><cell>0.044</cell><cell>0.019</cell><cell>0.064</cell><cell>0.075</cell></row><row><cell>0.00</cell><cell>0.10</cell><cell>0.013</cell><cell>0.039</cell><cell>0.012</cell><cell>0.053</cell><cell>0.068</cell><cell>0.018</cell><cell>0.034</cell><cell>0.016</cell><cell>0.062</cell><cell>0.067</cell></row><row><cell>0.00</cell><cell>0.15</cell><cell>0.019</cell><cell>0.043</cell><cell>0.020</cell><cell>0.061</cell><cell>0.075</cell><cell>0.020</cell><cell>0.048</cell><cell>0.021</cell><cell>0.076</cell><cell>0.082</cell></row><row><cell>0.00</cell><cell>0.20</cell><cell>0.021</cell><cell>0.033</cell><cell>0.021</cell><cell>0.038</cell><cell>0.078</cell><cell>0.021</cell><cell>0.040</cell><cell>0.020</cell><cell>0.060</cell><cell>0.083</cell></row><row><cell>0.00</cell><cell>0.25</cell><cell>0.022</cell><cell>0.034</cell><cell>0.019</cell><cell>0.054</cell><cell>0.079</cell><cell>0.025</cell><cell>0.036</cell><cell>0.027</cell><cell>0.059</cell><cell>0.096</cell></row><row><cell>0.00</cell><cell>0.30</cell><cell>0.027</cell><cell>0.041</cell><cell>0.027</cell><cell>0.047</cell><cell>0.082</cell><cell>0.028</cell><cell>0.046</cell><cell>0.028</cell><cell>0.061</cell><cell>0.090</cell></row><row><cell>0.05</cell><cell>0.00</cell><cell>0.015</cell><cell>0.051</cell><cell>0.015</cell><cell>0.053</cell><cell>0.144</cell><cell>0.014</cell><cell>0.031</cell><cell>0.013</cell><cell>0.059</cell><cell>0.133</cell></row><row><cell>0.05</cell><cell>0.05</cell><cell>0.015</cell><cell>0.034</cell><cell>0.014</cell><cell>0.054</cell><cell>0.141</cell><cell>0.019</cell><cell>0.047</cell><cell>0.022</cell><cell>0.068</cell><cell>0.148</cell></row><row><cell>0.05</cell><cell>0.10</cell><cell>0.014</cell><cell>0.036</cell><cell>0.013</cell><cell>0.050</cell><cell>0.158</cell><cell>0.016</cell><cell>0.043</cell><cell>0.016</cell><cell>0.049</cell><cell>0.174</cell></row><row><cell>0.05</cell><cell>0.15</cell><cell>0.021</cell><cell>0.045</cell><cell>0.022</cell><cell>0.047</cell><cell>0.171</cell><cell>0.022</cell><cell>0.035</cell><cell>0.025</cell><cell>0.059</cell><cell>0.155</cell></row><row><cell>0.05</cell><cell>0.20</cell><cell>0.027</cell><cell>0.044</cell><cell>0.032</cell><cell>0.052</cell><cell>0.167</cell><cell>0.017</cell><cell>0.047</cell><cell>0.021</cell><cell>0.061</cell><cell>0.175</cell></row><row><cell>0.05</cell><cell>0.25</cell><cell>0.018</cell><cell>0.056</cell><cell>0.019</cell><cell>0.052</cell><cell>0.185</cell><cell>0.020</cell><cell>0.051</cell><cell>0.017</cell><cell>0.063</cell><cell>0.170</cell></row><row><cell>0.05</cell><cell>0.30</cell><cell>0.019</cell><cell>0.041</cell><cell>0.025</cell><cell>0.046</cell><cell>0.204</cell><cell>0.025</cell><cell>0.035</cell><cell>0.028</cell><cell>0.063</cell><cell>0.167</cell></row><row><cell>0.10</cell><cell>0.00</cell><cell>0.020</cell><cell>0.050</cell><cell>0.019</cell><cell>0.060</cell><cell>0.402</cell><cell>0.019</cell><cell>0.050</cell><cell>0.019</cell><cell>0.052</cell><cell>0.419</cell></row><row><cell>0.10</cell><cell>0.05</cell><cell>0.016</cell><cell>0.037</cell><cell>0.018</cell><cell>0.043</cell><cell>0.418</cell><cell>0.020</cell><cell>0.037</cell><cell>0.018</cell><cell>0.055</cell><cell>0.456</cell></row><row><cell>0.10</cell><cell>0.10</cell><cell>0.012</cell><cell>0.052</cell><cell>0.013</cell><cell>0.055</cell><cell>0.405</cell><cell>0.021</cell><cell>0.055</cell><cell>0.023</cell><cell>0.061</cell><cell>0.431</cell></row><row><cell>0.10</cell><cell>0.15</cell><cell>0.027</cell><cell>0.049</cell><cell>0.026</cell><cell>0.053</cell><cell>0.400</cell><cell>0.020</cell><cell>0.047</cell><cell>0.021</cell><cell>0.050</cell><cell>0.433</cell></row><row><cell>0.10</cell><cell>0.20</cell><cell>0.020</cell><cell>0.042</cell><cell>0.025</cell><cell>0.042</cell><cell>0.417</cell><cell>0.021</cell><cell>0.042</cell><cell>0.017</cell><cell>0.043</cell><cell>0.449</cell></row><row><cell>0.10</cell><cell>0.25</cell><cell>0.023</cell><cell>0.042</cell><cell>0.032</cell><cell>0.040</cell><cell>0.410</cell><cell>0.021</cell><cell>0.034</cell><cell>0.028</cell><cell>0.048</cell><cell>0.452</cell></row><row><cell>0.10</cell><cell>0.30</cell><cell>0.019</cell><cell>0.045</cell><cell>0.027</cell><cell>0.045</cell><cell>0.472</cell><cell>0.024</cell><cell>0.041</cell><cell>0.032</cell><cell>0.067</cell><cell>0.455</cell></row><row><cell>0.15</cell><cell>0.00</cell><cell>0.028</cell><cell>0.047</cell><cell>0.026</cell><cell>0.052</cell><cell>0.722</cell><cell>0.028</cell><cell>0.043</cell><cell>0.028</cell><cell>0.054</cell><cell>0.726</cell></row><row><cell>0.15</cell><cell>0.05</cell><cell>0.019</cell><cell>0.041</cell><cell>0.021</cell><cell>0.049</cell><cell>0.722</cell><cell>0.021</cell><cell>0.045</cell><cell>0.021</cell><cell>0.049</cell><cell>0.734</cell></row><row><cell>0.15</cell><cell>0.10</cell><cell>0.023</cell><cell>0.041</cell><cell>0.024</cell><cell>0.050</cell><cell>0.725</cell><cell>0.031</cell><cell>0.040</cell><cell>0.030</cell><cell>0.056</cell><cell>0.725</cell></row><row><cell>0.15</cell><cell>0.15</cell><cell>0.034</cell><cell>0.046</cell><cell>0.038</cell><cell>0.046</cell><cell>0.732</cell><cell>0.016</cell><cell>0.052</cell><cell>0.019</cell><cell>0.056</cell><cell>0.729</cell></row><row><cell>0.15</cell><cell>0.20</cell><cell>0.037</cell><cell>0.043</cell><cell>0.048</cell><cell>0.045</cell><cell>0.735</cell><cell>0.019</cell><cell>0.041</cell><cell>0.027</cell><cell>0.035</cell><cell>0.757</cell></row><row><cell>0.15</cell><cell>0.25</cell><cell>0.029</cell><cell>0.043</cell><cell>0.036</cell><cell>0.047</cell><cell>0.736</cell><cell>0.029</cell><cell>0.059</cell><cell>0.036</cell><cell>0.072</cell><cell>0.739</cell></row><row><cell>0.15</cell><cell>0.30</cell><cell>0.030</cell><cell>0.053</cell><cell>0.033</cell><cell>0.054</cell><cell>0.749</cell><cell>0.029</cell><cell>0.045</cell><cell>0.032</cell><cell>0.056</cell><cell>0.750</cell></row><row><cell>0.20</cell><cell>0.00</cell><cell>0.033</cell><cell>0.067</cell><cell>0.034</cell><cell>0.064</cell><cell>0.929</cell><cell>0.047</cell><cell>0.056</cell><cell>0.050</cell><cell>0.064</cell><cell>0.947</cell></row><row><cell>0.20</cell><cell>0.05</cell><cell>0.028</cell><cell>0.053</cell><cell>0.033</cell><cell>0.055</cell><cell>0.941</cell><cell>0.035</cell><cell>0.048</cell><cell>0.030</cell><cell>0.053</cell><cell>0.922</cell></row><row><cell>0.20</cell><cell>0.10</cell><cell>0.030</cell><cell>0.041</cell><cell>0.029</cell><cell>0.035</cell><cell>0.907</cell><cell>0.039</cell><cell>0.056</cell><cell>0.043</cell><cell>0.053</cell><cell>0.920</cell></row><row><cell>0.20</cell><cell>0.15</cell><cell>0.039</cell><cell>0.047</cell><cell>0.041</cell><cell>0.044</cell><cell>0.926</cell><cell>0.027</cell><cell>0.045</cell><cell>0.032</cell><cell>0.058</cell><cell>0.929</cell></row><row><cell>0.20</cell><cell>0.20</cell><cell>0.033</cell><cell>0.062</cell><cell>0.040</cell><cell>0.055</cell><cell>0.922</cell><cell>0.035</cell><cell>0.047</cell><cell>0.041</cell><cell>0.053</cell><cell>0.928</cell></row><row><cell>0.20</cell><cell>0.25</cell><cell>0.040</cell><cell>0.044</cell><cell>0.041</cell><cell>0.041</cell><cell>0.906</cell><cell>0.045</cell><cell>0.051</cell><cell>0.053</cell><cell>0.051</cell><cell>0.931</cell></row><row><cell>0.20</cell><cell>0.30</cell><cell>0.043</cell><cell>0.045</cell><cell>0.050</cell><cell>0.032</cell><cell>0.909</cell><cell>0.044</cell><cell>0.045</cell><cell>0.045</cell><cell>0.047</cell><cell>0.913</cell></row><row><cell>0.25</cell><cell>0.00</cell><cell>0.065</cell><cell>0.051</cell><cell>0.066</cell><cell>0.049</cell><cell>0.993</cell><cell>0.060</cell><cell>0.051</cell><cell>0.060</cell><cell>0.043</cell><cell>0.987</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="2">(Continued)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 9 .</head><label>9</label><figDesc>Continued.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>Normal</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>Gamma</cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">GMM</cell><cell>ML</cell><cell></cell><cell></cell><cell cols="2">GMM</cell><cell>ML</cell><cell></cell><cell></cell></row><row><cell>λ 0</cell><cell>ρ 0</cell><cell>LM gw c</cell><cell>LM gA c</cell><cell>LM mw c</cell><cell>LM mA c</cell><cell>F</cell><cell>tLM gw c</cell><cell>LM gA c</cell><cell>LM mw c</cell><cell>LM mA c</cell><cell>F</cell></row><row><cell>0.25</cell><cell>0.05</cell><cell>0.053</cell><cell>0.044</cell><cell>0.057</cell><cell>0.037</cell><cell>0.988</cell><cell>0.079</cell><cell>0.072</cell><cell>0.074</cell><cell>0.055</cell><cell>0.987</cell></row><row><cell>0.25</cell><cell>0.10</cell><cell>0.066</cell><cell>0.059</cell><cell>0.067</cell><cell>0.054</cell><cell>0.989</cell><cell>0.052</cell><cell>0.056</cell><cell>0.058</cell><cell>0.057</cell><cell>0.992</cell></row><row><cell>0.25</cell><cell>0.15</cell><cell>0.046</cell><cell>0.057</cell><cell>0.057</cell><cell>0.050</cell><cell>0.994</cell><cell>0.064</cell><cell>0.069</cell><cell>0.068</cell><cell>0.057</cell><cell>0.987</cell></row><row><cell>0.25</cell><cell>0.20</cell><cell>0.055</cell><cell>0.061</cell><cell>0.068</cell><cell>0.044</cell><cell>0.987</cell><cell>0.070</cell><cell>0.039</cell><cell>0.069</cell><cell>0.046</cell><cell>0.981</cell></row><row><cell>0.25</cell><cell>0.25</cell><cell>0.065</cell><cell>0.057</cell><cell>0.076</cell><cell>0.049</cell><cell>0.989</cell><cell>0.077</cell><cell>0.051</cell><cell>0.084</cell><cell>0.052</cell><cell>0.987</cell></row><row><cell>0.25</cell><cell>0.30</cell><cell>0.077</cell><cell>0.043</cell><cell>0.098</cell><cell>0.040</cell><cell>0.986</cell><cell>0.081</cell><cell>0.050</cell><cell>0.093</cell><cell>0.051</cell><cell>0.976</cell></row><row><cell>0.30</cell><cell>0.00</cell><cell>0.110</cell><cell>0.057</cell><cell>0.127</cell><cell>0.048</cell><cell>0.999</cell><cell>0.099</cell><cell>0.064</cell><cell>0.106</cell><cell>0.053</cell><cell>1.000</cell></row><row><cell>0.30</cell><cell>0.05</cell><cell>0.122</cell><cell>0.052</cell><cell>0.134</cell><cell>0.043</cell><cell>0.998</cell><cell>0.127</cell><cell>0.065</cell><cell>0.130</cell><cell>0.051</cell><cell>0.999</cell></row><row><cell>0.30</cell><cell>0.10</cell><cell>0.125</cell><cell>0.054</cell><cell>0.136</cell><cell>0.056</cell><cell>0.998</cell><cell>0.138</cell><cell>0.076</cell><cell>0.146</cell><cell>0.070</cell><cell>1.000</cell></row><row><cell>0.30</cell><cell>0.15</cell><cell>0.135</cell><cell>0.066</cell><cell>0.143</cell><cell>0.056</cell><cell>1.000</cell><cell>0.127</cell><cell>0.048</cell><cell>0.148</cell><cell>0.041</cell><cell>0.996</cell></row><row><cell>0.30</cell><cell>0.20</cell><cell>0.118</cell><cell>0.066</cell><cell>0.122</cell><cell>0.051</cell><cell>0.999</cell><cell>0.140</cell><cell>0.062</cell><cell>0.138</cell><cell>0.055</cell><cell>0.998</cell></row><row><cell>0.30</cell><cell>0.25</cell><cell>0.125</cell><cell>0.049</cell><cell>0.142</cell><cell>0.041</cell><cell>0.999</cell><cell>0.138</cell><cell>0.055</cell><cell>0.138</cell><cell>0.050</cell><cell>0.998</cell></row><row><cell>0.30</cell><cell>0.30</cell><cell>0.148</cell><cell>0.061</cell><cell>0.166</cell><cell>0.061</cell><cell>0.998</cell><cell>0.156</cell><cell>0.037</cell><cell>0.157</cell><cell>0.040</cell><cell>0.998</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 10 .</head><label>10</label><figDesc>Power of tests at the 5% level: H 1 : SARAR(1, 1).</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>Normal</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>Gamma</cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="2">GMM</cell><cell>ML</cell><cell></cell><cell></cell><cell cols="2">GMM</cell><cell>ML</cell><cell></cell><cell></cell></row><row><cell cols="3">b 02,1 b 02,2 LM gw c</cell><cell>LM gA c</cell><cell>LM mw c</cell><cell>LM mA c</cell><cell>F</cell><cell>LM gw c</cell><cell>LM gA c</cell><cell>LM mw c</cell><cell>LM mA c</cell><cell>F</cell></row><row><cell>-1.0</cell><cell>-1.0</cell><cell>0.603</cell><cell>1.000</cell><cell>0.572</cell><cell>1.000</cell><cell>1.000</cell><cell>0.629</cell><cell>1.000</cell><cell>0.602</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>-1.0</cell><cell>-0.5</cell><cell>0.435</cell><cell>1.000</cell><cell>0.419</cell><cell>1.000</cell><cell>1.000</cell><cell>0.469</cell><cell>1.000</cell><cell>0.470</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>-1.0</cell><cell>0.5</cell><cell>0.838</cell><cell>1.000</cell><cell>0.860</cell><cell>1.000</cell><cell>1.000</cell><cell>0.847</cell><cell>1.000</cell><cell>0.865</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>-1.0</cell><cell>1.0</cell><cell>0.960</cell><cell>1.000</cell><cell>0.976</cell><cell>1.000</cell><cell>1.000</cell><cell>0.956</cell><cell>1.000</cell><cell>0.987</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>-0.5</cell><cell>-1.0</cell><cell>0.390</cell><cell>1.000</cell><cell>0.369</cell><cell>0.999</cell><cell>1.000</cell><cell>0.401</cell><cell>1.000</cell><cell>0.373</cell><cell>0.998</cell><cell>1.000</cell></row><row><cell>-0.5</cell><cell>-0.5</cell><cell>0.088</cell><cell>0.913</cell><cell>0.102</cell><cell>0.902</cell><cell>0.971</cell><cell>0.102</cell><cell>0.890</cell><cell>0.116</cell><cell>0.895</cell><cell>0.968</cell></row><row><cell>-0.5</cell><cell>0.5</cell><cell>0.620</cell><cell>1.000</cell><cell>0.645</cell><cell>1.000</cell><cell>1.000</cell><cell>0.669</cell><cell>1.000</cell><cell>0.680</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>-0.5</cell><cell>1.0</cell><cell>0.896</cell><cell>1.000</cell><cell>0.932</cell><cell>1.000</cell><cell>1.000</cell><cell>0.904</cell><cell>1.000</cell><cell>0.936</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.5</cell><cell>-1.0</cell><cell>0.712</cell><cell>1.000</cell><cell>0.692</cell><cell>1.000</cell><cell>1.000</cell><cell>0.732</cell><cell>1.000</cell><cell>0.726</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.5</cell><cell>-0.5</cell><cell>0.389</cell><cell>1.000</cell><cell>0.405</cell><cell>1.000</cell><cell>1.000</cell><cell>0.409</cell><cell>1.000</cell><cell>0.403</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>0.5</cell><cell>0.5</cell><cell>0.628</cell><cell>0.999</cell><cell>0.688</cell><cell>0.998</cell><cell>1.000</cell><cell>0.597</cell><cell>1.000</cell><cell>0.622</cell><cell>0.999</cell><cell>1.000</cell></row><row><cell>0.5</cell><cell>1.0</cell><cell>0.850</cell><cell>1.000</cell><cell>0.895</cell><cell>1.000</cell><cell>1.000</cell><cell>0.851</cell><cell>1.000</cell><cell>0.896</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>1.0</cell><cell>-1.0</cell><cell>0.935</cell><cell>1.000</cell><cell>0.926</cell><cell>1.000</cell><cell>1.000</cell><cell>0.928</cell><cell>1.000</cell><cell>0.923</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>1.0</cell><cell>-0.5</cell><cell>0.803</cell><cell>1.000</cell><cell>0.800</cell><cell>1.000</cell><cell>1.000</cell><cell>0.792</cell><cell>1.000</cell><cell>0.818</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>1.0</cell><cell>0.5</cell><cell>0.800</cell><cell>1.000</cell><cell>0.851</cell><cell>1.000</cell><cell>1.000</cell><cell>0.821</cell><cell>1.000</cell><cell>0.860</cell><cell>1.000</cell><cell>1.000</cell></row><row><cell>1.0</cell><cell>1.0</cell><cell>0.927</cell><cell>1.000</cell><cell>0.957</cell><cell>1.000</cell><cell>1.000</cell><cell>0.907</cell><cell>1.000</cell><cell>0.955</cell><cell>1.000</cell><cell>1.000</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Downloaded by [University of Massachusetts, Amherst] at 10:16 25 October 2017</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>Simple tests for social interaction models with network structures</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="26" xml:id="foot_2"><p>Osman Dogȃn et al.SPATIAL ECONOMIC ANALYSIS</p></note>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ACKNOWLEDGEMENTS</head><p>The authors are grateful to the editor-in-chief and two anonymous referees for many pertinent comments and constructive suggestions. The authors retain the responsibility of any remaining shortcomings of the paper.</p></div>
+			</div>
+
+
+			<div type="funding">
+<div><head>FUNDING</head><p>This research was supported, in part, under the <rs type="funder">National Science Foundation (NSF)</rs> [grant numbers <rs type="grantNumber">CNS-0958379</rs>, <rs type="grantNumber">CNS-0855217</rs> and <rs type="grantNumber">ACI-1126113</rs>] and the <rs type="institution">City University of New York High Performance Computing Center at the College of Staten Island</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_amgAQe7">
+					<idno type="grant-number">CNS-0958379</idno>
+				</org>
+				<org type="funding" xml:id="_sTPxXTb">
+					<idno type="grant-number">CNS-0855217</idno>
+				</org>
+				<org type="funding" xml:id="_RHa4KJR">
+					<idno type="grant-number">ACI-1126113</idno>
+				</org>
+			</listOrg>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>DISCLOSURE STATEMENT</head><p>No potential conflict of interest was reported by the authors.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SUPPLEMENTAL DATA</head><p>Supplemental data for this article can be accessed at <ref type="url" target="https://doi.org/10.1080/17421772.2017.1374550">https://doi.org/10.1080/17421772.2017.  1374550</ref>.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">An introduction to multivariate statistical analysis</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Anderson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley Series in Probability and Statistics)</title>
+		<meeting><address><addrLine>Hoboken, NJ</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley-Interscience</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+	<note>rd ed.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial econometrics: Methods and models</title>
+		<meeting><address><addrLine>New York, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Simple diagnostic tests for spatial dependence</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Yoon</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/0166-0462(95)02111-6</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="77" to="104" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Rao&apos;s score, Neyman&apos;s c(α) and Silvey&apos;s lm tests: An essay on historical developments and some new results</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bilias</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0378-3758(00)00343-8</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="9" to="44" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">General specification testing with locally misspecified models</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Montes-Rojas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Sosa-Escudero</surname></persName>
+		</author>
+		<idno type="DOI">10.1017/S0266466609990818</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1838" to="1845" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Specification testing with locally misspecified alternatives</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Yoon</surname></persName>
+		</author>
+		<idno type="DOI">10.1017/S0266466600008021</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="649" to="658" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Identification of peer effects through social networks</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bramoullé</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Djebbari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fortin</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2008.12.021</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">150</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="41" to="55" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Interactions-based models</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Brock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Durlauf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of econometrics</title>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Heckman</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">E</forename><surname>Leamer</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>Elsevier</publisher>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="3297" to="3380" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Group interaction in research and the use of general nesting spatial models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burridge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Zigova</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial econometrics: Qualitative and limited dependent variables</title>
+		<editor>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">Kelley</forename><surname>Pace</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Bingley</addrLine></address></meeting>
+		<imprint>
+			<publisher>Emerald Group Publishing Limited</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="223" to="258" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Peer effects and social networks in education</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Calvo-Armengol</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Patacchini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zenou</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-937X.2009.00550.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economic Studies</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1239" to="1267" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Implicit alternatives and the local power of test statistics</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Davidson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Mackinnon</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/1913558</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">1305</biblScope>
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Graphical methods for investigating the size and power of hypothesis tests</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Davidson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Mackinnon</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/1467-9957.00086</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Manchester School</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Applied spatial econometrics: Raising the bar. (SpringerBriefs in regional science</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/17421770903541772</idno>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="9" to="28" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Spatial econometrics: From cross-sectional data to spatial panels. SpringerBriefs in regional science</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>Springer</publisher>
+			<pubPlace>Heidelberg; Berlin Heidelberg</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Introduction to statistical time series</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Fuller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley series in probability and statistics)</title>
+		<meeting><address><addrLine>Hoboken, NJ</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Social networks and the identification of peer effects</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Goldsmith-Pinkham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">W</forename><surname>Imbens</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/07350015.2013.801251</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="253" to="264" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">The slx model</title>
+		<author>
+			<persName><forename type="first">Halleck</forename><surname>Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename></persName>
+		</author>
+		<idno type="DOI">10.1111/jors.12188</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="339" to="363" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A social interactions model with endogenous friendship formation and selectivity</title>
+		<author>
+			<persName><forename type="first">C.-S</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/jae.2426</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="301" to="319" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">On the asymptotic distribution of the Moran I test statistic with applications</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0304-4076(01)00064-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="219" to="257" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2009.10.025</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1468-0262.2004.00558.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004-11">2004, November</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Identification and estimation of econometric models with group interactions, contextual factors and fixed effects</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2006.07.001</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="333" to="374" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of social interaction models with network structures</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><surname>-F</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1368-423X.2010.00310.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics Journal</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="145" to="176" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Introduction to spatial econometrics (Statistics: A series of textbooks and monographs)</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Identifying peer effects in student academic achievement by spatial autoregressive models with group unobservables</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+		<idno type="DOI">10.1086/653506</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Labor Economics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="860" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Gmm estimation of social interaction models with centrality</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2010.04.009</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="115" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Endogenous peer effects: Local aggregate or local average</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Patacchini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zenou</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jebo.2014.03.025</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Behavior &amp; Organization</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="issue">0</biblScope>
+			<biblScope unit="page" from="39" to="59" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Identification of endogenous social effects: The reflection problem</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Manski</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2298123</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economic Studies</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="page" from="531" to="542" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood specification testing and conditional moment tests</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/1911011</idno>
+		<idno>doi:10.2307/1911011</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<editor>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename></persName>
+		</editor>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1047" to="1070" />
+			<date type="published" when="1985">1985a. 1985b</date>
+		</imprint>
+	</monogr>
+	<note>Generalized method of moments specification testing Econometrica</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Large sample estimation and hypothesis testing</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcfadden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of econometrics</title>
+		<editor>
+			<persName><forename type="first">R</forename><surname>Engle</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><surname>Mcfadden</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>Elsevier</publisher>
+			<date type="published" when="1994">1994</date>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="2111" to="2245" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Hypothesis testing with efficient method of moments estimation</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">D</forename><surname>West</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2526578</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="777" to="787" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Quick computation of spatial autoregressive estimators</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.1997.tb00959.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="232" to="247" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Asymptotic relative efficiency of the classical test statistics under misspecification</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Saikkonen</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/0304-4076(89)90058-4</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="351" to="369" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Alternative asymptotically optimal tests and their application to dynamic specification</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Smith</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2297488</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economic Studies</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="665" to="680" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Teaching size and power properties of hypothesis tests through simulations</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Taṣ Pınar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Doğan</surname></persName>
+		</author>
+		<idno type="DOI">10.1515/jem-2015-0014</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometric Methods</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Diagnostic testing and evaluation of maximum likelihood models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Tauchen</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/0304-4076(85)90149-6</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="415" to="443" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood estimation of misspecified models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>White</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/1912526</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="25" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

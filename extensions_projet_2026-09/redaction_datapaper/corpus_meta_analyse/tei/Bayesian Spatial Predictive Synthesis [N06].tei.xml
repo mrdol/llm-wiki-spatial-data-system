@@ -1,0 +1,1079 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Bayesian Spatial Predictive Synthesis</title>
+				<funder ref="#_TdUnPvy">
+					<orgName type="full">Japan Society for Promotion of Science (KAKENHI)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2025-01-25">25 Jan 2025</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Danielle</forename><surname>Cabel</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Fox School of Business</orgName>
+								<orgName type="institution">Temple University</orgName>
+								<address>
+									<settlement>Philadelphia</settlement>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Shonosuke</forename><surname>Sugasawa</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Faculty of Economics</orgName>
+								<orgName type="institution">Keio University</orgName>
+								<address>
+									<settlement>Tokyo</settlement>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Masahiro</forename><surname>Kato</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Graduate School of Arts and Sciences</orgName>
+								<orgName type="institution">The University of Tokyo</orgName>
+								<address>
+									<settlement>Tokyo</settlement>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Kōsaku</forename><surname>Takanashi</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">Center for Advanced Intelligence Project</orgName>
+								<address>
+									<settlement>Riken Tokyo</settlement>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Kenichiro</forename><surname>Mcalinn</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Fox School of Business</orgName>
+								<orgName type="institution">Temple University</orgName>
+								<address>
+									<settlement>Philadelphia</settlement>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Bayesian Spatial Predictive Synthesis</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2025-01-25">25 Jan 2025</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">3334C5090125C4B0B36118B7A320F7AC</idno>
+					<idno type="arXiv">arXiv:2203.05197v4[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-21T12:10+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Bayesian predictive synthesis</term>
+					<term>Markov Chain Monte Carlo</term>
+					<term>variational inference</term>
+					<term>spatial process</term>
+					<term>spatially-varying coefficient model</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Due to spatial dependence-often characterized as complex and non-linear-model misspecification is a prevalent and critical issue in spatial data analysis and prediction. As the data, and thus model performance, is heterogeneous, typical model selection and ensemble methods that assume homogeneity are not suitable. We address the issue of model uncertainty for spatial data by proposing a novel Bayesian ensemble methodology that captures spatially-varying model uncertainty and performance heterogeneity of multiple spatial predictions, and synthesizes them for improved predictions, which we call Bayesian spatial predictive synthesis. Our proposal is defined by specifying a latent factor spatially-varying coefficient model as the synthesis function, which enables spatial characteristics of each model to be learned and ensemble coefficients to vary over regions to achieve flexible predictions. We derive our method from the theoretically best approximation of the data generating process, and show that it provides a finite sample theoretical guarantee for its predictive performance, specifically that the predictions are exact minimax.</p><p>Two MCMC strategies are implemented for full uncertainty quantification, as well as a variational inference strategy for fast point inference. We also extend the estimation strategy for general responses. Through simulation examples and two real data applications in real estate and ecology, our proposed Bayesian spatial predictive synthesis outperforms standard spatial models and ensemble methods, and advanced machine learning methods, in terms of predictive accuracy and uncertainty quantification, while maintaining interpretability of the prediction mechanism.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>The modeling of spatial data-data that are dispersed and linked to a geographical location-has received considerable interest due to its abundance and relevance in numerous fields. These data are characterized by their spatial dependence and correlation, where "neighbors" share features and may be clustered within certain regions, and taking into account these characteristics is critical to capture spatial heterogeneity and to predict unobserved locations (see, e.g., <ref type="bibr" target="#b5">Brunsdon et al., 1998;</ref><ref type="bibr" target="#b1">Anselin, 1988;</ref><ref type="bibr" target="#b11">Diggle et al., 1998;</ref><ref type="bibr" target="#b14">Gelfand et al., 2003;</ref><ref type="bibr" target="#b35">Wang and Wall, 2003</ref>, for the different models used for this problem). Given the abundance and variety of spatial models, dealing with spatial model uncertainty is essential to achieve improved predictive accuracy and decision making. One popular way to achieve this in practice is through ensembling multiple models.</p><p>A notable drawback and limitation of existing approaches is the implicit assumption of spatial homogeneity, i.e., not taking into account the fact that data and performance are spatially heterogeneous, a defining feature of spatial data. For example, homogeneous model averaging methods have been considered for spatial autoregressive models <ref type="bibr" target="#b9">(Debarsy and LeSage, 2020;</ref><ref type="bibr" target="#b23">LeSage and Parent, 2007;</ref><ref type="bibr">Zhang and Yu, 2018)</ref>, spatial error models <ref type="bibr" target="#b17">(Greenaway-McGrevy and Sorensen, 2021;</ref><ref type="bibr" target="#b24">Liao et al., 2019)</ref>, and hierarchical spatial models <ref type="bibr">(Zhang et al., 2023)</ref>. For a general ensemble of candidate models, stacking or super learner <ref type="bibr" target="#b34">(Van der Laan et al., 2007)</ref> is employed <ref type="bibr" target="#b8">(Davies and Van Der Laan, 2016)</ref>, but the optimal weights are still homogeneous, in the sense that it only provides one weight for each model for all locations.</p><p>We contribute to this field by introducing a general framework to deal with model uncertainty in spatial data. Our approach works within the framework of Bayesian predictive synthesis (see, e.g. <ref type="bibr" target="#b27">McAlinn and West, 2019;</ref><ref type="bibr" target="#b26">McAlinn et al., 2020)</ref>, which is a coherent Bayesian framework for synthesizing multiple sources of information, based on agent opinion analysis (see, e.g. <ref type="bibr" target="#b15">Genest and Schervish, 1985;</ref><ref type="bibr" target="#b37">West and Crosse, 1992)</ref>. Using this framework, we develop a Bayesian ensemble method for spatial data that explicitly takes into account the spatially dependent biases and dependencies among models, which we call Bayesian spatial predictive synthesis (BSPS). Our proposed method departs from existing methods in a couple of critical ways. First, predictions from spa-tial models are treated as latent factors, allowing for the synthesis model to learn model biases and dependencies. This is important, since, while model performances may be heterogeneous, the predictions will likely be dependent (have similar characteristics of heterogeneity), and they may be biased in similar or difference ways, depending on the region. Since the models produce predictions individually (as if they are independent), it is important to learn these characteristics through data. Second, the model weights are spatially varying to capture spatial heterogeneity of model importance. Once the biases and dependencies are learnt, that information is then used to learn the model weights that reflect the spatial heterogeneity and model bias/dependence. BSPS, thus, effectively learns the spatially varying coefficients that, in turn, improves predictive accuracy and decision making.</p><p>To illustrate our motivation and contribution, consider a simple simulated data over a square (Figure <ref type="figure" target="#fig_0">1</ref>). In this illustration we have two models, Model 1 and 2, where the former performs well on the left, while the latter performs well on the right. While this example is simple, it captures the essence of the spatial problem we are considering. Specifically, the two regions can represent urban/suburban, mountainous/flat, or industrial/residential areas, where one model is good at modeling a certain type of area. It is also important to note that the performance is not clearly separable, where there is mixed performance in the central region, as well as good predictions across the entire map. This means that one cannot simply switch models for specific regions, since that ignores the good predictions in different regions, and how one divides a region is arbitrary and becomes increasingly difficult when there are many models that differ in their performance. This problem is exacerbated when dealing with real world data, since these regions are often not well-defined.</p><p>In the right of the figure, we illustrate how different approaches produce different results. If we were to select the best model, in this case Model 1, we effectively ignore the good performance of Model 2 in the right region. Unless there is a model that uniformly outperforms all other models for all regions-an assumption that cannot be made in most applications-model selection will inevitably lose important information that can improve overall predictive performance. If we were to average the two models (in this case with equal weights, a method often used in practice), we average out the performance of the two models, and the result is mixed. This, in a different way, is losing critical information, as it ignores the performance heterogeneity and cannot leverage the fact that each model performs well in different regions. Finally, our proposed approach learns the latent dependence and biases and leverages the spatial heterogeneity to produce improved performance over the entire map. This simple illustration shows why spatially dependent ensemble methodologies that learns and leverages performance heterogeneity is critical in mitigating model uncertainty and improve performance.</p><p>While the motivation to develop spatially dependent ensemble methods is clear, the exact form of the method is not obvious. In order to develop an ensemble method that is justifiable, with theoretical properties that are desirable, we first identify the best approximate model, under the assumption that the data generating process and predictions to be synthesized follow Gaussian processes. The best approximate model, we show, is equivalent to a latent factor spatially varying coefficient model, used as a synthesis function, within the Bayesian predictive synthesis framework. This is our proposed method, which we will expound in later sections.</p><p>Several computationally efficient algorithms are developed and implemented to produce posterior and predictive analysis, depending on the scale of the dataset. The first two are MCMC based algorithms for full posterior analysis, one employing the nearest neighbor Gaussian process <ref type="bibr" target="#b7">(Datta et al., 2016)</ref>, which reduces the dimension for faster computation. For larger datasets, we also develop a variational Bayes approximation <ref type="bibr" target="#b4">(Blei et al., 2017)</ref> that produces even faster, accurate point predictions. We also extend the estimation algorithm to deal with general responses, and specifically develop an efficient computation algorithm for the binary case, using the Pólya-gamma augmentation <ref type="bibr" target="#b30">(Polson et al., 2013)</ref>.</p><p>A series of simulated data and two real world applications, involving the occurrence of Tsuga canadensis and real-estate prices in Tokyo, Japan, illustrate the efficacy of our proposed method.</p><p>Through these applications, we show that our method has distinct advantages over competing methods, including statistical and machine learning methods for spatial data and ensemble methods. Notably, we show that BSPS, synthesizing conventional spatial models, delivers better predictive accuracy than state-of-the-art machine learning methods, owing to the flexible ensemble BSPS provides through spatially varying model weights.</p><p>The rest of the article will proceed as follows. Section 2 introduces a fundamental theory of BSPS by identifying the best approximate model used as a synthesis function, and shows that predictive distribution derived by BSPS is exact minimax. Details of the implementation of the proposed BSPS including its MCMC computational strategy, and extensions to general responses are given in Section 3. We also develop alternative computational strategies for scalable inference. Simulation studies are presented in Section 4. Real world applications with the occurrence of Tsuga canadensis and apartment prices in Tokyo are presented in Section 5. The paper concludes with additional comments and closing remarks in Section 6. Further technical details and additional numerical results are presented in Supplementary Material.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Bayesian Spatial Predictive Synthesis: Framework, Model, and Theory</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">General framework of Bayesian predictive synthesis</head><p>Consider predicting a univariate outcome, y(s), at some unobserved site, s ∈ S ⊆ R d . Suppose that a Bayesian decision maker, D, uses information (predictive distributions) from J models for y(s), each of them denoted by the density function, h j (•), for j = 1, . . . , J. While h j (•) can be any distribution, one pertinent example is a Gaussian predictive distribution, where the agent specifies the predictive (space-wise) mean and variance. These forecast densities repre-sent the individual inferences from the models and the collection of these forms the information set, H(s) = {h 1 (f 1 (s)), . . . , h J (f J (s))}, where f j (s) is a variable at site s. Thus, formal Bayesian analysis indicates that D will predict y(s) using its implied posterior predictive distribution, p(y(s)|H(s)). However, the set of H(s) is non-trivially complex, given its spatially varying structure of J density functions. As these models are not "independent"-with information overlap among models-there will be spatial dependencies and biases making straightforward Bayesian updating difficult.</p><p>The Bayesian predictive synthesis (BPS) framework <ref type="bibr" target="#b27">(McAlinn and West, 2019;</ref><ref type="bibr" target="#b15">Genest and Schervish, 1985;</ref><ref type="bibr" target="#b37">West and Crosse, 1992;</ref><ref type="bibr" target="#b36">West, 1992)</ref> provides a general and coherent way for Bayesian updating, given multiple predictive distributions. Specifically, the Bayesian posterior is given as,</p><formula xml:id="formula_0">Π BPS y(s)|Ψ(s), H(s) = α y(s)|f (s), Ψ(s) J j=1 h j f j (s) df j (s),<label>(1)</label></formula><p>where α y(s)|f (s), Ψ(s) is a synthesis function, Ψ(s) represents the spatially varying parameters, and f (s) = (f 1 (s), . . . , f J (s)) is a vector of latent variables. Here, α y(s)|f (s), Ψ(s)</p><p>determines how the predictive distributions are synthesized and it includes a variety of existing combination methods, such as Bayesian model averaging and simple averaging (e.g. <ref type="bibr" target="#b19">Hoeting et al., 1999;</ref><ref type="bibr" target="#b16">Geweke and Amisano, 2011;</ref><ref type="bibr" target="#b0">Aastveit et al., 2018)</ref>, as special cases. The representation of (1) does not require a full specification of the joint distribution of y(s) and H(s), and it does not restrict the functional form of the synthesis function, α y(s)|f (s), Ψ(s) . This allows D to flexibly specify how they want the information to be synthesized. Note that (1) is only a valid posterior if it satisfies the consistency condition. This condition states that, prior to observing H(s), D specifies their own prior predictive, Π{y(s)}, as well as their prior expectation of the model pre-</p><formula xml:id="formula_1">diction, E[ J j=1 h j f j (s) ]. Then Π{y(s)} = α y(s)|f (s), Ψ(s) J j=1 h j f j (s) df j (s) must</formula><p>hold, meaning that the two priors that D specifies must be consistent with each other.</p><p>Treating the set of forecast densities as inherent latent factors linked to the outcome of interest, (1) specifies a latent factor spatially varying model, where the biases and dependencies of the agents are learned and updated as a function of location, to improve the overall, synthesized forecast (see, McAlinn and West, 2019, for further discussion). Thus, even though the predictive densities are provided independently, as is the case in most applications, with optimism/pessimism and over/under-confidence, the BPS framework learns these features as latent states, given the data.</p><p>Since the BPS framework does not specify which model to use for the synthesis function, we derive a theoretical result that identifies a suitable model for spatial data to motivate our choice.</p><p>For this, we first formulate the data generating process (DGP) as a Gaussian field, which is flexible enough for many spatial applications. Given this DGP, we identify a class of models-spatially varying coefficient models-that provides the best approximation, defined as the projection to the DGP that minimizes the MSE (Theorem 1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Specification of the best approximate synthesis function</head><p>To cast the general representation (1) to synthesize multiple spatial predictions, we need to identify a synthesis function, α y(s)|f (s), Ψ(s) , that is justifiable. In this subsection, we derive the specific form of the synthesis function as the best approximation of the unknown data generating process.</p><p>We consider the task of predicting the data generating process, y(s), with the predictive values from the J models (predictive distributions), denoted by f (s) = (f 1 (s), . . . , f J (s)). Following the framework of BPS (1), we assume that f 1 , . . . , f J are mutually independent, and define a j (s) = E[f j (s)] and b j (s) = Var(f j (s)). For fixed s, we consider predicting y(s) by the form µ(s) = β 0 + J j=1 β j f j (s), a linear combination of f j (s). The optimal coefficients, β * 0 , β * 1 , . . . , β * J ) that minimize the expected squared error, E[{y(s) -µ(s)} 2 ] can be expressed as</p><formula xml:id="formula_2">β * j = E[{f j (s) -a j<label>(</label></formula><p>s)}y(s)]/b j (s) for j = 1, . . . , J and β * 0 = E[y(s)] -J j=1 β * j a j (s). Then, under a general situation where the expectation a j (s) and variance b j (s) exhibits spatial nonstationarity, the optimal coefficient β * j would also depend on s. This means that the coefficients (model weights) should be spatially varying to best approximate the unknown DGP using multiple models. We summarize the statement in the following theorem:</p><p>Theorem 1. Given the prediction models as random variables, (f 1 (s), . . . , f J (s)), the best linear approximation model to the DGP y(s) can be expressed as</p><formula xml:id="formula_3">y(s) = β 0 (s) + J j=1 β j (s)f j (s) + ε(s),<label>(2)</label></formula><p>where β 0 (s), β 1 (s), . . . , β J (s) are unknown spatially varying coefficients, and ε(s) is an error term satisfying E[ε(s)] = 0.</p><p>From Theorem 1, it follows that using (2) as the synthesis function in (1) obtains the best approximation of the data generating process given multiple prediction models. Throughout this paper, we denote BPS that uses the synthesis function (2) in (1), Bayesian spatial predictive synthesis (BSPS). In practice, β j (s) is unknown and will be estimated from the observed data. In particular, according to the above discussion, the coefficient β j (s) defined as the moments of f j (s) and y(s), β ( s) would be smoothly varying over the space. This motivates the use of Gaussian processes for estimating β ( s), which will be discussed in the next section.</p><p>Regarding the approximate model (1), we also provide some insights into the theoretical properties of BSBS. In particular, we can show that the predictive distribution induced from (1) is exact minimax (i.e., minimax in finite sample) under some conditions. The details are provided in Supplementary Material S5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Implementation of BSPS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Synthesis model, posterior computation and spatial prediction</head><p>To synthesize multiple spatial predictions, we fit the synthesis model (2) to the observed data.</p><p>We employ a Gaussian process to estimate unknown synthesis coefficients β j (s), which are independent for j = 0, . . . , J, namely β j (s) ∼ GP(β j , θ j ), where GP(β j , θ j ) denotes a Gaussian process with mean β j and covariance parameters θ j . In what follows, we assume that β j is fixed and θ j = (τ j , g j ), where τ j and g j are unknown scale and spatial range parameters. A reasonable choice is β j = 1/J, meaning that the prior synthesis is simple averaging of J prediction models for all the locations, so we use β j = 1/J as a default choice.</p><p>Suppose we observe samples at n locations, s 1 , . . . , s n ∈ S. Let y i = y(s i ), f ji = f j (s i ), ε i = ε(s i ), and β ji = β j (s i ). Then, the model in (2) at the sampled locations is written as</p><formula xml:id="formula_4">y i = β 0i + J j=1 β ji f ji + ε i , ε i ∼ N (0, σ 2 ), i = 1, . . . , n, β j ≡ (β j1 , . . . , β jn ) ⊤ ∼ N (β j 1 n , τ j G(g j )), j = 0, . . . , J,<label>(3)</label></formula><p>where the (i,</p><formula xml:id="formula_5">i ′ )-element of G(g j ) is C(∥s i -s i ′ ∥; g j ) with valid correlation function C(•; g j )</formula><p>and spatial range parameter g j as defined above. The model in (2) is quite similar to the spatially varying coefficient model <ref type="bibr" target="#b14">(Gelfand et al., 2003)</ref>, but the difference is that the latent factor f j (s) in (2) is a random variable rather than fixed covariates, as in the standard varying coefficient model.</p><p>For the prior distributions of the unknown parameters, we use σ 2 ∼ IG(a σ , b σ ), τ j ∼ IG(a τ , b τ ), and g j ∼ U (g, g), independently for j = 1, . . . , J. We obtain the joint posterior distribution</p><formula xml:id="formula_6">π(σ 2 ) J j=0 π(τ j )π(g j )ϕ n (β j ; β j 1 n , τ j G(g j )) × J j=1 n i=1 g j (f ij ) × n i=1 ϕ y i ; β 0i + J j=1 β ji f ji , σ 2</formula><p>where π(σ 2 ), π(τ j ) and π(g j ) are prior distributions, and ϕ n (•; µ, Σ) denotes a n-dimensional normal distribution with mean vector µ and covariance matrix Σ.</p><p>At location, s, the BSPS analysis will include inferences on the latent factor states, f j (s), as well as the spatially varying BSPS model parameters Ψ(s). We first provide a computation algorithm using Markov chain Monte Carlo (MCMC). Suppose that f ji ∼ N (a ji , b ji ) is received independently for j = 1, . . . , J and i = 1, . . . , n, where a ji and b ji are provided by the J models.</p><p>The MCMC algorithm to generate posterior samples of {f ji }, {β j }, {τ j }, {g j } and σ 2 is given as follows:</p><p>-</p><formula xml:id="formula_7">(Sampling of f ji ) Generate f ji from N (A (f ) ji B (f ) ji , A<label>(f )</label></formula><p>ji ), where</p><formula xml:id="formula_8">A (f ) ji = β 2 ji σ 2 + 1 b ji -1 , B (f ) ji = β ji σ 2 y i -β 0i - k̸ =j β ki f ki + a ji b ji -(Sampling of β j ) Generate β j from N (A (β) j B (β) j , A<label>(β)</label></formula><p>j ), where</p><formula xml:id="formula_9">A (β) j = σ -2 Ω j + τ -1 j G(g j ) -1 -1 , B (β) j = 1 σ 2 f j • y -β 0 - k̸ =j f k • β k + β j τ j G(g j ) -1 1 n ,</formula><p>with Ω j = diag(f 2 j1 , . . . , f 2 jn ) and f j = (f j1 , . . . , f jn ). Note that • denotes the Hadamard product.</p><p>-</p><formula xml:id="formula_10">(Sampling of τ j ) Generate τ j from IG(a τ + n/2, b τ + (β j -β j 1 n ) ⊤ G(g j ) -1 (β j - β j 1 n )/2).</formula><p>-(Sampling of g j ) The full conditional of g j is proportional to</p><formula xml:id="formula_11">|G(g j )| -1/2 exp - 1 2τ j (β j -β j 1 n ) ⊤ G(g j ) -1 (β j -β j 1 n ) , g j ∈ (g, g).</formula><p>A random-walk Metropolis-Hastings is used to sample from this distribution.</p><p>-(Sampling of σ 2 ) Using the conditionally conjugate prior σ 2 ∼ IG(a σ , b σ ), the full condi-</p><formula xml:id="formula_12">tional is σ 2 ∼ IG(a σ + n/2, b σ + n i=1 (y i -β 0i -J j=1 β ji f ji ) 2 /2).</formula><p>Each item is sampled for j = 1, . . . , J, per MCMC iteration. The information is then updated with each iteration to be used throughout the algorithm. Note that, in practice, h j (•) is very likely to be a conditional density depending on some covariates. Extension to such a case is trivial.</p><p>Turning to predictions, let s n+1 be a new location where we are interested in predicting y n+1 ≡ y(s n+1 ), assuming that the predictive distributions of f n+1 = (f 1 (s n+1 ), . . . , f J (s n+1 )), namely, predictive distributions of the J models, are available. Then, the predictive distribution of y n+1 is obtained as</p><formula xml:id="formula_13">p(y n+1 |y, f n+1 ) = ϕ y n+1 ; β 0,n+1 + J j=1 β j,n+1 f j,n+1 ), σ 2 J j=1 h j (f j,n+1 )df j,n+1 × J j=0 p(β j,n+1 |β j ; τ j , g j )dβ j,n+1 × π(Θ|y)dΘ,<label>(4)</label></formula><p>where Θ is a collection of {f ji }, {β j }, {τ j }, {g j } and σ 2 , p(β j,n+1 |β j ; τ j , g j ) is the conditional distribution of β j,n+1 given β j , and π(Θ|y) is the posterior distribution of Θ. Under the assumption of Gaussian process on β j (s), the conditional distribution of β j,n+1 is given by</p><formula xml:id="formula_14">N (G n+1 (g j ) ⊤ G(g j ) -1 β j , {τ j -τ j G n+1 (g j ) ⊤ G(g j ) -1 G n+1 (g j )} -1 ), where G n+1 (g j ) = (C(∥s n+1 -s 1 ∥; g j ), . . . , C(∥s n+1 -s n ∥; g j )) ⊤ .</formula><p>Sampling from the predictive distribution (4) can be easily carried out by using the posterior samples of Θ. First, independently generate f j (s n+1 ) from the predictive distribution of the jth model and generate β j,n+1 from its conditional distribution given Θ. Then, we can generate y n+1 from N (β 0,n+1</p><formula xml:id="formula_15">+ J j=1 β j,n+1 f j,n+1 , σ 2 ).</formula><p>The full Gaussian process is known to be computationally prohibitive under large spatial data, since it requires computational cost O(Jn 3 ) for each MCMC iteration of BSPS. To overcome the difficulty, we employ an m-nearest neighbor Gaussian process <ref type="bibr" target="#b7">(Datta et al., 2016)</ref> for β j (s), which uses a multivariate normal distribution with a sparse precision matrix for β j (s 1 ), . . . , β j (s n ).</p><p>Then, the computational cost at each iteration is reduced to O(Jnm 2 ), which is a drastic reduction from the original computation cost O(Jn 3 ), since m can be set to a small value (e.g. m = 10), even under n ≈ 10 4 . The detailed sampling steps under the nearest neighbor Gaussian process are provided in Supplementary Material S1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Variational Bayes approximation for fast point prediction synthesis</head><p>While the MCMC algorithm does provide full posterior estimation, it can also be prohibitively slow when the number of sampled locations or predictors is large. As such, we also develop an approximation algorithm using mean field variational Bayes (MFVB) approximation that is significantly more efficient than its MCMC counterpart. In applying the MFVB approximation, we assume that the prior distributions of the spatial range parameters, g 0 , g 1 , . . . , g J , are the uniform distribution on {η 1 , . . . , η L }. The MFVB approximates the posterior distributions through the form</p><formula xml:id="formula_16">q({f ji }, {β j }, {τ j }, {g j }, σ 2 ) = q(σ 2 ) J j=0 q(β j )q(τ j )q(g j ) n i=1 q(f ji ),</formula><p>and each variational posterior can be iteratively updated by computing, for example, q(β j ) ∝ exp(E -β j [log p(y, Θ)]), where Θ = ({f ji }, {β j }, {τ j }, {g j }, σ 2 ), and E -β j denotes the expectation with respect to the marginal variational posterior of the parameters other than β j . From the forms of full conditional posterior distributions given in Section 3.1, the following distributions can be used as variational distributions:</p><formula xml:id="formula_17">q(f ji ) ∼ N ( m ji , s 2 ji ), q(β j ) ∼ N ( µ j , Σ j ), q(τ j ) ∼ IG( a τ j , b τ j ), q(g j ) ∼ D( p j1 , . . . , p jL ), q(σ 2 ) ∼ IG( a σ , b σ ),</formula><p>where</p><formula xml:id="formula_18">D( p j1 , . . . , p jL ) is a discrete distribution on {η 1 , . . . , η L }, such that P (g j = η ℓ ) = p jℓ .</formula><p>The MFVB algorithm is described as follows:</p><formula xml:id="formula_19">Algorithm 1. Starting with m (0) ji , s 2(0) ji , µ (0) j , Σ (0) j , a (0) τj , b (0) τj , p<label>(0)</label></formula><p>jℓ , a</p><p>σ , b</p><p>σ and r = 0, repeat the follow-ing process until numerical convergence: for j = 1, . . . , J, update m ji and s 2 ji as</p><formula xml:id="formula_22">s 2(t+1) ji ← 1 b ji + ( µ (t)2 ji + Σ (t) jii ) a (t) σ b (t) σ -1 , m (t+1) ji ← a ji b ji + µ (t) ji a (t) σ b (t) σ y i -µ (t) 0i - k&lt;j µ (t) ki m (t+1) ki - k&gt;j µ (t) ki m (t) ki s 2(t+1) ji .</formula><p>For j = 1, . . . , J, update µ j and Σ j as</p><formula xml:id="formula_23">Σ (t+1) j ← Ω (t+1) j a (t) σ b (t) σ + L ℓ=1 p (t) jℓ G(η ℓ ) -1 a (t) τj b (t) τj -1 , µ (t+1) j ← Σ (t+1) j -1 a (t) σ b (t) σ m (t+1) j • y -µ (t+1) 0 - k&lt;j µ (t+1) k • m (t+1) k - k&gt;j µ (t) k • m (t+1) k ,</formula><p>where</p><formula xml:id="formula_24">Ω (t+1) j = diag( m (t+1)2 j1 + s 2(t+1) j1 , . . . , m (t+1)2 jn + s 2(t+1) jn ). For j = 0, . . . , J, set a (t+1) τj = a τ + n/2 and update b τj as b (t+1) τj ← b τ + 1 2 tr µ (t+1) j µ (t+1)⊤ j + Σ (t+1) j L ℓ=1 p (t) jℓ G(η ℓ ) -1 . For j = 0, . . . , J, update p jℓ as p (t+1) jℓ ← |G(η ℓ )| -1/2 exp -a (t+1) τj tr ( µ (t+1) j µ (t+1)⊤ j + Σ (t+1) j )G(η ℓ ) -1 /2 b (t+1) τj L ℓ ′ =1 |G(η ℓ ′ )| -1/2 exp -a (t+1) τj tr ( µ (t+1) j µ (t+1)⊤ j + Σ (t+1) j )G(η ℓ ′ ) -1 /2 b (t+1) τj . Set a (t+1) σ = a σ + n/2 and update b σ as b (t+1) σ ← y -µ (t+1) 0 - J j=1 µ (t+1) j • m (t+1) j ⊤ y -µ (t+1) 0 - J j=1 µ (t+1) j • m (t+1) j + tr( Σ (t+1) 0 ) + J j=1 tr ( µ (t+1) j µ (t+1)⊤ j + Σ (t+1) j ) • ( m (t+1) j m (t+1)⊤ j + S (t+1) j ) - n i=1 J j=1 m (t+1)2 ji µ (t+1)2 ji .</formula><p>A reasonable starting value for Algorithm 1 is the posterior mean of a small number of MCMC samples. We note that the updating step may contain calculations of the inverse of n × n matrices, as in the MCMC algorithm, which could be computationally prohibitive when n is large.</p><p>Alternatively, we can also develop a variational approximation algorithm for the nearest neighbor Gaussian process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">BSPS under general types of response variables</head><p>The proposed BSPS framework (1) can be extended to situations with general types of outcomes, by generalizing the synthesis model (2) to generalized spatially varying models (e.g. <ref type="bibr" target="#b14">Gelfand et al., 2003;</ref><ref type="bibr" target="#b21">Kim and Wang, 2021)</ref>. Here, we consider a specific situation where y i is a binary response, which will be treated in Section 5.1. The linear latent factor model (3) for continuous response can be modified as</p><formula xml:id="formula_25">y i |ψ i ∼ Ber exp(ψ i ) 1 + exp(ψ i ) , ψ i = β 0i + J j=1 β ji f ji , i = 1, . . . , n<label>(5)</label></formula><p>where β ji follows the same Gaussian process given in (3). Suppose that f ji is a predictive (posterior) distribution of logit-transformed probability, and assume that f ji ∼ N (a ji , b ji ) with fixed a ji and b ji .</p><p>To enhance the efficiency of posterior computation, we employ the following Pólya-gamma data augmentation <ref type="bibr" target="#b30">(Polson et al., 2013)</ref>:</p><formula xml:id="formula_26">exp(ψ i y i ) 1 + exp(ψ i ) = 1 2 exp y i - 1 2 ψ i ∞ 0 exp - 1 2 ω i ψ 2 i p(ω i ; 1, 0)dω i ,</formula><p>where p(•; b, c) denotes the Pólya-gamma density with parameters b and c. Then, the full conditional distribution of β j (j = 0, . . . , J) is a normal distribution, N (A</p><formula xml:id="formula_27">(β) j B (β) j , A (β) j ),<label>where</label></formula><formula xml:id="formula_28">A (β) j = diag(ω 1 f 2 j1 , . . . , ω n f 2 jn ) + τ -1 j G(g j ) -1 -1 , B (β) j = f j • y * -ω • β 0 + k̸ =j f k • β k + β j τ j G(g j ) -1 1 n , where y * = (y 1 -1/2, . . . , y n -1/2) and ω = (ω 1 , . . . , ω n ). The full conditional distribution of f ji is N (A (f ) ji B (f ) ji , A<label>(f )</label></formula><p>ji ), where</p><formula xml:id="formula_29">A (f ) ji = ω i β 2 ji + 1 a ji -1 , B (f ) ji = β ji y i - 1 2 -ω i β 0i + k̸ =j β ki f ki + b ji a ji .</formula><p>Finally, the full conditional distribution of ω i is PG(1, ψ i ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Simulation Studies</head><p>This section provides a simulation study to illustrate the efficacy of our proposed BSPS compared to other methods for spatial data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Empirical behavior of BSPS</head><p>We first illustrate how our proposed BSPS synthesizes candidate models. We set n = 300 (training sample size) and generated two-dimensional location information s i (for i = 1, . . . , n) from the uniform distribution on [-1, 1] 2 . Let z 1 (s i ) and z 2 (s i ) be the two independent realizations of a spatial Gaussian process with mean zero and a covariance matrix defined from an isotropic exponential function:</p><formula xml:id="formula_30">Cov(z k (s i ), z k (s j )) = exp(-∥s i -s j ∥/0.5) for k = 1, 2.</formula><p>Then, we define two covariates x 1 (s i ) and x 2 (s i ) via linear transformations, x 1 (s i ) = z 1 (s i ) and</p><formula xml:id="formula_31">x 2 (s i ) = rz 1 (s i ) + √ 1 -r 2 z 2 (s i )</formula><p>with r = 0.2, which allows dependence between x 1 (s i ) and</p><formula xml:id="formula_32">x 2 (s i ).</formula><p>The response variable y(s i ) at each location is generated from the following process:</p><formula xml:id="formula_33">y(s i ) =        w(s i ) + x 1 (s i ) -0.5x 2 2 (s i ) + ε(s i ), s i ∈ D 1 , w(s i ) + x 2 1 (s i ) + x 2 2 (s i ) + ε(s i ), s i ∈ D 2 .</formula><p>where</p><formula xml:id="formula_34">D 1 = {s i = (s i1 , s i2 ) | s i1 ≤ 0} and D 2 = {s i = (s i1 , s i2 ) | s i1 &gt; 0}.</formula><p>Here w(s i ) is a spatial random effect following a mean-zero Gaussian process with spatial covariance function,</p><formula xml:id="formula_35">Cov(s i , s i ′ ) = (0.3) 2 exp(-∥s i -s i ′ ∥/0.</formula><p>3), and ε(s i ) is an independent error term distributed as ε(s i ) ∼ N (0, 1). Note that, in the above setting, the spatial region is divided into two subregions, where the mean structure of the response, as a function of covariates, is different. For the data generated from the process, we apply a quadratic regression model without spatial effects,</p><formula xml:id="formula_36">y(s i ) = β 0 + β 1 x 1 (s i ) + β 2 x 1 (s i ) 2 + β 3 x 2 (s i ) + β 4 x 2 (s i ) 2 + ε i , to subsamples in D 1 (denoted by QR1</formula><p>) and compute the predictive mean and variance of all the samples, which are denoted by a 1i (mean) and b 1i (variance), respectively. We conduct the same procedure using subsamples in D 2 (denoted by QR2) to obtain a 2i and b 2i . We apply BSPS using the two prediction models,</p><formula xml:id="formula_37">f ji ∼ N (a ji , b ji ) with j = 1, 2, and an exponential kernel, (G(g j )) ii ′ = exp(∥s i -s i ′ ∥/g j ) in</formula><p>10-nearest neighbor Gaussian processes. We generate 1000 posterior samples after discarding the first 1000 samples as burn-in.</p><p>We first evaluate the predictive performance in non-sampled locations. We generated 200 additional locations, as with w(s i ), x 1 (s i ), x 2 (s i ), and y(s i ), according to the same data generating process. Using the generated posterior samples from BSPS, posterior samples of the spatially varying coefficients in the non-sampled locations were generated to get posterior predictive distributions of the response in non-sampled locations. We evaluate the mean squared error (MSE) of the posterior predictive means of BSPS, as well as predictors of the two quadratic regressions. For comparison, we employ two methods of prediction synthesis, Bayesian model averaging (BMA)</p><p>and simple averaging (SA). In the former method, we compute the Bayesian information criterion for the two quadratic models to approximate the marginal likelihood. In the latter method, the prediction results of QR1 and QR2 are simply averaged. The MSE of non-sampled locations are 1.33 (BSPS), 2.61 (BMA), and 4.19 (SA), while the MSE of the two models are 2.61 (QR1) and 10.85 (QR2). Since QR1 is estimated using data only in D 1 , its predictive performance in D 2 is not expected to be good, due to the difference in true regression structures between D 1 and D 2 , which leads to QR1 having a large MSE. The same explanations can be given for QR2 and its MSE. We found that the model weight for QR1 in BMA is almost 1, so the performance of BMA and QR1</p><p>is almost identical. It is reasonable that SA performs worse than QR1, since it gives equal weight to QR2, which does not perform well in this example. Comparatively, BSPS provides much better prediction results than the two ensemble methods in terms of MSE. The main reason is that BSPS can combine the two models with spatially varying weights, and such design of weights is essential in this example, since the usefulness of the two models are drastically different in D 1 and D 2 . Furthermore, although both QR1 and QR2 do not take into account the existence of the spatial random effect, the intercept term in BSPS could successfully capture the remaining spatial variation, which increases the prediction accuracy in this example.</p><p>To see how BSPS works in this example, we compute the ratio of two coefficients, We evaluate the coverage accuracy of the 95% interval prediction. In the right panel of Figure 2, we present the mean values (point prediction) of predictive distributions with their associated 95% prediction intervals. The result shows that the prediction intervals mostly cover the true values with reasonable interval lengths. The coverage proportion is 0.97, which is practically equivalent to the nominal level, illustrating how well-calibrated BSPS is. For comparison, we also present the point prediction made by BMA and SA in the right panel of Figure 2. It can be seen that BMA and SA fail to predict observations having large absolute values.</p><formula xml:id="formula_38">| β 1i |/(| β 1i |+ | β 2i |),</formula><p>We next consider different prediction models. In addition to QR1 and QR2, we employ spatial regression (SPR) with quadratic terms and spatial effects modeled by the 10-nearest neighbor Gaussian process and an additive model (AM) without spatial effects. We then consider synthesizing QR1, QR2, and SPR (denoted by BSPS-ad1) and synthesizing SPR and AM (BSPS-ad2).</p><p>The MSE of these methods are 1.45 (BSPS-ad1) and 1.56 (BSPS-ad2). Since BSPS-ad1 includes misspecified models, it would be natural that MSE is slightly inflated compared with the original BSPS. On the other hand, although BSPS-ad2 only combines models without using the true cutoff point, the inflation of prediction accuracy is quite limited. This indicates the flexibility of prediction synthesis through BSPS. In Supplementary Material S4, we provide detailed results on model weights as a function of bias and variance, estimated surface of the mean, and visualizing correlations among latent factors in the posterior distribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Performance comparison</head><p>We next compare the performance of BSPS with other methods through Monte Carlo simulations.</p><p>Let s ∈ [0, 1] 2 be the spatial location generated from the uniform distribution of the region. The covariates x 1 ≡ x 1 (s) and x 2 ≡ x 2 (s) in the same way as in Section 4.1. Here we also generated x 3 , . . . , x p (p ≥ 5) independently from N (0, 1). We then consider the following two scenarios of data generating process:</p><formula xml:id="formula_39">Scenario 1: y(s) = w(s) + x 2 3 exp(-0.3∥s∥ 2 ) + s 2 sin(2x 2 ) + ε, Scenario 2: y(s) = 2w(s) + 1 2 sin(πx 1 x 2 ) + (x 3 -0.5) 2 + 1 2 x 4 + 1 4 x 5 + ε,</formula><p>where ε ∼ N (0, (0.7) 2 ) is an error term and ω(s) is an unobserved spatial effect following a zeromean Gaussian process with covariance Cov(s, s ′ ) = (0.3) 2 exp(-∥s -s ′ ∥/0.3). Note that the mean function in Scenario 1 changes according to location s and the mean function in Scenario 2 is the well-known Friedman function <ref type="bibr" target="#b13">(Friedman, 1991)</ref>.</p><p>We generated 300 training samples and 100 test samples of (y, x, s) from each data generating process. To predict test samples, we first consider the following prediction models:</p><p>-GWR (geographically weighted regression): We used the R package "spgwr" to fit the GWR model <ref type="bibr" target="#b5">(Brunsdon et al., 1998)</ref>, where the optimal bandwidth is selected by cross-validation.</p><p>-AM (additive model): We fitted the LAM model <ref type="bibr" target="#b18">(Hastie and Tibshirani, 1987)</ref> with covariates x i by using the R package "gam" with default settings for tuning parameters.</p><p>-SPR (spatial regression): We fitted spatial linear regression with unobserved spatial effects modeled by 5-nearest neighbor Gaussian process, using R package "spNNGP" <ref type="bibr" target="#b12">(Finley et al., 2022)</ref>, in which we draw 1000 posterior samples after discarding 1000 samples.</p><p>We then synthesized the above three predictions. We implemented BSPS with a 10-nearest neighbor Gaussian process and normal latent factors based on prediction values and their variances obtained from the three models. We generated 1000 posterior samples of the model coefficients, as well as the unknown parameters, after discarding the first 1000 samples as burn-in, to obtain the posterior predictive distribution of the test data. We also applied the variational Bayes BSPS (BSPS-VB), described in Section 3.2, to obtain fast point predictions. For comparison, we synthesized the three models via BMA and SA, as considered in Section 4.1. Furthermore, we combine three models by a weighted average depending on prediction variance, as proposed by <ref type="bibr" target="#b3">Bates and Granger (1969)</ref> (denoted by BG). We also implement the super learner (SL) algorithm (e.g. <ref type="bibr" target="#b8">Davies and Van Der Laan, 2016;</ref><ref type="bibr" target="#b34">Van der Laan et al., 2007)</ref>, where the optimal model weight is determined by the objective function based on K-fold cross validation.</p><p>As competitors of flexible spatial prediction methods, we adopted the following two models:</p><p>-SRF (spatial random forest): We applied the recently proposed SRF <ref type="bibr" target="#b33">(Saha et al., 2021)</ref> using the R package "RandomForestsGLS" with default settings (e.g. 50 trees).</p><p>-MGP (mixture of Gaussian process spatial regression): We applied mixtures of Gaussian process spatial regression, where each spatial regression is the same as SPR, and the number of components is set to 3. The posterior predictive distribution is obtained by generating 1000 posterior samples after discarding the first 1000 samples as burn-in.</p><p>To compare the performance in terms of point prediction, we computed the mean squared error (MSE) of the test data over 500 Monte Carlo replications, and present nine empirical quantiles (10%, 20%, . . . , 90%) of MSE values in Figure <ref type="figure">3</ref>. BSPS provides the most accurate predictions in all the scenarios except for Scenario 2 with p = 5, but the performance of BSPS is still the second best for most of the quantiles in this scenario. Notably, under a larger number of covariates (p = 15), the performance of BSPS is considerably better than the other methods. While BSPS can be seen as a mixture of Gaussian processes with random weights, the performance of MGP (a standard mixture approach using Gaussian processes) is not satisfactory, indicating that BSPS is not a mere mixture of Gaussian processes. It should be noted that the performance of BSPS tends to be superior to the other ensemble methods, BMA, SA, BG, and SL, which could be attributed</p><p>to the data-dependent adaptation of the spatially varying model weight in BSPS. Furthermore, BSPS improves the prediction accuracy of the three basic methods (GWR, AM, and SPR) in all scenarios, even though BMA and SA do not necessarily improve the performance, as confirmed in Scenario 1. The fast prediction method by BSPS-VB performs slightly worse than BSPS based on MCMC, though it still performs better than the standard ensemble methods, BMA and SA, in all scenarios. We next evaluated the performance of 95% interval prediction. Here we focus on BSPS, GWR, AM, and SPR since SRF, BMA, and SA do not produce interval predictions. The empirical 1 2 3 4 5 Scenario 1 (p=5) Quantile (%) MSE 10 20 30 40 50 60 70 80 90 BSPS BSPS-VB GWR GAM SPR SRF MGP BMA SA BG SL 1 2 3 4 5 Scenario 1 (p=15) Quantile (%) MSE 10 20 30 40 50 60 70 80 90 BSPS BSPS-VB GWR GAM SPR SRF MGP BMA SA BG SL 2 4 6 8 10 Scenario 2 (p=5) Quantile (%) MSE 10 20 30 40 50 60 70 80 90 BSPS BSPS-VB GWR GAM SPR SRF MGP BMA SA BG SL 2 4 6 8 10 Scenario 2 (p=15) Quantile (%) MSE 10 20 30 40 50 60 70 80 90 BSPS BSPS-VB GWR GAM SPR SRF MGP BMA SA BG SL Figure 3: Empirical 9 quantiles (10%, 20%, . . . , 90%) of MSE values of 500 replications under two scenarios of data generating process with p ∈ {5, 15}. coverage probability (CP) and average length (AL) under four scenarios are presented in Table 1. While CPs of GWR and AM are not necessarily around the nominal level, CPs of BSPS and SPR are fairly close to the nominal level. Comparing BSPS and SPR, ALs of BSPS are considerably shorter than those of SPR, indicating both accuracy and efficiency of prediction intervals of BSPS.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Real Data Applications</head><p>We consider two distinct real world applications to highlight the predictive performance of BSPS.</p><p>The first dataset is ecological: predicting the occurrence of Tsuga canadensis in Michigan, USA.</p><p>The second dataset is real estate: predicting apartment prices in Tokyo, Japan. Both datasets are distinct, in that the ecological dataset is binary and deals with natural processes, while the realestate dataset is continuous and deals with human economic activity. This is done to illustrate the There are several reasons why the prediction of the occurrence of Tsuga canadensis is relevant for this application. As a long-lived, foundational species in Michigan, conservation is critical due to it being threatened by the hemlock woolly adelgid Adelges tsugae, an invasive sap-feeding insect. Thus, predicting the occurrence is key in protecting the hemlock from this invasive species, by proactively making preventative measures. Further, since the mechanism for hemlock habitat is not known, as hemlock does not occur in all suitable habitats, the interpretability of the prediction is relevant for future conservation.</p><p>To investigate the predictive performance of BSPS and compare it to the other methods, we randomly omitted 2000 spatial locations as the validation set, and used the remaining n = 15743 samples as the training set. For the models to be synthesized in BSPS, we consider three Bernoulli models, y i ∼ Ber(e ψ i /(1 + e ψ i )), for i = 1, . . . , n, with the following specifications on the linear predictor, p i , based on generalized linear models (GLM) and generalized additive models (GAM):</p><p>(GLM)</p><formula xml:id="formula_40">ψ i = β 0 + p k=1 β k x ik ,<label>(GAM1)</label></formula><formula xml:id="formula_41">ψ i = g 1 (lon i ) + g 2 (lat i ) + p k=1 β k x ik ,<label>(GAM2)</label></formula><formula xml:id="formula_42">ψ i = g 1 (lon i ) + g 2 (lat i ) + p k=1 f k (x ik ),</formula><p>where x i = (x i1 , . . . , x ip ) with p = 6 is the vector of covariates described above, and g 1 , g 2 and f k are unknown functions. We compute the occurrence probability in the validation dataset using the covariates and location information. To synthesize these predictors through BSPS, we apply the logistic synthesis model ( <ref type="formula" target="#formula_25">5</ref>) with J = 3 latent factors corresponding to the above three predictors, and employed the nearest neighbor Gaussian process for the spatially varying model coefficients with m = 10 nearest neighbors and an exponential covariance function. To construct distributions of the latent factors in BSPS, we used the Bayesian bootstrap <ref type="bibr" target="#b31">(Rubin, 1981)</ref>, which fits models with randomly weighted observations, to extract uncertainty of estimation and prediction of ψ i .</p><p>In this analysis, we used 100 bootstrap replications to compute the mean and variance of ψ i for each model. We then generated 5000 posterior samples after discarding the first 2000 samples as burn-in, and generated random samples for the coefficient vectors in the validation set to compute predictions of binomial probability. For comparison, we applied Bayesian model averaging (BMA), simple averaging (SA), Bates-Granger averaging (BG), and super learner (SL) to combine the three models, as used in Section 4.2. Furthermore, we also applied a spatial logistic regression (SPR) model with spatial random effects modeled by the m = 10 nearest neighbor Gaussian process, which was fitted using the R package "spNNGP" with 5000 posterior samples after discarding the first 2000 samples. Spatial random forest <ref type="bibr" target="#b33">(Saha et al., 2021)</ref> was not considered for this application, since it does not support binary responses.</p><p>In Figure <ref type="figure" target="#fig_3">4</ref>, we present the spatial distributions of the posterior means of the spatially varying model coefficients, β j (s) (j = 0, 1, 2, 3), which shows how the importance of the three models change over regions. Particularly, it is interesting to see that the simplest GLM model is found to be more relevant for synthesis than the other models in some locations. This exemplifies how predictive performances vary spatially, where even simple models can be effective and relevant depending on the region. To compare the prediction performance in the test data, we compute the receiver operating characteristic (ROC) curves for the predicted binomial probabilities. The results are presented in the left panel of Figure <ref type="figure" target="#fig_4">5</ref>, where the resulting values of area under the curve (AUC) are given in parenthesis.</p><p>We repeat the process, splitting the data and predicting the test data, 20 times, and report the boxplots of AUC values in the right panel of Figure <ref type="figure" target="#fig_4">5</ref>. The figures show the superiority of BSPS to all other methods, including the existing model averaging methods, BMA, SA, and BG, in terms of AUC values. An interesting phenomenon, though consistent across the studies in this paper, is that the AUC values of GLM, GAM1, and GAM2 are lower than that of SPR, but the AUC value of the synthesized prediction, through BSPS, is higher. On the other hand, the AUC values of the ensemble methods, BMA, SA, BG, and SL, are at most the best performing model, GAM2.</p><p>This indicates the effectiveness of BSPS in synthesizing simple models to provide more accurate predictions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Apartment prices in Tokyo</head><p>Our second application is to apply BSPS to spatial predictions of apartment prices in the 23 wards in Tokyo, Japan. We used rent information using the "Real Estate Data Library Door Data Nationwide 2013-2017 Data Set" (At Home Co., Ltd.) stored in the collaborative research system at the Center for Spatial Information Science, The University of Tokyo (<ref type="url" target="https://joras.csis.u-tokyo.ac.jp">https://joras.csis</ref>.</p><p><ref type="url" target="https://joras.csis.u-tokyo.ac.jp">u-tokyo.ac.jp</ref>). The dataset contains the prices (yen), as well as auxiliary information on each room, for apartments handled by At Home, Inc. from 2013 to 2017. In this study, we used the samples collected in 2017, resulting in 22817 samples in total. We adopted 11 covariates, five dummy variables of room arrangement, room area (m 2 ), balcony area (m 2 ), walking minutes from the nearest train station, age of building (month), indicator of newly-built room, and location floor. For location information, the longitude and latitude information of each building, the name of the nearest train station, and the name of the ward are available. Since rooms in the same building share the same geographical information, we added a very small noise generated from N 2 (0, 10 -3 I 2 ) to such rooms to avoid numerical instability. The room prices are log-transformed.</p><p>Similar to the ecological application in Section 5.1, this application requires both accurate and interpretable predictions. In terms of predictions, this is relevant for buyers, sellers, and real estate companies, but also for local governments to enact well-informed housing policies. As apartment prices are not always reported, in the sense that they are not listed or prices are outdated, the prediction of these prices is crucial. In terms of interpretation, one consideration that has received a lot of interest is the question of fairness and discrimination in these pricing models. With the rise of black-box, machine learning models in real estate, the question of discriminatory pricing, which is not necessarily intended but happens due to the black-box nature of these algorithms, has been a major concern. Having full interpretability, thus, is important for fair and transparent pricing practices.</p><p>We randomly omitted 2000 samples from the dataset, which are left as test samples. To construct the prediction models for room prices, we consider the following three types of models:</p><p>-Station-level model: The dataset is grouped according to 438 nearest train stations and simple linear regression with 5 covariates (walking minutes, room areas, and three dummy</p><p>0.5 0.6 0.7 0.8 0.9 1.0 0.70 0.75 0.80 0.85 0.90 0.95 1.00 False positive rate Sensitivity BSPS (0.846) GLM (0.634) GAM1 (0.720) GAM2 (0.749) SPR (0.771) BMA (0.749) SA (0.739) BG (0.737) SL (0.846) BSPS GLM GAM1 GAM2 SPR BMA SA BG SL 0.60 0.65 0.70 0.75 0.80 ROC variables for room arrangement) is applied to each grouped sample.</p><p>-Ward-level model: The dataset is grouped according to the 23 wards and an additive model with 6 continuous covariates and three dummy variables for room arrangement is applied to each grouped sample.</p><p>-Full model: An additive model with 6 continuous covariates, two-dimensional location information, and five dummy variables for room arrangement.</p><p>Since the sample size that can be used to estimate the models increases in the order of stationlevel model, ward-level model, and full model, we vary the model complexity (e.g. number of parameters) in the three types of models. We also note that the three models are fully interpretable.</p><p>The above models provide the means and variances for each training sample, and we synthesize the predictions with BSPS by assuming normality for each prediction model. With an exponential kernel in m = 10 nearest neighbor Gaussian process for spatially varying model coefficients, we generated 7000 posterior samples after discarding 3000 samples as burn-in. For comparison, we applied spatial random forest (SRF) with 100 trees and spatial regression (SPR), as used in Section 4.2, to predict the room prices in the test data. Furthermore, we fitted the extreme gradient boosting tree (XGB; <ref type="bibr" target="#b6">Chen and Guestrin, 2016)</ref> with 1000 trees using the R package "xgboost", where the optimal number of trees was selected via 5-fold cross validation and learning and sub-sampling rates set to 0.01 and 0.1, respectively. Note that the 11 covariates and two-dimensional location information are used to estimate SRF, SPR, and XGB, as used in the three levels of models in BSPS.</p><p>The left panel in Figure <ref type="figure" target="#fig_5">6</ref> reports the spatial plot of β 0 (s i ), namely, the intercept term of BSPS. Since the intercept term captures the variability not captured by the model set, it effectively represents the model set uncertainty. Looking at the figure, we can see that the intercept is the largest in absolute value in certain regions. Each of these regions has different reasons for why the model set uncertainty is so high, some are due to new development skewing prices, some are due to heterogeneity in popular residential areas, and some are due to changes in disclosure rules.</p><p>While the reason varies, the output of BSPS gives a clear and transparent indication for further inquiry.</p><p>We now consider comparing the predictive accuracy of each method for this application. The MSE values for predicting the test samples are BSPS : 0.241, XGB : 0.257, SPR : 0.268, SRF : 0.425, where, again, BSPS provides superior prediction accuracy. As with the previous applications, it should be noted that the resulting predictors made by BSPS are interpretable, while XGB and SRF are not. We computed the 95% prediction intervals from the posterior distributions for the test samples. In the right panel in Figure <ref type="figure" target="#fig_5">6</ref>, we report the point predictions of XGB, SRF, and the 95% prediction intervals for BSPS. First, the relatively large MSE values of SRF come from the degeneracy of the point prediction, that is, the point prediction is much less variable than the true prices. This can be seen by the fact that the predictions are mostly horizontal, not deviating much from the mean. While XGB provides reasonable point prediction overall, XGB tends to under-predict the large true price, as with the ecological application. On the other hand, BSPS provides accurate point predictions and 95% prediction intervals with reasonable interval lengths regardless of the true price. The coverage proportion is 97.3%, which is well-calibrated for these tasks.</p><p>6 Concluding Remarks</p><p>Bayesian predictive synthesis provides a theoretically and conceptually sound framework to synthesize density prediction. Utilizing this framework, we develop a spatially varying synthesis 139.6 139.7 139.8 139.9 140.0 35.55 35.60 35.65 35.70 35.75 35.80 Longitude Latitude -0.3 -0.15 0 0.15 0.3 15 16 17 18 19 20 21 15 16 17 18 19 20 21 true value (log-price) prediction (log-price) point prediction (XGB) point prediction (SRF) point prediction (BSPS) 95% prediction interval method for the context of spatial data. With this new method, we can dynamically calibrate, learn, and update coefficients as the data changes across a spatial region. The simulations and real world applications demonstrate the efficacy of BSPS compared to conventional spatial models and modern machine learning techniques. Specifically, by dynamically synthesizing the predictive distribution from the models, BSPS can improve point and distributional predictions. Additionally, posterior inference on the full spatial region gives the decision maker information on how each model is related, and how their relationship changes across a region. In addition to the applications in this paper, our proposed framework can be applied to other fields, including, but not limited to, weather, GPS systems, and sports player tracking data. Further studies exploring different uses of BSPS, as well as specific developments catered towards a specific dataset, are of interest.</p><p>Regarding scalable computation algorithms for BSPS, it may be possible to use other types of scalable Gaussian processes, such as predictive process <ref type="bibr" target="#b2">(Banerjee et al., 2008)</ref>, meshed Gaussian process <ref type="bibr" target="#b28">(Peruzzi et al., 2020)</ref>, and fused Gaussian process <ref type="bibr" target="#b25">(Ma and Kang, 2020)</ref>. We leave the potential use of these techniques as future work. Apart from MCMC-based algorithms, the integrated nested Laplace approximation <ref type="bibr" target="#b32">(Rue et al., 2009)</ref> may be an appealing strategy for fast computation. However, the latent factor spatially varying coefficient model (3) has 2(J + 1) hyperparameters, which limits the use of the integrated nested Laplace approximation when J is not small (e.g. J ≥ 3).</p><p>In applying BSPS, one essential assumption is that we have prediction uncertainty of models to be synthesized. However, some models (especially machine learning methods) provide only point prediction, and extracting the uncertainty of prediction may not be straightforward. A possible remedy is to use the Bayesian bootstrap <ref type="bibr" target="#b31">(Rubin, 1981)</ref> to roughly capture the prediction uncertainty, as used in Section 5.1. Although such bootstrap-based uncertainty quantification works numerically well in our application, detailed discussions, including theoretical arguments, are left for future works.</p><p>Finally, there are several ways to extend or apply the current BSPS approach. The first is to extend BSPS to spatio-temporal or multivariate data. This can potentially be done by using the recently developed techniques of graphical Gaussian processes <ref type="bibr" target="#b10">(Dey et al., 2021;</ref><ref type="bibr" target="#b29">Peruzzi and Dunson, 2022)</ref>. Moreover, BSPS can be used, not only for synthesizing multiple models, but also for saving computational cost under a large number of covariates. Specifically, if the number of covariates, say p, is very large, the standard spatially varying coefficient model <ref type="bibr" target="#b14">(Gelfand et al., 2003)</ref> requires p + 1 Gaussian processes for modeling spatially varying coefficients, which is computationally burdensome. On the other hand, it would be possible to first apply multiple, say J, regression models to get univariate spatial predictors, and then combine the multiple prediction models via BSPS. This reduces the number of Gaussian processes from p + 1 to J + 1, which makes the computation much less burdensome.</p><p>Zhang, L., W. Tang, and S. <ref type="bibr">Banerjee (2023)</ref>. Exact bayesian geostatistics using predictive stacking.</p><p>arXiv preprint arXiv:2304.12414.</p><p>Zhang, X. and J. Yu (2018). Spatial weights matrix selection and model averaging for spatial autoregressive models. Journal of Econometrics 203(1), 1-18.</p><formula xml:id="formula_43">of (β 0 (s i ), . . . , β J (s i )) is given by N (A (β) i B (β) i , A<label>(β)</label></formula><p>i ), where</p><formula xml:id="formula_44">A (β) i = f i f ⊤ i σ 2 + diag(γ 0i , . . . , γ Ji ) -1 , γ ji = 1 τ j F j (s i ) + t;s i ∈N (t) B j (t; s i ) 2 τ j F j (t) , B<label>(β)</label></formula><formula xml:id="formula_45">i = f i y i σ 2 + (m 0i , . . . , m Ji ) ⊤ , m ji = B j (s i ) ⊤ β j (N (s i )) τ j F j (s i ) + t;s i ∈N (t) B j (t; s i ) τ j F j (t) β j (t) - s∈N (t),s̸ =s i B j (t; s)β j (s)</formula><p>where</p><formula xml:id="formula_46">f i = (1, f 1i , . . . , f Ji ) and B j (t; s) denotes the scalar coefficient for β j (s i ) among</formula><p>the element of the coefficient vector B j (t).</p><p>-(Sampling of τ j ) For j = 0, . . . , J, the full conditional distribution of τ j is</p><formula xml:id="formula_47">IG a τ + n 2 , b τ + 1 2 n i=1 β j (s i ) -B j (s i )β j (N (s i )) 2 F j (s i ) . -(Sampling of g j ) For j = 0, . . . , J, the full conditional distribution of g j is proportional to n i=1 ϕ(β j (s i ); B j (s i ; θ j )β j (N (s i )), τ j F j (s i ; g j )), g j ∈ (g, g),<label>where</label></formula><formula xml:id="formula_48">B j (s i ; g j ) = C j (s i , N (s i ); g j )C j (N (s i ), N (s i ); g j ) -1 , F j (s i ; g j ) = C j (s i , s i ; g j ) -C j (s i , N (s i ); g j )C j (N (s i ), N (s i ); g j ) -1 C j (N (s i ), s i ; g j ),</formula><p>and C j (•, •; g j ) is the correlation function with spatial range g j .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S2 Derivation of variational Bayes algorithm</head><p>Remember that the mean filed variational Bayes (MFVB) approximates the posterior distributions through the form</p><formula xml:id="formula_49">q({f ji }, {β j }, {τ j }, {g j }, σ 2 ) = q(σ 2 ) J j=0 q(β j )q(τ j )q(g j ) n i=1 q(f ji ).</formula><p>It is known that the optimal form of the variational posterior is given by, for example, q(β j ) ∝ exp(E -β j [log p(y, Θ)]), where Θ = ({f ji }, {β j }, {τ j }, {g j }, σ 2 ) and E -β j denotes the expectation with respect to the marginal variational posterior of the parameters other than β j . From the forms of full conditional posterior distributions given in the main document, we can use the following distributions as optimal distributions:</p><formula xml:id="formula_50">q(σ 2 ) ∼ IG( a σ , b σ ), q(τ j ) ∼ IG( a τ j , b τ j ), q(β j ) ∼ N ( µ j , Σ j ), q(g j ) ∼ D( p j1 , . . . , p jL ), q(f ji ) ∼ N ( m ji , s 2 ji ),</formula><p>where D( p j1 , . . . , p jL ) is a discrete distribution on {η 1 , . . . , η L } such that P (g j = η ℓ ) = p jℓ . The derivation of the updating steps of MFVB is given as follows.</p><p>-</p><formula xml:id="formula_51">(update of f ji ) It follows that E -f ji [log p(y, Θ)] = (const.) - 1 2 f 2 ij (A f ji ) -1 + f ji B f ji ,</formula><p>where</p><formula xml:id="formula_52">A f ji = 1 b ji + E q [β 2 ji ]E q 1 σ 2 -1 = 1 b ji + ( µ 2 ji + Σ jii ) a σ b σ -1 ,<label>and</label></formula><formula xml:id="formula_53">B f ji = a ji b ji + E q [β ji ]E q 1 σ 2 y i -E q [β 0i ] - k̸ =j E q [β ki ]E q [f ki ] = a ji b ji + µ ji a σ b σ y i -µ 0i - k̸ =j µ ki m ki .</formula><p>Then, the parameters in the variational posterior of f ji can be updated as</p><formula xml:id="formula_54">m ji = A f ji B f ji<label>and</label></formula><formula xml:id="formula_55">s 2 ji = A f ji .</formula><p>-(update of β j ) It follows that E -β j [log p(y, Θ)] = (const.) -</p><formula xml:id="formula_56">1 2 β ⊤ (A (β) j ) -1 β + β ⊤ B (β) j ,<label>where</label></formula><formula xml:id="formula_57">A (β) j = E q [Ω j ]E q 1 σ 2 + E q [H(g j ) -1 ]E q 1 τ j -1 = Ω * j a σ b σ + L ℓ=1 p jℓ H(η ℓ ) -1 a τ j b τ j -1 B (β) j = E q 1 σ 2 E[F j ] • y -E q [β 0 ] - k̸ =j E q [β k ] • E q [F k ] = a σ b σ m j • y -µ 0 - k̸ =j µ k • m k ,</formula><p>where Ω * = diag( m 2 j1 + s 2 j1 , . . . , m 2 jn + s 2 jn ). Then, the parameters in the variational posterior of β j can be updated as</p><formula xml:id="formula_58">µ j = A (β) j B (β) j</formula><p>and Σ j = A (β) j .</p><p>-(update of τ j ) It follows that</p><formula xml:id="formula_59">E -τ j [log p(y, Θ)] = (const.) - n 2 + a τ + 1 log τ j - 1 τ j b τ + 1 2 E q β ⊤ j H(g j ) -1 β j ,</formula><p>noting that</p><formula xml:id="formula_60">E q β ⊤ j H(g j ) -1 β j = tr E q [β j β ⊤ j ]E q [H(g j ) -1 ] = tr ( µ j µ ⊤ j + Σ j ) L ℓ=1 p jℓ H(η ℓ ) -1 .</formula><p>Then, the parameters in the variational posterior of τ j can be updated as</p><formula xml:id="formula_61">a τ j = a τ + n 2 , b τ j = b τ + 1 2 tr ( µ j µ ⊤ j + Σ j ) L ℓ=1 p jℓ H(η ℓ ) -1 . -(update of g j ) It follows that E -g j [log p(y, Θ)] = (const.) - 1 2 log |H(g j )| - 1 2 E q 1 τ j E q [β ⊤ j H(g j ) -1 β j ],</formula><p>where</p><formula xml:id="formula_62">E q [β ⊤ j H(g j ) -1 β j ] = tr{( µ j µ ⊤ j + Σ j )H(g j ) -1 }.</formula><p>Then, the parameters in the variational posterior of g j can be updated as</p><formula xml:id="formula_63">p jℓ = |H(η ℓ )| -1/2 exp -a τ j tr{( µ j µ ⊤ j + Σ j )H(η ℓ ) -1 }/2 b τ j L ℓ ′ =1 |H(η ℓ ′ )| -1/2 exp -a τ j tr{( µ j µ ⊤ j + Σ j )H(η ℓ ′ ) -1 }/2 b τ j . -(update of σ 2 ) It follows that E -σ 2 [log p(y, Θ)] = (const.) - n 2 log σ 2 - 1 2σ 2 n i=1 E q y i -β 0i - J j=1 β ji f ji 2 ,</formula><p>where</p><formula xml:id="formula_64">I q (σ 2 ) ≡ n i=1 E q y i -β 0i - J j=1 β ji f ji 2 = y -µ 0 - J j=1 µ j • m j ⊤ y -µ 0 - J j=1 µ j • m j + tr( Σ 0 ) + J j=1 tr ( µ j µ ⊤ j + Σ j ) • ( m j m ⊤ j + S j ) - n i=1 J j=1 m 2 ji µ 2 ji</formula><p>with S j = diag( s 2 j1 , . . . , s 2 jn ). Then, the parameters in the variational posterior of σ 2 can be updated as</p><formula xml:id="formula_65">a σ = a σ + n 2 , b σ = b σ + 1 2 I q (σ 2 ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S3 Particle latent factors</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S3.1 Posterior computation under particle latent factors</head><p>Suppose that the distribution of the latent factor f ji is a discrete uniform distribution on {c</p><p>(1) ji , . . . , c (P ) ji },</p><p>where P is the number of particles. These particles may be the posterior predictive distribution of some Bayesian models. Under the discrete distribution of f ji , the posterior computation algorithm of BSPS will change only for f ji . Given the other parameters and latent variables, the full conditional distribution of f ji is a discrete distribution with the probability that</p><formula xml:id="formula_66">f ji = c (p) ji being ϕ y i ; β 0i + β ji c (p) ji + J k̸ =j β ki f ki , σ 2 P p ′ =1 ϕ y i ; β 0i + β ji c (p) ji + J k̸ =j β ki f ki , σ 2</formula><p>, p = 1, . . . , P.</p><p>Then, f ji can be generated from the above multinomial distribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S3.2 Comparison of Gaussian and particle latent factors</head><p>Using the same simulation scenarios in Section 4.2 in the main text, we compared the particle latent factors and Gaussian approximated latent factors as used in the default BSPS. As in Section 4.2, we adopted three models, GWR, AM, and SPR, and the pseudo-posterior samples of predictive distributions of GWR and AM are drawn by using the Bayesian bootstrap (e.g. <ref type="bibr" target="#b31">Rubin, 1981)</ref>. We generated 500 pseudo-posterior samples of GWR and AM as well as 500 posterior samples of SPR after discarding 1000 samples, and used the discrete distribution as the particle latent factors in BSPS. For comparison, we computed the means and variances of 500 (pseudo-)posterior samples and adopted Gaussian latent factors having the means and variances. For two types of BSPS, 1000 posterior samples of posterior predictive distributions of test data are generated after discarding the first 1000 samples. We then compute posterior means and 95% credible intervals, and evaluate the performance by MSE, CP, and AL, as used in Section 4.2.</p><p>In Table <ref type="table" target="#tab_0">S1</ref>, we report the three performance measures averaged over 200 Monte Carlo replications. The results show that the difference between using particle and Gaussian latent factors is quite limited in all the scenarios. Since the particle latent factors can be computationally intensive when the number of particles is large, the use of approximated Gaussian distribution would be practically useful.</p><p>Table S1: Mean squared errors (MSE) of point prediction, Coverage probability (CP), and average interval length (AL) of 95% prediction intervals of test samples obtained by particle and Gaussian (default) latent factors. The reported MSE, CP, and AL are averaged over 200 replications of simulations. MSE CP (%) AL Scenario p Default Particle Default Particle Default Particle 1 5 1.34 1.35 97.3 97.2 5.02 5.02 1 15 1.41 1.41 96.0 96.1 4.87 4.87 2 5 3.20 3.24 95.9 96.0 7.21 7.21 2 15 3.24 3.25 95.2 95.1 7.12 7.13</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S4 Additional Results in Section 4.1</head><p>Here, we show additional numerical results in Section 4.1 in the main text. In particular, we present posterior correlation among different latent factors and demonstrate how the bias and variance of each model are related to the model weight in BSPS.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S4.1 Correlation in the posterior distribution of the latent factors</head><p>In the proposed BSPS, the prior distribution of latent factors is mutually independent, but their posterior can be correlated. To demonstrate this issue, we calculated pair-wise posterior correlations among three models (QR1, QR2, and APR) at each location. In Figure <ref type="figure" target="#fig_6">S1</ref>, we show posterior correlation with estimated model weights. Since QR1 and QR2 are learned in disjoint regions, it would be natural to see that the posterior correlations are low overall. On the other hand, posterior of QR1 and SPR are correlated in some regions while model weights for QR1 are relatively small in the region with a large correlation between QR1 and SPR. Similar results can be confirmed for QR2 and SPR. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S4.2 Connection of model weight to bias and variance</head><p>In Figure <ref type="figure" target="#fig_2">S2</ref>, we show the estimated model weights against absolute bias and variance of the three models. First, it can be seen that the model weight does not have clear relationships with variance unlike the Bates-Granger averaging used in Section 4.2. Secondly, the model weights tend to be large when the absolute bias is small.</p><p>0 1 2 3 4 5 6 7 0.0 0.2 0.4 0.6 0.8 Absolute bias Relative weight QR1 QR2 SPR 0.9 1.0 1.1 1.2 1.3 1.4 1.5 1.6 0.0 0.2 0.4 0.6 0.8 Variance Relative weight QR1 QR2 SPR</p><p>Figure <ref type="figure" target="#fig_2">S2</ref>: Spatially varying model weight as a function of bias and variance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S4.3 Estimated surface of response variable</head><p>In Figure <ref type="figure" target="#fig_7">S3</ref>, we show the point prediction of test data made by BSPS with the true test values. It shows that the prediction surface is spatially smooth even though the latent factors are mutually independent. Furthermore, the prediction surface is fairly similar to the true one.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S5 Exact minimaxity of predictive distributions</head><p>We here provide the theoretical property of the resulting Bayesian predictive distribution based on the synthesis function (2), by showing that BSPS is exact minimax under Kullback-Leibler (KL) loss (i.e. desirable under a statistical decision theoretic framework).</p><p>First, we formulate the decision theoretic problem. Let s = {s 1 , . . . , s n } be n observed locations, and s n+1 be an unobserved location. Further, let y i be the observed data at location s i and y n+1 be a random variable at unobserved location. We assume that y i 's and y n+1 are the realization of a Gaussian field, and the mean and variance of y i are denoted by m(s i ) and R(s i ), respectively. Define f j,i = f j (s i ), ε i = ε(s i ), and β ji = β j (s i ). Then, the best approximation model at location s n+1 can be written as</p><formula xml:id="formula_67">y n+1 = µ n+1 + ε n+1 , ε n+1 ∼ N (0, σ 2 n+1 ) µ n+1 = β 0,n+1 + J j=1 β j,n+1 f j,n+1 .<label>(S1)</label></formula><p>Hence, the conditional distribution of y n+1 given f n+1 = (f 1,n+1 }, . . . , f J,n+1 ), β n+1 = (β 1,n+1 , . . . , β J,n+1 )</p><p>and σ n+1 is N (β 0,n+1 + J j=1 β j,n+1 f j,n+1 , σ 2 n+1 ), which can be interpreted as the likelihood of model (S1). The task is to predict an unobserved location, s n+1 , after observing y = (y 1 , • • • , y n ) ⊤ , using the model (2) given in the main text.</p><p>The KL loss regarding the prediction of y n+1 is defined as</p><formula xml:id="formula_68">KL ϕ(•; µ n+1 , σ 2 n+1 ) | q(•) = R log ϕ(y n+1 ; µ n+1 , σ 2 n+1 ) q(y n+1 ) ϕ(y n+1 ; µ n+1 , σ 2 n+1 )dy n+1 ,</formula><p>where ϕ(x; a, b) denotes the density function of a normal distribution with mean a and variance b.</p><p>The goal of statistical decision theory is to determine a distribution, q(y n+1 ), that is close to the true Gaussian distribution, N (µ n+1 , σ 2 n+1 ), in terms of KL loss. We will show that the Bayesian predictive distribution the model given later, q * (y n+1 | y), provides a minimax solution to this problem, namely</p><formula xml:id="formula_69">E µ Y KL(ϕ(•; µ n+1 , σ 2 n+1 ) | q * (•|y) = min q max µ n+1 ,σ n+1 E µ Y KL(ϕ(•; µ n+1 , σ 2 n+1 ) | q(•|y)) .</formula><p>We define the invariant decision problem. The parameter space is θ = (µ n+1 , σ n+1 ), and the decision space is a space of probability distributions. Denote the decision function as the predictive distribution, q (y n+1 ). Let the orthogonal group, O n+1 , be the group of (n + 1) × (n + 1) orthogonal matrices, and describes the positive interval, (0, ∞], on R + . Define the group, G, as</p><formula xml:id="formula_70">G = R + × O n+1 × R, c ∈ R + , A ∈ O n+1 and F ∈ R. Define the operation, g (∈ G), to the sample space as g    y y n+1    = cA    y y n+1    + F<label>(S2)</label></formula><p>and define the operation, g(∈ G), to the parameter space, as the (n + 1)th component of the following vectors</p><formula xml:id="formula_71">g    µ µ n+1    = cA    µ µ n+1    + F, g    σ 2 0 0 σ 2 n+1    = c -1 A    σ 2 0 0 σ 2 n+1    A ⊤ . Note that µ = (µ 1 , • • • , µ n ) ⊤ , σ 2 = diag σ 2 1 , • • • , σ 2 n .</formula><p>Then define the transformation, g, to the probability density, q (y), as gq (y) = q (gy). Thus,</p><formula xml:id="formula_72">gq (y n+1 ) = q   (n + 1) th component of cA    y y n+1    + F    .</formula><p>The transformation group, g, operates on the sample, (y ⊤ , y n+1 ), transitively. Thus, for any point, y, on R, there necessarily exists g ∈ G, such that g y = y. Similarly, g transitively operates on the parameter space, θ ∈ (R, R + ). Such transformation groups, (g, g, g), make the statistical decision problem invariant. Thus, regarding the probability distribution, N (µ t+1 , σ 2 n+1 ), that follows the best approximation model for the sample, y n+1 , N (gµ n+1 , gσ 2 n+1 ) = gN (µ t+1 , σ 2 n+1 ) holds, and can be written as</p><formula xml:id="formula_73">y i = β 0i + J j=1 β ji f ji + ε i , ε i ∼ N 0, σ 2 i (S3) (β j | τ j , g j ) ∼ N (0 n , τ j H (g j )) , j = 1, • • • , J, π (β 0 ) = 1 [-a,a] (β 0 ) .</formula><p>Here, H(g j ) is an n × n-matrix whose (i, i ′ )-element being κ g j (s i , s i ′ ) and κ g j (s i , s i ′ ) is a kernel function such as the exponential kernel, κ g j (s i , s i ′ ) = exp(-∥s i -s i ′ ∥/g j ). The conditional distribution of y i is N (β 0i + J j=1 β ji f ji , σ 2 i ) for i = 1, . . . , n + 1. Let ρ(τ j ), ρ(g j ) and ρ(σ i ) be priors on τ j , g j and σ i , respectively. Then, the conditional distribution of (y ⊤ , y n+1 ) given (f 1 , . . . , f J ) (J predictions at n observed locations) and (f 1,n+1 , . . . , f J,n+1 ) (J predictions at a new location) is expressed as</p><formula xml:id="formula_74">g * y, y n+1 | f 1 , . . . , f J , f 1,n+1 , . . . , f J,n+1 = i=1 ϕ y i ; β 0i + J j=1 β ji f ji , σ 2 i ρ(σ i )dσ i J j=0 π(β j , β j,n+1 |τ j , g j )dβ j dβ j,n+1 ρ(τ j )ρ(g j )dτ j dg j</formula><p>Then conditional (Bayesian predictive) distribution of y n+1 given observed y is</p><formula xml:id="formula_75">q * y n+1 | y,f 1 , . . . , f J , f 1,n+1 , . . . , f J,n+1 = g * y, y n+1 | f 1 , . . . , f J , f 1,n+1 , . . . , f J,n+1 dy g * y, y n+1 | f 1 , . . . , f J , f 1,n+1 , . . . , f J,n+1 dy ,<label>(S4)</label></formula><p>which will be simply denoted by q * y n+1 | y). The property of q * y n+1 | y) can be shown as follows:</p><p>Lemma 1. Given priors ρ(τ j ) = τ -1 j (j = 0, 1, . . . , J) and ρ(σ i ) = σ -1 i (i = 1, . . . , n), and any choice of prior for g j , the predictive distribution</p><formula xml:id="formula_76">q * y n+1 | y) given in (S4) is G-invariant.</formula><p>For the statistical decision problem we are considering, the Bayes solution is the predictive distribution, q(y n+1 |y), that minimizes the Bayes risk</p><formula xml:id="formula_77">E π(µ,σ) E µ Y KL N µ n+1 , σ 2 n+1 q ( y n+1 | y) ,</formula><p>which is the expectation of the KL risk under the unknown parameters, θ = (µ n+1 , σ n+1 ), with priors, π(µ n+1 , σ n+1 ). We can consider the prior on µ n+1 as the following. Consider π(µ n+1 ) as a mixture probability distribution of the random variable, (β 0,n+1 , . . . , β J,n+1 ), with weight (f 1,n+1 , . . . , f J,n+1 ). Then, when (β 0,n+1 , . . . , β J,n+1 ) is given as ( <ref type="table">S3</ref>) and ρ (τ j ) = τ -1 j , π(µ n+1 ) is g-invariant. This is because of the following rotational invariance of the Gaussian distribution:</p><formula xml:id="formula_78">gµ = (cAβ 0 + F ) + J j=1 cAβ j • f j = β 0 + J j=1 β j • f j = µ,</formula><p>where • denotes the Hadamard product, and we assume β 0 follows a uniform distribution. Since (β 0,n+1 , . . . , β J,n+1 ) is not the target of estimation, (β 0,n+1 , . . . , β J,n+1 ) need not be all g-invariant.</p><p>We then obtain the following result:</p><p>Theorem S2. Construct a parameter function, (β 0 (s), • • • , β J (s)), with a Gaussian process, β j (s) ∼ GP(τ j , g j ) for j = 0, 1, • • • , J, and assign priors, ρ(τ j ) = τ -1 j , ρ(σ i ) = σ -1 i , and any prior for g j . Then, the G-invariant predictive distribution q * y n+1 | y) given in (S4) is a Bayes solution and exact minimax in terms of the KL risk.</p><p>Proof. To show exact minimaxity, we first define the transformation group that makes the statistical decision problem invariant under the KL risk. Here, the orthogonal group, O n+1 , is the group of (n + 1) × (n + 1) orthogonal matrices, with R + representing the positive region, (0, ∞]. The group, G, is</p><formula xml:id="formula_79">1G = R + × O n+1 × R, c ∈ R + , A ∈ O n+1 , F ∈ R,</formula><p>where the operation g to the sample space of (y, y n+1 ) is defined as</p><formula xml:id="formula_80">g    y y n+1    = cA    y y n+1    + F,</formula><p>and the operation g to the parameter space, θ = µ, µ n+1 , C w , σ 2 , is defined as</p><formula xml:id="formula_81">g    µ µ n+1    = cA    µ µ n+1    + F, gC = cACA ⊤ , gσ 2 = cσ 2 A ⊤ A,</formula><p>where C is a (n+1)×(n+1) covariance matrix. The transformation, g, to the probability density, q (y), is defined as gq (y) = q (gy). The transformation group, (g, g, g), operates transitively on the sample, (y, y n+1 ), and the parameter space.</p><p>The statistical decision problem is invariant under the transformation group, (g, g, g). Thus, for the sample, y n+1 , that follows a probability distribution, p * θ , it holds that p * gθ = gp * θ , which entails that the loss is invariant under the KL loss,</p><formula xml:id="formula_82">KL p * gθ |gq = log p * gθ (y n+1 ) gq (y n+1 |y, f n+1 ) p * gθ (y n+1 ) dy n+1 = log p * θ (g(s n+1 )) q (g(s n+1 ) |y, f n+1 ) p * θ (g(s n+1 )) dy n+1 = KL (p * θ |q ) .</formula><p>The group, (g, g, g), is an amenable group, which satisfies the Hunt-Stein condition <ref type="bibr" target="#b39">(Bondar and Milnes, 1981)</ref>. The conditions for minimaxity in <ref type="bibr">Kiefer (1957)</ref> is thus satisfied. Therefore, the minimax solution for the given statistical decision problem exists in the solution of the invariant statistical decision problem:</p><formula xml:id="formula_83">min q max θ E y [KL (p * θ |q )] = min q:g-invariant max θ E y [KL (p * θ |q )] ,</formula><p>where the minimum is taken over a class of g-invariant distributions.</p><p>From this argument, the best invariant predictive distribution from the class of g-invariant distributions is the minimax solution out of all probability distributions. The best invariant predictive distribution is g-invariant, i.e., the Bayes decision based on the prior, ρ, that satisfies ρ (gβ) = ρ (β), ρ (gσ) = ρ (σ) provides the best invariant solution <ref type="bibr" target="#b42">(Zidek, 1969)</ref>. Under KL risk, the Bayesian predictive distribution under a g-invariant prior is the best invariant solution <ref type="bibr" target="#b41">(Komaki, 2002)</ref>. For the BSPS model with Gaussian processes for β 1 (s), . . . , β J (s), if we use the following g-invariant prior distributions</p><formula xml:id="formula_84">ρ (β 0 ) = 1 [-b,a] n (β 0 ) , ρ (σ) = 1 σ , ρ (τ j ) = 1 τ j , j = 1, • • • , J,<label>(S5)</label></formula><p>for some positive constants, a and b. Here, 1 [-b,a] n (β 0 ) is an indicator function, where it is 1 when β 0 is in the region, [-b, a] n , and 0 otherwise. Therefore, the predictive distribution under the prior (S5), and all predictive distributions that dominate it, is a minimax solution.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Illustration of heterogeneous model performance for spatial data, and how model selection, simple model averaging, and our proposed BSPS performs. Each dot is the out of sample squared error.</figDesc><graphic coords="4,99.21,85.05,396.83,323.51" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>where β 1i and β 2i are posterior means of β 1i (weight for QR1) and β 2i (weight for QR2), which shows the importance of the prediction made by QR1. The result is shown in the left panel of Figure2, which clearly shows that the model weight for QR1 is large in D 1 (left region) and is close to 0 in D 2 , where QR1 is not expected to predict well. This means that BSPS can automatically detect the effective model at local regions through Bayesian updating. We also note that the model weight smoothly changes over the region and two prediction models.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Left: Spatial plot of the ratio of two coefficients, | β 1i |/(| β 1i | + | β 2i |). Right: point prediction made by BMA, SA, and BSPS, and 95% prediction intervals (vertical lines) obtained from the predictive distributions of BSPS.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: Posterior means of spatially varying intercept and coefficients in the logistic BSPS model defined in (5).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Receiver operating characteristic (ROC) curves for various prediction methods (left), where the resulting values of area under the curve (AUC) are given in parenthesis. AUC values for the six methods under 20 replications (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 :</head><label>6</label><figDesc>Figure 6: Left: Spatial plot of posterior means of the intercept term. Right: Point predictions of XGB (red circle), SRF (blue circle), and BSPS (black circle) with the 95% prediction intervals (vertical lines) based on the predictive distributions given by BSPS.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure S1 :</head><label>S1</label><figDesc>FigureS1: Spatial distribution of pair-wise correlations between posterior distributions of different latent factors (upper) and estimated model weights (lower).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure S3 :</head><label>S3</label><figDesc>FigureS3: Estimated surface of the response variable obtained by BSPS-ad1 (left) and its true surface (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Coverage probability (CP) and average interval length (AL) of 95% prediction intervals of test samples obtained from three basic models (GWR, AM, and SPR) and BSPS. The CP and AL are averaged over 500 replications of simulations.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>CP (%)</cell><cell></cell><cell>AL</cell></row><row><cell cols="2">Scenario p</cell><cell cols="2">BSPS GWR AM SPR</cell><cell cols="2">BSPS GWR AM SPR</cell></row><row><cell>1</cell><cell>5</cell><cell>96.4</cell><cell>89.1 94.0 95.2</cell><cell>4.99</cell><cell>5.58 4.76 6.35</cell></row><row><cell>1</cell><cell>15</cell><cell>95.9</cell><cell>90.8 92.3 95.5</cell><cell>4.90</cell><cell>5.81 4.67 6.47</cell></row><row><cell>2</cell><cell>5</cell><cell>92.9</cell><cell>81.9 94.2 96.0</cell><cell>6.87</cell><cell>6.94 7.64 8.65</cell></row><row><cell>2</cell><cell>15</cell><cell>93.8</cell><cell>86.1 92.2 96.0</cell><cell>6.91</cell><cell>7.69 7.55 8.81</cell></row><row><cell cols="6">efficacy of BSPS and compare different methods under distinctly different situations, to provide a</cell></row><row><cell cols="2">more holistic assessment.</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note><p>5.1 Occurrence of Tsuga canadensis in Michigan</p><p>The first real world application concerns the occurrence of Tsuga canadensis (Eastern hemlock) in Michigan, USA, analyzed in<ref type="bibr" target="#b22">Lany et al. (2020)</ref></p><p>. The data comprise hemlock occurrence (binary outcome) on 17743 forest stands across the state of Michigan. A set of covariates was also observed at each stand and can be used to explain the probability of hemlock occurrence. Covariates include minimum winter temperature, maximum summer temperature, total precipitation in the coldest quarter of the year, total precipitation in the warmest quarter of the year, annual actual evapotranspiration, and annual climatic water deficit. Spatial coordinates are recorded in longitude (lon) and latitude (lat).</p></note></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgement</head><p>This work is partially supported by <rs type="funder">Japan Society for Promotion of Science (KAKENHI)</rs> grant numbers <rs type="grantNumber">21H00699</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_TdUnPvy">
+					<idno type="grant-number">21H00699</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Material for "Bayesian Spatial Predictive Synthesis"</head><p>This Supplementary Material provides the following. Details of the sampling algorithm under nearest neighbor Gaussian processes are in Section S1. The derivation of the mean-field variational Bayes algorithm (Algorithm 1 in the main document) is in Section S2. Section S3 describes the implementation, computation, and numerical simulation of particle latent factors (i.e. when the predictive distribution is given as posterior samples). Finally, Section S4 describes the two alternative latent factor specifications (spatially correlated latent factors and overlap corrected latent factors), and their numerical comparison. The exact minimaxity result, its proof, and an overview of Kiefer's theorem in Section S5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S1 Sampling steps under nearest neighbor Gaussian process</head><p>The use of the m-nearest neighbor Gaussian process for β j (s) leads to a multivariate normal distribution with a sparse precision matrix for β j (s 1 ), . . . , β j (s n ), defined as</p><formula xml:id="formula_85">π(β j (s 1 ), . . . , β j (s n )) = n i=1 ϕ(β j (s i ); B j (s i )β j (N (s i )), τ j F j (s i )), j = 0, . . . , J where B j (s i ) = C j (s i , N (s i ))C j (N (s i ), N (s i )) -1 , F j (s i ) = C j (s i , s i ) -C j (s i , N (s i ))C j (N (s i ), N (s i )) -1 C j (N (s i ), s i ),</formula><p>and N (s i ) denotes an index set of m-nearest neighbors of s i . Here C j (•, •) is the same correlation function used in the original Gaussian process for β j (s).</p><p>The full conditional distributions of the latent factors, f ji , and error variance, σ 2 , are the same as the ones given in the main document. The full conditional distributions of the other parameters are given as follows:</p><p>-(Sampling of spatially varying weights) For i = 1, . . . , n, the full conditional distribution regarding the KL loss, we have</p><formula xml:id="formula_86">KL ϕ(•; gµ n+1 , gσ 2 n+1 ) | gq(•|y) = log ϕ(y n+1 ; gµ n+1 , gσ 2 n+1 ) gq (y n+1 |y ) ϕ(y n+1 ; gµ n+1 , gσ 2 n+1 )dy n+1 = log gϕ(y n+1 ; µ t+1 , σ 2 n+1 ) q (gy n+1 |y ) gϕ(y n+1 ; µ t+1 , σ 2 n+1 )dy n+1 = KL ϕ(•; µ t+1 , σ 2 n+1 ) | q(•|y) ,</formula><p>which satisfies loss invariance. From the above, we have defined the G-invariant statistical deci- </p><formula xml:id="formula_87">θ | y), is KL ϕ(•; µ n+1 , σ 2 n+1 ) | q(•|θ) q(θ|y)dθ = KL ϕ(•; µ n+1 , σ 2 n+1 ) | q(•|y) .</formula><p>As seen from this formulation, the choice of randomized decision function is equivalent to choosing the predictive distribution, q ( y n+1 | y). For a predictive distribution to be G-invariant, it is required that gq(y n+1 |gy) = q(y n+1 |y).</p><p>Theorem S1 <ref type="bibr">(Kiefer (1957)</ref>). When the group, G, is defined as (S2), the minimax solution to the statistical decision problem exists within the solution to the invariant statistical decision problem:</p><formula xml:id="formula_88">min q max θ E KL ϕ(•; µ t+1 , σ 2 n+1 )|q(•|y) = min q:G-invariant max θ E KL ϕ(•; µ t+1 , σ 2 n+1 )|q(•|y) .</formula><p>From this theorem, we can know that the minimax solution can be found within G-invariant predictive distributions. We now construct a predictive distribution that satisfies this condition. For the spatially-varying coefficient model (2), we approximate the parameter function, (β 0 (s) , • • • , β J (s)),</p><p>with Gaussian processes, β j (s) ∼ GP (τ j , g j ) for j = 0, 1, . . . , J, where β j (s) are independent for each j. Then, the approximation using Gaussian processes (2) for each observation location</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><figDesc>-stochastic) decision space is a set of distributions of y n+1 , q(y n+1 | θ), and the randomized decision function is treated as equivalent to the predictive distribution, q(y n+1 | y). This is because the randomized decision function is equivalent to integrating the posterior over some part of the decision space q(y n+1 |θ)∈D q(y n+1 | θ)q(θ | y)dθ, and the average KL loss of the randomized decision function, q(</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Combined density nowcasting in an uncertain economic environment</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">A</forename><surname>Aastveit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Ravazzolo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Van Dijk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="131" to="145" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial econometrics: methods and models</title>
+		<imprint>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<date type="published" when="1988">1988</date>
+			<biblScope unit="volume">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Gaussian predictive process models for large spatial data sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">The combination of forecasts</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Bates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Granger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the operational research society</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="451" to="468" />
+			<date type="published" when="1969">1969</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Variational inference: A review for statisticians</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Blei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kucukelbir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Mcauliffe</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="issue">518</biblScope>
+			<biblScope unit="page" from="859" to="877" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series D (The Statistician)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Xgboost: A scalable tree boosting system</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Guestrin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 22nd acm sigkdd international conference on knowledge discovery and data mining</title>
+		<meeting>the 22nd acm sigkdd international conference on knowledge discovery and data mining</meeting>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="785" to="794" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Hierarchical nearest-neighbor gaussian process models for large geostatistical datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">514</biblScope>
+			<biblScope unit="page" from="800" to="812" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Optimal spatial prediction using ensemble machine learning</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Davies</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Van Der Laan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The international journal of biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="179" to="201" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Bayesian model averaging for spatial autoregressive models based on convex combinations of different types of connectivity matrices</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Debarsy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="12" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Graphical gaussian process models for highly multivariate spatial data</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Dey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note>available online</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Model-based geostatistics</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Tawn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Moyeed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series C (Applied Statistics)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="299" to="350" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">spNNGP R package for nearest neighbor Gaussian process models</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1" to="40" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Multivariate Adaptive Regression Splines</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="67" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Modelling expert judgements for Bayesian updating</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Genest</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Schervish</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="1198" to="1212" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Optimal prediction pools</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Geweke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Amisano</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">164</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="130" to="141" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A spatial model averaging approach to measuring house prices</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Greenaway-Mcgrevy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Sorensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Spatial Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="32" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Generalized additive models: some applications</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="issue">398</biblScope>
+			<biblScope unit="page" from="371" to="386" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Bayesian model averaging: a tutorial</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Madigan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Raftery</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Volinsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical science</title>
+		<imprint>
+			<biblScope unit="page" from="382" to="401" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Invariance, minimax sequential estimation, and continuous time processes</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kiefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Mathematical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="573" to="601" />
+			<date type="published" when="1957">1957</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Generalized spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="10" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Complementary strengths of spatially-explicit and multi-species distribution models</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">K</forename><surname>Lany</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">L</forename><surname>Zarnetske</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Mccullough</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="456" to="466" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Bayesian model averaging for spatial econometric models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Parent</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="241" to="267" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Spatial mallows model averaging for geostatistical models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Liao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Zou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Gao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="336" to="351" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A fused gaussian process model for very large spatial data</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">L</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="479" to="489" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Multivariate bayesian predictive synthesis in macroeconomic forecasting</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Mcalinn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">A</forename><surname>Aastveit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Nakajima</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>West</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">115</biblScope>
+			<biblScope unit="page" from="1092" to="1110" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Dynamic bayesian predictive synthesis in time series forecasting</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Mcalinn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>West</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of econometrics</title>
+		<imprint>
+			<biblScope unit="volume">210</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="169" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Highly scalable bayesian geostatistical modeling via meshed gaussian processes on partitioned domains</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Peruzzi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="14" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><surname>Peruzzi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Dunson</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2201.10080</idno>
+		<title level="m">Spatial meshing for general bayesian multivariate models</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Bayesian inference for logistic models using polya-gamma latent variables</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">G</forename><surname>Polson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Scott</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Windle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">108</biblScope>
+			<biblScope unit="page" from="1339" to="1349" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Rubin</surname></persName>
+		</author>
+		<title level="m">The Bayesian bootstrap. The Annals of Statistics</title>
+		<imprint>
+			<date type="published" when="1981">1981</date>
+			<biblScope unit="page" from="130" to="134" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Approximate bayesian inference for latent gaussian models by using integrated nested laplace approximations</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Martino</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Chopin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the royal statistical society: Series B (statistical methodology)</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="319" to="392" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Random forests for spatially dependent data</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Saha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Basu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="46" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Van Der Laan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Polley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Hubbard</surname></persName>
+		</author>
+		<title level="m">Super learner. Statistical applications in genetics and molecular biology</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">6</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Generalized common spatial factor model</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Wall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="569" to="582" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Modelling agent forecast distributions</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>West</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society (Series B: Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="553" to="567" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Modelling of probabilistic agent opinion</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>West</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Crosse</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society (Series B: Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="285" to="299" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<title level="m" type="main">Gaussian measures. Number 62</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">I</forename><surname>References Bogachev</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1998">1998</date>
+			<publisher>American Mathematical Society</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Amenability: A survey for statistical applications of Hunt-Stein and related conditions on groups</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">V</forename><surname>Bondar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Milnes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Zeitschrift für Wahrscheinlichkeitstheorie und verwandte Gebiete</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="103" to="128" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Invariance, minimax sequential estimation, and continuous time processes</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kiefer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Mathematical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="573" to="601" />
+			<date type="published" when="1957">1957</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Bayesian predictive distribution with right invariant priors</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Komaki</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Calcutta Statistical Association Bulletin</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1-4</biblScope>
+			<biblScope unit="page" from="171" to="180" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">A representation of Bayes invariant procedures in terms of Haar measure</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">V</forename><surname>Zidek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Institute of Statistical Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="291" to="308" />
+			<date type="published" when="1969">1969</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

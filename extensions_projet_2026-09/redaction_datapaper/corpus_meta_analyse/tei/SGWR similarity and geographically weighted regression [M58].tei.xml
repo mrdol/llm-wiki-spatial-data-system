@@ -1,0 +1,1277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">SGWR: similarity and geographically weighted regression</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2024-04-17">17 Apr 2024.</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">M</forename><forename type="middle">Naser</forename><surname>Lessani</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="laboratory">Geoinformation and Big Data Research Laboratory</orgName>
+								<orgName type="institution">The Pennsylvania State University</orgName>
+								<address>
+									<settlement>University Park</settlement>
+									<region>PA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="laboratory">Geoinformation and Big Data Research Laboratory</orgName>
+								<orgName type="institution">The Pennsylvania State University</orgName>
+								<address>
+									<settlement>University Park</settlement>
+									<region>PA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Zhenlong</forename><surname>Li</surname></persName>
+							<email>zhenlong@psu.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="laboratory">Geoinformation and Big Data Research Laboratory</orgName>
+								<orgName type="institution">The Pennsylvania State University</orgName>
+								<address>
+									<settlement>University Park</settlement>
+									<region>PA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="laboratory">Geoinformation and Big Data Research Laboratory</orgName>
+								<orgName type="institution">The Pennsylvania State University</orgName>
+								<address>
+									<settlement>University Park</settlement>
+									<region>PA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="laboratory">Geoinformation and Big Data Research Laboratory</orgName>
+								<orgName type="institution">The Pennsylvania State University</orgName>
+								<address>
+									<settlement>University Park</settlement>
+									<region>PA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">SGWR: similarity and geographically weighted regression</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2024-04-17">17 Apr 2024.</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">CDB5DA582FE7237A23B664F6CAFA276A</idno>
+					<idno type="DOI">10.1080/13658816.2024.2342319</idno>
+					<note type="submission">Received 5 July 2023 Accepted 9 April 2024</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Attribute similarity</term>
+					<term>similarity weight matrix</term>
+					<term>GWR</term>
+					<term>regression</term>
+					<term>spatial relationship</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Geographically weighted regression (GWR) offers a local approach to modeling spatial data, considering geographical location and spatial relationships between observations. A salient feature of GWR is the emphasis on geographical proximity, in accordance with Tobler's First Law of Geography, which assumes that closer entities have a greater influence on the target location. Traditional GWR models have been augmented to consider various forms of physical distances aimed at enhancing model performance, and they often disregarded the potential influence of other data attributes, a shortcoming that extends to most GWR extensions. In this study, we introduce a novel weight matrix construction, which integrates data attribute similarity alongside the conventional geographically weighted matrix. The two weights are integrated in a manner that results in improved model performance. The proposed model, called Similarity and Geographically Weighted Regression or SGWR, was applied to five distinct datasets: housing prices, crime rates, and three health outcomes including mental health, depression, and HIV. Results show that SGWR significantly improved model performance based on several statistical measures, outperforming the global regression model and the traditional GWR.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>The geographically weighted regression (GWR) is a local regression method that enables the modeling of spatially varying relationships <ref type="bibr" target="#b12">(Fotheringham et al. 1997</ref><ref type="bibr" target="#b5">, Brunsdon et al. 2010)</ref>. It does this by allowing regression coefficients to vary over space rather than assuming a constant global effect as in the traditional regression model <ref type="bibr" target="#b44">(Stapleton 2009)</ref>. This local approach is particularly useful for analyzing complex spatial patterns that may not be easily detected with global models <ref type="bibr" target="#b13">(Fotheringham et al. 2003)</ref>. The power of GWR lies in its ability to capture such local patterns and improve predictive performance by accounting for spatial heterogeneity in data <ref type="bibr" target="#b5">(Brunsdon et al. 2010)</ref>. GWR is widely used across a variety of research domains due to its ability. In environmental science, for instance, GWR has been utilized to investigate the effects of urban expansion and alterations in landscape structure on the quality of wildlife habitats and land urbanization <ref type="bibr" target="#b54">(Zhu et al. 2020</ref><ref type="bibr">, Zhu et al. 2022)</ref>. In urban planning, GWR has increasingly been used to identify and interpret the spatial heterogeneity of relationships between various urban variables. This method allows urban planners to gain more granular insights into the spatial variability of relationships, which can inform more comprehensive and effective urban policy and intervention strategies <ref type="bibr" target="#b17">(Hu and Xu 2019</ref><ref type="bibr">, Li et al. 2019b</ref><ref type="bibr" target="#b7">, Cui et al. 2021)</ref>. Similarly, it has been extensively used in housing price modeling to take into account the spatial variation in the relationships between house prices and their determinants <ref type="bibr" target="#b51">(Zhang et al. 2019</ref><ref type="bibr" target="#b47">, Tomal 2020</ref>). The GWR has also been used substantially in public health research to account for spatial variability in health outcomes and risk factors, and it can model how associations between a health outcome and its determinants vary spatially, providing a local rather than a global parameter estimate <ref type="bibr" target="#b49">(Wende 2019</ref><ref type="bibr" target="#b19">, Jiao et al. 2021</ref><ref type="bibr" target="#b42">, Shi et al. 2023)</ref>. In essence, accurately capturing the spatial patterns while studying today's phenomenon is critically important.</p><p>In scholarly discourse, the shortcomings of GWR are well recognized, and several refinements have been suggested. Multiscale geographically weighted regression (MGWR) took spatial scale into account <ref type="bibr" target="#b11">(Fotheringham et al. 2017)</ref> to further enhance GWR performance, and geographically neural network weighted regression (GNNWR) was proposed aiming to more accurately estimate spatial non-stationary and improve its prediction capability <ref type="bibr" target="#b8">(Du et al. 2020)</ref>. Then regionally geographically weighted regression (RGWR) was introduced to optimize kernel function <ref type="bibr" target="#b48">(Wang et al. 2022)</ref>. The kernel function is an essential component of GWR because it determines how weights are assigned to the data points based on their spatial proximity to the location for which a prediction is being made. Another critical component of regression is the computation time; to address this challenge, researchers proposed a fast geographically weighted regression (FastGWR) and fast multiscale geographically weighted regression (FastMGWR) <ref type="bibr">(Li et al. 2019a, Li and</ref><ref type="bibr" target="#b30">Fotheringham 2020)</ref>, expanded the volume of data that could be processed in parallel by using Message Passing Interface (MPI) protocols. Following this, a four-dimensional GWR (4DGWR) was proposed aiming to improve the spatial dimensionality by considering spatial, altitudinal, and temporal non-stationary in the dataset <ref type="bibr" target="#b45">(Tasyurek and Celik 2022)</ref>. However, as a previous study expressed, the aspect of distance measurement, a significant yet independent facet of the GWR model, has been largely overlooked until recently <ref type="bibr" target="#b32">(Lu et al. 2014)</ref>. This issue is rooted in Tobler's first law of geography, which postulates that 'everything is interconnected, but things that are closer together are more strongly linked than things that are further apart' <ref type="bibr" target="#b46">(Tobler 1970)</ref>. The interpretation of 'near' and 'distant', however, has been a long-standing subject of academic contention.</p><p>In the realm of quantitative spatial analysis, the GWR model typically employs linear or Euclidean distance as the primary metric to measure spatial proximity. This spatial relationship forms the backbone of the weight assignment process during regression computations. Essentially, the proximity of a data point to the location of interest within the regression model inversely correlates with the weight it is accorded: the closer the data point is to the regression location, the larger its weight and, thus, the more significant its influence on the parameter estimates of the local regression model. This approach ensures that estimates are locally tailored and sensitive to spatial variations, highlighting the potential geographical heterogeneity in relationships among variables. Capturing the complexity of geographic space merely through Euclidean distance presents a considerable challenge. Some researchers have endeavored to address this issue by enhancing the conceptual understanding of distance within the GWR model. Acknowledging the inherent non-stationarity of spatiotemporal data both in space and time, <ref type="bibr" target="#b18">Huang et al. (2010)</ref> incorporated the time dimension into the GWR model. This inclusion led to the development of innovative spatiotemporal models such as geographical and temporal weighted regression (GTWR) <ref type="bibr" target="#b10">(Fotheringham et al. 2015)</ref>. Consequently, the notion of spatial proximity evolved from a single geographical distance to a more complex, multi-faceted temporal-spatial distance <ref type="bibr" target="#b18">(Huang et al. 2010)</ref>. To further refine the GWR model, scholars introduced non-Euclidean distance metrics, such as road network distance and travel time, thereby improving the model's fit <ref type="bibr" target="#b32">(Lu et al. 2014)</ref>. Another study proposed the use of Minkowski distance, arguing it to be the most appropriate distance metric for the GWR model <ref type="bibr" target="#b31">(Lu et al. 2015)</ref>. Despite these substantial efforts to adopt more flexible distance metrics within the GWR framework, the essence of these distance measures largely aligns with the foundational concept of the classical GWR model, which primarily accounts for the physical distance between spatial units. To the best of our knowledge, all preceding research exclusively focused on geographical proximity as the determinant for creating a weighting matrix. While geographical proximity is a critical factor in GWR models, it does not necessarily imply congruity across other pertinent attributes. Indeed, there exist instances where regions in close spatial contiguity may exhibit substantial contrasts <ref type="bibr" target="#b53">(Zhu and Turner 2022)</ref>. Such observations challenge the fundamental postulate of spatial homogeneity embedded within the traditional GWR models, invoking a need for more comprehensive spatial analysis methods.</p><p>As the third principle of geography essentially emphasizes that if two locations share a similar set of geographic conditions, they are likely to exhibit comparable outcomes for a specific geographic variable <ref type="bibr" target="#b53">(Zhu and Turner 2022)</ref>. It underlines the concept that similarity is not confined to geographic proximity but extends to the arrangement and hierarchy of geographic conditions and other attributes in the data. The concept of attribute similarity has been largely considered in environmental science, particularly in predicting soil properties <ref type="bibr" target="#b20">(Jiaogen et al. 2017</ref><ref type="bibr" target="#b52">, Zhu et al. 2018)</ref>. On the other hand, the ongoing process of globalization and the decline in transportation expenses in recent years could imply a diminished influence of geographical distance <ref type="bibr" target="#b39">(Pedersen et al. 2008)</ref>. As such, the phenomenon of distant yet closely linked relationships is becoming more evident, and geographical distance may not accurately represent actual closeness. There have been considerable studies highlighting the various ways in which distant locations can significantly influence one another. For instance, economies around the globe are becoming more integrated due to globalization, leading to economic shocks or policy changes in one country having widespread effects <ref type="bibr" target="#b40">(Rey 2016)</ref>. With the increase of globalization, supply chains have become more complex and geographically dispersed. An issue in one part of the chain can lead to significant impacts in distant locations <ref type="bibr" target="#b37">(Park et al. 2013)</ref>. Similarly, with the advent of digital communication technologies, information can be transmitted almost instantaneously across large distances, leading to impacts on public sentiment, financial markets, and political landscapes worldwide <ref type="bibr" target="#b24">(Karim et al. 2020)</ref>. A recent study proposed a new model of geographically weighted regression based on network weight, which is derived according to population mobility data <ref type="bibr" target="#b16">(He et al. 2023)</ref>. From the perspective of public health, diseases can spread quickly across large distances due to modern travel networks <ref type="bibr" target="#b26">(Lessani et al. 2023)</ref>. The COVID-19 pandemic is a recent example of this, where a local outbreak in one city (Wuhan, China) led to a global pandemic, which highlights the remote close association <ref type="bibr" target="#b36">(Nicola et al. 2020)</ref>. Moreover, despite lacking geographical proximity, certain regions in the United States exhibited similar attitudes of hesitancy or opposition towards the COVID-19 vaccine. These trends indicate that shared sociocultural and political attributes can influence behaviors. This highlights how similarity in attributes can significantly shape behavior outcomes and phenomena, regardless of physical distance <ref type="bibr" target="#b50">(Yasmin et al. 2021)</ref>.</p><p>Recognizing this, the inclusion of attribute similarity in spatial analysis represents a novel and promising research trajectory within the field of geography. We posit that geographical proximity and attribute similarity are not mutually exclusive but rather complementary in determining the influence of an observation on another, acknowledging the complex interplay between these two aspects. This introduces a new way of conceptualizing and operationalizing 'proximity', and it expands our understanding of the concept from mere geographical closeness to include similarity in other important attributes. This expanded perspective enables a more holistic and thorough analysis of spatial data, particularly in cases where geographic proximity does not align with similarity in other important characteristics. In this regard, this paper introduces a novel approach that combines geographical proximity and attribute similarity in a local regression model, called Similarity and Geographically Weighted Regression (SGWR). This approach seeks to harness the strengths of both concepts, capturing the complex interplay between spatial proximity and attribute similarity for a more robust understanding of spatial patterns.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Methodology</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Geographically weighted regression</head><p>Global regression models operate on the assumption that the relationships being analyzed through the parameters of the model are spatially invariant. GWR, however, provides a more elaborated approach by relaxing the spatial constancy assumption inherent in traditional regression models. GWR recognizes that the parameters being examined may, in fact, exhibit spatial variation and the relationships between independent and dependent variables can vary across different geographical spaces. The mathematical formula (Equations 1 and 2) is established in detail in <ref type="bibr" target="#b12">Fotheringham et al. (1997)</ref>. It is important to note that the choice of the kernel function and the bandwidth parameter, which determines the extent of the geographical proximity considered 'local' can significantly influence the weight matrix and, consequently, the GWR model results.</p><formula xml:id="formula_0">y i ¼ b 0 u i , v i ð Þ þ X q j b j ðu i , v i ÞX ij þ e i , i ¼ 1, 2, 3, . . . , n (1) b j u i , v i ð Þ ¼ X T W u i , v i ð ÞX h i -1 X T W u i , v i ð Þy<label>(2)</label></formula><p>In the given equations, the terms ðu i , v i Þ denote the geographical coordinates corresponding to the observation point ðiÞ, while e i represents the random error associated with the same observation point. The term b j ðu i , v i Þ refers to the j-th regression parameter at observation ðiÞ, emphasizing that the value of the regression coefficient can fluctuate based on spatial location. Wðu i , v i Þ symbolizes the weight matrix specific to the sample ðiÞ:</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Similarity and geographically weighted regression</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.1.">Problem statement</head><p>The GWR primarily emphasizes the 'near' concept, rooted in geographical proximity (geographical similarity), while neglecting the 'related' notion based on attribute similarity (data space) <ref type="bibr" target="#b2">(Anselin and Li 2020)</ref>. As presented in Figure <ref type="figure" target="#fig_0">1</ref>, we assume locations ðt&amp;pÞ are in equitable distance from regression point ðiÞ; thus, they receive equal weights in the weight matrix based on GWR. Location ðjÞ will be weighted lowest among these labeled locations since it is situated farther from the regression point. However, in real-world scenarios, it is unlikely that always the closest locations will be most related to the target location <ref type="bibr" target="#b53">(Zhu and Turner 2022)</ref>. For instance, though locations ðt&amp;pÞ are in the same geographical proximity to the target location, it is unlikely that their data attributes are also in the same proximity as their geographical distance to the regression point ðiÞ: If two locations exhibit dissimilar characteristics, it suggests less interaction between them. When interaction is minimal, their influence on each other is likewise diminished. The GWR approach has often shown limitations in accounting for such cases where spatial proximity does not necessarily correspond to the similarity in various relevant attributes <ref type="bibr" target="#b14">(Griffith 2019)</ref>. Therefore, an alternative approach that accounts for attribute similarity -not just geographical proximity -enables the model to capture more accurately the spatial relationships and dependencies across space. This study aims to address this gap in GWR by developing and applying a similarity weight matrix that considers attribute similarity alongside geographical proximity. The analysis will be founded based on the hypothesis that regions with similar attributes are likely to exhibit similar trends or patterns. The model enhances its ability to accurately identify spatial relationships by assigning higher weights to neighbors with greater similarities and lower weights to those with less similarity to the regression point. Assuming location ðtÞ is more similar (related) to regression point ðiÞ in terms of data attribute compared to location ðpÞ, in this case, region ðtÞ will be receiving higher weight compared to location ðpÞ though they are located in the same geographical distance from the target location. This suggests that these locations have a stronger interaction, leading to a greater degree of influence on one another.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.2.">Similarity weight matrix</head><p>The principle underlying the similarity matrix is the notion that regions sharing similar attributes tend to exhibit similar trends or patterns, suggesting a stronger interaction. Several well-established methods exist for conducting similarity analyses across a wide range of fields. In statistics and data science, techniques such as Pearson Correlation Coefficient <ref type="bibr" target="#b38">(Pearson 1985)</ref> and Cosine Similarity <ref type="bibr" target="#b41">(Salton 1983</ref>) have been extensively used for determining the degree of similarity between two entities. In the field of machine learning, clustering techniques like K-Means (MacQueen 1967), Hierarchical Clustering <ref type="bibr" target="#b23">(Johnson 1967)</ref>, and a density-based algorithm for clustering (DBSCAN) <ref type="bibr" target="#b9">(Ester et al. 1996)</ref> rely on similarity measures to group similar data points together. In bioinformatics, the Smith-Waterman algorithm <ref type="bibr" target="#b43">(Smith and Waterman 1981)</ref> and Basic Local Alignment Search Tool <ref type="bibr" target="#b1">(Altschul et al. 1990</ref>) are employed for sequence alignment, revealing similarities between biological sequences. Each of these techniques brings its unique perspective to the notion of similarity, contributing to a richer, more detailed understanding of the patterns in data.</p><p>In this study, the pairwise distance method is used to calculate attribute similarity between the regression location and the other observations <ref type="bibr" target="#b6">(Cai et al. 2020</ref>) based on their independent variables. The equations can be expressed as follows:</p><formula xml:id="formula_1">d k i, j ð Þ ¼ jx k i ð Þ -x k j ð Þ j (<label>3</label></formula><formula xml:id="formula_2">) d i, j ð Þ ¼ 1 m X m k¼1 d k ði, jÞ<label>(4)</label></formula><formula xml:id="formula_3">W S u i , v i ð Þ ¼ expð-d i, j ð Þ 2 Þ (<label>5</label></formula><formula xml:id="formula_4">)</formula><p>Equation 3 calculates the pairwise distance for each variable ðkÞ between the regression location ðiÞ and the observation ðjÞ: Then the pairwise distance is averaged using Equation <ref type="formula" target="#formula_2">4</ref>, where m represents the number of independent variables. Based on pairwise distance, the lower value indicates more similarities and vice versa. However, the weight in GWR is designed such that the value close to 1 hint that the observation and the regression location is much closer while close to zero highlights the farther distance between ðiÞ and ðjÞ: Equation 5 is used to align the similarity weight with the GWR weight, where values close to one indicate higher similarity and values close to zero signify dissimilarity between the attributes of two locations. Note that the data is standardized prior to calculating the pairwise distances for similarity assessment, ensuring each variable has a mean of zero and a standard deviation of one. This standardization process neutralizes the impact of varying magnitudes among the variables, which allows a more accurate and scale-independent similarity measurement between locations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.3.">Incorporation of geographically weighted and similarity weighted matrices</head><p>After the construction of geographical and similarity weight matrices, these weights should be combined such that one weight matrix is generated as the final weight matrix. To elucidate this integration, Equations 6-9 detail how a similarity weight matrix can be synergistically combined with a geographically weighted matrix within the framework of GWR.</p><formula xml:id="formula_5">b j u i , v i ð Þ ¼ X T W u i , v i ð ÞX h i -1 X T W u i , v i ð Þy (<label>6</label></formula><formula xml:id="formula_6">)</formula><p>According to Equation 6, which utilizes the original weight matrix derived from geographical weights, we now modify it in alignment with the proposed model by incorporating W S u i , v i ð Þ from Equation <ref type="formula" target="#formula_3">5</ref>. In this stage, another parameter ðaÞ is added, which controls the contribution of the geographically weighted matrix (W G u i , v i ð Þ) and the similarity weighted matrix (W S u i , v i ð Þ) in the final weight matrix (Equation <ref type="formula">7</ref>). For instance, an optimal a value of 0.5 implies that the geographic and similarity weight matrices have an equal influence on the composition of the final weight matrix. Therefore, the final weight matrix and regression formula are expressed in Equations 8 and 9. Figure <ref type="figure" target="#fig_1">2</ref> visualizes geographical weight and its incorporation with the similarity weight matrix.</p><formula xml:id="formula_7">c ¼ 1 -a, a eð0, 1� (7) W GS u i , v i ð Þ ¼ a� W G u i , v i ð Þ þ c�W S u i , v i ð Þ (8) b j u i , v i ð Þ ¼ X T W GS u i , v i ð ÞX h i -1 X T W GS u i , v i ð Þy (<label>9</label></formula><formula xml:id="formula_8">)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.4.">Determining the optimal a value</head><p>While combining the similarity weight matrix with the geographically weighted matrix, understanding the proportional influence of each matrix is essential. The parameter a in SGWR functions in a similar way to the bandwidth in GWR, wherein the model seeks a bandwidth that yields the lowest AICc. For SGWR, the a value is optimized when it leads to minimizing the AICc value. The process of identifying the optimal a value follows the concept of divide and conquer <ref type="bibr" target="#b3">(Bentley 1980)</ref>, albeit with a minor modification. The iterative process initiates by partitioning the prospective range value (0, 1] into a series of segments at five-unit intervals (e.g., 1, 0.5, 0.1). With every iteration, the model selects a new a value and assesses the corresponding AICc value. This process gradually narrows down the range to identify an a value that not only reduces the AICc but also enhances other evaluation metrics, as detailed in Section 2.3.2. The equations can be expressed as follows:</p><formula xml:id="formula_9">SðaÞ ¼ f 1, 0:5 ½ �, 0:5, 0:1 ½ �, 0:1, 0:05 ½ �, . . .g (<label>10</label></formula><formula xml:id="formula_10">)</formula><formula xml:id="formula_11">a ðnewÞ i ¼ a i þ b i 2 (<label>11</label></formula><formula xml:id="formula_12">)</formula><formula xml:id="formula_13">a opt ¼ argmin a2ð0, 1� AICcðaÞ (<label>12</label></formula><formula xml:id="formula_14">)</formula><p>Equation 10 defines an initial segmentation function SðaÞ that maps a to a series of subranges. For each subrange ½a i , b i � 2 SðaÞ, the divide and conquer steps are applied, by extracting the midpoint of the subrange (Equation <ref type="formula" target="#formula_11">11</ref>). Finally, for each derived a from Equation 11, the corresponding AICc value is calculated, and the model aims to select the optimal values across all subranges that yield the lowest AICc value.</p><p>Consider, for example, the subrange ½0:5; 0:1�: In this scenario, two outcomes are possible: either the AICc value at 0.1 is greater than at 0.5 or it is less. If the AICc value at 0.1 is lower, indicating a better fit, the process progresses to the subsequent subrange ½0:1; 0:05� without evaluating other values within ½0:5; 0:1�: Conversely, if the AICc at 0.1 is higher than at 0.5, then the process seeks a better fit by evaluating the midpoint, in this case, 0.3. Again, the model encounters two possibilities: if the AICc at 0.3 is lower than at 0.1, the subrange narrows to [0.3, 0.1], and the midpoint of this new subrange is selected for further evaluation. If not, the midpoint of the range [0.5, 0.3] will be considered as a new subrange. This divide-and-conquer approach continues iteratively, refining the range until identifying an optimal a that minimizes the AICc value.</p><p>The proposed model consists of three stages (Figure <ref type="figure" target="#fig_2">3</ref>): (1) bandwidth selection and calculating weight matrices; (2) alpha (a) optimization, which aims to minimize the AICc value while improving other evaluation metrics; and (3) model diagnostics output. The careful selection of a is critical in ensuring model robustness and accuracy similar to bandwidth selection in GWR.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Model evaluation</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1.">Experimental datasets</head><p>Five distinct datasets are used to evaluate the proposed model: housing prices, crime rates, and three health outcomes -focusing on mental health, depression prevalence, and HIV. The housing dataset pertains to King County, Washington, US, and it consists of six explanatory variables that are used in the regression analysis, with the housing price acting as the response variable. The crime dataset is comprised of 13 predictor variables that reflect demographic characteristics, socioeconomic status, health conditions, and environmental factors. Lastly, the health outcomes dataset encompasses 12 predictor variables from a broad range of categories, including demographic information, socioeconomic indicators, health-related metrics, beliefs, and environmental factors, while HIV includes 7 predictors. The Variance Inflation Factor (VIF) values for all predictor variables in the model were ensured to be less than 10 to mitigate the effects of multicollinearity in the analysis. It is worth noting that the datasets used in this study exhibit varying levels of spatial resolutions and sample sizes, as shown in Table <ref type="table" target="#tab_0">1</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2.">Evaluation metrics</head><p>The effectiveness of SGWR is assessed using key evaluation metrics including the adjusted coefficient of determination (R 2 ), Mean Absolute Percentage Error (MAPE), Root Mean Square Error (RMSE), Mean Absolute Error (MAE), Akaike Information Criterion Corrected (AICc), and Residual Sum of Squares (RSS). These metrics are widely recognized for gauging model performance, as highlighted in the literature <ref type="bibr" target="#b8">(Du et al. 2020</ref><ref type="bibr" target="#b11">, Fotheringham et al. 2017</ref><ref type="bibr" target="#b16">, He et al. 2023</ref><ref type="bibr" target="#b4">, Brewer et al. 2016)</ref>. The formulas for these evaluation measures are detailed below: </p><formula xml:id="formula_15">Adj R 2 ¼ 1 - 1 -R 2 ð Þ n -1 ð Þ n -p -1 ! (13) MAPE ¼ 1 n X n i¼1 y i -ŷi y i � � � � � � � � � 100% (<label>14</label></formula><formula xml:id="formula_16">) MAE ¼ P n i¼1 y i -ŷi j j n (<label>15</label></formula><formula xml:id="formula_17">)</formula><formula xml:id="formula_18">RMSE ¼ ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi P n i¼1 ðy i -ŷi Þ 2 n s (<label>16</label></formula><formula xml:id="formula_19">)</formula><formula xml:id="formula_20">AIC C ¼ nlog e r2 ð Þ þ nlog e 2p ð Þ þ n n þ trðSÞ n -2 -trðSÞ � � (<label>17</label></formula><formula xml:id="formula_21">) RSS ¼ X n i¼1 ðy i -ŷi Þ 2 (<label>18</label></formula><formula xml:id="formula_22">)</formula><p>where R 2 is the coefficient of determination, n is the number of observations, p presents the number of explanatory variables, ŷi represents the predicted value of the dependent variable for the ith observation, y represents the mean value of the dependent variables across all observations, and trðSÞ refers to the trace of hat matrix S: Adjusted R 2 quantifies the alignment between observed and predicted values, indicating how well the model fits the data. On the other hand, RMSE, MAE, and MAPE gauge the precision of the predictions, where a reduced value denotes a superior model performance in terms of accuracy. The AICc is a measure that assesses the goodness of fit of a statistical model, while also accounting for the model's complexity <ref type="bibr" target="#b4">(Brewer et al. 2016)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">The role of similarity weight matrix</head><p>Tables 2-6 delineate the impact of varying a values on the performance of the model across five different datasets -housing, crime, mental health, depression, and HIV dataset, respectively. An a value lower than 1 signifies an improvement, indicating the proportion that the geographically weighted matrix contributes to the generation of the final weight matrix; however, it varies across various datasets. As a decreases at a specific level, the model's goodness of fit, as indicated by adjusted R 2 values, improves significantly. This is coupled with a marked reduction in the AICs and RSS, further affirming enhanced model performance. While the adjusted R 2 continues to improve, AIC values start to rise again at a certain a value, for example, a &lt; 0:1 represents the turning point for the housing dataset (Table <ref type="table" target="#tab_1">2</ref>). In the current study, the a value that results in the lowest AICc in the model is deemed the optimal value for a as it implies that the model has a better balance of goodness of fit and simplicity. In other words, the model fits the data well without being overly complicated, which can lead to overfitting <ref type="bibr" target="#b0">(Akaike 1974)</ref>. These observations underscore the significance of the a parameter in the model. Figure <ref type="figure" target="#fig_3">4</ref> depicts that the optimal a values can be identified as the lowest point in the a-AICc plots using the 'elbow' method. While the optimal a values differ among datasets, a commonality is observed where an a below one consistently yields superior performance. This indicates that the dual consideration of geographic and similarity weight matrices enhances the efficacy of the regression model beyond what is achieved by the GWR alone. Specifically, factoring in the similarity between neighbors and the point of regression more precisely captures spatial variations than relying solely on geographical closeness. For instance, setting a to 0.1 optimizes the AICc value for the housing price dataset. Additionally, the figure demonstrates a general trend where the AICc value tends to decrease as a values diminish. As can be also seen in Figure <ref type="figure" target="#fig_3">4</ref>, as the a value passes the optimal point, for the housing and crime datasets, the AICc values exhibit a gradual increase. In contrast, a significant rise in AICc values can be observed as a decreases beyond the optimal value for health outcome datasets.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Performance of the models</head><p>The performance of the three models, namely GWR, ordinary least squares (OLS), and SGWR, were evaluated based on several statistical measures. Additionally, we briefly discussed the results of SGWR with MGWR model. The OLS model, serving as our baseline model, provided us with a general idea about the relationships between the predictor variables and the response variable. The models are evaluated and compared using several key metrics, including the adjusted R 2 the AIC, and the RSS. In addition, MAE, RMSE, and MAPE metrics are also considered at this stage of performance analyses; these metrics are measures of error, so smaller values indicate that the predictions from the model are closer to the actual values. Tables <ref type="table" target="#tab_6">7</ref> and <ref type="table" target="#tab_7">8</ref> respectively present the performance characteristics of various models applied to the housing and crime datasets, with a set to 0.1 and 0.02 respectively for the proposed model, as these optimal values were obtained based on Section 2.2.4. Regarding the housing dataset, as depicted in Table <ref type="table" target="#tab_6">7</ref>, the proposed model was superior, evidenced by an adjusted R 2 of 0.903, an AIC score of 19,402.566, and the lowest RSS at 1,555.813. The outcomes derived from the crime dataset, as indicated in Table <ref type="table" target="#tab_7">8</ref>, followed a similar trajectory. In this scenario, the SGWR model once again outperformed its counterparts, yielding an adjusted R 2 of 0.948 and the most favorable AICs and RSS scores. In terms of MAE and RMSE, the SGWR model shows the lowest error rates (MAE of 0.138, RMSE of 0.225), outperforming both the OLS and GWR models as shown in Table <ref type="table" target="#tab_6">7</ref>. Similarly, as presented in Table <ref type="table" target="#tab_7">8</ref>, the SGWR model exhibits the lowest errors, with MAE of 0.065 and RMSE of 0.186, demonstrating improved performance compared to the OLS and GWR models.</p><p>Tables 9-11 present the performance attributes of assorted models when applied to health outcomes (mental health, and depression prevalence) and HIV datasets, with a set to 0.2, 0.5, and 0.3 respectively for the SGWR model; similar patterns can be observed. For instance, as presented in Table <ref type="table" target="#tab_8">9</ref>, the SGWR model delivered the highest performance. As indicated by an adjusted R-squared of 0.893, an AICs score of 61,595.212, and the smallest RSS of 7,241.106, the SGWR model provides the most robust fit for the data, able to account for around 89.3% of the variability in mental health outcomes. While GWR model exhibits a lower value of adjusted R-squared and higher AICc and RSS values compared to the proposed model. In terms of MAE and RMSE, analogous to previous datasets, the SGWR model consistently yields the lowest error rates across all datasets (Tables <ref type="table" target="#tab_8">9</ref><ref type="table" target="#tab_9">10</ref><ref type="table" target="#tab_10">11</ref>).</p><p>In addition to OLS and GWR models, the results of SGWR were also compared with those from the MGWR model, although the basis of the proposed model is GWR and OLS. For the datasets on housing, depression, and HIV, the adjusted R-squared values are 0.91, 0.77, and 0.73 for the MGWR, respectively. For SGWR, these values are 0.90,  0.61, and 0.71 respectively. For the crime dataset, the SGWR outperforms the MGWR, with adjusted R-squared values of 0.95 and 0.65, respectively. For the mental health dataset, the MGWR model was not executed due to its demanding computational requirements. To illustrate, the housing dataset contains 21,613 observations and 6 predictors, and the execution time was recorded at 23.76 hours. In comparison, the mental health dataset comprises 68,356 observations with 12 predictors, given these parameters, the computational time for MGWR could be considerably lengthy, potentially extending to days. According to other four datasets, it is evident that for the housing, depression, and HIV datasets, the MGWR model marginally outperforms the SGWR in terms of adjusted R-squared values while its computation time is extensively longer than the SGWR, as detailed in Section 3.5. One possible explanation for obtaining a higher R-square could be that in the MGWR model, a unique bandwidth is calculated for each predictor variable, whereas in the SGWR model, a single bandwidth is applied across all variables, like the approach in the GWR model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Residual values comparison</head><p>As visualized in Figure <ref type="figure" target="#fig_4">5</ref>(a), the OLS and GWR models exhibit a tall and narrow distribution, indicating a broad range of residuals. In contrast, the residual distribution is  more tightly centered around zero with shorter tails in the SGWR model. A similar pattern is observed for the depression prevalence dataset, as shown in Figure <ref type="figure" target="#fig_4">5</ref>(b). Note, the extreme outliers (&gt;0.75) and (&lt; -0.75) are removed from the results of the models since they led to an extremely skewed plot in Figure <ref type="figure" target="#fig_4">5</ref>(a). In essence, both figures reveal that the OLS and GWR model has a wider spread of residuals, indicating greater variance in prediction errors, compared to the SGWR model.</p><p>The residual values generated by various models based on the crime dataset and depression prevalence vary. For example, in GWR (Figure <ref type="figure" target="#fig_6">6(b)</ref>), the residual value spans from -7.11 to 23.88, while in SGWR, it has a closer range between -1.18 and 13.64 (Figure <ref type="figure" target="#fig_6">6(c)</ref>). However, in the OLS model, the residual values vary between -5.96 and 26.18 (Figure <ref type="figure" target="#fig_6">6(a)</ref>). Nearly all values are within the range of (-1, 1) with a few exceptions in SGWR. In the OLS (Figure <ref type="figure" target="#fig_6">6</ref> Additionally, a notable proportion of regions display residual values between -1 and 1, with 831 out of 1103 for OLS, 987 for GWR, and 1,054 for SWGR. These observations affirm the robustness of the SGWR model in managing outliers and enhancing model fit.</p><p>The spatial residual distribution shows distinct patterns depending on the model used. In the OLS and GWR models, higher residual measurements are observed in densely populated areas like Washington, California, and the East Coast, as illustrated in Figures <ref type="figure" target="#fig_6">6(a</ref>,<ref type="figure">b</ref>). Conversely, the Midwest, northern regions, and areas to the west display lower residuals. In contrast, the SGWR model primarily reveals elevated residuals in the Northeast and Florida, with the distribution becoming notably more concentrated and less, as seen in Figure <ref type="figure" target="#fig_6">6(c</ref>). The spatial distribution of residuals for the depression prevalence dataset displays consistent patterns across all three models. Specifically, elevated residual values are observed in the Northwest, Central, and Southeast regions, which correspond to areas with higher populations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4.">Model interpretation</head><p>We particularly discuss the relationship between housing price and its relevant independent variables using two models among five datasets since it has been often used in the literature <ref type="bibr" target="#b34">(Mathur 2013</ref><ref type="bibr" target="#b15">, Gunasilan 2021)</ref>. The independent variables are bedrooms, bathrooms, sqft_lot, sqft_living15, sqft_lot15, and grade. The models' parameter estimates are visualized by analyzing the relationship individually, as shown in Figure <ref type="figure">7</ref>. The descriptive statistic is presented in Table <ref type="table" target="#tab_1">12</ref> based on GWR and SGWR models. As can be observed, for both the GWR and SGWR models, the estimated coefficients for all variables are statistically significant.</p><p>Figure <ref type="figure">7</ref> depicts spatial variation in the estimated coefficient parameters for housing prices, using both models across six independent variables. There is a noticeable spatial heterogeneity in the coefficients for all the variables across the geographical extent. Based on the GWR model, the bedrooms variable, for instance, exhibits higher coefficients in the northern regions while tapering towards the south. In contrast, Grade, Bathrooms, and sqft_living15 variables display higher values more towards central regions and diminish towards south and east. The variables sqft_lot and sqft_lot15 both display a broad range of values. In the central region, they demonstrate a positive correlation, but this relationship diminishes as one moves further from the center. The SGWR model, on the other hand, also illustrates significant spatial variation, but with some distinctions from GWR results. The bedroom variable, for example, has a more dispersed pattern of high coefficients. Similarly, the sqft_lot15 shows a more pronounced variation towards the eastern regions compared to its GWR counterpart. In both the GWR and SGWR models, positive coefficients for the Bedroom suggest that additional bedrooms drive up housing prices. Each model presents varied trends for the Bathrooms, with SGWR particularly noting the influence of local factors. The sqft_lot indicates that larger lots generally decrease prices, a trend consistently shown in the SGWR model. In both models, the coefficient given to 'Grade' emphasizes the importance of housing grades in determining prices. Furthermore, the sqft_living15 and sqft_lot15 in each model illuminate the intricate connection between living spaces. Note, that the interpretation of the estimated coefficient in SGWR is analogous to that in the GWR model. Taking the bedroom variable as an example, a coefficient of 0.094 suggests that for every additional bedroom in a house, the housing price is anticipated to rise by 0.094 units, while keeping all other variables unchanged.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5.">Computational time</head><p>Computational time is a critical metric when evaluating the efficiency of regression models, particularly in cases involving large datasets or complex calculations. Efficient models that provide accurate results in less time are highly valuable in the data science community, as they allow for quicker insights and decisions, saving both resources and time. In this study, a similarity weight matrix is computed with Oðk n 2 Þ time complexity for n observations and k predictors. However, as GWR's total time complexity is higher at O(k 3 n 2 logn) when using the golden search for bandwidth selection <ref type="bibr">(Li et al. 2019a)</ref>, this dominates, and the overall time complexity remains O(k 3 n 2 logn) and its influence is insignificant. As presented in Table <ref type="table" target="#tab_11">13</ref>, GWR demonstrated the shortest computational time, with SGWR trailing closely. It is noted that a optimization is conducted in parallel to expedite the process.</p><p>Additionally, the computational time for the MGWR model is shown for all datasets except the mental health outcome dataset, which comprises 68,356 observations and requires an excessive amount of time. The results reveal that the computational time for MGWR is significantly longer than that of SGWR (Table <ref type="table" target="#tab_11">13</ref>), although the differences in their R 2 are very marginal, as discussed in Section 3.2. While a parallel version of MGWR exists, which employs parallel processing techniques, it does not fundamentally alter the original computational complexity of the model; thus, this does not mean less computational resources are required. Instead, as the size of the data partition assigned to each processor increases, the computational time also increases, but this increase is still governed by the polynomial nature of the algorithm's complexity <ref type="bibr" target="#b30">(Li and Fotheringham 2020)</ref>. According to the experimental datasets, SGWR is able to achieve results approximately close to MGWR with significantly less computation time, and even outperforms in crime dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Discussion</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Beyond geographical distance</head><p>Waldo Tobler's First Law of Geography underscores the significance of spatial proximity in shaping relationships and interactions, thereby serving as a cornerstone in spatial analysis and geographical studies. Consequently, prior research primarily employed geographical distance as the foundation for the weighting matrix in traditional GWR and its extended models. Nevertheless, it has become increasingly apparent that geographical distance does not always accurately represent the patterns present in real-world datasets. Indeed, studies have unveiled that factors other than physical proximity, such as social media-based networks or place connectivity beyond geographical neighborhoods <ref type="bibr" target="#b21">(Jing et al. 2022</ref><ref type="bibr" target="#b29">, Li et al. 2021</ref><ref type="bibr" target="#b22">, Jing et al. 2024)</ref>, can influence human behaviors, which leads to the generation of data for each geographical region <ref type="bibr" target="#b50">(Yasmin et al. 2021</ref><ref type="bibr" target="#b24">, Karim et al. 2020)</ref>. In response to these limitations, SGWR introduces a weight matrix based on the similarity of data attributes into GWR, enabling more accurate identification of patterns within the data.</p><p>In the formulation of the similarity matrix in SGWR, additional parameters are introduced to the traditional GWR framework. These include the parameter a and a chosen method for conducting similarity analysis, which could involve techniques such as cosine similarity, k-means clustering, and pairwise distance approach, among others, depending on the nature of the data. The parameter a modulates the balance between the geographically weighted matrix and the attribute-based similarity weighted matrix in the final weight matrix. Selecting an optimal value for this parameter is critical, as it governs the trade-off between geographical and attribute-based similarity, with the appropriate balance varying based on the specifics of the input data and the research question being addressed.</p><p>Our findings carry significant implications, with broad impacts on spatial analysis. This is particularly notable given that our experiments span a diverse range of datasets, encompassing housing, health outcomes, and crime dataset, and extend across various geographical units, including neighborhoods, census tracts, and county levels. SGWR demonstrates superior performance compared to traditional models like OLS and GWR, which establishes a promising new approach to understanding and predicting complex spatial phenomena. This advancement in spatial regression models could potentially enhance how we analyze, interpret, and predict patterns within geographic datasets, beyond geographical proximity.</p><p>This study provides various directions for future research. The proposed (SGWR) model showed promising results across tested datasets. However, its application across a broader range of domains and datasets warrants investigation. Future studies examining the impact of a differential weighting of explanatory variables on model performance and their individual influence on the model's output could also be explored. In addition, this study individually calculates similarities between regression and observation points' variable values, but averages these for the final similarity matrix, overlooking unique interactions. Future research could use a more flexible approach in creating similarity weight matrices to account for these interactions by assigning varied weights to different variables.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Attribute similarity</head><p>The two key concepts of Tobler's first law are 'near' and 'related'. A recent study discussed in detail regarding the first law of geography <ref type="bibr" target="#b2">(Anselin and Li 2020)</ref>, indicates that geographical similarity is related to the concept of 'near' while attribute similarity corresponds to 'related'. According to this law, neighboring locations in close physical proximity have a greater influence on each other than those further apart, as they often share similar characteristics. However, in the GWR model, only the geographical similarity (near) is considered. We posit that if two neighboring locations are geographically proximate, the data generated from these sites should similarly be closely aligned.</p><p>As stated, the foundational principle of the GWR model rests on the idea that things closer in proximity are more closely related than those further apart. Yet, in GWR and its extended models, geographical closeness is often the sole criterion to determine the influence of surrounding observations on a regression point, overlooking the actual data originating from these locations. In today's world, vast amounts of data are being generated across various domains, such as health, social behavior, and the environment. These data can offer a genuine reflection of reality in terms of connectedness and the influence of things on each other. For instance, despite the physical proximity of two neighboring states, one being Republican and the other Democrat, they often adopt different policies and may exert limited influence upon each other <ref type="bibr" target="#b35">(Motta 2021</ref><ref type="bibr" target="#b25">, Lang et al. 2021)</ref>, such as the stances on mask-wearing or vaccination. In the GWR approach, higher weights may be assigned to these neighboring states due to their geographical closeness, even if their actual influence on each other is minimal, which can lead to misinterpretation and unable to capture the true spatial variation. Conversely, in SGWR, not only physical distance is considered, but also the nature of interactions between the states based on data attributes, offering a more accurate reflection of their real-world relationship. Thus, shaping current spatial patterns can be more precise when data attribute is used, rather than solely depending on geographical proximity. Therefore, this study extends beyond mere geographical distance by also factoring in the attributes of the data to evaluate how locations influence each other.</p><p>Concerns regarding overfitting the model may arise if we give more weight to locations with similar patterns. This reflects the core principle of the first law of geography and the GWR model, which suggests that locations with a higher proportion of similarities have a stronger influence on each other than those that are dissimilar or further apart; and higher weights need to be assigned to these locations. However, when developing the model, a balance must be struck between optimizing model's performance and preventing overfitting regardless of considering geographical proximity or data attribute similarity. To determine the right balance, various evaluation metrics are available, as discussed in Section 2.3.2 and corroborated by previous studies <ref type="bibr" target="#b8">(Du et al. 2020</ref><ref type="bibr" target="#b11">, Fotheringham et al. 2017</ref><ref type="bibr" target="#b16">, He et al. 2023</ref><ref type="bibr" target="#b4">, Brewer et al. 2016)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">Evaluating SGWR model against the enhanced GWR models</head><p>Our analysis reveals that while there are several extensions to the GWR model, such as incorporating non-Euclidean distances <ref type="bibr" target="#b32">(Lu et al. 2014)</ref> and using geographically neural network weighted regression <ref type="bibr" target="#b8">(Du et al. 2020)</ref>, these are often tailored to specific scenarios. For instance, the integration of mobility data for location weighting <ref type="bibr" target="#b16">(He et al. 2023)</ref> presents a challenge due to the complexity of procuring such data. Additionally, approaches like the neural network weighted regression lean more towards predictive rather than explanatory analysis. Different from previous approaches, the SGWR offers straightforward implementation, requiring only location coordinates, dependent, and independent variables, akin to the GWR model's requirements.</p><p>The performance of SGWR is compared with MGWR in addition to OLS and GWR. The results showed that SGWR surpasses MGWR in performance for specific dataset, such as crime. However, for datasets concerning depression, housing, and HIV, MGWR exhibits a marginal lead as discussed in Section 3.2. A critical aspect, however, to highlight is the computational efficiency of the proposed model. While MGWR shows competitive performance for some datasets, it demands substantially longer computation times as shown in Section 3.5. The significant reduction in computational time in SGWR, without a notable compromise in performance, underscores the practical advantages of the model, particularly in scenarios where the number of observations is large, or time and computational resources are limiting factors. However, integrating a similarity-weighted matrix into the MGWR model could be a promising avenue for future research. This integration has the potential to further improve the SGWR performance in terms of capturing spatial variation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Conclusion</head><p>GWR uses a localized approach to regression, where each observation is assessed in relation to its neighboring data points based on geographical proximity. In the proposed SGWR, we augment this approach by considering the similarity of data attributes in addition to geographical proximity when constructing the weight matrix, to more accurately capture underlying data patterns. The core idea behind the similarityweighted matrix is that greater similarity between two locations suggests a higher likelihood of interaction. The performance of SGWR was evaluated using five realworld diverse datasets with varying geographical units. The results reveal that SGWR consistently outperforms the global regression model and the traditional GWR based on several statistical measures across all experimental datasets. The improved model performance reinforces our view that geographical proximity and attribute similarity should not be viewed as mutually exclusive factors. Instead, they are complementary in assessing the influence of one observation on another, acknowledging the intricate relationship between these two dimensions.</p><p>Despite the promising results, the study acknowledges certain limitations. Primarily, the efficacy of SGWR has been tested on only five distinct datasets. Its applicability across a broader range of domains remains to be explored. In addition, the choice of equal importance scores for all predictor variables when constructing the final weight matrix might also overlook the differential impacts of these variables. Finally, future research could explore the integration of this similarity concept into the MGWR model to potentially further enhance its performance.</p><p>human mobility, parallel spatial computing, Machine Learning, and GIS. He contributed to conceptualization of the research idea, data analysis, code development, and writing.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Zhenlong Li is an Associate Professor in the Department of Geography and Director of the Geoinformation and Big Data Research Lab at The Pennsylvania State University.</head><p>His primary research field is GIScience with a focus on geospatial big data analytics, spatial computing, and geospatial AI with applications to disaster management, human mobility, and public health. He contributed to conceptualization of the research idea, data analysis, and writing.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Illustration of weighting matrix in GWR and the proposed model, where weights are assigned based on both geographical proximity and data attribute similarity of locations.</figDesc><graphic coords="6,150.63,506.32,191.96,111.69" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. (a) The geographically weighted values associated with the target location. (b) The weight value for the same location derived from a combination of geographically and similarly weight matrices, with an a parameter set to 0.5.</figDesc><graphic coords="8,60.60,455.58,371.96,151.54" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Flowchart of the SGWR model. ði -1Þ corresponds to varying values of a within the range of (0, 1].</figDesc><graphic coords="9,60.60,500.26,371.96,117.92" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Identifying the optimal a value using the a-AICc plot for the five datasets: (a) depression, (b) mental health, (c) HIV, (d) housing, and (e) crime.</figDesc><graphic coords="13,60.60,53.01,371.96,419.87" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Residual values of different models based on two datasets: (a) the crime rate dataset, and (b) the depression prevalence dataset.</figDesc><graphic coords="15,60.60,215.94,371.96,136.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>(a)) and the GWR results (Figure 6(b)), 29 and 20 locations out of 2,841 have values surpassing 1.99, respectively. This number decreases to only one in the proposed model, as shown in Figure 6(c). Similarly, below -1, the count stands at 43, 34, and 3 for OLS (Figure 6(a)), GWR (Figure 6(b)), and SGWR (Figure 6(c)), respectively. This demonstrates that 98.09% and 99.85% of the data maintain residual values within the -1 to 1 range for GWR and SGWR model, respectively. The results derived from the depression prevalence data exhibit similar patterns. The range of residual values for OLS (Figure 6(d)), GWR (Figure 6(e)), and SWGR (Figure 6(f)) are -2.51-4.60, -2.04-2.44, and 1.79-1.94, respectively.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 6 .</head><label>6</label><figDesc>Figure6. Spatial distribution of residuals from various models using crime and depression prevalence datasets is noted. Due to data limitations, some counties and neighborhoods have null values.</figDesc><graphic coords="16,60.38,434.49,372.47,172.63" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Experimental datasets.</figDesc><table><row><cell>Data</cell><cell>Observations</cell><cell>Predictors</cell><cell>Dependent Variable</cell><cell>Geographical Unit</cell></row><row><cell>Housing</cell><cell>21,613</cell><cell>6</cell><cell>Price</cell><cell>Neighborhood</cell></row><row><cell>Crime</cell><cell>2,841</cell><cell>13</cell><cell>Crime rate</cell><cell>County</cell></row><row><cell>Mental health</cell><cell>68,356</cell><cell>12</cell><cell>Mental health prevalence</cell><cell>Census tract (Contagious US)</cell></row><row><cell>Depression HIV</cell><cell>1,072 2,526</cell><cell>12 7</cell><cell>Depression prevalence Rate per 10 5</cell><cell>Census tract (South Carolina) County</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Various values of a for the housing dataset.</figDesc><table><row><cell>a</cell><cell>Adjusted R 2</cell><cell>AICs</cell><cell>RSS</cell></row><row><cell>1</cell><cell>0.841</cell><cell>22,465.894</cell><cell>3,302.826</cell></row><row><cell>0.5</cell><cell>0.855</cell><cell>21,108.933</cell><cell>2,899.692</cell></row><row><cell>0.1</cell><cell>0.903</cell><cell>19,402.566</cell><cell>1,555.813</cell></row><row><cell>0.05</cell><cell>0.926</cell><cell>21,921.454</cell><cell>973.565</cell></row><row><cell>0.03</cell><cell>0.941</cell><cell>28,209.858</cell><cell>628.115</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Various values of a for the crime dataset.</figDesc><table><row><cell>a</cell><cell>Adjusted R 2</cell><cell>AICs</cell><cell>RSS</cell></row><row><cell>1</cell><cell>0.580</cell><cell>5,691.625</cell><cell>1,154.919</cell></row><row><cell>0.5</cell><cell>0.661</cell><cell>5,138.987</cell><cell>914.047</cell></row><row><cell>0.1</cell><cell>0.827</cell><cell>3,552.855</cell><cell>427.288</cell></row><row><cell>0.05</cell><cell>0.888</cell><cell>2,615.204</cell><cell>254.388</cell></row><row><cell>0.02</cell><cell>0.948</cell><cell>1,267.923</cell><cell>98.328</cell></row><row><cell>0.001</cell><cell>0.997</cell><cell>23,298.167</cell><cell>1.007</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Various values of a for the health outcome dataset related to mental health prevalence.</figDesc><table><row><cell>a</cell><cell>Adjusted R 2</cell><cell>AICs</cell><cell>RSS</cell></row><row><cell>1</cell><cell>0.853</cell><cell>64,920.647</cell><cell>9,647.566</cell></row><row><cell>0.5</cell><cell>0.862</cell><cell>63,319.380</cell><cell>8,844.214</cell></row><row><cell>0.2</cell><cell>0.893</cell><cell>61,595.212</cell><cell>7,241.106</cell></row><row><cell>0.1</cell><cell>0.900</cell><cell>62,893.579</cell><cell>5,672.961</cell></row><row><cell>0.09</cell><cell>0.906</cell><cell>63,557.646</cell><cell>5,419.847</cell></row><row><cell>0.05</cell><cell>0.910</cell><cell>71,506.745</cell><cell>4,014.088</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 .</head><label>5</label><figDesc>Various values of a for health outcome dataset related to depression.</figDesc><table><row><cell>a</cell><cell>Adjusted R 2</cell><cell>AICs</cell><cell>RSS</cell></row><row><cell>1</cell><cell>0.570</cell><cell>2,229.396</cell><cell>427.007</cell></row><row><cell>0.5</cell><cell>0.607</cell><cell>2,212.537</cell><cell>366.139</cell></row><row><cell>0.3</cell><cell>0.622</cell><cell>2,213.339</cell><cell>343.114</cell></row><row><cell>0.1</cell><cell>0.728</cell><cell>2,463.986</cell><cell>179.784</cell></row><row><cell>0.05</cell><cell>0.789</cell><cell>3,012.919</cell><cell>105.233</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 .</head><label>6</label><figDesc>Various values of a for the HIV dataset.</figDesc><table><row><cell>a</cell><cell>Adjusted R 2</cell><cell>AICs</cell><cell>RSS</cell></row><row><cell>1</cell><cell>0.679</cell><cell>4,412.398</cell><cell>777.050</cell></row><row><cell>0.5</cell><cell>0.694</cell><cell>4,359.397</cell><cell>720.925</cell></row><row><cell>0.3</cell><cell>0.705</cell><cell>4,352.323</cell><cell>635.424</cell></row><row><cell>0.1</cell><cell>0.735</cell><cell>4,439.021</cell><cell>545.862</cell></row><row><cell>0.05</cell><cell>0.766</cell><cell>4,630.091</cell><cell>426.196</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 7 .</head><label>7</label><figDesc>Results of different models based on the housing dataset.</figDesc><table><row><cell>Model</cell><cell>Adjusted R 2</cell><cell>MAE</cell><cell>RMSE</cell><cell>AICs</cell><cell>RSS</cell><cell>MAPE (%)</cell></row><row><cell>OLS</cell><cell>0.477</cell><cell>0.466</cell><cell>0.722</cell><cell>47,324.407</cell><cell>11,295.417</cell><cell>786.36</cell></row><row><cell>GWR</cell><cell>0.841</cell><cell>0.219</cell><cell>0.390</cell><cell>22,465.894</cell><cell>3,302.826</cell><cell>260.00</cell></row><row><cell>SGWR</cell><cell>0.903</cell><cell>0.138</cell><cell>0.225</cell><cell>19,402.566</cell><cell>1,555.813</cell><cell>203.09</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>Table 8 .</head><label>8</label><figDesc>Results of different models based on crime dataset at the county level.</figDesc><table><row><cell>Model</cell><cell>Adjusted R 2</cell><cell>MAE</cell><cell>RMSE</cell><cell>AICs</cell><cell>RSS</cell><cell>MAPE (%)</cell></row><row><cell>OLS</cell><cell>0.302</cell><cell>0.228</cell><cell>0.833</cell><cell>7,053.911</cell><cell>1,972.537</cell><cell>289.40</cell></row><row><cell>GWR</cell><cell>0.580</cell><cell>0.166</cell><cell>0.637</cell><cell>5,691.625</cell><cell>1,154.919</cell><cell>150.33</cell></row><row><cell>SGWR</cell><cell>0.948</cell><cell>0.065</cell><cell>0.186</cell><cell>1,267.923</cell><cell>98.328</cell><cell>74.45</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_8"><head>Table 9 .</head><label>9</label><figDesc>Results of different models based on health outcome datasets related to mental health prevalence at census tract level in contagious US states.</figDesc><table><row><cell>Model</cell><cell>Adjusted R 2</cell><cell>MAE</cell><cell>RMSE</cell><cell>AICs</cell><cell>RSS</cell><cell>MAPE (%)</cell></row><row><cell>OLS</cell><cell>0.611</cell><cell>0.472</cell><cell>0.623</cell><cell>129,352.481</cell><cell>26,543.317</cell><cell>190.87</cell></row><row><cell>GWR</cell><cell>0.853</cell><cell>0.273</cell><cell>0.375</cell><cell>64,920.647</cell><cell>9,647.566</cell><cell>127.71</cell></row><row><cell>SGWR</cell><cell>0.893</cell><cell>0.238</cell><cell>0.315</cell><cell>61,595.212</cell><cell>7,241.106</cell><cell>113.53</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_9"><head>Table 10 .</head><label>10</label><figDesc>Results of different models based on health outcome dataset related to depression prevalence at census tract level in South Carolina US.</figDesc><table><row><cell>Model</cell><cell>Adjusted R 2</cell><cell>MAE</cell><cell>RMSE</cell><cell>AICs</cell><cell>RSS</cell><cell>MAPE (%)</cell></row><row><cell>OLS</cell><cell>0.157</cell><cell>0.730</cell><cell>0.919</cell><cell>2,876.561</cell><cell>892.793</cell><cell>183.11</cell></row><row><cell>GWR</cell><cell>0.570</cell><cell>0.499</cell><cell>0.631</cell><cell>2,229.396</cell><cell>427.007</cell><cell>174.68</cell></row><row><cell>SGWR</cell><cell>0.607</cell><cell>0.464</cell><cell>0.584</cell><cell>2,212.537</cell><cell>366.139</cell><cell>158.40</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_10"><head>Table 11 .</head><label>11</label><figDesc>Results of different models based on the HIV dataset at the county level.</figDesc><table><row><cell>Model</cell><cell>Adjusted R 2</cell><cell>MAE</cell><cell>RMSE</cell><cell>AICs</cell><cell>RSS</cell><cell>MAPE (%)</cell></row><row><cell>OLS</cell><cell>0.322</cell><cell>0.561</cell><cell>0.822</cell><cell>6,198.549</cell><cell>1,708.310</cell><cell>270.52</cell></row><row><cell>GWR</cell><cell>0.679</cell><cell>0.337</cell><cell>0.554</cell><cell>4,412.398</cell><cell>777.050</cell><cell>241.25</cell></row><row><cell>SGWR</cell><cell>0.705</cell><cell>0.312</cell><cell>0.517</cell><cell>4,352.323</cell><cell>635.424</cell><cell>231.02</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_11"><head>Table 13 .</head><label>13</label><figDesc>The computational time of different models.Note: s, m, and h represent seconds, minutes, and hours, respectively. To maintain consistency in reporting computation times, each model was executed five times and the average of these five runs is what is presented in the table.</figDesc><table><row><cell>Model</cell><cell>Depression</cell><cell>Crime</cell><cell>HIV</cell><cell>Housing</cell><cell>Mental health</cell></row><row><cell>GWR</cell><cell>8.01s</cell><cell>25.90s</cell><cell>15.43s</cell><cell>19.45m</cell><cell>7.28h</cell></row><row><cell>SGWR</cell><cell>8.09s</cell><cell>33.54s</cell><cell>19.61s</cell><cell>21.05m</cell><cell>7.44h</cell></row><row><cell>MGWR</cell><cell>3.02m</cell><cell>21.54m</cell><cell>18.76m</cell><cell>23.76h</cell><cell>//</cell></row></table></figure>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>The authors extend their sincere gratitude to the three anonymous reviewers and the editor for their insightful comments, which significantly improves the manuscript.</p></div>
+			</div>
+
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data and codes availability statement</head><p>The datasets and codes used for this study are publicly available at <ref type="url" target="https://github.com/">https://github.com/</ref> Lessani252/SGWR.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure statement</head><p>No potential conflict of interest is reported by the author(s).</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0" /><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 7 .</head><label>7</label><figDesc>Illustration of estimated parameters for six independent variables based on GWR and SGWR.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_12"><head>Table 12 .</head><label>12</label><figDesc>Descriptive statistics of the coefficient parameters based on GWR and SGWR models for housing dataset for the estimated parameters.</figDesc><table><row><cell>Model</cell><cell>Variable</cell><cell>Mean</cell><cell>STD</cell><cell>Min</cell><cell>Median</cell><cell>Max</cell></row><row><cell>GWR SGWR</cell><cell>Intercept ��� Bedrooms ��� Bathrooms ��� Sqft_lot ��� Grade ��� Sqft_living15 ��� Sqft_lot15 ��� Intercept ��� Bedrooms ��� Bathrooms ��� Sqft_lot ��� Grade ��� Sqft_living15 ��� Sqft_lot15 ���</cell><cell>0.260224 0.017701 0.128881 1.161779 0.265000 0.168281 0.329933 0.258479 0.018134 0.128298 1.162855 0.263886 0.166977 0.326242</cell><cell>0.897400 0.050186 0.112164 1.988914 0.137281 0.101141 0.783678 0.900861 0.057546 0.118016 2.021162 0.143554 0.109067 0.855641</cell><cell>-0.705972 -0.203596 -0.053478 -1.408633 0.047866 -0.074468 -5.713785 -0.767433 -0.573229 -0.475722 -3.076638 -0.333431 -0.604066 -11.402725</cell><cell>0.052866 0.019518 0.095359 0.234691 0.237882 0.144643 0.119962 -0.053535 0.020478 0.095744 0.234224 0.234966 0.143332 0.117810</cell><cell>4.174773 0.161760 0.905304 13.063038 0.883812 0.522961 3.523045 5.891888 0.397994 1.499524 21.470264 1.750847 0.849110 12.651284</cell></row></table><note><p>Note: ��� Indicates highly significant.</p><p>Notes on contributors M. Naser Lessani is currently a PhD student in the Department of Geography at The Pennsylvania State University. His primary research interests are geospatial big data analytics,</p></note></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">A new look at the statistical model identification</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Akaike</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Automatic Control</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="716" to="723" />
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Basic local alignment search tool</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">F</forename><surname>Altschul</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Molecular Biology</title>
+		<imprint>
+			<biblScope unit="volume">215</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="403" to="410" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Tobler&apos;s Law in a Multivariate World</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="494" to="510" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Multidimensional divide-and-conquer</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Bentley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Communications of the ACM</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="214" to="229" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">The relative performance of AIC, AICC and BIC in the presence of unobserved heterogeneity</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Brewer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="679" to="692" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression: A Method for Exploring Spatial Nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Stewart Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A new similarity combining reconstruction coefficient with pairwise distance for agglomerative clustering</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information Sciences</title>
+		<imprint>
+			<biblScope unit="volume">508</biblScope>
+			<biblScope unit="page" from="173" to="182" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial-temporal responses of ecosystem services to land use transformation driven by rapid urbanization: a case study of Hubei Province, China</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Cui</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Environmental Research and Public Health</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">178</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Du</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1353" to="1377" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A density-based algorithm for discovering clusters in large spatial databases with noise</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ester</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Second International Conference on Knowledge Discovery and Data Mining</title>
+		<meeting>the Second International Conference on Knowledge Discovery and Data Mining</meeting>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="page" from="226" to="231" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Geographical and temporal weighted regression (GTWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Two techniques for exploring non-stationarity in geographical data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Martin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Christopher</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="58" to="82" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: The analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Chris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Martin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Hoboken, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Negative Spatial Autocorrelation: One of the Most Neglected Concepts in Spatial</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics. Stats</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="388" to="415" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Managing and mitigating housing -price predictions using a genetic algorithm: A case of King County in Washington</title>
+		<author>
+			<persName><forename type="first">U</forename><surname>Gunasilan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">U.S.A. International Journal of Management</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="9" to="18" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression based on a network weight matrix: a case study using urbanization driving force data in China</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1209" to="1235" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Spatial variability of urban climate in response to quantitative trait of land cover based on GWR model</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Xu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Monitoring and Assessment</title>
+		<imprint>
+			<biblScope unit="volume">191</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">194</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Geographically and temporally weighted regression for modeling spatio-temporal variation in house prices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="383" to="401" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Exploring temporal varying demographic and economic disparities in COVID-19 infections in four U.S. areas: based on OLS, GWR, and random forest models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Jiao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Azimian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">27</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Local attribute-similarity weighting regression algorithm for interpolating soil property values</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Jiaogen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Daming</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Yuyuan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Agricultural and Biological Engineering</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="95" to="103" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Investigating the relationships between concentrated disadvantage, place connectivity, and COVID-19 fatality in the United States over time</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Jing</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<publisher>BMC Public Health</publisher>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page">2346</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">From neighborhood contexts to human behaviors: cellphone-based place visitation data contribute to estimating neighborhood-level depression prevalence in the United States</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Jing</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cities</title>
+		<imprint>
+			<biblScope unit="volume">148</biblScope>
+			<biblScope unit="page">104905</biblScope>
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Hierarchical clustering schemes</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Johnson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Psychometrika</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="241" to="254" />
+			<date type="published" when="1967">1967</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Social media use and its connection to mental health: a systematic review</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Karim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cureus</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">8627</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">#MaskOn! #MaskOff! Digital polarization of mask-wearing in the United States during COVID-19</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">W</forename><surname>Erickson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Jing-Schmidt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS One</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">250817</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Human mobility and the infectious disease transmission: a systematic review</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">N</forename><surname>Lessani</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/10095020.2023.2275619</idno>
+		<ptr target="https://doi.org/10.1080/10095020.2023.2275619" />
+	</analytic>
+	<monogr>
+		<title level="j">Geo-Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Fast geographically weighted regression (FastGWR): a scalable algorithm to investigate spatial process heterogeneity in millions of observations</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="175" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Spatial heterogeneity in the determinants of urban form: an analysis of chinese cities with a GWR approach</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sustainability</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">479</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Measuring global multi-scale place connectivity using geotagged social media data</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scientific Reports</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">14694</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Computational improvements to multi-scale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Stewart Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1378" to="1397" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The Minkowski approach for choosing the distance metric in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="351" to="368" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression with a non-Euclidean distance metric: a case study using hedonic house price data</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="660" to="681" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Classification and analysis of multivariate observations</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Macqueen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Berkeley Symposium on Mathematical Statistics and Probability</title>
+		<imprint>
+			<date type="published" when="1967">1967</date>
+			<biblScope unit="page" from="281" to="297" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Impact of urban growth boundary on housing and land prices: evidence from King County</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Mathur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Housing Studies</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="128" to="148" />
+			<date type="published" when="2013">2013</date>
+			<pubPlace>Washington</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Republicans, not democrats, are more likely to endorse anti-vaccine misinformation</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Motta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Politics Research</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="428" to="438" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">The socio-economic implications of the coronavirus pandemic (COVID-19): a review</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Nicola</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Surgery</title>
+		<imprint>
+			<biblScope unit="volume">78</biblScope>
+			<biblScope unit="page" from="185" to="193" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Supply chain lessons from the catastrophic natural disaster in Japan</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">W</forename><surname>Park</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Roh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Business Horizons</title>
+		<imprint>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="75" to="85" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">VII. Note on regression and inheritance in the case of two parents</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pearson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the Royal Society of London</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="240" to="242" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Selection and network effects-migration flows into OECD countries 1990-2000</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Pedersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pytlikova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1160" to="1186" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">International channels of transmission of monetary policy and the Mundellian trilemma</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IMF Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="6" to="35" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<title level="m" type="main">Introduction to modern information retrieval</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Salton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1983">1983</date>
+			<publisher>McGraw-Hill</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Spatial effects of public health laboratory emergency testing institutions under COVID-19 in China</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Shi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal for Equity in Health</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">88</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Identification of common molecular subsequences</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">F</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Waterman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Molecular Biology</title>
+		<imprint>
+			<biblScope unit="volume">147</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="195" to="197" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<title level="m" type="main">Linear statistical models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Stapleton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<biblScope unit="page">719</biblScope>
+			<pubPlace>Hoboken, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">D-GWR: geographically, altitudinal, and temporally weighted regression</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tasyurek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Celik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neural Computing and Applications</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="14777" to="14791" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">A computer movie simulating urban growth in the Detroit region</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Tobler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economic Geography</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="234" to="240" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Modelling housing rents using spatial autoregressive geographically weighted regression: a case study in Cracow</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tomal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Poland. ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">346</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Simulating the spatial heterogeneity of housing prices in Wuhan, China, by regionally geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">129</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Spatial risk adjustment between health insurances: using GWR in risk adjustment models to conserve incentives for service optimisation and reduce MAUP</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wende</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The European Journal of Health Economics</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1079" to="1091" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">COVID-19 vaccine hesitancy in the United States: a systematic review</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Yasmin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Frontiers in Public Health</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page">770985</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Exploring housing rent by mixed geographically weighted regression: a case study in Nanjing</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page">431</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Spatial prediction based on Third Law of Geography</title>
+		<author>
+			<persName><forename type="first">A.-X</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of GIS</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="225" to="240" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">How is the Third Law of Geography different?</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">X</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Turner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of GIS</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="57" to="67" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Impacts of urbanization and landscape pattern on habitat quality using OLS and GWR models in Hangzhou</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">China. Ecological Indicators</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page">106654</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Spatiotemporal dynamics and driving forces of land urbanization in the Yangtze river delta urban agglomeration</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Land</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page">1365</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

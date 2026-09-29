@@ -29,6 +29,12 @@ cross-sectionnel.
 **Profil N/T** -- Caracterisation de la structure spatio-temporelle d'un
 dataset.
 
+**Coupes transversales repetees** -- Plusieurs campagnes ou dates observees
+dans une meme source, sans identifiant stable garantissant que les memes
+unites spatiales sont suivies. Ce n'est pas un panel: les campagnes doivent
+etre separees avant une evaluation transversale, sauf protocole longitudinal
+explicite et verifie.
+
 **Y** -- Variable cible ou reponse, notation majuscule.
 
 **X** -- Variables explicatives ou covariables, notation majuscule.
@@ -49,6 +55,35 @@ etre documentees separement.
 **Typologie X** -- `spatial`, `temporal`, `socio-economic`, `environmental`,
 `categorical`, `identifier`, `continuous`, `lagged`, `imputed`, `unknown`.
 
+---
+
+**Benchmark readiness** -- Bloc obligatoire pour les fiches `paper_*.md` et
+les futures fiches issues d'entrepots. Il distingue un dataset seulement trouve
+ou telecharge d'un dataset utilisable dans `spatialtidymodels`.
+
+**Estimateur source / route package** -- L'**estimateur source** est le nom ou
+la famille effectivement citee dans un article, par exemple `gwr` ou
+`sar_error`. La **route package** est le nom executable dans
+`spatialtidymodels`, par exemple `mgwrsar_gwr` ou `sem_error`. Une absence
+d'equivalent n'empeche pas l'export : elle est conservee comme
+`not_automated`, puis les comparateurs peuvent etre proposes selon la
+typologie Y/X et le support spatial.
+
+**Bases d'eligibilite** -- `published_model` signifie que le modele est
+documente dans la source; `benchmark_use` designe un comparateur curatorial;
+`generated_candidate` reste exploratoire et n'est pas lance par defaut;
+`scientific_evidence` est conserve pour les anciennes fiches manuellement
+validees. Ne pas employer ces bases comme synonymes.
+
+**package_include** -- Champ du bloc `benchmark_readiness`. Valeurs autorisees:
+`yes`, `no`, `manual_review`. `yes` signifie que le dataset peut guider le
+package; `manual_review` signifie qu'il est interessant mais pas promu
+automatiquement; `no` signifie qu'il reste documentaire ou hors perimetre.
+
+**Mode secours Claude** -- Exception explicite ou Claude peut produire ou
+modifier des fiches/scripts quand Codex est indisponible. Ce mode exige un audit
+des modifications et ne permet jamais de promouvoir un dataset papier/entrepot
+sans `benchmark_readiness`.
 ---
 
 ## Vocabulaire spatial et tidymodels
@@ -131,7 +166,36 @@ appelle une fonction `score = function(split, y_resp) ...` pour chaque fold.
 
 ---
 
+## Plasmode spatial — cadrage du 8 septembre 2026
+
+**Plasmode** -- Fonction ajustee sur un Y reel puis figee comme verite de
+simulation, avec interventions documentees sur ses composantes, l'information
+accessible et le bruit. Le programme actif exclut EMCS placebo, GAN et morphing.
+
+**Motif spatial sans propagation** -- Y ou residus peuvent etre structures
+par les covariables, une forme inadequatement representee ou le processus
+d'observation. Ce motif ne prouve pas un terme de propagation entre voisins.
+D9 est un exemple d'information omise, pas un cas unique.
+
+**Pilote plasmode** -- Prototype technique valide dans
+`extensions_projet_2026-09/revue_donnees_semi_synthetiques/`, autonome du
+package : deux sources, sept scenarios P0-P6, trois concurrents et une
+reference privilegiee distincte. La cible est la moyenne latente sur sites
+fixes ; les resultats ne sont ni une admission de dataset ni une preuve de
+superiorite generale. Voir `wiki/analyses/protocole_plasmode_spatial_2026-09-08.md`.
+
 ## Trois familles de sources
+
+**ready_in_data_bank** -- Panel conserve et documente dans la banque de donnees,
+dont le support d'estimation/validation dans le harnais n'est pas encore disponible.
+Ce statut ne vaut pas `benchmark_status: ready` ni `package_include: yes`.
+L'absence du seul moteur panel n'entraine pas un `manual_review` ; les lacunes
+de provenance ou de contenu restent documentees separement. Premiere application :
+CO2 Chine, revue du 2026-09-09. Les autres panels ne sont pas requalifies sans audit.
+
+**k variables (fiche)** -- Nombre d'attributs hors colonnes geometriques ; a
+distinguer du nombre de covariables X du modele et du nombre de voisins de W.
+La revue du 2026-09-09 explicite ces trois decomptes pour les quatre fiches concernees.
 
 1. **Packages R/Python** -- priorite actuelle.
 2. **Datasets lies a des papers scientifiques**.
@@ -193,3 +257,32 @@ Manuel complet: `AGENTS.md`.
 
 Regle inter-agents: le quality gate ne modifie jamais une fiche. L'injecting
 agent ne valide jamais sa propre evaluation.
+
+**Typologie Y selectionnee** -- `Selected Y typology` et `response_typology`
+decrivent la reponse de `formula_used`. `Candidate Y typology` decrit les
+autres reponses possibles et ne pilote pas le routage de cette tache. Le
+stockage R `integer` ne prouve pas un comptage : revenu, pourcentage et jour
+de l'annee peuvent etre continus. Une typologie multiple reste a resoudre.
+
+**Preuve de formule executable** -- `Formula used evidence` distingue la
+provenance de `formula_used` de celle de `formula_pub`. `pub` exige une
+formule publiee et une reference renseignees ; `paper_extracted`,
+`reconstructed_from_data`, `generated_system_formula` et `unavailable`
+ne sont pas interchangeables. Une variante systeme peut coexister avec une
+formule publiee conservee comme preuve, sans lui emprunter son statut.
+
+**Curation reproductible de fiche** -- Les decisions documentees dans
+`data/manifests/datasets/dataset_curation_overrides.json` sont appliquees par
+`code/r_catalog/dataset_curation.py` apres les generateurs R/Python. Cette
+passe modifie les champs vises et conserve le texte non concerne. Son mode
+`--check` controle l'idempotence ; les validations R controlent ensuite les
+formules, colonnes et chargements. Une reouverture `no` vers `manual_review`
+n'est pas une admission au benchmark.
+
+**Provenance entre datasets** -- Une relation `DERIVED_FROM` relie un jeu
+reutilise a son jeu source. Un DOI Dryad de dataset ne doit pas etre emis
+comme DOI d'article. L'article associe, quand verifie, reste une entite et
+une relation distinctes ; sinon `pending_source_review` s'applique.
+
+
+**Reconstructions air-quality monitor-level** -- Les datasets `paper_pm25_aqs_ma_2016_monitor_covariates`, `paper_no2_aqs_ma_2016_monitor_covariates` et `paper_o3_aqs_ma_2016_monitor_covariates` sont des reconstructions publiques partielles au niveau station EPA AQS, pas des repetitions exactes des matrices d'apprentissage des papiers Di/Requia. Le script responsable est `tools/build_air_quality_monitor_covariates.R`. Il recupere les observations EPA AirData, l'elevation USGS EPQS, les variables meteo/radiation NASA POWER, la classe NLCD 2016 et la densite de routes TIGER/Line. Les predictions finales de grille des auteurs sont conservees dans les RDS comme diagnostic mais exclues des formules benchmark pour eviter la fuite d'information. Les `.rds` dans `data/final_datasets/sf/` restent regenerables localement et sont ignores par Git par defaut.

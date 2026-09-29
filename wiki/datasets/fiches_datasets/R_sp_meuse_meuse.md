@@ -1,8 +1,8 @@
 ---
 title: R_sp_meuse_meuse
 type: dataset
-created: 2026-07-23
-updated: 2026-07-23
+created: 2026-08-15
+updated: 2026-09-16
 sources:
   - data/final_datasets/sf/R_sp_meuse_meuse.rds
 tags: [dataset, r-package, spatial, point]
@@ -12,10 +12,10 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 
 ## Description du jeu de donnees
 
-- Topic: dataset spatial spatial
+- Topic: Donnees de r-package : R_sp_meuse_meuse
 - Observation unit: observation spatiale de type POINT
-- Observed population: pending
-- Geographic context: a preciser depuis la documentation, l'article ou l'etendue spatiale
+- Observed population: 155 enregistrements dans l’artefact local R_sp_meuse_meuse.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: Etendue mesuree dans le RDS : x [178605, 181390], y [329714, 333611]; CRS non renseigne, repere/unites a documenter.
 - Temporal context: aucune variable temporelle structurelle detectee
 - Source description: This data set gives locations and topsoil heavy metal concentrations, along with a number of soil and landscape variables at the observation locations, collected in a flood plain of the river Meuse, near the village of Stein (NL). Heavy metal concentrations are from composite samples of an area of approximately 15 m x 15 m.
 - Description source: package R `sp`
@@ -78,8 +78,45 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 ### Formule — niveau systeme
 
 - formula_used: log(zinc) ~ sqrt(dist)
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
 - x_terms_used: sqrt(dist)
 - y_term_used: log(zinc)
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "log(zinc) ~ sqrt(dist)"
+    response: "log(zinc)"
+    predictors: ["sqrt(dist)"]
+    role: "simple_baseline"
+    source_type: "scientific_publication_or_package_documentation"
+    source_ref: "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
+    estimator_context: ["linear_regression", "kriging_auxiliary", "spatial_baseline"]
+    status: "confirmed"
+
+  multivariate_constrained:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "paper_main_specification"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  ml_or_selected:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "ml_candidate_features"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+```
 
 ## Bloc 2 — Identification et DOI
 
@@ -102,11 +139,11 @@ This data set gives locations and topsoil heavy metal concentrations, along with
 modeling_evidence:
   existing_model_found: true
   equation_text: "log(zinc) ~ sqrt(dist)"
-  equation_family: unknown
+  equation_family: regression
   model_family: "formule publication confirmee et utilisee"
-  source_type: unknown
+  source_type: scientific_publication_or_package_documentation
   source_ref: "Rikken, M.G.J. and Van Rijn, R.P.G. (1993) Soil pollution with heavy metals - an inquiry into spatial variation, cost of mapping and the risk evaluation of copper, cadmium, lead and zinc in the floodplains of the Meuse west of Stein, the Netherlands. Doctoraalveldwerkverslag, Dept. of Physical Geography, Utrecht University"
-  confidence: low
+  confidence: medium
 ```
 
 ## Bloc 4 — Typologie des donnees
@@ -116,7 +153,7 @@ modeling_evidence:
 - N observations: 155
 - T periods: 1
 - Variable temporelle: none
-- N/T profile: N_moyen_T_1
+- N/T profile: N_moyen_T_petit
 - Temporal note: aucune variable temporelle structurelle detectee
 
 ## Bloc 5 — Resolution et etendue
@@ -128,7 +165,7 @@ modeling_evidence:
 - Type de geometrie: POINT
 - CRS EPSG: 28992 (source: documentation du package, .rds sans CRS embarque)
 - CRS nom: unknown
-- CRS analyse recommande: pending — CRS source non geographique ou inconnu
+- CRS analyse recommande: aucune reprojection necessaire -- CRS deja projete et metrique. (EPSG:28992, Amersfoort / RD New)
 
 ## Bloc 6 — Reproductibilite
 
@@ -139,6 +176,34 @@ modeling_evidence:
 - Reproducibility status: available via package R `sp`
 - Code available: yes (package examples and vignettes)
 - Repository: r-package
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_spatial_package_formula"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Formule issue d une publication/documentation package, reponse numerique, covariables locales et support spatial disponibles.
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  status: "ready"
+  eligible_estimators: ["ols", "gam_spatial", "gamboost", "random_forest", "random_forest_xy", "xgboost", "xgboost_xy", "sar_lag", "sem_error", "sdm_mixed", "gwr"]
+  conditionally_eligible_estimators: ["kriging_auxiliary"]
+  ineligible_reason: ""
+  rule: "formula_used may contain one published covariate when the formula is source-backed and executable; spatial weights can be reconstructed from coordinates by the benchmark when an original W is not required by the source."
+```
+
 
 ## Quality Control
 
@@ -154,3 +219,12 @@ modeling_evidence:
 ## Related Pages
 
 - Source: package R `sp`
+- Note (2026-09-10) : `sp::meuse.grid` (grille de prediction/krigeage compagnon, N=3103, EPSG:28992, et sa variante `meuse.grid.ll` reprojetee) avait ses propres fiches (`R_sp_meuse.grid_meuse.grid`, `R_sp_meuse.grid_ll_meuse.grid_ll`) ; retirees car ce sont des grilles de prediction sans variable reponse observee (pas de zinc/cadmium/copper/lead mesures), donc structurellement hors perimetre d'une fiche de regression. La grille reste utilisable pour predire zinc/cadmium/copper/lead hors-echantillon apres ajustement du modele sur ce jeu (`sp::meuse.grid`, meme package), simplement sans fiche dediee.
+
+## Curation documentée — 2026-09-07
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

@@ -1,0 +1,1869 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">OpenML Benchmarking Suites</title>
+				<funder>
+					<orgName type="full">AFRL</orgName>
+				</funder>
+				<funder ref="#_2EB6NyY">
+					<orgName type="full">Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) -460135501</orgName>
+				</funder>
+				<funder ref="#_guZpvBV">
+					<orgName type="full">European Research Council</orgName>
+					<orgName type="abbreviated">ERC</orgName>
+				</funder>
+				<funder ref="#_HJTcxKV">
+					<orgName type="full">São Paulo Research Foundation (FAPESP)</orgName>
+				</funder>
+				<funder ref="#_Twm2B33">
+					<orgName type="full">German Federal Ministry of Education and Research (BMBF)</orgName>
+				</funder>
+				<funder ref="#_eM6Aauc">
+					<orgName type="full">Collaborative Research Center</orgName>
+				</funder>
+				<funder ref="#_4akyDG9">
+					<orgName type="full">DARPA</orgName>
+				</funder>
+				<funder ref="#_xbfs7He">
+					<orgName type="full">German Research Foundation (DFG)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Bernd</forename><surname>Bischl</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">LMU Munich</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Giuseppe</forename><surname>Casalicchio</surname></persName>
+							<email>giuseppe.casalicchio@lmu.de.</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">LMU Munich</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Matthias</forename><surname>Feurer</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of Freiburg</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Pieter</forename><surname>Gijsbers</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">Eindhoven University of Technology</orgName>
+								<address>
+									<country key="NL">the Netherlands</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Frank</forename><surname>Hutter</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of Freiburg</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="department">Bosch Center for Artificial Intelligence</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Michel</forename><surname>Lang</surname></persName>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">TU Dortmund University</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Rafael</forename><forename type="middle">G</forename><surname>Mantovani</surname></persName>
+							<affiliation key="aff5">
+								<orgName type="institution">Federal Technology University Paraná (UTFPR)</orgName>
+								<address>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Jan</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+							<affiliation key="aff6">
+								<orgName type="institution" key="instit1">Leiden Institute of Advanced Computer Science (LIACS)</orgName>
+								<orgName type="institution" key="instit2">Leiden University</orgName>
+								<address>
+									<country key="NL">the Netherlands</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Joaquin</forename><surname>Vanschoren</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">Eindhoven University of Technology</orgName>
+								<address>
+									<country key="NL">the Netherlands</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">OpenML Benchmarking Suites</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C8B519A8F0EC49C9B3AB18A51A8E3146</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:13+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Machine learning research depends on objectively interpretable, comparable, and reproducible algorithm benchmarks. We advocate the use of curated, comprehensive suites of machine learning tasks to standardize the setup, execution, and reporting of benchmarks. We enable this through software tools that help to create and leverage these benchmarking suites. These are seamlessly integrated into the OpenML platform, and accessible through interfaces in Python, Java, and R. OpenML benchmarking suites (a) are easy to use through standardized data formats, APIs, and client libraries; (b) come with extensive meta-information on the included datasets; and (c) allow benchmarks to be shared and reused in future studies. We then present a first, carefully curated and practical benchmarking suite for classification: the OpenML Curated Classification benchmarking suite 2018 (OpenML-CC18). Finally, we discuss use cases and applications which demonstrate the usefulness of OpenML benchmarking suites and the OpenML-CC18 in particular.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Algorithm benchmarks shine a beacon for machine learning research. They allow us, as a community, to track progress over time, identify challenging issues, to raise the bar and learn how to do better. To learn as much as possible from them, they must include well-designed, challenging sets of tasks, be easily accessible and practical to use. Evaluations of algorithms on these tasks should be performed in standardized ways to support a rigorous analysis and clear conclusions. And above all, these evaluations must be easy to find, easily interpretable, reproducible, and directly comparable to evaluations run by other scientists.</p><p>The OpenML platform <ref type="bibr" target="#b53">[Vanschoren et al., 2013]</ref> already serves thousands of datasets together with tasks in a machine-readable way. Tasks define the evaluation procedure for a specific dataset. Concretely, a task contains a reference to a dataset, information on the task type (e.g., classification or regression), the target feature (in the case of supervised problems), the evaluation procedure (e.g., k-fold CV, hold-out), the specific splits for that procedure, and the target performance metric, which together allow for reproducible evaluation schemes. OpenML is also integrated into many machine learning libraries, so that fine details about machine learning models (or pipelines) and their performance evaluations can be automatically collected. This integration allows experiments to be automatically shared and organized on the platform, linked to the underlying datasets and tasks. However, OpenML did not yet facilitate the simple creation and sharing of well-designed benchmark suites and results of experiments ran on them.</p><p>We introduce a novel benchmarking layer on top of OpenML, fully integrated into the platform and its APIs, that streamlines the creation of benchmarking suites, i.e., collections of tasks designed to thoroughly evaluate algorithms. These suites can then be easily imported, used in systematic benchmarking experiments, and the results can be automatically shared and organized on the OpenML platform, where they can be easily searched, reused and compared to the results of others. We develop tools that allow for creating a well-defined benchmark suite, and propose a new benchmark suite designed with these tools: the Curated Classification benchmarking suite 2018 (OpenML-CC18).</p><p>In short, the contributions of this paper are as follows: (1) we advocate the use of curated, comprehensive suites of machine learning tasks (i.e., a dataset with meta-information about the evaluation procedure) to standardize benchmarking, (2) we provide software tools to easily create and use these benchmarking suites, (3) we propose a new benchmark suite (OpenML-CC18), (4) have a closer look at an existing AutoML benchmark suite, and (5) discuss their impact on machine learning research. <ref type="foot" target="#foot_0">1</ref>We will first discuss related work. Next, we explain how OpenML benchmarking suites work and how to use them in practice. We then present the OpenML-CC18 and review other benchmarking suites, including the AutoML benchmark. Finally, we discuss the impact of benchmarking suites on machine learning research and present our conclusions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">A Brief History of Benchmarking Suites</head><p>The machine learning field has long recognized the importance of dataset repositories. The UCI repository <ref type="bibr" target="#b14">[Dheeru and Taniskidou, 2017]</ref> and LIBSVM <ref type="bibr" target="#b10">[Chang and Lin, 2011]</ref> offer a wide range of datasets. Many more focused repositories also exist, such as UCR <ref type="bibr" target="#b12">[Chen et al., 2015]</ref> for time series data and Mulan <ref type="bibr" target="#b49">[Tsoumakas et al., 2011]</ref> for multilabel datasets. Some repositories also provide programmatic access. <ref type="url" target="https://www.kaggle.com/">Kaggle.com</ref> and PMLB <ref type="bibr" target="#b38">[Olson et al., 2017]</ref> offer a Python API for downloading datasets, skdata <ref type="bibr" target="#b2">[Bergstra et al., 2015]</ref> offers a Python API for downloading computer vision and natural language processing datasets, and KEEL <ref type="bibr" target="#b1">[Alcala et al., 2010]</ref> offers a Java and R API for imbalanced classification and datasets with missing values.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Several platforms can also link datasets to reproducible experiments (similar to OpenML tasks).</head><p>Reinforcement learning environments such as the OpenAI Gym <ref type="bibr" target="#b7">[Brockman et al., 2016]</ref> run and evaluate reinforcement learning experiments, the COCO suite standardizes benchmarking for blackbox optimization <ref type="bibr" target="#b26">[Hansen et al., 2020]</ref> and ASLib provides a benchmarking protocol for algorithm selection <ref type="bibr">[Bischl et al., 2016a]</ref>. The Ludwig Benchmarking Toolkit orchestrates the use of datasets, tasks and models for personalized benchmarking and so far integrates the Ludwig deep learning toolbox <ref type="bibr" target="#b37">[Narayan et al., 2021]</ref>. <ref type="url" target="https://paperswithcode.com/">PapersWithCode</ref> maintains a manually updated overview of model evaluations linked to datasets.</p><p>Although for many years machine learning researchers have benchmarked their algorithms on some subset of these datasets, this has not yet led to standardized benchmarks that can be easily compared between individual studies. This often results in suboptimal shortcuts in study design, producing rather small-scale experiments that should be interpreted with caution <ref type="bibr" target="#b0">[Aha, 1992]</ref>, are hard to reproduce <ref type="bibr" target="#b40">[Pedersen, 2008</ref><ref type="bibr" target="#b27">, Hutson, 2018]</ref>, and even lead to contradictory results <ref type="bibr" target="#b29">[Keogh and Kasetty, 2003</ref>]. An often criticized aspect is the competitive mindset in benchmarking which focuses too much on dominating the state-of-art on a few datasets, instead of a rigorous and informative analysis of large-scale studies, including negative results where popular algorithms fail <ref type="bibr" target="#b47">[Sculley et al., 2018]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">OpenML</head><p>OpenML is a collaborative platform that allows anyone to share new datasets, and enables anyone to easily import these datasets and subsequently share their own models and experiments run on them. It organizes everything based on four fundamental, machine-readable building blocks: (1) the data, (2) the machine learning task to be solved, specifying the dataset, the task type (e.g., classification or regression), the target feature (in the case of supervised problems), the evaluation procedure (e.g., k-fold CV, hold-out), the specific splits for that procedure, and the target performance metric (3) the flow which specifies a machine learning pipeline that solves the task, and (4) the run that contains experiment results (e.g., predictions and performance evaluations) when a flow is executed on a task (see <ref type="bibr" target="#b53">Vanschoren et al. [2013]</ref> for more details). OpenML goes beyond the platforms mentioned in Section 2, as it includes extensive programmatic access to all datasets, tasks, flows, and runs, comprehensive logging of experiments, and automated sharing of results, which have enabled the collection of millions of publicly shared and reproducible experiments, linked to the exact datasets, machine learning pipelines and hyperparameter settings. OpenML offers bindings with the Java, Python and R ecosystems <ref type="bibr" target="#b50">[van Rijn, 2016</ref><ref type="bibr">, Feurer et al., 2021b</ref><ref type="bibr" target="#b9">, Casalicchio et al., 2017]</ref> to provide easy integration in common machine learning tools, workflows, and environments. An introduction and detailed information can be found on <ref type="url" target="https://docs.openml.org">https://docs.openml.org</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">OpenML Benchmarking Suites</head><p>As with any platform where people can upload new datasets, an overwhelming amount and variety of datasets is available, and it can be unclear how well they are curated. We designed OpenML benchmarking suites as a remedy to allow researchers to compile and publish well-defined collections of curated tasks and datasets, and collect benchmarking results from many scientists in a single place. More precisely, we define:</p><p>An OpenML benchmarking suite is a set of OpenML tasks carefully selected to evaluate algorithms under a precise set of conditions.</p><p>Using a set of tasks instead of a set of datasets makes experiments performed on them comparable and reproducible. Compared to other (static) collections of datasets, the use of OpenML benchmarking suites has the following advantages:</p><p>• Easy creation of benchmarks (see Section 5.1): OpenML hosts thousands of datasets, and scientists can easily filter them down to those needed for their benchmarks (see Sections 6 and 7 for examples).</p><p>• Convenient access and sharing of suites: Each suite receives a unique ID, which can be used to retrieve the suite via APIs, and via its own webpage. Figure <ref type="figure" target="#fig_0">1</ref> illustrates how results collected on these suites can be explored online.</p><p>• Permanence and provenance: Because benchmarking suites are its own entity on OpenML, it is clear who created them (provenance). It also guarantees no one but the original creator can edit or remove the suite (permanence), this is an advantage over the previously used community tagging mechanism which allowed any user to add tasks to a suite.</p><p>• Community of practice: Curated benchmark suites allow scientists to thoroughly benchmark their machine learning methods without having to worry about finding and selecting datasets for their benchmarks.</p><p>• Building on existing suites: Scientists can extend, subset, or adapt existing benchmarking suites to correct issues, raise the bar, or run personalized benchmarks.</p><p>• Reproducibility of benchmarks: Based on machine-readable OpenML tasks, with detailed instructions for evaluation procedures and train-test splits, shared results are comparable and reproducible.</p><p>• Conducting benchmark studies: After creating an OpenML benchmarking suite, existing and new experiments (runs) on the underlying tasks can be associated with the suite. This is also illustrated in Figure <ref type="figure" target="#fig_2">3</ref>. Such data reuse bootstraps the creation of new benchmark studies that can analyze existing machine learning algorithms in new ways, or to design new challenging benchmark suites.</p><p>• Collaborative work: OpenML benchmarking suites benefit from the OpenML community, where users can help to identify and report bugs and errors in the contained datasets.</p><p>• Dynamic benchmarks: Benchmarks are never perfect, and when used for a long time, scientists may overfit on specific sets of tasks. However, benchmarking suites can be easily corrected and extended over time (e.g., on a yearly basis), leading to dynamic benchmarks that respond to novel concerns, and evaluate methods on new and ever more challenging tasks. More than providing a snapshot, this allows longitudinal studies that truly track progress over time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">How to Use OpenML Benchmarking Suites</head><p>To realize all these benefits, we have developed a series of extensions to the OpenML platform:<ref type="foot" target="#foot_1">foot_1</ref> </p><p>• We added the concepts of a 'benchmark suite' as a collection of tasks, and a 'benchmark study' as a collection of benchmark results (runs) obtained on them.</p><p>• We added data filtering procedures to the APIs and website that allow researchers to exactly specify the constraints for tasks to be included in a benchmark suite.</p><p>• We provide scripts and notebooks that facilitate the creation and quality assessment of benchmark suites. For instance, they filter out datasets that are modeled too easily, and hence cannot be used to differentiate between most algorithms (see Section 5.1).</p><p>• Certain types of datasets, such as multilabel, time series, or artificial datasets, may require additional care. We added collaborative and automated annotation (tagging) to filter such datasets accordingly.</p><p>In the following, we discuss the three main use cases for benchmarking suites, i.e., creating new suites, retrieving existing suites, and running benchmarks. We provide code examples on how to retrieve, iterate the contents of a benchmark suite and run machine learning algorithms on it in Figure <ref type="figure">2</ref>.<ref type="foot" target="#foot_2">foot_2</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Creating New Suites</head><p>To collect data sets for a new suite, one usually starts by determining a list of constraints that datasets or tasks should adhere to (e.g., have a minimal size, a limited amount of class imbalance, and not be a time series). This is often an iterative refinement process, during which the distribution of currently selected tasks can be visualized, and any existing benchmarking results on these tasks can be retrieved. An example of this workflow is illustrated in the provided notebook. <ref type="foot" target="#foot_3">4</ref> The final selection of tasks can then be used to create a new benchmark suite. Each benchmark suite is assigned a unique id and an overview webpage with a description and an analysis dashboard (e.g., <ref type="url" target="https://www.openml.org/s/99">https://www.openml.org/s/99</ref>). The description text can be used to describe the goals and design criteria, provide links to external resources, and address any ethical concerns that should be taken into consideration when using the benchmark suite. We give an exemplary curation protocol in the Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Retrieving Existing Suites</head><p>Existing benchmark suites can be easily downloaded via any of the OpenML client libraries using its unique id or alias (see Figure <ref type="figure">2</ref>). The tasks and datasets are all uniformly formatted, and come with extensive meta-data to streamline the execution of benchmarks on them. For instance, if a dataset contains missing values, this is indicated in a machine-readable way so that researchers from openml import config, study, tasks, runs, extensions from sklearn import compose, impute, metrics, pipeline, preprocessing, tree</p><p>clf = pipeline.make_pipeline( compose.make_column_transformer( (impute.SimpleImputer(), extensions.sklearn.cont), (preprocessing.OneHotEncoder(handle_unknown='ignore'), extensions.sklearn.cat), ), tree.DecisionTreeClassifier(max_depth=1) ) # build a fast and simple classification pipeline benchmark_suite = study.get_suite('OpenML-CC18') # obtain the benchmark suite # config.apikey = 'FILL_IN_OPENML_API_KEY' # uploading to OpenML requires an API key run_ids = [] for task_id in benchmark_suite.tasks: # iterate over all tasks task = tasks.get_task(task_id) # download the OpenML task X, y = task.get_X_and_y() # get the data (not used in this example) run = runs.run_model_on_task(clf, task) # run classifier on splits given by the task score = run.get_metric_fn(metrics.accuracy_score) # compute and print the accuracy score print(f'Data set: {task.get_dataset().name}; Accuracy: {score.mean():.2}') run.publish() run_ids.append(run.id) benchmark_study = study.create_study( # create a study to share the set of results name="CC18-Example", description="An example study reporting results of a decision stump.", run_ids=run_ids, benchmark_suite=benchmark_suite.id ) benchmark_study.publish() print(f"Results are stored at {benchmark_study.openml_url}") can automatically adjust for this when running their algorithms. Datasets can be investigated using exploratory data analysis tools, and existing runs on these tasks can be downloaded and analyzed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Running Benchmarks</head><p>After retrieving the tasks from a suite, new experiments can be conducted locally. As illustrated in Figure <ref type="figure">2</ref>, this is easiest with the readily integrated machine learning libraries, such as scikitlearn <ref type="bibr" target="#b41">[Pedregosa et al., 2011]</ref>, mlr <ref type="bibr">[Bischl et al., 2016b]</ref> or its successor mlr3 <ref type="bibr" target="#b32">[Lang et al., 2019]</ref>, and Weka <ref type="bibr" target="#b25">[Hall et al., 2009]</ref>. Integrations for deep learning libraries are under development, and we welcome further open source integrations. <ref type="foot" target="#foot_4">5</ref> Custom code can often be wrapped, e.g., using the scikit-learn interface.</p><p>The results of these experiments (runs) can also (optionally) be bundled in a benchmark study and published on OpenML, as illustrated for Python in Figure <ref type="figure">2</ref>. Runs include all experiment details, including hyperparameter configurations, in a structured way. This allows entire communities of scientists to bring together benchmarks of a wide range of algorithms, all evaluated uniformly on the same tasks, in a single place where they can be directly compared on predictive performance and analysed in novel ways. Figure <ref type="figure" target="#fig_2">3</ref> visualizes the results of 3.8 million runs collected on a single benchmarking suite, which we will discuss next.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">OpenML-CC18</head><p>To demonstrate the functionality of OpenML benchmarking suites, we created a first standard of 72 classification tasks built on a carefully curated selection of datasets from the many thousands available on OpenML: the OpenML-CC18. It can be used as a drop-in replacement for many typical benchmarking setups. These datasets are deliberately medium-sized for practical reasons. An overview of the benchmark suite can be found at <ref type="url" target="https://www.openml.org/s/99">https://www.openml.org/s/99</ref> and the Appendix. We first describe the design criteria of the OpenML-CC18 before discussing uses of the benchmark and success stories. 1,<ref type="foot" target="#foot_5">foot_5</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Design Criteria</head><p>The OpenML-CC18 contains all verified and publicly licenced OpenML datasets until mid-2018 that satisfy a large set of clear requirements for thorough yet practical benchmarking:</p><p>(a) The number of observations is between 500 and 100 000 to focus on medium-sized datasets that can be used to train models on almost any computing hardware. (b) The dataset has less than 5000 features, counted after one-hot-encoding categorical features (which is the most frequent way to deal with categorical variables), to avoid most memory issues. (c) The target attribute has at least two classes, with no class of less than 20 observations. This ensures sufficient samples per class per fold when running 10-fold cross-validation experiments. (d) The ratio of the minority and majority class is above 0.05 (to eliminate highly imbalanced datasets which require special treatment for both algorithms and evaluation measures). (e) The dataset is not sparse because not all machine learning models can handle them gracefully, this constraint facilitates our goal of wide applicability. (f) The dataset does not require taking time dependency between samples into account, e.g., time series or data streams, as this is often not implemented in standard machine learning libraries.</p><p>As a precaution, we also removed datasets where each sample constitutes a single data stream. (g) The dataset does not require grouped sampling. Such datasets would contain multiple data points for one subject and require that all data points for a subject are put into the same data split for evaluation. We introduce this constraint and the one above to simplify usage of the datasets, as one does not have to use specialized cross-validation procedures.</p><p>We also applied several more opinionated criteria to avoid issues with problematic datasets: (a) We strived to remove artificial datasets, as it is hard to reliably assess their difficulty. Admittedly, there is no perfect distinction between artificial and simulated datasets (for example, a lot of phenomena can be simulated that can be as simple as an artificial dataset). Therefore, we removed datasets if we were in doubt of whether they are simulated or artificial. (b) We removed datasets which are a subset of larger datasets. Allowing subsets would be very subjective, as there is no objective choice of a dataset subset size or a subset of the variables or classes. (c) We excluded tasks for which the original target feature has been transformed or changed, e.g., when classes of a categorical target feature were merged or when a continuous target feature (for original regression tasks) was discretized to create a classification task. (d) We removed datasets without any source or reference. We want to be able to learn more about their intended use and how to interpret learned models, and avoid black box datasets.</p><p>Finally, to ensure that datasets are sufficiently challenging, we applied the following restrictions:</p><p>(a) We removed datasets which can be perfectly classified by a single attribute or a decision stump, as they do not allow us to meaningfully compare machine learning algorithms. (b) We removed datasets where a decision tree could achieve 100% accuracy on a 10-fold crossvalidation task, to remove datasets which can be solved by a simple algorithm which is prone to overfitting training data. We found that this is a good indicator of too easy datasets. Obviously, other datasets will appear easy for several algorithms, and we aim to learn more about the characteristics of such datasets in future studies.</p><p>We created the OpenML-CC18 as a first, practical benchmark suite. In hindsight, we acknowledge that our initial selection still contains several mistakes. Concretely, sick is a newer version of the hypothyroid dataset with several classes merged, electricity has time-related features, balance_scale is an artificial dataset and mnist_784 requires grouping samples by writers. We will correct these mistakes in new versions of this suite and also screen the more than 900 new datasets that were uploaded to OpenML since the creation of the OpenML-CC18. Moreover, to avoid the risk of overfitting on a specific benchmark, and to include feedback from the community, we plan to create a dynamic benchmark with regular release updates that evolve with the machine learning field. We want to clarify that while we include some datasets which may have ethical concerns, we do not expect this to have an impact if the suite is used responsibly (i.e., the benchmark suite is used for its intended purpose of benchmarking algorithms, and not to construct models to be used in real-world applications).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Usage of the OpenML-CC18</head><p>The OpenML-CC18 has been acknowledged and used in various studies. 1 For instance, <ref type="bibr" target="#b52">Van Wolputte and Blockeel [2020]</ref> used it to study iterative imputation algorithms for imputing missing values, <ref type="bibr" target="#b31">König et al. [2020]</ref> used it to develop methods to improve upon uncertainty quantification of machine learning classifiers and De Bie et al. <ref type="bibr">[2020]</ref> introduced deep networks for learning meta-features, which they computed for all OpenML-CC18 datasets. In some cases, the authors needed a filtered subset of the OpenML-CC18, which is natively supported in most OpenML clients. Other uses of the OpenML-CC18 include interpreting its multiclass datasets as multi-arm contextual bandit problems <ref type="bibr">[Bibaut et al., 2021a,b]</ref> and using the individual columns to test quantile sketch algorithms <ref type="bibr">[Mitchell et al., 2021]</ref>. <ref type="bibr">Cardoso et al. [2021]</ref> claim that the machine learning community has a strong focus on algorithmic development, and advocate a more data-centric approach. To this end, they studied the OpenML-CC18 utilizing methods from Item Response Theory to determine which datasets are hard for many classifiers. After analyzing 60 of its datasets (excluding the largest), they find that the OpenML-CC18 consists of both easy and hard datasets. They conclude that the suite is not very challenging as a whole, but that it includes many appropriate datasets to distinguish good classifiers from bad classifiers, and then propose two subsets: one that can be considered challenging, and one subset to replicate the behavior of the full suite. The careful analysis and subsequent proposed updates are a nice example of the natural evolution of benchmarking suites.</p><p>For completeness, we also briefly mention uses of OpenML100, a predecessor of the OpenML-CC18 that includes 100 datasets and less strict constraints. Fabra-Boluda et al. <ref type="bibr">[2020]</ref> use this suite to build a taxonomy of classifiers. They argue that the taxonomies provided by the community can be misleading, and therefore learn taxonomies to cluster classifiers based on predictive behavior. van Rijn and <ref type="bibr" target="#b51">Hutter [2018]</ref> and <ref type="bibr">Probst et al. [2019a]</ref> used it to quantify the hyperparameter importance of machine learning algorithms, while <ref type="bibr">Probst et al. [2019b]</ref> used it to learn the best strategy for tuning random forest based on large-scale experiments (although <ref type="bibr">Probst et al. [2019a]</ref> and <ref type="bibr">Probst et al. [2019b]</ref> use only the binary datasets without missing values).</p><p>Based upon these works, we conclude that the OpenML-CC18 is being used to facilitate very diverse directions of machine learning research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Further OpenML Benchmarking Suites</head><p>We now review other OpenML benchmarking suites. For this, we focus on AutoML benchmarking suites, but also provide examples of others.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.1">The AutoML Benchmark Suite</head><p>The AutoML benchmark <ref type="bibr" target="#b21">[Gijsbers et al., 2019]</ref> also makes use of an OpenML benchmark suite to evaluate AutoML tools in a reproducible manner. Combined with code to automatically run experiments, any of the integrated AutoML tools can be evaluated on any suitable OpenML task or suite directly from the command line.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.1.1">Benchmark Suite Design</head><p>The AutoML benchmark explicitly sources part of their datasets from the OpenML-CC18, but also includes datasets used in AutoML competitions (primarily <ref type="bibr">Guyon et al. [2019]</ref>) or previous comparisons of AutoML systems. A step-by-step list of recreating the benchmark suite does not exist, but general guidelines are provided. Since the original release in 2019, the AutoML benchmark has been extending their selection of datasets. 7,8 In the discussion below, aspects which are specific to the newer selection are indicated with an asterisk (*).</p><p>The suite shares some of its design criteria with OpenML-CC18, such as the minimum number of instances, as well as the exclusion of artificial datasets and those which require grouped sampling. However, it loosens some other restrictions specifically because of the assumption that AutoML tools should be able to deal with additional complexities:</p><p>(a) There is no limit to 100 000 instances or 5000 features, tools can restrict themselves to learners which scale well or use, e.g., low-fidelity estimates. (b) There is no limit for class imbalance, tools can use their preferred techniques to deal with imbalanced data (e.g., SMOTE <ref type="bibr" target="#b11">[Chawla et al., 2002]</ref>). (c) It includes sparse data, though it is currently converted to dense format for tools that don't support sparse data.* (d) It includes a suite of regression problems.* Some other restrictions are instead stricter because of the tabular AutoML context:</p><p>(a) The "easy dataset" filter also takes into account results from OpenML across various learners, to try to avoid datasets which need little search beyond algorithm selection. (b) The number of image classification problems is explicitly restricted, as they are typically better solved with Deep Learning and the benchmark's focus is tabular AutoML tools.</p><p>Similar to OpenML-CC18, the AutoML benchmark suite is intended to be regularly updated to reflect modern day challenges and to avoid overfitting.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.1.2">Usage of the AutoML Benchmark Suite</head><p>Before the introduction of the AutoML benchmark suite, the closest to an accepted standard for tabular AutoML benchmarking was the set of datasets on which Auto-WEKA was originally evaluated <ref type="bibr" target="#b48">[Thornton et al., 2013]</ref>. This selection of tasks was still used in, e.g., <ref type="bibr" target="#b36">Mohr et al. [2018]</ref> and consisted of 21 problems, a third of which are image classification tasks which are typically not the intended use-case for the AutoML tools. However, it was by no means a standard. For example, <ref type="bibr" target="#b15">Drori et al. [2018]</ref>, <ref type="bibr" target="#b44">Rakotoarison et al. [2019]</ref> and <ref type="bibr" target="#b22">Gil et al. [2018]</ref>, all published at the same workshop, each used different selections of datasets.</p><p>The original AutoML benchmark suite has been used in multiple AutoML publications, either as is <ref type="bibr" target="#b33">[LeDell and Poirier, 2020</ref><ref type="bibr" target="#b54">, Wang et al., 2021</ref><ref type="bibr">, Feurer et al., 2021a]</ref> or with modifications. Sometimes more datasets are used, as <ref type="bibr" target="#b56">Zöller and Huber [2021]</ref> combine it with OpenML-CC18 and OpenML100 and <ref type="bibr" target="#b19">Kadra et al. [2021]</ref> add datasets from UCI and Kaggle. For the latter, hold-out evaluation is used instead of the suite-defined 10-fold cross-validation. <ref type="bibr" target="#b16">Erickson et al. [2020]</ref> use additional datasets from Kaggle competitions to compare directly to solutions proposed by human competitors.</p><p>Other times not all datasets in the benchmark suite are used, e.g., <ref type="bibr" target="#b55">Zimmer et al. [2021]</ref> uses all but four big datasets for computational reasons, while <ref type="bibr" target="#b39">Parmentier et al. [2019]</ref> limit themselves to only four of the big datasets in the suite to assess their method designed for big datasets. <ref type="bibr">Mohr and Wever [2021]</ref> omitted some datasets because of technical issues.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.2">Further Existing OpenML Benchmarking Suites</head><p>OpenML contains other benchmark suites as well, such as the <ref type="url" target="https://www.openml.org/s/225">OpenML100-friendly</ref> that only contains the subset of the OpenML100 without missing values and with only numerical features, or <ref type="url" target="https://www.openml.org/s/219">Foreign  Exchange</ref> data for machine learning research <ref type="bibr" target="#b46">[Schut et al., 2019]</ref>.</p><p>We invite the community to create additional benchmarks suites for other tasks besides classification, for larger datasets or more high-dimensional ones, for imbalanced or extremely noisy datasets, as well as for text, time series, and many other types of data. We are confident that benchmarking suites will help standardize evaluation and track progress in many subfields of machine learning, and also intend to create new suites and make it ever easier for others to do so.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">Limitations and Future Work</head><p>As benchmarking suites are increasingly being picked up by the machine learning community, we also observed several limitations that should be tackled in future work.</p><p>Overfitting. While it has not yet been demonstrated, we assume that as more methods are being evaluated on benchmarking suites, overfitting on fixed suites is increasingly likely. We therefore aim to periodically update existing suites with new datasets that follow the specifications laid out by the benchmark designers (e.g., as done for computer vision research <ref type="bibr" target="#b45">[Recht et al., 2019]</ref>) and invite the community to extend existing suites with harder tasks, as done in NLP research <ref type="bibr" target="#b30">[Kiela et al., 2021]</ref>.</p><p>Credit Assignment. Curating a benchmark is a lot of work, and we have manually inspected and corrected datasets for the OpenML-CC18 over the course of multiple months. It is therefore important to give proper credit to everyone involved in creating benchmarking suites, for example by somehow making benchmarking suites citable.</p><p>Automating the curation of useful suites. We are not aware of any related work that describes how to curate machine learning benchmark suites. In this paper we have defined benchmarking suites by formalizing objective, but also more subjective constraints. Providing automated ways to create high quality, diverse and realistic benchmarking suites is thus an important, open research question. Additionally, post-hoc research, such as the one conducted by <ref type="bibr">Cardoso et al. [2021]</ref>, is important to check the validity of benchmarking suites, and we hope for more such techniques to be developed and also to become applicable during the suite design process.</p><p>Computational issues. While studying applications of the OpenML-CC18 in Section 6.2 we realized that even though we consciously focused on mid-size datasets, some larger ones still incurred too high computational load, so some researchers have used subsets of the OpenML-CC18 in their work. Future suites could more carefully trade off the completeness of benchmarking suites and computational issues, for example by choosing representative subsets <ref type="bibr">[Cardoso et al., 2021]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Breadth of current benchmarking suites.</head><p>On the other hand, many researchers are interested in benchmarking larger (deep learning) models on larger datasets from many domains (including language and vision). We are working on ways to enable the creation of such benchmarking suites as well, and welcome further involvement from the community.</p><p>Specification of resource constraints. The task and suite specifications do not yet allow for constraints on resources, e.g., memory or time limits. Specific benchmark studies could impose identical hardware requirements, e.g., to compare running times. Where requiring identical hardware is impractical, general constraints would ensure results are more comparable when multiple people run their experiments on a suite. Explicit constraints also help interpret earlier results.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure of ethical issues</head><p>We currently encourage creators to disclose any ethical concerns with datasets in their benchmark suite in its description. In the future we want to support this natively on a dataset level (e.g., by integrating datasheets <ref type="bibr" target="#b20">[Gebru et al., 2018]</ref>) and benchmark suite level (by providing a dedicated information field).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="9">Conclusion</head><p>Our goal is to simplify the creation of well-designed benchmarks to push machine learning research forward. More than just creating and sharing benchmarks, we want to allow anyone to effortlessly run and publish their own benchmarking results and organize them online in a single place where they can be easily explored, downloaded, shared, compared, and analyzed. We created a new benchmarking layer on the OpenML platform that allows scientists to do all the above with just a few lines of code. We then introduced the OpenML-CC18, a benchmark suite created with these tools for general classification benchmarking.</p><p>The use of suites is further motivated by a closer look at the AutoML benchmark suite. We also reviewed how other scientists have adopted these benchmarking suites in their own work, from which it becomes clear that a continuous conversation with the research community is essential to evolve benchmarks and make them better and more useful over time. We hope that this work will unleash a rapid evolution of benchmarks suites and large-scale studies that teach us more about machine learning than any single study could.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: OpenML website showing a list of benchmark studies on the left, and interactive exploration of the results of the AutoML Benchmark (see Section 7.1) on the right. Can be viewed online at https://www.openml.org/s/226.</figDesc><graphic coords="3,108.00,72.00,396.00,190.27" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>Figure2: Complete code examples, in different programming languages, of how any benchmarking suite (here the 'OpenML-CC18' suite) can be downloaded and used to evaluate a given algorithm. The Python code also creates a new benchmark study and shares all results. Uploading requires a (free) API key.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Figure3: Distribution of the scores (average area under ROC curve, weighted by class support) of 3.8 million experiments with thousands of machine learning pipelines, shared on the CC18 benchmark tasks. Some tasks prove harder than others, some have wide score ranges, and for all there exist models that perform poorly (0.5 AUC). Code to reproduce this figure (for any metric) is available on GitHub.4   </figDesc><graphic coords="7,127.80,71.99,356.40,254.48" type="bitmap" /></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>We previously published a preprint on arXiv, which has already been used in new research. This is the reason we can both introduce OpenML-CC18 and benchmark suites technology, but also review their use. For example, the AutoML benchmark suite was created with the technology described in this paper (and the preprint).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>All code is open, BSD-3 licenced, and available on https://github.com/openml</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>More detailed and up-to-date instructions can be found on: https://docs.openml.org/benchmark</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>Notebooks can be found at https://github.com/openml/benchmark-suites</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>Development is carried out on GitHub. Contributor guidance can be found at https://docs.openml.org.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_5"><p>The OpenML-CC18 is the successor of a preliminary benchmarking study called OpenML100, containing 100 classification datasets, and fixes several issues we encountered when working with the OpenML100.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_6"><p>Announcement of the new suites: https://github.com/openml/automlbenchmark/issues/187</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_7"><p>https://www.openml.org/s/{218,269,271} are the original, regression, and expanded suite, respectively</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgements This work has partly been funded by the <rs type="funder">German Federal Ministry of Education and Research (BMBF)</rs> under grant no. <rs type="grantNumber">01IS18036A</rs>, by the <rs type="funder">Deutsche Forschungsgemeinschaft (DFG, German Research Foundation) -460135501</rs> (<rs type="projectName">NFDI</rs> project <rs type="projectName">MaRDI</rs>), by the <rs type="funder">European Research Council (ERC)</rs> under the European Union's <rs type="programName">Horizon 2020 research and innovation programme</rs> under grant no. <rs type="grantNumber">716721</rs> (<rs type="affiliation">Beyond BlackBox</rs>) and 952215 (TAILOR), through grant #<rs type="grantNumber">2015/03986-0</rs> from the <rs type="funder">São Paulo Research Foundation (FAPESP)</rs>, by <rs type="funder">AFRL</rs> and <rs type="funder">DARPA</rs> under contract <rs type="grantNumber">FA8750-17-C-0141</rs>, as well as through the <rs type="programName">Priority Programme Autonomous Learning (SPP 1527</rs>, grant <rs type="grantNumber">HU 1900/3-1</rs>) and <rs type="funder">Collaborative Research Center</rs> <rs type="grantNumber">SFB 876/A3</rs> from the <rs type="funder">German Research Foundation (DFG)</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_Twm2B33">
+					<idno type="grant-number">01IS18036A</idno>
+				</org>
+				<org type="funded-project" xml:id="_2EB6NyY">
+					<orgName type="project" subtype="full">NFDI</orgName>
+				</org>
+				<org type="funded-project" xml:id="_guZpvBV">
+					<idno type="grant-number">716721</idno>
+					<orgName type="project" subtype="full">MaRDI</orgName>
+					<orgName type="program" subtype="full">Horizon 2020 research and innovation programme</orgName>
+				</org>
+				<org type="funding" xml:id="_HJTcxKV">
+					<idno type="grant-number">2015/03986-0</idno>
+				</org>
+				<org type="funding" xml:id="_4akyDG9">
+					<idno type="grant-number">FA8750-17-C-0141</idno>
+					<orgName type="program" subtype="full">Priority Programme Autonomous Learning (SPP 1527</orgName>
+				</org>
+				<org type="funding" xml:id="_eM6Aauc">
+					<idno type="grant-number">HU 1900/3-1</idno>
+				</org>
+				<org type="funding" xml:id="_xbfs7He">
+					<idno type="grant-number">SFB 876/A3</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Generalizing from case studies: A case study</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Aha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the International Conference on Machine Learning (ICML)</title>
+		<meeting>the International Conference on Machine Learning (ICML)</meeting>
+		<imprint>
+			<date type="published" when="1992">1992</date>
+			<biblScope unit="page" from="1" to="10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Keel datamining software tool: Data set repository, integration of algorithms and experimental analysis framework</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Alcala</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fernandez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Luengo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Derrac</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Garcia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sanchez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Herrera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multiple-Valued Logic and Soft Computing</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2-3</biblScope>
+			<biblScope unit="page" from="255" to="287" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Skdata: data sets and algorithm evaluation protocols in python</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bergstra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Pinto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cox</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Science &amp; Discovery</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bibaut</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chambaz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Dimakopoulou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Kallus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Van Der Laan</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2106.01723</idno>
+		<title level="m">Risk minimization from adaptively collected data: Guarantees for supervised and policy learning</title>
+		<imprint/>
+	</monogr>
+	<note>stat.ML], 2021a</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bibaut</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chambaz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Dimakopoulou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Kallus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Van Der Laan</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2106.00418</idno>
+		<imprint/>
+	</monogr>
+	<note type="report_type">Post-contextual-bandit inference</note>
+	<note>stat.ML], 2021b</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">ASlib: A benchmark library for algorithm selection</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kerschke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kotthoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lindauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Malitsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Frechétte</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Tierney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Artificial Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">237</biblScope>
+			<biblScope unit="page" from="41" to="58" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">mlr: Machine learning in R</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kotthoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schiffner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Richter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Studerus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casalicchio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">M</forename><surname>Jones</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">170</biblScope>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+	<note>b</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">G</forename><surname>Brockman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Cheung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Pettersson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schneider</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schulman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zaremba</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Openai Gym</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1606.01540[cs.LG</idno>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Cardoso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">C</forename><surname>Santos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S K</forename><surname>Francês</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Prudêncio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Alves</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2107.07451[cs.LG</idno>
+		<title level="m">Data vs classifiers, who wins?</title>
+		<imprint>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">OpenML: An R package to connect to the machine learning platform OpenML</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casalicchio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bossek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kirchhoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kerschke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hofner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seibold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="977" to="991" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">LIBSVM: A library for support vector machines</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">C</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Transactions on Intelligent Systems and Technology</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">27</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Smote: Synthetic minority over-sampling technique</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">V</forename><surname>Chawla</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">W</forename><surname>Bowyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">O</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">P</forename><surname>Kegelmeyer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Artificial Intelligence Research</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="321" to="357" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">The UCR time series classification archive</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Keogh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Begum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bagnall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mueen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Batista</surname></persName>
+		</author>
+		<ptr target="www.cs.ucr.edu/~eamonn/time_series_data/" />
+		<imprint>
+			<date type="published" when="2015-07">July 2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Distribution-based invariant deep networks for learning meta-features</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>De Bie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rakotoarison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Peyré</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sebag</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2006.13708</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note>stat.ML</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">UCI machine learning repository</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Dheeru</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">K</forename><surname>Taniskidou</surname></persName>
+		</author>
+		<ptr target="http://archive.ics.uci.edu/ml" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Alphad3m: Machine learning pipeline synthesis</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Drori</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Krishnamurthy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Rampin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Lourenço</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>One</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Freire</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">5th ICML Workshop on Automated Machine Learning (AutoML)</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Autogluon-tabular: Robust and accurate automl for structured data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Erickson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mueller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Shirkov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Larroy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Smola</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2003.06505</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note>stat.ML</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Family and prejudice: A behavioural taxonomy of machine learning techniques</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Fabra-Boluda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ferri</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Martínez-Plumed</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hernández-Orallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Ramírez-Quintana</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ECAI 2020 -24th European Conference on Artificial Intelligence</title>
+		<imprint>
+			<publisher>IOS Press</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="1135" to="1142" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Auto-sklearn 2.0: Hands-free automl via meta-learning</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Feurer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Eggensperger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Falkner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lindauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2007.04074[cs.LG</idno>
+		<imprint>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Openml-python: an extensible python api for openml</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Feurer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kadra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gijsbers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mallik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ravi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Müller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">100</biblScope>
+			<biblScope unit="page" from="1" to="5" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gebru</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Morgenstern</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Vecchione</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Vaughan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wallach</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Daumé</surname><genName>III</genName></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Crawford</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1803.09010</idno>
+		<title level="m">Datasheets for datasets</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>cs.DB</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">An open source automl benchmark</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gijsbers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ledell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Poirier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">6th ICML Workshop on Automated Machine Learning (AutoML)</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">P4ml: A phased performance-based pipeline planner for automated machine learning</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Gil</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K.-T</forename><surname>Yao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Ratnakar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Garijo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Ver</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Steeg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Szekely</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brekelmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Kejriwal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I.-H</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">5th ICML Workshop on Automated Machine Learning (AutoML)</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">I</forename><surname>Guyon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sun-Hosoya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Boullé</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Escalante</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Escalera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Jajetic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Ray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Saeed</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sebag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Statnikov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W.-W</forename><surname>Tu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Viegas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Analysis of the automl challenge</title>
+		<imprint>
+			<date type="published" when="2015">2015-2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<author>
+			<persName><forename type="first">In</forename><forename type="middle">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kotthoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<title level="m">Automated Machine Learning: Methods, Systems, Challenges</title>
+		<imprint>
+			<publisher>Springer International Publishing</publisher>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="177" to="219" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">The WEKA data mining software: An update</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Frank</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Holmes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Pfahringer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Reutemann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">H</forename><surname>Witten</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM SIGKDD Explorations Newsletter</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="10" to="18" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">COCO: A platform for comparing continuous optimizers in a black-box setting</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Hansen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Auger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ros</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Mersman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Tušar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Brockhoff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Optimization Methods and Software</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Missing data hinder replication of artificial intelligence studies</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hutson</surname></persName>
+		</author>
+		<ptr target="https://www.science.org/content/article/missing-data-hinder-replication-artificial-intelligence-studies" />
+	</analytic>
+	<monogr>
+		<title level="j">Science News</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Regularization is all you need: Simple neural nets can excel on tabular data</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kadra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lindauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Grabocka</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2106.11189[cs.LG</idno>
+		<imprint>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">On the need for time series data mining benchmarks: A survey and empirical demonstration</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Keogh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kasetty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Data Mining and Knowledge Discovery</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="349" to="371" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Dynabench: Rethinking benchmarking in NLP</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kiela</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bartolo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Nie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kaushik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Geiger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Vidgen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Prasad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ringshia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Thrush</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Riedel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Waseem</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Stenetorp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bansal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Potts</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2021 Conference of the North American Chapter</title>
+		<meeting>the 2021 Conference of the North American Chapter</meeting>
+		<imprint>
+			<publisher>Association for Computational Linguistics</publisher>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="4110" to="4124" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Towards algorithm-agnostic uncertainty estimation: Predicting classification error in an automated machine learning setting</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>König</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">7th ICML Workshop on Automated Machine Learning (AutoML)</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">mlr3: A modern object-oriented machine learning framework in r</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Binder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Richter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Schratz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pfisterer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Coors</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Au</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casalicchio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kotthoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Open Source Software</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">44</biblScope>
+			<biblScope unit="page">1903</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">H2o automl: Scalable automatic machine learning</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ledell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Poirier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">7th ICML Workshop on Automated Machine Learning (AutoML)</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">An empirical study of moment estimators for quantile approximation</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mitchell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Frank</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Holmes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Transactions on Database Systems</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Replacing the ex-def baseline in automl by naive automl</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Mohr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wever</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">8th ICML Workshop on Automated Machine Learning (AutoML)</title>
+		<imprint>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Ml-plan: Automated machine learning via hierarchical planning</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Mohr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wever</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Hüllermeier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine Learning</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">8-10</biblScope>
+			<biblScope unit="page" from="1495" to="1515" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Personalized benchmarking with the ludwig benchmarking toolkit</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Narayan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Molino</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Goel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Neiswanger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Re</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Neural Information Processing Systems Track on Datasets and Benchmarks</title>
+		<meeting>the Neural Information Processing Systems Track on Datasets and Benchmarks</meeting>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">PMLB: A large benchmark suite for machine learning evaluation and comparison</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Olson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>La Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Orzechowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Urbanowicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Moore</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BioData Mining</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">36</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">TPOT-SH: A faster optimization algorithm to solve the automl problem on large datasets</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Parmentier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Nicol</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Jourdan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M.-E</forename><surname>Kessaci</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2019 IEEE 31st International Conference on Tools with Artificial Intelligence (ICTAI)</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="471" to="478" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Empiricism is not a matter of faith</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Pedersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Linguistics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="465" to="470" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Scikit-learn: Machine learning in Python</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pedregosa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Varoquaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gramfort</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Michel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Thirion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Grisel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Blondel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Prettenhofer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Weiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Dubourg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanderplas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Passos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cournapeau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brucher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Perrot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Duchesnay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="2825" to="2830" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Tunability: Importance of hyperparameters of machine learning algorithms</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Probst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A.-L</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">53</biblScope>
+			<biblScope unit="page" from="1" to="32" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Hyperparameters and tuning strategies for random forest</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Probst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">N</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A.-L</forename><surname>Boulesteix</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Wiley Interdisciplinary Reviews: Data Mining and Knowledge Discovery</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">1301</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Automated machine learning with monte-carlo tree search</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rakotoarison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schoenauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sebag</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Twenty-Eighth International Joint Conference on Artificial Intelligence</title>
+		<meeting>the Twenty-Eighth International Joint Conference on Artificial Intelligence</meeting>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="3296" to="3303" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Do ImageNet classifiers generalize to ImageNet</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Recht</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Roelofs</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Shankar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 36th International Conference on Machine Learning</title>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Chaudhuri</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><surname>Salakhutdinov</surname></persName>
+		</editor>
+		<meeting>the 36th International Conference on Machine Learning</meeting>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="page" from="5389" to="5400" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Towards automated technical analysis for foreign exchange data</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Schut</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Hoos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop on Automating Data Science @ ECML/PKDD</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Winner&apos;s curse? on pace, progress, and empirical rigor</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sculley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Snoek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Wiltschko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Rahimi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Workshop of the International Conference on Representation Learning (ICLR)</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Auto-weka: Combined selection and hyperparameter optimization of classification algorithms</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Thornton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Hoos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Leyton-Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 19th ACM SIGKDD international conference on Knowledge discovery and data mining</title>
+		<meeting>the 19th ACM SIGKDD international conference on Knowledge discovery and data mining</meeting>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="847" to="855" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Mulan: A java library for multi-label learning</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Tsoumakas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Spyromitros-Xioufis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vilcek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Vlahavas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="page" from="2411" to="2414" />
+			<date type="published" when="2011-07">Jul 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<title level="m" type="main">Massively collaborative machine learning</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+		<respStmt>
+			<orgName>Leiden University</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">PhD thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Hyperparameter importance across datasets</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 24th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</title>
+		<meeting>the 24th ACM SIGKDD International Conference on Knowledge Discovery and Data Mining</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="2367" to="2376" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Missing value imputation with mercs: A faster alternative to missforest</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Van Wolputte</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Blockeel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Discovery Science -23rd International Conference</title>
+		<title level="s">Lecture Notes in Computer Science</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">12323</biblScope>
+			<biblScope unit="page" from="502" to="516" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">OpenML: Networked science in machine learning</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Torgo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIGKDD Explorations</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="49" to="60" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">FLAML: A fast and lightweight automl library</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Weimer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of Machine Learning and Systems</title>
+		<meeting>Machine Learning and Systems</meeting>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="volume">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Auto-pytorch: Multi-fidelity metalearning for efficient and robust autodl</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zimmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lindauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Hutter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Pattern Analysis and Machine Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="3079" to="3090" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Benchmark and survey of automated machine learning frameworks</title>
+		<author>
+			<persName><forename type="first">M.-A</forename><surname>Zöller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Huber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Artificial Intelligence Research</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="409" to="472" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

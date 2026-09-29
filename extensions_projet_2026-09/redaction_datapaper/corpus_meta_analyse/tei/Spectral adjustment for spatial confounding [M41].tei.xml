@@ -1,0 +1,1031 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A spectral adjustment for spatial confounding</title>
+				<funder ref="#_wMmt4vt #_CnJ6wnw">
+					<orgName type="full">National Institutes of Health</orgName>
+				</funder>
+				<funder ref="#_uzQK25y">
+					<orgName type="full">King Abdullah University of Science and Technology</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2020-12-22">22 Dec 2020</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Yawen</forename><surname>Guan</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">University of Nebraska</orgName>
+								<address>
+									<country>Lincoln</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Garritt</forename><forename type="middle">L</forename><surname>Page</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Brigham Young University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Brian</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="institution">North Carolina State University</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Massimo</forename><surname>Ventrucci</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="institution">University of Bologna</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Shu</forename><surname>Yang</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="institution">North Carolina State University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A spectral adjustment for spatial confounding</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2020-12-22">22 Dec 2020</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">917B9C072869BE36BAA3C2E0FF6A344D</idno>
+					<idno type="arXiv">arXiv:2012.11767v1[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial causal inference</term>
+					<term>Coherence</term>
+					<term>Conditionally autoregressive prior</term>
+					<term>Matérn covariance</term>
+					<term>COVID-19</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Adjusting for an unmeasured confounder is generally an intractable problem, but in the spatial setting it may be possible under certain conditions. In this paper, we derive necessary conditions on the coherence between the treatment variable of interest and the unmeasured confounder that ensure the causal effect of the treatment is estimable. We specify our model and assumptions in the spectral domain to allow for different degrees of confounding at different spatial resolutions. The key assumption that ensures identifiability is that confounding present at global scales dissipates at local scales. We show that this assumption in the spectral domain is equivalent to adjusting for global-scale confounding in the spatial domain by adding a spatially smoothed version of the treatment variable to the mean of the response variable. Within this general framework, we propose a sequence of confounder adjustment methods that range from parametric adjustments based on the Matérn coherence function to more robust semiparametric methods that use smoothing splines. These ideas are applied to areal and geostatistical data for both simulated and real datasets.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>A fundamental task in environmental and epidemiological applications is to use spatially-correlated observational data to estimate the effect of a treatment variable on a response variable. A key assumption needed to endow an analysis with a causal interpretation is that all relevant confounding variables have been included in the statistical model. This no-missing-confounders assumption is generally impossible to verify, but in the spatial setting it may be possible to remove the effects of unmeasured confounding variables that are smooth spatial functions by including spatially-correlated random effects in the model. It is known that regressions with and without spatial random effects can give dramatically different results <ref type="bibr" target="#b27">(Reich et al., 2006;</ref><ref type="bibr" target="#b20">Paciorek, 2010;</ref><ref type="bibr" target="#b11">Hodges and Reich, 2010;</ref><ref type="bibr" target="#b21">Page et al., 2017;</ref><ref type="bibr" target="#b15">Khan and Calder, 2020)</ref>, a phenomena known as spatial confounding. However, it remains unclear how to specify assumptions and methods that lead to a valid causal interpretation in the presence of an unmeasured spatial confounding variable. In this paper, we propose new methods to adjust for missing spatial confounding variables using spectral methods.</p><p>One explanation of the differences between regression models that do and do not include a spatial random effect is that the treatment variable is collinear with an unmeasured spatial confounding variable. To account for spatial confounding, <ref type="bibr" target="#b27">Reich et al. (2006)</ref>, <ref type="bibr" target="#b12">Hughes and Haran (2013)</ref> and <ref type="bibr" target="#b23">Prates et al. (2019)</ref> restrict the residual process to be orthogonal to the treatment process (an approach referred to as restricted spatial regression, RSR). However, RSR makes strong assumptions and can perform poorly when the model is misspecified <ref type="bibr" target="#b9">(Hanks et al., 2015)</ref>. Indeed, in recent work, <ref type="bibr" target="#b15">Khan and Calder (2020)</ref> showed that the variants of RSR often times are inferior to regression models that completely ignore spatial dependence when coefficient estimation is of interest. Therefore, proper adjustment for spatial confounding continues to be an important and open problem as evidenced by the many contexts in which it is being addressed <ref type="bibr" target="#b10">(Hefley et al. 2017;</ref><ref type="bibr" target="#b22">Pereira et al. 2020;</ref><ref type="bibr" target="#b1">Azevedo et al. 2020;</ref><ref type="bibr" target="#b18">Nobre et al. 2020)</ref>.</p><p>Alternatives to RSR have appeared in the literature. For example, <ref type="bibr" target="#b3">Dupont et al. (2020)</ref> use a two-stage thin plate spline model for covariate and unmeasured spatial confounder. Alternatively, <ref type="bibr" target="#b35">Thaden and Kneib (2018)</ref> and <ref type="bibr" target="#b31">Schnell and Papadogeorgou (2019)</ref> propose jointly modeling the spatial structure in response and covariate. The former carries this out through a structural equation model while the later uses a Gaussian Markov random field construction. Both these methods have connections with causal inference (see <ref type="bibr" target="#b28">Reich et al. 2020</ref> for a recent review of spatial causal inference). In the spatial causal effect setting, <ref type="bibr" target="#b19">Osama et al. (2019)</ref> permit the spatial causal effect to vary across space. In general, adjusting for a missing confounding variable is impossible without further information or assumptions, leading to a variety of approaches and increased attention dedicated to this problem.</p><p>We propose to couch spatial regression with missing confounding variables in the spectral domain.</p><p>Following <ref type="bibr" target="#b20">Paciorek (2010)</ref> and <ref type="bibr" target="#b14">Keller and Szpiro (2020)</ref>, we focus on the spatial scales of the treatment and missing confounder variable. We posit a joint model for these variables in the spectral domain (as in <ref type="bibr" target="#b25">Reich et al., 2014</ref>, for a prediction problem) and study their coherence, i.e., their correlation at different spatial scales. (As an aside, <ref type="bibr" target="#b34">Stokes and Purdon (2017)</ref> and <ref type="bibr" target="#b4">Faes et al. (2019)</ref> consider a frequency-domain measure of causality from a temporal perspective, although their resulting estimators are quite different than those proposed here.) The resulting causal effect estimate reveals that the optimal confounder adjustment is a function of the coherence function. We then show that the optimal confounder adjustment is not estimable without further assumptions, and so we assume that the coherence dissipates at high frequencies, i.e., that there are no unmeasured confounder variables when considering only local spatial variation. We show this assumption in the spectral domain implies that the model in the spatial domain should include a spatiallysmoothed version of the treatment variable as a covariate to adjust for global-scale spatial confounding. We then develop parametric and nonparametic methods to approximate the optimal confounding adjustment and causal effect while accounting for uncertainty in this approximation. We consider both areal and pointreferenced data for Gaussian and non-Gaussian responses.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Continuous-space modeling framework</head><p>In this section, we develop a framework for spatial causal inference for data observed over a continuous spatial domain, and study the identifiability of the causal effect under different confounding scenarios. Let X(s) and Z(s) be the observed treatment and confounder processes respectively at the spatial location s ∈ D ⊂ R 2 and let vectors X = (X 1 , . . . , X n ) T and Z = (Z 1 , . . . , Z n ) T be the process evaluated at the set of locations S = {s 1 , . . . , s n } ∈ D, where X i = X(s i ) and Z i = Z(s i ). For simplicity we consider only a single treatment and confounding variable, but the results extend to the multivariate setting (see Supplemental Section 1).</p><p>Following the commonly used spatial regression model, we assume a linear addictive relationship for the response</p><formula xml:id="formula_0">Y = (Y 1 , . . . , Y n ) T , Y = β 0 + β x X + β z Z + ε,<label>(1)</label></formula><p>where</p><formula xml:id="formula_1">ε = (ε 1 , ..., ε n ) T and ε i iid ∼ Normal(0, σ 2 ).</formula><p>The regression coefficient β x has a causal interpretation under the potential outcomes framework and the stable-unit-treatment-value, consistency, and conditionaltreatment-ignorability assumptions (Supplemental Section 2). If we observe the confounder Z, then identification and estimation of β x is straightforward using multiple linear regression. However, we assume that Z is an unmeasured confounder, making β x not identifiable in general. We propose to exploit the spatial structure of Z to mitigate the effects of the unobserved confounder. In Section 2.1 we propose assumptions in the spectral domain that identify the causal effect in the presence of an unmeasured spatial confounder.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Spectral representation of confounding and identification</head><p>We model the dependence between X(s) and Z(s) using their spectral representations. This allows for different dependence at different spatial scales as each frequency corresponds to a spatial scale, with low frequency corresponding to large spatial scale phenomenon and vise versa. We assume both processes X(s) and Z(s) have mean zero and are stationary, and thus have spectral representations</p><formula xml:id="formula_2">X(s) = exp(iω T s)X (ω)dω Z(s) = exp(iω T s)Z(ω)dω,</formula><p>where ω ∈ R 2 is a frequency. The spectral processes X (ω) and Z(ω) are Gaussian with E{X (ω)} = E{Z(ω)} = 0 and are independent across frequencies, so that for any ω = ω , Cov{X (ω), X (ω )} = Cov{Z(ω), Z(ω )} = Cov{X (ω), Z(ω )} = 0. At the same frequency, the covariance of the joint spectral process has the form</p><formula xml:id="formula_3">Cov   X (ω) Z(ω)   =   σ 2 x f x (ω) ρσ x σ z f xz (ω) ρσ x σ z f xz (ω) σ 2 z f z (ω)   ,<label>(2)</label></formula><p>where σ 2 x and σ 2 z are variance parameters, f x (ω) &gt; 0 and f z (ω) &gt; 0 are spectral densities that determine the marginal spatial correlation of X(s) and Z(s), respectively, and the cross-spectral density f xz (ω) determines the dependence between the spectral processes at different frequencies.</p><p>Normalizing the cross-spectral density by each marginal standard deviation, we can derive the coherence function which determines the correlations between the two spectral processes at different frequencies,</p><formula xml:id="formula_4">γ(ω) = ρ f xz (ω) f x (ω)f z (ω) ∈ [-1, 1].<label>(3)</label></formula><p>The parameter ρ is a scalar that controls the overall strength of cross-correlation. The coherence function is useful to describe the relationships between processes <ref type="bibr" target="#b16">(Kleiber, 2017)</ref>.</p><p>Returning to the response model (1), we let Y (s) = exp(iω T s)Y(ω)dω be the spectral representation of the response. The conditional distribution of Y(ω) given X (ω), marginalizing over Z(ω) is</p><formula xml:id="formula_5">Y(ω)|X (ω) indep ∼ Normal β x X (ω) + β z α(ω)X (ω), τ 2 (ω) + σ 2 (4) α(ω) = ρ σ z f xz (ω) σ x f x (ω) = σ z f z (ω) σ x f x (ω) γ(ω) τ 2 (ω) = β 2 z σ 2 z f z (ω) 1 -ρ 2 f xz (ω) 2 f x (ω)f z (ω) . The regression coefficient for X (ω) is β(ω) = β x + β z α(ω) = β x . The additional term Ẑ(ω) = E[Z(ω)|X (ω)] = α(ω)X (ω)</formula><p>is a result of attributing the effect of the unmeasured confounder on the response to the treatment variable, potentially inducing bias in estimating β x .</p><p>Therefore, the causal effect β x is identified only if the projection operator α(ω) can be assumed to be known or estimated for some prespecified ω. Of course, α(ω) is generally not known and cannot be estimated without further assumptions because Z(s), and therefore Z(ω), is not observed. We consider two approaches for identification: unconfoundedness at high frequencies so that high-frequency terms identify the causal effect (Section 2.1.1) or a parsimonious and parametric model with constraints on the parameters to ensure identification (Section 2.1.2).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.1">Unconfoundedness at high-frequencies</head><p>If we assume that α(ω) → 0 for large ||ω|| then E{Y(ω)|X (ω)} ≈ β x X (ω) and thus β x is identified. The assumption that α(ω) → 0 for large ||ω|| implies that the cross-spectral density decreases to zero faster than the spectral density of X, implying a decrease in confounding in higher frequency or local variations. High frequency terms provide the most reliable information about the causal effect because they correlate local changes in the treatment with local changes in the response. An extreme case of local information about the causal effect is the difference in the response for two nearby sites with different treatment levels. This local difference eliminates problems caused by omitted variables that vary smoothly over space. Of course, this cannot completely rule out missing confounding variables that co-vary with both the treatment and the response at high frequencies, but it does lessen the likelihood of spurious confounding effects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.2">Parsimonious coherence model</head><p>The coherence in (3) simplifies to the constant function γ(ω) = ρC ∈ (-1, 1) if we assume f xz (ω) = C f x (ω)f z (ω) for a constant C. Generalizing the use of a term from <ref type="bibr" target="#b7">Gneiting et al. (2010)</ref>, we refer to this as the parsimonious coherence model. This imposes the assumption that the correlation between the treatment and missing confounder is frequency-invariant, and this greatly simplifies estimation because the model involves only two spectral densities that can be estimated using the marginal spatial covariances of the response and treatment variables, as described below. The expression in (4) simplifies under the parsimonious model to</p><formula xml:id="formula_6">Y(ω)|X (ω) indep ∼ Normal β x + ρCβ z σ z f z (ω) σ x f x (ω) X (ω), 1 -(ρC) 2 β 2 z σ 2 z f z (ω) + σ 2 . (5)</formula><p>Clearly β z and σ z cannot be individually identified as only their product appears in (5), so we set β z = 1.</p><p>Given this restriction and the assumption that f x (ω) = f z (ω) for some ω, Supplemental Section 3 shows that the remaining parameters β x , ρC, σ x and σ z and functions f x and f z are all identified.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Spatial representation of confounding and identification</head><p>Returning to the spatial domain, the response process can be written as</p><formula xml:id="formula_7">Y (s)|X(s), s ∈ D = β 0 + β x X(s) + β z Ẑ(s) + δ(s) Ẑ(s) = exp(iω T s) Ẑ(ω)dω = exp(iω T s)α(ω)X (ω)dω,</formula><p>and δ(s) is a mean-zero Gaussian process with spectral density τ 2 (ω)+σ 2 independent of X(s) and Ẑ(s). If α(ω) were known, then Ẑ(s) would be an appropriate adjustment to the mean to account for the unmeasured confounder.</p><p>The function α(ω) acts as a smoothing operator. The oracle (i.e., if α(ω) is known) confounder adjustment has the form Ẑ(s) = K(s -s )X(s )ds , where the kernel function K(s -s ) is the inverse Fourier transform of α(ω) (Supplemental Section 4). Thus the oracle confounder adjustment is conveniently expressed as a kernel-smoothed function of the covariate of interest. It is also straightforward to show that for any n locations S,</p><formula xml:id="formula_8">Y | X = β 0 1 + β x X + β z Ẑ + δ, where Ẑ = Σ zx Σ -1 x X,<label>(6)</label></formula><p>Cov(δ) = β 2 z (Σ z -Σ zx Σ -1 x Σ T zx ) + σ 2 I n and Σ zx = Cov(Z, X), Σ x = Cov(X) and Σ z = Cov(Z). The product Σ zx Σ -1</p><p>x serves as a smoothing operator on X. This representation is convenient for estimation and to determine the strength of confounding dependence between X and Z.</p><p>Including Ẑ as a covariate in (6) effectively removes effects of the large-scale spatial trends in X so that the estimate of β x is largely determined by high-frequency terms. This expression also lays bare the importance of assuming that α(ω) converges to zero for large frequencies or that X and Z have different spectral densities. If restrictions are not placed on α(ω), then it may be that Σ zx = Σ x and thus Ẑ = X, giving the non-identifiable model</p><formula xml:id="formula_9">Y = β 0 1 + β x X + β z X + δ.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Continuous-space estimation strategies</head><p>Below we define two approaches for modeling α(ω): a parametric model induced by a bivariate Matérn covariance function for X(s) and Z(s) (Section 3.1), and a semi-parametric model using a spectral mixture prior for α(ω) (Section 3.2).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">The bivariate Matérn model</head><p>The bivariate Matérn model <ref type="bibr" target="#b7">(Gneiting et al., 2010;</ref><ref type="bibr" target="#b0">Apanasovich et al., 2012)</ref> is a flexible parametric model for the spectral densities f x , f z and f xz . The Matérn spectral density function for a process in two dimensions is m(ω; ν, φ) = νφ -2ν φ -2 + ||ω|| 2 -(ν+1) . The spectral density is defined by the smoothess parameter ν &gt; 0 and the spatial range φ &gt; 0. The bivariate Matérn may have different parameters for each process, f j (ω) = m(ω; ν j , φ j ), for j ∈ {x, z, xz}, although constraints on the range and smoothness parameters are needed to ensure that the coherence is positive definite for all ω <ref type="bibr" target="#b7">(Gneiting et al., 2010;</ref><ref type="bibr" target="#b0">Apanasovich et al., 2012)</ref>.</p><p>With this modeling assumption, the projection operator has the form</p><formula xml:id="formula_10">α(ω) = ρ σ z m(ω; ν xz , φ xz ) σ x m(ω; ν x , φ x )</formula><p>.</p><p>Figure <ref type="figure" target="#fig_0">1</ref>: Example confounder adjustment for the bivariate Matérn: The covariate process X(s) is generated from a Matérn process with range φ x = 1 and smoothness ν x = 1 on a 50 × 50 grid with grid spacing one, and the plots below give the confounder adjustment Ẑ(s) for range φ xz = φ x and smoothness ν xz = cν x for c ∈ {1, 3, 5} ( Ẑ(s) = X(s) for c = 1).</p><formula xml:id="formula_11">ν XZ = 1ν X ν XZ = 3ν X ν XZ = 5ν X</formula><p>Therefore, if the cross-spectral density decays faster than the covariate spectral density then the confounding adjustment is small for high frequencies. This expression simplifies further if we assume a common range parameter φ j = φ for j ∈ {x, z, xz},</p><formula xml:id="formula_12">α(ω) = ρ σ z σ x φ -2 + ||ω|| 2 -(νxz-νx) .<label>(7)</label></formula><p>In this case, we have unconfoundedness at high frequencies, α(ω) → 0, if and only if ν xz &gt; ν x , i.e., the cross-covariance is smoother than the covariate covariance. On the other hand, if we assume a common smoothness ν j = ν for j ∈ {x, z, xz}, then α(ω) → φx φxz 2ν</p><p>and confounding persists at high frequencies, regardless of the range parameters. Therefore, a common range parameterization allows us to identify the causal effect by reducing high-resolution confounding while a common smoothness parameterization will not. For simplicity, we will assume a common range in the remainder of this section. The unmeasured confounder cannot be observed, making it difficult to estimate all the parameters in the bivariate Matérn model. Therefore, additional constraints are required for estimation of the parameters.</p><p>Assuming β z = 1 and a common range parameter, sufficient conditions (Supplemental Section 5) for identifiability of the remaining parameters {β x , ρ, ν x , ν z , ν xz , σ x , σ z } are a large cross-smoothness parameter</p><formula xml:id="formula_13">ν xz &gt; max{ν x , (ν x + ν z )/2} and that ρ 2 &lt; νxνz ν 2 xz .</formula><p>The common range model simplifies further under the parsimonious model in (5) with C = (νx+νz)/2 √ νxνz ,</p><formula xml:id="formula_14">|ρ| &lt; √ νxνz (νx+νz)/2 , and f xz (ω) = m(ω; (ν x + ν z )/2, φ)</formula><p>. This is the parsimonious Matérn model of <ref type="bibr" target="#b7">Gneiting et al. (2010)</ref>, i.e., the cross smoothness equals the average of the marginal smoothness parameters, ν xz = (ν x + ν z )/2. Under this model the confounder adjustment becomes</p><formula xml:id="formula_15">α(ω) = ρ σ z σ x φ -2 + ||ω|| 2 -(νz-νx)/2<label>(8)</label></formula><p>and thus α(ω) → 0 if and only if ν z &gt; ν x , i.e., the missing confounder is smoother than the treatment. On the other hand, if ν z &lt; ν x then α(ω) → ∞, which is clearly undesirable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Semi-parametric model</head><p>Rather than indirectly modeling the projection operator α(ω) via a model for the cross-covariance function, in this section we directly model α(ω) using a flexible mixture model. We use a linear combination of B-splines as follows:</p><formula xml:id="formula_16">α(ω) = L l=1 B l (ω)b l , 0 &lt; ω &lt; π/ s</formula><p>where ω = ||ω||, B l (ω) are B-spline basis functions, b l are the associate coefficients and s = max {ds 1 , ds 2 } for grid spacing (ds 1 , ds 2 ). A uniform sequence of knots {ω * 1 , ..., ω * L } are placed to cover the interval [0, π/ s ], such that 0 ∈ (ω * 1 , ω * 2 ) and π/ s ∈ (ω * L-1 , ω * L ). The interval upper bound π/ s is the largest spectrum that can be observed from uniformly spaced data due to aliasing <ref type="bibr" target="#b5">(Fuentes and Reich, 2010)</ref>. We have restricted the projection operator to be isotropic by letting ω = ||ω||, but this can be relaxed by using bivariate spline functions. Other mixture priors <ref type="bibr" target="#b26">(Reich and Fuentes, 2012;</ref><ref type="bibr" target="#b13">Jang et al., 2017;</ref><ref type="bibr" target="#b2">Chen et al., 2018)</ref> can also be used for modeling the projection operator The B-spline mixture model for α(ω) does not have a closed-form inverse Fourier transformation. We approximate the kernel-smoothed function K(s -s ) with a finite sum at a set of equally spaced frequencies F = ω f 1 , . . . , ω f m with spacing F and ω f m = π/ s following Qadir and Sun ( <ref type="formula">2020</ref>)</p><formula xml:id="formula_17">K(s -s ) = ω f ∈F h 2πω f h κ+1 J κ (ω f h)α(ω f ) F ,</formula><p>where h = ||s -s ||, κ = d/2 -1 and J κ (•) is a Bessel function of the first kind of order κ <ref type="bibr" target="#b36">(Watson, 1995)</ref>. This approximation allows us to directly compute confounder adjustment in the spatial domain, which would otherwise require Fourier transform of data to perform analysis in the spectral domain. The confounder adjustment is then given by</p><formula xml:id="formula_18">Ẑ(s) = L l=1 b l Ẑl (s) Ẑl (s) = ω f ∈F (2πω f ) κ+1 B l (ω f ) F J κ (ω f h) h κ X(s )ds .<label>(9)</label></formula><p>When X(s) is observed on a grid, the integral can be approximated</p><formula xml:id="formula_19">Jκ(ω f h) h κ X(s )ds = 1 n n i=1 Jκ(ω f h i ) h κ i X(s i ) with h i = ||s -s i ||.</formula><p>For non-gridded data, the covariate can be interpolated to a grid and this discrete approximation to the grid can be applied. The confounder adjustment covariates Ẑl (s) are precomputed to reduce computation during model fitting. We then fit spatial model</p><formula xml:id="formula_20">Y (s) = β 0 + β x X(s) + L l=1 b l Ẑl (s) + δ(s) + (s),<label>(10)</label></formula><p>where β z = 1 for identification and δ(s) is modeled as a Gaussian process. The coefficients (b 1 , ..., b L ) T are given intrinsic autoregressive priors with full conditional distributions b</p><formula xml:id="formula_21">k |b (-k) ∼ Normal( bk , σ 2 b /N k ) where bk is mean of the N k coefficients b l with |l -k| = 1 (so N 1 = N L = 1 and N 2 = ..., N L-1 = 2).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Discrete-space methodology</head><p>The concepts developed in Sections 2 and 3 for the continuous spatial domain naturally extend to the discrete case with the spatial domain comprised of n regions. For region i, let Y i , X i and Z i be the response, treatment and confounding variables, respectively, and</p><formula xml:id="formula_22">Y = (Y 1 , ..., Y n ) T , X = (X 1 , ..., X n ) T and Z = (Z 1 , ..., Z n ) T .</formula><p>Assuming Z is known and the same causal assumptions as in Section 2, the structural model</p><formula xml:id="formula_23">Y = β 0 1 + β x X + β z Z + ε,<label>(11)</label></formula><p>permits a causal intepretation of β x . If we observe the confounder Z, then estimation of the causal effect β x is straightforward using multiple linear regression. However, we assume that Z is an unmeasured confounder.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">A spectral model for confounding</head><p>Since we do not observe Z, we assume that it follows a spatial model. In the discrete case, dependence between the regions is often described by a region adjacency structure. Let a ij = 1 if regions i and j are adjacent and 0 otherwise, and m i be the number of regions adjacent to region i. A common model based on this adjacency structure is the conditionally autoregressive (CAR) model <ref type="bibr" target="#b6">(Gelfand et al., 2010)</ref> using the Leroux parameterization <ref type="bibr" target="#b17">(Leroux et al., 2000)</ref>. For an arbitrary vector z = (z 1 , ..., z n ) T , the CAR model is</p><formula xml:id="formula_24">z ∼ Normal µ, σ 2 z [(1 -λ)I n + λ z R] -1 ,<label>(12)</label></formula><p>where µ = (µ 1 , ..., µ n ) T is the mean vector, σ 2 z determines the overall variance, λ z ∈ [0, 1] controls the strength of spatial dependence (larger λ z gives stronger dependence) and R is an n × n matrix with (i, j) off-diagonal element -a ij and i th diagonal element m i . We denote this model as z ∼ CAR(µ, σ 2 z , λ z ). An advantage of the Leroux parameterization is that the spatial covariance can be written as</p><formula xml:id="formula_25">σ 2 z [(1 -λ z )I n + λ z R] -1 = σ 2 z Γ[(1 -λ z )I n + λ z W] -1 Γ T<label>(13)</label></formula><p>where the spectral decomposition of R is R = ΓWΓ T for orthonormal eigenvector matrix Γ and diagonal eigenvalue matrix W with k th diagonal element ω k ≥ 0, ordered so that ω 1 ≤ ... ≤ ω n . Assuming all variables have the same adjacency structure R, this allows us to project the model into the spectral domain using graph Fourier transform <ref type="bibr" target="#b30">(Sandryhaila and Moura, 2013)</ref>,</p><formula xml:id="formula_26">Y * = Γ T Y = (Y * 1 , ..., Y * n ) T , X * = Γ T X = (X * 1 , ..., X * n ) T and Z * = Γ T Z = (Z * 1 , ..., Z * n ) T .</formula><p>This transformation decorrelates the model and gives</p><formula xml:id="formula_27">Y * k |X * , Z * indep ∼ Normal β 0 M k + β x X * k + β z Z * k , σ 2 , (<label>14</label></formula><formula xml:id="formula_28">)</formula><p>where M k is the sum of the k th column of Γ and (X * k , Z * k ) are independent across k. To exploit this decorrelation property of the graph Fourier transform, we conduct all analyses of Gaussian data for discrete spatial domain in the spectral scale.</p><p>Comparing the discrete and continuous cases, the eigenvalue ω k is analogous to frequency, ω. Terms with small ω k have large variance and measure large-scale trends in the data. For example, it can be shown that if the n locations form a connected graph, then ω 1 = 0 and Y * 1 is proportional to the mean of Y. In contrast, terms with large ω k have small variance and represent small-scale features. Using this analogy, in the remainder of this section we extend two of the continuous-domain methods of Section 3 to the discrete case.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Bivariate CAR model</head><p>As in Section 2, we assume a joint model for X * and Z * . We assume the pairs (X * k , Z * k ) are independent across k, and Gaussian with mean zero and covariance</p><formula xml:id="formula_29">Cov   X * k Z * k   =   σ 2 x f x (ω k ) ρσ x σ z f xz (ω k ) ρσ x σ z f xz (ω k ) σ 2 z f z (ω k )   ,<label>(15)</label></formula><p>where σ 2 x and σ 2 z are variance parameters, f x (ω k ) &gt; 0 and f z (ω k ) &gt; 0 are variance functions that determine the covariance of X and Z, respectively, and scalar ρ and function f xz (ω k ) determine the dependence between X and Z. For the Leroux CAR model we have f j (ω k ) = 1/(1 -λ j + λ j ω k ) for j ∈ {x, z} so that the marginal distributions are X ∼ CAR(0, σ 2</p><p>x , λ x ) and Z ∼ CAR(0, σ 2 z , λ z ). One possible parametric cross-covariance model is f xz (ω) = 1/(1 -λ xz + λ xz ω). As with the bivariate Matérn, the f xz has the same functional form as f x and f z . Constraints are required to ensure the covariance in (15) is positive definite, i.e., that</p><formula xml:id="formula_30">ρ 2 (1 -λ x + λ x w)(1 -λ z + λ z w) &lt; (1 -λ xz + λ xz w) 2<label>(16)</label></formula><p>for all w ∈ {ω 1 , ..., ω n }. Necessary conditions for (16) to hold for all w ≥ 0 are</p><formula xml:id="formula_31">ρ 2 (1 -λ x )(1 -λ z ) &lt; (1 -λ xz ) 2 and ρ 2 λ x λ z &lt; λ 2 xz ,</formula><p>but these conditions are not sufficient and not even necessary when considering only w ∈ {ω 1 , ..., ω n }.</p><p>Assuming the covariance parameters give a valid covariance, then marginalizing over Z * k and setting β z = 1 (as in Section 2) for identification gives</p><formula xml:id="formula_32">Y * k |X * k indep ∼ Normal β 0 M k + β x X * k + α(ω k )X * k , τ 2 (ω k ) + σ 2<label>(17)</label></formula><p>where</p><formula xml:id="formula_33">α(ω k ) = ρ σz σx 1-λx+λxω k 1-λxz+λxzω k and τ 2 (ω k ) = σ 2 z /(1 -λ z + λ z ω k ) -ρ 2 σ 2 z 1-λx+λxω k (1-λxz+λxzω k ) 2 . Therefore, α(ω) → ρ σzλx σxλxz as ω → ∞ and thus the high-resolution confounding effect is smallest when λ x is smaller than λ xz . The parsimonious cross-covariance model is f xz (ω k ) = f x (ω k )f z (ω k ) giving Cor(X * k , Z * k ) = ρ for all k.</formula><p>With this simplification, any ρ ∈ (-1, 1) and λ x , λ z ∈ (0, 1) give a valid covariance and the terms in (17) reduce to α(ω k ) = ρ σz σx</p><formula xml:id="formula_34">1-λx+λxω k 1-λz+λzω k and τ 2 (ω k ) = σ 2 z (1 -ρ 2 )/(1 -λ z + λ z ω k ).</formula><p>The expression for α(ω k ) shows that when the missing confounder is smoother than the treatment (λ z &gt; λ x ) there is less counfounding for high-resolution terms. However, unlike the parsimonious Matérn model for the continuous-space, the missing confounder need not be smoother than the treatment for identifiability, because for any λ z and λ x , the casual effect can be identified as long as λ x = λ z as shown in Supplemental Section 6.</p><p>In the spatial domain, the parsimonious model is</p><formula xml:id="formula_35">Y|X, V ∼ Normal β 0 1 + β x X + ΓAΓ T X + V, σ 2 I n ,<label>(18)</label></formula><p>where V ∼ CAR{0, σ 2 z (1 -ρ 2 ), λ z } and A is diagonal with k th diagonal element α(ω k ). The term ΓAΓ T X adjusts for missing spatial confounders and the term V captures spatial variation that is independent of X. In this case with λ z &gt; λ x , the confounder adjustment ΓAΓ T X smooths X by first projecting into the spectral domain by multiplying by Γ T , then dampening the high-frequency terms with large ω and thus small α(ω) by multiplying by A, and finally projecting back in the spatial domain by multiplying by Γ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Semi-parametric CAR model</head><p>Mirroring Section 3.2, rather than specify a parametric joint model for (X * k , Z * k ), we directly specify a flexible model for the confounder adjustment, α(ω). The joint model is specified first with the conditional model</p><formula xml:id="formula_36">Z * k |X * k indep ∼ Normal α(ω k )X * k , σ 2 z 1 -λ z + λ z ω k .</formula><p>In the spatial domain, this implies that Z|X ∼ CAR(ΓAΓ T X, σ z , λ z ), where A is diagonal with diagonal elements {α(ω 1 ), ..., α(ω n )}. Therefore, with any valid marginal distribution of X, the joint model of X and Z is well defined. However, since X is observed we do not need a model for its marginal distribution.</p><p>Marginalizing over the unknown Z * gives</p><formula xml:id="formula_37">Y * k |X * k indep ∼ Normal β 0 M k + β(ω k )X * k , σ 2 z 1 -λ z + λ z ω k + σ 2 ,<label>(19)</label></formula><p>where β(ω k ) = β x + α(ω k ). Following Section 3.2, we assume that α(ω n ) = 0 so that X * n and Z * n are uncorrelated for the highest-frequency term. This implies that β(ω n ) = β x and E(Y * n ) = β 0 M n + β x X n , and thus the final term supplies unbiased information about the true causal effect β x . Of course, a single unbiased term is insufficient for estimation, and so we further assume that α(ω) varies smoothly over ω to permit semi-parametric estimation of β x .</p><p>We fit the model ( <ref type="formula" target="#formula_37">19</ref>) with a covariate effect that is allowed to vary with k to separate associations at different spatial resolutions. Although other smoothing techniques are possible, the frequency-specific coefficients are smoothed using the basis expansion</p><formula xml:id="formula_38">β(ω) = L l=1 B l (ω)b l ,<label>(20)</label></formula><p>where B l (ω) are B-spline basis functions and the b l are the associated coefficients. Under the assumption that α(ω n ) = 0, we use the posterior distribution of β(ω n ) to summarize the causal effect β x .</p><p>In the spatial domain, the semi-parametric CAR model can be written as (10),</p><formula xml:id="formula_39">Y|X, V ∼ Normal β 0 1 + L l=1 Ẑl b l + V, σ 2 I n ,<label>(21)</label></formula><p>with V ∼ CAR(0, σ 2 z , λ z ), Ẑl = ΓB l Γ T X, B l is the diagonal matrix with spline basis functions, {B l (ω 1 ), ..., B l (ω n )}, on the diagonal and the regression coefficient are modelled as described below (9). The constructed covariates Ẑl can be precomputed prior to estimation, and thus computation resembles a standard spatial analysis with L known covariates. As above, under the assumption of no confounding for large ω, we use the poste-</p><formula xml:id="formula_40">rior of β x = L l=1 B l (ω n )b l to summarize the causal effect.</formula><p>5 Generalized linear mixed spatial models</p><p>Many of the methods proposed for continuous and discrete domains can be applied to non-Gaussian data using the generalized linear mixed modeling framework. Let g{E(Y i</p><formula xml:id="formula_41">|X i , Z i )} = θ i = β x X i + Z i for link function g.</formula><p>Our general approach is to build a joint model for (X i , Z i ), and then compute the conditional distribution of θ = (θ 1 , ..., θ n ) T given X. Using the notation in (6), the conditional distribution is</p><formula xml:id="formula_42">θ|X ∼ Normal β 0 1 + β x X + Ẑ, Σ z -Σ zx Σ -1 x Σ T zx .</formula><p>For example, the bivariate Matérn could then be fit by estimating the Matérn correlation parameters in Ẑ and Σ j for j ∈ {x, z, xz}. The semi-parametric model in Section 3.2 can be fit by assigning θ a Gaussian process prior with Matérn covariance function and mean function E(θ</p><formula xml:id="formula_43">i |X i ) = β 0 +β x X(s i )+ L l=1 β l Ẑl (s i ) where Ẑl is defined in (9).</formula><p>The general bivariate CAR model in Section 4.2 gives</p><formula xml:id="formula_44">θ|X ∼ Normal(β 0 1 + β x X + ΓAΓ T X, ΓTΓ T ),</formula><p>where A and T are diagonal with k th diagonal elements α(ω k ) and τ 2 (ω k ), respectively, given below (17). This reduces to</p><formula xml:id="formula_45">θ|X ∼ CAR(β 0 1 + β x X + ΓAΓ T X, (1 -ρ 2 )σ 2 z , λ z )</formula><p>under the parsimonious CAR model. If we assume the semi-parametric model in Section 4.3, and thus</p><formula xml:id="formula_46">β x X + ΓAΓ T X = L l=1 Ẑl b l , then the spatial random effects distribution is θ|X ∼ CAR β 0 1 + L l=1 Ẑl b l , σ 2 z , λ z .</formula><p>Unlike for Gaussian data, the MCMC cannot proceed in the spectral domain and matrix multiplication ΓAΓ T X = ΓAX * is required when updating the parameters in α(ω k ). For the semi-parametric model much of the computational burden can be shouldered outside the MCMC loop by precomputing matrices as ΓAΓ T X = L l=1 Xl b l where Xl = ΓB l Γ T X and B l is the diagonal matrix with spline basis functions, {B l (ω 1 ), ..., B l (ω n )}, on the diagonal. After this computation, the method can be fit using standard software for spatial generalized linear models such as INLA or OpenBUGS, and the posterior of</p><formula xml:id="formula_47">β x = L l=1 B l (ω n )b l</formula><p>summarizes the causal effect. As a concrete example for the discrete domain, in Section 7.2 we consider two applications that require fitting Poisson and Negative-Binomial regression models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Simulation study</head><p>In this section, we illustrate the proposed methods using simulated data. The objectives are to illustrate the adverse effects of spatial confounding for standard methods, and to compare parametric and nonparametric alternatives under a range of true coherence functions in terms of bias and coverage of 95% intervals for the causal effect. We begin with the simpler discrete case in Section 6.1 and then proceed to the continuous case in Section 6.2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Discrete-space</head><p>Data are generated at n spatial locations s 1 , ..., s n arranged as the 40 × 40 square grid with grid spacing one.</p><p>The CAR model uses rook neighborhood structure so that A ij = 1 if and only if ||s i -s j || = 1. Rather than simulating data directly from our spectral model, we generate data as</p><formula xml:id="formula_48">X ∼ CAR 0, σ 2 x , λ ,<label>(22)</label></formula><formula xml:id="formula_49">Z|X ∼ CAR β xz WX, σ 2 z , λ Y|X, Z ∼ Normal β x X + β z Z, σ 2 I n</formula><p>where W is the kernel smoothing matrix with bandwidth φ, i.e., the matrix with (i, j) element W ij = w ij /( n l=1 w il ) and log(w ij ) = -(||s i -s j ||/φ) 2 . Including the kernel-smoothed X in the mean of Z induces low-resolution dependence between X and Z while ensuring that Z is a smoother process than X.</p><p>In all cases we take σ 2</p><p>x = 1.7, σ 2 z = 1, λ = 0.95, β x = β z = 0.5 and σ 2 = 0.25 2 , and we vary the importance of the strength of dependence between X and Z via β xz ∈ {0, 1, 2}, and the kernel bandwidth φ ∈ {1, 2}. For each combination of these parameters we generate 500 datasets. A representative dataset for each simulation scenario is plotted in Supplementary Section 7.</p><p>Figure <ref type="figure">2</ref> plots the induced correlations in the spectral domain for each scenario with β xz &gt; 0, which is proportional to α(ω k ). The correlation is non-zero for only low-frequency terms with small ω k when the bandwidth is φ = 2, but correlation spills over to high-frequency terms with large ω k when φ = 1, especially when β xz = 2. Therefore, the assumption of no confounding at high frequencies is questionable Figure <ref type="figure">2</ref>: Correlations in the spectral domain for the simulation study: Cor(X * k , Z * k ) by the associated eigenvalue ω k for different kernel bandwidth (φ) and strength of exposure/confounder dependence (β xz ); in these four designs defined by the real-space average (over locations) Cor(X i , Z i ) are 0.62 when φ = 1 and β xz = 1, 0.80 when φ = 1 and β xz = 2, 0.46 when φ = 3 and β xz = 1, and 0.63 when φ = 3 and β xz = 2.</p><formula xml:id="formula_50">0 2 4 6 8 0.0 0.2 0.4 0.6 0.8 1.0 Eigenvalue, ω k Correlation φ = 1, β AX = 1 φ = 1, β AX = 2 φ = 2, β AX = 1 φ = 2, β AX = 2</formula><p>when φ = 1, and these scenarios are used to examine sensitivity to this key assumption. Also, these datagenerating scenarios violate the parsimonious assumption that the correlation is constant across frequency, and so they illustrate the effects of mispecifying the parametric model.</p><p>For each simulated dataset, we fit the standard method with β k = β x for all k ("Standard"), the parsimonious bivariate CAR ("Parametric") model and the semi-parametric model with β k varying across k using a B-spline basis expansion. We compare two priors for σ 2 b , the variance of the coefficient process β k . The penalized complexity prior ("Semi -PCP") shrinks the process towards the constant function β k = β x to avoid overfitting; the second prior for the variance induces a Uniform(0,1) prior on the proportion of overall model variance explained by variation in β k ("Semi-R 2 ") to balance all levels of spatial confounding. The prior distributions for all models are given in Supplemental Section 8. We fit the semi-parametric models for all L ∈ {1, 5, 10, 20, 30, 40} and select the number of basis functions using DIC <ref type="bibr" target="#b33">(Spiegelhalter et al., 2002)</ref>. All methods are fit using MCMC with 25,000 iterations and the first 5,000 discarded as burn-in.</p><p>Table 1 compares methods in terms of root mean squared error, bias, average (over datasets) posterior standard deviation and empirical coverage of 95% intervals for β x and Figure <ref type="figure">3</ref> summarizes the sampling distribution of β k across k for all methods and scenarios. The standard method performs well in the first scenario with no unmeasured confounder (β xz = 0), but in all other scenarios the standard method is biased and has coverage at or near zero. The standard method allows for spatially-dependent residuals, but this does not eliminate spatial confounding bias. Since the standard model assumes X and Z are independent and X is included in the model, when X and Z are highly correlated all spatial variability is attributed to the treatment effect leading to bias and small posterior standard deviation.</p><p>The parametric model performs well in cases 1, 4 and 5 where there is no confounding at high frequencies. In fact, the parametric model is nearly identical to the standard model in the first case with no spatial confounding, suggesting that little is lost by allowing for a parametric confounding adjustment when it is not needed. However, the parametric model gives bias and low coverage in the cases with φ = 1 and thus the form of spatial confounding does not match the parametric CAR model. The estimated β k curves in Figure <ref type="figure">3</ref> show that the parametric form of the β k model cannot match the slow decline in the true correlation of Figure <ref type="figure">2</ref> when φ = 1.</p><p>The semi-parametric methods have low bias and coverage near the nominal level for all five cases.</p><p>However, the posterior standard deviation is always larger for the semi-parametric models than the standard or parametric models. Therefore, in these cases, the semi-parametric method is robust but conservative for estimating a casual effect in the presence of spatial confounding. Surprisingly, the semi-parametric methods are insensitive to the choice of prior. Despite the PCP and R 2 prior having very different motivations, the results are similar under both priors, likely because DIC often selects a small number of a basis functions which negates the influence of the prior for σ 2 b .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Continuous-space</head><p>Data in the continuous space are generated similarly to the discrete case in <ref type="bibr">(22)</ref>. The data are simulated for n = 529 spatial locations on a square 23 × 23 grid covering the unit square as</p><formula xml:id="formula_51">X ∼ Normal 0, σ 2 x Σ x ,<label>(23)</label></formula><formula xml:id="formula_52">Z|X ∼ Normal β xz WX, σ 2 z Σ z , Y|X, Z ∼ Normal β x X + β z Z, σ 2 I n ,</formula><p>where Σ j is the n × n Matérn correlation matrix defined by parameters φ j and ν j , and W is the kernel smoothing matrix with bandwidth φ as in ( <ref type="formula" target="#formula_48">22</ref>). In all cases we take σ 2 x = σ 2 z = 1, spatial range parameters φ x = φ z = 0.1, ν x = ν z = 0.5, β x = β z = 1 and σ 2 = 0.25 2 , and we vary β xz ∈ {0, 1, 2}, and the kernel bandwidth φ ∈ {1/15, 2/15}. For each combination of these parameters we generate 100 datasets. For each Table <ref type="table">1</ref>: Discrete-space simulation study results: The standard method with constant effect across frequency and the proposed spectral method are evaluated in terms of their estimate of β x using root mean squared error ("RMSE"), bias ("Bias"), average posterior standard deviation ("SD") and coverage of 95% posterior intervals ("Cov") for data generated with dependence between exposure and confounder controlled by β xz and kernel bandwidth φ. Standard errors are in parentheses and all results are multiplied by 100.</p><p>Scenario Method φ β xz RMSE Bias SD Coverage 1 Standard -0 1.3 ( 0.0) 0.0 ( 0.1) 1.3 ( 0.0) 95.4 ( 0.9) Parametric 1.3 ( 0.0) -0.1 ( 0.1) 1.3 ( 0.0) 94.4 ( 1.0) Semi -PCP 4.1 ( 0.3) 0.0 ( 0.2) 2.6 ( 0.1) 95.2 ( 1.0) Semi -R 2 4.0 ( 0.3) 0.1 ( 0.2) 2.4 ( 0.1) 95.0 ( 1.0) 2 Standard 1 1 19.0 ( 0.1) 18.9 ( 0.1) 1.4 ( 0.0) 0.0 ( 0.0) Parametric 16.1 ( 0.1) 16.1 ( 0.1) 1.5 ( 0.0) 0.0 ( 0.0) Semi -PCP 7.9 ( 0.2) -0.7 ( 0.4) 8.2 ( 0.0) 95.4 ( 0.9) Semi -R 2 8.0 ( 0.3) -0.4 ( 0.4) 8.8 ( 0.1) 96.6 ( 0.8) 3 Standard 1 2 34.4 ( 0.1) 34.4 ( 0.1) 1.7 ( 0.0) 0.0 ( 0.0) Parametric 27.1 ( 0.1) 27.0 ( 0.1) 1.9 ( 0.0) 0.0 ( 0.0) Semi -PCP 9.0 ( 0.3) 0.7 ( 0.4) 9.3 ( 0.0) 96.4 ( 0.8) Semi -R 2 9.3 ( 0.3) 1.0 ( 0.4) 9.4 ( 0.1) 96.0 ( 0.9) 4 Standard 2 1 5.6 (0.1) 5.4 (0.1) 1.4 (0.0) 4.0 (0.9) Parametric 1.6 ( 0.0) 0.4 ( 0.1) 1.4 ( 0.0) 90.4 ( 1.3) Semi -PCP 8.4 ( 0.3) -0.7 ( 0.4) 9.3 ( 0.1) 96.6 ( 0.8) Semi -R 2 8.4 ( 0.3) -0.2 ( 0.4) 9.2 ( 0.1) 95.8 ( 0.9) 5 Standard 2 2 8.8 (0.1) 8.7 (0.1) 1.5 (0.0) 0.0 (0.0) Parametric 1.5 ( 0.0) -0.3 ( 0.1) 1.5 ( 0.0) 95.0 ( 1.0) Semi -PCP 9.9 ( 0.3) -0.8 ( 0.4) 10.2 ( 0.1) 94.2 ( 1.0) Semi -R 2 9.9 ( 0.3) -0.8 ( 0.4) 10.3 ( 0.1) 95.0 ( 1.0) Figure 3: Performance in the spectral domain for the discrete simulation study: Median (solid) and 95% confidence interval (dashed) for the sampling distribution of β k by eigenvalue d k for the standard (red), semi-parametric model with PC prior (green) and parametric bivariate CAR model (blue) for data generated with dependence between exposure and confounder controlled by β xz and kernel bandwidth φ. The black lines are the true value β x = 0.5. 0 2 4 6 8 0.4 0.6 0.8 1.0 1.2 (a) β XZ = 0 Eigenvalue, ωk βk True Standard Semiparametric Parametric 0 2 4 6 8 0.4 0.6 0.8 1.0 1.2 (b) φ = 1 and β XZ = 1 Eigenvalue, ωk βk 0 2 4 6 8 0.4 0.6 0.8 1.0 1.2 (c) φ = 1 and β XZ = 2 Eigenvalue, ωk βk 0 2 4 6 8 0.4 0.6 0.8 1.0 1.2 (d) φ = 2 and β XZ = 1 Eigenvalue, ωk βk 0 2 4 6 8 0.4 0.6 0.8 1.0 1.2 (e) φ = 2 and β XZ = 2 Eigenvalue, ωk βk</p><p>Table 2: Continuous-space simulation study results: All methods are evaluated in terms of their estimate of β x using root mean squared error ("RMSE"), bias ("Bias"), average posterior standard deviation ("SD") and coverage of 95% posterior intervals ("Cov") for data generated with dependence between exposure and confounder controlled by β xz and kernel bandwidth φ. All results are multiplied by 100.</p><p>Scenario Method φ β xz RMSE Bias SD Coverage 1 Standard -0 4.6 ( 0.4) 0.1 ( 0.5) 4.6 ( 0.0) 96.0 ( 2.0) Flexible Matérn 14.3 ( 1.8) -3.9 ( 1.4) 13.0 ( 0.7) 94.9 ( 2.2) Parsimonious Matérn 33.2 ( 3.0) -6.5 ( 3.3) 34.7 ( 1.2) 90.9 ( 2.9) Semiparametric 6.9 ( 0.5) 0.5 ( 0.7) 6.9 ( 0.1) 94.9 ( 2.2) 2 Standard 1/15 1 13.0 ( 0.5) 11.8 ( 0.5) 4.9 ( 0.0) 35.0 ( 4.8) Flexible Matérn 26.2 ( 2.2) -20.8 ( 1.6) 15.1 ( 0.6) 68.0 ( 4.7) Parsimonious Matérn 82.6 ( 3.0) -77.1 ( 3.0) 31.9 ( 1.0) 7.0 ( 2.6) Semiparametric 7.4 ( 0.6) 0.3 ( 0.7) 6.9 ( 0.1) 93.0 ( 2.6) 3 Standard 1/15 2 17.9 ( 0.5) 17.2 ( 0.5) 5.2 ( 0.0) 8.0 ( 2.7) Flexible Matérn 50.6 ( 2.6) -45.2 ( 2.3) 21.4 ( 0.8) 27.0 ( 4.5) Parsimonious Matérn 116.4 ( 3.8) -110.8 ( 3.6) 35.3 ( 1.2) 0.0 ( 0.0) Semiparametric 6.7 ( 0.4) 0.1 ( 0.7) 6.9 ( 0.1) 95.0 ( 2.2) 4 Standard 2/15 1 5.9 ( 0.5) 3.2 ( 0.5) 4.7 ( 0.0) 90.0 ( 3.0) Flexible Matérn 15.4 ( 1.8) -10.6 ( 1.1) 10.9 ( 0.6) 82.0 ( 3.9) Parsimonious Matérn 49.2 ( 3.5) -34.8 ( 3.5) 33.3 ( 1.0) 76.0 ( 4.3) Semiparametric 6.8 ( 0.4) 0.4 ( 0.7) 6.9 ( 0.1) 95.0 ( 2.2) 5 Standard 2/15 2 7.3 ( 0.4) 4.7 ( 0.6) 4.8 ( 0.0) 77.0 ( 4.2) Flexible Matérn 16.3 ( 1.1) -12.2 ( 1.1) 9.4 ( 0.4) 70.0 ( 4.6) Parsimonious Matérn 63.0 ( 3.8) -54.7 ( 3.1) 28.8 ( 1.2) 30.0 ( 4.6) Semiparametric 7.9 ( 0.6) -0.8 ( 0.8) 6.9 ( 0.1) 90.0 ( 3.0) simulated dataset we fit four models: The standard Matérn model ("Standard") in Section 3.1 with ρ = 0 and thus no confounding adjustment, the bivariate Matérn model ("Flexible Matérn") with common range in (7), the parsimonious Matérn model ("Parsimonious Matérn") in (8) and the Gaussian mixture model ("Semiparametric") in Section 3.2. Prior distributions and computing details are given the Supplementary Sections 8 and 9, respectively.</p><p>Table 2 compares methods using the same metrics as in Section 6.1. The results mirror those in the discrete case. The semi-parametric method maintains nearly the nominal coverage and low bias across all scenarios. The parametric Matérn models have bias and low coverage for the simulation settings where the data are not simulated with a Matérn covariance. The flexible Matérn dramatically reduces RMSE and improves coverage compared to the parsimonious model, but neither is sufficiently flexible for these cases. 0 2 4 6 Standardized Mortality Ratio 0 5 10 15 20 % Workforce in AFF 7 Real data examples</p><p>We illustrate the methods by reanalyzing two publicly-available spatial datasets. In Section 7.1, we analyze the well known lip cancer data from Scotland and we find different effects of the explanatory variable of interest, i.e. percentage of workforce in agriculture, fishing and forestry, for different spatial resolutions. In Section 7.2, we fit a model for COVID-19 mortality in the US and we find a consistent effect of air pollution exposure across resolutions. All model fits in this section were carried out using the eCAR package found in R which was created to fit the discrete space methods described in Sections 4 and 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.1">Analysis of the Scottish lip cancer data</head><p>We first consider the well known lip cancer data. These data are available in the CARBayesdata package in R and are displayed in Figure </p><formula xml:id="formula_53">θ = (θ 1 , ..., θ n ) T as θ|X ∼ CAR{β 0 1 + β x X + ΓAΓ T X, σ 2 z , λ z },</formula><p>where A is diagonal with k th diagonal element α(ω k ). Since the spatial domain is discrete, we fit the spectral models described in Section 4 and studied in Section 6.1. The parametric method is fit using the same priors as those detailed in the simulation study of Section 6.1 and by collecting 20,000 MCMC iterates after discarding the first 5,000 as burn-in. For the semi-parametric model we employ INLA <ref type="bibr" target="#b29">(Rue et al., 2009)</ref> and use the PC prior with L = 10 basis functions, chosen via DIC; results are stable for L = {10, 20, 30, 40, 50}. We also fit two standard non-spectral methods where β k is constant over ω k , a</p><p>Poisson regression with percent of workforce in AFF as covariate ("standard non-spatial") and a Poisson regression that includes CAR random effects ("standard spatial").</p><p>Figure <ref type="figure">5</ref> plots the posterior of exp(β k ) by the eigenvalue ω k for each model. For the standard methods the posterior mean is positive and the 95% interval excludes 1 indicating significant increase in risk for lip cancer for a unit increase in percent AFF. The spectral methods, which attempt to account for spatial confounding, do not agree with the standard methods: the estimated exp(β k ) trends toward 1 for large ω k meaning that the results of the standard models should be interpreted with caution because the strength of the relationship between these variables is weak at the local (high-resolution) scale. These results are consistent with a missing confounding variable with the same large-scale spatial pattern as lip cancer disease and percentage of workforce in AFF.</p><p>7.2 Analysis of COVID-19 mortality and PM 2.5 exposure <ref type="bibr" target="#b37">Wu et al. (2020)</ref> noticed that many of the pre-existing conditions that increase the mortality risk of COVID-19 are connected with long-term exposure to air pollution. Thus, they conducted a study and found that an increase of 1 µg/m 3 in ambient fine particulate matter (PM 2.5 ) is associated with a 15% increase in the COVID-19 mortality rate.</p><p>To further illustrate our proposed methods, we analyze the data collected by Wu et al. (2020) in an attempt to estimate the causal effect of PM 2.5 on COVID-19 mortality using spatial methods. The response variable is the cumulative COVID-19 mortality counts through May 12, 2020 for US counties. County-level exposure to PM 2.5 was calculated by averaging results from an established exposure prediction model for years 2000-2016 (see Wu et al. 2020 for more details). Eight counties and twelve Figure 5: Effect of percent of workforce in AFF on lip cancer in Scotland: Posterior mean (solid lines) and 95% credible interval (dashed lines) of the effect exp(β k ) plotted against eigenvalue ω k for spectral parametric, spectral semi-parametric (with L = 10) and standard models; we consider two standard models, a Poisson regression on the percent of workforce in AFF (Standard non-spatial) and a Poisson regression with residuals modelled as CAR Leroux (Standard spatial). 0 2 4 6 8 10 12 0.9</p><formula xml:id="formula_54">1.0 1.1 1.2 1.3 ω k exp(β k ) Spectral Parametric Spectral Semiparametric Standard non-spatial Standard spatial</formula><p>Virginia cities were missing from the database so we imputed their values using neighborhood means with neighbors defined by counties that share a boundary. This resulted in mortality counts and PM 2.5 measures for n = 3109 counties (Figure <ref type="figure" target="#fig_4">6</ref>). The long-term average PM 2.5 is the highest in the Eastern US and California, while the mortality response is the highest in the New York, Los Angeles and Seattle areas. The average PM 2.5 rate is a smoother spatial process than mortality, likely because the PM 2.5 exposure estimates are generated from predictive models. In addition to PM 2.5 exposure, 20 additional potential confounding variables (e.g., the percentage of the population at least 65 years old) are included in our modeling (see <ref type="bibr" target="#b37">Wu et al. 2020</ref> for the complete set of potential confounding covariates).</p><p>For county i, denote Y i as the number of deaths attributed to COVID-19, E i as the population, X i as the average PM 2.5 and C i as the vector of 20 known confounding variables. Similar to <ref type="bibr">Wu et</ref>  <ref type="formula">al. (2020)</ref>  4 8 12 mean PM 2.5 (b) Log mortality rate -12 -10 -8 -6</p><p>Log(deaths/population)</p><p>Following Section 5, the linear predictor θ becomes</p><formula xml:id="formula_55">θ|X ∼ CAR β 0 1 + β x X + ΓAΓ T X + β c C, σ 2 z , λ z ,<label>(24)</label></formula><p>where C is a design matrix that includes an intercept term. We fit this model using the parametric and semiparametric approaches detailed in Sections 4.2 and 4.3. We briefly comment that the Negative-Binomial modeling choice was motivated by our desire to mimic, as much as possible, the analysis found in <ref type="bibr" target="#b37">Wu et al. (2020)</ref>. However, we also considered a Binomial and Poisson model and inferences were relatively unchanged.</p><p>For the parametric model the prior distributions used in the simulation are employed. It took approximately 3 hours to collect 20,000 MCMC iterates after discarding the first 5,000 as burn-in. For the semiparametric model we adopt the PC prior method described in Section 6.1 and use INLA <ref type="bibr" target="#b29">(Rue et al., 2009)</ref> to fit the model, which took approximately 5 minutes to run. We also fit a variant of the model employed in <ref type="bibr" target="#b37">Wu et al. (2020)</ref> that we refer to as the "standard model", i.e., a Negative-Binomial regression with all control variables and a county random effects modeled using the CAR model. Following <ref type="bibr" target="#b37">Wu et al. (2020)</ref>, two separate analysis using all n = 3109 counties and n = 1977 counties that reported at least 10 confirmed COVID-19 deaths were conducted; this was done to account for the fact that the size of an outbreak in a given county may be positively associated both to COVID-19 mortality rate and to PM2.5, thus introducing confounding bias.</p><p>Figure <ref type="figure">7a</ref> displays model fits using the full dataset while Figure <ref type="figure">7b</ref> displays results when using the reduced data. The estimated increase in COVID-19 mortality rate, associated to an increase of 1µg/m 3 of PM 2.5 , under the standard model is 13% (95% CI: 1.05, 1.21) and 11% (95% CI: 1.03, 1.19) in the full and reduced analyses, respectively. The posterior mean estimates from the parametric and semi-parametric spectral models generally agree with the standard approach, but the posterior standard deviation is higher for the spectral methods. In this analysis, the spectral methods support the standard spatial model and serve as a check of sensitivity to adjustments for missing confounding variables.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">Discussion</head><p>In this paper, we propose new spectral methods to adjust for unmeasured spatial confounding variables. We model the coherence of the treatment and unmeasured confounding variables as a function of the spatial Figure <ref type="figure">7</ref>: Results from the parametric and semi-parametric approaches applied to the COVID-19 death counts reported up through May 12, 2020: The posterior mean and 95% credible interval of the mortality rate ratio associated to an increase of 1µg/m 3 of PM 2.5 , exp(β k ), are plotted against ω k for the semi-parametric fitted in INLA and the parametric model using MCMC. Column (a) are fits based on all n = 3109 counties and column (b) are fits based on the n = 1977 counties that reported at least 10 confirmed COVID-19 deaths. The fit from the standard approach refers to a regression model including all confounders and spatially structured random effects following a CAR model. We compare parametric and semi-parametric approaches throughout the paper, but we recommend gravitating towards the semi-parametric approach. The assumptions that permit estimating the causal effect differ for the parametric and semi-parametric approaches. The parametric/parsimonious model depends on scale-invariant coherence between the regression coefficient and the unmeasured confounder, while the semi-parametric model depends on the assumption that their coherence tends to zero for large frequencies.</p><p>While neither of these assumptions are empirically verifiable, we believe the later assumption is easier to understand and justify in practice. In addition to this conceptual difference, the semi-parametric methods are easier to implement computationally. Because the semi-parametric confounding adjustment takes the form of a linear combination of constructed covariates, it is straightforward to pass these constructed variables into standard spatial computing packages at a trivial computational cost.</p><p>A spectral adjustment for spatial confounding Supplementary materials 1 Extension to multiple predictors 1.1 Parsimonious continuous-space model</p><p>In the spatial domain, let X 0 (s) = Z(s) be the unmeasured confounder and X 1 (s), ..., X p (s) be the p observed covariates. Given the confounder, the model is Y (s) = β 0 + p j=0 β j X j (s) + ε(s). For frequency ω, let X 0 (ω) = Z(ω) be the Fourier transform of the unmeasured confounder and X 1 (ω), ..., X p (ω) be the the Fourier transforms of the measured covariates. In the spectral domain the joint model in (2) is extended to Cov{X j (ω), X k (ω)} = Ω jk σ j σ k f jk (ω) where Ω = {Ω jk } is a (p + 1) × (p + 1) correlation matrix, σ j &gt; 0 are standard deviation parameters and f jk (ω) = f kj (ω) are spectral densities. The multivaritate extension of the parsimonious model in Section 2.1 sets f jk (ω) = f j (ω)f k (ω). This is clearly a valid model because the (p + 1) × (p + 1) covariance of X 0 (ω), ..., X p (ω) is F(ω)ΩF(ω), where F(ω) is diagonal with j th diagonal element equal σ j f j (ω), which is positive definite.</p><p>Blocking Ω to have first row column (1, Ω T zx ) and bottom right p × p matrix Ω x and marginalizing over X 0 (ω) = Z(ω) gives</p><formula xml:id="formula_56">Y(ω)|X 1 (ω), ..., X p (ω) indep ∼ Normal   p j=1 {β j + α j (ω)}X j (ω), q 0 σ 2 z f z (ω)   ,<label>(25)</label></formula><p>where</p><formula xml:id="formula_57">α j (ω) = σz √ fz(ω) σ j √ f j (ω)</formula><p>q j X j (ω), (q 1 , ..., q p ) = Ω T zx Ω -1 x and q 0 = Ω zz -Ω T zx Ω -1</p><p>x Ω zx . In the spatial domain this the causal adjustment for covariate j becomes Ẑj = w j C 0j C -1 jj X j where C jk = Cov(X j , X k ) is defined by the Matérn covariance parameters. The spatial model is</p><formula xml:id="formula_58">Y (s i ) = β 0 + p j=1 {X j (s i )β j + Ẑj (s i )} + V (s i ) + ε(s i )</formula><p>where V is a mean-zero Gaussian process with variance σ 2 z q o and Matérn correlation with smoothness η z and range φ and ε(s) iid ∼ Normal(0, σ 2 ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.2">Semi-parametric continuous-space model</head><p>Extending the semi-parametric model in Section 3.2 to have multiple covariates is straightforward because the method is defined via the conditional distribution of the missing confounder given the covariates, rather than the joint distribution of the confounder and the covariates. We regress the confounder onto the p covariates using the additive model</p><formula xml:id="formula_59">E{Z(ω)} = p j=1 α j (ω)X j (ω) = 1 2 p j=1 L l=1 b jl B l (ω)X j (ω).</formula><p>In this spatial domain this gives</p><formula xml:id="formula_60">Y (s) = β 0 + p j=1 β j X j (s) + p j=1 L l=1 β jl Ẑjl (s) + δ(s),</formula><p>where δ(s) is modeled as a Gaussian process and</p><formula xml:id="formula_61">Ẑjl (s) = ω f ∈F (2πω f ) κ+1 B l (ω f ) F J κ (ω f ||s -s ||) ||s -s || κ X(s )ds .</formula><p>As in the univariate case, β j can be interpreted as the causal effect under the assumption that α j (ω) → 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.3">Parsimonious CAR model</head><p>In the discrete domain with multiple predictors, the oracle model is Y ∼ Normal(β 0 1 + p j=1 β j X j + Z, σ 2 I n ). Assuming marginal distribution X j ∼ CAR(0, σ 2 j , λ j ) and Z ∼ CAR(0, σ 2 z , λ z ), parsimonious joint distributions in Section 4.2 and following the ideas above in the extension of the parsimonious Matérn to the case of multiple predictors, the marginal distribution of</p><formula xml:id="formula_62">Y over Z is Y|X, V ∼ Normal   β 0 1 + p j=1 β j X j + p j=1 ΓA j Γ T X j + V, σ 2 I n   , where A j is diagonal with k th diagonal element α j (ω k ) = w j σz σ j 1-λ j +λ j ω k 1-λz+λzω k and V ∼ CAR(0, q 0 σ 2 z , λ z ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.4">Semi-parametric CAR model</head><p>Extending the semi-parametric model in Section 4.3 to the multivariate case follows the same steps as the semi-parametric model for continuous space above. In the spectral domain with Z * = ΓZ and X * j = ΓX j , a natural extension to the semi-parametric CAR model for the missing confounder is</p><formula xml:id="formula_63">Z * k |X * 1k , ...X * pk indep ∼ Normal   p j=1 α j (ω k )X * j , σ 2 Z 1 -λ z + λ z ω k   . Defining β j (ω) = β j + α j (ω) = L l=1 B l (ω)b jl , gives the spatial model Y|X, V ∼ Normal   β 0 1 + p j=1 L l=1 Ẑjl b jl + V, σ 2 I n   .<label>(26)</label></formula><p>where V ∼ CAR(0, σ 2 z , λ z ). Under the assumption that α j (ω n ) = 0, we summarize the causal effect of the j th covariate using the posterior of</p><formula xml:id="formula_64">β j = L l=1 B l (ω n )b jl .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Spatial Causal framework</head><p>Extending the notation in Section 2 of the main document and following the potential outcomes framework, we define Y i (x i ) to be the potential outcome at location s i if the treatment at s i is x i . Similarly, define</p><formula xml:id="formula_65">Y(x) = {Y 1 (x 1 ), . . . , Y n (x n )} T as the vector of potential outcomes at S if treatment x = (x 1 , ..., x n ) T</formula><p>were received. For the potential outcomes to be well defined, we make the stable-unit-treatment-value assumption <ref type="bibr">(SUTVA, Rubin (1980)</ref>), which states that there is no interference between units and there is a single version of each treatment level. In the spatial context, the no interference assumption implies that treatment applied at one location does not affect the outcome at other locations.</p><p>Following the commonly used spatial regression model in the spatial statistics literature, we assume a linear additive structural model for the potential outcomes,</p><formula xml:id="formula_66">Y(x) = β 0 + β x x + β z Z + ε,<label>(27)</label></formula><p>where ε = (ε 1 , ..., ε n ) T and ε i iid ∼ Normal(0, σ 2 ). The structural coefficient β x determines the causal relationship of the potential outcome and the treatment, and it is assumed to be spatially invariant. In this model, we do not specify the interaction of treatment and covariates, and therefore β x is both the marginal and conditional causal effect of treatment. Our objective is to estimate β x .</p><p>To connect the observed and potential outcomes, we also make the consistency assumption that the observed outcomes are exactly the potential outcomes for the observed level of treatment X i , Y i = Y i (X i ).</p><p>For the identifiability of β x , we also make the conditional treatment ignorability assumption that X⊥Y(x) | Z for all x. The latter assumption holds if all factors that are associated with both the treatment and outcome variables are accounted for in Z. With these assumptions, the parameter β x in the regression model</p><formula xml:id="formula_67">Y = β 0 + β x X + β z Z + ε.<label>(28)</label></formula><p>has a causal interpretation.</p><p>If we observe the confounder Z, then identification and estimation of β x is straightforward using multiple linear regression. However, we assume that Z is an unmeasured confounder. In the presence of an unmeasured confounder, β x is not identifiable in general. Therefore, we propose to exploit the spatial structure of Z to mitigate the effects of this unknown confounder. Although Z confounds the causal relationship of X and Y in the spatial domain, in Section 2.1 we propose assumptions in the spectral domain that identify the causal effect in the presence of an unmeasured spatial confounder.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Identification under the parsimonious model</head><p>The joint model</p><formula xml:id="formula_68">Y(ω)|X (ω) indep ∼ Normal β x + ρ σ z f z (ω) σ x f x (ω) X (ω), (1 -ρ 2 )σ 2 z f z (ω) X (ω) indep ∼ Normal 0, σ 2 x f x (ω)</formula><p>is defined by parameters θ = {β x , ρ, σ x , σ z , F x , F z } where F j = {f j (ω); ω ∈ R 2 } and f j (ω)dω = 1 for j ∈ {x, z}. Define E{Y(ω)|X (ω)} = µ y (ω; θ), Var{Y(ω)|X (ω)} = τ 2 y (ω; θ) and Var{X (ω)} = τ 2</p><p>x (ω; θ). Denote θ (j) = {β (j)</p><p>x , ρ (j) , σ</p><p>x , σ (j) z , F</p><p>x , F (j) z }. The parameters θ are identified if and only if µ y (ω; θ (1) ) = µ y (ω; θ (2) ), τ 2 y (ω; θ (1) ) = τ 2 y (ω; θ (1) ) and τ 2 x (ω; θ (1) ) = τ 2 x (ω; θ (1) ) for all ω implies that θ (1) = θ (2) . First assume that τ 2</p><p>x (ω; θ (1) ) = τ 2 x (ω; θ (2) ) for all ω. Since τ 2 x (ω; θ)dω = σ 2 x , we must have σ</p><p>x = σ</p><p>x .</p><p>be expressed as σ -2 z (1 -ρ 2 ) -1 I + σ -2 z (1 -ρ 2 ) -1 λ z (W -I). Letting τ = σ -2 z (1 -ρ 2 ) -1 and we have τ (1) I + τ (1) λ (1) z (W -I) + σ 2 I -[τ (2) I + τ (2) λ (2) z (W -I) + σ 2 I] = 0 2) and τ (1) = τ (2) along with τ (1) λ</p><formula xml:id="formula_73">⇔ (σ 2 + τ (1) -(σ 2 + τ (2) ))I + (τ (1) λ (1) z -τ (2) λ (2) z )(W -I) = 0 ⇔ (τ (1) -τ (2) ) + (τ (1) λ (1) z -τ (2) λ (2) z )(ω i -1) = 0 ∀ ω i ⇔ τ (1) -τ (2) = 0 and τ (1) λ (1) z -τ (2) λ (2) z = 0. Now (τ (1) -τ (2) ) = 0 establishes τ (1) = τ (</formula><p>(1)</p><formula xml:id="formula_74">z -τ (2) λ<label>(2)</label></formula><formula xml:id="formula_75">z = 0 establishes λ (1) z = λ<label>(2)</label></formula><p>z . Thus, τ and λ z are identifiable. In summary, to this point, we have shown that λ x , λ z , σ 2 x , σ 2 and τ are all identifiable. We now show that β x and η = ρσ z are identifiable. Note that</p><formula xml:id="formula_76">β x X * + ρ σ z σ x AX * = (β x I + η σ x A)X * .</formula><p>Thus, we can focus on</p><formula xml:id="formula_77">β x I + η σx A such that (β (1) x I + η (1) σ x A) -(β (2) x I + η (2) σ x A) = 0 ⇔ (β (1) x -β (2) x )I + (η (1) -η (2) ) 1 σ x A = 0 ⇔ (β (1) x -β (2) x ) + (η (1) -η (2) ) 1 σ x 1 -λ x + λ x ω i 1 -λ z + λ z ω i = 0 ∀ ω i ⇔ (β (1) x -β (2)</formula><p>x ) = 0 and (η (1) -η (2) ) = 0, establishing the identifiability of β x and η = ρσ z . Now since τ = σ -2 z (1 -ρ 2 ) -1 and η = ρσ z , are identifiable, then so to are ρ and σ 2 z where ρ = η 2 τ -1 +η 2 and σ 2 z = τ -1 + η 2 .  10 20 30 40 10 20 30 40 Z -4 -2 0 2 10 20 30 40 10 20 30 40 X -3 -2 -1 0 1 2 10 20 30 40 10 20 30 40 Y -3 -2 -1 0 1 2 (b) φ = 1 and β xz = 2 10 20 30 40 10 20 30 40 Z -6 -4 -2 0 2 4 10 20 30 40 10 20 30 40 X -3 -2 -1 0 1 2 3 10 20 30 40 10 20 30 40 Y -4 -2 0 2 4 (c) φ = 2 and β xz = 1 10 20 30 40 10 20 30 40 Z -2 -1 0 1 2 3 10 20 30 40 10 20 30 40 X -3 -2 -1 0 1 2 3 10 20 30 40 10 20 30 40 Y -2 -1 0 1 2 (d) φ = 2 and β xz = 2 10 20 30 40 10 20 30 40 Z -4 -2 0 2 4 6 10 20 30 40 10 20 30 40 X -2 0 2 4 10 20 30 40 10 20 30 40 Y -2 0 2 4</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Sample datasets for the simulation study</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1</head><label>1</label><figDesc>Figure1illustrates the confounder adjustment Ẑ in (6) for the bivariate Matérn model with a common range and different smoothness ν zx = cν x for increasing values of c. Increasing c implies increasing decay rates of α(ω). The original simulated X is plotted in the left panel of Figure1with c = 1, in which case we have Ẑ = X and thus a completely confounded model. In the cases with c &gt; 1 the confounder adjustment Ẑ is a smoothed version of X. Therefore, including Ẑ as a covariate in the model removes large-scale trends in X to adjust for confounding at low-frequencies.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: Lip cancer data: Maps of Scotland district standard mortality ratio and percent of work force in agriculture, fishing, and forestry (AFF). (a) Standardized mortality ratio (b) Percent of work force in AFF</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>∼</head><figDesc>4. The data cover n = 56 districts in Scotland. The three variables recorded for district i are the number of recorded lip cancer cases, Y i , the expected number of lip cancer cases computed using indirect standardisation based on Scotland-wide disease rates, E i , and the percentage of the district's workforce employed in agriculture, fishing and forestry, X i . We fit the spatial Poisson regression model Y i |θ i indep Poisson{E i exp(θ i )}, where θ i is the log relative risk in district i. As described in Section 5 we model the log relative risks</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>∼</head><figDesc>, we fit a Negative-Binomial regression model Y i |X i , Z i , C i indep NegBin{r i , p i }, where r i is the size parameter (i.e., the number of successful trials) and p i the probability of success in each trial. Under this model the mean is E(Y i |X i , Z i , C i ) = λ i = r i 1-p i p i . We parameterize the model in terms of λ i and the over-dispersion parameter r i . The over-dispersion parameters have priors log(r i ) ∼ N (0, 10) and the mean is linked to the linear predictor as log(λ i ) = log(E i ) + θ i where θ i = β x X i + Z i + C i β c and the offset term E i is the county population and β c is a vector of regression coefficients associated with the confounding variables.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 6 :</head><label>6</label><figDesc>Figure 6: PM 2.5 exposure and COVID-19 mortality by US county: (a) Average PM 2.5 over 2000-2016 and (b) the log COVID-19 mortality rate (i.e., log(deaths/population)) through May 12, 2020 (counties with no deaths are shaded gray). (a) Average PM 2.5 (µg/m 3 )</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>sufficient conditions that ensure the causal effect is identifiable. These ideas are developed for continuous and discrete spatial domains, parametric and semi-parametric frameworks, and Gaussian and non-Gaussian data. Simulation studies confirm that the proposed methods lower bias and provide valid inference if the model assumptions approximately hold, and two applications illustrate the use of the methods in practice.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 1</head><label>1</label><figDesc>Figure1plots a dataset from each simulated scenario in Section 6.1 to illustrate the spatial dependence of each variable and the relationships between variables.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Simulated data in discrete space: Realizations from the discrete-space simulation's datagenerating process for different kernel bandwidth (φ) and strength of exposure/confounder dependence (β xz ). (a) φ = 1 and β xz = 1</figDesc></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>This work was partially supported by the <rs type="funder">National Institutes of Health</rs> (<rs type="grantNumber">R01ES031651-01</rs>,<rs type="grantNumber">R01ES027892-01</rs>) and <rs type="funder">King Abdullah University of Science and Technology</rs> (<rs type="grantNumber">3800.2</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_wMmt4vt">
+					<idno type="grant-number">R01ES031651-01</idno>
+				</org>
+				<org type="funding" xml:id="_CnJ6wnw">
+					<idno type="grant-number">R01ES027892-01</idno>
+				</org>
+				<org type="funding" xml:id="_uzQK25y">
+					<idno type="grant-number">3800.2</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This clearly implies that F (1) x = F</p><p>(2)</p><p>x , and thus the parameters in the marginal distribution of X are identified. Applying similar arguments to the τ 2 y (ω; θ) shows that τ 2 y (ω; θ (1) ) = τ 2 y (ω; θ (2) ) for all ω implies that F (1) z = F</p><p>(2) z and {1 -(ρ (1) ) 2 }(σ</p><formula xml:id="formula_78">(1) z ) 2 = {1 -(ρ (2) ) 2 }(σ (2) z ) 2 .</formula><p>The remaining parameters are identified by µ y (ω; θ). If we assume µ y (ω; θ (1) ) = µ y (ω; θ (2) ) for all ω and apply previous identifiability results that show F (1)</p><formula xml:id="formula_79">x = F (2) x , σ<label>(1)</label></formula><p>x = σ (2)</p><p>x and F (1) z = F</p><p>(2) z , then the assumption that f x (ω) = f z (ω) for some ω implies that β (1)</p><formula xml:id="formula_80">x = β (2)</formula><p>x and ρ (1) σ (1) z = ρ (2) σ (2) z . Combined with the result that {1 -(ρ (1) ) 2 }(σ (1) z ) 2 = {1 -(ρ (2) ) 2 }(σ (2) z ) 2 , we have ρ (1) = ρ (2) and σ</p><formula xml:id="formula_81">(1) z = σ (2) z .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Oracle confounder adjustment</head><p>We derive the oracle confounder adjustment for a given projection operator α(ω). If the inverse Fourier transform of α(ω) has a closed-form denoted by K(s -s ), then</p><formula xml:id="formula_82">Ẑ(s) = R 2 exp(iω T s) Ẑ(ω)dω = R 2 exp(iω T s)α(ω)X (ω)dω = R 2 exp(iω T s)α(ω) 1 (2π) d R 2 exp(-iω T s )X(s )ds dω = 1 (2π) d R 2 exp(iω T (s -s ))α(ω)dω X(s )ds = 1 (2π) d R 2 K(s -s )X(s )ds .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Parameter identification for the bivariate Matérn model</head><p>The parameters that define the marginal distribution of X, σ x , ν x and φ, are identified following the arguments in Supplemental Section 3. Therefore, we assume they are fixed and known in this section. For the bivariate Matérn model, define E{Y(ω)|X (ω)} = µ(ω; θ) and V{Y(ω)|X (ω)} = τ 2 (ω; θ), where</p><formula xml:id="formula_83">θ = {β x , ρ, ν z , ν xz , σ z } are the remaining unknown parameters. Defining δ = (1 + φ 2 ||ω|| 2 ) -1 , the mean and variance are µ(ω; θ) = β x + ρ σ z ν xz σ x ν x δ νxz-νx X (ω) τ 2 (ω; θ) = σ 2 z ν z φ 2 δ νz+1 1 -ρ 2 ν 2 xz ν x ν z δ 2νxz-νx-νz . Denote θ (j) = {β (j) x , ρ (j) , ν (j) z , ν (j) xz , σ<label>(j)</label></formula><p>z }. The parameters θ are identified if and only if µ(ω; θ (1) ) = µ(ω; θ (2) ) and τ 2 (ω; θ (1) ) = τ 2 (ω; θ (1) ) for all ω implies that θ (1) = θ (2) . Now assume that µ(ω; θ (1) ) = µ(ω; θ (2) ) and τ 2 (ω; θ (1) ) = τ 2 (ω; θ (2) ) for all ω. By assumption,</p><formula xml:id="formula_84">ν xz -ν x &gt; 0, 2ν xz -ν x -ν z &gt; 0 and ρ 2 ν 2 xz νxνz &lt; 1.</formula><p>Therefore, µ(ω; θ)/X (ω) → β x , and therefore β</p><p>x = β (2)</p><formula xml:id="formula_86">x = β * x . Considering µ(ω; θ j )/X (ω) -β * x over ω we have ν<label>(1)</label></formula><formula xml:id="formula_87">xz = ν<label>(2)</label></formula><formula xml:id="formula_88">xz = ν * xz and ρ (1) σ<label>(1)</label></formula><formula xml:id="formula_89">z = ρ (2) σ (2) z .</formula><p>Turning to the variance terms, for large ω we have τ 2 (ω; θ) ≈ σ 2 z ν z φ 2 δ νz+1 . Therefore ν</p><p>(1) z = ν</p><p>(2) z and</p><formula xml:id="formula_90">[σ (1) z ] 2 ν (1) z = [σ (2) z ] 2 ν (2)</formula><p>z , and thus and σ</p><formula xml:id="formula_91">Z = σ (2) Z . Finally, since ρ (1) σ (1) Z = ρ (2) σ<label>(1)</label></formula><p>Z from above we have ρ (1) = ρ (2) , and thus θ 1 = θ 2 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Parameter identification for the parsimonious CAR model</head><p>We aim to establish the that parameters θ = (β x , σ 2 , ρ, λ x , λ z , σ 2</p><p>x , σ 2 z ) found in the joint model for (Y * , X * ) that is partially described in (17) are identifiable. Here we will denote the joint model using p(Y * , X * |θ).</p><p>As before, to establish identifiability we need to show that p</p><formula xml:id="formula_93">(Y * , X * |θ (1) ) = p(Y * , X * |θ (2) ) ⇔ θ (1) = θ (2) .</formula><p>Note that we can express the joint model after setting β 0 = 0 w.l.o.g. in the following way</p><formula xml:id="formula_94">p(Y * , X * |θ) = p(Y * |X * , θ)p(X * |θ) = N n (Y * ; β x X * + ρ σ z σ x AX * , σ 2 z (1 -ρ 2 )[(1 -λ z )I + λ z W ] -1 + σ 2 I)× N n (X * ; 0, σ 2 x [(1 -λ x )I + λ x W ] -1 ).</formula><p>Here N n (•; , m, V ) denotes a n dimensional multivariate density function with mean m and covariance matrix V , and, as before, A is a diagonal matrix whose ith diagonal entry is 1-λx+λxω i 1-λz+λzω i . Note that we can establish identifiability by way of the mean structure, covariance structure, or both from the joint model.</p><p>Since p(X * |θ) is simply a Leroux model and its parameters are known to be identifiable we have that σ 2 x and λ x are both identifiable. Thus, we focus on (β</p><formula xml:id="formula_95">x , σ 2 , ρ, λ z , σ 2 z ). It is straightforward to see that p(Y * |X * , β x , σ 2(1) , ρ, λ x , λ z , σ 2 x , σ 2 z ) = p(Y * |X * , β x , σ 2(2) , ρ, λ x , λ z , σ 2 x , σ 2 z ) ⇔ σ 2(1) = σ 2(2)</formula><p>which implies that σ 2 identifiable.</p><p>Next since matrix inverse is a bijection we can work with</p><formula xml:id="formula_96">σ -2 z (1 -ρ 2 ) -1 [(1 -λ z )I + λ z W ] which can</formula><p>8 Prior distributions</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.1">Discrete cases</head><p>For the Gaussian responses in the simulation study, the variances in the standard and parametric models are parameterized as σ 2 z = τ 2 r and σ 2 = τ 2 (1 -r) and the priors are β 0 , β x ∼ Normal(0, 100), τ 2 ∼ InvGamma(0.1, 0.1) and r, λ z ∼ Uniform(0, 1). For the parsimonious bivariate CAR model we fix σ x = 1 and select priors λ x ∼ Uniform(0, λ z ) and ρ ∼ Uniform(-1, 1).</p><p>In the parsimonious bivariate CAR model we used the following priors for the variance components σ 2 ∼ Gamma(1, 1), σ 2</p><p>x ∼ InvGamma(1, 1), and τ = σ 2 z (1 -ρ 2 ) ∼ Gamma(1, 1) where both the Gamma and Inverse Gamma distributions are parameterized using shape and rate. For spatial dependence parameters we used λ z ∼ Uniform(0, 1) and λ x ∼ Uniform(0, λ z ) (although we also ran simulation with λ x ∼ Uniform(0, 1) and results where similar). Finally for the regression type parameters we use β x ∼ N (0, 100) and ψ = ρ σz σx ∼ N (0, 100). To improve mixing (β, ψ) were updated in a blocked Gibbs step. Apart from σ 2</p><p>x , all other parameters were updated with a random walk Metropolis step using a Gaussian distribution to generate candidate values.</p><p>For the semi-parametric models with L &gt; 1 we use the CAR prior for b given in Section 3.2 with either a penalized complexity prior (PCP; <ref type="bibr" target="#b32">Simpson et al., 2017)</ref> or R 2 prior <ref type="bibr" target="#b38">(Zhang et al., 2020)</ref> for σ 2 b , as described below. The semi-parametric CAR model in Section 4.3 is Y|V ∼ Normal(β 0 + β x X + Zb + V, σ 2 I n ).</p><p>To set priors, we parameterize the covariance parameters as σ 2 z = τ 2 c(λ z )r and σ 2 = τ 2 (1 -r) for c(λ z ) = n/ n k=1 f z (ω k ) and r ∈ (0, 1). Under this parameterization, the total (over space) error variance is</p><formula xml:id="formula_97">Trace{Cov(V) + σ 2 I n } = τ 2 nr + τ 2 n(1 -r) = τ 2 n,</formula><p>and thus τ 2 controls the overall variance and r is the proportion of variance attributed to the spatial component of the error. Also, assume the prior for the adjustment coefficients b is normal with mean zero and precision σ -2 b Ω, where Ω has diagonal elements N l and (j, l) off-diagonal element -I(|j -l| = 1). The first is the penalized complexity prior (PCP; <ref type="bibr" target="#b32">Simpson et al., 2017)</ref> on the standard deviation σ b , i.e. σ b ∼ Exponential(ξ) with scale parameter ξ = -log(0.01)0.31/U , with U = 0.5; this choice sets the marginal standard deviation for b approximately equal to 0.5, following the rule of thumb proposed by <ref type="bibr" target="#b32">Simpson et al. (2017)</ref>. The PCP shrinks the model to the simpler base model without a confounder adjustment. The second is based on the R2D2 prior of <ref type="bibr" target="#b38">Zhang et al. (2020)</ref>. The variance is written</p><formula xml:id="formula_98">σ 2 b = τ 2 σ 2 R where the prior density for σ 2 R is f (σ 2 R ) ∝ (σ 2 R + 1) -2</formula><p>, which induces a Uniform(0,1) prior on the proportion of variance explained by the confounding adjustment, Trace{Cov( Zb)}/Trace{Cov( Zb) + Cov(V) + σ 2 I} = σ 2 R /(σ 2 R + 1), and in this sense balanced the prior evenly over negligible to complete confounding adjustment. The priors for the remaining parameters are the same for the standard model.</p><p>Finally, when fitting the semi-parametric CAR model to the lip cancer and covid data in Section 7.1 and 7.2 we exploit the default implementation available in INLA which runs very fast; this is based on the original parameterization of the semi-parametric, i.e. θ|X ∼ CAR </p><formula xml:id="formula_99">β 0 1 + L l=1 Ẑl b l , σ 2 z , λ z .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8.2">Continuous domain</head><p>Estimation for parsimonious Matérn. The estimation of the conditional model in (29) simplifies to the estimation of parameters {β x , σ z , σ, ρ, ν z }. Priors similar to the common range Matérn model are assigned for β x and ρ. We use an exponential prior with rate parameter 1 for the sum σ 2 z (1 -ρ 2 ) + σ 2 , and a uniform prior for the signal ratio</p><formula xml:id="formula_100">σ 2 z (1-ρ 2 ) σ 2 z (1-ρ 2 )+σ 2 . A joint prior is used for ρ, ν z to ensure ρ 2 ≤ νxνz (νx+νz)/2 π(ρ, ν z ) = π 1 (ρ|ν z )π 2 (ν z ) where π 1 ∼ U nif (- √ νxνz (νx+νz)/2 , √ νxνz (νx+νz)/2</formula><p>) and π 2 is a half Cauchy distribution with mean ν x and variance 1000.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="9">Computational details 9.1 Estimation for common range Matérn.</head><p>To ensure that all parameters are identifiable, we fit the Matérn model of <ref type="bibr" target="#b7">Gneiting et al. (2010)</ref> with common range φ x = φ z = φ xz = φ, and additional constraints of ν xz &gt; ν x and 2ν xz ≥ ν x + ν z . With these constraints, the maximum for the term ρ 2 fxz(ω) 2 fx(ω)fz(ω) in ( <ref type="formula">4</ref>) is obtained at ω = 0 with value ρ 2 ν 2 xz νxνz , hence the Matérn model with the identifiability parameter constraints is valid if |ρ| &lt; √ ν x ν z /ν xz . We use the R package GpGp (Guinness and Katzfuss, 2020) to estimate φ x , ν x and σ 2 x by fitting a spatial regression model with Matérn covariance function to the exposure. The estimated values are plugged into the conditional bivariate Matérn model</p><formula xml:id="formula_101">Y = Xβ x + ρσ z R zx R-1 x X + δ (<label>29</label></formula><formula xml:id="formula_102">)</formula><p>where Rx is the correlation matrix for X computed from the Matérn correlation function with plug-in values of φx , νx , and R zx is the cross-correlation matrix between Z and X determined by parameters ν xz and the common range φ = φx . To reduce computation cost Σ-1 x X can be pre-computed to avoid repetitive evaluation of matrix inversion inside the MCMC algorithm. We specify a joint prior for the spatial parameters ρ, ν z and ν xz , with π(ρ, ν z , ν</p><formula xml:id="formula_103">xz ) = π 1 (ρ|ν z , ν xz )π 2 (ν z |ν xz )π 3 (ν xz ) where π 1 ∼ Unif(- √ ν x ν z /ν xz , √ ν x ν z /ν xz ), π 2 ∼ Unif(0,2ν xz -ν x )</formula><p>and π 3 is a half Cauchy distribution with mean ν x and variance 1000. This specification will ensure that all parameter constrains are met. To complete specification of the hierarchical model, we use an exponential distribution with rate parameter 1 for the sum of variances σ 2 z + σ 2 , a uniform prior for the signal to noise ratio σ 2 z σ 2 z +σ 2 , and a normal prior with mean 0 and variance 100 for the causal effect β x . The model is fit using Metropolis-Hastings within Gibbs algorithm with a block update for the spatial parameters.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><figDesc>Priors are as follows: PCP on σ 2 z , i.e. σ z ∼ Exponential(ξ), with scale parameter ξ = -log(0.01)0.31; PCP on the variance of the adjustment coefficients b, i.e. σ b ∼ Exponential(ξ), with scale parameter ξ = -log(0.01)0.31/0.1, and logit(λ z ) ∼ Normal(0, 10).</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">A valid Matérn class of cross-covariance functions for multivariate random fields with any number of components</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">V</forename><surname>Apanasovich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Genton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="page" from="180" to="193" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Alleviating spatial confounding in spatial frailty models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R M</forename><surname>Azevedo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Prates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bandyopadhyay</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2008.06911</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<author>
+			<persName><forename type="first">K</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Groot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Marchiori</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1808.00560</idno>
+		<title level="m">Spectral mixture kernels with time and phase delay dependencies</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dupont</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Augustin</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2009.09420</idno>
+		<title level="m">Spatial+: a novel approach to spatial confounding</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A new frequency domain measure of causality based on partial spectral decomposition of autoregressive processes and its application to cardiovascular interactions*</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Faes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Krohova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pernice</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Busacca</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Javorka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2019 41st Annual International Conference of the IEEE Engineering in Medicine and Biology Society (EMBC)</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="4258" to="4261" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Spectral domain. Handbook of Spatial Statistics</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Reich</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="57" to="77" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Handbook of Spatial Statistics</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Guttorp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fuentes</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<publisher>CRC Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Matérn cross-covariance functions for multivariate random fields</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gneiting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kleiber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schlather</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">105</biblScope>
+			<biblScope unit="page" from="1167" to="1177" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">GpGp: Fast Gaussian process computation Using Vecchia&apos;s approximation</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Guinness</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Katzfuss</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note>R package version 0.2.1</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression in practice: geostatistical models, confounding, and robustness under model misspecification</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="243" to="254" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">The bayesian group lasso for confounded spatial data</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hefley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Russell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Walsh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological, and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="42" to="59" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Adding spatially-correlated errors can mess up the fixed effect you love</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="325" to="334" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="139" to="159" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Scalable levy process priors for spectral kernel learning</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Jang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Loeb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Davidow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Wilson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="3940" to="3949" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Selecting a scale for spatial confounding adjustment</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Keller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Szpiro</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/rssa.12556</idno>
+		<ptr target="URLhttp://dx.doi.org/10.1111/rssa.12556" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series A (Statistics in Society)</title>
+		<imprint>
+			<biblScope unit="volume">183</biblScope>
+			<biblScope unit="page" from="1121" to="1143" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression methods: Implicatios for inference</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Khan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/01621459.2020.1788949</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of the American Statistical Association</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Coherence for multivariate random fields</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kleiber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="page" from="1675" to="1697" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Estimation of disease rates in small areas: A new mixed model for spatial dependence</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">G</forename><surname>Leroux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Breslow</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Statistical Models in Epidemiology, the Environment, and Clinical Trials</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2000">2000</date>
+			<biblScope unit="page" from="179" to="191" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">On the effects of spatial confounding in hierarchical models</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Nobre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Pereira</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/insr.12407</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Statistical Review</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Inferring heterogeneous causal effects in presence of spatial confounding</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Osama</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Zachariah</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">B</forename><surname>Schön</surname></persName>
+		</author>
+		<ptr target="URLhttp://proceedings.mlr.press/v97/osama19a.html" />
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 36th International Conference on Machine Learning</title>
+		<meeting>the 36th International Conference on Machine Learning<address><addrLine>Long Beach, California, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>PMLR</publisher>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="page" from="4942" to="4950" />
+		</imprint>
+	</monogr>
+	<note>Proceedings of Machine Learning Research</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">The importance of scale for spatial-confounding bias and precision of spatial regression estimators</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="107" to="125" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Estimation and prediction in the presence of spatial confounding for spatial linear models</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Page</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="780" to="797" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Spatial confounding in hurdle multilevel beta models: the case of the brazilian mathematical olympics for public schools</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Pereira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Nobre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Schmidt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series A (Statistics in Society)</title>
+		<imprint>
+			<biblScope unit="volume">183</biblScope>
+			<biblScope unit="page" from="1051" to="1073" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Alleviating spatial confounding for areal data problems by displacing the geographical centroids</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Prates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Assunc ¸ão</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Rodrigues</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/18-BA1123</idno>
+		<ptr target="URLhttps://doi.org/10.1214/18-BA1123" />
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Anal</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="623" to="647" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Semiparametric estimation of cross-covariance functions for multivariate random fields</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">A</forename><surname>Qadir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="14" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A spectral method for spatial downscaling</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Foley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="932" to="942" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Nonparametric bayesian models for a spatial covariance</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fuentes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical methodology</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="265" to="274" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Effects of residual smoothing on the posterior of the fixed effects in disease-mapping models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Zadnik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page" from="1197" to="1206" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">A review of spatial causal inference methods for environmental and epidemiological applications</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Guan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">B</forename><surname>Giffin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Rappold</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2007.02714</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Martino</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Chopin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series b (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="319" to="392" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Discrete signal processing on graphs: Graph fourier transform</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sandryhaila</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M F</forename><surname>Moura</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2013 IEEE International Conference on Acoustics, Speech and Signal Processing</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="6167" to="6170" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Mitigating unobserved spatial confounding when estimating the effect of supermarket access on cardiovascular disease deaths</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Schnell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Papadogeorgou</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1907.12150</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Penalising model component complexity: A principled, practical approach to constructing priors</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riebler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Martins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Sørbye</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/16-STS576</idno>
+		<ptr target="URLhttps://doi.org/10.1214/16-STS576" />
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Bayesian measures of model complexity and fit</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Spiegelhalter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">G</forename><surname>Best</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Van Der Linde</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="583" to="639" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A study of problems encountered in Granger causality analysis from a neuroscience perspective</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Stokes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">L</forename><surname>Purdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the National Academy of Sciences</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="page" from="7063" to="E7072" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Structural equation models for dealing with spatial confounding</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Thaden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="239" to="252" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m" type="main">A treatise on the theory of Bessel functions</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">N</forename><surname>Watson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<publisher>Cambridge university press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Air pollution and covid-19 mortality in the united states: Strengths and limitations of an ecological regression analysis</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Nethery</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">M</forename><surname>Sabath</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Braun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Dominici</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science Advances</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="1" to="6" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Bayesian regression using a prior on the model fit: The r2-d2 shrinkage prior</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">D</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Naughton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">D</forename><surname>Bondell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="37" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

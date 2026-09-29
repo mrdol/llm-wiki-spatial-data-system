@@ -9,6 +9,8 @@
 #' @section Available objects:
 #' `georgia`, `columbus_crime`, `london_hp`, `boston_housing`, `dub_voter`,
 #' `ewhp`, and `lasrosas`.
+#' The bundled `lasrosas` object is the documented 1999 cross-section; the
+#' two-campaign source object remains in the repository for provenance.
 #'
 #' @examples
 #' data(columbus_crime, package = "spatialtidymodels")

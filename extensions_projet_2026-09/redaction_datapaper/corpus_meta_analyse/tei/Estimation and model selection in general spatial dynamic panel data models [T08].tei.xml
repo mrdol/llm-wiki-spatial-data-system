@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation and model selection in general spatial dynamic panel data models</title>
+				<funder ref="#_Aeet4uR">
+					<orgName type="full">Natural Sciences and Engineering Research Council of Canada</orgName>
+				</funder>
+				<funder ref="#_yFPgaVh #_HG52mC8 #_r34tTtp #_AqugjNY">
+					<orgName type="full">National Natural Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2020-02-24">February 24, 2020</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Baisuo</forename><surname>Jin</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics and Finance</orgName>
+								<orgName type="institution">University of Science and Technology of China</orgName>
+								<address>
+									<postCode>230026</postCode>
+									<settlement>Anhui</settlement>
+									<region>Hefei</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Yuehua</forename><surname>Wu</surname></persName>
+							<idno type="ORCID">0000-0002-8858-1289</idno>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Mathematics and Statistics</orgName>
+								<orgName type="institution">York University</orgName>
+								<address>
+									<postCode>M3J1P3</postCode>
+									<settlement>Toronto</settlement>
+									<region>ON</region>
+									<country>Canada;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Calyampudi</forename><forename type="middle">Radhakrishna</forename><surname>Rao</surname></persName>
+							<idno type="ORCID">0000-0002-8858-1289</idno>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Biostatistics</orgName>
+								<orgName type="institution">The State University of New York at Buffalo</orgName>
+								<address>
+									<postCode>14221-3000</postCode>
+									<settlement>Buffalo</settlement>
+									<region>NY</region>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="department">C. R. Rao Advanced Institute of Mathematics, Statistics and Computer Science</orgName>
+								<orgName type="institution">National Tsing Hua University</orgName>
+								<address>
+									<settlement>Hyderabad-500046</settlement>
+									<country key="IN">India</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Li</forename><surname>Hou</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics and Finance</orgName>
+								<orgName type="institution">University of Science and Technology of China</orgName>
+								<address>
+									<postCode>230026</postCode>
+									<settlement>Anhui</settlement>
+									<region>Hefei</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff4">
+								<orgName type="institution">La Trobe University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation and model selection in general spatial dynamic panel data models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2020-02-24">February 24, 2020</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">53ECCEBEF2177B35EA11FFED0E823767</idno>
+					<idno type="DOI">10.1073/pnas.1917411117/-/DCSupplemental.ywww.pnas.org/cgi/doi/10.1073/pnas.1917411117</idno>
+					<note type="submission">Contributed by Calyampudi Radhakrishna Rao, November 13, 2019 (sent for review October 14, 2019; reviewed by Ching-Kang Ing and Runze Li</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Commonly used methods for estimating parameters of a spatial dynamic panel data model include the two-stage least squares, quasi-maximum likelihood, and generalized moments. In this paper, we present an approach that uses the eigenvalues and eigenvectors of a spatial weight matrix to directly construct consistent least-squares estimators of parameters of a general spatial dynamic panel data model. The proposed methodology is conceptually simple and efficient and can be easily implemented. We show that the proposed parameter estimators are consistent and asymptotically normally distributed under mild conditions. We demonstrate the superior performance of our approach via extensive simulation studies. We also provide a real data example.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>S patiotemporal data are common in many areas of science and engineering such as environmental science, epidemiology, economics, and sociology. For illustration, data derived from neighboring geographical locations can exhibit spatial dependence, as can data generated by adjacent nodes of a social network. Modeling such data is necessary but challenging. For example, urban crime count data exhibit clear spatiotemporal patterns <ref type="bibr" target="#b0">(1)</ref>, and important economic variables across space may be found that account for the concentrations of violence movement. If we can effectively model where and when crime occurs, we can launch better preventative measures. As another example, data collected from Sina Weibo, the largest Twitter-like social network in China, can be better modeled if one leverages user-specific covariates and information about the network structure; good modeling allows us to detect key players in the network, and this knowledge can be used to improve targeted marketing <ref type="bibr" target="#b1">(2)</ref>. More examples can be found in the literature; e.g., ref. <ref type="bibr" target="#b2">3</ref> used a time-space dynamic panel data model with spatial moving average errors to study the employment levels across 255 NUTS regions of the European Union over the period 2001 to 2012 in an application in geographical economics; ref. <ref type="bibr" target="#b3">4</ref> introduced a spatiotemporal model that uses information from nearby, recently sold properties in predicting the value of a given property.</p><p>In the following, we use urban crime count data for illustration of the above examples. The dataset was previously analyzed in ref. <ref type="bibr" target="#b0">1</ref> by using a count model combined with a latent Gaussian spatiotemporal state process. It contains the monthly counts of crimes from January 2008 to December 2013 (72 mo) in the 138 census tracts in Pittsburgh, PA. These counts account for Part I and Part II offences, as defined in the Uniform Crime Reporting (UCR) handbook of the US Department of Justice (ref. <ref type="bibr">5, p. 8)</ref>. Part I offences consisted of 8 categories of serious felonies and Part II offences were classified into 21 categories of nonserious felonies and misdemeanors. Since the numbers of Part I offences and Part II offences are integers, we apply a logarithmic transformation to them. The transformed data are displayed in Fig. <ref type="figure" target="#fig_0">1</ref> A and B, respectively. It is interesting to know whether Part II offences contribute to the modeling of Part I offences. To account for heterogeneity across census tracts, following ref. 1, the following data have also been collected from the Census 2000 (US Census Bureau and Social Explorer tables in ref. 1) on the 15 socioeconomic variables, which are total population (Tp), population density per square mile (Pd), median income (Mi), dropout rate age 16 to 19 y (Dra), civilian unemployment rate (Cur), poverty rate (Pvr), percentage of total population under 18 y (U18), group quarter proportion (Gqp), percentage of total population that is African-American (Paa), percentage of population with less than a high-school degree (Hdl), percentage of population with a bachelor's degree or higher (Bdh), rental housing units as percentage of occupied housing units (Rhu), percentage of households having been in the same house for more than 1 y (Sh1), percentage of female-headed households (Fhh), and housing units vacancy rate (Hvr).</p><p>Note that there are two types of data above: One type of data is not dependent on time while another type of data is time dependent. As the locations of census tracts may play roles in the modeling, the neighboring relationships can be given via an adjacency matrix A = (aij )138×138, which was chosen in ref. 1 as the queen contiguity matrix such that aii = 0, aij = aji , j = i, and aij = 1 if the borders of tract i and j share at least one common point and aij = 0 otherwise. As Part I offences at the time t may be dependent on the neighboring Part I offences via a weight matrix built on the adjacency matrix, the previous Part I offences, Significance Spatial dynamic panel data modeling is widely used in many areas of science and engineering such as environmental science, epidemiology, economics, and sociology. The ordinary least-squares estimation of parameters of a general spatial dynamic panel data model is inconsistent in general because the spatially lagged dependent variables are typically correlated with the error term. Other estimations based on maximum likelihood or generalized moments are rather complicated. In this paper, we propose an efficient, distribution-free least-squares estimation method that utilizes the eigendecomposition of a weight matrix. We also present a model selection procedure based on the proposed method. Our approach is very powerful compared to the well-known instrumental variable techniques. Its applicability is demonstrated via a high-dimensional data example. Part II offences at t, the 15 socioeconomic variables, seasonality, etc., it motivates us to consider a general spatial dynamic panel data model that is conceptually simple, efficient, and easily implemented for analyzing spatiotemporal data. This general spatial dynamic panel data (GSDPD) model has the form</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A B</head><formula xml:id="formula_0">y t = ρWn y t + α1n + Z γ 0 + Wn Z β 0 + Zt γ + Wn Zt β + εt , t = 1, . . . , T ,<label>[1]</label></formula><p>where n is the size of spatial sites; 1n = (1, . . . , 1) is an ndimensional vector; y t = (y1t , . . . , ynt ) is an n-dimensional vector of observations at time t; Wn is an n × n spatial weight matrix; Z is an n × d0 design matrix; Zt is an n × d1 timedependent matrix of predictor variables; εt = (ε1t , . . . , εnt ) , εit , i = 1, . . . , n, t = 1, . . . , T are independently and identically distributed (iid) random errors with zero means, variance σ<ref type="foot" target="#foot_0">foot_0</ref> , and finite fourth moment µ4; ρ and α are unknown parameters; and γ 0 , γ, β 0 , and β are unknown parameter vectors.</p><p>The construction of the model Eq. 1 is displayed in Fig. <ref type="figure" target="#fig_1">2</ref>. The above GSDPD model includes the classical spatial autoregressive (SAR) model as its special case, which is Eq. 1 with T = 1, γ 0 = β 0 = 0, and γ = β = 0. For this SAR model, the ordinary least-squares estimation is inconsistent in general, because the spatially lagged dependent variable is typically correlated with the error term <ref type="bibr" target="#b5">(6,</ref><ref type="bibr" target="#b6">7)</ref>. To attain the consistent estimation, ref.</p><p>7 proposed maximum-likelihood (ML) estimation, combined with a Newton-Raphson procedure to optimize the objective, to estimate ρ.</p><p>A more general special case of the GSDPD model is the general first-order serial and spatial autoregressive distributed lag model considered in ref. <ref type="bibr" target="#b7">8</ref>, which can be represented by Eq. 1 with α = 0, γ 0 = β 0 = 0, and Zt = (y t-1 , xt , xt-1)n×3 and has been widely used in practice. The ML method was employed to achieve the consistent estimation in ref. <ref type="bibr" target="#b7">8</ref>. Another spatial dynamic panel data (SDPD) model with fixed effects considered in ref. <ref type="bibr" target="#b8">9</ref> is also a special case of the GSDPD model with α = 0, β 0 = 0, β = (ρ1, 0 d 1 -1 ) , d0 = n, Z = In , and Zt = (y t-1 , Xt ), where In denotes the n × n identity matrix. That work also investigated asymptotic properties of the quasi-maximum-likelihood (QML) estimator of the model.</p><p>Computing complexity is high for both ML and QMLE since they both need to compute the determinant of the Jacobian matrix which is a nonlinear function of ρ and hence the computation time increases as n increases. This motivated ref. <ref type="bibr" target="#b9">10</ref> to propose the generalized method of moments (GMM) to estimate the SDPD model. For the same reason, to estimate the spatial Durbin dynamic panel model, another special case of the SDPD, ref. 11 proposed using a combination of two-stage leastsquares (2SLS) and QML approaches. We remark that moment functions and instrumental variables need be selected to use the GMM approach and to compute the 2SLS estimates.</p><p>In this paper, we propose an approach that targets directly estimation of a GSDPD model by ordinary least squares (OLS), which require neither an iterative algorithm nor having to select moment functions and instrumental variables (IV). To obtain the consistent estimation, we need only to use the eigendecomposition of a spatial weight matrix. There are several major innovations in our approach. First, the proposed estimation is n(1 + d1)T consistent and asymptotically normally distributed. Second, the proposed estimates have explicit forms and do not need to be iteratively solved, and thus our method is an easy and efficient one. Third, as the spatial weight matrix is conventionally sparse, computation of its eigenvalues and eigenvectors via the Arnoldi and Lanczos algorithms is very fast. Finally, the proposed method can also be applied to select a model from a broader set of models, which, as demonstrated in our simulation studies, outperforms the model selection methods <ref type="bibr" target="#b11">(12)</ref> based on the well-known instrumental variables (13) in terms of estimation accuracy and computational speed.</p><p>Our main contributions are summarized as follows:</p><p>1) Development of a GSDPD model that accounts for many of the classical models as its special cases. The optimal model can be obtained by performing model selection. 2) An eigendecomposition-based least-squares (EDLS) estimation method for the general spatial dynamic panel data model in terms of the eigendecomposition of a conventional spatial weight matrix. 3) A model selection method on the general spatial dynamic panel data model based on EDLS. 4) Theoretical analysis of the limiting behavior of both the estimation of EDLS and the proposed model selection method. 5) A real data analysis using the developed method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Expanded Eigendecomposition-Based Least-Squares Estimation Procedure</head><p>The Methodology. Throughout this paper, we consider the scenario where all diagonal elements of Wn are zeros. Denote the eigenvalues and eigenvectors of W n by λi,n and η i,n ; i.e., W n η i,n = λi,n η i,n , i = 1, . . . , n. We further restrict that λi,n , i = 1, . . . , n, are real and are not all equal. This restriction can be justified by the following two common settings. In the first setting, Wn is a symmetric matrix. In the second setting, Wn = DA where one of A and D is a symmetric matrix and the other is a positive definite matrix.</p><p>Denote the true values of the regression coefficients of the model Eq.</p><formula xml:id="formula_1">1 as θ o = (ρ o , α o , (γ o 0 ) , (β o 0 ) , (γ o ) , (β o ) ) = (θ o 1 , . . . , θ o p )</formula><p>, where p = 2 + 2d0 + 2d1. Throughout the rest of this paper, the superscript "o" is suppressed to simplify notation. We propose the following expanded eigendecomposition-based least-squares estimation (EDLS+) procedure: </p><formula xml:id="formula_2">η i,n y t = 1 1 -ρλi,n η i,n 1n α + η i,n Z (γ 0 + λi,n β 0 ) + η i,n Zt (γ + λi,n β) + η i,n εt . [2]</formula><p>Denote y * i,t = η i,n y t , z * i,t = (1, η i,n Zt ) , β * i = η i,n 1n α + η i,n Z (γ 0 + λi,n β 0 ), (γ + λi,n β) /(1 -ρλi,n ), and ε * i,t = η i,n εt /(1 -ρλi,n ). Eq. 2 can be written as</p><formula xml:id="formula_3">y * i,t = (z * i,t ) β * i + ε * i,t , i = 1, . . . , n, t = 1, . . . , T ,<label>[3]</label></formula><p>where z * i,t = (zi,t,1, . . . , z i,t,d 1 +1 ) with zi,t,1 = 1. By Eq. 3, compute the least-squares (LS) estimate of β * i as follows:</p><formula xml:id="formula_4">β * i = T t=1 z * i,t (z * i,t ) -1 T t=1 z * i,t y * i,t .<label>[4]</label></formula><p>Step 2. Find the Cholesky decomposition Γi , a lower triangular matrix, such that</p><formula xml:id="formula_5">Γ i Γi = 1 T T t=1 z * i,t (z * i,t ) . Define ς i,T = √ T (1 -ρλi,n )Γi ( β * i -β * i ). Thus, Γi β * i = ρλi,n Γi β * i + (1 -ρλi,n )Γi β * i + ς i,T √ T = Ui θ o + ς i,T √ T , i = 1, . . . , n,<label>[5]</label></formula><p>where</p><formula xml:id="formula_6">Ui = Γi λi,n β * i , Bi<label>and</label></formula><formula xml:id="formula_7">Bi = η i,n 1n η i,n Z λi,n η i,n Z 0 0 0 0 0 I d 1 λi,n I d 1 (1+d 1 )×(p-1) .</formula><p>Eq. 5 can be rewritten in matrix form as</p><formula xml:id="formula_8">v = Uθ o + ς T √ T ,<label>[6]</label></formula><p>where v = (v 1 , . . . , v n ) with vi = Γi β * i , U = (U 1 , . . . , U n ) = (u1, . . . , up), and ς T = (ς 1,T , . . . , ς n,T ) .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 3. 3a.</head><p>If U is of full rank, an estimate of θ o is given by θEDLS = (U U) -1 U v.</p><p>[7]</p><p>3b. Assume that some elements of θ o are zeros. An estimate of θ o can be obtained by the penalized model selection method</p><formula xml:id="formula_9">θEDLS+ = arg min θ 1 n(1 + d1) v -Uθ 2 + p j =1 p ζ,γ (|θi |) ,<label>[8]</label></formula><p>where ζ &gt; 0, γ &gt; 0, and the penalty function p ζ,γ (|x |) satisfies the following conditions:</p><formula xml:id="formula_10">p ζ,γ (0) = 0, p ζ,γ (x ) = 0 if x &gt; γζ and p ζ,γ (0) = ζ. [9]</formula><p>The above conditions are satisfied by the following two penalty functions among others. One is the smoothly clipped absolute deviation (SCAD) penalty defined in ref. <ref type="bibr" target="#b13">14</ref>,</p><formula xml:id="formula_11">p ζ,γ (x ) = ζxI [0, ζ] (x ) + γζx -0.5(x 2 + ζ 2 ) γ -1 I (ζ, γζ] (x ) + ζ 2 (γ 2 -1) 2(γ -1) I (γζ, ∞) (x ), x ∈ [0, ∞),</formula><p>and the other one is the minimax concave penalty (MCP) given in ref. <ref type="bibr" target="#b14">15</ref>,</p><formula xml:id="formula_12">p ζ,γ (x ) = ζx - x 2 2γ I [0, γζ] (x ) + 1 2 γζ 2 I (γζ, ∞) (x ), x ∈ [0, ∞).</formula><p>Remark 1: Denote G = {j : θ o j = 0, j = 1, . . . , p} and UG = (uj , j ∈ G), θ o G = (θ o j , j ∈ G) . If G is known and UG is of full rank, θ o can be estimated by θo , the oracle estimator, such that θo G = (U G UG) -1 U G v, and θo j = 0 for j / ∈ G.</p><p>Theoretical Justification. Denote the smallest and largest eigenvalues of a matrix Ψ by λmin(Ψ) and λmax(Ψ), respectively. Denote Πn = (η 1,n , . . . , η n,n )n×n and</p><formula xml:id="formula_13">Ψt =      (Γ 1 ) -1 z * 1,t 0 • • • 0 0 (Γ 2 ) -1 z * 2,t • • • 0 . . . . . . . . . . . . 0 0 • • • (Γ n ) -1 z * n,t      n(1+d 1 )×n .</formula><p>Define</p><formula xml:id="formula_14">U * i = Γi (λi,n β * i , Bi ), U * = (U * 1 ) , . . . , (U * n ) = (u * 1 , . . . , u * p )</formula><p>, and U * G = (u * j , j ∈ G). We have the following lemma, which is needed for proving Theorem 1.</p><p>Lemma 1. Assume that n(1 + d1)/T → c with 0 ≤ c &lt; ∞ and that there exist two positive definite matrices ΣG and</p><formula xml:id="formula_15">Σς such that (U * G ) U * G /(n(1 + d1)) →p ΣG, (U * G ) T t=1 Ψt Π n Πn Ψ t /T U * G /[n(1 + d1)] →p Σς . If sup i,n</formula><p>|λi,n /(1 -ρλi,n )| &lt; w for some finite w &gt; 0, and (1/n) n i=1 λi,n /(1 -ρλi,n ) → mρ with |mρ| &lt; w as n → ∞, under the assumptions of <ref type="url" target="https://www.pnas.org/lookup/suppl/doi:10.1073/pnas.1917411117/-/DCSupplemental">SI Appendix, Lemma S-1.1,</ref> we have that for</p><formula xml:id="formula_16">Σ θ = Σ -1 G Σς Σ -1 G , 1) if 1 / ∈ G, n(1 + d1)T θo G -θ o G → d N 0, σ 2 Σ θ ; 2) if 1 ∈ G, n(1 + d1)T θo G -θ o G → d N cΣ -1 G mρσ 2 , 0 , σ 2 Σ θ .</formula><p>Lemma 1 implies that the asymptotic bias tends to zero at the rate O(1/T ) if 1 ∈ G. It is noted that the asymptotic bias of the MLE or GMM estimator of the autoregressive parameter in the autoregressive panel data model with random effects tends to zero at the same rate (theorem 1-3 of ref. <ref type="bibr" target="#b15">16</ref>) and so does the asymptotic bias of the QML estimators of the SDPD model with fixed effects (theorem 3 of ref. <ref type="bibr" target="#b8">9</ref>). The proof of Lemma 1 is given in <ref type="url" target="https://www.pnas.org/lookup/suppl/doi:10.1073/pnas.1917411117/-/DCSupplemental">SI Appendix</ref>.</p><p>Even though θEDLS+ is not unique in general, the following theorem shows that the oracle estimator θo is a solution of Eq. 8 in probability: Theorem 1. Suppose that the conditions of Lemma 1 and conditions in Eq. 9 hold. If ζ → 0, n(1 + d1)T ζ → ∞, and min{|θ o j |, j ∈ G} &gt; c0 for a finite c0 &gt; 0, then θo is a solution of Eq. 8 in probability.</p><p>The proof of Theorem 1 is given in <ref type="url" target="https://www.pnas.org/lookup/suppl/doi:10.1073/pnas.1917411117/-/DCSupplemental">SI Appendix</ref>. Denote Sn = 1 n(1+d 1 ) U U and let n be the smallest eigenvalue of</p><formula xml:id="formula_17">Sn . If n + minu&gt;0{p ζ,γ (u)} &gt; 0, then Q(θ) = v -Uθ 2 + p j =1 p ζ,γ (|θi |)</formula><p>is strictly convex and hence θEDLS+ is uniquely characterized by the Karush-Kuhn-Tucker (KKT) conditions. Note that n = 0 if p &gt; n(1 + d1). Thus under the condition that p ≤ n(1 + d1), the following corollary is an immediate consequence of Theorem 1: By Corollary 1, the difference between θEDLS+ and the oracle least-squares estimator θo tends to zero in probability, which implies that the proposed EDLS+ procedure is consistent.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data Examples Simulations.</head><p>Let A = (aij )n×n be an adjacency matrix such that aii = 0, aij = aji , j = i. We generate aij , i &gt; j , using Bernoulli distribution B (1, 10/n). We define the weight matrix Wn = D -1 A, where D = diag( n j =1 a1j , n j =1 a2j , . . . , n j =1 anj ), and each row sum of Wn is scaled to one.</p><p>In the model Eq. 1, let Z be an n × 2 matrix and Zt = (y t-1 , Xt , Xt-1), where Z are generated from the multivariate normal distribution with zero mean vector and covariance matrix I2, Xt is a n × 2 dimension matrix, Xt are generated from the multivariate normal distribution with zero mean vector and covariance matrix given by Σ0 = (cij )2×2 with cij = 0.5 |i-j | , and the error terms εt are iid from normal distribution N (0, 1) or t distribution t(3). Denote θ = (ρ, α, γ 0 , β 0 , γ , β ) , whose true value is θ o = (0.2, 0.5, 0, 0, -1.5, 2.5, 0.3, 0, 0, 0, 0, 0.5, -1, 2, 0, 0) 16×1</p><p>Table 1. Performance of EDLS+ and the IV method for estimating θ N(0,1) t(3) Method (n, T) ρ MSE CR ICR ρ MSE CR ICR EDLS+ Oracle (50,50) 0.205 0.037 8.000 0.000 0.200 0.039 8.000 0.000 LASSO 0.248 0.094 2.949 0.000 0.246 0.095 2.981 0.002 MCP 0.199 0.060 6.658 0.111 0.200 0.060 6.665 0.097 SCAD 0.198 0.060 6.711 0.112 0.198 0.060 6.693 0.102 OGA+ 0.142 0.099 7.945 0.395 0.146 0.094 7.943 0.369 Oracle (50,100) 0.203 0.018 8.000 0.000 0.200 0.018 8.000 0.000 LASSO 0.231 0.045 2.969 0.000 0.229 0.047 2.869 0.002 MCP 0.203 0.020 7.613 0.011 0.201 0.022 7.590 0.012 SCAD 0.204 0.020 7.603 0.010 0.201 0.022 7.582 0.013 OGA+ 0.202 0.021 7.967 0.022 0.199 0.022 7.961 0.030 Oracle (100,50) 0.210 0.019 8.000 0.000 0.207 0.019 8.000 0.000 LASSO 0.241 0.053 3.165 0.000 0.238 0.050 3.128 0.000 MCP 0.214 0.021 7.690 0.008 0.210 0.021 7.669 0.007 SCAD 0.214 0.021 7.687 0.008 0.210 0.021 7.669 0.007 OGA+ 0.213 0.021 7.985 0.013 0.208 0.022 7.981 0.021 IV Oracle (50,50) 0.332 0.104 8.000 0.000 0.327 0.102 8.000 0.000 LASSO 0.379 0.231 3.126 0.001 0.374 0.227 3.091 0.005 MCP 0.377 0.236 7.208 0.429 0.367 0.217 7.107 0.374 SCAD 0.378 0.240 7.207 0.445 0.367 0.218 7.085 0.384 OGA+ 0.431 0.479 7.899 1.212 0.425 0.470 7.904 1.185 Oracle (50,100) 0.330 0.077 8.000 0.000 0.329 0.076 8.000 0.000 LASSO 0.370 0.157 2.951 0.000 0.368 0.155 2.894 0.001 MCP 0.335 0.083 7.414 0.001 0.335 0.084 7.382 0.005 SCAD 0.334 0.082 7.349 0.001 0.334 0.083 7.326 0.005 OGA+ 0.471 0.458 7.913 1.000 0.471 0.459 7.918 1.003 Oracle (100,50) 0.280 0.038 8.000 0.000 0.275 0.036 8.000 0.000 LASSO 0.317 0.097 3.241 0.000 0.312 0.093 3.136 0.002 MCP 0.285 0.041 7.744 0.000 0.280 0.040 7.770 0.003 SCAD 0.285 0.041 7.678 0.000 0.280 0.040 7.693 0.003 OGA+ 0.399 0.409 7.967 1.113 0.389 0.410 7.972 1.136 in which there are eight nonzero coefficients and G = {1, 2, 5, 6, 7, 12, 13, 14}. The sample size (n, T ) is chosen respectively as (50, 50), (50, 100), and (100, 50).</p><p>In addition to the EDLS+ using both SCAD and MCP penalty functions, some other estimation methods are also considered for estimating θ o , including the oracle estimator (as G is known in simulations), the Least Absolute Shrinkage and Selection Operator (LASSO) estimator <ref type="bibr" target="#b16">(17)</ref>, and the estimator obtained by using the orthogonal greedy algorithm (OGA) plus high-dimensional Hannan-Quinn criterion (HDHQ) plus trimming (TRIM) (OGA+HDHQ+TRIM) <ref type="bibr" target="#b17">(18)</ref> that is simplified as OGA+ in this paper. It is noted that OGA is a forward stepwise regression method, HDHQ is used to choose a set of regressors along the OGA path by minimizing HDHQ, and TRIM is to exclude irrelevant variables. We select the tuning parameters in the LASSO, SCAD, and MCP penalty functions by the Bayesian information criterion (BIC).</p><p>We also compare the proposed procedure with the IV method, which is a natural generalization of the method introduced in ref.</p><p>12 with T = 1,</p><formula xml:id="formula_18">θIV = arg min θ 1 nT T t=1 y t -Z * t θ 2 + p j =0 p ζ,γ (|θj |),</formula><p>where</p><formula xml:id="formula_19">Z * t = (Ht (H t Ht ) -1 H t Wn y t , X * t ), Ht = Wn (I -ρWn ) -1 X *</formula><p>t is an instrumental variable, X * t = (1n , Z , Wn Z , Zt , Wn Zt ), and ρ is estimated by directly using the least-squares method in the model Eq. 1.</p><p>We perform 1,000 Monte Carlo simulations. We report the mean-squared errors (MSE), the average numbers of zero coefficients which are correctly estimated to be zero (CR), and the average numbers of nonzero coefficients that are erroneously set to zero (ICR) for estimating θ, where the MSE is calculated as</p><formula xml:id="formula_20">MSE ( θ) = 1,000 i=1 θi -θ o 2</formula><p>/1,000. The simulation results are reported in Tables <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref>. We can see from Tables <ref type="table">1</ref> and <ref type="table" target="#tab_0">2</ref> that 1) EDLS+ outperforms the IV method; 2) EDLS+ is much faster than the IV method;</p><p>3) The larger the n and T , the better is the performance of all of the methods; and 4) Neither the normal distribution nor the t distribution of the random error has significantly influenced the performance of both methods. Table 3. Estimates of the regression coefficients by EDLS+ Without y (2) t With y (2) t Regressors LASSO+ MCP SCAD OGA+ LASSO+ MCP SCAD OGA+ Wny (1) t 1.68e-01** 2.71e-01*** 2.82e-01*** 5.84e-02* y (1) t-1 5.71e-01*** 5.81e-01*** 6.79e-01*** 6.59e-01*** 4.12e-01*** 4.22e-01*** 4.14e-01*** 4.48e-01*** Tp 1.47e-04*** 1.52e-04*** 9.02e-05*** 1.26e-04*** 4.44e-05*** 3.41e-05*** 4.37e-05*** Dp -8.26e-06* -9.86e-06* -5.53e-07 -5.83e-06* -2.94e-06 -5.69e-06 Mi -5.96e-07 -1.02e-06 . -1.01e-06 -1.94e-06*** -2.17e-06** -1.95e-06* -1.46e-06*** Gqp -5.64e-01*** -5.49e-01*** -4.25e-01*** Bdh 4.96e-01*** 5.47e-01*** 5.07e-01*** 6.38e-01*** Rhu 4.43e-01*** 4.68e-01*** 6.05e-01*** 1.77e-01** 1.85e-01*** Hvr 4.06e-01** WnTp -8.32e-05** -1.01e-04*** -7.47e-05** -3.52e-05 . -4.38e-05* -3.52e-05. WnDp 3.04e-06 3.20e-07 3.23e-06 8.34e-06 . 1.29e-05** 9.90e-06* WnMi 2.93e-06* 9.77e-07 1.39e-06 4.27e-07 8.64e-07 6.21e-07 WnDra 2.74e-01*** WnGqp 3.58e-01* 5.57e-01** WnBdh -3.50e-01* WnRhu 8.14e-02 y (2) t 3.68e-01*** 3.78e-01*** 3.67e-01*** 4.21e-01*** Wny (2) t 5.85e-02** 3.98e-02* cos( 2πt 12 )1n -6.61e-02*** -5.51e-02*** -8.10e-02*** -3.69e-02** -3.39e-02* -3.81e-02** sin( 2πt 12 )1n -3.17e-02* -3.49e-02* -3.65e-02** R 2 0.9795 0.9789 0.9745 0.9762 0.9856 0.9853 0.9856 0.9842 σ 0.1455 0.1472 0.1614 0.1556 0.1087 0.1097 0.1088 0.1130 P value 0.0025 0.0026 0.0012 0.0012 0.2818 0.1228 0.1905 0.3945 AIC -1.3482 -1.3397 -1.2647 -1.2823 -1.4531 -1.4426 -1.4486 -1.4259 BIC -1.3372 -1.3309 -1.2589 -1.2779 -1.4436 -1.4337 -1.4390 -1.4229 Significance values: ***P = 0.001, **P = 0.01, *P = 0.05. P value is computed by a two-sided Kolmogorov-Smirnov test where null hypothesis is that the residuals are normality.</p><p>Moran's I statistics <ref type="bibr" target="#b18">(19)</ref> and P values under the null hypothesis of no spatial correlation between y (1) i,t and y (2) i,t at each time t, which are calculated using the spatial weight matrix Wn = D -1 A, where A = (aij ) is the queen contiguity matrix chosen by following ref. 1, and D = diag( n j =1 a1j , n j =1 a2j , . . . , n j =1 anj ) so that each row sum of Wn is scaled to one. By these two plots, it can be seen that {y <ref type="bibr" target="#b0">(1)</ref> it } and {y <ref type="bibr" target="#b1">(2)</ref> it } are clearly spatially correlated.</p><p>Denote y</p><p>t-1 = (y</p><p>1,t-1 , . . . , y</p><p>138,t-1 ) and y</p><p>t = (y (2) 1,t , . . . , y (2) 138,t ) . To model y (1) t = (y (1) 1,t , . . . , y (1) 138,t ) by a GSDPD model, we let Zt = y (1) t-1 , y (2) t , cos(2πt/12)1138×1, sin(2πt/12)1138×1 138×4</p><p>, Z138×15 be the 15 socioeconomic variables over the 138 census tracts and the weight matrix be Wn given above. As there are 13 socioeconomic variables having a total of 83 missing values for 13 census tracts, we impute them by the medians of the corresponding socioeconomic variables. Thus, for this GSDPD model, d0 = 15, d1 = 4 so that the number of regression coefficients is equal to p = 2 + 2d0 + 2d1 = 40, which implies that it is necessary to perform model selection for this model.</p><p>To find a strong confirmation of the "broken-windows" phenomenon (20), we compare the differences in modeling of {y <ref type="bibr" target="#b0">(1)</ref> i,t } without or with {y (2) i,t }. For the former one, we accordingly replace Zt by Z * t by deleting the second column of Zt . Since the bias in estimating θ by LASSO is large compared to others, we modify this approach by first using LASSO for performing model selection and then using OLS to estimate the regression coefficients in the selected model, which we denote by LASSO+. We report the modeling results by EDLS+ in Table <ref type="table">3</ref>.</p><p>In Table <ref type="table">3</ref>, it can be seen that in terms of R 2 , residual SE σ, the P value of the Kolmogorov-Smirnov (KS) normality test, the Akaike information criterion (AIC), and the BIC strongly support including y</p><note type="other">Residuals</note><p>t , as it is shown to have a significant and positive effect on y (1) t . From Table <ref type="table">3</ref>, it can also be observed that the spatial lag also has a positive effect on y (1) t . All these observations are fully in accordance with the broken-windows theory <ref type="bibr" target="#b19">(20)</ref>. In addition, Table <ref type="table">3</ref> shows that LASSO+ with y (2) t performs the best as it has not only the smallest residual SE σ, AIC, and BIC values but also the largest R 2 . The residual analysis of LASSO+ with y (2) t is displayed in Fig. <ref type="figure" target="#fig_5">4</ref>, which indicates that the distribution of residuals is approximately normally distributed.</p><p>A further examination of Table <ref type="table">3</ref> shows that both cos 2πt 12 1n and sin 2πt  12 1n are significant, which implies that y</p><p>is periodic with a period of 12 mo. It can also be observed that the popula-tion size (Tp) has a significantly positive effect on {y <ref type="bibr" target="#b0">(1)</ref> it } while both population density per square mile (Pd) and median income (Mi) have significantly negative effects on it. These results are in agreement with those reported in the literature suggesting that concentrations of violence typically occur in disadvantaged communities and regions with a large population size <ref type="bibr" target="#b20">(21,</ref><ref type="bibr" target="#b21">22)</ref>. Finally, Table <ref type="table">3</ref> reveals that the percentage of population with a bachelor's degree or higher (Bdh) has a significantly positive effect on {y </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Fig. 1. (A and B) Time averages of log(1 + c)-transformed Part I (A) and Part II (B) crimes in the 138 Pittsburgh census tracts.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2 .</head><label>2</label><figDesc>Fig. 2. The construction of the model Eq. 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Step 1 .</head><label>1</label><figDesc>Left multiply both sides of the model Eq. 1 by η i,n ; i.e.,</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Corollary 1 .</head><label>1</label><figDesc>Suppose that the conditions of Theorem 1 are satisfied. Assume that p ≤ n(1 + d1) and n → p c * , where c * &gt; -minu&gt;0 p ζ,γ (u) is a positive constant. Then P (An ) → 1, P ( θEDLS+ = θo |An ) → 0, as n → ∞, T → ∞, where An = { n + minu&gt;0 p ζ,γ (u) &gt; 0}.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>AFig. 3 .</head><label>3</label><figDesc>Fig. 3. (A) Time plot of transformed Part I crimes (solid squares) and Part II crimes (open triangles) averaged across census tracts. (B) Partial autocorrelations averaged across census tracts. (C) Time plot of Moran's I (diamonds) and P value (solid line) for transformed Part I crimes. (D) Time plot of Moran's I (diamonds) and P value (solid line) for transformed Part II crimes. ACF, autocorrelation function.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>FrequencyFig. 4 .</head><label>4</label><figDesc>Fig. 4. (A-C) Residual analysis of LASSO+ with y (2) t .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>( 1 )</head><label>1</label><figDesc>it }, which is in line with the result of ref.1.   </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 . Time consumptions of EDLS+ and the IV method</head><label>2</label><figDesc>The entries are the average running times in seconds based on 100 Monte Carlo replications. All computations are performed on the same computer [Intel(R) Core(TM) i7-8700 processor, 4.27 GHz, 12 M caches, 8 GB memory].</figDesc><table><row><cell>EDLS+</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_0"><p>of 7 | www.pnas.org/cgi/doi/10.1073/pnas.1917411117</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>Downloaded at La Trobe University on February 24, 2020</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_2"><p>of 7 | www.pnas.org/cgi/doi/10.1073/pnas.1917411117</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_3"><p>of</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_4"><p>| www.pnas.org/cgi/doi/10.1073/pnas.1917411117Jin et al.Downloaded at La Trobe University on February 24, 2020</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>ACKNOWLEDGMENTS.</head><p>We thank <rs type="person">Dr. Zhidong Bai</rs> for his helpful suggestions. B.J.'s research is partially supported by the <rs type="funder">National Natural Science Foundation</rs> (Grants <rs type="grantNumber">71873128</rs>, <rs type="grantNumber">11571337</rs>, <rs type="grantNumber">71631006</rs>, <rs type="grantNumber">71921001</rs>). Y.W.'s research is partially supported by the <rs type="funder">Natural Sciences and Engineering Research Council of Canada</rs> (Grant <rs type="grantNumber">RGPIN-2017-05720</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_yFPgaVh">
+					<idno type="grant-number">71873128</idno>
+				</org>
+				<org type="funding" xml:id="_HG52mC8">
+					<idno type="grant-number">11571337</idno>
+				</org>
+				<org type="funding" xml:id="_r34tTtp">
+					<idno type="grant-number">71631006</idno>
+				</org>
+				<org type="funding" xml:id="_AqugjNY">
+					<idno type="grant-number">71921001</idno>
+				</org>
+				<org type="funding" xml:id="_Aeet4uR">
+					<idno type="grant-number">RGPIN-2017-05720</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Likelihood-based inference and prediction in spatio-temporal panel count models for urban crimes</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Liesenfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">F</forename><surname>Richard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vogler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econom</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="600" to="620" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Network vector autoregression</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="1096" to="1123" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A time-space dynamic panel data model with spatial moving average errors</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pirotte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg. Sci. Urban Econ</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="13" to="31" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Spatiotemporal autoregressive models of neighborhood effects</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Clapp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Rodriquez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Real Estate Finance Econ</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="15" to="33" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">UCR: Uniform Crime Reporting Handbook (US Department of Justice</title>
+		<ptr target="https://lccn.loc.gov/2004483104" />
+	</analytic>
+	<monogr>
+		<title level="m">Federal Bureau of Investigation</title>
+		<meeting><address><addrLine>Washington, DC</addrLine></address></meeting>
+		<imprint>
+			<publisher>US Federal Bureau Of Investigation</publisher>
+			<date type="published" when="2004-02-12">2004. 12 February 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">On stationary processes in the plane</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Whittle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="434" to="449" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Estimation methods for models of spatial interaction</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="120" to="126" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Dynamic models in space and time</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="119" to="140" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum likelihood estimators for spatial dynamic panel data with fixed effects when both n and t are large</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">De</forename><surname>Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econom</title>
+		<imprint>
+			<biblScope unit="volume">146</biblScope>
+			<biblScope unit="page" from="118" to="134" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Efficient GMM estimation of spatial dynamic panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econom</title>
+		<imprint>
+			<biblScope unit="volume">180</biblScope>
+			<biblScope unit="page" from="174" to="197" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Identification of spatial Durbin panel models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econom</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="133" to="162" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Variable selection for spatial autoregressive models with a diverging number of parameters</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Cao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Du</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s00362-018-0984-2</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Pap</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Estimation of dynamic models with error components</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">W</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hsiao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="598" to="606" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Variable selection via nonconcave penalized likelihood and its oracle properties</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="page" from="1348" to="1360" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Nearly unbiased variable selection under minimax concave penalty</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Stat</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="894" to="942" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">The time series and cross-section asymptotics of dynamic panel data estimators</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Alvarez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Arellano</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="1121" to="1159" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Regression shrinkage and selection via the lasso</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. B</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="267" to="288" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A stepwise regression method and consistent model selection for high-dimensional sparse linear models</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Ing</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">L</forename><surname>Lai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Sin</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="1473" to="1513" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The interpretation of statistical maps</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Moran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. B</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="243" to="251" />
+			<date type="published" when="1948">1948</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Broken windows</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Q</forename><surname>Wilson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Kelling</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Atl. Mon</title>
+		<imprint>
+			<biblScope unit="volume">249</biblScope>
+			<biblScope unit="page" from="29" to="38" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Baller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">F</forename><surname>Messner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Deane</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">F</forename><surname>Hawkins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Structural covariates of US county homicide rates: Incorporating spatial effects</title>
+		<imprint>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="561" to="588" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Spatial eigenvector filtering for spatiotemporal crime mapping and spatial crime analysis</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Helbich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Jokar</forename><surname>Arsanjani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cartogr. Geogr. Inf. Sci</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="134" to="148" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

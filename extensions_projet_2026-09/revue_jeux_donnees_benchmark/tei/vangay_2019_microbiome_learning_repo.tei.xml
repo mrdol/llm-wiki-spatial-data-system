@@ -1,0 +1,1049 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Microbiome Learning Repo (ML Repo): A public repository of microbiome regression and classification tasks</title>
+				<funder ref="#_cqS5MZM">
+					<orgName type="full">National Institutes of Health</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2026-09-25">25 September 2026</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Pajau</forename><surname>Vangay</surname></persName>
+							<idno type="ORCID">0000-0002-9231-0692</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Bioinformatics and Computational Biology</orgName>
+								<orgName type="institution">University of Minnesota</orgName>
+								<address>
+									<addrLine>200 Union Street SE</addrLine>
+									<settlement>Minneapolis</settlement>
+									<region>MN</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Benjamin</forename><forename type="middle">M</forename><surname>Hillmann</surname></persName>
+							<idno type="ORCID">0000-0003-4276-1329</idno>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science and Engineering</orgName>
+								<orgName type="institution">University of Minnesota</orgName>
+								<address>
+									<addrLine>200 Union Street SE</addrLine>
+									<postCode>55455</postCode>
+									<region>Minneapolis MN</region>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Dan</forename><surname>Knights</surname></persName>
+							<email>dknights@umn.edu</email>
+							<idno type="ORCID">0000-0002-8205-2511</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Bioinformatics and Computational Biology</orgName>
+								<orgName type="institution">University of Minnesota</orgName>
+								<address>
+									<addrLine>200 Union Street SE</addrLine>
+									<settlement>Minneapolis</settlement>
+									<region>MN</region>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science and Engineering</orgName>
+								<orgName type="institution">University of Minnesota</orgName>
+								<address>
+									<addrLine>200 Union Street SE</addrLine>
+									<postCode>55455</postCode>
+									<region>Minneapolis MN</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Dan Knights, Bioinformatics and Computational Biology</orgName>
+								<orgName type="institution">University of Minnesota</orgName>
+								<address>
+									<addrLine>200 Union Street SE</addrLine>
+									<settlement>Minneapolis</settlement>
+									<region>MN</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Microbiome Learning Repo (ML Repo): A public repository of microbiome regression and classification tasks</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2026-09-25">25 September 2026</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">746AF59A6B11F507C3E01E63BEB0E14D</idno>
+					<idno type="DOI">10.1093/gigascience/giz042</idno>
+					<note type="submission">Received: 21 August 2018; Revised: 24 February 2019; Accepted: 26 March 2019</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>microbiome</term>
+					<term>machine learning</term>
+					<term>repository</term>
+					<term>database</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The use of machine learning in high-dimensional biological applications, such as the human microbiome, has grown exponentially in recent years, but algorithm developers often lack the domain expertise required for interpretation and curation of the heterogeneous microbiome datasets. We present Microbiome Learning Repo (ML Repo, available at <ref type="url" target="https://knights-lab.github.io/MLRepo/">https://knights-lab.github.io/MLRepo/</ref>), a public, web-based repository of 33 curated classification and regression tasks from 15 published human microbiome datasets. We highlight the use of ML Repo in several use cases to demonstrate its wide application, and we expect it to be an important resource for algorithm developers.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Findings</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Background</head><p>Machine learning is widely used as a method for classification and prediction, with a growing number of applications in human health <ref type="bibr" target="#b0">[1]</ref>. The use of machine learning in biological fields <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b2">3]</ref>, and more specifically the microbiome research field <ref type="bibr" target="#b3">[4]</ref><ref type="bibr" target="#b4">[5]</ref><ref type="bibr" target="#b5">[6]</ref><ref type="bibr" target="#b6">[7]</ref>, has grown exponentially owing to the robustness of these algorithms to high-dimensional data. However, challenges exist for large-scale meta-analysis because they often require manual curation of metadata and standardized processing of raw sequence data, resulting in variation in the results derived from chosen datasets across studies <ref type="bibr" target="#b7">[8,</ref><ref type="bibr" target="#b8">9]</ref>. In addition, microbiome research data can be challenging to access and analyze for expert machine learning algorithm developers, who often do not have the domain expertise required to interpret the data and metadata in complex microbiome studies. There exist general resources with curated classification tasks from a variety of domains. The University of California Irvine Machine Learning Repository <ref type="bibr" target="#b9">[10]</ref> revolutionized machine learning methods development by giving developers access to many curated datasets; its widespread usage and impact can be seen from its thousands of resulting citations. Currently, we are unaware of any machine learning repository dedicated to microbiome classification tasks. We constructed a complementary database to address this deficiency, in order to promote the development of and use of improved machine learning methods for the microbiome community.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Workflow</head><p>We present the Microbiome Learning Repo (ML Repo), a repository of 33 curated classification and regression tasks involving human microbiome data. Our 33 tasks are derived from 15 publicly available human microbiome datasets, which include 12 amplicon-based and 3 shotgun sequencing datasets (Table <ref type="table" target="#tab_0">1</ref>). These datasets vary across sequencing technology platforms, 16s hypervariable regions, and study design, in order to help developers ensure robustness of algorithms across data types. We streamlined the microbiome data using a single post-processing workflow (Fig. <ref type="figure" target="#fig_0">1A</ref>). We downloaded trimmed and quality-filtered sequencing reads for 8 datasets from QIITA <ref type="bibr" target="#b10">[11]</ref>, and raw sequences for 7 datasets from public repositories. Raw sequences were trimmed and quality filtered using SHI7 <ref type="bibr" target="#b11">[12]</ref> or QIIME <ref type="bibr" target="#b12">[13]</ref>. We picked operational taxonomic units (OTUs) from all qualityfiltered sequences using a closed-reference method with the BURST <ref type="bibr" target="#b13">[14]</ref> aligner against both the National Center for Biotechnology Information (NCBI) RefSeq 16S ribosomal RNA project <ref type="bibr" target="#b14">[15]</ref> and the Greengenes 97 database <ref type="bibr" target="#b15">[16]</ref>. Samples with &lt;1,000 sequencing reads were dropped for 10 datasets, while we applied a lower threshold of 100 sequencing reads per sample for 5 datasets that had lower expected bacterial load. Full details regarding the data preprocessing are provided for each data set in the mlrepo-source branch of the GitHub repository, under preprocessing/make.mappings.r. As a result, for each dataset we generated RefSeq-based OTU and taxa abundance counts, and Greengenes-based OTU and taxa abundance counts. These counts are presented in tables that are organized as follows: OTUs or taxa as rows, and samples as columns. OTUs are represented as either NCBI genome identifiers or Greengenes identifiers. Taxa are represented as "kingdom; phylum; class; order; family; genus; species; strain," with highest taxonomic specificity where possible. We excluded additional post-processing filtering and normalization steps so that these parameters can be included in future benchmarking use cases as needed. We also limit our data to OTU and taxa tables because other metrics such as α and β diversity can be subsequently generated as needed.</p><p>Sample metadata from individual studies were manually curated to generate viable prediction tasks. When available, published study exclusion criteria, such as reported use of antibiotics, were applied accordingly and confounders were removed by dropping samples or stratification. Well-known confounders were accounted for when constructing prediction tasks for other human-associated conditions; e.g., predicting age using the Yatsunenko 2012 dataset is restricted to samples from the USA owing to the known variation in gut microbiomes across different geographical locations. Details of how samples were subset for each prediction task can be found in the mlrepo-source branch of the GitHub repository, under preprocessing/make.mappings.r. Studies that were cross-sectional by design but contained several samples per subject were filtered to contain 1 sample per subject. In study designs with paired diseased-healthy or preand post-intervention samples, samples were reduced to 2 samples per subject with subject identifiers provided as confounder variables. Hence, each prediction task is made available as an individual, compartmentalized metadata file that contains sample identifiers, responses to predict, and optionally, confounder variables that are inherent to the research study design such as paired healthy and diseased samples from the same subject (see Methods for more details). As a result, we generated 33 distinct tasks for predicting human-associated responses.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Publicly available web-based interface</head><p>We expect 2 types of users: (i) machine learning algorithm developers with limited knowledge of microbiome study designs and (ii) microbiome researchers interested in obtaining additional datasets for meta-analysis. Generally, we expect that method developers will be most interested in sweeping through the full set of prediction tasks for benchmarking, and hence would prefer to download a single compressed file containing all tasks and data. On the other hand, we expect microbiome researchers to be more selective in downloading specific datasets and tasks depending on their research domain. Hence, researchers may prefer to browse specific details about tasks and datasets prior to downloading.</p><p>On the basis of these expected use cases, we created a publicly available web-based interface for ML Repo hosted by GitHub Pages <ref type="bibr" target="#b16">[17]</ref>. Tasks are organized by relevant response categories (Fig. <ref type="figure" target="#fig_1">2A</ref>). Task pages contain descriptive details such as sam-ple size and response type that are specific to the selected prediction task, as well as links for downloading OTU tables, taxa tables, and sample metadata (Fig. <ref type="figure" target="#fig_1">2B</ref>). Dataset pages contain important details about the entire dataset, including links to the original research study, as well as original metadata files and quality-filtered sequences (Fig. <ref type="figure" target="#fig_1">2C</ref>). We also provide a single compressed file containing the entire set of available tasks (OTU tables, taxa tables, and relevant metadata) for download from the main home page.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Benefits of curated microbiome-based prediction tasks</head><p>We expect ML Repo to be beneficial for both the machine learning community as well as the microbiome research community. ML Repo will be a powerful complement to the University of California Irvine's Machine Learning Repository because it will allow for benchmarking curated classification tasks with high-dimensional data and hence enable the subsequent development of novel algorithms for these complex datasets. Our streamlined approach in generating OTU and taxa tables offers a rich set of 15 datasets that microbiome researchers can use directly for further comparison with their own studies, for teaching and learning purposes, or for large meta-analyses. We expect that our provided OTU and taxa tables will also be beneficial for researchers with limited access to high-performance computing resources or bioinformatics skills necessary for processing raw sequencing data. In addition, we also expect microbiomespecific methods development to benefit from our repository. The subset of samples found in each prediction task metadata file replace the work of rigorously deciphering metadata and understanding the subtle differences of individual research studies. New methods, such as OTU-picking algorithms, can be eval-uated not only on metrics such as speed and accuracy but also based on overall impact to study findings.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Comparison to similar databases</head><p>Although a number of microbiome repositories exist, many are Downloaded from academic.oup.com/gigascience/article/8/5/giz042/5481665 by guest on 25 September 2026 intended as data archival repositories <ref type="bibr" target="#b17">[18,</ref><ref type="bibr" target="#b18">19]</ref> or function as resources for aggregating across studies <ref type="bibr" target="#b19">[20]</ref>. Resources such as QIITA <ref type="bibr" target="#b10">[11]</ref> offer an extensive collection of datasets, and mockcommunity-based Mockrobiota <ref type="bibr" target="#b20">[21]</ref> is well-suited for bench- marking upstream methods, but neither offers support for the metadata interpretation necessary for predicting high-level phenotypes. Microbiome-based repositories that do provide manually curated metadata include curatedMetagenomicData <ref type="bibr" target="#b21">[22]</ref> and MicrobiomeHD <ref type="bibr" target="#b22">[23]</ref>. Although curatedMetagenomicData offers a collection of shotgun-metagenomics datasets with varying human sample types with gene, pathway, and taxonomic abundance tables, its data are accessible only via Bioconductor <ref type="bibr" target="#b23">[24]</ref> and are stored as ExpressionSet objects, which inte-grates metadata and abundance data. Although curatedMetage-nomicData is an impressive repository with many features, it is most suitable for advanced bioinformaticians because its interface may hinder use by beginner data analysts and in teaching environments. MicrobiomeHD offers easily accessible taxonomic abundance tables with curated metadata but is limited only to amplicon-based sequencing data, human stool samples, and case-control responses. And although both curatedMetage-nomicData and MicrobiomeHD provide manually curated meta- data, biological interpretation is still required because other sample metadata, e.g., antibiotic use, may have biological relevance in predicting responses. This poses a potential problem for machine learning developers with limited biological and microbiome domain expertise. ML Repo resolves this issue by explicitly defining classification and regressions tasks for predicting responses that have either been manually curated to remove confounders or been specifically annotated with biological confounders that must be controlled for. Metadata files in ML Repo are task-specific and, hence, are simplified to contain only (i) sample identifiers indicating samples that should be used for the prediction task, (ii) corresponding high-level phenotypes or responses, and optionally, (iii) a confounder that should be accounted for owing to its biological relevance. In addition, datasets in ML Repo include both amplicon-based and shotgunmetagenomics datasets covering a variety of human sample types, and are easily accessible via a web-based interface.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Case studies</head><p>We compare the performance of 3 machine learning models: a random forest <ref type="bibr" target="#b24">[25]</ref>, and a support vector machine(SVM) <ref type="bibr" target="#b25">[26]</ref> with either a radial or linear kernel. Sweeping through available tasks with binary responses, we compare our models by examining receiver operating curves (ROCs) and areas under the curve (AUC), considered the standard method for machine learning model evaluation <ref type="bibr" target="#b26">[27,</ref><ref type="bibr" target="#b27">28]</ref> (Fig. <ref type="figure" target="#fig_2">3</ref>). Through comparison of ROCs, we can see that random forest outperforms or ties the other 2 models in 21 of the 28 tasks. The choice of kernels for SVM seems to have limited impact on overall mean accuracy, yet a linear kernel was able to perfectly classify penicillin-treated and vancomycintreated mouse cecal contents when the other models could not; further examination of the microbial features in these samples may be warranted to better elucidate the strengths of this kernel. We also performed pairwise comparisons of random forest against the other models across all tasks. When evaluated by AUC, random forest performed significantly better than both SVM with a linear kernel (P = 0.0014) and with a radial kernel (P = 0.00032) (Fig. <ref type="figure" target="#fig_3">4A</ref>). We found that random forest accuracy improvements were moderate when compared with SVM-Linear (P = 0.083) and SVM-Radial (P = 0.03) (Fig. <ref type="figure" target="#fig_3">4B</ref>), which may be explained by the fact that, unlike AUC, accuracy ignores class prediction probability estimates. Our results support the broad usage <ref type="bibr" target="#b3">[4,</ref><ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b7">8,</ref><ref type="bibr" target="#b28">29]</ref> and acceptance of random forest as a robust classifier <ref type="bibr" target="#b5">[6]</ref> with high-dimensional microbiome data.</p><p>To assess the impact of reference database choice on classification accuracies, we also used the classification tasks to compare random forest using OTUs picked with the Greengenes 97 database or the NCBI RefSeq Targeted Loci Project 16s project. We found that there was limited impact of database choice on overall classification accuracies (Figs <ref type="figure" target="#fig_3">4C</ref> and <ref type="figure" target="#fig_4">5</ref>). This may be due to (i) large effect sizes that are driven mainly by several wellcharacterized bacterial taxa present in both databases (e.g., stool vs tongue samples), or (ii) small effect sizes such that classification is difficult regardless of the database (e.g., male vs female stool). Note that OTU-picking with the Greengenes database resulted in more OTU features in every dataset (Table <ref type="table" target="#tab_1">2</ref>); hence, these findings further highlight how the smaller, higher-quality NCBI RefSeq database can recover the same signal from the larger Greengenes database.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Future work</head><p>We expect and hope that the broader microbiome research community will add new datasets and prediction tasks to ML Repo. We provide instructions <ref type="bibr" target="#b29">[30]</ref> on our GitHub repository to guide users to create a fork from our repository, add the appropriate data and files, and update the master task and dataset lists. Researchers can then submit a pull request for our review, and requests that are properly formatted will be accepted and merged into the repository. We expect that data submissions will come from either the original researchers or those well acquainted with the datasets, and hence will expect that sample selection and subsetting will have undergone rigorous review for prediction tasks.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Pre-processing of sequencing reads</head><p>When available, preprocessed FASTA files were downloaded from QIITA (or previously, the QIIME database). For all other datasets, raw FASTQ files were downloaded from sources listed in Supplemental Table <ref type="table" target="#tab_0">1</ref>. Adaptors and barcodes were removed and sequences were quality filtered (at Phred score ≥ Q20) using SHI7 <ref type="bibr" target="#b11">[12]</ref> or QIIME <ref type="bibr" target="#b12">[13]</ref>. OTUs were picked from processed FASTA files using BURST <ref type="bibr" target="#b13">[14]</ref> with Greengenes <ref type="bibr" target="#b15">[16]</ref> 97 or the NCBI RefSeq Targeted Loci Project 16s project <ref type="bibr" target="#b14">[15]</ref> (accessed on 4 July 2017). Samples with sequencing depth &lt;1,000 sequences per sample were dropped for all studies, except for 5 datasets <ref type="bibr" target="#b30">[31]</ref><ref type="bibr" target="#b31">[32]</ref><ref type="bibr" target="#b32">[33]</ref><ref type="bibr" target="#b33">[34]</ref><ref type="bibr" target="#b34">[35]</ref>, where the minimum threshold was 100 sequences per sample.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Selection of classification tasks</head><p>Classification tasks were selected on the basis of reported study results, biologically relevant high-level phenotypes, and sufficient sample sizes. Original metadata files and research methods were rigorously and manually curated in order to subset samples with minimal confounders. For confounders that were inherent to the study, we include an additional variable to control for in the task metadata files. The presence of control variables can be found by examining "control vars" in the Tasks table.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Website generation</head><p>Website templating was developed using Jinja2 <ref type="bibr" target="#b35">[36]</ref> and custom Python scripts. Individual webpages were generated by iterating through items in the Tasks and Datasets tables, and dynamically populating templates to generate individual Markdown <ref type="bibr" target="#b36">[37]</ref> pages. The resulting Markdown pages are hosted as GitHub Pages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Case study benchmarking</head><p>Case study results were generated with custom R <ref type="bibr" target="#b37">[38]</ref> scripts, which can be found in the /example folder in the ML Repo Github repository. To compare machine learning models, we iterated through tasks with binary responses. OTU counts were converted to relative abundances, filtered at a minimum of 10% prevalence across samples, and collapsed at a complete-linkage correlation of 95% (which is done by calculating the Pearson correlation between each pair of OTUs using all complete pairs of observations, hierarchically clustering the results, and cutting the resulting dendrogram at a height of 0.05). We then constructed a 5-fold cross-validation for tasks containing &gt;100 sam-Downloaded from academic.oup.com/gigascience/article/8/5/giz042/5481665 by guest on 25 September 2026 ples, or a leave-one-out cross-validation for tasks with fewer samples. For n-fold cross validation, samples were assigned to folds such that classes were equally balanced within each fold (e.g., if our task contained 40% healthy and 60% diseased samples, our folds would also be selected to represent this distribution). For tasks that contained control variables, we selected folds such that samples with the same control variable value were contained within the same fold. For example, for a task dataset containing matching stool and oral samples from subjects, the Subject Identifier would be listed as the control variable and we should assign samples to folds such that all samples from a specific subject were contained within a fold. This step is crucial to avoid biasing or overfitting the training model; test folds should contain not only new samples but also samples that are independent from those in the training set. Models were constructed using the "caret" package <ref type="bibr" target="#b38">[39]</ref>. Control parameters were set using the function trainControl with parameter method = "none" and default parameters. Default settings for all models are as follows: SVM radial basis σ is set to 0.1, all SVMs <ref type="bibr" target="#b39">[40]</ref>C is set to 1, and randomForest number of trees is set to 500 and number of variables to split is sqrt(p), where p is the number of features. This entire process was bootstrapped 100 times, and the mean class probabilities were used to calculate the resulting AUCs and ROCs. To compare classification accuracies using different reference databases, we used a similar procedure but held the model constant and predicted using different base OTU tables. This framework enables comparison of a myriad of machine learning models available in the "caret" package and can be easily expanded to compare different OTU-picking algorithms, or normalization and filtering techniques.</p><p>Table3 Glossary Term Definition OTU Operational taxonomic unit, group of closely related organisms based on DNA sequence similarity 16S 16S ribosomal RNA gene, component of the prokaryotic ribosome, used to reconstruct phylogenies FASTA Text-based format for representing nucleotide sequences with single-letter codes FASTQ Text-based format for representing nucleotide sequences and corresponding quality scores, with single-letter codes for nucleotides and quality Taxa Groups of ≥1 populations of organisms. Usually summarized at phylum, class, order, family, genus, or species levels Metadata Descriptive data pertaining to samples within a study Shotgun Shotgun metagenomics sequencing breaks up all available DNA into random small segments and uses chain termination to sequence reads. Reads can be aligned directly to a reference database, or overlapping reads can be assembled into contiguous sequences versity of Minnesota in accordance with its Conflict-of-Interest policies.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Data processing workflow and website generation. (A) Quality-filtered sequences were obtained from either the QIITA or from another public repository and trimmed and filtered using SHI7. Reference-based OTUs were picked using BURST with the NCBI RefSeq and Greengenes 97 (GG 97) databases. (B) Individual GitHub Markdown pages were generated from dataset and task lists with a custom Python script and Jinja2 template, then uploaded to GitHub to be hosted.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Screenshots of ML Repo web interface. (A) Available classification and regression tasks are listed by high-level phenotype categories for browsing. (B) Individual task webpages contain links to files for classifying a specific task, as well as relevant task-specific metadata. (C) Individual dataset webpages contain relevant metadata pertaining to the entire dataset, as well as links to raw metadata files and sequencing data.</figDesc><graphic coords="4,86.32,59.75,425.21,549.84" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Figure3: ROCs comparing random forest and SVM with different kernels. Sweeping across all binary classification tasks available in ML Repo<ref type="bibr" target="#b27">(28)</ref>, we compare ROCs of random forest, SVM with a radial kernel, and SVM with a linear kernel. AUCs are listed within plots and are colored respective to each model. cd: Crohn's disease; dz: dizygotic; mz: monozygotic; uc: ulcerative colitis.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: Summary statistics of framework and database comparisons. (A) AUCs of random forest (rf) to SVM-Linear (left) and random forest to SVM-Radial (right). Paired t-tests reveal that random forest results in significantly higher AUC than both SVM-Linear (P = 0.0014) and SVM-Radial (P = 0.00032). (B) Accuracies of random forest to SVM-Linear (left) and random forest to SVM-Radial (right). Paired t-tests reveal that random forest results in significantly better accuracy than SVM-Radial (P = 0.03), but not SVM-Linear (P = 0.083). (C) AUCs (left) and accuracies (right) of random forest classifications of 24 tasks using OTUs picked with NCBI RefSeq database or Greengenes (gg) database as predictors. Student t-test reveals that reference database choice has limited impact on classification AUC or accuracy. Lines are colored by the top model for each classification task.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: ROCs comparing NCBI RefSeq and Greengenes 97 (gg97) databases. Sweeping across 16s-based binary classification tasks available in ML Repo (24), we compare ROCs of random forest with genus-level taxonomic summaries as predictors from OTU-picking strategies with the NCBI RefSeq prokaryote reference database and the Greengenes 97 reference database. AUCs are listed within plots and are colored respective to each database. cd: Crohn's disease; dz: dizygotic; mz: monozygotic; uc: ulcerative colitis.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Microbiome datasets with available classification tasks in ML Repo</figDesc><table><row><cell></cell><cell></cell><cell>Target</cell><cell>No.</cell><cell>No.</cell><cell></cell><cell></cell><cell>Sequencing</cell><cell></cell></row><row><cell cols="2">Project name V Region</cell><cell>size</cell><cell>samples</cell><cell>subjects</cell><cell>Area</cell><cell>Description</cell><cell>technology</cell><cell>Study design</cell></row><row><cell>Cho 2012</cell><cell>V3</cell><cell>177</cell><cell>95</cell><cell>47</cell><cell>Antibiotics</cell><cell>Mouse fecal and cecal samples,</cell><cell>454</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>control vs 4 kinds of antibiotics</cell><cell></cell><cell>sectional</cell></row><row><cell>Claesson 2012</cell><cell>V4</cell><cell>221</cell><cell>168</cell><cell>168</cell><cell>Age</cell><cell>Elderly and young adults</cell><cell>454</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>sectional</cell></row><row><cell>David 2014</cell><cell>V4</cell><cell>282</cell><cell>235</cell><cell>11</cell><cell>Diet</cell><cell>Plant-based vs animal-based</cell><cell cols="2">Illumina MiSeq Longitudinal</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>diet, cross-over study</cell><cell></cell><cell></cell></row><row><cell>Gevers 2014</cell><cell>V4</cell><cell>173</cell><cell>1,321</cell><cell>668</cell><cell>IBD</cell><cell>Biopsies from patients with IBD</cell><cell>Illumina MiSeq</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>prior to treatment</cell><cell></cell><cell>sectional</cell></row><row><cell>HMP 2012</cell><cell>V35</cell><cell>527</cell><cell>6,407</cell><cell>242</cell><cell>Body habitat,</cell><cell>Up to 18 body sites across 242</cell><cell>454</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>sex</cell><cell>healthy subjects at 1-2 time</cell><cell></cell><cell>sectional</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>points</cell><cell></cell><cell></cell></row><row><cell>Kostic 2012</cell><cell>V35</cell><cell>569</cell><cell>190</cell><cell>95</cell><cell>Colorectal</cell><cell>Adjacent healthy vs tumor</cell><cell>454</cell><cell>Paired</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>cancer</cell><cell>colon biopsy tissues</cell><cell></cell><cell></cell></row><row><cell>Montassier</cell><cell>V56</cell><cell>280</cell><cell>28</cell><cell>28</cell><cell>Bacteremia</cell><cell>Patients prior to chemotherapy</cell><cell>454</cell><cell>Cross-</cell></row><row><cell>2016</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>who did or did not develop</cell><cell></cell><cell>sectional</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>bacteremia</cell><cell></cell><cell></cell></row><row><cell>Morgan 2012</cell><cell>V35</cell><cell>569</cell><cell>231</cell><cell>231</cell><cell>IBD</cell><cell>Healthy controls, patients with</cell><cell>454</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>Crohn's disease or ulcerative</cell><cell></cell><cell>sectional</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>colitis</cell><cell></cell><cell></cell></row><row><cell>Turnbaugh</cell><cell>V2</cell><cell>230</cell><cell>281</cell><cell>154</cell><cell>Obesity</cell><cell>Monozygotic or dizygotic twin</cell><cell>454</cell><cell>Cross-</cell></row><row><cell>2009</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>pairs concordant for body mass</cell><cell></cell><cell>sectional</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>index class, and their mothers</cell><cell></cell><cell></cell></row><row><cell>Wu 2011</cell><cell>V12</cell><cell>244</cell><cell>95</cell><cell>10</cell><cell>Diet</cell><cell>Controlled high-fat or low-fat</cell><cell>454</cell><cell>Longitudinal</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>feeding on 10 subjects over 10</cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>days</cell><cell></cell><cell></cell></row><row><cell>Yatsunenko</cell><cell>V4</cell><cell>282</cell><cell>531</cell><cell>531</cell><cell>Geography, age,</cell><cell>Humans of varying ages from</cell><cell>Illumina MiSeq</cell><cell>Cross-</cell></row><row><cell>2012</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>sex</cell><cell>the USA, Malawi, and Venezuela</cell><cell></cell><cell>sectional</cell></row><row><cell>Ravel 2011</cell><cell>V12</cell><cell>240</cell><cell>396</cell><cell>396</cell><cell>Bacterial</cell><cell>Vaginal samples from 4 ethnic</cell><cell>454</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>vaginosis</cell><cell>groups; Nugent scores for</cell><cell></cell><cell>sectional</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>bacterial vaginosis</cell><cell></cell><cell></cell></row><row><cell>Karlsson 2013</cell><cell>NA</cell><cell>NA</cell><cell>144</cell><cell>144</cell><cell>Diabetes</cell><cell>Patients with normal, impaired,</cell><cell>Illumina HiSeq</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>or type 2 diabetes glucose</cell><cell></cell><cell>sectional</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>tolerance categories</cell><cell></cell><cell></cell></row><row><cell>Qin 2012</cell><cell>NA</cell><cell>NA</cell><cell>134</cell><cell>134</cell><cell>Diabetes</cell><cell>Chinese healthy controls vs</cell><cell>Illumina HiSeq</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>patients with type 2 diabetes</cell><cell></cell><cell>sectional</cell></row><row><cell>Qin 2014</cell><cell>NA</cell><cell>NA</cell><cell>130</cell><cell>130</cell><cell>Cirrhosis</cell><cell>Healthy controls vs patients</cell><cell>Illumina HiSeq</cell><cell>Cross-</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>with cirrhosis</cell><cell></cell><cell>sectional</cell></row><row><cell cols="9">ML Repo contains 33 classification and regression tasks from 15 publicly available human microbiome datasets shown here. IBD: inflammatory</cell></row><row><cell cols="3">bowel disease; NA: not applicable.</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Description of available prediction tasks Dataset</figDesc><table><row><cell>Control</cell><cell>variable</cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>N</cell><cell>Y</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>Y</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell>Y</cell><cell></cell><cell>Y</cell><cell></cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell>Taxa, gg</cell><cell>141</cell><cell></cell><cell></cell><cell>141</cell><cell></cell><cell></cell><cell>141</cell><cell></cell><cell></cell><cell>141</cell><cell></cell><cell></cell><cell>279</cell><cell>695</cell><cell></cell><cell></cell><cell>446</cell><cell></cell><cell>446</cell><cell></cell><cell>446</cell><cell></cell><cell></cell><cell>446</cell><cell></cell><cell></cell><cell>1,218</cell><cell></cell><cell></cell><cell>1,218</cell><cell></cell><cell>1,218</cell><cell></cell><cell>1,218</cell><cell></cell><cell></cell><cell></cell><cell>NA</cell><cell></cell><cell>NA</cell><cell></cell><cell></cell></row><row><cell>Sample No. of Features</cell><cell>Attributes Description Area Regression? size Taxa, OTU,</cell><cell>refseq refseq OTU, gg</cell><cell>299 Abx: Control, Chlortetracycline 5 Groups of mice treated Antibiotics 47 293 1,144</cell><cell>with 4 different antibiotics</cell><cell>or no antibiotics</cell><cell>299 Abx: Control, Chlortetracycline 5 Groups of mice treated Antibiotics 45 293 1,144</cell><cell>with 4 different antibiotics</cell><cell>or no antibiotics</cell><cell>299 Abx: Penicillin, Vancomycin 5 Groups of mice treated Antibiotics 47 293 1,144</cell><cell>with 4 different antibiotics</cell><cell>or no antibiotics</cell><cell>299 Abx: Penicillin, Vancomycin 5 Groups of mice treated Antibiotics 45 293 1,144</cell><cell>with 4 different antibiotics</cell><cell>or no antibiotics</cell><cell>662 AGE: Elderly, Young Elderly or young adults Age 167 569 3,763</cell><cell>1,535 Diet: Plant, Animal Individuals on the last day of Diet 18 1,747 6,293</cell><cell>an animal or plant diet</cell><cell>intervention</cell><cell>992 DIAGNOSIS: no, CD Healthy controls and IBD 140 943 3,547</cell><cell>patients with CD</cell><cell>992 DIAGNOSIS: no, CD Healthy controls and IBD 160 943 3,547</cell><cell>patients with CD</cell><cell>992 PCDAI PCDAI scores of patients IBD X 68 943 3,547</cell><cell>with CD at 6 months after</cell><cell>sampling</cell><cell>992 PCDAI PCDAI scores of patients IBD X 51 943 3,547</cell><cell>with CD at 6 months after</cell><cell>sampling</cell><cell>3,090 HMPBODYSUPERSITE: Oral, Gastrointestinal tract and Body 2,070 3,121 9,383</cell><cell>Gastrointestinal tract, oral cavity of healthy adults habitat</cell><cell>HOST SUBJECT ID</cell><cell>3,090 SEX: male, female Healthy male and female Sex 180 3,121 9,383</cell><cell>adults</cell><cell>3,090 HMPBODYSUBSITE: Stool, Stool and tongue of healthy Body 404 3,121 9,383</cell><cell>Tongue dorsum; HOST SUBJECT ID adults habitat</cell><cell>3,090 HMPBODYSUBSITE: Subgingival and Body 408 3,121 9,383</cell><cell>Subgingival plaque, supragingival plaque of habitat</cell><cell>Supragingival plaque; healthy adults</cell><cell>HOST SUBJECT ID</cell><cell>3,758 Classification: IGT, T2D Impaired or type 2 diabetes Diabetes 101 12,845 NA</cell><cell>glucose tolerance categories</cell><cell>3,758 Classification: NGT, T2D Normal or type 2 diabetes Diabetes 96 12,845 NA</cell><cell>glucose tolerance categories</cell><cell>Downloaded from academic.oup.com/gigascience/article/8/5/giz042/5481665 by guest on 25 September 2026</cell></row><row><cell></cell><cell></cell><cell></cell><cell>Cho 2012</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>Claesson 2012</cell><cell>David 2014</cell><cell></cell><cell></cell><cell>Gevers 2014</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>HMP 2012</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>Karlsson 2013</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 2 :</head><label>2</label><figDesc>ContinuedDataset</figDesc><table><row><cell>Control</cell><cell>variable</cell><cell></cell><cell>Y</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell>Y</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell>N</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell>Taxa, gg</cell><cell>409</cell><cell></cell><cell></cell><cell>228</cell><cell></cell><cell></cell><cell>367</cell><cell></cell><cell>367</cell><cell></cell><cell>NA</cell><cell></cell><cell>NA</cell><cell></cell><cell>305</cell><cell></cell><cell>305</cell><cell></cell><cell></cell><cell>305</cell><cell></cell><cell>305</cell><cell></cell><cell>305</cell><cell></cell><cell>232</cell><cell></cell><cell></cell><cell>136</cell><cell></cell><cell></cell><cell>1,544</cell><cell></cell><cell>1,544</cell><cell></cell><cell>1,544</cell><cell></cell><cell>1,544</cell><cell></cell><cell></cell></row><row><cell>Sample No. of Features</cell><cell>Attributes Description Area Regression? size Taxa, OTU,</cell><cell>refseq refseq OTU, gg</cell><cell>980 DIAGNOSIS: Healthy, Tumor; Colorectal carcinoma tumors Cancer 172 908 3,228</cell><cell>HOST SUBJECT ID and adjacent nonaffected</cell><cell>tissues</cell><cell>640 Treatment: bact, NObact Patients prior to Bacteremia 28 541 1,852</cell><cell>chemotherapy who did or</cell><cell>did not develop bacteremia</cell><cell>877 ULCERATIVE COLIT OR CROHNS DIS: Healthy controls or patients IBD 128 829 3,677</cell><cell>Crohn's disease, Healthy with CD or ulcerative colitis</cell><cell>877 ULCERATIVE COLIT OR CROHNS DIS: Healthy controls or patients IBD 128 829 3,677</cell><cell>Ulcerative Colitis, Healthy with CD or ulcerative colitis</cell><cell>2,526 Diabetic: Y, N Healthy controls or patients Diabetes 124 11,880 NA</cell><cell>with type 2 diabetes</cell><cell>2,579 Cirrhotic: Cirrhosis, Healthy Healthy controls or patients Cirrhosis 130 8,483 NA</cell><cell>with cirrhosis</cell><cell>660 Ethnic Group: Black, Hispanic Vaginal microbiomes of Vaginal 199 586 1,093</cell><cell>black and Hispanic women</cell><cell>660 Nugent score category: low, high Predict Nugent score Vaginal 342 586 1,093</cell><cell>category (low, high) from</cell><cell>vaginal microbiome</cell><cell>660 Nugent score Predict Nugent score from Vaginal X 388 586 1,093</cell><cell>vaginal microbiome</cell><cell>660 pH Predict pH from vaginal Vaginal X 388 586 1,093</cell><cell>microbiome</cell><cell>660 Ethnic Group: White, Black Vaginal microbiomes of Vaginal 200 586 1,093</cell><cell>white and black women</cell><cell>680 OBESITYCAT: Lean, Obese; ZYGOSITY: Lean or obese individuals Obesity 142 557 4,051</cell><cell>MZ, DZ, Mom (monozygotic or dyzygotic</cell><cell>twins or their mothers)</cell><cell>361 DIET: HighFat, LowFat Individuals after completing Diet 10 292 1,769</cell><cell>a high-fat or low-fat diet</cell><cell>intervention</cell><cell>4,021 AGE Infants (up to age 3 years) Age X 49 4,660 15,783</cell><cell>from the USA</cell><cell>4,021 COUNTRY: GAZ: Venezuela, GAZ: Individuals living in Malawi Geography 54 4,660 15,783</cell><cell>Malawi or Venezuela</cell><cell>4,021 SEX: male, female Males and females from the Sex 129 4,660 15,783</cell><cell>USA</cell><cell>4,021 COUNTRY: GAZ: United States of Individuals living in the USA Geography 150 4,660 15,783</cell><cell>America, GAZ: Malawi or Malawi</cell><cell>Downloaded from academic.oup.com/gigascience/article/8/5/giz042/5481665 by guest on 25 September 2026</cell></row><row><cell></cell><cell></cell><cell></cell><cell>Kostic 2012</cell><cell></cell><cell></cell><cell>Montassier</cell><cell>2016</cell><cell></cell><cell>Morgan 2012</cell><cell></cell><cell></cell><cell></cell><cell>Qin 2012</cell><cell></cell><cell>Qin 2014</cell><cell></cell><cell>Ravel 2011</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>Turnbaugh</cell><cell>2009</cell><cell></cell><cell>Wu 2011</cell><cell></cell><cell></cell><cell>Yatsunenko</cell><cell>2012</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note><p>N</p><p>Abx: antibiotics; CD: Crohn's disease; DZ: dizygotic; GG: Greengenes; IBD: inflammatory bowel disease; IGT: impaired glucose tolerance; MZ: monozygotic; NGT: normal glucose tolerance; PCDAI: Pediatric Crohn's Disease Activity Index; T2D: type 2 diabetes; GAZ: Gazeteer, an ontology of place names.</p></note></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Downloaded from academic.oup.com/gigascience/article/8/5/giz042/5481665 by guest on 25 September 2026</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><head>Funding</head><p>This work is supported by funds from <rs type="funder">National Institutes of Health</rs> grant <rs type="grantNumber">R01AI121383</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_cqS5MZM">
+					<idno type="grant-number">R01AI121383</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Availability of supporting data and materials</head><p>All test datasets are available in the Microbiome Learning Repo site <ref type="bibr" target="#b16">[17]</ref>. Snapshots of our code and other supporting data are available in the GigaScience database, GigaDB <ref type="bibr" target="#b40">[41]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Availability of supporting source code and requirements</head><p>Project name: Microbiome Learning Repo Project home page: <ref type="url" target="https://knights-lab.github.io/MLRepo/">https://knights-lab.github.io/MLRepo/</ref> Operating system: platform independent Programming language: Python, R License: MIT License Restrictions: None <ref type="url" target="https://scicrunch.org/resolver/RRID:SCR_017079">RRID:SCR 017079</ref> </p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Competing interests</head><p>D.K. serves as CEO and holds equity in CoreBiome, a company involved in the commercialization of microbiome analysis. The University of Minnesota also has financial interests in Core-Biome under the terms of a license agreement with CoreBiome. These interests have been reviewed and managed by the Uni-</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Authors' contributions</head><p>Conceptualization: P.V. and D.K.; data curation: P.V.; formal analyses: P.V.; methodology: P.V., B.M.H., D.K.; software: P.V.; writingoriginal draft: P.V.; writing-review and editing: B.M.H. and D.K.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supporting information Abbreviations</head><p>AUC: area under the curve; IBD: inflammatory bowel disease; ML Repo: Microbiome Learning Repo; NCBI: National Center for Biotechnology Information; OTU: operational taxonomic unit; ROC: receiver operating curve; SVM: support vector machine.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Machine learning: trends, perspectives, and prospects</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">I</forename><surname>Jordan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Mitchell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science</title>
+		<imprint>
+			<biblScope unit="volume">349</biblScope>
+			<biblScope unit="page" from="255" to="260" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Diffuse large B-cell lymphoma outcome prediction by gene-expression profiling and supervised machine learning</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Shipp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">N</forename><surname>Ross</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Tamayo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat Med</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="68" to="74" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Support vector machine classification and validation of cancer tissue samples using microarray expression data</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">S</forename><surname>Furey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cristianini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Duffy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="906" to="914" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A metagenomic approach to characterization of the vaginal microbiome signature in pregnancy</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Aagaard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Riehle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ma</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS One</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page">36466</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Human gut microbiome viewed across age and geography</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yatsunenko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">E</forename><surname>Rey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Manary</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">486</biblScope>
+			<biblScope unit="page" from="222" to="227" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Supervised classification of human microbiota</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Knights</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">K</forename><surname>Costello</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Knight</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">FEMS Microbiol Rev</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="343" to="359" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Gut microbiomes of Malawian twin pairs discordant for kwashiorkor</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">I</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yatsunenko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Manary</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science</title>
+		<imprint>
+			<biblScope unit="volume">339</biblScope>
+			<biblScope unit="page" from="548" to="554" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Machine learning meta-analysis of large metagenomic datasets: tools and biological insights</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Pasolli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">T</forename><surname>Truong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Malik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS Comput Biol</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page">e1004977</biblScope>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Looking for a signal in the noise: revisiting obesity and the microbiome</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Sze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Schloss</surname></persName>
+		</author>
+		<idno type="DOI">10.1128/mBio.01018-16</idno>
+	</analytic>
+	<monogr>
+		<title level="j">MBio</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">UCI machine learning repository</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Asuncion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Newman</surname></persName>
+		</author>
+		<ptr target="https://ergodicity.net/2013/07/" />
+		<imprint>
+			<date type="published" when="2007-08-01">2007. August 1, 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title level="m" type="main">QIITA</title>
+		<author>
+			<orgName type="collaboration">Qiita Development Team</orgName>
+		</author>
+		<ptr target="http://qiita.microbio.me/" />
+		<imprint>
+			<date type="published" when="2017-08-01">August 1, 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">SHI7 is a selflearning pipeline for multipurpose short-read DNA quality control</title>
+		<author>
+			<persName><forename type="first">Al-Ghalith Ga</forename><surname>Hillmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Ang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename></persName>
+		</author>
+		<idno type="DOI">10.1128/mSystems.00202-17</idno>
+	</analytic>
+	<monogr>
+		<title level="j">mSystems</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">QIIME allows analysis of high-throughput community sequencing data</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Caporaso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kuczynski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Stombaugh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat Methods</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="335" to="336" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">BURST enables optimal exhaustive DNA alignment for big data</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Al-Ghalith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Knights</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/zenodo.806850</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Zenodo</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Reference sequence (RefSeq) database at NCBI: current status, taxonomic expansion, and functional annotation</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A</forename><surname>O'leary</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">W</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Brister</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nucleic Acids Res</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="733" to="745" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">An improved Greengenes taxonomy with explicit ranks for ecological and evolutionary analyses of bacteria and archaea</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mcdonald</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">N</forename><surname>Price</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Goodrich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISME J</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="610" to="618" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">P</forename><surname>Vangay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hillmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Knights</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Github</forename><surname>Mlrepo</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Page</surname></persName>
+		</author>
+		<ptr target="https://knights-lab.github.io/MLRepo" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">EBI metagenomics-a new resource for the analysis and archiving of metagenomic data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hunter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Corbett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Denise</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nucleic Acids Res</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="600" to="606" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">International Nucleotide Sequence Database Collaboration. The sequence read archive</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Leinonen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sugawara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Shumway</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nucleic Acids Res</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="19" to="21" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">HPMCD: the database of human microbial communities from metagenomic datasets and microbial reference genomes</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Forster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">P</forename><surname>Browne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Kumar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nucleic Acids Res</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="604" to="609" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Mockrobiota: a public resource for microbiome bioinformatics benchmarking</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A</forename><surname>Bokulich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Rideout</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">G</forename><surname>Mercurio</surname></persName>
+		</author>
+		<idno type="DOI">10.1128/mSystems.00062-16</idno>
+	</analytic>
+	<monogr>
+		<title level="j">mSystems</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Accessible, curated metagenomic data through ExperimentHub</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Pasolli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Schiffer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Manghi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat Methods</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="1023" to="1024" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Meta-analysis of gut microbiome studies identifies disease-specific and shared responses</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Duvallet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Gibbons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gurry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat Commun</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page">1784</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Bioconductor: open software development for computational biology and bioinformatics</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Gentleman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">J</forename><surname>Carey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Bates</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Genome Biol</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page">80</biblScope>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Random forests</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mach Learn</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="5" to="32" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Support-vector networks</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Cortes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Vapnik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mach Learn</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="273" to="297" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Using AUC and accuracy in evaluating learning algorithms</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">X</forename><surname>Ling</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Trans Knowl Data Eng</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="299" to="310" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">AUC: a statistically consistent and more discriminating measure than accuracy</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">X</forename><surname>Ling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IJCAI&apos;03 Proceedings of the 18th International Joint Conference on Artificial Intelligence</title>
+		<meeting><address><addrLine>Acapulco, Mexico; San Francisco, CA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Morgan Kaufmann</publisher>
+			<date type="published" when="2003">2003. 2003</date>
+			<biblScope unit="page" from="519" to="524" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Gut metagenome in European women with normal, impaired and diabetic glucose control</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">H</forename><surname>Karlsson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Tremaroli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Nookaew</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">498</biblScope>
+			<biblScope unit="page" from="99" to="103" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<title level="m" type="main">Instructions for adding new datasets</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Vangay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hillmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Knights</surname></persName>
+		</author>
+		<ptr target="https://github.com/knights-lab/MLRepo/blob/master/add-datasets-readme.md" />
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">The treatmentnaive microbiome in new-onset Crohn&apos;s disease</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gevers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kugathasan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Denson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cell Host Microbe</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="382" to="392" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Human Microbiome Project Consortium. A framework for human microbiome research</title>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">486</biblScope>
+			<biblScope unit="page" from="215" to="221" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Genomic analysis identifies association of Fusobacterium with colorectal carcinoma</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Kostic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gevers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Pedamallu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Genome Res</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="292" to="298" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Diet rapidly and reproducibly alters the human gut microbiome</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>David</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Maurice</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">N</forename><surname>Carmody</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">505</biblScope>
+			<biblScope unit="page" from="559" to="563" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A core gut microbiome in obese and lean twins</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Turnbaugh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hamady</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yatsunenko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">457</biblScope>
+			<biblScope unit="page" from="480" to="484" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ronacher</surname></persName>
+		</author>
+		<ptr target="http://jinja.pocoo.org/" />
+		<imprint>
+			<date type="published" when="2017">Jinja2. 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gruber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Markdown</forename></persName>
+		</author>
+		<ptr target="https://daringfireball.net/projects/markdown" />
+		<imprint>
+			<date type="published" when="2004-08-01">2004. August 1, 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">0.5851&amp;rep=rep1&amp;type=pdf</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bunn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Korpela</surname></persName>
+		</author>
+		<ptr target="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.47" />
+		<imprint>
+			<date type="published" when="2013-09-01">2013. September 1, 2017</date>
+		</imprint>
+	</monogr>
+	<note>Crossdating in dplR</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Building predictive models in R using the caret package</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kuhn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Softw</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Qiita: rapid. web-enabled microbiome meta-analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gonzalez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Navas</forename><forename type="middle">-</forename><surname>Molina</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Kosciolek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nat Methods</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="796" to="798" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Supporting data for &quot;Microbiome Learning Repo (ML Repo): a public repository of microbiome regression and classification tasks</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Vangay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">M</forename><surname>Hillmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Knights</surname></persName>
+		</author>
+		<idno type="DOI">10.5524/100581</idno>
+		<ptr target="http://dx.doi.org/10.5524/100581" />
+	</analytic>
+	<monogr>
+		<title level="j">GigaScience Database</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -10,7 +10,8 @@ sar_reg(
   W = NULL,
   k_neighbors = NULL,
   style = "W",
-  zero_policy = TRUE
+  zero_policy = TRUE,
+  pred_type = NULL
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ sar_reg(
 \item{style}{Style de standardisation \code{spdep::nb2listw()}.}
 
 \item{zero_policy}{Politique \code{spdep} pour les observations sans voisin.}
+
+\item{pred_type}{Type de predicteur hors echantillon. \code{"TS"} (defaut) ou
+\code{"KP2"} -- voir les notes dans \code{spatialreg_pred_impl()}.}
 }
 \value{
 Une specification de modele \code{parsnip}.

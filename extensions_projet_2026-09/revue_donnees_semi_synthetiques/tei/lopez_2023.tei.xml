@@ -1,0 +1,1530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Putting MARS into space. Non-linearities and spatial effects in hedonic models</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Fernando</forename><forename type="middle">L</forename><surname>Opez</surname></persName>
+							<email>fernando.lopez@upct.es</email>
+							<affiliation key="aff0">
+								<orgName type="department">Métodos Cuantitativos e Informáticos</orgName>
+								<orgName type="institution">Universidad Politécnica de Cartagena</orgName>
+								<address>
+									<settlement>Cartagena</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">|</forename><surname>Konstatin Kholodilin</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">German Institute for Economics Research (DIW Berlin)</orgName>
+								<address>
+									<settlement>Berlin</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="department">Informáticos</orgName>
+								<orgName type="institution">NRU HSE</orgName>
+								<address>
+									<settlement>St. Petersburg</settlement>
+									<country key="RU">Russia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Métodos</forename><surname>Cuantitativos</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Konstatin</forename><surname>Kholodilin</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="institution">Universidad Politécnica de Cartagena</orgName>
+								<address>
+									<settlement>Cartagena</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Putting MARS into space. Non-linearities and spatial effects in hedonic models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">0377EDC373506B5F716F39C65890D479</idno>
+					<idno type="DOI">10.1111/pirs.12738</idno>
+					<note type="submission">Received: 28 January 2023 Revised: 9 May 2023 Accepted: 15 May 2023</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:11+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>hedonic models</term>
+					<term>multivariate adaptive regression spline</term>
+					<term>nonlinearity</term>
+					<term>spatial regression models</term>
+					<term>St. Petersburg</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Multivariate Adaptive Regression Spline (MARS) is a simple</head><p>and powerful non-parametric machine learning algorithm that automatizes the selection of non-linear terms in regression models. In this study, we propose using MARS in a spatial regression framework to account for potential nonlinearities and spatial effects in spatial regression models.</p><p>Using a relatively large data set of 17,000 dwellings in St. Petersburg (Russia), we examine how this algorithm works. The empirical evidence shows that most explanatory variables in the spatial regression model-including the spatial lag of the dependent variable-have a non-linear impact on the asking prices of dwellings.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>greatly benefit the statistical analysis of data when the spatial reference of the data is present. The recent contribution of <ref type="bibr" target="#b35">Kopczewska (2022)</ref> provides an overview of the existing spatial toolbox proposed in the literature for supervised and unsupervised learning, which displaces classical spatial econometrics. Some of the most popular machine learning methods were adapted to include the spatial component with the objective of incorporating spatial references in the analysis. For example, a modification of the regression trees algorithm to identify convergence clubs using filtered spatial regression models is proposed by <ref type="bibr" target="#b48">Postiglione et al. (2010)</ref>. <ref type="bibr" target="#b47">Paez et al. (2019)</ref> include the coordinates of observations and interactions to improve the classification algorithm of regression trees. <ref type="bibr" target="#b53">Sommervoll and Sommervoll (2019)</ref> use machine learning methods in the form of genetic algorithms to aggregate spatial units and show that they outperform conventional econometric models with fixed spatial effects. <ref type="bibr" target="#b19">Dong et al. (2015)</ref> demonstrate that support vector machine (SVM) models accounting for spatial proximity outperform non-spatial models in terms of model fitting and predictive performance. <ref type="bibr" target="#b0">Andris et al. (2013)</ref> use SVM to investigate geographic patterns. <ref type="bibr" target="#b52">Sinha et al. (2019)</ref> show that the random forest model is sensitive to spatial autocorrelation, which leads to an increase in the variance of the residuals. Finally, <ref type="bibr" target="#b9">Cajias and Ertl (2018)</ref> test explanatory power by means of outof-sample validation approaches using the generalized additive model (GAM) for spatial hedonic modeling. In general, this research shows how regional science and urban economics can benefit from the use of machine learning techniques.</p><p>In this paper, we introduce the Multivariate Adaptive Regression Splines (MARSs) <ref type="bibr" target="#b23">(Friedman, 1991)</ref>, which is another machine learning algorithm with the ability to deal with spatial data. MARS is a simple and powerful nonparametric regression algorithm based on a divide et impera ("divide and conquer") strategy, partitioning the data sets into separate subsamples, with each region having its own regression line. This algorithm has two main objectives.</p><p>The first is to automatically select relevant variables in a classic regression model. The second allows the potential data non-linearities to be captured using a set of specific functions named base functions.</p><p>The MARS algorithm offers several advantages over other regression analysis methods. One of its main benefits is its ability to handle both numerical and categorical variables without the need for data preprocessing or hypotheses about data distribution. MARS also provides accurate results even when dealing with non-linear and high-dimensional data, which makes it ideal for complex problems. MARS generates models that are easy to interpret, creating a set of rules that can be easily understood and explained, making it an attractive option for any data analyst or scientist. In a way, MARS can be seen as an extension of the classic stepwise regression method based on the F statistic, where only significant independent variables are selected for the model. While stepwise regression introduces or drops variables linearly, the MARS algorithm selects only those pieces (base functions) of variables that may be relevant, combining them into a global model. Therefore, MARS is more flexible than stepwise regression and can capture non-linear relationships between predictor variables and the response variable.</p><p>In our view, MARS has two advantages over the most popular GAM. The first is its easy interpretation because it is based on linear basis function terms. Note that it is difficult to interpret GAM output. The second is that MARS drops the basic functions (BFs) that do not impact the model (similar to the F criteria in the classical backward/forward regression) and therefore improves the predictive ability. GAM includes all the variables, and part of this information may not be relevant (see <ref type="bibr" target="#b40">Leathwick et al. (2006)</ref> for a comparison of both algorithms).</p><p>The MARS algorithm has been little used in regional science, even though it is frequently used in other fields.</p><p>For example, in finance, De <ref type="bibr" target="#b14">Andrés et al. (2011)</ref> use MARS to forecast bankruptcy; <ref type="bibr" target="#b41">Lee et al. (2006)</ref> apply it to mine customer credit; and <ref type="bibr" target="#b11">Chattopadhyay and Mitra (2019)</ref> employ it to determine the price to be charged to customers for hotel rooms. In geography, <ref type="bibr" target="#b28">Haleem et al. (2010)</ref> apply MARS to predict motor vehicle crashes, and in engineering, <ref type="bibr" target="#b60">Zhang et al. (2015)</ref> utilize it in geotechnical earthquake engineering to analyze soil liquefaction. These are only some examples showing the multidisciplinary nature and popularity of the MARS methodology.</p><p>In this study, we focus on spatial econometrics for cross-sectional data <ref type="bibr" target="#b1">(Anselin, 1988)</ref>. The two objectives-the automatic selection of variables and non-linearities-have received unequal treatment in this field. With respect to the automatic selection of terms in spatial regression models, there were no specific methodologies developed to select the correct variable set, although some examples can be found (for example, Lan &amp; Zhang, 2011 use stepwise selection terms in a spatial lag model). Further efforts were made to select the correct spatial term to incorporate into the spatial structure <ref type="bibr" target="#b22">(Florax et al., 2003</ref><ref type="bibr" target="#b45">or Mur &amp; Angulo, 2009)</ref>, with procedures based on the use of several Lagrange Multiplier tests. In contrast, there is more literature accounting for non-linearities in spatial regression models <ref type="bibr" target="#b5">(Basile et al., 2014;</ref><ref type="bibr" target="#b20">Eilers et al., 2015;</ref><ref type="bibr" target="#b50">Sangalli et al., 2013)</ref>. Efforts to introduce non-linear models were mainly carried out in two ways. The first method includes specifications for limited dependent variables (for example, spatial tobit Xu &amp; Lee, 2019, spatial probit models <ref type="bibr" target="#b43">Martinetti &amp; Geniaux, 2017</ref>, or spatial models to share data <ref type="bibr" target="#b56">Xu &amp; Lee, 2015.</ref> In the second method, several specifications emerged capturing non-linearities and avoiding functional form bias in models with Gaussian dependent variables. For example, <ref type="bibr">Sangalli et al., 2013 consider Spatial Auto-</ref>regressive Semiparametric Geoadditive Models that combine penalized regression spline methods <ref type="bibr" target="#b20">Eilers et al., 2015</ref> with standard spatial autoregressive models. With a similar objective, Basile et al., 2014 combine penalized regression spline methods with standard cross-section spatial autoregressive models, developing a new typology of spatial regression models that includes spatial autoregressive terms within the same specification to capture spatial interaction and smooth terms to identify non-linear relationships between the response variable and the covariates (and the smooth function of the spatial coordinates and interaction between terms).</p><p>Moreover, there are numerous applied papers that include splines in spatial regression models with the aim of capturing non-linear effects. Good examples are <ref type="bibr" target="#b2">Anselin and Le Gallo (2006)</ref> and <ref type="bibr" target="#b10">Chasco et al. (2018)</ref>, who include splines to model the impact of independent terms on the price of houses, or <ref type="bibr" target="#b8">Brunauer et al. (2010)</ref>, who apply additive mixed regression models to estimate hedonic price equations for rents in Vienna. Von <ref type="bibr" target="#b55">Graevenitz and Panduro (2015)</ref> present an alternative to the standard spatial econometric model by modeling the spatial dimension of the housing market as a spatial GAM. Moreover, <ref type="bibr" target="#b4">Basile (2009)</ref> uses a spatial non-linear Solow model to identify the pattern of labor productivity in Western Europe.</p><p>Despite its power, the MARS algorithm is seldom used in spatial econometrics. To the best of our knowledge, there are only a few regional economic studies using MARS: <ref type="bibr" target="#b43">Martinetti and Geniaux (2017)</ref>, De la Llave et al.</p><p>(2019a), <ref type="bibr" target="#b54">Steurer and Hill (2020)</ref>, and <ref type="bibr" target="#b59">Yilmaz (2019)</ref>. However, in the first step, all of them apply the MARS algorithm to make an automatic pre-selection of non-spatial covariates and, in the second step, they include the spatial term linearly.</p><p>This study fills this gap in the literature by showing how the MARS algorithm can work well in the framework of spatial regression models. By using MARS together with the instrumental variables (IV) <ref type="bibr" target="#b33">(Kelejian &amp; Prucha, 1998)</ref> estimation method, it is possible to identify the non-linear form of the terms in a spatial regression model, including the non-linear form of the spatial lag of the dependent variable using an unsupervised algorithm. Combining IV and the MARS algorithm in spatial regression models facilitates a computationally efficient estimation of complex relationships in spatial data. Both algorithms are computationally fast, enabling quick estimations of complex spatial models for big data sets. We present an example of MARS applications using a large data set with spatial autocorrelation: the flats for sale offered in St. Petersburg (Russia). We select the real estate market because it is typically characterized by non-linearity and spatial autocorrelation <ref type="bibr" target="#b2">(Anselin &amp; Le Gallo, 2006)</ref>.</p><p>Therefore, the objective of this article is to show how a machine learning algorithm developed several decades ago can be a useful instrument to incorporate non-linear structures in spatial regression models. This novel method takes into account the natural non-linearity of the spatial effects in the classical spatial regression model. In short, our goal is simple: to put MARS into space.</p><p>The study is organized as follows. A short description of the MARS algorithm is presented in Section 2. Section 3 contains an empirical application of a spatial regression hedonic model using large data sets of dwellings in St. Petersburg. Section 4 shows empirical evidence of the non-linearity of the Wy term. Finally, the main conclusions appear in Section 5. <ref type="bibr" target="#b23">Friedman (1991)</ref>. This datadriven technique is particularly useful for identifying non-linearities in regression models without making previous assumptions about their functional form, explanatory variables, or number. The main characteristic of this methodology is that the econometric model considers different regression slopes in distinct intervals for each predictor. Unlike better-known linear regression techniques, MARS does not assume that coefficients are stable across the entire range of each variable and instead uses splines to fit piecewise continuous functions to model responses. In general, MARS constructs a piecewise linear function to capture non-linear relationships in an adaptive manner <ref type="bibr" target="#b30">(Hoang et al., 2017)</ref>. The principal advantage of this methodology, compared to similar algorithms (e.g., polynomial models or the GAM), is the simplicity of the resulting econometric model and its intuitive interpretation. Moreover, MARS models are reported to work satisfactorily in terms of computational cost, regardless of the dimension of the data set <ref type="bibr" target="#b29">(Hastie et al., 2009)</ref>, highlighting this algorithm's computational scalability for large sample sizes compared to other algorithms (see Table <ref type="table">10</ref>.1, p. 351).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MARS is a flexible, non-parametric, and piecewise regression technique introduced by</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">| The MARS algorithm</head><p>As with any regression model, the objective of this methodology is to build an econometric model to explain the variation of a dependent variable Y ¼ ðy 1 , …, y n Þ 0 with a set of potential explanatory variables X ¼ ðX 1 , …, X p Þ, where</p><formula xml:id="formula_0">X i ¼ ðx 1i ,x 2i , …, x ni Þ 0 .</formula><p>To achieve this classic objective, MARS uses the so-called BFs of the form ðx À cÞ þ ¼ maxf0, x À cg and ðc À xÞ þ ¼ maxf0,c À xg, where the subscript "+' ' means that the function takes only the positive value or zero in the case of a negative difference.</p><p>Formally, BF is expressed as:</p><formula xml:id="formula_1">ðX i À cÞ þ ¼ maxf0, X i À cg ¼ X i À c, ifX i &gt; c 0, otherwise<label>ð1Þ</label></formula><formula xml:id="formula_2">ðc À X i Þ þ ¼ maxf0, c À X i g ¼ c À X i , ifX i &lt; c 0, otherwise<label>ð2Þ</label></formula><p>Such pairs of linear functions are called hinge functions (or two-sided truncated functions), and the constant c denotes a knot where the slope changes. The collection of all possible BFs, C,</p><formula xml:id="formula_3">C ¼ fðx À cÞ þ ,ðc À xÞ þ g with c fx 1i , x 2i , …,x ni g andi ¼ 1,…, p<label>ð3Þ</label></formula><p>is used to construct the econometric model. Each function is piecewise linear with a knot c at every x ij , and if all the input values are distinct, there are np hinge functions or equivalently 2np BFs. Using these BFs, the model-building strategy is similar to a classic forward stepwise regression, which uses the functions from the set C and their products as inputs. The final expression of the model is as follows:</p><formula xml:id="formula_4">Y ¼ β 0 þ X M m¼1 β m h m ðXÞ þ ϵ,<label>ð4Þ</label></formula><p>where h m ðXÞ is a BF or a product of two or more such functions if interactions between variables are permitted, or perhaps the original predictor if it has a linear impact on the dependent variable. The coefficients β m are estimated by minimizing the sum of the squared (residual) errors (SSE), similar to a standard linear regression model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">| The forward pass</head><p>The model-training process iteratively selects and adds some hinge functions to the model (or the original predictor).</p><p>During each step of the training process, MARS selects new terms that minimize the SSE using ordinary least squares (OLS). In this forward pass, the MARS algorithm starts with a single model including only the intercept term β 0 . At each subsequent step, a reflected pair of hinge functions and an original predictor are selected and added to the model. The selected pair of hinge functions and original predictor can enter the model directly. Alternatively, they can be multiplied by an existing BF that is already in the model, thus becoming new BFs. The second case allows the modeling of the interaction between and/or among different predictors. The forward pass continues until it meets one of many conditions, such as: (i) the maximum number of model terms (chosen by the user) before pruning is reached; or (ii) when adding a term changes R 2 to less than a threshold value selected by the user (e.g., 0.001). The search for hinge functions at each step can be carried out using brute force, but this search can be sped up with a heuristic that reduces the number of parent terms to consider <ref type="bibr" target="#b24">(Friedman, 1993)</ref>.</p><p>In general, at the end of this process, we have a large model in the form described by equation ( <ref type="formula" target="#formula_3">3</ref>). The MARS model obtained in this forward pass is adaptive and can exhibit a great degree of flexibility that can ultimately result in overfitting if no measures are taken to counteract it. To solve the overfitting problem and build a model with better generalization ability, a pruning procedure must be applied.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">| The pruning process</head><p>Although there are other methods, MARS typically applies a backward deletion procedure to prune the model. Thus, in the second phase of the MARS algorithm, a "one-at-a-time" backward deletion procedure is applied during which the basis function with the least contribution to the model is repeatedly eliminated. This pruning is based on the generalized cross-validation (GCV) criterion originally proposed by <ref type="bibr" target="#b13">Craven and Wahba (1979)</ref> and adapted by <ref type="bibr" target="#b25">Friedman and Silverman (1989)</ref>. The expression of GCV is:</p><formula xml:id="formula_5">GCV ¼ 1 n P n i¼1 ðy i À b y i Þ 2 1 À ĈðMÞ n h i 2 ,<label>ð5Þ</label></formula><p>where ŷi are the fitted values and ĈðMÞ ¼ CðMÞ þ dK and CðMÞ is the number of parameters being estimated (the number of linearly independent basis functions without the intercept term); K is the number of knots selected in the forward process, and d represents the cost for each BF optimization. Usually, d ¼ 2 if the model does not involve interaction terms, and d ¼ 3 otherwise <ref type="bibr" target="#b23">(Friedman, 1991)</ref>. Thus, the GCV formula adjusts the SSE to take the flexibility of the model into account. Larger values of d result in fewer knots and smoother function estimates. The best MARS approximation is the one with the lowest GCV value. To get a measure similar to R 2 , the GCV coefficient can be standardized, and a new coefficient is defined as:</p><formula xml:id="formula_6">GRSq ¼ 1 À GCV GCV:tot ,<label>ð6Þ</label></formula><p>where GCV.tot is the GCV of a model with only the intercept term.</p><p>Note that the raw SSE is inadequate for comparing models because the SSE always increases as MARS terms are dropped, and, hence, the application of this criterion in the backward pass always results in selecting the largest model. Therefore, the GCV criterion is used to find the overall best model from a sequence of fitted models. The backward pass starts with the full model returned by the forward pass. Then, at each step, it deletes the term that results in the submodel with the lowest SSE. This iterative process continues until reaching the model with only the intercept. The backward pass then selects the final model: the submodel with the lowest GCV.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">| Hyperparameter tuning the MARS algorithm</head><p>The model's parameters must be tuned to avoid overfitting in the machine learning application. There are several tuning parameters associated with the MARS algorithm that researchers can select: the threshold to determine when forward stepping should terminate; the minimum number of observations between nodes; the choice of variables to be included in linear form; the order of interaction between variables; and the maximum or minimum number of nodes. This list is not exhaustive, and more information is available, for example, in <ref type="bibr" target="#b37">Kuhn et al. (2013)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5">| Non-linearity of the Wy term in the spatial econometric context</head><p>The first question that is necessary to clarify is the meaning of the terms ðWy À cÞ þ and ðc À WyÞ þ in the context of spatial econometrics. Note that, by definition, ðWy À cÞ þ ¼ maxf0,Wy À cg and ðc À WyÞ þ ¼ maxf0,c À Wyg. Therefore, it is possible to write, ðWy À cÞ þ ¼ W ðÀcÞ ðy À cÞ, where</p><formula xml:id="formula_7">W ðÀcÞ ¼ w ðÀcÞ ij ¼ w ij if Wy * ≥ cðwhere Wy * is the instrument for WyÞ 0 if otherwise :<label>ð7Þ</label></formula><p>In other words, W ðÀcÞ is the matrix with the same rows of W, if the value of the instrument Wy * exceeds c, and rows of zeros, otherwise. Similarly, ðc À WyÞ þ ¼ W ðcÞ ðc À yÞ, where W ðcÞ ¼ w ðcÞ ij (where w ðcÞ ij ¼ w ij , if Wy * ≤ c, and w ðcÞ ij ¼ 0, otherwise). Note that the W ðÀcÞ and W ðcÞ matrices are row-standardized, as is usual, and that W ¼ W ðÀcÞ þ W ðcÞ . Using this nomenclature, the MARS model</p><formula xml:id="formula_8">y ¼ ρ 1 ðWy À cÞ þ þ ρ 2 ðc À WyÞ þ þ β 0 þ X M m¼1 β m h m ðXÞ þ ϵ<label>ð8Þ</label></formula><p>can be rewritten as</p><formula xml:id="formula_9">y ¼ ρ 1 W ðÀcÞ ðy À cÞ þ ρ 2 W ðcÞ ðc À yÞ þ β 0 þ P M m¼1 β m h m ðXÞ þ ϵ ¼ ρ 1 W ðÀcÞ ðy À cÞ À ρ 2 W ðcÞ ðy À cÞ þ β 0 þ P M m¼1 β m h m ðXÞ þ ϵ ¼ ρ 1 Wðy À cÞ À ðρ 1 þ ρ 2 ÞW ðcÞ ðy À cÞ þ β 0 þ P M m¼1 β m h m ðXÞ þ ϵ<label>ð9Þ</label></formula><formula xml:id="formula_10">then z ¼ ρ 1 Wz À ρ 12 W ðcÞ z þ β 0 0 þ X M m¼1 β m h m ðXÞ þ ϵ,<label>ð10Þ</label></formula><p>where z ¼ y À c, β 0 0 ¼ β 0 À c, and</p><formula xml:id="formula_11">ρ 12 ¼ ρ 1 þ ρ 2 .</formula><p>Therefore, the MARS specification can be viewed as a popular extension of the basic spatial econometric model: a spatial lag model of a higher order <ref type="bibr" target="#b21">(Elhorst et al., 2012;</ref><ref type="bibr" target="#b42">L opez, 2013)</ref>. <ref type="foot" target="#foot_1">1</ref>Note that matrix W ðcÞ is not exogenous because it depends on a definition of the value c of the instrument. This is a relevant question in spatial econometrics, and several authors <ref type="bibr" target="#b32">(Kelejian &amp; Piras, 2014;</ref><ref type="bibr" target="#b49">Qu &amp; Lee, 2015)</ref> include endogenous W matrices where spatial weights are determined by economic factors. For example, <ref type="bibr" target="#b32">Kelejian and Piras (2014)</ref> try to find IVs for endogenous weights by regressing these spatial weights on exogenous variables, while Qu and Lee (2015) provide three estimation methods. Of course, higher-order spatial lag models could be estimated using these algorithms, but the MARS algorithm has the advantage of proving the cut points.</p><p>The second question refers to the residuals of those models. The MARS algorithm uses SSE as an optimization criterion for the forward pass and therefore the SSE is obtained with the instrument of Wy. However, in a framework of IV, estimating the residual must be obtained with the Wy term. The pruning process has a similar problem:</p><p>The GCV value is obtained using the fitted values of an OLS regression (see equation 5), but the fitted values based on IV are obtained with the Wy term and not with Wy * .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">| THE MARS ALGORITHM: ST. PERTERSBURG HOUSING MARKET</head><p>This section illustrates the application of the MARS algorithm for the estimation of a hedonic model of housing prices in St. Petersburg and evaluates the sensitivity of this algorithm to the automatic selection of non-linear terms. We develop a hedonic model of the asking prices for dwellings in condominiums in St. Petersburg, which is the secondlargest city in Russia. We consider dwellings offered for sale in multi-family buildings, since these represent the bulk of St. Petersburg's housing stock. According to the results of the All-Russia 2010 census, in St. Petersburg only 18,584 households out of 1,882,236 lived in single-family houses, which make up less than 1%. <ref type="foot" target="#foot_2">2</ref>The data are collected from the website EMLS (<ref type="url" target="https://emls.ru/">https://emls.ru/</ref>) and comprise over 17,000 announcements published in 2017 (N ¼ 16,959). They contain some basic information about the structural characteristics of dwellings and the buildings in which they are located. Additional locational features are derived using the coordinates of dwellings and various urban amenities, such as city center, subway stations, restaurants, and schools, (see <ref type="bibr" target="#b34">Kholodilin et al., 2020)</ref>. Table <ref type="table">1</ref> contains the definitions of the variables and the main descriptive statistics. Figure <ref type="figure">1</ref> shows the spatial distribution of advertised dwellings in St. Petersburg. The distribution of dwellings corresponds to the built-up areas of the city. Figure <ref type="figure" target="#fig_9">2</ref> shows the flowchart presenting the overview of the modeling scheme followed in this section.</p><p>The objective of estimating 10 different models is to show how the MARS algorithm works with different restrictions.</p><p>For the sensitivity exercise, we select four tuning parameters: linpreds to force a variable to be included linearly into the model; thresh, which is the threshold in the increase of R 2 in the forward pass; endspan and minspan to control the minimum number of observations between knots (minspan) and before the first and after the final knot (endspan). Other tuning parameters can be selected as well: for example, degree of interaction or the maximum number of terms before the pruning pass.</p><p>Table <ref type="table">2</ref> shows the estimation results for five models, SP-1 through SP-5, with different tuning parameters. The models are estimated in two steps. Step 1: The MARS algorithm is used to select the relevant variables or BFs using the tuning parameters shown in the first rows of Table <ref type="table">2</ref>. In this step, all the variables listed in Table <ref type="table">1</ref> are included in the MARS algorithm.</p><p>Step 2: A classical Spatial Lag Model is estimated by IV <ref type="bibr" target="#b33">(Kelejian &amp; Prucha, 1998)</ref>, using the usual instruments for the spatially lagged dependent variable: the BFs obtained in step 1 as well as the first and second spatial lags of those BFs.</p><p>The definition of the spatial weights matrix, W=ðw ij Þ, is based on a combination of two criteria. First, w ij ¼ 1 if the distance between the observations i and j is less than 100 m, and 0 otherwise. Second, if an observation does not have neighbors using this criterion (a total of 1346 observations do not have neighbors using this criteria), the two-nearest neighbor criterion is used to connect this observation. Due to the uneven distribution of dwellings, by selecting a short distance (e.g., 60 m), a large number of dwellings are isolated (2631 dwellings). On the contrary, if we consider a longer distance (e.g., 140 m), many dwellings will have too many neighboring houses (more than 600 neighbors). The results for a distance of 80 m; 120 m; 10-nearest neighbors, and 20-nearest neighbors are shown in Annex B (Table <ref type="table">B1</ref>) to assess the robustness of the results with respect to the definition of the W matrix. T A B L E 1 Descriptive statistics of St. Petersburg data. Description Mean St. dev. Min Max Dependent variable LPrice Price in log (rubles) 8.71 0.56 7.09 11.74 Explanatory structural variables Surf Surface 63.06 30.63 13 212 Rooms Number of rooms 2.06 0.99 1 6 Floor Floor level 7.17 5.46 1 28 NFloor Number of floors in the building 12.85 6.54 1 28 Elevator Dummy variable: elevator available 0.67 0.47 0 1 Balcony Dummy variable: balcony available 0.42 0.49 0 1 GoodCond Dummy variable: good condition 0.51 0.50 0 1 Explanatory locational variables Dcenter Distance to the city center (km) 8.85 3.82 0.38 18.10 Dsubway Distance to nearest subway station (km) 0.48 0.49 0.0002 4.57 WalkRestaurant Number of restaurants ≤ 1 km 2.17 3.80 0 22 WalkSchool Number of schools ≤ 1 km 3.58 5.25 0 42</p><p>The W matrix is standardized row-wise as usual. The R-package spatialreg <ref type="bibr" target="#b6">(Bivand &amp; Piras, 2015)</ref> is used to obtain the IV estimation and the earth package <ref type="bibr" target="#b44">(Milborrow, 2020)</ref> to apply the MARS algorithm.</p><p>Model SP-1 is the baseline model, and all the variables are forced to be included linearly in the MARS algorithm.</p><p>This is the case of a classical SLM model. All the variables are statistically significant and have the expected signs.</p><p>The three dummy variables have positive signs, showing that the price increases if elevators and balconies are available and the dwelling is in good condition. The two variables for distance have negative signs, showing that when the distance increases, the price decreases. The number of restaurants and schools in the neighborhood has a positive sign showing that more services around dwellings increase the price. Finally, the coefficient of spatial dependence takes the value of 0.226 and is statistically significant.</p><p>Models SP-2 through SP-5 are spatial models, and the 11 variables listed in Table <ref type="table">1</ref> are supplied as inputs to the MARS algorithm. Note that the MARS algorithm can consider whether to include each variable or not. If a variable is included, it can be included linearly or the algorithm can split it into several BFs and include all or some of them in the final model. Models SP-2 through SP-5 are estimated by IV.</p><p>Model SP-2 does not include the restriction of linearity of the X terms. After the forward/backward pass, the MARS algorithm selected only three variables in the final model: Surf, Room, and Dcenter, splitting the variables into six BFs. The remaining variables are found not to be relevant. The variable Surf is split into two BFs to consider different effects for dwellings with floor areas of less/more than 82.60 m 2 . The coefficient for the term ðSurf À 82:6Þ þ is 0.012 and, therefore, for each increase of 1 m 2 , the price increases by approximately 1.2% if the surface of the dwelling is greater than 82.6 m 2 . If the dwelling has less than 82.6 m 2 , the expected increase for each m 2 is 2.0% because the term ð82:6 À SurfÞ þ is À0.020. Similar results are obtained for Rooms and Dcenter, splitting both variables into two BFs; 4 is the knot for the number of rooms and 6.54 km is the knot for the distance from the city center. The number of terms selected by the algorithm in model SP-2 is low, mainly due to the selection of the value 0.01 for the thresh tuning parameter. The forward pass stops quickly when the increase of R 2 is lower than thresh ¼ 0:01 and, hence, the algorithm cannot go deep enough. Finally, the coefficient of spatial dependence is 0.184, lower than in SP-1.</p><p>Model SP-3 includes spatial terms. Now, as inputs of the MARS algorithm, we include indoor variables  T A B L E 2 Sensitivity analysis of MARS. Linear spatial lag Wy. The case of St. Petersburg. SP-1 SP-2 SP-3 SP-4 SP-5 Thresh 0.01 0.01 0.001 0.001 0.001 Minspan ---1500 8000 MaxKnots -----Endspan ---1500 0 Intercept 6.009*** (0.056) 7.430*** (0.006) 2.647*** (0.375) 7.595*** (0.048) 6.652*** (0.033) Surf 0.014*** (0.000) ----ðSurf À 82:6Þ þ -0.012*** (0.000) 0.013*** (0.000) --ð82:6 À SurfÞ þ -À0.020*** (0.000) À0.019*** (0.000) --ðSurf À 85:3Þ þ ---0.013*** (0.000) -ð85:3 À SurfÞ þ ---À0.019*** (0.000) -ðSurf À 55:5Þ þ ----0.015*** (0.000) ð55:5 À SurfÞ þ ----À0.023*** (0.000) ðSurf À 146Þ þ ----0.006*** (0.000) Rooms À0.036*** (0.003) ----ðRooms À 2Þ þ --À0.099*** (0.006) À0.093*** (0.005) -ð2 À RoomsÞ þ -----ðRooms À 4Þ þ -À0.274*** (0.011) À0.163*** (0.012) -À0.291*** (0.011) ð4 À RoomsÞ þ -0.088*** (0.003) 0.013*** (0.005) -0.081*** (0.005) Floor 0.001*** (0.000) ----ð2 À FloorÞ þ --À0.084*** (0.005) --ðFloor À 4Þ þ ---À0.001*** (0.000) À0.001*** (0.000) ð4 À FloorÞ þ ---À0.024*** (0.002) À0.024*** (0.001) ðFloor À 6Þ þ ----À0.015*** (0.017) ð6 À FloorÞ þ ----À0.002*** (0.022) NFloor 0.003*** (0.000) ----ð7 À NFloorÞ þ --À0.041*** (0.002) --ð9 À NFloorÞ þ ---À0.019*** (0.001) -ð11 À NFloorÞ þ ----0.011*** GoodCond 0.064*** (0.004) -0.070*** (0.003) 0.071*** (0.003) 0.073*** (0.002) Balcony 0.020*** (0.004) ----Model SP-3 is obtained by changing the thresh parameter to 0.001. In this case, MARS selects seven Surf variables, splitting them into 13 BFs. The number of variables and BFs is higher than in SP-2 because the forward pass stops when the increase of R 2 is lower than 0.001. Major changes emerge in SP-3. The dummy variable GoodCond is included, and several structural characteristics (Floor and NFloor) and locational characteristics (Dsubway) are relevant. The MARS algorithm includes several BFs of these variables. The spatial term Wy is statistically significant with a similar value to that obtained in the model SP-2.</p><p>Two considerations should be kept in mind with respect to model SP-3. First, the variable Rooms is split into three BFs with two knots: 2 and 4. In the sample, only 252 dwellings have more than four rooms as these types of dwellings are not typical in Russia. Knot 4 is very close to the maximum value of the variable (see Table <ref type="table">1</ref>). Second, the variable Dcenter is split into three BFs with the knots at 1.11 and 6.54 km. An inspection of the sample identifies only 43 houses with distances shorter than 1.11 km from the center of St. Petersburg. In both cases, the MARS selection of BFs can lead to overfitting. This problem can be solved by tuning the algorithm to control the minimum number of observations between consecutive knots and after the final knot (or before the first knot). Alternatively, we can tune the algorithm to specify the maximum number of knots per predictor. With the objective of reducing the risk of overfitting, we change the tuning parameters for the next two models.</p><p>Model SP-4 is obtained by selecting thresh ¼ 0:001 and at least 1500 observations between contiguous knots and before (after) the first (last) knot. This new set of tuning parameters leads to some changes in the output of</p><p>T A B L E 2 (Continued) SP-1 SP-2 SP-3 SP-4 SP-5 Elevator 0.050*** (0.004) ----Dcenter À0.022*** (0.001) ----ðDcenter À 1:11Þ þ -0.899*** (0.069) --ðDcenter À 6:54Þ þ -À0.020*** (0.001) À0.917*** (0.070) --ð6:54 À DcenterÞ þ -0.022*** (0.002) 0.934*** (0.069) --</p><formula xml:id="formula_12">ðDcenter À 5:99Þ þ - - - À0.018*** (0.001) - ð5:99 À DcenterÞ þ - - - 0.040*** (0.002) - ðDcenter À 15:07Þ þ - - - - 0.028*** (0.003) ð15:07 À DcenterÞ þ - - - - 0.021*** (0.001) DSubway À0.028*** (0.004) - - - - WalkRestaurant 0.003*** (0.001) - - - - WalkSchools 0.000*** (0.000) - - - - ðWalkSchools À 2Þ þ - - À0.001*** (0.000) À0.002*** (0.000) - ð2 À WalkSchoolsÞ þ - - À0.</formula><p>026*** (0.002) À0.026*** (0.002) À0.028*** (0.002) Linear spatial lag term Wy 0.226*** (0.006) 0.184*** (0.005) 0.188*** 0.189*** (0.002) 0.202*** (0.004) Residual variance 0.044 0.0373 0.0327 0.0381 0.0386 Num. obs. 16,959 16,959 16,959 16,959 16,959 ***p-values &lt;0.001; standard errors in brackets.</p><p>Models SP-1 through SP-5 forced the spatial term Wy to be included linearly, as is usual in spatial econometrics. We relax this restriction using the MARS algorithm: It is possible that the change in prices of the nearest dwellings has a varied impact on the price of a particular dwelling depending on the value of those nearby dwellings. To test whether this hypothesis holds for St. Petersburg, we drop the linearity restriction for the term Wy, when the MARS algorithm is applied.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">| Non-linear spatial term Wy</head><p>In this subsection, we estimate five models using the MARS algorithm with the same tuning parameters that are used in Section 3. The results from applying this estimation procedure are shown in Table <ref type="table">3</ref>.</p><p>The hypothesis that we propose in this paper is that the price of houses does not depend linearly on the price of surrounding homes. There is a non-linear relationship. Identifying the specific type of non-linearity may vary depending on the housing market being studied. The MARS algorithm is used in this subsection to identify nonlinearities based on a data-driven exercise for the specific housing market of St. Petersburg.</p><p>In the model SP-MARS-1, the tuning parameters force all the X variables (if they are relevant for the MARS algorithm) to be included linearly, with the exception of Wy, which can be split into several BFs. Thanks to MARS, the level of spatial dependence is allowed to depend on the value of the neighboring dwellings. If a house is surrounded by dwellings with values lower than 8.89 (7260 rubles), the coefficient of spatial dependence is 0.278. However, if the dwelling is surrounded by houses with a mean value higher than 8.89, this coefficient is 0.184 and, therefore, the impact on the price is lower.</p><p>Models SP-MARS-2 through SP-MARS-4 allow non-linearity in the X variables. No relevant changes are observed compared to models SP-2 through SP-4; the selection of variables and knots is similar. With respect to the non-linearity of the Wy term, in all the models the MARS algorithm considers it relevant to split this term into several BFs.  Like in Section 3.1, a CV exercise was carried out to find the optimal hyperparameters (Figure <ref type="figure">6</ref>). The results obtained are very similar to those obtained when the term Wy is included linearly. Therefore, the same hyperparameters are selected to reduce the overfitting (Thresh ¼ 0:001; minspan ¼ 8000; Endspan ¼ 0). The last column of Table <ref type="table">3</ref> shows the result of the estimation of this model. The SP-MARS-5 model splits the term Wy into two BFs.</p><p>Figure <ref type="figure">7</ref> shows the slopes of the two BFs. If the dwellings have a logarithm of price lower than 8.59 (5378 rubles), the coefficient of spatial dependence has a negative impact of À0.059 (see the definition of the term ðc À WyÞ þ ).</p><p>Value 8.59 is the 49 percentile ( &lt; P 49 ) of the dwelling's price (in log), and therefore, there is a negative impact on the price if a dwelling has houses around it with lower prices ( &lt; P 49 ). For dwellings with prices above 5378 rubles, the impact of the neighboring dwellings is positive 0.237. Therefore, there is a positive impact if there are houses with higher prices ( &gt; P 49 ) around it. The results obtained with this methodology can be compared to GAM's, in Annex A.</p><p>To conclude this Section, we must highlight that the non-linear impact of the Wy term on the y variable, in the case of the housing market, is a more realistic hypothesis than the classical linear impact in hedonic models. Tuning parameters SP-MARS-1 SP-MARS-2 SP-MARS-3 SP-MARS-4 SP-MARS-5 Thresh 0.01 0.01 0.001 0.001 0.001 Minspan ---1500 8000 MaxKnots -----Endspan ---1500 0 Coefficients Intercept 8.068 8.859 6.526 9.103 8.367 Surf 0.014 ----ðSurf À 82:6Þ þ -0.012 0.012 --ð82:6 À SurfÞ þ -À0.021 À0.019 --</p><formula xml:id="formula_13">ðSurf À 85:3Þ þ - - - 0.012 - ð85:3 À SurfÞ þ - - - À0.020 - ðSurf À 55:5Þ þ - - - - 0.015 ð55:5 À SurfÞ þ - - - - À0.024 ðSurf À 146Þ þ - - - - 0.007 Rooms À0.043 - - - - ðRooms À 4Þ þ - À0.259 À0.142 - À0.287 ð4 À RoomsÞ þ - 0.094 0.027 - 0.082 ðRooms À 2Þ þ - - À0.086 À0.135 - ð2 À RoomsÞ þ - - - 0.029 - ðFloor À 2Þ þ - - 0.001 - - ð2 À FloorÞ þ - - À0.084 - - ð4 À FloorÞ þ - - - À0.024 - ðFloor À 4Þ þ - - - - - ð6 À FloorÞ þ - - - - À0.014 ðFloor À 6Þ þ - - - - 0.002 ð9 À NFloorÞ þ - - - À0.022 - ð7 À NFloorÞ þ - - À0.044 - - ð11 À NFloorÞ þ - - - - À0.014 Balcony - - - - - Elevator 0.065 - - - - GoodCond 0.058 - 0.067 0.067 0.068 Dcenter À0.021 - - - - ðDcenter À 12:25Þ þ - À0.048 - - - ð12:25 À DcenterÞ þ - 0.017 - - - ðDcenter À 3:93Þ þ - - À0.890 - - ð3:93 À DcenterÞ þ - - 0.874 - - ðDcenter À 1:11Þ þ - - 0.867 - - ðDcenter À 12:53Þ þ - - - À0.031 - ð12:53 À DcenterÞ þ - - - 0.022 - ð15:07 À DcenterÞ þ - - - - 0.022 ð2 À WalkSchoolsÞ þ - - À0.028 À0.027 À0.028 T A B L E 3 (Continued)</formula><p>Tuning parameters</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SP-MARS-1 SP-MARS-2 SP-MARS-3 SP-MARS-4 SP-MARS-5</head><p>Non-linear spatial lag terms ðWy À 8:89Þ þ 0.184 ----ð8:89 À WyÞ þ À0.278 ----ðWy À 8:46Þ þ -0.237 ---ð8:46 À WyÞ þ -0.144 ---ðWy À 9:82Þ þ --0.550 --ð9:82 À WyÞ þ --0.136 --ðWy À 8:38Þ þ --0.324 --ðWy À 10:62Þ þ --À1.887 --</p><formula xml:id="formula_14">ðWy À 9:29Þ þ - - - 0.229 - ðWy À 8:34Þ þ - - - 0.159 -<label>ð8</label></formula><p>:34 À WyÞ þ ---0.190 -ðWy À 8:59Þ þ ----0.237 ð8:59 À WyÞ þ ----À0.059 RSq (R 2 ) 0.8278 0.8444 0.8632 0.8575 0.855 GCV 0.0543 0.0491 0.0432 0.0450 0.0457 GRSq 0.8276 0.8441 0.8627 0.8571 0.8550 Num. obs. 16,959 16,959 16,959 16,959 16,959 Spatial econometrics is a field that has been gaining importance in recent years due to its ability to model and analyze spatial data. However, the emergence of big data has brought new challenges to spatial econometrics, as the classic techniques used in the past may no longer be adequate for large data sets <ref type="bibr" target="#b3">(Arbia et al., 2019)</ref>. One of the challenges of dealing with big data sets is the issue of maximum likelihood estimation. Maximum likelihood estimation is a popular method for estimating model parameters, but it can be computationally expensive and time-consuming when dealing with large data sets. When the data set is large, this calculation can become very complex and computationally intensive.</p><p>To overcome this challenge, alternative algorithms to the classical maximum likelihood estimation method are needed. The MARS algorithm <ref type="bibr" target="#b23">(Friedman, 1991)</ref> could be an effective solution. The MARS algorithm is a nonparametric regression technique that can be used to model complex relationships between variables. It can handle large data sets efficiently, and it automatically selects the optimal model structure. The MARS algorithm can also produce simple and easy-to-interpret models, estimate the contributions of input variables, and is computationally efficient. Another challenge that arises when working with big data sets is the assumption of linearity in the relationship between variables. In many cases, the assumption of linearity may not hold, and non-linear relationships between variables may exist. The MARS algorithm is well suited to address this challenge, as it can include non-linear terms in the model, which is not possible with classical linear regression models.</p><p>In spatial econometrics, including the spatial lag of the dependent variable in a non-linear way is an essential issue to be addressed. The Wy term is typically included linearly in spatial lag models, but it is reasonable to think that this term, like the WX terms, can have a non-linear impact on the spatial regression model <ref type="bibr" target="#b17">(Debarsy &amp; Verardi, 2010)</ref>. By using the MARS algorithm to include the spatial lag of the dependent variable in a non-linear way, we can gain valuable insights into the relationship between variables in spatial econometrics. This approach can provide more accurate estimates and better predictions compared to classical linear regression models. In the specific case of hedonic models, it is natural to think that the impact of the price of houses in a neighborhood depends on the value of neighboring houses, and, therefore, non-linear effects must be included in this variable <ref type="bibr" target="#b61">(Zou et al., 2022)</ref>. This fact is relevant for the spatial econometrics literature, and more research is needed to account for the natural non-linear effects of spatial dependence in spatial lag models.</p><p>In conclusion, the MARS algorithm, in conjunction with the IV method <ref type="bibr" target="#b33">(Kelejian &amp; Prucha, 1998)</ref>, can offer an effective solution for handling big data sets and including non-linear terms. By including the spatial lag of the dependent variable in a non-linear way, we can gain valuable insights into the relationship between variables in spatial econometrics. This can help us to better understand the underlying processes that drive spatial phenomena and provide more accurate predictions for future outcomes.</p><p>There are alternative approaches to the MARS algorithm that allow spatial heterogeneity in spatial econometric models, such as the mixture model <ref type="bibr" target="#b12">(Cornwall &amp; Parent, 2017)</ref>, quantile regression <ref type="bibr" target="#b51">(Seya et al., 2020)</ref>, functionalcoefficient models <ref type="bibr" target="#b36">(Koroglu &amp; Sun, 2016)</ref>, the penalized spline combined with spatial error model <ref type="bibr">(Łaszkiewicz et al., 2022)</ref>, and SAR-(M)GWR <ref type="bibr" target="#b27">(Geniaux &amp; Martinetti, 2018)</ref>. Each of these approaches has its own strengths and weaknesses, and the choice of method will depend on the specific research question and the characteristics of the data.</p><p>Researchers should carefully consider the assumptions and limitations of each approach and choose the method that best suits their research objectives.</p><p>How to cite this article: L opez, F., &amp; Kholodilin, K. (2023). Putting MARS into space. Non-linearities and spatial effects in hedonic models. Papers in Regional Science, 102(4), 871-896. <ref type="url" target="https://doi.org/10.1111/pirs.12738">https://doi.org/10.1111/pirs</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>12738</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ANNEX A</head><p>Table <ref type="table">A1</ref> shows the results of the GAM estimation. The first column shows the results of the estimation of the GAM without spatial lag. The second column, the model SP-GAM, includes the term Wy.  T A B L E A 1 GAM estimation. GAM SP-GAM Intercept 8.661 (0.004)*** 8.664 (0.004)*** Balcony 0.008 (0.004)* 0.013 (0.004)*** GoodCond 0.067 (0.004)*** 0.066 (0.004)*** Elevator 0.020 (0.004)*** 0.014 (0.004)*** Surf 3.935 (3.997)*** 3.949 (3.998)*** Rooms 3.853 (3.982)*** 3.833 (3.977)*** Floor 3.429 (3.731)*** 3.589 (3.855)*** NFloor 3.843 (3.980)*** 3.848 (3.981)*** Dcenter 3.890 (3.991)*** 3.869 (3.988)*** Dsubway 1.000 (1.000)*** 1.264 (1.464)*** WalkRestaurant 3.877 (3.986)*** 3.449 (3.743)*** WalkSchools 3.442 (3.733)*** 3.625 (3.875)*** Wy 2.781 (3.155)*** AIC À3495.693 À4696.878 Log likelihood 1780.114 2383.646 Deviance 804.922 749.623 R 2 0.8491 0.8594 GCV 0.0476 0.0444 Num. obs. 16,959 16,959 *p &lt; 0:05; **p &lt; 0:01; ***p &lt; 0:001.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>F I G U R E A . 1</head><p>Marginal effects on dwelling prices. Non-linear relationship. GAM estimation price.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ANNEX B</head><p>With the objective of evaluating the sensitivity of the SP-MARS-4 for the election of the weight matrix W, several alternative W definition have been used to estimate the model using the same hyperparameters.</p><p>W 80 The definition is based on two criteria: First, w ij ¼ 1, if the distance between the observations i and j is less than 80 m, and 0, otherwise. Second, if an observation does not have neighbors using this criterion, the two-nearest neighbor criterion is used to connect this observation.</p><p>W 120 The definition is based on two criteria: First, w ij ¼ 1, if the distance between the observations i and j is less than 120 m, and 0, otherwise. Second, if an observation does not have neighbors using this criterion, the two-nearest neighbor criterion is used to connect this observation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>W Knn10</head><p>The elements of W matrix: w ij ¼ 1, if observation j is among the 10 nearest neighbors, and 0, otherwise.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>W Knn20</head><p>The elements of W matrix: w ij ¼ 1, if observation j is among the 20 nearest neighbors, and 0, otherwise.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>F I G U R E A . 2</head><p>Non-linear marginal effect of the spatial lag term. GAM estimation.</p><p>Resumen. Multivariate Adaptive Regression Spline (MARS) es un algoritmo de aprendizaje automático no paramétrico sencillo y potente que automatiza la selección de términos no lineales en modelos de regresión. En este estudio se propone utilizar MARS en un marco de regresión espacial para tener en cuenta las posibles no linealidades y los efectos espaciales en los modelos de regresión espacial. Se examinó el funcionamiento de este algoritmo utilizando un conjunto de datos relativamente grande de 17.000 viviendas en San Petersburgo (Rusia). Las pruebas empíricas muestran que la mayoría de las variables explicativas del modelo de regresión espacial, incluido el desfase espacial de la variable dependiente, tienen un impacto no lineal en los precios de venta de las viviendas.</p><p>抄録: 多変量適応的回帰スプライン(Multivariate Adaptive Regression Spline:MARS)は、回帰モデルにおける 非線形項の選択を自動化する単純で強力なノンパラメトリックな機械学習アルゴリズムである。本稿では、空間 回帰モデルにおける潜在的な非線形性と空間効果を説明するために、空間回帰フレームワークにおいてMARSを 使用することを提案する。サンクトペテルブルク(ロシア)の17,000の住宅の比較的大きなデータセットを用い て、このアルゴリズムがどのように機能するかを検討する。実証的エビデンスから、従属変数の空間ラグを含む空 間回帰モデルのほとんどの説明変数が、住宅の希望価格に非線形の影響を与えることが示される。 DOI: 10.1111/pirs.12738 © 2023 The Authors. Papers in Regional Science published by John Wiley &amp; Sons Ltd on behalf of Regional Science Association International.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>F</head><figDesc>I G U R E 1 Spatial distribution of the dwellings in St. Petersburg. Price in rubles.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>(</head><figDesc>Surf, Rooms, Floor, NFloor, Balcony, and GoodCond); outdoor variables (Dcenter, Dsubway, and Drestaurant); the spatial lag of indoor variables (WSurf, WRooms, WFloor, WNFloor, WBalcony, and WGoodCond) and the IV Wy. We tune the algorithm as in SP-1 by setting thresh ¼ 0:01 and force it to include the instrument Wy linearly (if it enters). In this case, the algorithm selects only four variables: Surf, Rooms, Dcenter, and Wy. The Surf variable is split in the same knot as in SP-1, 82.60 m 2 , but the knots for Rooms and Dcenter change. The number of rooms, Rooms, is split in two rooms and Dcenter split in 11.15 km. The term Wy is relevant and is included linearly with a coefficient of spatial dependence of 0.253. As in SP-1 the number of BFs included in this model is low because the forward pass stops quickly.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>F</head><figDesc>I G U R E 2 Flowchart depicting the modeling approach.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>F</head><figDesc>I G U R E 3 Non-linear apartment price effects for St. Petersburg. Model SP-4. Marginal effects plots showing how the response variable changes with an increase in each of the predictor variables while holding all other predictor variables constant.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>F</head><figDesc>I G U R E 4Two examples of spatial k-folds, which involve applying the k-means algorithm to the coordinates for cross-validation exercises.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>F</head><figDesc>I G U R E 5 RMSE values for determining the optimal tuning parameters. Linear term of Wy. The left plot shows the RMSE for hyperparameters Thresh, Minspan, and MaxKnots (area in color). The right plot shows the violin plots of the rho parameters estimated only for Thresh ¼ 0:001</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>F</head><figDesc>I G U R E 6 RMSE values for determining the optimal tuning parameters, Thresh, Minspan, and MaxKnots (area in color). Non-linear term of Wy T A B L E 3 Non-linearity of Wy term. St. Petersburg housing market.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>F</head><figDesc>I G U R E 7Non-linear marginal effect of the spatial lag Wy on the dwelling price.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure</head><figDesc>Figure A.1 shows the non-linear relationship of the term Wy SP-GAM model.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure A. 2</head><label>2</label><figDesc>Figure A.2 shows the marginal effect of the non-linear relationship of the spatial lag term Wy.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><graphic coords="22,120.53,130.23,201.15,445.43" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><graphic coords="23,120.02,50.17,244.77,209.65" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><graphic coords="26,71.89,50.17,341.00,204.61" type="bitmap" /></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>14355957, 2023, 4, Downloaded from https://onlinelibrary.wiley.com/doi/10.1111/pirs.12738 by Universidad Politecnica De Cartagena, Wiley Online Library on [09/07/2025]. See the Terms and Conditions (https://onlinelibrary.wiley.com/terms-and-conditions) on Wiley Online Library for rules of use; OA articles are governed by the applicable Creative Commons License</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_1"><p>It is necessary to discuss the parameter space of higher-order spatial models, see<ref type="bibr" target="#b21">Elhorst et al. (2012)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_2"><p>https://gks.ru/free_doc/new_site/perepis2010/croc/perepis_itogi1612.htm.</p></note>
+		</body>
+		<back>
+
+			
+			<div type="funding">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Ministerio de Ciencia e Innovaci on (Spain), Grant/Award Number: PID2019-107800GB-I00</head></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>MARS. The variable Rooms changes the knots. The number of knots remains the same, but their positions change to 2 and 3, respecting the imposed condition of at least 1500 observations between knots and before/after knots. For the variable Dcenter, model SP-4 only includes two BFs, considering the knot of 5.99 km to break. These changes have implications in other variables with small changes in the break points. Figure <ref type="figure">3</ref> shows the non-linear relationship (marginal effects) between the logarithm of price and the variables selected by MARS. Note that the term Wy has a linear effect.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">| Hyperparameter search</head><p>Like other machine learning algorithms, the MARS output depends on several tuning parameters (Section 2.4). A cross-validation (CV) exercise can be done to identify the optimal combination of these hyperparameters. In this paper, the objective of our CV exercise is to carry out a parameter grid search to improve the predictive power of the model and therefore reduce probable overfitting. Basically, a training subsample (in-sample) is selected, and the MARS algorithm is applied. The model obtained is applied to predict the housing values in the test subsample (outof-sample). This procedure is repeated T times, randomly selecting training and test subsamples. The MRSE in the out-of-sample is obtained in each iteration, and the mean value of the MRSE is used as an indicator of overfitting.</p><p>Developing a CV exercise in a spatial framework presents some problems <ref type="bibr" target="#b7">(Brenning, 2012;</ref><ref type="bibr" target="#b18">Deppner &amp; Cajias, 2022;</ref><ref type="bibr" target="#b16">De la Llave et al., 2019b;</ref><ref type="bibr" target="#b31">Karasiak et al., 2022)</ref>. Note that a critical requirement for a CV exercise is that the training and test subsamples must be independent. In a spatial context, all observations are related to each other, and therefore, the in-and out-of-samples are not independent. To minimize this problem, we apply the k-means algorithm to spatial coordinates to create k ¼ 9 spatially compact and non-overlapping subsamples (as proposed by <ref type="bibr">Deppner &amp; Cajias, 2022and Brenning, 2012)</ref>. Then, (k À 1) folds are used for training the model, and the kth fold is used for testing. Since the k-means algorithm generally gives different results each time it is executed, to obtain a robust selection of hyperparameters, the process is repeated 200 times (T ¼ 200), and the mean of the RMSE is obtained. Figure <ref type="figure">4</ref> shows two maps with examples of how to split the data into k-folds.</p><p>The hyperparameters select to make the grid search are 3 : 1. Minspan ¼ 11,500, 1000, 2000, 4000, 6000, 8000 2. Endspan ¼ 0, 500 3. Thresh ¼ 0:05, 0.01, 0.005, 0.001, 0.0005 4. MaxKnots ¼ 1, 2, 3, 4 For every combination of these parameters, the MARS algorithm is executed using the training sample, and the resulting model is then utilized to make predictions on the test sample. The RMSE is then calculated to evaluate the accuracy of the predictions. A total of 110 MARS models have been launched T ¼ 200 times each. Figure <ref type="figure">5 (left)</ref> shows the mean values of the mean of the RMSE of the prediction out-of-sample. 4 The minimum value of RMSE is obtained for Thresh ¼ 0:001 and Minspan ¼ 8000 (RMSE mean ¼ 0:2073). This result confirms that for prediction proposes, a simple model with a reduced number of knots is preferred. Figure <ref type="figure">5</ref> (right) shows in several violin plots the estimated ρ values for Thresh ¼ 0:001 and different values of Minspan and MaxKnots. For all the in-sample models, the spatial autocorrelation is significant, with ρ values around 0.2. Model SP-5 shows the output of the MARS algorithm with the select hyperparameters. Some changes occur compared to model SP-4. There are different knots because the algorithm forces the selection of evenly spaced knots for each predictor. 3 No interaction between variables is considered. Interaction at a lower degree can help interpret the final model, whereas higher-order interactions can cause inconsistencies in model predictions on rare occasions <ref type="bibr" target="#b46">(Naser et al., 2022)</ref>. 4 Only results for Endspan ¼ 0. Similar results are obtained for Endspan ¼ 500. Available under request.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>T A B L E B 1 Spatial MARS models. Alternative definition of W matrix.</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SP-MARS-5 SP-MARS-5 SP-MARS-5 SP-MARS-5 SP-MARS-5 (W 100 )</head><p>( W 80 ) ( W 120 ) ( W 10Knn ) ( W 20Knn ) Intercept 8.367 8.612 8.373 8.527 8.530 ðSurf À 55:5Þ þ 0.015 0.015 0.015 0.014 0.013 ð55:5 À SurfÞ þ À0.024 À0.023 À0.024 À0.023 À0.023 ðSurf À 146Þ þ À0.007 À0.007 À0.007 À0.008 À0.006 ðRooms À 4Þ þ À0.287 À0.281 À0.285 À0.236 À0.241 ð4 À RoomsÞ þ 0.082 0.080 0.081 0.067 0.063 ð11 À NFloorÞ þ À0.014 À0.012 À0.014 À0.013 À0.013 ðFloor À 6Þ þ À0.002 À0.002 À0.002 À0.002 À0.002 ð6 À FloorÞ þ À0.014 À0.015 À0.014 À0.015 À0.014 GoodCond 0.068 0.066 0.068 0.071 0.070 Balcony ----ð15:07 À DcenterÞ þ 0.022 0.021 0.021 --ðDcenter À 15:07Þ þ -0.027 ---ðDcenter À 9:33Þ þ ---À0.015 À0.016 ð9:33 À DcenterÞ þ ---0.022 0.018 ð2 À WalkSchoolsÞ þ À0.028 À0.030 À0.028 À0.032 À0.029 ðWalkSchools À 2Þ þ ---À0.001 À0.002 ðWy À 8:59Þ þ 0.237 ----ð8:59 À WyÞ þ À0.059 ----ðW08y À 9:76Þ þ -0.420 ---ð9:76 À W08yÞ þ -À0.187 ---ðW12y À 8:59Þ þ --0.247 --ð8:59 À W12yÞ þ --À0.063 --ðWknn10y À 9:67Þ þ ---0.338 -ðWknn10y À 8:60Þ þ ---0.288 ð8:60 À Wknn10yÞ þ ---À0.156 ðWknn20y À 8:60Þ þ ----0.363 ð8:60 À Wknn20yÞ þ ----À0.142 R 2 0.856 0.856 0.856 0.860 0.859 Adj. R 2 0.855 0.856 0.856 0.860 0.859 GCV 0.0457 0.0456 0.0455 0.0443 0.0446 GRSq 0.8550 0.8552 0.8556 0.8594 0.8585 Num. obs. 16,959 16,959 16,959 16,959 16,959</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>ANNEX C C: Introduction</head><p>In this note, we include a toy example of MARS algorithm applied to a small sample size. The classical example of crime from <ref type="bibr" target="#b1">Anselin (1988)</ref> is used as an illustration.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C: Model estimation with MARS</head><p>The Columbus data set and the weight matrix are included in the spdep package</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.1 | The IV estimation</head><p>The classical IV estimation, including linear terms, is obtained with the "stsls" function of spatialreg package</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C: MARS for Columbus data</head><p>To apply the MARS algorithm to the spatial model, it is necessary in the first step to obtain the instrument of Wy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C.1 | Obtaining the instrument</head><p>The MARS algorithm  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>C. 2</head><label>2</label><figDesc>| Plot MARSTo get a visualization of the results using the MARS algorithm, we include the plots showing the non-linear relationship(Figure C.10)  between the independent variable (CRIME) and the two exogenous factors (INC and HOVAL).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>F</head><figDesc>I G U R E C . 1 0 Non-linear relationship.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Support vector machine for spatial variation</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Andris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cowen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wittenbach</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions in GIS</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="41" to="61" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial econometrics: Models and methods</title>
+		<meeting><address><addrLine>Dorddrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Interpolation of air quality measures in hedonic house price models: spatial aspects</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Le</forename><surname>Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="31" to="52" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial econometric linear models with large datasets: How big can spatial big data be?</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Arbia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ghiringhelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mira</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="67" to="73" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Productivity polarization across regions in Europe: The role of nonlinearities and spatial dependence. International</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="92" to="115" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Modeling regional economic dynamics: Spatial dependence, spatial heterogeneity and nonlinearities</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mínguez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Montero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Dynamics and Control</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="229" to="245" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Comparing implementations of estimation methods for spatial econometrics</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">18</biblScope>
+			<biblScope unit="page" from="1" to="36" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial cross-validation and bootstrap for the assessment of prediction rules in remote sensing: The r package sperrorest</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Brenning</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE International Geoscience and Remote Sensing Symposium</title>
+		<imprint>
+			<biblScope unit="page" from="5372" to="5375" />
+			<date type="published" when="2012">2012. 2012</date>
+			<publisher>IEEE</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Additive hedonic regression models with spatial scaling factors: An application for rents in Vienna</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Brunauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Wechselberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bienert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="390" to="411" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial effects and non-linearity in hedonic modeling: Will large data sets change our assumptions</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cajias</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ertl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Property Investment &amp; Finance</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="32" to="49" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">A scan test for spatial groupwise heteroscedasticity in cross-sectional models with an application on houses prices in madrid</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Chasco</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Le Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="226" to="238" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Determinants of revenue per available room: Influential roles of average daily rate, demand, seasonality and yearly trend</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Chattopadhyay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">K</forename><surname>Mitra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Hospitality Management</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="page" from="573" to="582" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Embracing heterogeneity: the spatial autoregressive mixture model</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">J</forename><surname>Cornwall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Parent</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="148" to="161" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Estimating the correct degree of smoothing by the method of generalized cross-validation</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Craven</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wahba</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Numerische Mathematik</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="377" to="403" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Bankruptcy forecasting: A hybrid approach using fuzzy c-means clustering and multivariate adaptive regression splines (MARS)</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>De Andrés</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Lorca</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">J</forename><surname>De Cos Juez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Sánchez-Lasheras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Expert Systems with Applications</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1866" to="1875" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">The impact of geographical factors on churn prediction: an application to an insurance company in Madrid&apos;s urban area</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>De La Llave</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">A</forename><surname>Angulo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Actuarial Journal</title>
+		<imprint>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="188" to="203" />
+			<date type="published" when="2019">2019a. 2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">The impact of geographical factors on churn prediction: an application to an insurance company in madrid&apos;s urban area</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>De La Llave</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">A</forename><surname>Angulo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Actuarial Journal</title>
+		<imprint>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="188" to="203" />
+			<date type="published" when="2019">2019b. 2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<author>
+			<persName><forename type="first">N</forename><surname>Debarsy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Verardi</surname></persName>
+		</author>
+		<ptr target="https://shs.hal.science/halshs-00446574" />
+		<title level="m">Estimating Nonlinearities in Spatial Autoregressive Models</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+	<note>working paper or preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Accounting for spatial autocorrelation in algorithm-driven hedonic models: A spatial crossvalidation approach</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Deppner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cajias</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">2022</biblScope>
+			<biblScope unit="page" from="1" to="39" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Support vector machine in crash prediction at the level of traffic analysis zones: assessing the spatial proximity effects</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zheng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Accident Analysis &amp; Prevention</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="192" to="198" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Twenty years of P-splines</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">Aulh C</forename><surname>Eilers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Marx</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SORT: Statistics and Operations Research Transactions</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="149" to="186" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">On model specification and parameter space definitions in higher order spatial econometric models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Lacombe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="211" to="220" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Specification searches in spatial econometrics: the relevance of Hendry&apos;s methodology</title>
+		<author>
+			<persName><forename type="first">Rjgm</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Folmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="557" to="579" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Multivariate adaptive regression splines</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="67" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+		</imprint>
+		<respStmt>
+			<orgName>Fast mars: Stanford University. Laboratory for Computational Statistics</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Flexible parsimonious smoothing and additive modeling</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">W</forename><surname>Silverman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="3" to="21" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Beyond the hype: Big data concepts, methods, and analytics</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gandomi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haider</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Information Management</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="137" to="144" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A new method for dealing simultaneously with spatial autocorrelation and spatial heterogeneity in regression models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Geniaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Martinetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="74" to="85" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Multiple applications of multivariate adaptive regression splines technique to predict rear-end crashes at unsignalized intersections</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Haleem</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Abdel-Aty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Santos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transportation Research Record</title>
+		<imprint>
+			<biblScope unit="volume">2165</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="33" to="41" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">I I</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Trevor</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jerome</forename><surname>Frieman</surname></persName>
+		</author>
+		<title level="m">The elements of statistical learning: data mining</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Prediction of chloride diffusion in cement mortar using multi-gene genetic programming and multivariate adaptive regression splines</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">D</forename><surname>Hoang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">W</forename><surname>Liao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Measurement</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="page" from="141" to="149" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Spatial dependence between training and test sets: another pitfall of classification accuracy assessment in remote sensing</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Karasiak</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-F</forename><surname>Dejoux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Monteil</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sheeren</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine Learning</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="2715" to="2740" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial models with endogenous weighting matrices, and an application to a demand model for cigarettes</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="140" to="149" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">A</forename><surname>Kholodilin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">)</forename><surname>Krylova (koroleva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kryutchenko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename></persName>
+		</author>
+		<title level="m">Where is the consumer center? A case of St. Petersburg. Regional Science, Policy and Practice, forthcoming</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Spatial machine learning: new opportunities for regional science</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kopczewska</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="713" to="755" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Functional-coefficient spatial Durbin models with nonparametric spatial weights: An application to economic growth</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Koroglu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">6</biblScope>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kuhn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Johnson</surname></persName>
+		</author>
+		<title level="m">Applied predictive modeling</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="volume">26</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<title level="m">Spatial autoregressive model of commodity housing price and empirical research. Systems Engineering Procedia</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="206" to="212" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">Valuing access to urban greenspace using non-linear distance decay in hedonic property pricing</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Łaszkiewicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Heyman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cimburova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Nowell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">N</forename><surname>Barton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="page">101394</biblScope>
+		</imprint>
+	</monogr>
+	<note>Ecosystem Services, 53</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Comparative performance of generalized additive models and multivariate adaptive regression splines for statistical modelling of species distributions</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Leathwick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Modelling</title>
+		<imprint>
+			<biblScope unit="volume">199</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="188" to="196" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Mining the customer credit using classification and regression tree and multivariate adaptive regression splines</title>
+		<author>
+			<persName><forename type="first">T.-S</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-C</forename><surname>Chiu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y.-C</forename><surname>Chou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-J</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1113" to="1130" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Second-order polynomial spatial error model. Global and local spatial dependence in unemployment in Andalusia</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economic Modelling</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="270" to="279" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Approximate likelihood estimation of spatial probit models</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Martinetti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Geniaux</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="30" to="45" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<title level="m" type="main">Derived from MDA: MARS by Trevor Hastie and Rob Tibshirani. uses Alan Miller&apos;s Fortran utilities with Thomas Lumley&apos;s leaps wrapper. earth: Multivariate adaptive regression splines version 5.1. 2 from cran</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Milborrow</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<publisher>CRAN</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Model selection strategies in a spatial setting: Some additional results</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Angulo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="200" to="213" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">Application of multivariate adaptive regression splines (mars) approach in prediction of compressive strength of eco-friendly concrete. Case Studies in Construction Materials</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Naser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Badr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Henedy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">A</forename><surname>Ostrowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Imran</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page">1262</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Inducing non-orthogonal and non-linear decision boundaries in decision trees via interactive basis functions</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Paez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Ruiz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Camacho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Expert Systems with Applications</title>
+		<imprint>
+			<biblScope unit="volume">122</biblScope>
+			<biblScope unit="page" from="183" to="206" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">A regression tree algorithm for the identification of convergence clubs</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Postiglione</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Benedetti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Lafratta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2776" to="2785" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Estimating a spatial autoregressive model with an endogenous spatial weight matrix</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2014.08.008</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2014.08.008" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Spatial spline regression models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Sangalli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">O</forename><surname>Ramsay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">O</forename><surname>Ramsay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="681" to="703" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Spatial unconditional quantile regression: application to Japanese parking price data</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">W</forename><surname>Axhausen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Chikaraishi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="351" to="402" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Assessing the spatial sensitivity of a random forest model: Application in gridded population modeling</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Sinha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gaughan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">R</forename><surname>Stevens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Nieves</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sorichetta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Tatem</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="132" to="145" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Learning from man or machine: Spatial fixed effects in urban econometrics</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Sommervoll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">E</forename><surname>Sommervoll</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="page" from="239" to="252" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<monogr>
+		<title level="m" type="main">Metrics for measuring the performance of machine learning prediction models: An application to the housing market</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Steurer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Hill</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+		<respStmt>
+			<orgName>Graz Economic Papers University of Graz</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">An alternative to the standard spatial econometric approaches in hedonic house price models</title>
+		<author>
+			<persName><forename type="first">Von</forename><surname>Graevenitz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Panduro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">E</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Land Economics</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="386" to="409" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">A spatial autoregressive model with a nonlinear transformation of the dependent variable</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">186</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Theoretical foundations for spatial econometric research</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="2" to="12" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<monogr>
+		<author>
+			<persName><forename type="first">C</forename><surname>Yadav</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kumar</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1307.5437</idno>
+		<title level="m">Algorithm and approaches to handle large data-a survey</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<monogr>
+		<title level="m" type="main">Housing market dynamics and advances in mortgages: option based modeling and hedging</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Yilmaz</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+		<respStmt>
+			<orgName>Middle East Technical University</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Ph.D. Thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Assessment of soil liquefaction based on capacity energy concept and multivariate adaptive regression splines</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">T C</forename><surname>Goh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Xiao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Engineering Geology</title>
+		<imprint>
+			<biblScope unit="volume">188</biblScope>
+			<biblScope unit="page" from="29" to="37" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Exploring the nonlinear impact of air pollution on housing prices: A machine learning approach</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Zou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics of Transportation</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page">100272</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

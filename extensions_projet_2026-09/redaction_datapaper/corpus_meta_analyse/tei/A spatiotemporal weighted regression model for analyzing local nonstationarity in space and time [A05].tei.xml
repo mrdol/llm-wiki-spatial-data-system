@@ -1,0 +1,1019 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time</title>
+				<funder ref="#_xJUAhcu">
+					<orgName type="full">unknown</orgName>
+				</funder>
+				<funder ref="#_xaCYhGX #_KQ7FMvM">
+					<orgName type="full">Fujian Provincial Department of Education</orgName>
+				</funder>
+				<funder ref="#_8QDw9MB">
+					<orgName type="full">China Scholarship Council</orgName>
+				</funder>
+				<funder ref="#_muh9ExZ #_YX3K7KQ">
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2020-12-03">3 December 2020</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Xiang</forename><surname>Que</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Computer and Information College</orgName>
+								<orgName type="institution">Fujian Agriculture and Forestry University</orgName>
+								<address>
+									<settlement>Fuzhou Fujian</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of Idaho</orgName>
+								<address>
+									<addrLine>875 Perimeter Drive MS 1010</addrLine>
+									<postCode>83844-1010</postCode>
+									<settlement>Moscow</settlement>
+									<region>ID</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Xiaogang</forename><surname>Ma</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of Idaho</orgName>
+								<address>
+									<addrLine>875 Perimeter Drive MS 1010</addrLine>
+									<postCode>83844-1010</postCode>
+									<settlement>Moscow</settlement>
+									<region>ID</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Chao</forename><surname>Ma</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Computer Science</orgName>
+								<orgName type="institution">University of Idaho</orgName>
+								<address>
+									<addrLine>875 Perimeter Drive MS 1010</addrLine>
+									<postCode>83844-1010</postCode>
+									<settlement>Moscow</settlement>
+									<region>ID</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Qiyu</forename><surname>Chen</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">School of Computer Science</orgName>
+								<orgName type="institution">University of Geosciences (Wuhan)</orgName>
+								<address>
+									<addrLine>388 Lumo Road</addrLine>
+									<postCode>430074</postCode>
+									<settlement>Wuhan</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A spatiotemporal weighted regression model (STWR v1.0) for analyzing local nonstationarity in space and time</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2020-12-03">3 December 2020</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C4444075AF9722D93B1967CFFF60DAAC</idno>
+					<idno type="DOI">10.5194/gmd-13-6149-2020</idno>
+					<note type="submission">Received: 13 October 2019 -Discussion started: 18 March 2020 Revised: 8 October 2020 -Accepted: 23 October 2020</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-06-04T15:54+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Local spatiotemporal nonstationarity occurs in</head></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>various natural and socioeconomic processes. Many studies have attempted to introduce time as a new dimension into a geographically weighted regression (GWR) model, but the actual results are sometimes not satisfying or even worse than the original GWR model. The core issue here is a mechanism for weighting the effects of both temporal variation and spatial variation. In many geographical and temporal weighted regression (GTWR) models, the concept of time distance has been inappropriately treated as a time interval. Consequently, the combined effect of temporal and spatial variation is often inaccurate in the resulting spatiotemporal kernel function. This limitation restricts the configuration and performance of spatiotemporal weights in many existing GTWR models. To address this issue, we propose a new spatiotemporal weighted regression (STWR) model and the calibration method for it. A highlight of STWR is a new temporal kernel function, wherein the method for temporal weighting is based on the degree of impact from each observed point to a regression point. The degree of impact, in turn, is based on the rate of value variation of the nearby observed point during the time interval. The updated spatiotemporal kernel function is based on a weighted combination of the temporal kernel with a commonly used spatial kernel (Gaussian or bisquare) by specifying a linear function of spatial bandwidth versus time. Three simulated datasets of spatiotemporal processes were used to test the performance of GWR, GTWR, and STWR. Results show that STWR significantly improves the quality of fit and accuracy. Similar results were obtained by using real-world data for precipitation hydrogen isotopes (δ 2 H) in the northeastern United States. The leave-one-out cross-validation (LOOCV) test demonstrates that, compared with GWR, the total prediction error of STWR is reduced by using recent observed points. Prediction surfaces of models in this case study show that STWR is more localized than GWR. Our research validates the ability of STWR to take full advantage of all the value variation of past observed points. We hope STWR can bring fresh ideas and new capabilities for analyzing and interpreting local spatiotemporal nonstationarity in many disciplines.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Time, space, and attributes are three essential characteristics in geographic entities, and they are recorded to reflect the state and evolution of various real-world phenomena and processes. Because space and time frame all aspects of the discipline of geography <ref type="bibr" target="#b21">(Goodchild, 2013)</ref>, it is important to observe the spatiotemporal variations and explore appropriate analytical methods to study the internal mechanisms and evolutionary laws. In recent years, new platforms and instruments have brought increasingly massive spatiotemporal data, such as the time-and geo-tagged sensor monitoring records and remote sensing images. Those big data create great opportunities for studying human and environmental dynamics from different perspectives, such as the patterns of human behavior <ref type="bibr" target="#b10">(Chen et al., 2011)</ref>, environmental risk assessment <ref type="bibr" target="#b29">(Sun et al., 2015)</ref>, and disease outbreaks <ref type="bibr" target="#b30">(Takahashi et al., 2008)</ref>. Nevertheless, although spatiotemporal modeling has been a long-term research focus in the field of geographical information science (GIScience) <ref type="bibr">(Cressie, 199;</ref><ref type="bibr" target="#b13">Cressie and Wikle, 2015)</ref>, the models are not mature yet and challenges still exist <ref type="bibr" target="#b17">(Fotheringham et al., 2015)</ref>, which call for further work.</p><p>In this paper, the technological development and discussion focus on modeling local spatiotemporal variations within the framework of geographically weighted regression (GWR). GWR is a method for modeling spatially heterogeneous processes <ref type="bibr" target="#b6">(Brunsdon et al., 1996</ref><ref type="bibr" target="#b7">(Brunsdon et al., , 1998;;</ref><ref type="bibr" target="#b16">Fotheringham et al., 2003)</ref>. It has been applied in a variety of areas, such as climate science <ref type="bibr" target="#b5">(Brown et al., 2012)</ref>, geology <ref type="bibr" target="#b2">(Atkinson et al., 2003)</ref>, mineral exploration <ref type="bibr" target="#b32">(Wang et al., 2015)</ref>, transportation analysis <ref type="bibr" target="#b9">(Cardozo et al., 2012)</ref>, crime studies <ref type="bibr" target="#b8">(Cahill and Mulligan, 2007;</ref><ref type="bibr" target="#b33">Wheeler and Waller, 2009)</ref>, environmental science <ref type="bibr" target="#b26">(Mennis and Jordan, 2005)</ref>, and house price modeling <ref type="bibr" target="#b17">(Fotheringham et al., 2015)</ref>. GWR calibrates a separate regression model at each location through a databorrowing scheme, with which distance weights can be calculated by drawing on data from neighboring observations of each regression point <ref type="bibr" target="#b19">(Fraser et al., 2012)</ref>. This operation complies with Tobler's first law of geography -"Everything is related to everything else, but near things are more related than distant things" <ref type="bibr" target="#b31">(Tobler, 1970)</ref>.</p><p>Numerous studies have been devoted to incorporating the temporal dimension into spatial regression <ref type="bibr" target="#b27">(Pace et al., 2000;</ref><ref type="bibr" target="#b20">Gelfand et al., 2004;</ref><ref type="bibr" target="#b12">Crespo et al., 2007;</ref><ref type="bibr" target="#b13">Cressie and Wikle, 2015)</ref>. However, most of these studies assume that temporal effects are constant over space from a global perspective of modeling <ref type="bibr" target="#b17">(Fotheringham et al., 2015)</ref>. To address that issue, <ref type="bibr" target="#b12">Crespo et al. (2007)</ref> extended GWR by developing spatiotemporal bandwidths that account for varying local spatial effects across time. <ref type="bibr" target="#b23">Huang et al. (2010)</ref> and <ref type="bibr" target="#b34">Wu et al. (2014)</ref> proposed a geographical and temporal weighted regression (GTWR) model with a method of measuring the spatiotemporal "closeness" and a parameter ratio τ to deal with different measured units in time and space. Although the approach can address the issue to some extent, <ref type="bibr" target="#b17">Fotheringham et al. (2015)</ref> pointed out that a sole measurement of integrated spatial and temporal distances can be misleading as location and time are usually measured at different scales, and the calculation of distance in three dimensions (time and two-dimensional space) remains a challenge.</p><p>A spatiotemporal kernel function, which consists of mixed spatial and time decay bandwidths, was proposed by <ref type="bibr" target="#b17">Fotheringham et al. (2015)</ref>. Nevertheless, the stepwise strategy applied in this function for bandwidth optimization does not always seem reasonable. In practice, this function needs to first find and fix an optimized spatial bandwidth, then it will find the optimized temporal bandwidth. After that, the spatiotemporal weight will be calculated. This stepwise search process means that the function is not able to optimize both the temporal and spatial bandwidths at the same time. However, a more reasonable thought is that the spatiotemporal bandwidth and its weight are simultaneously affected by both spatial and temporal effects of a process. There should be ways to further improve the spatiotemporal kernel function in <ref type="bibr" target="#b17">Fotheringham et al. (2015)</ref>.</p><p>The aim of this paper to develop a better methodology for the spatiotemporal kernel function. Following Tobler's first law, we propose an algorithm called spatiotemporal weighted regression (STWR). In STWR, the velocity of value change is more highly related with closer proximity in time and space. Therefore, STWR can borrow data not only from nearby locations, but also from nearby value variation through time. The latter is what we call "time distance" in STWR. The time distance is not the concept of a time interval but the rate of value variation through time. It is a kind of value change that reflects the temporal effect of nearby points on the regression point. Accordingly, our local spatiotemporal regression analysis model can take advantage of the variation in data to identify temporal nonstationarity, which is an advantage when comparing with GWR and GTWR.</p><p>Before giving more details about STWR, we can further clarify the meaning of a few concepts. A common issue in existing GTWR models is that they use the concept of a time interval, instead of the abovementioned time distance, to calculate temporal and spatiotemporal weights. A time interval is the period between two observed time stages. A time distance, in the context of STWR, is the rate of value variation between an observed point and a regression point through a time interval. We can think about the following scenario for a group of points. The values of some points do not change or change slightly from time A to time B, while a few other points may change greatly in that period. However, many GTWR models ignore the difference in the value changes of observed points during a period of time and regard all these points as having the same temporal effect on their neighbor regression point. It is hard to believe that some unchanged observations constantly affect their nearby regression points during the observed time interval. Intuitively, different variations of the observed points have different temporal effects. For example, the faster the house price of a point changes, the stronger the temporal effect is on the house price at its nearby point. Moreover, the rate of value changes at different observed points (time nonstationary) may also have spatial heterogeneity. The data values observed at different points are results of mixed spatiotemporal effects and some other unknown factors (including errors). Therefore, using only time interval in the calculation of temporal and spatiotemporal weights might imprecisely interpret the local spatiotemporal effect.</p><p>There are other issues in temporal kernel functions and the multiplication form of spatial and temporal kernels used by existing GTWR models <ref type="bibr" target="#b23">(Huang et al., 2010;</ref><ref type="bibr" target="#b34">Wu et al., 2014;</ref><ref type="bibr" target="#b17">Fotheringham et al., 2015)</ref>. When calculating the spatiotemporal effect, these models generally use time intervals and the common kernel functions to calculate temporal weights, such as a Gaussian kernel or bi-square kernel. However, an appropriate temporal kernel function should not be the same as the spatial kernel function because space is in two or three di-mensions, while time is in one dimension and one direction. Each regression point can borrow observed points from any directions in space but only use points from the past rather than from the future. Moreover, the integrated spatiotemporal weights might be underestimated in these GTWR models by using a multiplication of the spatial and temporal weights. Because both the spatial weights and the temporal weights range from 0 to 1, the multiplied weight value is never bigger than the smaller one before multiplying, which means that the composite spatiotemporal impacts are never greater than the single spatial impacts and the single temporal impacts. However, the real combined spatiotemporal impacts may be higher than the single spatial impacts or the temporal impacts, or at least may be higher than the smaller ones. The multiplication formulation of a spatiotemporal kernel in GTWR also makes the calculated weight decay faster.</p><p>The abovementioned limitations and issues in GWR and GTWR are the driving forces behind our development of STWR. The remainder of this article is organized as follows. Section 2 introduces the STWR model formulation, including temporal kernel and spatiotemporal kernel functions. Section 3 describes the methods for bandwidth selection and calibration when STWR is in operation. Section 4 presents results of applying GWR, GTWR, and STWR to three sets of simulated data. Section 5 presents experiment results with real-world precipitation hydrogen isotope data. In Sect. 6, we close the article with a summary of the key findings and a few thoughts for future research.</p><p>2 The core model of STWR</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">The strategy of time distance decay</head><p>Since GWR is the background of our work, it is helpful to first give a brief overview of the GWR framework. The basic formulation of GWR can be described in the two equations below <ref type="bibr" target="#b16">(Fotheringham et al., 2003)</ref>.</p><formula xml:id="formula_0">y i = β 0 (u i v i ) + k β k (u i , v i )x ik + ε i (1) βk (u i v i ) = (X T W(u i v i )X) -1 X T W(u i v i )y<label>(2)</label></formula><p>In Eq. ( <ref type="formula">1</ref>), y i is a response variable of regression point i at a location with the coordinates (u i v i ). x ik is the kth independent variable, and ε i denotes the error term for the ith observed point. A key difference between GWR and the traditional global regression method, such as ordinary least squares (OLS), is that GWR allows the coefficient β k (u i v i ) to vary spatially to identify spatial heterogeneity. Equation (2) represents the GWR calibration in a matrix form. W(u i v i ) is a diagonal weighting matrix specific to location i, which is calibrated by a specified kernel function with a given bandwidth. Every element w i in the weighting matrix reflects the impact from another observed point on the regression point. A bigger w i value means a higher impact.</p><p>GWR has a strategy of spatial distance decay impact on a regression point <ref type="bibr" target="#b7">(Brunsdon et al., 1998;</ref><ref type="bibr" target="#b16">Fotheringham et al., 2003)</ref>. A similar "time distance decay" strategy was also discussed in several recent GTWR models <ref type="bibr" target="#b12">(Crespo et al., 2007;</ref><ref type="bibr" target="#b23">Huang et al., 2010;</ref><ref type="bibr" target="#b34">Wu et al., 2014;</ref><ref type="bibr" target="#b17">Fotheringham et al., 2015)</ref>. Yet, those models did not fully reflect the effect of time distance decay. Sample points are observed at different time stages, and those data points closer in time distance to a regression point have more impact on the regression point than those farther away. The time distance refers to the value variation rate between an observed point and a regression point during a certain time interval. For example, in Fig. <ref type="figure" target="#fig_0">1</ref>, there are four time stages from old to new: T -s, Tq, T -p, and T . Through a fitting and calibration process, the spatiotemporal bandwidth will be fitted, and the spatiotemporal effects (weights) from observed points to a regression point at time stage T will be calculated by a specific spatiotemporal kernel function. Then, in prediction, the value of a regression point at time stage T can be estimated. Thus, the observed points at time stage T only have a spatial effect on the regression point (Fig. <ref type="figure" target="#fig_0">1</ref>). There is a temporal effect from data points at time stages T -p and T -q (shown as stars, pentagons, and triangles in the planes of T -p and T -q in Fig. <ref type="figure" target="#fig_0">1</ref>) within a certain spatial bandwidth b ST at each time stage on the regression point. The time distance decay should reflect the fact that different variations of the observed points have different temporal effects. However, as mentioned in the previous section, many existing GTWR models have applied a strategy of time interval decay instead of time distance decay. Consequently, they regard all the observed points as having the same temporal effect on their neighbor regression point.</p><p>Compared to existing GTWR models, the time distance decay strategy of STWR considers the effect of different variations of observed points through time. For example, some data points may have a higher impact on the regression point, though their spatial distance is farther than other points. Figure <ref type="figure" target="#fig_0">1</ref> illustrates the fact that the locations of some star-shaped points are farther away from the regression point than some pentagon-shaped points at time stage T -p, which indicates that there are mixed impacts (spatial impact and temporal impact) on the regression point. The temporal impacts depend on the rate of value variation, which is the value difference between the observed point and the regression point divided by a time interval (e.g., [T -p, T ] and [T -q, T -p] are time intervals). If the observed time stage is too long ago or the rate of value variation is too small and exceeds the limit of optimized temporal bandwidth for the regression point (as shown by observations at time stage T -s), the data points at this time stage may have no impact on the regression point. Even though some of those data points may have a huge difference in value and are close to the regression point in space, they are not within the range of the optimized temporal bandwidth. Spatial bandwidths also vary along the time line, and usually the bandwidth gets larger when the observation time is closer to the time stage of the regression point (Fig. <ref type="figure" target="#fig_0">1</ref>). </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">The spatiotemporal kernel function of STWR</head><p>We assume that a set of observed points O t = {O N t O N t-1 O N t-q | t = [t -qt]} is collected during a certain time interval t in a study area, where t represents the current time stage and N t-i i ∈ {0, 1, 2, . . ., q} (N t = N t-0 ) denotes the number of observed points at each recorded time. As in the idea described above, we can borrow neighbor points in space and their value variation during certain recent time intervals, so we can still use Eq. ( <ref type="formula">1</ref>) to generate local estimates. The weight matrix W in GWR usually depends on the spatial kernel <ref type="bibr" target="#b17">(Fotheringham et al., 2015)</ref>. In STWR, we need to consider the temporal effect, so the form of W is different from that in GWR. Correspondingly, we should have a spatiotemporal kernel, which can be understood as a temporal extension based on the spatial kernel. However, if we use a multiplication form to combine the temporal kernel and the spatial kernel <ref type="bibr" target="#b23">(Huang et al., 2010;</ref><ref type="bibr" target="#b34">Wu et al., 2014;</ref><ref type="bibr" target="#b17">Fotheringham et al., 2015)</ref>, we will face the problem of time and space interaction as mentioned above in the Introduction section. To address that issue, we design a weighted average form for the spatiotemporal kernel.</p><formula xml:id="formula_1">w t ij ST = (1 -α)k s (d sij b ST ) + αk T (d tij b T ), 0 ≤ α ≤ 1 (3)</formula><p>In Eq. ( <ref type="formula">3</ref>), w t ij ST is the weight at time t and at the observed location j . k s and k T are the spatial and temporal kernel, respectively, and they both have a value range of 0 to 1. α is an adjustable parameter to scale the temporal and spatial effects, which can be optimized with the bandwidth selections. The role of parameter α is different from the scale parameter τ (τ = u λ ) in GTWR <ref type="bibr" target="#b23">(Huang et al., 2010)</ref>. α is introduced here for adjusting the outputs of the spatial kernel k s and the temporal kernel k T , which means measuring the relative strength of the spatial and temporal impacts on the regression point. But the scale parameter τ is used for adjusting the inconsistency of the time distance and space distance, which cannot adjust the relative strength of k s and k T . d sij and d tij are the spatial (Euclidean) and temporal distance between the regression point i and an observed data point j , respectively. b ST is the spatial bandwidth b S at a certain time stage T , and b T denotes the temporal bandwidth.</p><p>The time distance, as mentioned above, is not the time interval but the rate of value variation between an observed point and a regression point through a time interval. Following the time distance decay strategy in STWR, we can further derive the temporal kernel k T as shown below.</p><formula xml:id="formula_2">w t ij t =                2 1+exp -|(y i(t) -y j (t-q) )/y j (t-q) | t/b T -1   if 0 &lt; t &lt; b T 0 otherwise (<label>4</label></formula><formula xml:id="formula_3">)</formula><p>In Eq. ( <ref type="formula" target="#formula_2">4</ref>), y i(t) -y j (t-q) is the subtraction of the regression point i observed value at t from the point j observed value at t-q, which denotes the value change during the time interval t. The internal part of the exponential function is negative in order to make the weight w t ij t range from 0 to 1. The faster the value change rate is, the bigger the weight is, which means that the time impact is larger. When the time interval t is out of the range (0, b T ), the weight will be set to zero, which indicates that there is no impact because the observed variation is too far to affect the current moment. For example, if the price of a nearby house changed a long time ago, it may have little or no impact on the present house price. But if the house price had a sharp change recently, it will have a big impact on the present house price. Therefore, the faster the rate of observed value change and the shorter the time interval, the greater the impact on the regression point will be. Compared with GTWR models, the advantage of STWR is that the temporal kernel function k T can better leverage the variation data.</p><p>To calibrate the weight value w t ij ST , we need a spatial kernel function. The most widely used kernel functions are bisquare and Gaussian <ref type="bibr" target="#b16">(Fotheringham et al., 2003)</ref>, which are given in Eqs. ( <ref type="formula" target="#formula_4">5</ref>) and ( <ref type="formula" target="#formula_5">6</ref>), respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bi-square:w</head><formula xml:id="formula_4">ij S =    1 - d sij b S 2 2 if d sij &lt; b s 0, otherwise<label>(5)</label></formula><p>Gaussian:</p><formula xml:id="formula_5">w ij S = exp - 1 2 d sij b S 2 (<label>6</label></formula><formula xml:id="formula_6">)</formula><p>In Eqs. ( <ref type="formula" target="#formula_4">5</ref>) and ( <ref type="formula" target="#formula_5">6</ref>), b S is the spatial bandwidth. Derived from b S and b ST , b St is the initial spatial bandwidth at the given time stage t of the regression point (i.e., t is the initial time for searching observed points in the past). Many functions can be specified for the change in spatial bandwidth during the time intervals. Because in most cases it will have a smooth change during a certain short time interval, we assume that the spatial bandwidth changes linearly along with time, as defined below.</p><formula xml:id="formula_7">b ST = b St -tan θ × t, - π 2 &lt; θ &lt; π 2 (<label>7</label></formula><formula xml:id="formula_8">)</formula><p>In Eq. ( <ref type="formula" target="#formula_7">7</ref>), tan θ denotes the slope of spatial bandwidth change in correspondence to t, and b St denotes the initial spatial bandwidth at t. Importing Eqs. ( <ref type="formula" target="#formula_2">4</ref>)-( <ref type="formula" target="#formula_7">7</ref>), the calibration of Eq. ( <ref type="formula">3</ref>) can be further derived into Eqs. (8) and ( <ref type="formula" target="#formula_11">9</ref>), which are our spatiotemporal kernel functions in STWR. Equations (8) and ( <ref type="formula" target="#formula_11">9</ref>) are based on the bi-square and Gaussian kernel, respectively. With the STWR spatiotemporal kernel, we only need to optimize the parameters α and θ instead of the spatial bandwidth b ST . However, we shall traverse all the observed points at the initial time stage t to find the optimized spatial bandwidth b St . Moreover, we shall also traverse all the time stages to find the optimized temporal bandwidth b T .</p><formula xml:id="formula_9">w t ij ST =                  (1 -α) × 1 - d sij b St -tan θ× t 2 2 + α × 2/ 1 + exp - |(yi(t)-yj(t-q))/yj(t-q)| t/b T -1 if t &lt; b T , and d sij &lt; (b St -tan θ × t) 0 otherwise (<label>8</label></formula><formula xml:id="formula_10">)</formula><formula xml:id="formula_11">w t ij ST =                (1 -α) × exp -1 2 d sij b St -tan θ × t 2 + α × 2/ 1 + exp - |(yi(t)-yj(t-q))/yj(t-q)| t/b T -1 if t &lt; b T , and d sij &lt; (b St -tan θ × t) 0 otherwise (<label>9</label></formula><formula xml:id="formula_12">)</formula><p>3 STWR in operation</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Bandwidth selection and parameter estimation</head><p>Some goodness-of-fit diagnostics <ref type="bibr" target="#b25">(Loader, 1999)</ref> are widely used in general GWR-based models, such as the crossvalidation (CV) score <ref type="bibr" target="#b11">(Cleveland, 1979;</ref><ref type="bibr" target="#b3">Bowman, 1984)</ref> and the Akaike information criterion (AIC) <ref type="bibr" target="#b1">(Akaike, 1973</ref><ref type="bibr" target="#b0">(Akaike, , 1998))</ref>. For STWR, we use cross-validation (CV) as the default searching criteria and we also calculate the value of a corrected version of AIC <ref type="bibr" target="#b24">(Hurvich et al., 1998)</ref>, the AICc, which is defined below.</p><formula xml:id="formula_13">AIC c = 2n ln( σ ) + n ln(2π ) + n n + tr(S) n -2 -tr(S) (<label>10</label></formula><formula xml:id="formula_14">)</formula><p>In Eq. ( <ref type="formula" target="#formula_13">10</ref>), n is the sample size, σ is the estimated standard deviation of the error term, and tr(S) denotes the trace of the hat matrix S <ref type="bibr" target="#b22">(Hoaglin and Welsch, 1978)</ref>.</p><p>Although there is no need to optimize the spatial bandwidth b ST of the past time stages in STWR, other parameters such as α and θ need to be optimized. Also, we should calculate the b T and initial b St through trials. For more potential combinations of these parameters for different spatiotemporal processes, a more reasonable limit and optimization procedure are hence needed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Calibration of STWR</head><p>Calibration of STWR models can be conducted by using weighted least squares. The estimator for the coefficients at location (u i v i ) is shown below.</p><formula xml:id="formula_15">βt (u i v i ) = X T O t W t (u i v i )X O t -1 X O t W t (u i v i ) y O t<label>(11)</label></formula><p>In Eq. ( <ref type="formula" target="#formula_15">11</ref>), X O t and y O t are observed independent and dependent variables of O t , respectively. X T O t is the transpose of X O t . W t (u i v i ) denotes the spatiotemporal weight matrix for observed points at different locations to the regression point (u i v i ) at different time stages during t. For a better illustration, we show the weight matrix W t during the time interval t in Fig. <ref type="figure" target="#fig_1">2</ref>. The matrix W t here is a bit different form the W(u i v i ) in Eq. ( <ref type="formula" target="#formula_0">2</ref>). The records in the ith row of W t are the diagonal elements in W(u i v i ), and only nonzero values are used to calibrate the coefficients βk for each regression point. Thus, each row r of this hat matrix is shown below.</p><formula xml:id="formula_16">r it = X it X T t W i t X t -1 X t W i t (<label>12</label></formula><formula xml:id="formula_17">)</formula><p>In Eq. ( <ref type="formula" target="#formula_16">12</ref>), X it is the ith row of the matrix of independent variables at t. X t is the matrix of independent variables during a time interval t, and X T t is its transpose. Although the X t in Eq. ( <ref type="formula" target="#formula_16">12</ref>) is equal to the X O t in Eq. ( <ref type="formula" target="#formula_15">11</ref>) in the w t-i t,p (t) m p (t-i) n i ∈ 0, 1, qm ∈ 1, 2, N t n ∈ 1, 2, . . ., N t-i denotes the weight of the nth point p (t-i) n at t -i to the mth point p (t) m at t.The symbol O N t-i i ∈ 0, 1, q denotes a set of points observed at ti. t denotes all the time intervals of the weight matrix. In the central and right parts of the figure, the records with background shading indicate weight values affected by temporal effects.</p><p>fitting and calibration of STWR, we distinguish X O t from X t here. Because X O t is a specific matrix of independent variables of an observed point set O t during t, X t is a general matrix of independent variables of points during t. X O t is only used for fitting and calibration of STWR, while X t can also be used for prediction in STWR. In other words, we can understand X O t as a subclass of X t . W i t is the ith row of the weighted matrix W t .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Reasonable searching range and procedure of optimization</head><p>In order to obtain the optimized α and θ for STWR (Eqs. 8 and 9), the search range should be limited. Here we use the distance from each regression point p</p><p>( <ref type="bibr">t)</ref> i to its Mth nearest neighbor as the initial spatial bandwidth b St at t. The range of b St is within a finite set of discrete values because the maximum number of nearest neighbors is limited to N t-i i ∈ 1, 2, . . ., q for the regression point p (t) i (N t-i is the total number of observed points at ti). We denote that value set for b St as BS Nt = {D k+1 D k+2 D N t , in which the element D U U ∈ k + 1, k + 2, . . ., N t denotes the distance from p (t) i to the U th nearest neighbor, and k equals the number of independent variables. Moreover, the searching range of the temporal bandwidth b T is also limited to a finite discrete set BT λ = { t 1 t 2 t λ , in which the element t λ is the time interval from t to tλ.</p><p>The optimization procedure is to traverse the set BT λ , and for each step we further traverse the set BS Nt to get the optimized α and θ through trials. Some trials of θ may lead to no solution to Eq. ( <ref type="formula" target="#formula_15">11</ref>) because there might be fewer than (k + 1)th neighbors within the radius of b St -θ t λ from the regression point. Therefore, if it occurs at time stage tλ, the spatial bandwidth b St -θ t λ needs to be extended to the distance from its (k + 1)th nearest neighbor to the regression point to guarantee that the matrix in Eq. ( <ref type="formula" target="#formula_15">11</ref>) will be nonsingular.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4">Steps of using STWR for prediction</head><p>In this paper, STWR is used to predict the current values of regression points with known coordinates. The prediction formulas of STWR are more complicated than GWR because the spatial distance is calculated directly from the regression point to each observed data point, while the time distance between the regression point and the data points observed in the past cannot be calculated directly. Therefore, we specify a few steps for prediction in STWR. First, we need to have the optimized initial spatial bandwidth b St , the optimized α and θ, the optimized number of time stages in the model used, and the fitted weight matrix. Second, all data points within the limited distance of the spatial bandwidth at the latest time stage should be found for the regression point. Third, all the temporal weights of these data points need to be retrieved from the established weight matrix (Fig. <ref type="figure" target="#fig_1">2</ref>). Fourth, we use these retrieved weights to calculate (e.g., use mean value or inverse distance weighting value) the temporal weight on the regression point. Fifth, by combining the calculated spatial weight and the optimized α and θ , we can calculate the spatiotemporal weight on the regression point. Then the value of the regression point can be calculated. 4 Experiments with simulated data 4.1 Simulation design To verify the performance of STWR and compare with the results of GWR and GTWR, several groups of simulated data were used in this study to represent different types of heterogeneity in space and time. All the data and code used in the experiments are shared on GitHub. Web links are provided at the end of this paper.</p><p>For GTWR, we only compared with the results generated by algorithms in <ref type="bibr" target="#b23">Huang et al. (2010)</ref> and <ref type="bibr" target="#b34">Wu et al. (2014)</ref> because we did not find the software package of <ref type="bibr" target="#b17">Fotheringham et al. (2015)</ref>. The data-generating process (DGP) and the spatial heterogeneity are introduced here. The basic DGP is a linear model shown in Eq. ( <ref type="formula">1</ref>), and the study area is a regular 25 × 25 lattice. We defined three initial surfaces to represent the spatial heterogeneity of parameters (Fig. <ref type="figure" target="#fig_2">3</ref>), which were generated by Eqs. (13), ( <ref type="formula" target="#formula_20">14</ref>), and (15) <ref type="bibr" target="#b18">(Fotheringham et al., 2017)</ref>. Through Eq. ( <ref type="formula">1</ref>), the two independent variables x 1 and x 2 were initially generated randomly from the normal distribution x initial 1 ∼ N(100, 8) and x initial 2 ∼ N (50, 6), respectively. They can be set as any other values, and the mean values of both distributions may change over time. The error term was generated from a normal distribution ε ∼ N (0, 0.5).</p><formula xml:id="formula_18">β t 0(zh) = 3 (<label>13</label></formula><formula xml:id="formula_19">)</formula><formula xml:id="formula_20">β t 1(lh) = 1 + 1 12 (uv) (<label>14</label></formula><formula xml:id="formula_21">)</formula><formula xml:id="formula_22">β t 2(hh) = 1 + 1 324 36 -6 - u 2 2 36 -6 - v 2 2 (<label>15</label></formula><formula xml:id="formula_23">)</formula><p>Several trends were designed to simulate the value change.</p><p>For a better simulation, we assumed that value variation can also be spatial heterogeneity. To distinguish from the heterogeneity of the coefficient surface, three other heterogeneity trend functions were defined by Eqs. ( <ref type="formula" target="#formula_24">16</ref>)-( <ref type="formula" target="#formula_28">18</ref>).</p><formula xml:id="formula_24">T 1 V t+ t = V t + ϕ × sin(v/4) t n power (<label>16</label></formula><formula xml:id="formula_25">)</formula><formula xml:id="formula_26">T 2 V t+ t = V t + ϕ × sin[1/10π u] t n power (<label>17</label></formula><formula xml:id="formula_27">)</formula><formula xml:id="formula_28">T 3 V t+ t = V t + ϕ × sin[1/6π(u + v)] t n power (<label>18</label></formula><formula xml:id="formula_29">)</formula><p>In the above equations, V t denotes the value at time stage t, ϕ is used for adjusting the magnitude of change, t n power denotes value change with the nth power of the time interval, and T i V t+ t i ∈ 1, 2, 3} denotes the V value at time stage t + t, which is the result of the ith trend function from the V t . Figure <ref type="figure" target="#fig_3">4</ref> shows these trends when ϕ, V t , and t n power are set to 1.</p><p>Our goal for this experiment was to test model performance by using sample data from the simulation process at different times. Three case studies were designed for different situations. Besides the spatial heterogeneity trends, in our simulation design we assumed that the mean values of two independent variables x 1 and x 2 also changed over time, which were generated by Eqs. ( <ref type="formula" target="#formula_30">19</ref>) and (20), respectively.</p><formula xml:id="formula_30">T 1 x t+ t m = x t m ± η 1 × t<label>(19)</label></formula><formula xml:id="formula_31">T 2 x t+ t m = x t m ± η 2 × t<label>(20)</label></formula><p>In the above two equations, x t m denotes the mean of an independent variable x at time stage t, T i x t+ t m i ∈ 1, 2} denotes the mean of x at time stage t + t, and η 1 and η 2 are two parameters for adjusting the rate of change. At each time stage during the simulations, the independent variables x 1 and x 2 are generated by a normal distribution with new means of T 1 x t+ t m and T 2 x t+ t m , respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Results with simulated data</head><p>We compared the results of OLS, GWR, GTWR, and STWR. A total of 333 random sample points for five time stages (t 0 , t 1 , t 2 , t 3 , and t 4 from old to new) were collected from the 25×25 lattice generated in the abovementioned DGP. To simplify the calculation process, we set θ in Eq. ( <ref type="formula" target="#formula_7">7</ref>) to zero. Due to the limitation of paper length, in the comparison below the STWR results only include those generated by the spa-   <ref type="formula" target="#formula_9">8</ref>). The objective is to compare the predicted results with the true value at the latest time stage.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.1">Case study 1</head><p>The time interval of observations in case study 1 was one unit, such as 1 s or 1 d. The value changes of x 1 and x 2 were generated by η 1 = 0.5 and η 2 = 0.1 and were affected by T 1 V with ϕ = 0.5 and n power = 1. This means that x 1 and x 2 only changed slightly over time. Table <ref type="table" target="#tab_0">1</ref> presents the results of the global OLS, GWR, GTWR, and STWR at the latest time stage, i.e., stage 5. It shows that the sum of squared errors (SSEs) of prediction in STWR is much lower than the other models by at least 1 order of magnitude. In addition, the AICc scores (Eq. 10) also show that STWR outperforms GTWR and GWR. As shown in Table <ref type="table" target="#tab_0">1</ref>, the R 2 (average Rsquared value of all regression points) value increases from 13.8 % in OLS to 94.2 % in GWR, 94.9 % in GTWR, and 99.3 % in STWR. The estimated standard error, sigma, is reduced to 4.292 in STWR from 23.331 in GTWR. Also, Fig. <ref type="figure" target="#fig_4">5</ref> shows that both the prediction surface (Y_pred) and the prediction error surface (Pred_Error) of STWR are more accurate than those in GWR. Due to the limitation of the software package in <ref type="bibr" target="#b23">Huang et al. (2010)</ref> and <ref type="bibr" target="#b34">Wu et al. (2014)</ref>, we did not generate images for GTWR in Fig. <ref type="figure" target="#fig_4">5</ref>, but the result can be seen from the sigma value in Table <ref type="table" target="#tab_0">1</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.2">Case study 2</head><p>The time interval of observations in case study 2 was 10 units. The value change of x 1 was generated by η 1 = 0.5 and affected by T 3 V with ϕ = 0.5, and n power = 2. x 2 was generated by η 2 = 2 and affected by T 2 V with ϕ = 1 and n power = 1, which indicates that x 1 and x 2 changed fast over time. Table <ref type="table" target="#tab_1">2</ref> shows the results of the global OLS, GWR, GTWR, and STWR at time stage 5. The SSE value in STWR is much lower than other models, and STWR has the highest R 2 value of 0.995. The sigma value of STWR is 13.299, which is the lowest and less than one-fifth of the sigma in GWR and less than one-sixth of the sigma in GTWR. The AICc scores also show that STWR significantly outperforms GTWR and GWR. STWR utilized data from the latest three time stages to calibrate the model. The initial spatial bandwidth b St of STWR was three nearest neighbors, which was smaller than the one in GWR with 15 nearest neighbors. The optimized α of STWR was 0.08, which shows that the effect of the observed points used on their local regression points was mainly determined by their spatial distance. In this case, the GWR outperforms GTWR, which may due to the higher ratio of value change. Compared with the y_true surface, the prediction surface of STWR is much better than GWR (Fig. <ref type="figure" target="#fig_5">6</ref>). For the same reason as mentioned in case study 1, we did not generate images for GTWR in Fig. <ref type="figure" target="#fig_5">6</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.3">Case study 3</head><p>The time interval of observations in case study 3 was 200 units. In both case studies 1 and 2, the coefficients in Eq. ( <ref type="formula">1</ref>) were unchanged. In contrast, in case study 3, three surfaces of coefficients changed over time, which were generated by the trends T 1 V , T 2 V , and T 3 V . The variations of coefficients were assumed to be slow. The ϕ and n power in each trend were set to be 0.2 and 1, respectively. Both η 1 and η 2 were set to be 0.5. The dynamic process of the three surfaces of coefficients and the y_true surface at each time stage are shown in   Results of these comparisons in case study 3 show that STWR outperforms both GWR and GTWR in the accuracy of the model and the effectiveness of the simulation process (Fig. <ref type="figure" target="#fig_8">8a</ref>). Along with the change in the coefficients and the increase in x 1 and x 2 , the R 2 values of both GWR and GTWR are consistent in the five time stages, showing an overall downward trend. But the R 2 of STWR is stable and at a high level among the five time stages. At the beginning stage t 0 , the R 2 values of the three models are similar because there are no previous observations that can be used by STWR and GTWR. The small difference among these models at t 0 may be caused by their different searching range of spatial bandwidth. Starting from time stage t 1 , STWR and GTWR can borrow points from previous observations. At time stage t 1 , STWR outperforms both GWR and GTWR, and the advantage of STWR becomes more obvious in the later stages.</p><p>It may seem strange that GWR can outperform GTWR (Fig. <ref type="figure" target="#fig_8">8</ref>), but that is reasonable for the process in case study 3. The change in this process is faster, and the time interval of observations is bigger than the previous case studies. STWR is not only able to deal with time intervals, but also to make full use of the value variation of observed points for calibration. In contrast, GTWR only uses the time interval information and all the observed points to calibrate, which may cause problems when the observed values are significantly different in spatial distribution or the time intervals are long. GTWR makes use of points from previous time stages without considering their variation, but if the actual values are quite different from previous observations at the current time stage, all the point values for the calibration of GTWR will become smooth. Thus, GWR outperforms GTWR in this situation because GWR only uses the current data points for model calibration.</p><p>STWR is better for estimation than GWR and GTWR because its sigma value is much smaller. As shown in Fig. <ref type="figure" target="#fig_8">8b</ref>, the sigma of STWR was half of GWR at time stage t 1 and less than a third of GWR at time stage t 4 . The results show that the advantage of STWR is obvious compared with GWR and GTWR.</p><p>At t 4 , STWR used data from all the past time stages to calibrate the model, and its optimized (initial) spatial bandwidth b St was derived from four nearest neighbors, which was smaller than the one in GWR with 25 nearest neighbors. The optimized α of STWR was 0, which means that STWR only borrowed points from past time stages without considering their temporal weights on each regression point at t 4 . The prediction surfaces at time stage t 4 are shown in Fig. <ref type="figure" target="#fig_9">9</ref>. The Y_pred surface of STWR is much better than GWR, especially in the middle and bottom left parts of the surface.  The Pred_Error of STWR is also much lower than GWR at almost every location. In this case, the α of STWR at each time stage was 0, 0.96, 0, 0.07, and 0. These values indicate that the temporal effects are different at each stage. They also show that the value of α can be adaptive to scale the temporal and spatial effects (see Eq. 3).</p><p>As Fig. <ref type="figure" target="#fig_10">10</ref> shows, the optimized bandwidths are quite different among these models, and the bandwidths of GWR and GTWR are larger than the initial bandwidth of STWR at each time stage. The optimized bandwidth for each time stage refers to an optimized number of the nearest neighbors (see Sect. 3.3). As GTWR considers all the nearest neighbors from different time stages, the optimized numbers of the nearest neighbors (bandwidth) grow fast and exceed the GWR model at time stage t 2 . However, the actual distance from the observed points to the regression points is not necessarily farther. The initial optimized numbers of the nearest neighbors of STWR are smaller than those in GWR and GTWR, which means that the initial spatial bandwidth is narrower than the bandwidth of GWR and GTWR. Never- theless, due to the strategy of borrowing points from nearby neighbors of past observations, the total points for model calibration in STWR may still be more than GWR and GTWR. Therefore, the initial optimized numbers of the nearest neighbors in STWR are kept at a lower level, which means it is more localized than GWR in this sense.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Experiments with real-world data</head><p>To further test the performance of STWR, we used data on precipitation δ 2 H isotopes in the northeastern United States in another case study. We chose δ 2 H data in 3 d from 29 to 31 October 2012, which includes enough spatiotemporal data for the test. Here in the comparison the STWR results only include those generated by the spatiotemporal kernel in Eq. ( <ref type="formula" target="#formula_9">8</ref>). The data and code used here are shared on Zenodo (see DOI and web links in the "Code and data availability" section at the end of the main text of this article).</p><p>In the experiments, we collected a total of 782 measurements from 116 sites located in the northeastern United States during the 3 d period and prepared the data on a daily average. The daily precipitation, mean temperature, and elevation were used as explanatory variables. The model derived from Eq. ( <ref type="formula">1</ref>) is represented below.</p><formula xml:id="formula_32">y i = β 0 + β 1 ppt + β 2 t mean + β 3 height + ε i (<label>21</label></formula><formula xml:id="formula_33">)</formula><p>In Eq. ( <ref type="formula" target="#formula_32">21</ref>), "ppt" denotes the daily total precipitation (rain + melted snow), t mean denotes daily mean temperature, and "height" is the elevation value. After data preprocessing, there were 272 points for model calibration and 73 point values on 31 October 2012. For the first day, both GTWR and STWR took no information from the past. Therefore, we only show the results of SSE, R 2 , and the optimized initial neighbor (bandwidth) in the model comparisons for the second and third day (D2 and D3) in Tables 3. The SSE of STWR is the lowest on both days. GWR shows a slightly higher SSE than GTWR at D2 and D3. The R 2 of STWR is the highest on both days among these models. GWR has a lower R 2 than GTWR at D2 and almost the same R 2 as GTWR at D3. Similar to the experiments on three simulation datasets, the result here shows that STWR outperforms GTWR and GWR. In the experiment, the number of optimized initial neighbors of STWR was smaller than that of GWR and GTWR. The optimized α of STWR was 0 at both D2 and D3. The optimized temporal bandwidths of STWR (number of time stages in the model used) in both D2 and D3 were 2, which means that the STWR in this case only borrowed data points from the latest two time stages for D2 and D3. In the result (Table <ref type="table" target="#tab_2">3</ref>), an interesting point is that the numbers of optimized initial neighbors of STWR are smaller than the spatial bandwidths of GWR for D2 and D3. The reason is that STWR borrowed points from past time stages in the calculation, which led to narrower bandwidths to some extent.</p><p>We adopted leave-one-out cross-validation (LOOCV) at D3 for the comparison between STWR and GWR. The squared errors (SEs) of prediction are shown in Fig. <ref type="figure" target="#fig_11">11</ref>. The prediction results of STWR are better than GWR for most points. The mean SE of STWR is smaller than GWR. Moreover, the SE of STWR shows a narrower regional trend, which indicates that STWR is more robust than GWR. In addition, the total SSEs of GWR and STWR are 50 216.510 and 39 724.995, respectively. Therefore, the result further validates the fact that the quality of predication in STWR is better than GWR.</p><p>In Fig. <ref type="figure" target="#fig_12">12</ref>, the predicted δ 2 H surface at D3 is broadly similar between the GWR and STWR calibrations. The percentages of explanation of variance in GWR and STWR are similar, which are 68.8 % and 76.3 %, respectively. However, like the experiment results with simulated data (Fig. <ref type="figure" target="#fig_10">10</ref>), STWR has a narrower initial bandwidth, which generates more localization in the predicted δ 2 H surface than GWR. For instance, the lower (light yellow and blue parts) and higher (orange parts) predicted values of δ 2 H are more concentrated in the δ 2 H surface of STWR than that of GWR (Fig. <ref type="figure" target="#fig_12">12</ref>).  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Discussion and conclusions</head><p>Spatiotemporal data analysis is important in many scientific studies. Due to the complexity of spatiotemporal models, the spatiotemporal effect may not be fully taken into account when the temporal and spatial information is manipulated simultaneously. In particular, models for the effect of spatial dynamics should not be simply adapted for modeling the effect of temporal dynamics. Although the GTWR model can borrow points from the recent past, without careful consider-ation of the temporal effect, the performance of GTWR may be even worse than GWR. Increasingly, many scientific issues are not just about spatial nonstationary but involve many spatiotemporal processes. It is necessary to review the limitations of current spatiotemporal models and make new extensions. The aim of the STWR model developed in this study is to advance work and discussion in that direction.</p><p>Based on a concept similar to GWR, a recently proposed model, called geographically neural network weighted regression (GNNWR) <ref type="bibr" target="#b15">(Du et al., 2020)</ref>, utilizes both OLS and neural networks to evaluate spatial nonstationarity. It is characterized by a designed spatially weighted neural network (SWNN) that can represent the spatial nonstationary weight matrix in spatial processes. Additionally, a geographically and temporally neural network weighted regression (GTNNWR) model <ref type="bibr" target="#b35">(Wu et al., 2020)</ref>, which is a temporal extension of GNNWR, was also proposed by the same group for further modeling spatiotemporal nonstationary relationships. GTNNWR can generate a space-time distance by utilizing the so-called spatiotemporal proximity neural network (STPNN), which may address complex nonlinear interactions between time and space. Although both STWR and GTNNWR have the potential to handle complex spatiotemporal nonstationarity in various natural and socioeconomic processes, their principles and interpretability are different.</p><p>1. The basic formulation of GNNWR is defined as Eq. ( <ref type="formula" target="#formula_34">22</ref>) <ref type="bibr" target="#b15">(Du et al., 2020)</ref>, which is different from Eq. ( <ref type="formula">1</ref>) <ref type="bibr" target="#b16">(Fotheringham et al., 2003)</ref>. The w 0 (u i v i ) and w k (u i v i ) denote the geographical weight of the constant coefficient β 0 and coefficient β k , respectively. It is assumed that the multiplication of w p (u i v i ) and β p is equal to β p (u i v i ) (0 ≤ p ≤ k). The combined β p (u i v i ) is thought of as the same as the coefficients of GWR. But in STWR and GWR, the weights and the estimated coefficients are separated. The weights mainly reflect the degree of influence from the observed points on the regression point, while the coefficient values reflect the relationships between the independent variable and dependent variable.</p><formula xml:id="formula_34">y i = w 0 (u i v i )β 0 + p k=1 w k (u i , v i )β k x ik + ε i , i = 1, 2, . . ., n<label>(22)</label></formula><p>2. GTNNWR and GNNWR use the proposed ANN-based method (Eq. 23) <ref type="bibr" target="#b15">(Du et al., 2020)</ref> to calculate the weighted matrix, which is quite different from the kernel functions used in GWR and STWR models. Although GTNNWR and GNNWR use the idea of pointwise regression, they do not consider how to "borrow points" from nearby neighbors and do not have the concept of bandwidth. Without a spatial bandwidth, all observation points in the study area may have impacts on the regression point, which might violate Tobler's first law of geography <ref type="bibr" target="#b31">(Tobler, 1970)</ref>. It may be difficult to understand the relationships between the influence weight and the spatial distances, especially when the study area and the data amounts are large. STWR has spatial bandwidths and follows Tobler's first law of geography, which can help analyze the affected range of local regression points. <ref type="bibr">)</ref> 3. The data points will be divided into a training set (including a validation set) and test set for GTNNWR and GNNWR, which might require more data points. Thus, it may not be appropriate for analyzing fewer data points (data acquisition in many geoscience processes is difficult and costly). STWR and GWR do not need to divide data points into the training set (including a validation set) and test set, which requires fewer data points than GNNWR and GTNNWR.</p><formula xml:id="formula_35">W i = W(u i v i ) = SWNN d s i1 , d s i2 , . . ., d s in T (<label>23</label></formula><p>4. Although GTNNWR utilizes a method called spatiotemporal proximity neural network (STPNN) <ref type="bibr">(Wu et al., 2020)</ref> to calculate the spatiotemporal distance, the obtained integrated spatiotemporal distance lacks explanation, and it is also impossible to tell which parts of the calculated weight are affected by time or space. There is also no concept of a temporal bandwidth in GTNNWR. Therefore, it fails to provide information on the earliest time (stage) at which the observed points start to exert an impact on the determination of the regression point. But STWR has a temporal bandwidth, and it can distinguish the strength of temporal weight and spatial weight. Therefore, we can analyze the characteristics of the local interaction of time and space according to the temporal bandwidth, spatial bandwidth, and the adjustment parameter α.</p><p>The temporal kernel and the spatiotemporal kernel functions are two important contributions of STWR. The temporal kernel in STWR applies an improved sigmoid form (see Eq. 4), which is different from the methods for temporal effect analysis in previous GTWR models. The temporal weight generated by the STWR temporal kernel is limited to a value between 0 and 1. The spatial weight in STWR is also limited to a value between 0 and 1. The STWR spatiotemporal kernel function has a weight adjustment parameter α to scale the temporal and spatial weights <ref type="bibr">(Eq. 3)</ref>. In practice, α can be obtained through optimization. This form of weighted average between temporal and spatial effects in the STWR spatiotemporal kernel is a big improvement compared with the multiplication form in previous GTWR models. The advantage of the STWR spatiotemporal kernel has been proven in four case studies with both simulated and real-world datasets.</p><p>Though the performance of STWR is outstanding, the models can still be further extended. A big topic is the time distance. In current STWR, the time distance represents the rate of value variation between an observed point and a regression point through a time interval. Nevertheless, we can also use time distance to represent the rate of value variation at each observed point object through time. Note that, from an object-oriented perspective, here we differentiate the point objects from locations, although the point objects have geospatial coordinates as part of their attributes. Following that new definition of time distance, the y i(t) -y j (t-q) in the STWR temporal kernel (Eq. 4) can be replaced by y j (t-q) (value variation of an observed point object during t). A scenario of interest is that the observed point objects in the past time stages (such as those shown in Fig. <ref type="figure" target="#fig_0">1</ref>) may move to new locations, have no value for a few time stages, or even disappear, so the y j (t-q) may not exist. We can use objectbased methods to address issues caused by that scenario. For example, each point object can be assigned a unique ID, and then the observed value of the point object at each time stage can be retrieved by using its ID. With this new definition of time distance, the temporal weight on a regression point object is determined by the rate of value variation of its nearby point objects. Several different scenarios for a regression point object at current time stage t are discussed here.</p><p>1. The location of an observed point object j is fixed through time (e.g., a fixed sensor). If the value of j is observed at both time stages t and t-q, then y j (t-q) can be calculated directly. If the value of j is observed at t but not observed at t-q, we can use interpolation to generate a value for j at t-q. If the value of j is not observed at t, but the variation in the past is observed, we can use prediction methods to generate a value for j at t.</p><p>2. The location of j is not fixed through time (i.e., j moves). If the moving point objects can still have temporal effects on the regression point, then the y j (t-q) can be calculated. The spatial effect, however, depends on whether j moves out of the spatial bandwidth from the regression point or not.</p><p>3. j disappears or appears at a certain time stage. If j does not appear until the current time stage t, the y j (t-q) can be set to be 0. If j appears in a past time stage (e.g., tq) but it disappears before or at t, we can ignore the impact of j for the regression point object.</p><p>There are other possibilities for the further improvement of STWR. The first involves the optimization of θ in the spatiotemporal kernel (Eqs. 8 and 9). The slope θ indicates that the variation of the spatial bandwidth is in a linear form, but it may not be a perfect solution. In many situations, the change in the spatial bandwidth over time may not be linear. The second involves making predications for future time stages. In this paper, we only predict values for points at the current time stage t. Extensions can be made in STWR to predict values for points in future time stages beyond t. The third involves exploring multiple spatial and temporal bandwidths of models. Different variables may have different spatial and temporal bandwidths due to their unique characteristics. Correspondingly, we may need more bandwidths to capture the different nonstationarities of those independent variables to better represent the spatiotemporal heterogeneity.</p><p>In short, the core contribution of STWR is the clarification of the "time distance" concept and the new temporal kernel and spatiotemporal kernel functions based on this concept. Our experiments show that STWR outperforms GWR and GTWR in analyzing and interpreting local spatiotemporal nonstationarity. We hope STWR can bring fresh ideas and new capabilities for spatiotemporal data analysis in many disciplines.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Spatiotemporal impacts of observed points with different rates of value change on a regression point at time stage T . The temporal bandwidth is the length of time from the intersection point A of the spatiotemporal bandwidth and the time line to the regression point. The spatial bandwidth and spatiotemporal bandwidth are illustrated in the figure legend.</figDesc><graphic coords="4,127.28,66.33,340.15,158.31" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Weight matrix W t . The symbol p (t-i) k i ∈ 0, 1, qk ∈ 1, 2, N t-i denotes the kth observed point at ti. The symbol</figDesc><graphic coords="6,70.58,66.33,453.54,173.34" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Three simulated initial surfaces for representing the spatial heterogeneity of parameters.</figDesc><graphic coords="7,127.28,66.33,340.15,119.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Three heterogeneity trend surfaces.</figDesc><graphic coords="8,98.93,66.33,396.85,110.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Comparing prediction results of STWR and GWR in case study 1. Images (a1), (b1), and (c1) are the simulation surfaces of true Y, the predicted surface of Y by STWR, and the predicted surface of Y by GWR, respectively. Images (a2), (b2), and (c2) are the surface of simulation error, the surface of prediction error of STWR, and the surface of prediction error of GWR, respectively.</figDesc><graphic coords="9,127.28,66.33,340.15,215.41" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Comparing prediction results of STWR and GWR in case study 2. Images (a1), (b1), and (c1) are the simulation surfaces of true Y, predicted surface of Y by STWR, and predicted surface of Y by GWR, respectively. Images (a2), (b2), and (c2) are the surface of simulation error, the surface of prediction error of STWR, and the surface of prediction error of GWR, respectively.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 7 .</head><label>7</label><figDesc>Fig.7. The process in case study 3 is more complicated than a general process, but it may be closer to reality.Results of these comparisons in case study 3 show that STWR outperforms both GWR and GTWR in the accuracy of the model and the effectiveness of the simulation process (Fig.8a). Along with the change in the coefficients and the increase in x 1 and x 2 , the R 2 values of both GWR and GTWR are consistent in the five time stages, showing an overall</figDesc><graphic coords="9,127.28,341.16,340.15,210.31" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Dynamic process of three surfaces of coefficients and the y_true surface at five different time stages.</figDesc><graphic coords="10,91.84,66.33,411.02,388.95" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Comparing and evaluating the performance of GWR, GTWR, and STWR at five time stages. (a) Comparing the R 2 value of different models; (b) comparing the sigma value of different models.</figDesc><graphic coords="11,113.10,66.33,368.50,184.88" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Comparing prediction results of STWR and GWR in case study 3. Images (a1), (b1), and (c1) are the simulation surfaces of true Y, the predicted surface of Y by STWR, and the predicted surface of Y by GWR, respectively. Images (a2), (b2), (c2) are the surface of simulation error, the surface of prediction error of STWR, and the surface of prediction error of GWR, respectively.</figDesc><graphic coords="11,127.28,299.66,340.15,227.26" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. Optimized bandwidths (or initial bandwidths) of GWR, GTWR, and STWR for the five time stages in case study 3.</figDesc><graphic coords="12,67.75,66.33,198.42,196.21" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 11 .</head><label>11</label><figDesc>Figure 11. LOOCV results of STWR and GWR. (a) Squared error of prediction at each point (leave out); (b) box plot of the LOOCV results of GWR and STWR.</figDesc><graphic coords="13,127.28,66.33,340.15,158.97" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 12 .</head><label>12</label><figDesc>Figure 12. Predicted δ 2 H surfaces of STWR and GWR at D3.</figDesc><graphic coords="13,98.93,271.91,396.85,283.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Results of case study 1 at time stage t 4 .</figDesc><table><row><cell>Time stage t 4</cell><cell>SSE</cell><cell>AICc</cell><cell>R2</cell><cell>Sigma</cell></row><row><cell>OLS</cell><cell cols="3">676 366.268 805.455 0.138</cell><cell></cell></row><row><cell>GWR</cell><cell cols="4">45 674.420 705.529 0.942 33.277</cell></row><row><cell>GTWR</cell><cell cols="4">40 056.823 616.641 0.949 23.331</cell></row><row><cell>STWR</cell><cell cols="3">5761.109 528.860 0.993</cell><cell>4.293</cell></row><row><cell cols="2">tiotemporal kernel in Eq. (</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Results of case study 2 at time stage t 4 .</figDesc><table><row><cell>Time stage t 4</cell><cell>SSE</cell><cell>AICc</cell><cell>R2</cell><cell>Sigma</cell></row><row><cell>OLS</cell><cell cols="3">5 085 961.816 938.610 0.494</cell><cell></cell></row><row><cell>GWR</cell><cell cols="3">300 088.969 840.178 0.970</cell><cell>87.201</cell></row><row><cell>GTWR</cell><cell cols="4">627 011.021 895.662 0.938 127.821</cell></row><row><cell>STWR</cell><cell cols="3">52 688.545 709.573 0.995</cell><cell>13.299</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Results of model performance with real-world data.</figDesc><table><row><cell>Model</cell><cell>SSE-D2</cell><cell cols="3">SSE-D3 R2-D2 R2-D3</cell><cell cols="2">Neighbor</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="2">-D2 -D3</cell></row><row><cell>OLS</cell><cell cols="2">58 711.528 52 669.399</cell><cell>0.595</cell><cell>0.502</cell><cell></cell></row><row><cell>GWR</cell><cell cols="2">33 576.400 33 043.921</cell><cell>0.769</cell><cell>0.688</cell><cell>52</cell><cell>43</cell></row><row><cell cols="3">GTWR 32 659.808 31 967.850</cell><cell>0.775</cell><cell>0.698</cell><cell>37</cell><cell>31</cell></row><row><cell cols="3">STWR 24 022.226 25 118.096</cell><cell>0.834</cell><cell>0.763</cell><cell>16</cell><cell>16</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Geosci. Model Dev., 13, 6149-6164, 2020 https://doi.org/10.5194/gmd-13-6149-2020</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>https://doi.org/10.5194/gmd-13-6149-2020Geosci. Model Dev., 13, 6149-6164, 2020</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgements. The authors thank <rs type="person">Stewart Fotheringham</rs> and other colleagues at the <rs type="institution">Spatial Analysis Research Center (SPARC) at Arizona State University</rs> for their insightful comments and suggestions during a seminar about the STWR model. The authors also thank two anonymous reviewers for their constructive comments and suggestions on the earlier versions of this paper.</p></div>
+<div><head>Financial support.</head><p>The research presented in this paper was partially supported by the <rs type="funder">National Science Foundation</rs> under grant nos. <rs type="grantNumber">1835717</rs> and <rs type="grantNumber">2019609</rs>, the <rs type="funder">China Scholarship Council</rs> under grant no. <rs type="grantNumber">201807870006</rs>, special projects for local science and technology development guided by the central government under grant no. <rs type="grantNumber">2020L3006</rs>, the <rs type="funder">Fujian Provincial Department of Education</rs> under grant no. <rs type="grantNumber">KLA18025A</rs>, and the <rs type="projectName">Digital Fujian Environmental Monitoring Internet of Things Laboratory</rs> open fund no. <rs type="grantNumber">202008</rs>.</p><p>Review statement. This paper was edited by <rs type="person">Wolfgang Kurtz</rs> and reviewed by two anonymous referees.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_muh9ExZ">
+					<idno type="grant-number">1835717</idno>
+				</org>
+				<org type="funding" xml:id="_YX3K7KQ">
+					<idno type="grant-number">2019609</idno>
+				</org>
+				<org type="funding" xml:id="_8QDw9MB">
+					<idno type="grant-number">201807870006</idno>
+				</org>
+				<org type="funding" xml:id="_xaCYhGX">
+					<idno type="grant-number">2020L3006</idno>
+				</org>
+				<org type="funded-project" xml:id="_KQ7FMvM">
+					<idno type="grant-number">KLA18025A</idno>
+					<orgName type="project" subtype="full">Digital Fujian Environmental Monitoring Internet of Things Laboratory</orgName>
+				</org>
+				<org type="funding" xml:id="_xJUAhcu">
+					<idno type="grant-number">202008</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Code and data availability. The Python source code of STWR v1.0, the data used in the experiments, and all the case studies (written in Jupyter Notebook) were archived on Zenodo and made freely accessible via <ref type="url" target="https://doi.org/10.5281/zenodo.3637689">https://doi.org/10.5281/zenodo.3637689</ref>  <ref type="bibr" target="#b28">(Que, 2020)</ref>. The data source for water <ref type="url" target="https://doi.org/10.5281/zenodo.3637689">isotope δ 2 H is on the follow</ref>ing website: <ref type="url" target="http://wateriso.utah.edu/waterisotopes/pages/spatial_">http://wateriso.utah.edu/waterisotopes/pages/spatial_</ref> db/SPATIAL_DB<ref type="url" target="http://wateriso.utah.edu/waterisotopes/pages/spatial_db/SPATIAL_DB.html">.html (last access: 13 October 2019,</ref>  <ref type="bibr" target="#b4">Bowen, 2019)</ref><ref type="url" target="http://wateriso.utah.edu/waterisotopes/pages/spatial_db/SPATIAL_DB.html">. The data on daily</ref> precipitation and mean temperature were collected from <ref type="url" target="http://www.prism.oregonstate.edu">http://www.prism.oregonstate.edu</ref> (last access: 13 October 2019, <ref type="url" target="http://www.prism.oregonstate.edu">PRISM Climate Group, 2019), and</ref> the elevation data were collected from <ref type="url" target="https://topotools.cr.usgs.gov/gmted_">https://topotools.cr.usgs.gov/gmted_</ref> viewer/viewer.htm (last access: <ref type="url" target="https://topotools.cr.usgs.gov/gmted_viewer/viewer.htm">13 October 2019, USGS, 2019)</ref>.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Competing interests. The authors declare that they have no conflict of interest.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Author contributions. XQ, XM, and CM developed the algorithm. XQ implemented and coded the algorithm. XQ prepared the paper with contributions from all co-authors.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Information theory and an extension of the maximum likelihood principle</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Akaike</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Selected papers of hirotugu akaike</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood identification of Gaussian autoregressive moving average models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Akaike</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="page" from="255" to="265" />
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Exploring the relations between riverbank erosion and geomorphological controls using geographically weighted logistic regression</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Atkinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>German</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Sear</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Clark</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="58" to="82" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">An alternative method of cross-validation for the smoothing of density estimates</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Bowman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="353" to="360" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Waterisotopes Database</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Bowen</surname></persName>
+		</author>
+		<ptr target="https://wateriso.utah.edu/waterisotopes/pages/spatial_db/SPATIAL_DB.html" />
+		<imprint>
+			<date type="published" when="2019-10-13">13 October 2019</date>
+		</imprint>
+	</monogr>
+	<note>last access</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Assessment of spatiotemporal varying relationships between rainfall, land cover and surface water area using geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">L</forename><surname>Versace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Laurenson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ierodiaconou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fawcett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Salzman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Model. Assess</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="241" to="254" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Roy. Stat. Soc. D-Sta</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Using geographically weighted regression to explore local crime patterns</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cahill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mulligan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Soc. Sci. Comput. Rev</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="174" to="193" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Application of geographically weighted regression to the direct forecasting of transit ridership at station-level</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">D</forename><surname>Cardozo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>García-Palomares</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gutiérrez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Appl. Geogr</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="548" to="558" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Exploratory data analysis of activity diary data: a space-time GIS approach</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-L</forename><surname>Shaw</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Jia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Transp. Geogr</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="394" to="404" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Robust locally weighted regression and smoothing scatterplots</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Cleveland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="829" to="836" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Application of geographically weighted regression to a 19-year set of house price data in London to calibrate local hedonic price models</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 9th International Conference on Geocomputation</title>
+		<meeting>the 9th International Conference on Geocomputation</meeting>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+		<respStmt>
+			<orgName>National University of Ireland Maynooth</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Statistics for spatio-temporal data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A</forename><surname>Cressie</surname></persName>
+		</author>
+		<title level="m">Statistics for Spatial Data</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Willey &amp; Sons</publisher>
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Geogr. Inf. Sci</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="1353" to="1377" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Geographical and temporal weighted regression (GTWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (mgwr)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Am. Assoc. Geogr</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Fast food and obesity: a spatial analysis in a large United Kingdom population of children aged 13-15</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">K</forename><surname>Fraser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">P</forename><surname>Clarke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Cade</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Edwards</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. J. Prev. Med</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="77" to="e85" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">The dynamics of location in home price</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Ecker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Knight</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Real Estate Financ</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="149" to="166" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Prospects for a space-time GIS: Space-time integration in geography and GIScience</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Goodchild</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Assoc. Am. Geogr</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="page" from="1072" to="1077" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">The hat matrix in regression and ANOVA</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Hoaglin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Welsch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am. Stat</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="17" to="22" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Geographically and temporally weighted regression for modeling spatio-temporal variation in house prices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Geogr. Inf. Sci</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="383" to="401" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Smoothing parameter selection in nonparametric regression using an improved Akaike information criterion</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Hurvich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Simonoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Tsai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Roy. Stat. Soc. B Met</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="page" from="271" to="293" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Bandwidth selection: classical or plug-in?</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Loader</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Stat</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="415" to="438" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The distribution of environmental equity: Exploring spatial nonstationarity in multivariate models of air toxic releases</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Mennis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Jordan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Assoc. Am. Geogr</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="249" to="268" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A method for spatial-temporal forecasting with an application to real estate prices</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">W</forename><surname>Gilley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+		<ptr target="https://prism.oregonstate.edu" />
+	</analytic>
+	<monogr>
+		<title level="m">PRISM Climate Group: PRISM Climate Data</title>
+		<imprint>
+			<date type="published" when="2000-10-13">2000. 13 October 2019</date>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="229" to="246" />
+		</imprint>
+	</monogr>
+	<note>last access</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<author>
+			<persName><forename type="first">X</forename><surname>Que</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/zenodo.3637689</idno>
+		<ptr target="https://doi.org/10.5281/zenodo.3637689" />
+	</analytic>
+	<monogr>
+		<title level="m">quexiang/STWR: STWR v1.0 (Version v1.0)</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Probabilistic modelling of engineered nanomaterial emissions to the environment: a spatio-temporal approach</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Conroy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Donner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Hungerbühler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Lombi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nowack</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/zenodo.3637689</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Sci</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="340" to="351" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A flexibly shaped space-time scan statistic for disease outbreak detection and monitoring</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Takahashi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kulldorff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Tango</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Yih</surname></persName>
+		</author>
+		<idno type="DOI">10.1186/1476-072X-7-14</idno>
+		<ptr target="https://doi.org/10.1186/1476-072X-7-14" />
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Health Geogr</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page">14</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A computer movie simulating urban growth in the Detroit region</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Tobler</surname></persName>
+		</author>
+		<idno type="DOI">10.1186/1476-072X-7-14</idno>
+		<ptr target="https://topotools.cr.usgs.gov/gmted_viewer/viewer.htm" />
+	</analytic>
+	<monogr>
+		<title level="m">USGS: GMTED2010 Viewer</title>
+		<imprint>
+			<date type="published" when="1970-10-13">1970. 13 October 2019</date>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="234" to="240" />
+		</imprint>
+	</monogr>
+	<note>last access</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">GIS-based mineral potential modeling by advanced spatial analytical methods in the southeastern Yunnan mineral district</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J M</forename><surname>Carranza</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.oregeorev.2013.08.005</idno>
+		<ptr target="https://doi.org/10.1016/j.oregeorev.2013.08.005" />
+	</analytic>
+	<monogr>
+		<title level="j">Ore Geol. Rev</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="735" to="748" />
+			<date type="published" when="2015">2015</date>
+			<pubPlace>China</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Comparing spatially varying coefficient models: a case study examining violent crime rates and their relationships to alcohol outlets and illegal drug arrests</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.oregeorev.2013.08.005</idno>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geogr. Syst</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">A geographically and temporally weighted autoregressive model with application to housing prices</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="1186" to="1204" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Geographically and temporally neural network weighted regression for modeling spatiotemporal non-stationary relationships</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Geogr. Inf. Sci</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="27" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

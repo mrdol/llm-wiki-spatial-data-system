@@ -1,0 +1,670 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Computational improvements to multi-scale geographically weighted regression</title>
+				<funder>
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+				<funder ref="#_7pqWnGe #_PHu3wBu">
+					<orgName type="full">Professor of Computational Spatial Science in the School of Geographical Sciences</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Ziqi</forename><surname>Li</surname></persName>
+							<idno type="ORCID">0000-0002-6345-4347</idno>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">A</forename><forename type="middle">Stewart</forename><surname>Fotheringham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Computational improvements to multi-scale geographically weighted regression</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">F4EC722C8C442D3922AF80619D66D9BE</idno>
+					<idno type="DOI">10.1080/13658816.2020.1720692</idno>
+					<note type="submission">Received 15 June 2019 Accepted 21 January 2020</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Geographically weighted regression</term>
+					<term>multiscale</term>
+					<term>local modelling</term>
+					<term>spatial analysis</term>
+					<term>parallel computing</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Geographically Weighted Regression (GWR) has been broadly used in various fields to model spatially non-stationary relationships. Multiscale Geographically Weighted Regression (MGWR) is a recent advancement to the classic GWR model. MGWR is superior in capturing multi-scale processes over the traditional single-scale GWR model by using different bandwidths for each covariate. However, the multiscale property of MGWR brings additional computation costs. The calibration process of MGWR involves iterative back-fitting under the additive model (AM) framework. Currently, MGWR can only be applied on small datasets within a tolerable time and is prohibitively timeconsuming to run with moderately large datasets (greater than 5,000 observations). In this paper, we propose a parallel implementation that has crucial computational improvements to the MGWR calibration. This improved computational method reduces both memory footprint and runtime to allow MGWR modelling to be applied to moderate-to-large datasets (up to 100,000 observations). These improvements are integrated into the mgwr python package and the MGWR 2.0 software, both of which are freely available to download.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>In recent decades, spatially-varying coefficient (SVC) models have seen increased use in investigating potentially spatially non-stationary relationships. Geographically weighted regression (GWR) is one of the most popular and widely used SVC techniques <ref type="bibr" target="#b7">(Fotheringham et al. 2002)</ref>. It incorporates a data-borrowing mechanism at each location to obtain location-specific parameter estimates. Other alternative SVC frameworks include Bayesian spatially varying coefficient models <ref type="bibr" target="#b9">(Gelfand et al. 2003</ref><ref type="bibr" target="#b6">, Finley 2011)</ref> and spatial eigenvector filtering <ref type="bibr" target="#b16">(Murakami and Griffith 2015)</ref>. Despite different model formulations and calibrations, all three methods are reported in the literature to yield similar local parameter estimates <ref type="bibr" target="#b6">(Finley 2011</ref><ref type="bibr">, Oshan and Fotheringham 2018</ref><ref type="bibr" target="#b22">, Wolf et al. 2018</ref>). However, GWR has been the most widely adopted method due to its interpretability and accessibility. Various applications of GWR can be found in a wide range of fields, such as house price modelling <ref type="bibr" target="#b3">(Bitter et al. 2007)</ref>, atmospheric science <ref type="bibr" target="#b13">(Hu et al. 2013)</ref>, criminology <ref type="bibr" target="#b21">(Troy et al. 2012)</ref> and public health <ref type="bibr" target="#b5">(Comber et al. 2011)</ref>.</p><p>Classic GWR is considered as a single-scale model that is based on one bandwidth parameter which controls the amount of distance-decay in weighting neighbouring data around each location. The single bandwidth in GWR assumes that processes (relationships between the response variable and the predictor variables) all operate at the same scale. The optimal bandwidth in GWR can be considered as the best 'average' bandwidth across all the covariate-specific processes. However, this posits a limitation in modelling potentially multi-scale processes which are likely to occur in the real world. For example, the measured ambient temperature of a location is affected by the built environment, regional weather and global warming, all of which operate at different scales. A recent advancement to GWR, termed Multi-scale GWR (MGWR), removes the single bandwidth assumption and allows covariate-specific bandwidths to be optimized <ref type="bibr" target="#b8">(Fotheringham et al. 2017)</ref>. This results in each parameter surface being allowed to have a different degree of spatial variation, reflecting variation across covariate-specific processes. In this way, MGWR has the capability to differentiate local, regional and global processes by optimizing a different bandwidth for each covariate. Additionally, bandwidths in MGWR become explicit indicators of the scale at which various processes operate. An illustration of local, regional and global spatial processes can be seen in Figure <ref type="figure">1</ref>. In GWR, because only one bandwidth is used for all covariates, all processes are assumed to have similar spatial variation and GWR will over-smooth local process and under-smooth global processes. However, in MGWR, with a correctly specified bandwidth for each covariate, the local (global) processes can be accurately captured by small (large) bandwidths.</p><p>The advance from a single-scale local model (GWR) to a multi-scale local model (MGWR) brings flexibility and better model fit at a cost of additional computation. The latter arises because multi-scale models have more parameters to be estimated than single-scale models. MGWR, which is formulated as a Generalized Additive Figure <ref type="figure">1</ref>. Illustration of local, regional and global spatial processes in GWR and MGWR.</p><p>Model <ref type="bibr" target="#b4">(Buja et al. 1989, Hastie and</ref><ref type="bibr" target="#b12">Tibshirani 1990)</ref>, utilizes a back-fitting algorithm for calibration which involves many univariate GWR calibrations. GWR calibration is not cheap in terms of computational cost since locally weighed regressions need to be calibrated at all locations. From the existing literature, studies using GWR often have fewer than 15,000 units of analysis <ref type="bibr" target="#b14">(Li et al. 2019)</ref>. Two major reasons why GWR has not generally been applied to large-scale data are (1) memory limitations of the hardware; and (2) inefficiency of the available software. Though there have been previous efforts to improve GWR calibration efficiency <ref type="bibr" target="#b11">(Harris et al. 2010</ref><ref type="bibr" target="#b25">, Zhang 2010</ref><ref type="bibr" target="#b20">, Tran et al. 2016)</ref>, few of these have obtained drastic improvements or developed accessible operational software. Recently, however, a parallel GWR computational improvement algorithm called FastGWR has been developed to solve various computational issues in GWR calibration <ref type="bibr" target="#b14">(Li et al. 2019</ref>). Based on an example dataset with 15,000 spatial locations, FastGWR is around 350 times faster than the widely used R package GWmodel on a normal desktop without losing accuracy in parameter estimation. Additionally, the FastGWR parallel implementation addresses memory limitation and enables calibration of a GWR model with hundreds of thousands of locations within a reasonable time on a desktop machine. This brings new opportunities for geographically weighted regression models to be applied to large datasets. Because MGWR involves many GWR calibrations, this development can naturally benefit MGWR calibration by lowering runtime and memory.</p><p>In this study, our objective is to develop an efficient implementation of the MGWR model and to provide the spatial local modelling community with fast, scalable, reliable and accessible software that can be used in applied studies. This paper is organized as follows. First, we review the basics of the MGWR model which includes its back-fitting calibration process and statistical inference. Second, the computational challenges of MGWR are presented. Third, improvements to both the speed and memory of MGWR are described. Fourth, we propose a data-generating process to synthesize a dataset used for evaluating MGWR computation. Fifth, comparisons and evaluations of MGWR computation are presented. The paper concludes with possible future directions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">MGWR basics</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">MGWR formulation under GAM framework</head><p>A Generalized Additive Model (GAM) is formulated as</p><formula xml:id="formula_0">y ¼ f 1 X 1 ð Þ þ f 2 X 2 ð Þ þ . . . þ f k X k ð Þ þ ε (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where y is a column vector of a response variable, f 1 X 1 ð Þ; Á Á Áf k X k ð Þ are additive components which are smooth functions of covariates, and ε is a column vector of i.i.d. error <ref type="bibr" target="#b12">(Hastie and Tibshirani 1990)</ref>. The formulation of MGWR falls under this GAM framework <ref type="bibr" target="#b8">(Fotheringham et al. 2017)</ref>. The response variable y is the data observed over a spatial surface and f 1 ; Á Á Áf k are spatial additive components estimated with covariatespecific bandwidths, so MGWR can be formulated as</p><formula xml:id="formula_2">y ¼ f bw 1 X 1 ð Þ þ f bw 2 X 2 ð Þ þ . . . þ f bw k X k ð Þ þ ε<label>(2)</label></formula><p>and</p><formula xml:id="formula_3">f bw j ¼ β 1j x 1j β 2j x 2j . . . β nj x nj 0 B B B @ 1 C C C A<label>(3)</label></formula><p>where x ij is j th covariate X j at location i, and β ij is MGWR local parameter of the j th covariate location i. The response variable can be viewed as the sum of multiple spatial layers. To estimate local parameters β, we could re-arrange Equation ( <ref type="formula" target="#formula_2">2</ref>) and knowing ε is independent of X j gives the following component-wise conditional expectation.</p><formula xml:id="formula_4">f bw j ¼ E y À X pÞj f bw p À εjX j ! ¼ E y À X pÞj f bw p jX j Þ ¼ A j y À X pÞj f bw p ! (<label>4</label></formula><formula xml:id="formula_5">)</formula><p>where A j is E ÁjX j Þ À which can be viewed as a projection (hat) matrix from a univariate GWR model of X j that maps y À P pÞj f bw p to b f bw j This GWR hat matrix A j is expressed as</p><formula xml:id="formula_6">A j ¼ x 1j ðX T j W 1 X j Þ À1X T j W 1 . . . x nj ðX T j W n X j Þ À1X T j W n 0 B @ 1 C A nÂn<label>(5)</label></formula><p>where W i is a diagonal spatial weight matrix computed with covariate-specific bandwidth and a kernel function (e.g. bi-square or Gaussian). Putting all the additive components in Equation (4) into a matrix form gives the following normal equations:</p><formula xml:id="formula_7">I A 1 Á Á Á A 1 A 2 I Á Á Á A 2 . . . . . . . . . . . . A k A k Á Á Á I<label>2</label></formula><p>6 6 6 4 3 7 7 7 5 f bw 1 f bw 2 . . . f bw k 2 6 6 6 4 3 7 7 7 5 ¼ A 1 A 2 . . . A k 2 6 6 6 4 3 7 7 7 5 y</p><p>Equation ( <ref type="formula" target="#formula_8">6</ref>) can be written in abbreviated form as</p><formula xml:id="formula_9">Pf ¼ Qy (<label>7</label></formula><formula xml:id="formula_10">)</formula><p>where P is an nk by nk matrix and Q matrix is an nk by n matrix. On rearranging, this gives additive components f bw 1 ; Á Á Áf bw k as</p><formula xml:id="formula_11">f ¼ f bw 1 f bw 2 . . . f bw k 2 6 6 6 4 3 7 7 7 5 ¼ P À1 Qy (<label>8</label></formula><formula xml:id="formula_12">)</formula><p>provided that matrix P is invertible. Then, covariate-specific hat matrices can be obtained by</p><formula xml:id="formula_13">R ¼ R 1 R 2 . . . R k 2 6 6 6 4 3 7 7 7 5 ¼ P À1 Q (<label>9</label></formula><formula xml:id="formula_14">)</formula><p>The normal equations in Equation ( <ref type="formula" target="#formula_8">6</ref>) are not described in the MGWR literature but are useful as they provide a closed form of local parameter estimates and their variances as derived in MGWR. From a practical perspective, directly solving Equation (8) takes a time cost of O n 3 k 3 ð Þ which is feasible for small datasets but is often prohibitive for even moderately large datasets. Another issue is that the solution from Equation (8) assumes that the smoothing matrices A j are known a priori. In the context of MGWR, this means that the bandwidth of each covariate is known. However, this piece of information is usually unknown and MGWR model calibration relies on a data-driven bandwidth search routine to find an optimal-fitted model that minimizes a goodness-of-fit criterion (e.g. AICc, cross-validation, etc.).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">MGWR calibration</head><p>The solution to solve Equation ( <ref type="formula" target="#formula_11">8</ref>) is to use the back-fitting process introduced in <ref type="bibr" target="#b4">Buja et al. (1989)</ref> and explained in <ref type="bibr" target="#b12">Hastie and Tibshirani (1990)</ref>. Back-fitting estimators will converge to the solution in Equation ( <ref type="formula" target="#formula_11">8</ref>), provided that the inverse of matrix P exists. <ref type="bibr" target="#b8">Fotheringham et al. (2017)</ref> incorporated this back-fitting algorithm into the calibration process for MGWR with automatic bandwidth searching. The detailed calibration process is as follows (see also Algorithm 1 below). Firstly, the parameter estimates at all locations are initialized from a GWR model containing the response variable and all covariates. Fitted additive terms b f 1...k are computed accordingly by element-wise multiplying parameter estimates with covariates. The current model residuals b ε can be computed by b ε ¼ y À b y. Then, a univariate GWR model is calibrated using the residuals b ε plus the first additive term b f 1 as a response variable and first covariate X 1 .</p><formula xml:id="formula_15">Univariate GWR : b f 1 þ b ε ~X1<label>(10)</label></formula><p>The optimal bandwidth found in the univariate GWR model then temporarily become the optimal bandwidth bw 1 for the first covariate. With that bandwidth bw 1 , b f 1 and residuals b ε are updated. This procedure is then repeated for covariate </p><formula xml:id="formula_16">b f j ¼ R j y<label>(11)</label></formula><p>where R j is an n by n covariate-specific hat matrix that maps response variable y to each fitted additive component b f j . Then, the covariance of b f j can be obtained by R j R j T σ 2 where σ 2 is the error variance of the MGWR model. The covariate-specific hat matrix R j is computed within the back-fitting process after each univariate GWR by updating</p><formula xml:id="formula_17">R j A j I À X k pÞj R p<label>(12)</label></formula><p>where A j is the hat matrix of each univariate GWR model (Equation ( <ref type="formula" target="#formula_4">4</ref>)). Conveniently, let</p><formula xml:id="formula_18">I À P k pÞj R p be denoted as R j À so that Equation (12) becomes R j A j R j À<label>(13)</label></formula><p>Then, the MGWR hat matrix S that maps y onto b y can be obtained by summing the R matrices from the last iteration in the back-fitting once the convergence threshold is satisfied.</p><formula xml:id="formula_19">S ¼ X k 1 R j (<label>14</label></formula><formula xml:id="formula_20">)</formula><p>With the R and S matrices computed, important model diagnostics can then be obtained as follows:</p><p>(1) Covariate-specific Effective Number of Parameters (ENP):</p><formula xml:id="formula_21">ENP j ¼ tr R j À Á<label>(15)</label></formula><p>(2) Model Effective Number of Parameters:</p><formula xml:id="formula_22">ENP model ¼ tr S ð Þ<label>(16)</label></formula><p>(3) Model AICc:</p><formula xml:id="formula_23">AIC c ¼ 2n ln RSS n þ nln 2π ð Þ þ n n þ tr S ð Þ n À 2 À tr S ð Þ (<label>17</label></formula><formula xml:id="formula_24">)</formula><p>where RSS is the residual sum of squares.</p><p>(4) The standard errors of the parameters can be obtained by:</p><formula xml:id="formula_25">SE b β j ¼ ffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi diag CC T σ2 r (<label>18</label></formula><formula xml:id="formula_26">) where C ¼ diag X j Þ À Ã À1 R j h</formula><p>and diag X j À Á Â Ã À1 is the inverse of a diagonal matrix with X j being its diagonal elements.</p><p>Detailed descriptions can be found in <ref type="bibr" target="#b24">Yu et al. (2019)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4.">Available software for calibrating MGWR model</head><p>Currently, there are two software packages that are available to calibrate an MGWR model, and both are actively maintained. One is GWmodel in the R environment <ref type="bibr">(Gollini et</ref> al. 2015) 1 which provides an array of geographically weighted models. With the latest update in February 2019 (version 2.0-8), GWmodel is able to perform an MGWR calibration with inference based on the work of Fotheringham et al. (2017) and Yu et al. (2019). It also has the capability of calibrating Parameter-specific Distance Metrics (PSDM) models (Lu et al. 2018), which is a special use case of MGWR when different distance metrics are desired. A detailed comment on PSDM and MGWR can be found in Oshan et al. (2019b). The second is MGWR 1.0 software released in November 2018. It is built on the mgwr python package 2 (Oshan et al. 2019a) and has a user-friendly graphical interface and is available for both MacOS and Windows platforms. The computational improvements developed in this paper are integrated into the mgwr python package (version 2.1.0) and built into the MGWR 2.0 software 3 which supersedes the previous MGWR 1.0 version.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Computational cost of MGWR</head><p>MGWR is computationally intensive due to the iterative back-fitting algorithm that involves many univariate GWR calibrations. The total number of univariate GWR calibrations needed is k × d, where k is the number of covariates and d is the number of iterations before convergence is reached. Though d is hard to predict, there are three general rules of thumb from experiments which show that:</p><p>(1) The greater the number of covariates, the more iterations are needed for convergence.</p><p>(2) Higher levels of multicollinearity among covariates increase the number of iterations needed before convergence. (3) Local processes need more iterations to converge than regional or global processes.</p><p>Further analysis is needed to provide confirmatory evidence of these rules. In addition, standardization of both response and covariates is suggested before running the MGWR model <ref type="bibr" target="#b8">(Fotheringham et al. 2017)</ref>. This is not only for better comparison of parameter estimates and associated bandwidths, but it also speeds up convergence. <ref type="formula">Li et al. (2019)</ref>show that for a multivariate GWR model with k covariates, the time complexity of the GWR algorithm is O k 3 n 2 logn ð Þwhere the log n ð Þ comes from a golden-section search for the optimal bandwidth. Because MGWR only needs univariate GWR calibrations in its back-fitting, the time complexity of an MGWR calibration is approximately O kdn 2 logn ð Þas shown in Table <ref type="table" target="#tab_0">1</ref>. The computational cost of the inference calculation is much more intensive because after each univariate GWR during the back-fitting, a multiplication of two n by n matrices A j and R j À (Equation ( <ref type="formula" target="#formula_18">13</ref>)) is needed at a cost of O n 3 ð Þ time complexity. In total, there would be k × d numbers of O n 3 ð Þ operations needed. The time for updating R j is negligible when n is relatively small (e.g. n &lt; 5,000). However, as n increases, this operation does not scale well and will dominate the runtime of the back-fitting more than the parameter estimation procedure. Further evidence of this statement will be shown in the Results section. On the other hand, regarding the memory constraint, storing the kby n by n matrix R has a memory complexity of O kn 2 ð Þ. Figure <ref type="figure" target="#fig_0">2</ref> shows the theoretical memory allocation needed with varying n and k based on double-precision (64-bit for each number) matrices. Considering today's </p><formula xml:id="formula_27">O kdn 2 logn ð Þ O kn ð Þ O kdn 3 ð Þ O kn 2 ð Þ Figure 2.</formula><p>Theoretical memory demand of MGWR calibration with varying numbers of observations and covariates.</p><p>hardware, this will place a severe limitation in MGWR for calibrating a moderately large model (&gt;10,000 locations). For example, a desktop computer with 16 GB of available memory would fail to calibrate an MGWR model with more than 15,000 locations and with more than 5 covariates. What is more, in practice, because intermediate results are needed to be cached during the calibration, we often need more memory space than the theoretical memory.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Solutions to address the computational issues in MGWR</head><p>MGWR calibration can be separated into two steps. The first is to estimate parameters and find the set of optimal bandwidths during a back-fitting procedure. The second is to compute MGWR inference to obtain parameter uncertainties, covariate-specific and overall model effective number of parameters (ENP) and model diagnostics (e.g. AICc). The first step of an MGWR calibration mainly involves univariate GWR calibrations; thus, here we can take advantage of the parallelization and optimization methods described in FastGWR <ref type="bibr" target="#b14">(Li et al. 2019)</ref>. For inference computation, we need to develop a novel parallel implementation that computes covariate-specific hat matrices R j in column chunks to reduce the memory demand. We now describe these two developments.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">MGWR back-fitting with FastGWR</head><p>Traditional GWR calibration consists of independent locally weighted least square regression at each location. Then, local statistics are combined to compute model diagnostics such as AICc to assess model fit. This process is repeated for different bandwidths to find which bandwidth yields the best model fit using, for example, AICc. FastGWR utilizes the parallelizable nature of GWR and computes all local statistics in parallel without storing large matrices such as the weight matrix and hat matrix. Then, AICc can be efficiently computed and compared across different bandwidths with the help of a golden-section search routine. The approach is described in detail in the context of MGWR. For a given bandwidth, there are two local statistics that are needed to compute AICc: the local influence value r i (also the diagonal element of hat matrix) and the local residual εi . Both can be computed as follows:</p><formula xml:id="formula_28">r i ¼ x ij X T j W i X j À1 X T j W i (<label>19</label></formula><formula xml:id="formula_29">) βij Ã ¼ X j X T j W i X j À1 X T j W i b f j þ b ε (<label>20</label></formula><formula xml:id="formula_30">) εi Ã ¼ βij x ij À βij Ã x ij þ εi (<label>21</label></formula><formula xml:id="formula_31">)</formula><p>where x ij is the measurement of the j th covariate at location i, X j is a column vector of the j th covariate, W i is a diagonal weight matrix (can be stored as a column vector to reduce memory) computed locally using the current bandwidth as a pre-specified kernel (e.g. bi-square or Gaussian), βij and εi are the parameter estimate and residual from the last iteration of back-fitting. The computation of three local statistics can be evenly assigned to multiple processors for parallel computing. Then, once all processors finish their assigned tasks, covariate-specific AICc values can be computed as</p><formula xml:id="formula_32">AIC c ¼ 2n ln P n 1 εi Ã n þ nln 2π ð Þ þ n n þ P n 1 r i n À 2 À P n 1 r i Þ (<label>21</label></formula><formula xml:id="formula_33">)</formula><p>This procedure is repeated along with the golden-section routine as detailed in Algorithm 2.</p><p>Algorithm 2: MGWR Back-fitting Calibration using parallel implementation from FastGWR 1: Calibrate a GWR model of y ~X and obtain fitted additive terms b f 1...k and model residual b ε. 2: Do until b f 1...k converge: 3: For each term j from 1 to k: 4:</p><p>For bw in golden-section search: 5:</p><p>Parallel computing local statistics εi Ã , r i , and βij Ã for all locations i. 6:</p><p>Compute and assess covariate-specific AICc. 7:</p><p>Obtain the optimal bandwidth as bw j with minimum AICc and update b f j b β Ã j X j and ε εÃ 4: End for 5: End do</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Chunk-wise parallel computing of MGWR inference</head><p>From the previous discussion, it is known that the inference computation in MGWR requires a large memory allocation for the computation of the covariate-specific hat matrices R (dimension n by n by k), which can easily exceed the memory limit of a standard desktop computer; even for a moderately sized dataset. In this section, we propose a partitioning method that can compute the R matrix in small chunks of columns, each of which can easily fit into the memory of even a modest computer. From Equation (13) we can see that each covariate-specific hat matrix R j is computed as R j A j R j À during back-fitting, where A j is a univariate GWR hat matrix that projects R j À to R j with the dimension nby n, and R j À is I À P k pÞj R p of shape nby n. From the property of a projection matrix, it is known that updating each column of R j is independent of updating other columns of R j . This provides the opportunity to compute R j by chunks of columns. Since both A j and R j À are nby n matrices, in the case when both cannot fit into memory, we partition A j by rows and R j À by columns to update a block of R j . The updating is illustrated in Figure <ref type="figure" target="#fig_1">3</ref> where we evenly split A j and R j À into two chunks. This procedure is repeated in the back-fitting algorithm, and when the back-fitting converges we get a column chunk of R j , which can be denoted as R jc . Partial inference can be computed based on the chunk of R jc , such as the calculation of the effective number of parameters and the matrix CC T in Equation ( <ref type="formula" target="#formula_25">18</ref>) to further compute parameter uncertainties. After that, we iterate to the second chunk of R j , and obtain the corresponding partial inference. Each chunk can be computed independently in parallel to fully utilize a multi-processor system. Once all chunks are computed, full MGWR inference can be combined using partial inference obtained from each chunk, and the formulas are given as follows:</p><formula xml:id="formula_34">ENP jc ¼ X q c¼1 partialtrace R jc À Á (<label>22</label></formula><formula xml:id="formula_35">) CC T jc ¼ X q c¼1 R jc X j 2 axis¼1 (<label>23</label></formula><formula xml:id="formula_36">)</formula><p>where c is the current chunk and q is the total number of chunks and the subscript axis = 1 indicates that the summation is applied to columns and reduces to a column vector. Details are shown in Algorithm 3.</p><p>Algorithm 3: Chunk-wise parallel computing of MGWR inference 1: Initialize R j from GWR, ENP j ¼ 0, and CC T j ¼ 0 nÂ1 2: Parallel computing each chunk c in the total number of q chunks 3: Given bandwidths history in back-fitting iterations from parameter estimation 4:</p><p>For each term j from 1 to k: 5:</p><p>Block-update R j and get a column chunk of R j 6:</p><p>Update column chunk of R j À 7: For each term j from 1 to k: 8:</p><formula xml:id="formula_37">ENP j ¼ ENP j þ ENP jc 9: CC T j ¼ CC T j þ CC T jc</formula><p>10: End for 11: End do Splitting covariate-specific hat matrices R into two chunks (q = 2) should reduce the memory needed by approximately half. For example, if the allocation of R needs 32 GB of memory, if we use the chunk-wise computation described above and split R into two chunks, then memory allocation needed will be reduced to around 16 GB. Splitting R into q chunks is expected to reduce memory by a factor of q. However, it worth noting that since A j is not stored and will be computed repeatedly for each chunk of R j , it will add additional cost if we specify the number of chunks greater than 1. In this way, we need to decide the minimum number of chunks that can make the chunk of R fit into the available memory. A simple calculation to decide q would be </p><formula xml:id="formula_38">q ¼ 8 Â k Â n Â n m Â 1024 3 (<label>24</label></formula><formula xml:id="formula_39">)</formula><p>where m is the available memory in the hardware, and we assume we use doubleprecision matrices (64-bit). For example, if the available memory is 16 GB on a machine, and we have an MGWR model with 40,000 data points and 10 covariates, q will need to be at least 15 chunks to avoid memory problems.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Testing dataset and environment</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">A data-generating process for deriving a test dataset</head><p>For testing the performance of the improved MGWR software, we develop a datagenerating process (DGP) that can automatically synthesize multi-scale spatial processes for a varying number of covariates and observations. Detailed steps can be found in the supplementary materials. In this study, we generated 15 parameter surface grids with a dimension of 200 by 200 in a total of 40, 000 locations. The resulting parameter surfaces b 1 ; b 2 ; . . . ; b 15 are spatial random fields with different heterogeneities, which can be seen in Figure <ref type="figure" target="#fig_3">4</ref>. The response variable y Ã is constructed by y Ã ¼ P 15 j¼1 b j x j þ ε where each covariate x j and the error term ε are randomly drawn from the normal distribution N(0, 1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">Testing environment</head><p>The single desktop used in comparing performance across MGWR software packages is equipped with an Intel i7-4790 4-core CPU at 3.60 GHz and 16 GB RAM. The Python environment used is version 3.6. The R environment used is version R 3.5.2. Runtimes are measured based on Python and R's built-in time modules. Memory usages are measured based on the memory_profiler 4 module for Python and the built-in memory module for R. To enhance reproducibility, all testing codes, datasets used and results can be found publicly in a Github repository. 5   6. Results</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1.">Runtime comparison with the original MGWR implementation</head><p>First, we benchmark our improved algorithm with the original implementation of MGWR used in <ref type="bibr" target="#b8">Fotheringham et al. (2017)</ref> to show that the improved method reduces various issues of computation. To demonstrate this, we reproduce MGWR models and record runtimes using the example datasets in <ref type="bibr" target="#b8">Fotheringham et al. (2017)</ref>. 6 Figure <ref type="figure" target="#fig_2">5</ref> shows the comparison of runtimes from MGWR 2.0 and runtimes explicitly reported in, <ref type="bibr" target="#b8">Fotheringham et al. (2017)</ref> using two example datasets. The simulation 1 dataset used in, 2017 consists of three covariates with 625 observations. For this synthetic dataset, the calibration takes 4.8 min in <ref type="bibr" target="#b8">Fotheringham et al. (2017</ref><ref type="bibr">Fotheringham et al. ( , p. 1257))</ref>, while it only takes 7.4 s after the improvements described here. For the other example used in that paper, the Irish potato famine dataset with 2317 locations and 9 covariates, the paper reported that the calibration process took 51 h <ref type="bibr" target="#b8">(Fotheringham et al. 2017</ref><ref type="bibr">(Fotheringham et al. ,p. 1260))</ref>. In comparison, using the improved method proposed in this paper, the runtime is reduced to around 6 min, which is 510 times faster than the original implementation. For both examples, our improved method shows a crucial performance increase. Also, the speed-up is projected to be greater for more complicated models which contain more observations and covariates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2.">Comparison against GWmodel</head><p>Second, we compare our proposed improvement against GWmodel package's MGWR implementation. We randomly draw a subset of data points from the synthetic dataset described in Section 5.1 and calibrate MGWR models using both software packages to record the runtimes and maximum memory usage. Results are presented in Table <ref type="table" target="#tab_1">2</ref>. With a sample size of N = 1,000, MGWR 2.0 is around 16 times faster than GWmodel. When N = 2,000, MGWR is around 30 times faster than GWmodel and when N increases to 5,000, MGWR 2.0 is around 140 times faster than GWmodel. When the sample size increases to 10,000, GWmodel generates  a memory allocation error on the testing machine but MGWR 2.0 is able to complete the calibration within an hour. For sample size N = 20,000, MGWR 2.0 takes around 6.5 h to complete and for N = 40,000, MGWR 2.0 takes around 4 days to finish. This is because memory allocation exceeds the memory limit of the testing machine so the software has to use more chunks to split the inference computation in order to fit in the memory, which slows the calibration. If a machine with more memory were used, the calibration by MGWR 2.0 would be accelerated by several orders of magnitude. From a memory perspective, MGWR 2.0 caps out the memory usage at around 11 GB (approximate available memory on the test machine) when N is great than around 15,000 and the software starts to bring the chunk parameter into action to avoid memory allocation error.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.3.">Effectiveness of memory reduction in inference computation</head><p>With the improved implementation borrowed from FastGWR, memory is not an issue in the parameter estimation component of MGWR. In the inference component, we need to use the method described in Section 3.4 to separately compute covariate-specific hat matrices in chunks of columns. To demonstrate the effectiveness of partitioning this computation into chunks, we calibrate two MGWR models with sample sizes of N = 10,000 and N = 20,000 and 10 covariates, and record the memory usage with varying numbers of chunks. Figure <ref type="figure" target="#fig_4">6(a)</ref> shows how memory is reduced when the number of chunks is increased. When the number of chunks is 1, the inference computation does not involve any partitioning and covariate-specific matrices are computed as described in <ref type="bibr" target="#b24">Yu et al. (2019)</ref>. When the number of chunks increases to 2, memory is reduced by approximately half, and this behaviour is consistent for both sample sizes. For example, when N = 20,000, the memory demand is reduced from around 40 GB to around 20 GB. When the number of chunks is increased to 4, the memory requirement is reduced further to around 10 GB. This implies that if a machine has a RAM of 16 GB, it is not able to compute MGWR inference for a sample size of 20,000 due to the memory needed, but if we use the improved method presented in this paper, we could increase the number of chunks and compute inference chunk-by-chunk to get around the memory constraint. However, increasing the number of chunks comes with the cost of increasing calibration time. Figure <ref type="bibr">6(b)</ref> shows how runtime is increased when the number of chunks is increased. As can be seen, when two chunks are being used, it only adds a small amount of extra runtime. When more chunks are used, runtime goes up but only slowly. Figure <ref type="figure" target="#fig_4">6(a</ref>,<ref type="figure">b</ref>) combined show that using more chunks does not add too much extra computation time but does decrease memory demand drastically. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.4.">On the scalability of MGWR parallelization</head><p>In this section, we examine the scalability of the parallelization used in the MGWR calibration. First, we calibrate MGWR models with sample sizes of N = 5,000 and N = 10,000 with varying numbers of cores. Since the parallelization mechanism is different for parameter estimation and inference, we separately record the runtimes for the two components. In Figure <ref type="figure" target="#fig_5">7</ref>, stacked bar plots (a) and (c) show the actual runtimes, respectively, for parameter estimation and inference computation for the two sample sizes using 1 to 4 processors. It can be seen that when N = 5,000, parameter estimation takes more time than inference computation, while when N = 10,000, inference computation takes more time than parameter estimation. As more processors are used, runtimes decrease logarithmically for both sample sizes. The line plots in Figure <ref type="figure" target="#fig_5">7</ref>(b,d) show the speed-up factors for parameter estimation, inference and a combination of both (total) based on runtime using a single processor so that the speedup factor is 1 when using only 1 processor. Parameter estimation has strong scalability when using more processors, and using 4 processors generates a speed-up factor close to 3. Inference computation scales less well than parameter estimation but still the use of 4 processors generates a speed-up factor around 2. When combined, the MGWR calibration overall is around 2.4 times faster when using 4 processors than when using only a single processor. Since the testing machine only has four physical cores, it is hard to infer the scalability if a machine has more processors. Thus, we used another desktop machine with eight physical cores to examine both the compatibility and scalability of the MGWR parallelization. The results can be seen in Figure <ref type="figure" target="#fig_6">8</ref> where it can be seen that using 8 processors speeds-up the overall MGWR algorithm by a factor of 4.8. The speed-up factor of parameter estimation is around 6 and speed-up factor of inference computation is around 4. Generally speaking, the scalability of MGWR parallelization is reasonable. There are two reasons for not getting perfect linear scalability. First, based on Amdahl's law about parallel computing that the speed-up of a program is limited by its serial part, the back-fitting procedure of the MGWR calibration involves sequential updating of parameter estimates and residuals which reduces performance. Second, parallelization can be implemented by either multi-threading or multi- processing. Multi-processing is more desirable in this situation because multi-threading is limited by the Global Interpreter Lock (GIL) of Python. However, the downside of using multi-processing is that there is a noticeable amount of time needed for data copying to different processors, even though we limit this by minimizing the amount of data being copied.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.5.">Computational evaluation of MGWR</head><p>In this section, we evaluate the computation of MGWR using the synthesized dataset described in Section 5.1. We calibrate MGWR models including inference for a varying number of sample sizes and with 5, 10 and 15 covariates. Given that convergence rates may vary in empirical studies, we also include three categories of convergence rate which are: fast convergence (10 back-fitting iterations); moderate convergence (50 back-fitting iterations); and slow convergence (100 back-fitting iterations). Figure <ref type="figure" target="#fig_7">9</ref> shows the approximate time needed to complete an MGWR calibration (with parameter estimation and inference) under the three different convergence rates and for varying numbers of both observations and covariates. 7 The blue areas on each figure show what model size can be fitted in under 10 min; the green areas show the model size that can be calibrated within 1 h; the yellow areas show the model size can be calibrated within 6 h; the red areas show the model size that can be calibrated within 1 day; and the purple areas show the model size needing more than 1 day for calibration. For example, for 10 covariates, a model with a sample size of 2000 can be fitted in under 10 min if it converges at a moderate rate. In general, we can see that MGWR is able to be calibrated on models with fewer than 20,000 observations within a reasonable time (less than a day) if it converges moderately.</p><p>When the sample size is larger than 20,000 or more covariates are involved, it might take several days to calibrate an MGWR model on a normal desktop computer. However, using a workstation with more processors and memory will accelerate MGWR calibration several times so the task would probably be completed within 1 day. The ability of MGWR 2.0 to utilize more computing resources opens the possibility for handling up-to 100,000 observations in an MGWR calibration.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">Conclusions</head><p>In this paper, we make critical computational improvements to the newly developed Multiscale Geographically Weighted Regression (MGWR) model <ref type="bibr" target="#b8">(Fotheringham et al. 2017)</ref>. We extend the parallelization framework introduced in the FastGWR algorithm <ref type="bibr" target="#b14">(Li et al. 2019)</ref> to speed-up each univariate GWR model within the MGWR back-fitting parameter estimation. Also, using the recently developed MGWR inference framework <ref type="bibr" target="#b24">(Yu et al. 2019)</ref>, we introduce a parallel chunk-wise partitioning method for computing MGWR inference to solve memory problems. We compare our improved calibration method with the original implementation used in <ref type="bibr" target="#b8">Fotheringham et al. (2017)</ref> and find it is around 500 times faster. Also, we compare our new method with the GWmodel package in the R environment <ref type="bibr" target="#b10">(Gollini 2015</ref>) and find it to be 30 to 140 times faster than GWmodel for sample sizes ranges from N = 1000 to N = 5000. For sample sizes larger than 5000, only our improved method is able to calibrate an MGWR model.</p><p>We further demonstrate that our new algorithm scales well on multi-processor machines with a speed-up ratio of 2.4 on a 4-processor machine and 4.8 on an 8-processor machine. With the current improvement, an MGWR model with around 20,000 observations can be calibrated within a day on a normal desktop machine with 4 processors and 16 GB of memory. With a workstation with more processors and memory, it is expected that it is feasible to calibrate an MGWR model with up to 100,000 data points. The methodology introduced in this paper has been integrated into the mgwr python package and the MGWR 2.0 GUI software, both of which are freely available to download. This not only enhances the accessibility of the MGWR model for new applications to explore multiscale spatial heterogeneity but also brings the possibility of much larger scale local multi-scale analysis. In addition, the computational improvements described here can also benefit some recent spatial analysis models developed based on the MGWR framework such as the Parameter Specific Distance Metric Model <ref type="bibr" target="#b15">(Lu et al. 2018</ref>) and the Multiscale Geographically and Temporally Weighted Regression model <ref type="bibr" target="#b23">(Wu et al. 2019</ref>) both of which have severe computational restrictions.</p><p>Notes 1. The GWmodel R library is available at <ref type="url" target="https://cran.r-project.org/web/packages/GWmodel">https://cran.r-project.org/web/packages/GWmodel</ref>. 2. The mgwr python library is hosted at <ref type="url" target="https://github.com/pysal/mgwr">https://github.com/pysal/mgwr</ref>. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>X 2</head><label>2</label><figDesc>to update the second additive term b f 2 and residuals b ε. The process continues in this way through to the final covariate X k when b f k and b ε are updated. This finishes the first-round iteration and the second-round starts from the first additive term using the new values for the estimated b f k and b ε . The iterations continue until the change in a convergence indicator (such as the residual sum of squares) becomes sufficiently small between successive iterations. When the convergence threshold is met, parameter estimates and the final set of bandwidths bw 1 . . . k can be obtained from the last iteration of back-fitting.Algorithm 1: MGWR Back-fitting Calibration 1: Calibrate a GWR model of y ~X and obtain fitted additive terms b f 1...k and model residual b ε. 2: Do until b f 1...k converge: 3: For each term j from 1 to k:Calibrate univariate GWR model of b f j þ b ε e X j and get optimal bandwidth bw j , new fitted term b f Ã j , and residual b ε Ã . Update b f j b f Ã j and b ε b ε Ã . 4: End for 5: End do 2.3. MGWR inference<ref type="bibr" target="#b24">Yu et al. (2019)</ref> analytically derive the hat matrix for MGWR and the standard errors of the MGWR parameter estimates, which provides an inferential framework for MGWR under a GAM framework. In this section, we will follow the notations used in<ref type="bibr" target="#b24">Yu et al. (2019)</ref> to describe the computation of inference. The principal is to express each fitted component as follows:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Illustration of the block update covariate-specific matrix R j by chunks (e.g. the number of chunks = 2).</figDesc><graphic coords="12,67.98,53.41,357.36,129.12" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Runtime comparison based on two example datasets from Fotheringham et al. (2017).</figDesc><graphic coords="14,67.98,505.19,357.36,122.16" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Synthesized known parameter surfaces with varying scales from local to global.</figDesc><graphic coords="14,67.98,53.41,357.36,223.68" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Memory demand and runtime change with varying numbers of chunks used.</figDesc><graphic coords="16,67.98,53.41,357.36,178.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Runtime and speed-up factor of the new MGWR calibration for parameter estimation, inference and total calibration on a 4-processor machine based on a sample size of 10,000.</figDesc><graphic coords="17,67.98,53.41,357.36,351.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 8 .</head><label>8</label><figDesc>Figure8. Speed-up factor of the new MGWR calibration for parameter estimation, inference and total calibration on an 8-processor machine based on a sample size of 10,000.</figDesc><graphic coords="18,90.71,53.41,311.76,312.84" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 9 .</head><label>9</label><figDesc>Figure9. Approximate runtime needed to complete an MGWR calibration (with parameter estimation and inference) under three different convergence rates and for varying numbers of both observations and covariates.</figDesc><graphic coords="19,67.98,53.41,357.36,149.16" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><graphic coords="3,67.98,413.23,357.36,214.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><graphic coords="9,97.80,447.42,297.60,197.16" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Computational complexity of MGWR calibration.</figDesc><table><row><cell>Back-fitting</cell><cell></cell><cell>Inference</cell><cell></cell></row><row><cell>Time</cell><cell>Memory</cell><cell>Time</cell><cell>Memory</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Runtime and memory comparison between MGWR 2.0 and GWmodel.</figDesc><table><row><cell></cell><cell></cell><cell cols="2">MGWR calibration with inference (10 covariates)</cell><cell></cell></row><row><cell>Sample size</cell><cell></cell><cell>MGWR 2.0</cell><cell></cell><cell>GWmodel</cell></row><row><cell>N</cell><cell>Time (Seconds)</cell><cell>Memory</cell><cell>Time</cell><cell>Memory</cell></row><row><cell>1000</cell><cell>50</cell><cell>1.3 GB</cell><cell>802</cell><cell>0.5 GB</cell></row><row><cell>2000</cell><cell>127</cell><cell>2.0 GB</cell><cell>3818</cell><cell>0.8 GB</cell></row><row><cell>5000</cell><cell>370</cell><cell>3.2 GB</cell><cell>52,119 (~15 h)</cell><cell>5.5 GB</cell></row><row><cell>10,000</cell><cell>2652</cell><cell>10 GB</cell><cell>Memory error</cell><cell>NA</cell></row><row><cell>15,000</cell><cell>10,068 (~3 h)</cell><cell>11 GB</cell><cell>Memory error</cell><cell>NA</cell></row><row><cell>20,000</cell><cell>23,236 (~6.5 h)</cell><cell>11 GB</cell><cell>Memory error</cell><cell>NA</cell></row><row><cell>40,000</cell><cell>301,126 (~4 day)</cell><cell>11 GB</cell><cell>Memory error</cell><cell>NA</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><head>Funding</head><p>This work was supported by the <rs type="funder">National Science Foundation</rs> [1758786].</p></div>
+<div><head>Notes on contributors</head><p><rs type="person">Ziqi Li</rs> is <rs type="person">a Ph.D.Candidate</rs> in the <rs type="institution">School of Geographical Sciences</rs> and <rs type="person">Urban Planning</rs>, <rs type="affiliation">Arizona State University, Tempe</rs>, <rs type="grantNumber">AZ 85281</rs>. His research interests include GIScience and spatial statistics. He is currently working on the multi-scale geographically weighted regression mode l(MGWR), covering aspects from computation,inference to applications. E-mail: <rs type="person">Li.Ziqi</rs>@asu.edu. A. Stewart Fotheringham is a Regents' <rs type="funder">Professor of Computational Spatial Science in the School of Geographical Sciences</rs> and <rs type="person">Urban Planning</rs> at <rs type="affiliation">Arizona State University, Tempe</rs>, <rs type="grantNumber">AZ 85281</rs>. His research interests include spatial data analytics, spatial processes, and spatial interaction modeling. E-mail: stewart.fotheringham@asu.edu.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_7pqWnGe">
+					<idno type="grant-number">AZ 85281</idno>
+				</org>
+				<org type="funding" xml:id="_PHu3wBu">
+					<idno type="grant-number">AZ 85281</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data and codes availability statement</head><p>The data and codes that support the findings of this study are available in figshare.com with the identifier <ref type="url" target="http://doi:10.6084/m9.figshare.10260881.v1">doi:10.6084/m9.figshare.10260881.v1</ref>.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure statement</head><p>No potential conflict of interest was reported by the authors.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<ptr target="https://sgsup.asu.edu/sparc/mgwr" />
+		<title level="m">The MGWR 2.0 software is freely</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">has dual 2.6 GHz 8-core CPUs and 64 GB of memory</title>
+		<editor>Fotheringham et al.</editor>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Results shown are based on testing machine described in Section 5.2; actual runtime may vary on different machines</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Incorporating spatial variation in housing attribute prices: a comparison of geographically weighted regression and the spatial expansion method</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bitter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Mulligan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dall'erba</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-006-0028-7</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="7" to="27" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Linear smoothers and additive models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Buja</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/aos/1176347115</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="453" to="510" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">A spatial analysis of variations in health access: linking geography, socio-economic status and access perceptions</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Comber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Radburn</surname></persName>
+		</author>
+		<idno type="DOI">10.1186/1476-072X-10-44</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Health Geographics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">44</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.2041-210X.2010.00060.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>Hoboken, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Multiscale Geographically Weighted Regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2017.1352480</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<idno type="DOI">10.1198/016214503000170</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">GWmodel: an R package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<idno type="DOI">10.18637/jss.v063.i17</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page">17</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Grid-enabling geographically weighted regression: a case study of participation in higher education in England</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Harris</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/tgis.2010.14.issue-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions in GIS</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="43" to="61" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Generalized additive models</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<ptr target="https://www.crcpress.com/Generalized-Additive-Models/Hastie-Tibshirani/p/book/9780412343902" />
+		<imprint>
+			<date type="published" when="1990">1990</date>
+			<publisher>CRC Press</publisher>
+			<biblScope unit="volume">43</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Estimating ground-level PM2. 5 concentrations in the southeastern US using geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Hu</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.envres.2012.11.003</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Research</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="page" from="1" to="10" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Fast Geographically Weighted Regression (FastGWR): a scalable algorithm to investigate spatial process heterogeneity in millions of observations</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2018.1521523</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="175" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Improvements to the calibration of a geographically weighted regression with parameter-specific distance metrics and bandwidths. Computers, Environment and Urban Systems</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.compenvurbsys.2018.03.012</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="41" to="57" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Random effects specifications in eigenvector spatial filtering: a simulation study</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-015-0213-7</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="311" to="331" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">2019a. mgwr: A Python implementation of multiscale geographically weighted regression for investigating process spatial heterogeneity and scale</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/ijgi8060269</idno>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A comment on geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2019.1572895</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A comparison of spatially varying regression coefficient estimates using geographically weighted and spatial-filter-based techniques</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.2018.50.issue-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="53" to="75" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Large-scale geographically weighted regression on spark</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">T</forename><surname>Tran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">T</forename><surname>Nguyen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">T</forename><surname>Tran</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/1753193416669263</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Knowledge and Systems Engineering (KSE), 2016 eighth international conference on</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="127" to="132" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">The relationship between tree canopy and crime rates across an urban-rural gradient in the greater Baltimore region</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Troy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Grove</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O'</forename><surname>Neil-Dunne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename></persName>
+		</author>
+		<idno type="DOI">10.1016/j.landurbplan.2012.03.010</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Landscape and Urban Planning</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="262" to="270" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Single and multiscale models of process spatial heterogeneity</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.v50.3</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="223" to="246" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically and temporally weighted regression: exploring the spatiotemporal determinants of housing prices</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wu</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2018.1545158</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="489" to="511" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Inference in multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12189</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Towards personal high-performance geospatial computing (HPC-G): perspectives and a case study</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/bit.22603</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the ACM SIGSPATIAL international workshop on high performance and distributed geographic information systems</title>
+		<meeting>the ACM SIGSPATIAL international workshop on high performance and distributed geographic information systems</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="3" to="10" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

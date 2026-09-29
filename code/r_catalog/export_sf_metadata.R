@@ -34,6 +34,21 @@ pkg_rank <- function(pkg) {
   if (is.na(r)) length(PKG_PRIORITY) + 1L else r
 }
 
+# Protection contre le dedoublonnage exact pour les coupes temporelles
+# (politique 2026-08-15 : decouper un gros dataset panel/spatio-temporel en
+# plusieurs jeux annuels plutot que de garder une seule coupe). Deux coupes
+# annuelles du meme dataset partagent souvent le meme N/k/bbox (memes unites
+# spatiales, seules les valeurs changent d'annee en annee) -- l'etape 1
+# fingerprint (N+k+bbox, aveugle au contenu) les traiterait sinon a tort comme
+# des doublons exacts et en supprimerait tous sauf un du catalogue. Un
+# dataset_id se terminant par un suffixe annee a 4 chiffres (ex.
+# "..._nyc_earnings_2003") est protege : jamais ecarte par cette etape, quel
+# que soit son fingerprint. Les vrais doublons inter-packages (Georgia,
+# Boston, Columbus...) ne portent pas ce suffixe et restent geres normalement.
+is_protected_from_exact_dedup <- function(dataset_id) {
+  grepl("_(19|20)[0-9]{2}$", dataset_id)
+}
+
 
 # CRS d'analyse recommande (UTM local depuis centroide bbox) ------------------
 recommend_crs_analyse <- function(crs_epsg, bbox) {
@@ -50,10 +65,25 @@ recommend_crs_analyse <- function(crs_epsg, bbox) {
   lon_c  <- (xmin + xmax) / 2
   lat_c  <- (ymin + ymax) / 2
   x_span <- xmax - xmin
+  # Paliers (2026-09-18) : voir la meme fonction dans generate_fiches_papers.R
+  # pour la justification complete. Un seuil unique traitait un span de 19deg
+  # et de 360deg de la meme facon ("projection nationale recommandee"), ce qui
+  # n'a pas de sens pour un jeu reellement mondial/continental.
+  if (x_span > 90) {
+    return(list(epsg = "pending", label = "pending",
+                note = paste0("etendue continentale/mondiale (span=", round(x_span,1),
+                              "deg) -- projection nationale non pertinente ; privilegier ",
+                              "une projection equal-area continentale ou mondiale (ex: ",
+                              "Albers equal-area continental, Behrmann/Mollweide pour ",
+                              "une couverture mondiale)")))
+  }
   if (x_span > 18) {
     return(list(epsg = "pending", label = "pending",
                 note = paste0("multi-zones (span=", round(x_span,1),
-                              "deg) -- projection nationale recommandee")))
+                              "deg) -- etendue compatible avec un grand pays/une region ; ",
+                              "verifier qu'une projection nationale/regionale existe et ",
+                              "convient a cette zone avant de l'utiliser, sinon envisager ",
+                              "une projection continentale equal-area")))
   }
   zone <- max(1L, min(60L, as.integer(floor((lon_c + 180) / 6) + 1)))
   if (lat_c >= 0) {
@@ -138,7 +168,7 @@ classify_typology <- function(col, name) {
                 range = paste0("[", round(vals[1],4), ", ", round(vals[2],4), "]")))
   }
   if (cls == "integer")
-    return(list(typology = "count",
+    return(list(typology = "unknown",
                 range = paste0("[", vals[1], ", ", vals[2], "]")))
   return(list(typology = "unknown", range = NA_character_))
 }
@@ -379,6 +409,21 @@ for (fp in names(dup_grps)) {
   if (length(grp) == 1) {
     keep_after_exact <- c(keep_after_exact, grp)
     next
+  }
+
+  # Coupes temporelles protegees : jamais collapsees par cette etape, meme si
+  # leur fingerprint structurel coincide (cf. is_protected_from_exact_dedup).
+  protected_idx <- grp[vapply(grp, function(i) is_protected_from_exact_dedup(catalog[[i]]$dataset_id), logical(1))]
+  if (length(protected_idx) > 0) {
+    keep_after_exact <- c(keep_after_exact, protected_idx)
+    cat(sprintf("  PROTEGE (coupe temporelle) : %s\n",
+      paste(sapply(protected_idx, function(i) catalog[[i]]$dataset_id), collapse = ", ")))
+    grp <- setdiff(grp, protected_idx)
+    if (length(grp) == 0) next
+    if (length(grp) == 1) {
+      keep_after_exact <- c(keep_after_exact, grp)
+      next
+    }
   }
 
   # Choisir le plus riche

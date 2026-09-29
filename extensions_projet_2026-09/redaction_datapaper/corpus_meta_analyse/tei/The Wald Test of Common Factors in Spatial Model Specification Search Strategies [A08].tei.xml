@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">The Wald Test of Common Factors in Spatial Model Specification Search Strategies</title>
+				<funder>
+					<orgName type="full">University of Mannheim&apos;s Graduate School of Economic and Social Sciences</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Cambridge University Press</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Northern Ireland</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">High Performance Computing Cluster bwHPC (INST / -FUGG)</orgName>
+				</funder>
+				<funder ref="#_X6sRBaq">
+					<orgName type="full">German Research Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date>November</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Sebastian</forename><surname>Juhl</surname></persName>
+							<email>sebastian.juhl@gess.uni-mannheim.de</email>
+							<idno type="ORCID">0000-0002-7123-5398</idno>
+						</author>
+						<author>
+							<persName><forename type="first">Jeff</forename><surname>Gill</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Mannheim</orgName>
+								<orgName type="institution" key="instit2">Collaborative Research Center</orgName>
+								<orgName type="institution" key="instit3">B , -, Room</orgName>
+								<address>
+									<settlement>Mannheim</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="institution" key="instit1">Cambridge University</orgName>
+								<orgName type="institution" key="instit2">Cambridge University</orgName>
+								<orgName type="institution" key="instit3">Cambridge University</orgName>
+								<orgName type="institution" key="instit4">Cambridge University</orgName>
+								<orgName type="institution" key="instit5">Cambridge University</orgName>
+								<orgName type="institution" key="instit6">Cambridge University</orgName>
+								<orgName type="institution" key="instit7">Cambridge University</orgName>
+								<orgName type="institution" key="instit8">Cambridge University</orgName>
+								<orgName type="institution" key="instit9">Cambridge University</orgName>
+								<orgName type="institution" key="instit10">Cambridge University</orgName>
+								<orgName type="institution" key="instit11">Cambridge University</orgName>
+								<orgName type="institution" key="instit12">Cambridge University</orgName>
+								<orgName type="institution" key="instit13">Cambridge University</orgName>
+								<orgName type="institution" key="instit14">Cambridge University</orgName>
+								<orgName type="institution" key="instit15">Cambridge University</orgName>
+								<orgName type="institution" key="instit16">Cambridge University</orgName>
+								<orgName type="institution" key="instit17">Cambridge University</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">The Wald Test of Common Factors in Spatial Model Specification Search Strategies</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published">November</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C9F250499873CAC9D245F104B4A4D633</idno>
+					<idno type="DOI">10.1017/pan.2020.23</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-08-06T14:08+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>spillover effects</term>
+					<term>common factors</term>
+					<term>Wald test</term>
+					<term>spatial econometrics</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Distinguishing substantively meaningful spillover effects from correlated residuals is of great importance in cross-sectional studies. Both forms of spatial dependence not only hold different implications for the choice of an unbiased estimator but also for the validity of inferences. To guide model specification, different empirical strategies involve the estimation of an unrestricted spatial Durbin model and subsequently use the Wald test to scrutinize the nonlinear restriction of common factors implied by pure error dependence. However, the Wald test's sensitivity to algebraically equivalent formulations of the null hypothesis receives scant attention in the context of cross-sectional analyses. This article shows analytically that the noninvariance of the Wald test to such reparameterizations stems from the application of a Taylor series expansion to approximate the restriction's sampling distribution. While asymptotically valid, Monte Carlo simulations reveal that alternative formulations of the common factor restriction frequently produce conflicting conclusions in finite samples. An empirical example illustrates the substantive implications of this problem. Consequently, researchers should either base inferences on bootstrap critical values for the Wald statistic or use the likelihood ratio test which is invariant to such reparameterizations when deciding on the model specification that adequately reflects the spatial process generating the data.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Motivation</head><p>The correct specification of the inherently unknown spatial process generating observable patterns of interrelatedness among the units of analysis constitutes a considerable challenge in crosssectional studies. In particular, distinguishing substantively meaningful indirect spillover effects from spatially correlated random shocks is imperative as there is a serious risk of making incorrect inferences when estimating a misspecified model (e.g., <ref type="bibr">LeSage and Pace ; Darmofal )</ref>. Unfortunately, while unfocused tests for spatial autocorrelation commonly applied in empirical research, like Moran's I (e.g., <ref type="bibr">Cliff and Keith Ord )</ref>, help to detect spatial clustering in model residuals, they do not provide guidance on the exact process generating these dependencies. Since spatial regression models differ with respect to the implied pathways of dependence, these simple diagnostic tools do not allow researchers to identify the adequate model specification.</p><p>To address this specification problem, many empirical model selection strategies proposed in the literature feature the estimation of the spatial Durbin model (SDM) as an unrestricted nesting model and utilize the Wald test to scrutinize nonlinear common factor restrictions implied by pure error dependence (e.g., Burridge</p><p>). Since the Wald test is asymptotically equivalent to the likelihood ratio (LR) and the Lagrange multiplier (LM) tests, which are the two alternative likelihoodbased specification tests, the choice of a test statistic is o entimes motivated by convenience or familiarity (e.g., <ref type="bibr">LeSage and Pace , )</ref>. However, while previous studies in the field of spatial</p><p>There is an ongoing debate in the spatial econometrics literature whether the specific-to-general or the general-to-specific approach should be used in order to identify the true data-generating model (e.g., Florax et al.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>; Florax et al.</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>; Hendry</head><p>; Elhorst a). However, both approaches have their disadvantages and there is no conclusive evidence for the superiority of any of these search strategies <ref type="bibr">(Mur and Angulo ; Rüttenauer )</ref>. Consequently, many search procedures rely on a combination of both approaches (e.g., <ref type="bibr">Mur and Angulo ; Elhorst ; Elhorst a)</ref>.</p><p>econometrics report notable differences with respect to their finite sample properties (e.g., Mur and Angulo ; Mur and Angulo ), the Wald test's sensitivity to algebraically equivalent alternative formulations of the null hypothesis is somewhat overlooked. Given that this result is well-established in a time-series context (e.g., <ref type="bibr">Gregory and Veall</ref> ; Lafontaine and White ; Breusch and Schmidt ; Dagenais and Dufour ; de Paula and Cribari-Neto ; <ref type="bibr">Goh and King</ref> ) and regarding the importance of distinguishing spillover effects from residual correlation for substantive inferences, this negligence is startling.</p><p>By remedying this omission, the present study evaluates the Wald test's appropriateness for differentiating between alternative mechanisms that cause spatial clustering in cross-sectional data structures. It discusses the substantive and econometric implications of alternative spatial processes and shows analytically that the Wald test's lack of invariance to reparameterizations of nonlinear common factor restrictions stems from the necessity to approximate the restrictions' sampling distributions. While asymptotically valid, Monte Carlo experiments demonstrate that this approximation frequently leads to misleading inferences concerning the presence of spillover effects across a wide range of parameter settings in finite samples. An empirical example further illustrates the severity of this problem for applied research aiming to assess the support for distinct theoretical mechanisms against possible alternative explanations. Given that a misspecification of the process generating cross-sectional dependencies can bias substantive inferences, the results suggest that, irrespective of the specification search strategy employed, researchers should not base inferences on the Wald statistic's asymptotic χ 2 distribution. Instead, simulation techniques such as bootstrap methods allow researchers to use estimated critical values as an alternative to their asymptotic counterparts. The LR test also offers a valuable alternative procedure that is invariant to reparameterizations of the null hypothesis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Substantive and Residual Dependence in Cross-Sectional Models</head><p>In regression analyses utilizing cross-sectional data, three different types of interaction effects can be distinguished that generate spatial autocorrelation in the dependent variable. First, endogenous interaction effects occur whenever the units' outcomes are intertwined. In these situations, the actions, decisions, or behaviors of the units are simultaneously determined and responsive to the other units' outcomes. Second, exogenous interaction effects cause spatial clustering by linking the response of each unit to the covariates of other units. Finally, cross-sectional dependencies can be a product of spatially correlated model residuals (e.g., Elhorst b; Halleck Vega and Elhorst</p><p>). While endogenous and exogenous interaction effects are part of the regression's systematic component, correlation among the error terms is confined to the model residuals and does not affect the expectation of the outcome conditional on the regressors.</p><p>Despite their close correspondence (see e.g., <ref type="bibr">Gibbons and Overman )</ref>, the distinction between the different mechanisms causing spatial dependencies in the data has far-reaching implications for the estimation and interpretation of the regression coefficients (LeSage and Pace ; Rüttenauer ). Importantly, substantively meaningful indirect spillover effects, loosely defined as the impact of changes in one unit's covariates on the other units' outcomes, only exist if cross-unit interactions are part of the regression's systematic component <ref type="bibr">(Elhorst ; Darmofal ; Halleck Vega and Elhorst )</ref>. In these instances, the cross-partial derivative of unit i's outcome y i with respect to unit j's covariate x j is nonzero, signifying a systematic relationship between the units (e.g., <ref type="bibr">LeSage and Pace , )</ref>. Otherwise, the regression model imposes the restriction of no spillovers by assumption. To detect the existence of these spillover effects, different model specification search strategies suggest to utilize the unrestricted SDM model as a general model featuring substantive as well as residual dependence and subsequently test several parameter restrictions (e.g., <ref type="bibr">Mur and Angulo ; LeSage and Pace ; Elhorst )</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>. An Illustrative Example of the Different Spatial Processes</head><p>Before outlining the alternative spatial model specifications, it is useful to contrast the different spatial processes with respect to their substantive implications for empirical political science research. Spillover effects occur whenever the behavior (endogenous interactions) or certain characteristics (exogenous interactions) of one unit-may this be a country, a (coalition) government, a political party, or any other entity of interest-affect adjacent units <ref type="bibr">(Darmofal , )</ref>. For example, the municipalities' income tax revenues are directly related to their local economic performance. At the same time, the economic prosperity of its neighbors also exerts a positive impact on a municipality's income tax revenues as its residents might commute to work. These dependencies in income tax revenues produce spillovers between the municipalities: the effect of a change in one unit's characteristics propagates to its neighbors (e.g., LeSage and Pace</p><p>). Hence, adequately understanding the phenomenon of interest-cross-sectional variation in income tax revenuesnecessitates the consideration of these exogenous interaction effects among the municipalities that generate substantively meaningful and theoretically relevant indirect spillover effects.</p><p>In contrast, cross-sectional dependencies in the disturbances constitute another spatial process that has different substantive implications and requires an alternative model specification. Several circumstances can cause correlation between the units' residuals, for example spatial clustering in measurement errors. Alternatively, omitting a spatially dependent explanatory variable that is part of the true data-generating process (DGP) from the regression equation leads to correlated errors <ref type="bibr">(Elhorst b; Darmofal )</ref>. With regards to the example given above, it is reasonable to expect that several unobservable but spatially dependent characteristics, like a region's general appeal as a place of residence, affect a municipality's revenue from income taxation as well. In contrast to the theorized exogenous interaction effects, these omitted characteristics merely affect the model residuals and there are no relevant indirect effects present in the process that generates the data. Since exactly modeling the true dependence structure is almost impossible (e.g., Juhl b), omitting relevant variables that are spatially correlated can create linkages among the units' disturbances.</p><p>. Common Factors in the Spatial Durbin Model While the previous example illustrates the crucial differences in the substantive implications of the underlying process that links the observations to one another, model misspecification may cause severe econometric problems as well. In fact, neglecting cross-sectional interdependencies can induce correlation between the regressors and the residuals, resulting in the canonical endogeneity problem (e.g., <ref type="bibr">Gibbons and Overman ; Betz, Cook, and Hollenbach )</ref>. In order to illustrate the problem of omitted spillover effects, consider the stylized DGP in which a dependent variable y is entirely determined by two uncorrelated regressors, denoted x and z , such that y = x β + z . Assume that z is unobservable and follows a spatial autoregressive process such that z = ρW z + u 1 , where ρ is a scalar parameter, W is an exogenously defined connectivity matrix, and u 1 is a vector of independent and identically distributed normal disturbances with zero units j where j i . By the same token, the spatial error model (SEM) specification does not feature spillover effects since residual dependence does not affect E (y i |x i ). Different theoretical mechanisms can produce substantively meaningful spillover effects. Shipan and Volden ( ), for example, distinguish between four different mechanisms of policy diffusion: learning, economic competition, imitation, and coercion. Acknowledging this, I leave aside a thorough discussion of alternative mechanisms and restrict the focus to the empirical modeling of cross-sectional dependencies. For the sake of simplicity, I set the coefficient associated with z to and omit it from the equation. mean and a fixed variance. This scenario leads to the spatial error model (SEM) specification:</p><formula xml:id="formula_0">y = x β + (I n -ρW ) -1 u 1 z .</formula><p>( ) Due to the uncorrelatedness of x and z , omitting the spatially autocorrelated variable does not lead to endogeneity concerns. Furthermore, the relationship depicted in Equation ( ) implies no indirect spillover effects since the cross-unit interactions are confined to the residuals. Consequently, even a nonspatial OLS model specification would provide unbiased but inefficient parameter estimates <ref type="bibr">(Lacombe and LeSage</ref> ). Now consider a slightly modified scenario in which the included and the omitted regressors are no longer independent from one another but correlated. To induce correlation between the variables, suppose that the random variable u 1 in Equation ( ) is replaced by u 2 which is an additive linear function of x and a stochastic disturbance term v such that u 2 = x γ + v . In addition to the spatial autocorrelation, the unobserved covariate z is now also correlated with x and the scalar γ ∈ (0, 1] as well as the dispersion of v (σ 2 v ) jointly determine the strength of the correlation. In this slightly modified scenario, the true DGP becomes</p><formula xml:id="formula_1">y = x β + (I n -ρW ) -1 (x γ +v ) z .</formula><p>( )</p><p>In contrast to the DGP shown in Equation ( ), the correlation between the included regressor x and the spatially clustered variable z causes an endogeneity problem if z is omitted from the regression's systematic part. Importantly, the effect of a change in regressor x on the outcome y in Equation ( ) is more complex and both a nonspatial OLS model as well as a SEM model do not yield unbiased estimates since they ignore indirect effects produced by the spatial patterning of the correlated omitted variable. Consequently, the effect of a change in x i is not confined to unit i's outcome y i but rather pertains to all nonisolated units in the entire system through indirect spillover and instantaneous feedback effects (e.g., LeSage and Pace ; Betz et al.</p><p>). In order to address the endogeneity problem and to identify meaningful spillover effects, the unrestricted SDM model plays an important role. In fact, it serves as a general nesting model in many specification search strategies since it comprises several simpler spatial regression models frequently employed in empirical studies (e.g., <ref type="bibr">Mur and Angulo ; Elhorst ; Angulo and Mur )</ref>. By allowing researchers to test different parameter restrictions, the SDM model facilitates the specification of an econometric model that reflects the spatial process generating the data most appropriately. For the hypothetical scenario with one regressor x and the (possibly correlated) unobserved variable z discussed here, the SDM model to be estimated takes the following form:</p><formula xml:id="formula_2">y = ρW y + x β +W x θ +v . ( )</formula><p>While it is easy to verify that the SDM model reduces to the popular spatial autoregressive (SAR) model, also known as spatial lag model (e.g., <ref type="bibr">Elhorst b, )</ref>, that features global spillover effects</p><p>Also assume that ρ is contained in the compact open interval (ω -1 mi n ; ω -1 max ), where ω mi n and ω max are the smallest and largest eigenvalues of W . This stability constraint ensures that the matrix (I n -ρW ) is positive definite and its inverse exists (e.g., LeSage and Pace ; Elhorst b). While the general nesting spatial (GNS) model incorporates all possible types of cross-sectional interaction effects, it tends to be overparameterized. Hence, it provides no additional information and is rarely used in applied studies (e.g., Elhorst b; Rüttenauer ).</p><p>if θ = 0 and to the spatial lag of X (SLX) model featuring local spillovers when ρ = 0, it also subsumes the SEM model that rules out any substantive indirect effects by assumption. To illuminate the relationship between these models, it is useful to restate the SEM DGP displayed in Equation ( ) by multiplying both sides of the equation by (I n -ρW ) and rearranging terms which results in the following structural form (Burridge ; Anselin ):</p><formula xml:id="formula_3">(I n -ρW )y = (I n -ρW )x β + u 1 y -ρW y = (β I n -ρβW )x + u 1 y = ρW y + x β +W x (-ρβ ) + u 1 .</formula><p>( ) Equation ( ) elucidates that the SEM process imposes a nonlinear common factor restriction on the parameter associated with W x which can be assessed by using estimates from the unrestricted SDM model depicted in Equation ( ). More precisely, if the estimates from the unrestricted SDM model satisfy the common factor restriction θ = -ρβ , the model can be simplified to a SEM model specification because there are no discernible substantive spillover effects in the data. Given that E ( β )β = 0 in Equation ( ), the common factor restriction holds for SEM processes.</p><p>However, if x and z are correlated in the true DGP, an endogeneity problem occurs since the variable z is unobserved and the common factor restriction no longer holds. Restating the DGP in Equation ( ) that features this correlation in a similar fashion yields:</p><formula xml:id="formula_4">(I n -ρW )y = (I n -ρW )x β + x γ +v y = ρW y + x (β + γ) +W x (-ρβ ) +v .</formula><p>( ) Given the discussion above, Equation ( ) illustrates that, in the presence of an omitted variable that is (i) spatially clustered and (ii) correlated with an included regressor, the true DGP resembles the SDM specification. Although the SDM model shown in Equation ( ) provides consistent estimates for E ( ρ) = ρ and E ( θ) = -ρβ , the estimate of β is asymptotically biased since E ( β ) = β + γ. Based on these model estimates, the common factor restriction does not hold because of the endogeneity bias present in E ( β ). Hence, a violation of the common factor restriction is indicative of the existence of indirect spillover effects that need to be included in the systematic part of the regression model.</p><p>As this discussion suggests, the spatially lagged exogenous variables in the SDM model specification can also be understood as instruments for omitted variables that are correlated with included regressors (e.g., <ref type="bibr">Elhorst b, )</ref>. At the same time, as Gibbons and Overman ( ) emphasize, this strategy provides only weak identification of the model parameters and crucially depends on the exogeneity and the assumed perfect knowledge of W . Consequently, the SDM model does not provide a general solution to the omitted variables problem that would allow researchers to identify causal effects. Just like in any other observational study, doing so requires the application of appropriate research designs (see also <ref type="bibr">Betz et al. ; Rüttenauer )</ref>. Moreover, while the SDM specification features global spillover effects, local spillovers would require a different model specification like the spatial Durbin error model (e.g., Halleck <ref type="bibr">Vega and Elhorst )</ref>.</p><p>Since this study is primarily concerned with the Wald test's ability to assess the common factor hypothesis, the reader may be referred to Halleck Vega and Elhorst ( ), Elhorst ( b), Elhorst , or LeSage and Pace ( ) who provide excellent treatments of alternative spatial regression models. The number of these common factor restrictions equals the number of regressors included in the model. To ease the exposition, I assume a single regressor throughout this study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The Wald Test of Nonlinear Restrictions</head><p>Given the estimates from an unrestricted model, the Wald test is flexible enough to scrutinize several different and possibly nonlinear parameter constraints within the same model. Intuitively, the Wald test assesses the distance between the observed estimates and the restrictions imposed. As the distance grows, the restrictions become less likely. In contrast to the LM and the LR tests which constitute prominent and asymptotically equivalent alternative specification tests, the Wald test does not require the estimation of restricted alternative models (e.g., Burridge</p><p>). Despite its advantages, a major drawback of the Wald test of nonlinear restrictions is its lack of invariance to algebraically equivalent expressions of the null hypothesis. Since the asymptotic distribution of a nonlinear restriction needs to be approximated by a Taylor series expansion, seemingly identical functional representations may produce different test statistics. Although this undesirable property is a well-known feature of the Wald test (e.g., Gregory and Veall ; Lafontaine and White ; Breusch and Schmidt ; Dagenais and Dufour ; de Paula and Cribari-Neto ; Goh and King ), its consequences for empirical spatial model search strategies have been neglected so far.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>. Analytical Derivation and Asymptotic Distribution of the Wald Statistic</head><p>Consider a situation in which a test needs to be constructed in order to evaluate a single nonlinear restriction H 0 : g (λ) = 0, where λ is a parameter vector and g (•) is some function that is continuously differentiable in a neighborhood of λ. For this general case, the Wald statistic is defined by</p><formula xml:id="formula_5">w = g ( λ) V (g ( λ)) -1 g ( λ),<label>( )</label></formula><p>where V (g ( λ)) is the estimated variance of g ( λ). Under the null hypothesis, w asymptotically follows a χ 2 distribution with the number of degrees of freedom equal to the number of restrictions imposed.</p><p>The only complication involved here is that obtaining w necessitates knowledge about the sampling distribution of a nonlinear function. While it is straightforward to compute the value of g ( λ) at the parameter estimates, deriving the Wald statistic in Equation ( ) additionally requires information about its variability which depends on the estimator λ and the restriction g (•). However, given the restriction's nonlinearity, exact distributional results become inapplicable <ref type="bibr">(Greene )</ref>. Instead, the delta method provides an approximation of the restriction's asymptotic distribution. It is based on a first-order Taylor series expansion of g ( λ) around the true parameter vector λ. Assuming that λ is a consistent estimator with a limiting distribution defined by √ n( λλ) d → N (0, Σ ) and that the standard regularity conditions hold (see e.g., Newey and McFadden ), the delta method implies that</p><formula xml:id="formula_6">√ n(g ( λ) -g (λ)) d → N 0, G(λ)Σ G(λ) ′ , ( )</formula><p>where G(λ) = ∂g (λ)/∂λ ′ is a row vector of partial derivatives. It follows that the asymptotic distribution of the restriction under</p><formula xml:id="formula_7">H 0 is g ( λ) a ∼ N g (λ), G(λ)n -1 Σ G(λ) ′</formula><p>. By using the consistent estimates obtained from an unrestricted model, the restriction's sampling variability derived from the delta method is given by</p><formula xml:id="formula_8">V (g ( λ)) = G( λ)Σ G( λ) ′ ,<label>(</label></formula><p>) Supplementary Material A contains further details on the delta method.</p><p>Table .</p><p>Algebraically identical formulations of the common factor hypothesis.</p><formula xml:id="formula_9">G( λ) g ( λ) = 0 ∂g ( λ)/∂ ρ ∂g ( λ)/∂ β ∂g ( λ)/∂ θ H 0 (I ) ρ β + θ β ρ 1 H 0 (I I ) β + θ/ ρ -θ/ ρ2 1 ρ-1 H 0 (I I I ) ρ + θ/ β 1 -θ/ β 2 β -1 H 0 (IV ) ρ β / θ + 1 β / θ ρ/ θ -ρ β / θ2</formula><p>with G( λ) evaluated at λ and Σ = n -1 Σ being a consistent estimator of the symmetric, positive definite asymptotic variance-covariance matrix. By substituting Equation ( ) into Equation ( ), the Wald test statistic can be calculated. Asymptotically, since plim n→∞ λ = λ, the function g ( λ) converges in distribution to g (λ) with a mean given by plim n→∞ g ( λ) = g (λ). At the same time, the necessity to estimate the nonlinear restriction's sampling variability can cause a mismatch between the Wald statistic's asymptotic χ 2 distribution and its finite sample distribution which has considerable consequences for hypothesis testing (e.g., Lafontaine and White ; Phillips and Park</p><p>).</p><p>. The Wald Test of Common Factors in Spatial Models</p><p>The analytical results derived above are directly applicable to the empirical assessment of the common factor restriction in spatial regression models because the null hypothesis can be expressed as a nonlinear function of the estimates obtained from an unrestricted SDM model. In order to calculate the test statistic, it is necessary to determine the functional representation of the null hypothesis of common factors. Yet, there are numerous algebraically equivalent alternative parameterizations that satisfy g ( λ) = 0, where λ = [ ρ, β , θ] are the estimates obtained from the SDM model in Equation ( ). Table , for example, lists the four alternative expressions of the null hypothesis considered by Gregory and Veall ( ) in a time-series context. While all of the alternative statements declare the same restriction, they produce distinct test statistics and p values in finite samples because the approximation of the restriction's sampling variability is based on the partial derivatives of the parameter estimates. Depending on the exact representation of the null hypothesis, the right part of Table <ref type="table">shows</ref> that the vector of partial derivatives obtained from these nonlinear functions differ.</p><p>As a result, alternative expressions of the common factor hypothesis use different estimators for the nonlinear restriction's sampling variability which yields distinct test statistics and causes them to converge to the asymptotic χ 2 distribution at individual rates. In large samples, this circumstance is unproblematic as the accuracy of the Taylor series approximation increases in sample size while the contribution of the restriction's estimated variability to the test statistic becomes negligible. In finite samples, however, the differences between the alternatives can be substantial (e.g., <ref type="bibr">Gregory and Veall )</ref>. At worst, alternative and algebraically identical functional representations of the parameter restriction can indicate opposing conclusions regarding its validity despite the fact that the same model estimates are used to calculate the test statistic.</p><p>Importantly, while many statistical so ware packages used to estimate spatial regression models, like Stata or R packages, report results from a Wald test by default, they do not test for common factors. Instead, the null hypothesis these packages evaluate is cross-sectional independence, that is, ρ = 0. Since this is a linear restriction, the Wald statistic's noninvariance problem does not arise and the tests these packages perform are only indicative of the presence of nonrandom spatial clustering. They do not permit any inferences regarding the spatial process at work. Hence, scrutinizing the common factor restriction requires researchers to amend the Wald test's null hypothesis.</p><p>. Modifications of the Wald Test Since the application of the Taylor series expansion results in distinct Wald statistics for algebraically equivalent formulations of the null hypothesis, the asymptotic χ 2 distribution might constitute an inappropriate approximation of the statistic's finite sample distribution for some parameterizations. Therefore, modifications proposed in the literature that attempt to address the Wald test's noninvariance problem primarily focus on adjusting the statistic's reference distribution.</p><p>Phillips and Park ( ), for example, show that an Edgeworth expansion of the Wald statistic provides additional information on the statistic's distribution which can be used to obtain corrected critical values and modified test statistics for each functional representation of the null hypothesis (e.g., de Paula and Cribari-Neto ; King and Goh ). Besides these corrections, simulation techniques allow researchers to generate the empirical distribution under the null hypothesis for each specification of the common factor restriction and base inferences on these reference distributions (e.g., Lafontaine and White ; Goh and King ). In particular, bootstrap methods provide a way to estimate critical values and use them as an alternative to the (corrected) asymptotic critical values which can be unreliable in finite samples (Godfrey and Veall ). Using the following procedure, it is straightforward to derive bootstrap critical values to test for common factors in spatial regression models:</p><p>. Use the estimates from an unrestricted SDM model and calculate the observed Wald statistic w according to Equation ( ) for a given restriction. . Estimate the restricted SEM model. With these estimates and the DGP shown in Equation ( ), generate bootstrap samples by resampling with replacement from the residual vector to obtain bootstrap disturbances. . Repeat step for each bootstrap sample and store the Wald statistic in vector w . . Sort w in ascending order. The value with rank (1α) × 100 + 1 is the estimated bootstrap critical value, χ 2 boot , corresponding to a predefined α-level (e.g., α = 0.05). By comparing w calculated in step to the corresponding bootstrap critical value χ 2 boot from step , its statistical significance can be assessed. This procedure can be repeated for any functional representation of the common factor restriction in order to obtain individual bootstrap critical values for each restriction and a given region of the parameter space. Thereby, researchers can base inferences on the empirical distribution under the null hypothesis instead of relying on the asymptotic χ 2 distribution. This is especially important since the performance of the Wald test not only depends on the specific expression of the common factor hypothesis but also on the particular region in the parameter space. In fact, previous research shows that there is no single formulation of the restriction that consistently outperforms all alternatives (e.g., Gregory and Veall ; Lafontaine and White ; Phillips and Park ). While Goh and King ( ) demonstrate that both asymptotic modifications-the corrected critical values and the improved test statistics-might even deteriorate the Wald test's power and size properties, they conclude that the bootstrap approach constitutes a useful improvement for applied research (see also <ref type="bibr">Lafontaine and White</ref> ; Godfrey and Veall ; King and Goh ). Of course, neither the Edgeworth corrections nor simulation techniques completely resolve the noninvariance problem inherent to the Wald test. Doing so requires the application of alternative tests such as the asymptotically equivalent LR test that is invariant to such reparameterizations (e.g., <ref type="bibr">Mur and Angulo</ref> ). Yet, by providing corrections for the Wald test's empirical size, these modifications reduce the possibility of intentionally manipulating the result by amending the functional expression of the null hypothesis (King and Goh , ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Monte Carlo Analysis . Experimental Setup</head><p>In order to investigate the finite sample performance of the Wald test, I conduct Monte Carlo experiments in which I vary the sample size, the strength of the interdependence, and the severity of the omitted variables bias through the degree of correlation between the included and the omitted regressor. Using the spatial process depicted in Equation ( ), I generate 1, 000 samples of the outcome vector y for each of the parameter configurations. In the simulations, β = 2 and σ 2 v = 1 are held constant and x is drawn from a standard normal distribution. The parameter space of γ ranges from 0 to 1 in steps of 0.2 while ρ takes on values between 0 and 0.8 in steps of 0.2. This setup includes a nonspatial DGP without omitted variables bias (ρ = 0 and γ = 0), nonspatial DGPs with omitted variables bias (ρ = 0 and γ &gt; 0), SEM DGPs (ρ &gt; 0 and γ = 0), and SDM DGPs (ρ &gt; 0 and γ &gt; 0). W is a row-stochastic contiguity matrix based on the queen criterion of adjacency. In contrast to the rook connectivity scheme which links spatial units ordered on a lattice to their direct horizontal and vertical neighbors, the queen criterion additionally connects the units to their diagonal neighbors (e.g., <ref type="bibr">Cliff and Keith Ord )</ref>. The sample sizes specified here contain 49, 100, 225, and 400 observations distributed on regular grids (7 × 7, 10 × 10, 15 × 15, and 20 × 20) to realistically reflect small to medium sized samples frequently encountered in political science.</p><p>Since the consequences of model misspecification for the estimation of unbiased effect estimates have been studied elsewhere (e.g., LeSage and Pace ; Pace and LeSage ; Lacombe and LeSage ; Rüttenauer ), this Monte Carlo analysis focuses on the ability of the Wald test to identify the true spatial model and differentiate between substantive and residual dependence across a range of alternative DGPs. To this end, I investigate the performance of the Wald test using the four alternative null hypotheses of common factors summarized in Table . 
+
+. Performance of the Original Wald Test</p><p>Table reports the rejection rates of the four expressions of the null hypotheses of common factors at an α-level of 0.05 across the simulations when the true DGP is that of the SEM model (γ = 0). Since there are no omitted spillovers in this scenario, the common factor restriction holds and the four variants of the Wald test are expected to reject the true null hypothesis in about 5% of the simulation trials with a 95% confidence interval of [3.65%; 6.35%].</p><p>Although Section analytically shows that the alternative Wald tests are asymptotically equivalent, their type I error rates differ notably in finite samples. Especially H 0 (I I ) but also H 0 (IV ) deviate considerably from the expected error rate. Across all sample sizes, H 0 (I I ) is too conservative when ρ is small. Since ρ appears in the restriction's denominator (see Table ), the restriction has no derivative at zero which violates the assumed continuity of derivatives. However, the Wald test based on H 0 (I I ) remains valid as its asymptotic distribution is obtained under the null hypothesis which precludes the problematic value <ref type="bibr">(Gregory and Veall )</ref>.</p><p>Table . Share of false positives (type I error rates) using asymptotic critical values. n = 49 ρ H 0 (I ) H 0 (I I ) H 0 (I I I ) H 0 (IV ) . . . . . . . . . . . . . . . . . . . . . . . . n = 100 ρ H 0 (I ) H 0 (I I ) H 0 (I I I ) H 0 (IV ) . . . . . . . . . . . . . . . . . . . . . . . . n = 225 ρ H 0 (I ) H 0 (I I ) H 0 (I I I ) H 0 (IV ) . . . . . . . . . . . . . . . . . . . . . . . . n = 400 ρ H 0 (I ) H 0 (I I ) H 0 (I I I ) H 0 (IV ) . . . . . . . . . . . . . . . . . . . . . . . . Based on the χ 2 distribution with df = 1 and α = 0.05, the asymptotic critical value used for all variants of the Wald test and across the different levels of spatial autocorrelation is χ 2 as y m = 3.841. The theoretically expected rejection rate across the , simulation iterations is 5% with a 95% (binomial proportion) confidence interval of [3.65%; 6.35%].</p><p>At the same time, incorrectly rejecting a true null hypothesis might be less problematic in this case since the SDM model derives unbiased impact estimates even if only the residuals are spatially clustered and no substantive spillovers exist (e.g., Elhorst</p><p>). The only drawback is that the appropriate SEM specification would be more efficient which might affect inferences regarding the statistical significance of a regressor's impact. Consequently, it is crucial for any test of the common factor hypothesis to have satisfactory power properties in order to reduce concerns about biased effect estimates.</p><p>Against this background, Figure compares the performance of the alternative variants of the Wald test for different levels of correlation between the spatially dependent omitted variable and the included regressor by reporting their power. As the correlation increases, the tests should be more likely to reject the null hypothesis. In order to account for the effects of the sample size and the strength of the interdependence on the performance of the tests, Figure is comprised of panels. In each panel, the horizontal axis depicts the different values of γ and the vertical axis shows the observed share of rejections across the simulation trials.</p><p>A brief inspection of Figure already confirms that alternative parameterizations of the null hypothesis-although algebraically equivalent-yield strikingly different results in finite samples. Even with a decently sized sample, there are pronounced differences in the rejection rates of the four Wald tests. While H 0 (I ), which is considered to be the common way to express the restriction <ref type="bibr">(Gregory and Veall , )</ref>, and H 0 (I I I ) perform comparatively well in these simulations, the specifications based on H 0 (I I ) and H 0 (IV ) have inferior power properties. The remarkably low rejection rates of these specifications of the Wald test increase the likelihood that researchers incorrectly infer the absence of meaningful spillover effects.</p><p>Moreover, the behavior of H 0 (IV ) differs greatly from the expectation as its rejection rate initially decreases in almost all parameter settings as γ increases. This phenomenon-known as nonmonotonicity in the power function-makes the rejection of the null hypothesis even less likely as the difference between the true DGP and the restriction increases ( <ref type="formula">King</ref> -). In practice, these tests would suggest that the data was generated by a DGP with spatially correlated errors even if there are sizable spillover effects. Researchers would incorrectly conclude that a SEM model or even a nonspatial OLS model appropriately represents the unobservable DGP. Given that these model specifications produce biased impact estimates if a SDM process generated the data, the low rejection rates are highly problematic for substantive inferences.</p><p>Although the different variants of the Wald test use the same data and identical parameter estimates, this simulation study shows that, depending on the functional representation of the null hypothesis, they can come to contradictory conclusions regarding the validity of the common factor restriction. In fact, Breusch and Schmidt ( ) analytically show that it is possible to obtain any desired Wald statistic by appropriately specifying the restriction which opens up the possibility to intentionally manipulate the test result (see also <ref type="bibr">King and Goh )</ref>. Therefore, any search strategy utilizing the Wald test, like the basic general-to-specific approach or the multistep procedure suggested by <ref type="bibr">Elhorst ( a)</ref>, is subject to this malfunctioning. Since there is no theoretically justified functional representation of the common factor hypothesis and given the The Wald test based on H 0 (IV ) is also strongly affected by β in the DGP. As Supplementary Material C. shows, the test's performance is even worse for smaller values of β . Supplementary Material C. provides a more detailed discussion on these inconsistencies and identifies regions of the parameter space where the alternative Wald tests diverge most frequently.</p><p>Table . Share of false positives (type I error rates) using bootstrap critical values. n = 49 ρ H 0 (I ) H 0 (I I ) H 0 (I I I ) H 0 (IV ) 0 5.5 1.4 5.8 4.1 (4.696) (1.533) (4.648) (3.330) 0.2 5.2 1.3 5.2 4.7 (4.839) (1.364) (4.734) (3.491) 0.4 5.1 2.5 5.4 5.7 (4.963) (1.462) (4.923) (3.853) 0.6 5.2 4.3 5.4 6.1 (5.192) (2.032) (5.132) (4.757) 0.8 5.8 8.5 5.8 6.8 (5.380) (3.083) (5.365) (5.894) n = 100 ρ H 0 (I ) H 0 (I I ) H 0 (I I I ) H 0 (IV ) 0 5.1 1.3 4.8 4.1 (4.308) (1.449) (4.293) (3.218) 0.2 4.8 1.1 5.0 4.7 (4.409) (1.359) (4.379) (3.244) 0.4 4.8 4.2 4.8 4.3 (4.476) (1.788) (4.428) (3.675) 0.6 5.6 6.7 5.6 7.0 (4.600) (2.611) (4.542) (4.387) 0.8 4.3 5.2 4.2 4.0 (4.690) (3.637) (4.646) (4.862) n = 225 ρ H 0 (I ) H 0 (I I ) H 0 (I I I ) H 0 (IV ) 0 5.5 0.6 5.6 5.0 (4.125) (1.305) (4.097) (3.629) 0.2 5.0 2.2 5.0 5.4 (4.147) (1.593) (4.131) (4.002) 0.4 5.6 6.1 5.6 4.3 (4.168) (2.583) (4.173) (4.515) 0.6 5.9 6.0 5.9 5.5 (4.249) (3.509) (4.193) (4.628) 0.8 4.9 5.3 4.6 4.5 (4.307) (3.999) (4.264) (4.313) n = 400 ρ H 0 (I ) H 0 (I I ) H 0 (I I I ) H 0 (IV ) 0 5.4 0.8 5.5 3.7 (4.038) (1.283) (4.012) (2.917) 0.2 4.2 4.0 4.2 6.1 (4.082) (1.863) (4.074) (3.374) 0.4 5.1 5.7 5.1 5.6 (4.128) (3.037) (4.111) (3.817) 0.6 3.2 3.3 3.3 3.7 (4.137) (3.707) (4.130) (3.850) 0.8 4.9 4.9 4.9 5.4 (4.179) (4.010) (4.150) (3.955) For the different levels of spatial autocorrelation, the median bootstrap critical values χ 2 boot for each variant of the Wald test at the nominal significance level of 5% are displayed in parentheses. Again, the theoretically expected rejection rate across the simulation trials is 5% [3.65%; 6.35%].</p><p>strikingly large share of inconsistent inferences across a range of parameter settings, the evidence presented here strongly caution against the use of the standard Wald test based on an asymptotic reference distribution.</p><p>. Performance of the Modified Wald Test Based on Bootstrap Critical Values While the simulations performed here illustrate that the standard Wald test based on asymptotic critical values is unreliable for the identification of the unobservable spatial process, this section investigates whether the application of simulated reference distributions improves the test's performance. To this end, I use the bootstrap procedure outlined in Section . and compare the observed Wald statistics based on the different formulations of the common factor restriction to their estimated critical values.</p><p>The results reported in Table <ref type="table">show</ref> that the estimated critical values from the bootstrap approach, χ 2 boot , displayed in parentheses not only differ from their asymptotic counterpart χ 2 as y m = 3.841 on which the original Wald test is based. They also reveal sizable discrepancies between the alternative parameterizations of the null hypothesis. While the estimated critical values for H 0 (I ) and H 0 (I I I ) are always higher than χ 2 as y m , the simulated null distributions of H 0 (I I ) suggest much smaller critical values for this expression of the null hypothesis in most scenarios.</p><p>Since the functional expression of the nonlinear common factor restriction determines the Wald statistic's rate of convergence to the asymptotic χ 2 distribution, estimating critical values for each alternative parameterization improves the empirical size of the Wald test in finite samples. Compared to the original tests based on the asymptotically derived critical value, the observed rejection rates of each of the four variants of the Wald test is closer to the nominal significance level of 5% across all sample sizes. Whereas the observed rejection rate of H 0 (I ) ranges from 6.9% to 11% across the different values of ρ for a sample size of n = 49 when relying on the asymptotic χ 2 distribution (see Table ), its corresponding range is narrowed to . %-. % when using bootstrap critical values. Similarly, the bootstrap critical values even improve the size of H 0 (IV ) which performed poorly under the asymptotic reference distribution. For n = 49, basing inferences on the simulated null distribution narrows the range of rejection rates from . %-. % to . %-. % across the different levels of spatial autocorrelation.</p><p>In conclusion, the Monte Carlo evidence presented here demonstrate that using the simulated null distribution as a reference distribution and basing inferences on estimated rather than asymptotically derived critical values ameliorates the problems posed by the Wald test's lack of invariance to alternative parameterizations of the common factor hypothesis. Since the bootstrap critical values account for differences in the convergence rates of the Wald statistics, this modification constitutes a superior alternative that facilitates the empirical assessment of the common factor restriction in spatial regression models. Alternatively, the LR test constitutes another option that is invariant to such reparameterizations (Godfrey and Veall</p><p>). Hence, irrespective of the empirical model search strategy employed, researchers should utilize the modified Wald test based on the simulated null distribution or the LR test in order to empirically evaluate the appropriateness of the spatial model employed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Empirical Example: Spatial Contagion Effects in Economic Voting</head><p>An empirical example helps to demonstrate the consequences of the problem for applied research aiming to evaluate the empirical evidence for a theorized mechanism while ruling out alternative mechanisms. To this end, I reanalyze a study conducted by Williams and Whitten ( ) that investigates spatial contagion effects, understood as the process by which "[. . .] a policy success or failure of one political party in the eyes of voters similarly affects those parties that are ideologically proximate" (Williams and Whitten , ). The utilization of different sample sizes and the availability of a plausible alternative mechanism make this study an ideal case to investigate the consequences of the Wald test's lack of invariance to reformulations of the common factor hypothesis.</p><p>Williams and Whitten ( ) argue that the electorate not only rewards or punishes the parties forming the current government for the country's economic performance at the ballot box as predicted by the economic voting hypothesis. Since voters group parties based on their ideological stances, the effect of economic prosperity also spills over to ideologically proximate parties irrespective of whether or not these parties also belong to the government. These indirect effects conjectured by the authors link the economic wellbeing of a country to the electoral performance of opposition parties. Therefore, the study contributes to the literature on electoral competition by combining insights from the hitherto separated literatures on economic voting and spatial party competition.</p><p>To assess the empirical support for the proposed mechanism, Williams and Whitten ( , -) analyze data on electoral contests in parliamentary democracies from to , where the parties constitute the unit of analysis. The change in a party's vote share between</p><p>The application of bootstrap critical values can also improve the Wald test's power as Supplementary Material C. shows. Supplementary Material C. verifies the good performance of the LR test in the Monte Carlo simulations conducted here.</p><p>two consecutive elections is the dependent variable and the country's economic performance, measured by the real GDP per capita growth, is the main regressor of interest. In their study, the authors emphasize the importance of spatial regression models which facilitate the estimation of the theoretically expected contagion effects in the form of spatial spillovers. They choose the SAR model specification in order to quantify (global) spillover effects (Williams and Whitten , -). In line with the economic voting literature suggesting that the voters' ability to clearly attribute the responsibility for the economic (mis)fortune is a necessary precondition for economic voting to occur, they estimate separate SAR models for elections with high (n = 398) and low levels of clarity (n = 1, 030). While economic voting itself should be less pronounced in elections characterized by a low clarity of responsibility because it is harder for voters to hold a party accountable for the country's economic performance, the authors expect to find larger spatial contagion effects in this context. The argument proposed in the study is that in low clarity settings, the electorate is more experienced in switching their support from one party to an ideologically similar party. Therefore, the voters' sophistication in terms of reallocating their support creates stronger interdependencies between parties in low clarity elections as compared to high clarity settings where voters can easily identify the party who is responsible for the national state of the economy (Williams and Whitten , -). Given these theoretical expectations, the SAR model constitutes an appropriate choice as it links the electoral fortune of a party to the performance of the other parties and allows to distinguish between direct and indirect effects of economic prosperity on the parties' vote shares. Yet, while unfocused diagnostics, like Moran's I, indicate the existence of spatial interdependencies, it is possible that an alternative spatial process caused the clustering detected in the data. Unmodeled election specific particularities, for example, that are unrelated to a country's economic performance-like the general appeal of a candidate or political scandals-might affect the election outcome of ideologically proximate parties as well. Since these factors are not part of the regression's systematic part, they potentially cause spatial clustering in the residuals. Instead of substantively meaningful contagion effects, this plausible alternative process implies no indirect effect of economic performance but a mere diffusion of shocks which would be adequately captured by the SEM model. Consequently, there is a risk that the SAR models specified by the authors lead to incorrect inferences regarding the existence of contagion effects.</p><p>To demonstrate the substantive differences between the two alternative spatial processes, Figure displays the estimated direct and indirect effects of the main regressor of interesteconomic performance-on the vote share of opposition parties derived from the SAR, SEM, and SDM model. As the theory suggests, spatial contagion effects should mitigate the negative effect of a strong economy for opposition parties. This is because the beneficial effect of positive economic conditions for governing parties spills over to ideologically neighboring opposition parties. In contrast, if merely the errors are spatially correlated, no contagion takes place and only a direct negative effect of a country's economic performance exists for opposition parties.</p><p>Despite a significant spatial parameter estimate, Figure illustrates that the alternative spatial models suggest no indirect spillover effect of economic growth in low clarity elections. In high clarity elections, only the SAR model identifies significant spillover effects. While the SEM model assumes no spillovers, the average indirect impact of economic growth on the change in vote share Williams and Whitten ( ) present a more detailed discussion on the dataset as well as a comprehensive derivation of their theoretical expectations regarding spatial contagion effects.</p><p>Table in the study by Williams and Whitten ( ), ) reports the Moran's I and Geary's C tests of spatial interdependencies which both indicate spatial autocorrelation. Note that, while this table also reports results of a Wald test, this is not the Wald test of common factors but rather a test of the null hypothesis of no spatial dependence (see Section . ). While Table in the original work only contains the prespatial marginal effects, the estimates presented here explicitly disentangle direct and indirect (or contagion) effects. This highlights the necessity to base substantive inferences on impact rather than coefficient estimates. Elhorst ( ) and LeSage and Pace ( ) provide a more detailed discussion on this important issue. -0.4 -0.2 0.0 0.2 High clarity Direct Indirect SAR SDM SEM -0.4 -0.2 0.0 0.2</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Low clarity</head><p>Average impact estimate for opposition parties as estimated by the SAR model is 0.020 with a simulated 95% confidence interval within [0.004; 0.045]. In contrast, the estimate derived from the SDM specification is 0.025 [-0.208; 0.244], suggesting no significant spillovers. Besides the SDM model's remarkable efficiency loss, this example illustrates that the identification of the theorized contagion effects is contingent on the specification of the underlying spatial process. Although the SAR and SEM models produce similar and statistically indistinguishable total impact estimates of economic performance in high clarity elections, the results have very different theoretical implications. Notably, the overall impact of economic growth on an opposition party's vote share in the SEM model solely consists of the direct impact of x i on y i . In contrast, the SAR model also identifies significant indirect impacts. Therefore, while the SAR model supports the theory of spatial contagion effects, there are no substantive spillover effects in the SEM model which highlights the importance of adequately distinguishing between these alternative processes for substantive inferences.</p><p>In order to address the problem of model misspecification and to empirically distinguish the two plausible spatial processes, I implement the Wald test of common factors by using the SDM model estimates and the four specifications of the common factor restriction outlined in Table . If the data supports the theory of indirect contagion effects, the tests should reject the null hypothesis. Yet, Table illustrates that in both high and low clarity contexts, the alternative Wald tests not only differ in their test statistics. Based on the asymptotic critical values, they also come to substantively different conclusions regarding the existence of the spillover effects. While H 0 (IV ) supports the theory proposed by Williams and Whitten ( ), the other three alternative versions of the Wald test fail to reject the common factor hypothesis. Instead of substantively meaningful spillovers, these tests only indicate residual dependence which implies that no spatial contagion takes place among the parties. Given the rather large number of observations in the low clarity scenario, these differences become even more alarming. Alternatively, when inferences regarding the underlying spatial process are based on the simulated null distribution of each parameterization of the common factor restriction, all four variants of the Wald test fail to reject the null hypothesis at conventional significance levels.</p><p>Taken together, this empirical case study confirms the Monte Carlo evidence by demonstrating that relying on bootstrap critical values in order to identify statistically significant deviations from</p><p>In order to appropriately account for sampling uncertainty, I use the point estimates and the variance-covariance matrices obtained from the different spatial models to set up multivariate normal distributions from which I sample 1, 000 sets of coefficients. The SAR model's ATI estimate in high clarity elections is -0.237[-0.410; -0.056] while the ATI derived from the SEM model is -0.254[-0.448; -0.075].</p><p>Table . Wald tests of common factors for the analysis of spatial contagion effects. High clarity Low clarity w p asym χ boot p boot w p asym χ boot p boot H 0 (I ) . . . . . . . . H 0 (I I ) . . . . . . . . H 0 (I I I ) . . . . . . . . H 0 (IV ) , . . , . . . . , . . n , df χ 2 as y m . . w is the observed Wald statistic. p as y m and p boot denote p values based on asymptotic critical values χ 2 as y m and on bootstrap critical values χ 2 boot respectively. While each restriction has an individual simulated critical value, they share a single asymptotic critical value which depends on the α-level and the number of degrees of freedom.</p><p>the Wald statistic's null distribution improves its finite sample performance and alleviates the conflict between alternative parameterizations of the nonlinear common factor hypothesis. While the tests based on the asymptotic χ 2 distribution come to contradictory conclusions even with a sample size of more than 1, 000 observations, the bootstrap procedure is able to correct for this undesirable circumstance. Regarding the theorized mechanism, this analysis finds insufficient evidence to convincingly dispel doubts that, instead of the theorized spatial contagion effects, correlation in the residuals caused the spatial clustering found in the data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion</head><p>Distinguishing substantively meaningful indirect spillover effects from a mere diffusion of random shocks is essential as there is a serious risk of making incorrect inferences when estimating a misspecified model. Yet, the task of appropriately modeling the process underlying observable patterns of interrelatedness between the units poses notable difficulties for political scientists. Although many empirical specification search procedures rely on the Wald test to assess the nonlinear common factor restriction, the test's lack of invariance to algebraically equivalent formulations of the null hypothesis poses a serious problem for the accuracy of inferences.</p><p>This study investigates the consequences of the Wald test's sensitivity to alternative and algebraically equivalent expressions of the common factor hypothesis for its ability to guide the empirical model specification search. By presenting analytical evidence and using Monte Carlo simulations as well as an empirical example, it shows that the necessity to approximate the sampling variability of a nonlinear function by a Taylor series expansion causes the Wald test's sensitivity to algebraically equivalent reparameterizations of the null hypothesis. While asymptotically valid, this approximation produces considerable differences in finite samples, depending on the restriction's functional representation. In many instances, alternative null hypotheses even suggest contradictory conclusions regarding the underlying spatial process since they converge to the Wald statistic's asymptotic χ 2 distribution at different rates. Given that there is no theoretical justification for any particular expression and since their performance is contingent on the relevant region of the parameter space, the results caution against relying on the Wald test's asymptotic results in any specification search strategy. Instead, practitioners should either base inferences on a simulated null distribution by estimating bootstrap critical values or turn to the LR test which is invariant to such reparameterizations in order to avoid spurious inferences.</p><p>Subsequent research might continue this line of research by developing more reliable strategies that help practitioners to differentiate between substantive and residual dependence. As Mur and Angulo ( ) show, the evidence in favor of any search strategy proposed in the literature is mixed which explains the debate about the most appropriate strategy and prevents the development of general guidelines for the empirical identification of the correct model specification <ref type="bibr">(Rüttenauer , )</ref>. In this regard, Lacombe and LeSage ( ), for example, demonstrate that Bayesian methods constitute a promising alternative to the frequentist null hypothesis significance testing approach. Additionally, multimodel inference might help overcoming the current fixation on model selection and instead allows researchers to focus on the identification of substantively meaningful spillover effects in the data (see <ref type="bibr">also Juhl b)</ref>. Especially regarding the considerable difficulties researchers face when attempting to empirically distinguish between different spatial processes (e.g., Gibbons and Overman ), following this line of investigation will enhance model building and contribute to our understanding of different interaction effects among the units of analysis.</p><p>Spatial autocorrelation poses notable challenges for the correct specification and interpretation of statistical models as model misspecification can bias the substantive inferences. Notwithstanding these difficulties, interdependencies are paramount in social science theories which obliges researchers to carefully consider the process generating these dependencies when building empirical models in order to make valid inferences with respect to the theories. Consequently, especially in the absence of design-based identification strategies as proposed by Gibbons and Overman (</p><p>), methodological research facilitating the appropriate specification of spatial models constitutes an important contribution for a thorough assessment of theoretical expectations.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure .</head><label>.</label><figDesc>Figure . Share of null hypothesis rejections at a nominal significance level of 5%.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure .</head><label>.</label><figDesc>Figure .Average direct and indirect impact estimates of economic performance in low-and high-clarity elections.</figDesc></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>This project has been presented at the EPSA conference in Belfast, <rs type="funder">Northern Ireland</rs>. I would like to thank <rs type="person">Lion Behrens</rs>, <rs type="person">Thomas Bräuninger</rs>, <rs type="person">Thomas Plümper</rs>, <rs type="person">Akisato Suzuki</rs>, <rs type="person">Garrett Vande Kamp</rs>, and <rs type="person">Laron K. Williams</rs>, the participants of the <rs type="institution">CDSS Political Science Colloquium at the University of Mannheim</rs>, and four anonymous reviewers as well as the journal's editor <rs type="person">Jeff Gill</rs> for helpful comments. <ref type="url" target="https://doi.org/10.1017/pan.2020.23">https://doi.org/10.1017/pan.2020.23</ref> Published online by <rs type="funder">Cambridge University Press</rs></p></div>
+			</div>
+			<div type="funding">
+<div><head>Funding</head><p>This research was funded by the <rs type="funder">German Research Foundation</rs> (DFG)-Project-<rs type="projectName">ID -SFB . I also gratefully acknowledge support by the state of Baden-Württemberg</rs> through the <rs type="funder">High Performance Computing Cluster bwHPC (INST / -FUGG)</rs> and the <rs type="funder">University of Mannheim's Graduate School of Economic and Social Sciences</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funded-project" xml:id="_X6sRBaq">
+					<orgName type="project" subtype="full">ID -SFB . I also gratefully acknowledge support by the state of Baden-Württemberg</orgName>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data Availability Statement</head><p>Replication code for this article has been published in Code Ocean, a computational reproducibility platform that enables users to run the code, and can be viewed interactively at <ref type="url" target="http://https://doi.org/10.24433/CO.1459046.v1">https://doi.org/ .  /CO</ref>.</p><p><ref type="url" target="http://https://doi.org/10.24433/CO.1459046.v1">.v</ref> . A preservation copy of the same code and data can also be accessed via Dataverse at Juhl (  a).</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Supplementary Material B contains information on the correlation between the regressor x and the omitted variable z for the different values of γ. Since W is row-stochastic, any value of ρ in the interior of ω -1 mi n and 1 ensures matrix invertibility (LeSage and Pace ; Elhorst b). To perform the simulations, I rely on resources from the High Performance Computing Cluster bwHPC and use the R package spdep (Bivand and Piras</p><p>) to estimate all spatial regression models. Replication materials are available on the Political Analysis Dataverse <ref type="bibr">(Juhl a)</ref>. For an investigation of the substantive effects of spatial misspecification bias in nonspatial OLS and SEM models, see Supplementary Material C. . Supplementary Material C contains additional robustness tests including a scenario with negative spatial autocorrelation (C. ), an alternative specification of the connectivity scheme and an investigation of possible edge effects (C. ). This situation also occurs at β = 0 for H 0 (I I I ) and at θ = 0 for H 0 (IV ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Material</head><p>For supplementary material accompanying this paper, please visit <ref type="url" target="https://doi.org/10.1017/pan.2020.23">https://doi.org/</ref> .</p><p><ref type="url" target="https://doi.org/10.1017/pan.2020.23">/pan.  .</ref> .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bibliography</head><p>Angulo, A. M., and J. Mur.</p><p>. "The Likelihood Ratio Test of Common Factors under Non-Ideal Conditions." Investigaciones Regionales : -.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Sebastian Juhl Political Analysis</head><p><ref type="url" target="https://doi.org/10.1017/pan.2020.23">https://doi.org/10.1017/pan.2020.23</ref> Published online by Cambridge University Press</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Spatial Externalities, Spatial Multipliers, and Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Spatial Interdependence and Instrumental Variable Models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Betz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">M</forename><surname>Hollenbach</surname></persName>
+		</author>
+		<idno type="DOI">10.1017/psrm.2018.61</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Comparing Implementations of Estimation Methods for Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical So ware</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Alternative Forms of the Wald Test: How Long is a Piece of String?</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">S</forename><surname>Breusch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Schmidt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Communications in Statistics -Theory and Methods (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Testing for a Common Factor in a Spatial Autoregression Model</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burridge</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A: Economy and Space (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Cliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Keith</forename><surname>Ord</surname></persName>
+		</author>
+		<title level="m">Spatial Processes: Models &amp; Applications</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Pion</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Invariance, Nonlinear Models, and Asymptotic Tests</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Dagenais</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-M</forename><surname>Dufour</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial Analysis for the Social Sciences</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Darmofal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Analytical Methods for Social Research</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">On the Corrections to the Wald Test of Non-Linear Restrictions</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>De Paula Ferrari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Cribari-Neto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letters</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Applied Spatial Econometrics: Raising the Bar</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Matlab So ware for Spatial Panels</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Spatial Econometrics: From Cross-Sectional Data to Spatial Panels</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<imprint>
+			<publisher>Springer</publisher>
+			<pubPlace>Heidelberg</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Specification Searches in Spatial Econometrics: The Relevance of Hendry&apos;s Methodology</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J G M</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Folmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A Comment on Specification Searches in Spatial Econometrics: The Relevance of Hendry&apos;s Methodology: A Reply</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J G M</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Folmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Bootstrap-Based Critical Values for Tests of Common Factor Restrictions</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gibbons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">G</forename><surname>Overman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">G</forename><surname>Godfrey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Veall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science (</title>
+		<imprint/>
+	</monogr>
+	<note>Mostly Pointless Spatial Econometrics? Economics Letters (</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Modified Wald Tests for Non-Linear Restrictions: A Cautionary Tale</title>
+		<author>
+			<persName><forename type="first">K.-L</forename><surname>Goh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>King</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letters</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Econometric Analysis. th edn</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">H</forename><surname>Greene</surname></persName>
+		</author>
+		<imprint>
+			<publisher>Pearson Education</publisher>
+			<pubPlace>Boston, MA</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Limited</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Formulating Wald Tests of Nonlinear Restrictions</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Gregory</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Veall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Wald Tests of Common Factor Restrictions</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Gregory</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Veall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letters</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The SLX Model</title>
+		<author>
+			<persName><forename type="first">Halleck</forename><surname>Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A Comment on &quot;Specification Searches in Spatial Econometrics: The Relevance of Hendry&apos;s Methodology</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">F</forename><surname>Hendry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Replication Data for: The Wald Test of Common Factors in Spatial Model Specification Search Strategies</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Juhl</surname></persName>
+		</author>
+		<idno type="DOI">10.7910/DVN/CY7YWE</idno>
+		<ptr target="https://doi.org/./DVN/CYYWE" />
+		<imprint>
+			<pubPlace>Harvard Dataverse, V</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">The Sensitivity of Spatial Regression Models to Network Misspecification</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Juhl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>King</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K.-L</forename><surname>Goh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Applied Econometrics and Statistical Inference</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><forename type="middle">T K</forename><surname>Wan</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Chaturvedi</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Dekker</publisher>
+		</imprint>
+	</monogr>
+	<note>Improvements to the Wald Test Political Analysis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Using Bayesian Posterior Model Probabilities to Identify Omitted Variables in Spatial Regression Models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Lacombe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Obtaining any Wald Statistic You Want</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lafontaine</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>White</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letters (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Introduction to Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<pubPlace>Boca Raton, FL</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The Spatial Durbin Model and the Common Factor Tests</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Angulo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Model Selection Strategies in a Spatial Setting: Some Additional Results</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Angulo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Mcfadden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Regional Science and Urban Economics</title>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">F</forename><surname>Engle</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Mcfadden</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Amsterdam, Netherlands</addrLine></address></meeting>
+		<imprint>
+			<publisher>North-Holland</publisher>
+		</imprint>
+	</monogr>
+	<note>Large Sample Estimation and Hypothesis Testing Handbook of Econometrics, Vol IV</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Omitted Variables Biases of OLS and Spatial Lag Models</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Progress In Spatial Analysis: Theory and Computation, and Thematic Applications</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">Le</forename><surname>Gallo</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">N</forename><surname>Buliung</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Dall'erba</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin, Germany</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">On the Formulation of Wald Tests of Nonlinear Restrictions</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C B</forename><surname>Phillips</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Y</forename><surname>Park</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica (</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Spatial Regression Models: A Systematic Comparison of Different Model Specifications Using Monte Carlo Experiments</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Rüttenauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Shipan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Volden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">D</forename><surname>Whitten</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0049124119882467</idno>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science (</title>
+		<imprint/>
+		<respStmt>
+			<orgName>Sebastian Juhl Political Analysis</orgName>
+		</respStmt>
+	</monogr>
+	<note>The Mechanisms of Policy Diffusion Sociological Methods &amp; Research Don&apos;t Stand So Close to Me: Spatial Contagion Effects and Party Competition American Journal of Political Science (</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

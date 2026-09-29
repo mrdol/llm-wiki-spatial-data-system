@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial Economic Analysis</title>
+				<funder>
+					<orgName type="full">Spanish Ministerio de Economía y Competitividad (MINECO)</orgName>
+				</funder>
+				<funder ref="#_FHzYdEz">
+					<orgName type="full">Fondo Europeo de Desarrollo Regional (FEDER)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-02-13">13 February 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Ana</forename><surname>Angulo</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Zaragoza</orgName>
+								<address>
+									<settlement>Zaragoza</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Peter</forename><surname>Burridge</surname></persName>
+							<email>peter.burridge@york.ac.uk</email>
+						</author>
+						<author>
+							<persName><forename type="first">Jesus</forename><surname>Mur</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Zaragoza</orgName>
+								<address>
+									<settlement>Zaragoza</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics and Related Studies</orgName>
+								<orgName type="institution">University of York</orgName>
+								<address>
+									<settlement>York</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial Economic Analysis</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">1742-1772 (Print) 1742-1780</idno>
+						<imprint>
+							<date type="published" when="2017-02-13">13 February 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">FADADBF0CAAA2D55C33EE5CBF06A0E43</idno>
+					<idno type="DOI">10.1080/17421772.2016.1264620</idno>
+					<note type="submission">Received 8 May 2015; accepted 11 November 2016</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Testing for a structural break in the weight matrix of the spatial error or spatial lag model. Spatial Economic Analysis. This paper studies the weight matrix in the two generic spatial econometric models, allowing the friction-of-distance parameter to be freely estimated by (Gaussian) maximum likelihood. It shows that in samples of moderate size it is perfectly feasible to estimate both the distance-decay coefficient that shapes the weights, and the usual SEM/SLM coefficient, and to test for a change in the former at an unknown change point. The procedure is easily extended to test for changes in other parameters. Tests of empirical size and power are investigated by Monte Carlo experiment, and the test is applied to a model of exchange rate pass through, with clear results.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>INTRODUCTION</head><p>This paper introduces a test for a change over time in the structure of spatial interaction in the cross-section dimension of panel data. The setting is a fully parametric regression model, either the spatial error model (SEM) or the spatial lag model (SLM), where the interaction matrix is of known functional form but depends on a parameter that is to be estimated from one or more cross-sections of a panel. We examine the performance of tests in which the maintained hypothesis is parameter constancy over time, and the alternative is a change to the parameter(s) (a structural break) at a single unknown point in time. We focus attention on the parameter that determines the shape of the spatial interaction matrix in our set-up, though the approach we adopt is quite general, and can easily be adapted to test for changes to other parameters that may be of interest, as we illustrate in the empirical application. We do not assume that any parameters are known to the researcher, but in practice there may be quite strong prior grounds for suspecting that a structural break has occurred in a certain period. Such breaks might, for example, be triggered by domestic political events, like changes in the degree of local control over taxation, or a regional independence referendum, or economic development such as the upgrading of public transport links, or broader international movements reflected in the erection or removal of trade barriers, or anticipated changes in distance frictions more generally (on this latter possibility, see <ref type="bibr" target="#b8">Brun, Carrère, Guillaumont, &amp; de Melo, 2005</ref>, and the surrounding debate). This paper uses the SEM and SLM models to illustrate our method because they are often used, and because if our approach is to be feasible more widely, it must be seen to work in these cases. The essence of the approach is to compare the maximized value of the model's likelihood when no break is allowed with the value that is attained when the parameter (or parameters) of interest is (are) allowed to change, taking possibly different values after some date. The approach works by estimating all the relevant parameters by maximum likelihood (ML), and computing a likelihood ratio at every point in some search interval of potential break dates. The approximate sampling distribution of the resulting ML ratio has been worked out by <ref type="bibr" target="#b1">Andrews (1993)</ref>, and can be used to construct a formal test for the existence of a break. The present paper first investigates the properties of this test, principally its power and significance level when the sampling distributions tabulated by <ref type="bibr" target="#b2">Andrews (2003)</ref> are used. Then our procedure is applied to the case of the exchange rate pass-through (ERPT) hypothesis for a collection of 10 countries in the euro area. The reason for suspecting a break may have occurred in that case is the introduction of the common currency.</p><p>It is usual in the spatial econometric literature to treat the matrix W when present as fixed a priori. It is also widely accepted that this is unsatisfactory, and so researchers often report informal attempts to test the effects of this assumption, for example, by considering several different versions of W and comparing the results. This approach is exemplified by the work of <ref type="bibr" target="#b23">Páez, Scott, and Volz (2008)</ref>, and <ref type="bibr" target="#b22">Le Gallo, Ertur, and Baumont (2003)</ref>, among many. Some authors such as <ref type="bibr" target="#b28">Stetzer (1982)</ref>, <ref type="bibr" target="#b13">Florax and Rey (1995)</ref>, <ref type="bibr" target="#b14">Griffith and Lagona (1998)</ref>, and <ref type="bibr" target="#b27">Stakhovych and Bijmolt (2009)</ref> consider misspecified W experimentally, while a more formal analysis is now possible by applying the non-nested testing method described by <ref type="bibr" target="#b16">Kelejian and Piras (2011)</ref>. Very much in the same spirit, <ref type="bibr" target="#b12">Case, Rosen, and Hines (1993)</ref> consider weight matrices that are linear combinations of two given matrices, W = aW a + (1 -a)W b , and estimate a by maximum likelihood estimator (MLE). More recently, <ref type="bibr" target="#b7">Bhattacharjee and Jensen-Butler (2013)</ref> and <ref type="bibr" target="#b0">Ahrens and Bhattacharjee (2015)</ref> develop consistent algorithms to estimate an unknown W matrix from a panel dataset, whereas <ref type="bibr" target="#b21">Lee and Yu (2012)</ref> consider estimation in the presence of an exogenously given sequence of weights matrices, and <ref type="bibr" target="#b17">Kelejian and Piras (2014)</ref> and <ref type="bibr" target="#b25">Qu and Lee (2015)</ref> make significant advances in the treatment of endogenous weighting matrices, also in a panel setting. So far as we are aware, however, there has as yet been no systematic investigation of the possibility of fully estimating W parametrically from the data for a single period, except for the work reported in <ref type="bibr" target="#b6">Benjanuvatra and Burridge (2015)</ref>. The present work demonstrates by numerical experiment that for W of the forms commonly adopted, not only is such estimation often feasible by MLE but also the small sample properties of a test for the constancy of such a W over time against the alternative of a single parametric break at an unknown date are highly satisfactory. 1  This paper's approach is model based, and treats 'distance' friction parametrically; this is a choice on our part, and it is certainly possible to study the structural change issue in a variety of other ways, including the decomposition of a data or residual covariance matrix advanced by <ref type="bibr" target="#b7">Bhattacharjee and Jensen-Butler (2013)</ref>, or a variety of procedures that compare one form of interaction matrix with another, as discussed by <ref type="bibr" target="#b3">Angulo, Burridge, and Mur (2017)</ref>. We would expect researchers to adopt whichever approach seems best suited to their chosen modelling environment, and we do not attempt to solve that implicit decision problem. Our purpose is rather to propose, illustrate and evaluate one particular approach that we believe has merit.</p><p>The foundations on which the present approach rests are in Andrews' (1993) development of the distribution theory for extremum-based tests for structural breaks at unknown change points, and in the application of the ML method to estimate the distance friction parameter in the SLM discussed in <ref type="bibr" target="#b6">Benjanuvatra and Burridge (2015)</ref>. In the next section we set up the models and describe the data structure assumed, together with technical assumptions sufficient to ensure identification and consistent estimation of the relevant parameters. The third section describes the structural break tests, while the features of the problem to be explored numerically, and some illustrative simulation results, are in the fourth section. Application to the case of ERPT for 10 European countries is described in the fifth section, which some readers might want to read first, and tentative conclusions are given in the sixth section. All computations have been done using algorithms written by the authors and run in MATLAB; these will be made available from our webpages. 2  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MODELS AND DATA STRUCTURE</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>We suppose that a 'spatially' structured panel of data is available; in each time period there is thus a cross-section of observations, which are assumed to have been generated by either the SEM or SLM. We are not concerned here with choosing between these two model forms; rather they are both included to show that the approach can be applied to either. It is further supposed that while the same model form applies throughout the data record, there may be a change in the parameter values at some point in time. This paper presents an approach for the detection of such a change affecting the spatial interaction matrix, W, when there is uncertainty about the date at which the change occurs. There may be situations in which the ability to handle more than one change point would be desirable, and indeed researchers might have quite sophisticated priors about such potential change points, while smooth evolutionary changes might be more plausible in many settings.</p><p>The multiple unknown change-point problem might be considered as a possible avenue for future research using the approach due to <ref type="bibr" target="#b4">Bai and Perron (1998)</ref>, and smooth transitions could be studied along the lines surveyed by <ref type="bibr" target="#b29">Tong (2011)</ref>; seen in that context, this paper takes but a first step, albeit an essential one. As with all new statistical procedures, adoption of our proposals will depend on their utility in practice, and exploring this for the single-unknown-change-point case is our main focus.</p><p>Our tests are constructed by comparing the ML when the null hypothesis is imposed, that is, no break is allowed, with the ML allowing one or more of the parameters to change at some time point in the sample. The time at which the likelihood ratio is found to be greatest is the candidate break point, and the test compares this ML ratio with critical values from <ref type="bibr" target="#b2">Andrews (2003)</ref>. In finite samples, the relevant sampling distributions are unknown, and so an important practical question has to be addressed numerically. Before recommending adoption of the tests we must establish that the nominal significance level is reasonably accurate. Here, we focus on 5% but the qualitative results are similar at other levels. As will become apparent, the data structure we envisage is such that a great deal of numerical computation is required to evidence the reliability of our proposals; in reporting our experiments, encouraged by the editor and referees, we have sought to minimize the number of tables that are filled with estimates that 'should' be 5% or 100% when all is well in favour of summary descriptions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Formal models</head><p>We consider a potentially interacting set of n observational units, for which data are available for T periods. Within any time period, t, say, the relations of interest are described by either the SEM or SLM, as set out below, and at some unknown date, the spatial interaction matrix could change from W a to W b . In constructing a test, the objective is to achieve good power to detect such a change if it has taken place, while controlling the probability of falsely detecting such a change when it has not (i.e., controlling test size).</p><p>The SEM model we study relates the n-element vector of observations on the dependent variable, Y t to the n × k matrix of observations on the explanatory variables, X t via the equations:</p><formula xml:id="formula_0">Y t = X t b + U t , (I -rW a )U t = 1 t 1 ≤ t ≤ t Y t = X t b + U t , (I -rW b )U t = 1 t t + 1 ≤ t ≤ T ,<label>(1)</label></formula><p>while the SLM is defined by the equations:</p><formula xml:id="formula_1">(I -rW a )Y t = X t b + 1 t 1 ≤ t ≤ t (I -rW b )Y t = X t b + 1 t t + 1 ≤ t ≤ T (<label>2</label></formula><formula xml:id="formula_2">)</formula><p>where b is a (k × 1) vector of parameters; r is a parameter of spatial interaction; and t is a potential break date. In either case to form the likelihood we assume 1 t |X t NIID (0, s 2 I n ), where I n is the identity matrix of order n. The possible break date, t = t, is unknown, as is the magnitude of any break that may be present. The change in the weights from W a to W b is driven by a single parameter, g s , (s = a, b) that may change at date, t = t, that is:</p><formula xml:id="formula_3">g s = g a (1 ≤ t ≤ t), = g b (t + 1 ≤ t ≤ T )</formula><p>where the absence of a break can be expressed as the single restriction, g a = g b .</p><p>The dependence of the weights on the parameter g may take a number of forms, such as W defined in symmetric eigenvalue-normalized form:</p><formula xml:id="formula_4">w ij,s = w * ij,s /(l s,max {W * s })</formula><p>where</p><formula xml:id="formula_5">W * s = {w * ij,s } (<label>3</label></formula><formula xml:id="formula_6">)</formula><p>and l s,max {W * s } is the largest eigenvalue of W * s (s = a, b), or in row-standardized form:</p><formula xml:id="formula_7">w ij,s = w * ij,s / n j=1 w * ij,s .<label>(4)</label></formula><p>In either case the un-normalized weights are defined as:</p><formula xml:id="formula_8">w * ij,s = f {g s , d ij } (<label>5</label></formula><formula xml:id="formula_9">)</formula><p>in which d ij is a symmetrical 'distance' measure. In our experiments the function f {.} is either the exponential with negative exponent or inverse power, that is:</p><formula xml:id="formula_10">f {g s , d ij } = exp{ -g s d ij } or f {g s , d ij } = d -g s ij i = j = 0 i = j.<label>(6)</label></formula><p>With definition (3) W s is a non-negative real symmetrical matrix with zero leading diagonal and largest eigenvalue 1, while with definition (4) W s is a non-negative real matrix with zero leading diagonal and row sums 1. Each of these forms has been proposed in various contexts, and we found little to choose between them in our numerical experiments; however, in responding to a question raised by a referee, we found that the row-standardized form allows quite simple treatment of the large-T asymptotic theory, so we adopt this form as our base case.</p><p>To facilitate the discussion of identification and for reference, the SLM model will now be explored further. Introducing explicitly the dependence of the matrix W on the unknown parameter g, the log-likelihood component from, say, t = 1, for the model of equation ( <ref type="formula" target="#formula_1">2</ref>) is given by:</p><formula xml:id="formula_11">l 1 = ln L 1 = - n 2 ln (2p) - n 2 ln (s 2 ) + ln |(S a (r, g))| - 1 2s 2 1 ′ 1 (b, r, g)1 1 (b, r, g)<label>(7)</label></formula><p>where</p><formula xml:id="formula_12">1 1 (b, r, g) = Y 1 -X 1 b -rW a (g)Y 1 is the residual vector; and S a (r, g) = I n -rW a (g).</formula><p>The ML estimator using just the data for t = 1, is obtained by maximizing (7) with respect to the parameters. It is useful first to concentrate the likelihood with respect to b and s 2 . For given r and g, the MLE of b is obtained by application of ordinary least squares to the spatially transformed Y data, as is well known, giving, say:</p><formula xml:id="formula_13">b (r, g) = (X ′ 1 X 1 ) -1 (X ′ 1 Y 1 -rX ′ 1 W a (g)Y 1 ) = (X ′ 1 X 1 ) -1 X ′ 1 S a (r, g)Y 1 .<label>(8)</label></formula><p>Inserting this solution into the first-order condition for s 2 gives the MLE of s 2 as:</p><formula xml:id="formula_14">ŝ2 (r, g) = 1 n [(S a (r, g)Y 1 -X 1 b (r, g)) ′ (S a (r, g)Y 1 -X 1 b (r, g)] = 1 n [Y ′ 1 S ′ a (r, g)M 1 S a (r, g)Y 1 ]<label>(9)</label></formula><p>where</p><formula xml:id="formula_15">M 1 = I n -X 1 (X ′ 1 X 1 ) -1 X ′ 1 .</formula><p>Inserting (8) and ( <ref type="formula" target="#formula_14">9</ref>) back into the log-likelihood delivers the concentrated log-likelihood function of r and g:</p><formula xml:id="formula_16">ln L 1 (r, g) = - n 2 ( ln (2p) + 1) + ln |(S a (r, g))| - n 2 ln ŝ2 (r, g).<label>(10)</label></formula><p>To obtain the MLEs r and ĝ, (10) is maximized with respect to r and g by using an appropriate numerical algorithm, which in turn yields the MLEs of b and s 2 as b ( r, ĝ) and ŝ2 ( r, ĝ), say. Setting aside the possibility of a structural break for the moment, if the disturbances in successive time periods are independent, the log-likelihood for, say, T = 2, is obtained by adding together the log-likelihoods for t = 1 and t = 2, which are of the same form (7). A useful corollary is that the same log-likelihood would arise if the data represented a single cross-section in which the W matrix was block diagonal with W a (g) as the diagonal blocks. By extension this holds for any T , with obvious modification when a change to the value of g is to be accommodated. The SEM case is similar in this respect.</p><p>The assumption of normality under (2) could be relaxed, but is made in order that we can adopt a likelihood-based approach to estimation of the parameters. The cross-section shocks, 1 t , in successive periods are assumed independent; this might also be relaxed, but we have chosen to concentrate on our main innovations, which are (1) as in <ref type="bibr" target="#b6">Benjanuvatra and Burridge (2015)</ref>, estimation of the parameter determining the weight matrix from the sample data, and (2) a likelihood-based test for a structural break affecting this parameter. As will be seen in the technical discussion of the next section, the assumption that shocks in successive periods are independent is quite helpful in treating the large sample properties of our set-up. There is no reason in principle to confine attention to the case in which only the shape parameter, g, is subject to a possible change, and we implement more general tests in the empirical exercise reported in the fifth section, as well as adding some comments in the Appendix in the supplemental data online.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Formal assumptions, asymptotics and estimator consistency</head><p>Technical conditions under which the parameters of the SEM and SLM described above can be consistently estimated from a single cross-section as the number of observation sites, n, increases, which extend <ref type="bibr" target="#b20">Lee's (2004)</ref> results, can be found in <ref type="bibr" target="#b6">Benjanuvatra and Burridge (2015)</ref>. In broad terms, the need to estimate rather than impose a value for the distance friction parameter, g, leads to a requirement that a number of Lee's conditions hold for every g in a compact set that includes the true value. In Benjanuvatra and Burridge, asymptotics are discussed for the case, T = 1, n 1, that is, of a single cross-section with an increasing number of sites, and with W row-normalized; in the present panel setting, the more relevant case is where the time span increases while the cross-section dimension is fixed, that is, T 1, n constant, as this better reflects the data structure usually encountered. With the assumption of time independence of the cross-section disturbances, these two cases are more similar than might at first appear. To see this, consider the case in which the cross-section dimension increases in such a way that the weight matrix, now denoted W N , is block diagonal, composed of T identical non-interacting subsystems each with n sites, and weight matrices, W n , so that N = T × n, leading to:</p><formula xml:id="formula_17">W N = W T ×n = W n 0 • • • 0 0 . . . . . . . . . . . . . . . . . . 0 0 • • • 0 W n ⎡ ⎢ ⎢ ⎢ ⎢ ⎣ ⎤ ⎥ ⎥ ⎥ ⎥ ⎦ .<label>(11)</label></formula><p>Observe that the eigenvalues of W N are T copies of those of W n , that</p><formula xml:id="formula_18">|I N -rW N | = |I n -rW n | T</formula><p>, that, when it exists, (I N -rW N ) -1 is a block diagonal matrix composed of copies of (I n -rW n ) -1 and so forth. In this structure, therefore, assuming it exists, the joint probability density function of the entire sample is the product of T similar subsample probability density functions, exactly as would arise with a panel with T cross-sections each with weight matrix, W n , given that the cross-sections were independent through time. To exploit the implications of this equivalence, and to provide stronger foundations for the experiments reported below, the formal assumptions employed by <ref type="bibr" target="#b6">Benjanuvatra and Burridge (2015)</ref> will be set out and then related to the panel case.</p><p>First some more notation is required. In stating the 10 assumptions that follow, it will be convenient to switch temporarily to the single-cross-section case. As stated above, this amounts to fixing T = 1 in the product N = T × n; we are going to denote by w N ,ij the elements of the single whole-sample weight matrix, similarly 1 N denotes the disturbance vector, that is 1 N ,1 , . . . , 1 N ,N , the data are elements of X N , that is x N ,ij , i = 1, . . . , N , j = 1, . . . , k, and so forth, translating back to the panel case in the subsequent comments.</p><p>The presentation and discussion below follows <ref type="bibr" target="#b6">Benjanuvatra and Burridge (2015)</ref> very closely; in turn, their assumptions mirror those introduced by <ref type="bibr" target="#b20">Lee (2004)</ref> with extensions to accommodate the dependence of the w N ,ij sequences on the parameter, g.</p><p>Assumption 1: The elements of 1 N , that is 1 N ,1 , . . . , 1 N ,N are independently and identically distributed with mean zero and finite variance s 2 for every N . Some moment of 1 N higher than the fourth exists.</p><p>Assumption 2: The true values of r and g denoted by r 0 and g 0 respectively, are in the interior of Q = R ⊗ G, the compact parameter space on which the concentrated log-likelihood function is concave.</p><p>Assumption 3: The elements x N ,ij of X N for i = 1, . . . , N , j = 1, . . . , k, are uniformly bounded constants for all N . The lim N 1</p><formula xml:id="formula_19">X ′ N X N N</formula><p>is finite and non-singular.</p><p>Assumption 4: There is a bounding sequence, h N , such that h N N 0 as N 1.</p><p>Assumption 5: The 'distance' d ij between spatial units i and j is a bounded nonnegative constant for all N .</p><p>Assumption 6: The elements w N ,ij (g) of W N (g) are O( 1 h N ) uniformly in all i and j, where {h N } can be bounded or divergent, subject to assumption 4. There exists an open neighbourhood h N (g 0 ) of g 0 such that w N ,ij (g) for i = j is continuous in g [ h N (g 0 ) uniformly in N . The first-, second-and third-order derivatives of W N (g) with respect to g are uniformly bounded and continuous on h N (g 0 ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 7: The matrix S</head><formula xml:id="formula_20">N = I N -r 0 W N is non-singular on R ⊗ G, and 0 , |r 0 | , 1.</formula><p>Assumption 8: The sequences {W N } and {S -1 N } are uniformly bounded in both row and column sums.</p><p>Assumption 9: {S -1 N (r, g)} and {W N (g)} are uniformly bounded in row and column sums, uniformly in r and g in R ⊗ G.</p><p>Assumption 1 is required for the application of the central limit therorem of <ref type="bibr" target="#b19">Kelejian and Prucha (2001)</ref>, and is satisfied under the assumed independent identically distributed (IID) normality of the disturbances in the present case. Assumption 2 imposes compactness of the parameter space, Q, and is required, together with uniform convergence, to ensure that the maximum of the limit of the expected log-likelihood is the limit of the maximum of the likelihood. No restriction on the parameter space for b and s 2 is required as ML estimates can be obtained from ( <ref type="formula" target="#formula_13">8</ref>) and ( <ref type="formula" target="#formula_14">9</ref>), and their identifiable uniqueness follows from that of r 0 and g 0 .</p><p>Assumption 3 ensures that there is no multicollinearity among the regressors and Lee (2004) shows that this implies that</p><formula xml:id="formula_21">M N = I N -X N (X ′ N X N ) -1 X ′</formula><p>N and (I N -M N ) are uniformly bounded in both row and column sums.</p><p>Assumptions 5 and 6 ensure that elements of the spatial weight matrix are smooth functions of g in the relevant part of the parameter space.</p><p>Assumption 7 is sufficient to ensure that S N is non-singular such that (2) has as solution the vector</p><formula xml:id="formula_22">Y N = S -1 N (X N b 0 + 1 N )</formula><p>, and the mean S -1 N X N b 0 and the variance s 2 0 S -1 N S -1 ′ N , exist, where s 2 0 is the true variance of 1 N . It also rules out the degenerate case, r 0 = 0, in which g is not identified.</p><p>Assumption 8 ensures that the degree of spatial correlation <ref type="bibr" target="#b18">(Kelejian &amp; Prucha, 1999)</ref>, which is captured in S -1 N , is limited. The uniform boundedness of S -1 N at (r 0 , g 0 ), and of W N at g 0 implies that S -1 N (r, g) and W N (g) are uniformly bounded in both row and column sums, uniformly in the neighbourhood of r 0 and g 0 .</p><p>Together with a rank condition to be introduced in a moment, these assumptions ensure the identifiability of the parameters and the consistency and asymptotic normality of the ML estimator. At the true parameter values, write <ref type="bibr" target="#b20">Lee, 2004)</ref>. Now let Z N = ∂W N (g 0 ) ∂g denote the first-order derivative of the W-matrix evaluated at g 0 , and write T N = Z N S -1 N ; we make the following additional assumption: Assumption 10: The following limits exist and are non-singular:</p><formula xml:id="formula_23">S -1 N = (I N -r 0 W N ) -1 = I N + r 0 G N , where G N = W N S -1 N (as in</formula><formula xml:id="formula_24">. lim N 1 1 N (X N , G N X N b 0 ) ′ (X N , G N X N b 0 ), . lim N 1 1 N (X N , T N X N b 0 ) ′ (X N , T N X N b 0 ) and . lim N 1 1 N (X N , G N X N b 0 ) ′ (X N , T N X N b 0 ).</formula><p>Because of the relation,</p><formula xml:id="formula_25">Y N = (I N + r 0 G N )(X N b 0 + 1 N ) = X N b 0 + r 0 G N X N b 0 + S -1</formula><p>N 1 N this assumption, by ensuring that G N X N b 0 and T N X N b 0 are not asymptotically multicollinear with X N implies that variation in b, r, or g is transmitted to the fitted ŶN and so these parameters are identified.</p><p>Returning to the panel data case, via the equivalence, (11), observe that assumptions 1-3 are unaffected by the change, while with N = n × T , assumption 4 needs only minor rewording, while assumption 5 stands without the 'for all N ' qualifier and the first part of assumption 6 bounding the elements w N ,ij (g) is trivially satisfied once n becomes fixed, while the second part will hold if it holds on any cross-section at either side of any break. Further, assumptions 7-9 need only hold for the typical diagonal blocks, W n , in the same way. The rank condition, assumption 10, is easily recast in terms of limits as T 1. We conclude by noting that to ensure consistency of parameter estimates either side of any break, we should add the bounds 0 , lim T 1 t/T , 1 (this is sharpened further when we consider search intervals in the next section). The smoothness conditions in assumption 6 are very intricate (see <ref type="bibr" target="#b6">Benjanuvatra and Burridge, 2015</ref>, for the relevant derivatives), and following Benjanuvatra and Burridge we have relied on numerical evidence of estimator performance as n and T are varied. In the latter's experiments, it was found, for instance, that the MLE of g in a single square grid cross-section with N = n = 400 was approximately mean-and median-unbiased, and that t statistics using numerically estimated standard errors were correctly sized, reflecting quite good agreement with the asymptotic distribution sustained by the given assumptions. Unsurprisingly, these good properties carry over into the panel setting for both the SLM and SEM.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>THE STRUCTURAL BREAK TEST</head><p>From here on the notation is to be understood to apply to the panel setting with n fixed and T . 1. Assuming that 1 t |X t NIID(0, s 2 I n ), letting {Y t , X t ; t = 1, . . . , T } denote the panel data, and assuming that all parameters other than g s (s = a, b), are constant across regimes, we obtain the generic log-likelihood conditional on a break at t = t:</p><formula xml:id="formula_26">l (b, s 2 , r, g a , g b |t, {Y t }, {X t }) = t t=1 l t (u a ) + T t=t+1 l t (u b ) = L a (t) + L b (t), say, (12) in which u s = [b ′ , s 2 , r, g s ] ′ , (s = a, b), for example.</formula><p>Under the null hypothesis that there is no break, we can write the restricted log-likelihood as, say:</p><formula xml:id="formula_27">l = L R (T ) = T t=1 l t (u R ) (<label>13</label></formula><formula xml:id="formula_28">)</formula><p>where under the assumed IID normality of 1 t we obtain, evaluating the likelihood for period, t, at the estimates:</p><formula xml:id="formula_29">l t ( û R ) = l ( b , ŝ2 , r, ĝR |Y t , X t ) = - n 2 ( ln 2p + 1) - n 2 ln ŝ2 + ln |I n -r ŴR | (<label>14</label></formula><formula xml:id="formula_30">) where ŝ2 = (nT ) -1 1′ 1, with 1′ = [1 ′ 1 . . . 1′ t 1′ t+1 . . . 1′ T ] in which 1t = (I n -r ŴR )(Y t -X t b ), (SEM) or 1t = (I n -r ŴR )Y t -X t b , (SLM)</formula><p>and ŴR = W( ĝR ); t = 1, . . . , T . To understand this expression, note that because the shocks affecting successive cross-sections are assumed independent, the likelihood for the entire sample is obtained as the product of the likelihoods for each cross-section; furthermore, under the null hypothesis, the parameters do not change at t = t, as is reflected in the definition, (13), and so concentration with respect to b leads to ( <ref type="formula" target="#formula_29">14</ref>). That is, to find the solution for the MLE of u under the null, we note that, given r and ĝ the MLE solution for b is just least squares applied to the transformed variables, (I n -r ŴR )Y t and (I n -r ŴR )X t (SEM) or X t (SLM) after these have been stacked as in the definition of ŝ2 above. Thus a simple two-dimensional search over r and ĝ to obtain the maximum is all that is required.</p><p>Under the alternative of a change in g at t = t, the two component log-likelihoods, L a (t), and L b (t), are computed with all parameter estimates constrained to be the same in both parts, except for ĝa and ĝb which are free to take different values. To implement this, the two-dimensional search is replaced with a three-dimensional search over r, ĝa , and ĝb in which the transformed variables are now computed separately over the two periods: for t [ (1, . . . , t) we use Ŵa ( ĝa ) and for t [ (t + 1, . . . , T ) we use Ŵb ( ĝb ). After transformation the ML solution is obtained by least squares in the same way as under the null.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Definitions of the tests</head><p>Except where otherwise indicated, from here on asymptotic will mean, 'as T 1 for given n'. The objective is to test for a break at an unknown date; if in fact the potential break date, t, were known, a simple likelihood ratio test would be feasible, of the form:</p><formula xml:id="formula_31">LR (t) = 2 (L a (t) + L b (t) -L R (T )) (<label>15</label></formula><formula xml:id="formula_32">)</formula><p>in which the quantities on the right-hand side are the maximized values of the log-likelihoods as defined above. In large samples, with (T , t) 1, and under the conditions described in section 2.3, this object has a chi-square null distribution with 1 degree of freedom (d.f.). However, in general we think it is more interesting to suppose that the date, t, is not known exactly. Building on <ref type="bibr" target="#b15">Hawkins (1987)</ref>, the ground-breaking paper of <ref type="bibr" target="#b1">Andrews (1993)</ref> studies the behaviour of objects like Sup t {LR(t)}, the largest value the likelihood ratio takes over the chosen range of potential break dates, {t}. The Sup t {LR(t)} will have the large sample distribution tabulated by Andrews, provided that the likelihood ratio has the usual chi-squared asymptotic distribution, which in turn holds under the conditions given by <ref type="bibr" target="#b6">Benjanuvatra and Burridge (2015)</ref>, as modified above. The experiments reported in section 4 investigate numerically the empirical significance levels (designated as 'size' in the tables) and powers of the decision rules given by referring Sup t {LR(t)} to critical values from Andrews' distributions.</p><p>To anticipate slightly, we find the decision rules are generally conservative for small T , that is, have actual probabilities of type 1 error lower than their nominal significance levels, but nevertheless seem to have impressive power to detect a change in g.</p><p>Once it is accepted that a potential break date is unknown, it becomes natural to consider searching for a break in a sub-interval of [1, T ]. For convenience here, and to connect our finite sample tests to the correct asymptotic critical values, we map discrete t-intervals into intervals in (0, 1). Suppose we wish to test for a break in the interval, T 1 ≤ t ≤ T 2 ; setting p 1 = T 1 /T and p 2 = T 2 /T we represent this interval as p = [p 1 , p 2 ] [ (0, 1) where the latter interval remains bounded away from 0 and 1 (important in the asymptotics as explained by Andrews, 1993, p. 839). As T 1, the asymptotic distributions are approached as p is held fixed. As the width of the search interval increases, so the asymptotic null distribution of the Sup statistic moves to the right. Andrews also shows, however, that this distribution depends on p 1 and p 2 only through the quantity, l = p 2 (1-p 1 ) p 1 (1-p 2 ) ; this permits critical values calculated for symmetric intervals [p 1 , 1 -p 1 ] to be applied more widely using interpolation in l (see <ref type="bibr">Andrews, 1993, pp. 839-840, for details)</ref>. To implement a test we thus fix T , T 1 and T 2 , compute p 1 p 2 and the ratio, l, and refer to tables in <ref type="bibr" target="#b2">Andrews (2003)</ref> to interpolate the required critical value. To represent the tests whose performance we simulate, therefore, we define the generic test statistic as:</p><formula xml:id="formula_33">Sup p{LR(t)}.<label>(16)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>EXPERIMENTAL RESULTS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Design</head><p>Without the benefit of a fully developed sampling theory for the likelihood, or indeed for any of the parameter estimates, and in the absence of any pivotal statistics, it is evident that many factors could in principle affect the performance of the structural break tests. The performance aspects on which we have decided to concentrate are empirical size and power for the null hypothesis of 'no break' versus the alternative of 'a break somewhere'.</p><p>In an ideal world, under the null hypothesis, no matter whereabouts in the parameter space we look, the significance level of the test for a break would be equal to the nominal level chosen. Similarly, the power to detect departures from the null should ideally be high everywhere. Of course, neither will be true in practice: given that the reference distributions for the statistics are only valid for T large, there will be variations in empirical significance levels across the parameter space, and large breaks are more easily detected than small ones. The question to be resolved is therefore whether or not the tests will be reliable enough for use in empirical work, rather than whether or not they are optimal tests. Factors that could affect test performance are regional shape, design matrix, X, and n, T , t, T 1 , T 2 , r, g a , g b , f (d i,j ), and s 2 , width and location of the search interval, p, and finally whether parameters other than g might have changed during the study period. It could also be anticipated that results for the SLM and SEM might differ in some systematic way (happily, they do not, though the tests are slightly less conservative for the SLM in many cases).</p><p>The strategy we adopted was to investigate some of these dimensions for particular cases in preliminary experiments, and then to focus most of our effort on establishing how the tests might behave in samples of the size relevant for empirical exercises. Because the computational burden of the experiments is unusually heavy, the number of replications used in the various cases we report is fixed at 4800 (this is 300 on each of 16 parallel processor cores). The approximate standard error of the estimated empirical significance level is therefore: a(1 -a)/reps ≈ 0.003 (a = 5%), which is accurate enough for current purposes. The cases that we investigated for the SEM span the following dimensions:</p><p>• Time dimension: sample sizes T [ {11, 25, 100, 250}.</p><p>• Space dimension: sample sizes n [ {16, 49, 100, 400}.</p><p>• p-dimension: all breaks, when present, were placed in the centre of the record, but the test intervals varied in width and location as in Table <ref type="table" target="#tab_0">1</ref>, to reveal the effect of greater prior certainty about the location of any possible break. Thus, for example, with T = 25, there is either no break (the null hypothesis), or a break at T = 13. The researcher does not know the date exactly, and so has to search over an interval; the intervals we trialled for this case were [T 1 , T 2 ] = [5, 7], [7, 13], <ref type="bibr">[5,</ref><ref type="bibr">21]</ref>, <ref type="bibr">[9, 17], and [12, 14]</ref>; that is, in the first interval the researcher is mistaken about the break date, in the second the date is at the upper end of the interval, and in the third, fourth and fifth intervals the researcher has progressively better prior knowledge. The pattern of results that emerged was as might be expected, and we report only results for p5 in any detail, some comments on the other intervals trialled being relegated to the Appendix in the supplemental data online.</p><p>• Variance of disturbance relative to the scale of the regressors s 2 [ {.025, .25, 4}this had little if any effect.</p><p>• Spatial parameter values (r, g) [ {0.0, + 0.2, + 0.4, + 0.6, + 0.8} × {1, 2, 3}; we are grateful to an editor and referees for encouraging us to examine negative correlation captured by r , 0 and a failure of identification of g when r = 0. In the latter case the issue is whether the test outcome is likely to be misleading; we find that generally it is not, because the tests continue to have approximately correct significance level. • Functional form of W. We tested both exponential and inverse power of distance weights; there was no systematic difference as we report below. We kept the exogenous regressor dimension fixed at k = 3, with x ti1 = 1, x ti2 and x ti3 drawn from N ( 0, I 2 ) for t = 1, . . . , T i = 1, . . . , n; and the regional shape adopted was one square interconnected region with side n 1/2 .</p><p>For T [ {25, 100, 250} there were five tests conducted at each of three nominal significance levels, a [ {0.10, 0.05, 0.01}. The critical values were calculated using <ref type="bibr">Andrews (2003, tab. 1, p. 396)</ref> and interpolation in l as described in <ref type="bibr" target="#b1">Andrews (1993)</ref>. For the SLM, a smaller set of experiments was conducted, since it rapidly emerged that the tests were more powerful in this case than in the SEM, yet retained their generally conservative size (i.e., they had empirical significance levels no greater than the nominal levels in most cases).</p><p>Test performance across various dimensions Time As the number of time periods for which data are available increases, so we expect any structural break that may be present to be more easily detected. To explore this for a small spatial system we report simulations of the SEM with s 2 = 0.25, for n = 16, T = 11, 25, 100, 250, test interval p5 for two cases.</p><p>In each case, the null hypothesis to be tested is that there is no change in g, i.e., H 0 :g b = g a , but g is unknown and so must be estimated along with the other parameters, and also unknown is the potential break date, t = t. The alternatives reported in the table depart from the null in only one dimension, that is, H A :g b = g a where the change takes place at date, t = t. The point of the exercise is to reveal how the significance level and the power of the test are affected by the time span of data available. To illustrate this aspect it is thus convenient to use cases with strong to moderate positive spatial correlation, such as the following:</p><formula xml:id="formula_34">Case 1: r a = r b = 0.6, g a = g b = 1; Alternative 1A: r a = r b = 0.6, g a = 1, g b = 2; Alternative 1B: r a = r b = 0.6, g a = 1, g b = 3 Case 2: r a = r b = 0.8, g a = g b = 1; Alternative 2A: r a = r b = 0.8, g a = 1, g b = 2; Alternative 2B: r a = r b = 0.8, g a = 1, g b = 3</formula><p>The results are summarized in Table <ref type="table" target="#tab_1">2</ref>. The tests are quite conservative in all cases, as the empirical sizes are below 5%, but size improves towards its asymptotic value as T increases. Even though the search intervals were kept deliberately tighter for these cases, the low power for T = 11, 25 is expected as each cross-section, with n = 16, is very small. The larger r value in Case 2 roughly doubles the power for small T , while the larger break in alternatives 1B and 2B is clearly more easily detected. Note that here and in subsequent tables the p5 test assumes the user has a fairly accurate prior about the break location (to within 10% of the total time span for T = 25, 100 or 250). Attainable powers are lower when the search interval is wider.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Space</head><p>Larger cross-sections should produce sharper parameter estimates, making a break easier to detect for any given time span of data. To illustrate this, we report results for test interval p5 for the same cases as in Table <ref type="table" target="#tab_1">2</ref>, but now with T = 25, and n = 16, 49, 100, 400.</p><p>Here, T = 25, a moderate value, while all the n trialled might be considered 'small' space dimensions. For n ≥ 49 the test powers are strikingly good, though notably higher when r is higher, as in Case 2. These results indicate that when there is medium or strong positive spatial correlation, with a time span of 25 or more, large changes in the friction of distance will be detected with near certainty in spatial systems comprising 100 or more units. This is a very encouraging finding. We note that there is no obvious tendency for test size to approach its nominal level as n increases, unlike the case of increasing T .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Intensity of spatial correlation</head><p>To see if the empirical significance levels of the tests are affected by the location of the null hypothesis in (g, r) space, we computed more extensive results for samples of size, T = 25, n = 49. We experimented with (r, g) [ {0.0, +.2, +.4, +.6, +.8} × {1, 2, 3} but found the results were not significantly affected by either the g value, or the sign of r. For all r values, the size of the p5 tests at a nominal level 5% was close to 3%, and the results were not affected by the value of g. Power variations follow the expected pattern, given the results in Tables <ref type="table" target="#tab_1">2</ref> and <ref type="table" target="#tab_2">3</ref>; that is, as |r| increases, so does test power.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Functional form, normalization, and scale of disturbances</head><p>To establish how far the qualitative performance of the tests could be affected by functional form, or the normalization of W, the experiments were repeated with the weights based on inverse power of distance, that is, using f {g t , d ij } = d -g ij and with eigenvalue-based normalization, for comparison with those above that use the exponential function and row normalization. The results were very similar, 3 and so are not reported further. To check for sensitivity to the scale of the disturbances relative to the regressors, the innovation variance was set at 0.025, 0.25, or 4.0; we detected no effects on any aspect of test performance, though we are not aware of any formal invariance result.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SLM</head><p>Similarly, the experiments were repeated for the SLM; the results were in every sense similar, though both empirical significance levels and power were slightly higher, especially for small r for the SLM; with r = 0 and T ≥ 100 the test becomes rather liberal, with empirical significance level in the region of 8% when a 5% nominal level is used. When r , 0 powers are somewhat lower than for positive r, but still impressive. That is, the broad conclusion suggested is that changes in W are more easily detected in the SLM than in the SEM. In the broadest terms, we can conclude for both the SEM and SLM that a change to W induced by a change in the distance-friction parameter, g, at some unknown point in time, can be detected using the test defined at (16) implemented using the critical values tabulated by <ref type="bibr" target="#b2">Andrews (2003)</ref>, and the risk of falsely detecting such a change is acceptably small. If there is no spatial dependence, here characterized by the case, r = 0, the test becomes somewhat liberal as the time span increases for the SLM, a fact which should be considered in light of the parameter estimates obtained.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>EMPIRICAL ILLUSTRATION: EXCHANGE RATE PASS THROUGH IN THE EURO AREA</head><p>Exchange rate pass-through (ERPT) is a measure of how responsive are international prices to changes in the exchange rate. It is defined as the rate at which changes in exchange rates are reflected in import prices, expressed in the currency of the importing country. In other words, ERPT is the percentage change of import prices in local currency, resulting from a one percent change in the exchange rate between the exporting and importing countries. Recently, passthrough issues have been at the core of the debate over optimal monetary policies.</p><p>In the case of euro monetary union, ERPT can be analysed through the prices of imports made by euro area countries from outside the area. <ref type="bibr" target="#b11">Campa and González-Mínguez (2006)</ref> and <ref type="bibr" target="#b10">Campa, Goldberg, and González-Mínguez (2005)</ref> analyse data for the 12 euro-area members at a sectoral level with a time span of 1989: 1-2001:3. They estimate the industry-specific ERPT across and within countries from data on import prices of 13 different products using a finite distributed lag model for the first-differenced variables:</p><formula xml:id="formula_35">D ln MP t = b 1 + 4 l =0 b 2,l D ln FP t-1 + 4 l=0 b 3,l D ln ER t-1 + U t (<label>17</label></formula><formula xml:id="formula_36">)</formula><p>where ln MP t is the logarithm of import prices in each country; ln FP t is the logarithm of foreign prices, measured as a world price in US$; and ln ER t is the logarithm of exchange rate against the US$. The short-run ERPT is measured by the coefficient b 3,0 , and the long-run ERPT by the sum 4 l=0 b 3,l . A zero pass-through is consistent with the supposition that exporters fully absorb the fluctuations in exchange rates in their own mark-ups. On the contrary, a unit pass-through is consistent with importers fully absorbing these fluctuations. <ref type="bibr" target="#b11">Campa and González-Mínguez (2006)</ref> conclude that in the short-run, ERPT differs across industries and countries and is lower than unity, while in the long-run there is evidence in favour of a full pass-through and the equality of ERPT across industries and countries.</p><p>The same case is studied in <ref type="bibr" target="#b5">Banerjee and Carrion-i-Silvestre (2015)</ref> to introduce a new cointegration test in the presence of structural breaks and cross-sectional dependence. Using sectoral data for seven countries in the euro area, for the period 1995:1-2005:3, they detect break points dated around the introduction of the euro in January 1999, and around 2002 to reflect entry into the common currency area and the anticipated turbulence in the euro-dollar relation.</p><p>We are going to use the same case. To simplify, our approach consists of industry panels, with country cross-sections, for the case of crude materials, inedible, except fuels. We have information (drawn from COMEXT, EUROSTAT) from 1996:1 to 2004:12 for 10 countries: Austria, Au; Finland, Fi; France, Fr; Germany, Ge; Greece, Gr; Ireland, Ir; Italy, It; Netherlands, Ne; Portugal, Po; and Spain, Sp. The main variables appear in Figures <ref type="figure" target="#fig_0">1</ref><ref type="figure" target="#fig_1">2</ref><ref type="figure" target="#fig_2">3</ref>.</p><p>In contrast to <ref type="bibr" target="#b11">Campa and González-Mínguez (2006)</ref>, we address the ERPT discussion using the so-called autoregressive distributed lag model (ARDL), proposed by <ref type="bibr" target="#b24">Pesaran, Shin, and Smith (2001)</ref>, which allows us to estimate the long-run relations in the model, 4 irrespective of whether the regressors are I(1) or I(0). Moreover, as in <ref type="bibr" target="#b5">Banerjee and Carrion-i-Silvestre (2015)</ref>, our specification will also include cross-sectional dependence in the residuals.</p><p>Let us define a general SEM-ARDL (p, q1, q2) model as follows:</p><formula xml:id="formula_37">D ln MP t = b 1 + p l=1 b 2,l D ln MP t-l + q 1 l =0 b 3,l D ln FP t-l + q 2 l =0 b 4,l D ln ER t-l +p 1 ln MP t-l + p 2 ln FP t-l + p 3 ln ER t-l + U t U t = rWU t + 1 t ; (t = 1996 : 1 -2004 : 12) ⎫ ⎪ ⎪ ⎬ ⎪ ⎪ ⎭ (<label>18</label></formula><formula xml:id="formula_38">)</formula><p>We define the W matrix as in expression (4) using an exponential function, f {.}, where d ij is the great-circle distance between the capitals of countries i and j. The matrix has been row-normalized. A higher value of g means a faster decay in the respective distance-decay function. Usual values for g are between 1 and 2 (Ertur &amp; Koch, 2007, set a value of 2 while a value of 1 is very common in the geographically weighted regressions literature; <ref type="bibr" target="#b9">Brunsdom, Fotheringham, &amp; Charlton, 1999)</ref>. Given this distance decay, and the normalization adopted, the interaction (positive/negative, stronger/weaker) depends on r. Note that the dimensions of this application, (T , n) = (108, 10), are similar to those used in the previous Monte Carlo. Given that there is a strong prior to locate the (possible) break point in 1999/2000, the searching interval is approximately p 5 (2000:1-2000:12).</p><p>After the results of Banerjee and Carrion-i-Silvestre (2015), we expect a rejection of model ( <ref type="formula" target="#formula_37">18</ref>), which should include structural breaks in some of the regression parameters (including r and g).</p><p>We start by determining the appropriate lag lengths p, q1 and q2. Model (18) has been successively estimated for p = q1 = q2 = 1, 2, 3, . . . , 7, paying attention to the assumption of no residual serial correlation (using the Lagrange multiplier tests -LM) and to the Akaike information criterion (AIC). Overall, the results indicate that the minimum lag length to avoid serial correlation is p = q1 = q2 = 4.  The null hypothesis of 'no co-integration' is rejected according to the bounds testing procedure of <ref type="bibr" target="#b24">Pesaran et al. (2001)</ref>. The corresponding F -test takes a value of 8.08, while asymptotic critical value bounds, at a 5% level of significance, are (2.8, 4.01). Furthermore, where possible it is advisable to use parsimonious specifications. Consequently, following <ref type="bibr" target="#b26">Shin and Pesaran (1999)</ref>, we estimate the 125 models that result from the combinations from 0 to 4 lags of the three variables, looking for the best model (with, simultaneously, co-integration, no residual correlation and best AIC). The equation selected is the SEM -ARDL(1, 4, 0) with main results shown in Table <ref type="table" target="#tab_3">4</ref>.</p><p>Table <ref type="table" target="#tab_3">4</ref> reflects a sequence of estimation and testing steps, as follows. First, when applied to the equation with no breaks, model A in the left-hand panel, the LR (k + 3) d.f. test detects a break in 2000:4. To further explore we estimate model B in the centre panel, which used dummy variables to allow the b parameters to change in 2000:4 but holds the spatial parameters, r and g, constant; testing this constancy assumption in model B the LR 2 d.f. test (see the Appendix in the supplemental data online) detects a break in at least one of the two spatial parameters, in 2000:2, a bit earlier than the break in b incorporated into the model. Accordingly, the next step is to allow for such a change in both cross-sectional coefficients (the LR 1 d.f., directed at testing for changes only in g, proved to be not statistically significant suggesting that the main responsibility for this break is a change in the intensity of cross-sectional dependence, r). Finally we estimate model C, in the right-hand panel, where the breaks in b and in the spatial parameters occur in different months (February and April).</p><p>The SEM -ARDL(1, 4, 0) model, under the assumption that there are no break points, model A, gives similar results to the existing literature. The estimated elasticities, either shortor long-run, are positive and lower than 1. Regarding the ERPT mechanism, this means that a 1% change in the exchange rate is not totally transmitted to the price of the importer country, but partially (exactly, 0.82%, in the short-run and 0.84% in the long-run). There is also clear evidence of a positive cross-sectional dependence. More important for us, the LR test with k + 3 d.f. detects a breakpoint in 2000:4. Allowing, first, for a change in the b parameters at that date, in the central panel of Table <ref type="table" target="#tab_3">4</ref> there is only a slight change in the evidence relating to the ERPT hypothesis. Moreover, the symptoms of cross-sectional dependence are still there and the LR test with 2 d.f. detects an additional breakpoint, affecting just these two parameters, in 2000:2. The right panel shows the estimates corresponding to a break in 2000:4 affecting b and a break in 2000:2 affecting r and g. The elasticities associated with the ERPT mechanism are higher for the second subsample, and the structure of cross-sectional dependence has changed: only for the first period, prior to 2000:2, do both parameters remain statistically significant. Given that the estimation of r in the second period is not statistically different from zero, we omit the estimate of g because this parameter, in this situation, is not identified. A natural interpretation of this result is that, as detected by the 2 d.f. test, the intensity of the spatial dependence, measured by r, has fallen dramatically after the break, resulting in both a lack of power in the 1 d.f. test and a lack of precision in the post-break estimate of g.</p><p>We might say that the introduction of the euro has favoured the creation of a truly, more unified single market where the basic factors shaping pricing imports are, in fact, world prices and the exchange rate (ERPT is tested below). The impact of individual shocks are purely transient and local.</p><p>Finally, we test whether the ERPT elasticity is equal to 1, either in the short-or long-run. Results appear in Table <ref type="table" target="#tab_4">5</ref>. The null hypothesis is rejected in the short-run for the case of no breaks (model A). The introduction, as detected, of a partial break in 2000:4, in model B, combined with a break in the cross-sectional coefficients in 2000:2, model C, leads to the rejection of the null but only in the first period. Regarding the long-run, all three models show evidence of complete passthrough (unitary elasticity is not rejected).</p><p>Hence, the conclusion that we draw from this exercise is clear: if the structural breaks are not properly treated, short-run conclusions (in the case of ERPT) can be severely misleading. This problem can be avoided by allowing for parametric changes, guided by appropriate use of the structural change tests introduced in this paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>DISCUSSION AND CONCLUSIONS</head><p>If the functional form for the weight matrix can be assumed, up to an unknown distance friction parameter, g, then this parameter may be estimated by ML from a single-data cross-section. If a panel of such cross sections is available, it is possible to detect a change in g, when a change has occurred, even at an unknown change point. Test power increases as the space or time (n, T ) dimension of the data increases, and tests using asymptotic critical values become less conservative, judged against nominal significance levels, as T increases. Powers are higher when the spatial interaction is relatively intense, represented in the Monte Carlo experiments here by null 2 and alternative 2, and in general slightly higher for the SLM than for the SEM.</p><p>In the experiments we considered weights that were functions of Euclidean distance between the nodes of a square lattice, being of either exponential or inverse power form. The same approach could be adopted for a wide class of possible functional forms, and indeed more general weight functions unrelated to 'distance', as well as to more elaborate models than the SEM or SLM studied here. We did not experiment with changes in the regression coefficients, b, because we wished to focus attention here on testing the weight matrix; however, this possibility is easily accommodated into the tests and was implemented in the empirical exercise reported above. The tests did indeed detect breaks in parameters, with plausible dates, in our real sample of T = 108 observations for n = 10 countries. Exploring the possibility of breaks in the weight function over time is likely to prove worthwhile in a variety of other empirical settings. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>NOTES</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Logarithm of import prices for crude materials, inedible, except fuels.</figDesc><graphic coords="16,97.12,426.95,300.02,211.18" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Logarithm US$ (world) price of crude materials, inedible, except fuels.</figDesc><graphic coords="17,108.45,56.01,275.98,193.21" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Logarithm of the exchange rates against the US$ (local currency against US$).</figDesc><graphic coords="17,108.45,443.62,274.06,194.51" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Lower and upper ends of test intervals. a</figDesc><table><row><cell></cell><cell></cell><cell>p1</cell><cell></cell><cell>p2</cell><cell></cell><cell>p3</cell><cell></cell><cell>p4</cell><cell></cell><cell>p5</cell><cell></cell></row><row><cell>T</cell><cell>T break</cell><cell>T 1</cell><cell>T 2</cell><cell>T 1</cell><cell>T 2</cell><cell>T 1</cell><cell>T 2</cell><cell>T 1</cell><cell>T 2</cell><cell>T 1</cell><cell>T 2</cell></row><row><cell>11</cell><cell>6</cell><cell>-</cell><cell>-</cell><cell>4</cell><cell>6</cell><cell>-</cell><cell>-</cell><cell>4</cell><cell>8</cell><cell>5</cell><cell>7</cell></row><row><cell>25</cell><cell>13</cell><cell>5</cell><cell>7</cell><cell>7</cell><cell>13</cell><cell>5</cell><cell>21</cell><cell>9</cell><cell>17</cell><cell>12</cell><cell>14</cell></row><row><cell>100</cell><cell>50</cell><cell>13</cell><cell>22</cell><cell>22</cell><cell>50</cell><cell>13</cell><cell>87</cell><cell>30</cell><cell>70</cell><cell>45</cell><cell>55</cell></row><row><cell>250</cell><cell>125</cell><cell>25</cell><cell>50</cell><cell>50</cell><cell>125</cell><cell>25</cell><cell>225</cell><cell>75</cell><cell>175</cell><cell>112</cell><cell>137</cell></row></table><note><p>Note: a The relative widths of these intervals are not exactly constant over T, but p5 with T = 25, 100, 250 represents roughly the middle 10% of the sample after rounding.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Empirical size/power of p5 tests with nominal significance level 5%, n = 16, 4 × 4 square lattice, exponential distance weights, SEM.</figDesc><table><row><cell>Sample size</cell><cell></cell><cell>n = 16</cell><cell></cell><cell></cell></row><row><cell>Number of time periods</cell><cell>T = 11</cell><cell>T = 25</cell><cell>T = 100</cell><cell>T = 250</cell></row><row><cell>Case 1 empirical size</cell><cell>.03</cell><cell>.04</cell><cell>.04</cell><cell>.04</cell></row><row><cell>Alternative 1A empirical power</cell><cell>.06</cell><cell>.16</cell><cell>.70</cell><cell>.98</cell></row><row><cell>Alternative 1B empirical power</cell><cell>.12</cell><cell>.39</cell><cell>.96</cell><cell>1.0</cell></row><row><cell>Case 2 empirical size</cell><cell>.03</cell><cell>.03</cell><cell>.03</cell><cell>.04</cell></row><row><cell>Alternative 2A empirical power</cell><cell>.12</cell><cell>.34</cell><cell>.93</cell><cell>1.0</cell></row><row><cell>Alternative 2B empirical power</cell><cell>.28</cell><cell>.76</cell><cell>1.0</cell><cell>1.0</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Empirical size/power of p5 tests at a nominal 5% significance level, T = 25, n</figDesc><table><row><cell>√ × n √</cell><cell>square</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Results of the estimation of the SEM-ARDL models in co-integrated form.Estimates of r and g coefficients, with break in 2000:02 in equation (C) Estimates of b short-run coefficients, and speed of adjustment, with break in 2000:4 in equations (B) and (C)</figDesc><table><row><cell></cell><cell>Equation (A) with:</cell><cell></cell><cell>Equation (B) with breaks</cell><cell></cell><cell>Equation (C) with breaks</cell></row><row><cell></cell><cell>No breaks</cell><cell></cell><cell>Only in β parameters</cell><cell></cell><cell>In ALL the parameters</cell></row><row><cell></cell><cell>r</cell><cell>g</cell><cell>r</cell><cell>g</cell><cell>r</cell><cell>g</cell></row><row><cell></cell><cell>0.158***</cell><cell>2.249***</cell><cell>0.121***</cell><cell>2.800***</cell><cell>r a = 0.294***</cell><cell>g a = 1.665***</cell></row><row><cell></cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>r b = 0.022</cell><cell>-</cell></row><row><cell></cell><cell>b</cell><cell>b a</cell><cell>b b</cell><cell>b a</cell><cell>b b</cell></row><row><cell>D ln MP t-1</cell><cell>-0.236***</cell><cell>-0.280***</cell><cell>-0.203***</cell><cell>-0.208***</cell><cell>-0.197***</cell></row><row><cell>D ln FP t</cell><cell>0.781***</cell><cell>0.690***</cell><cell>0.946***</cell><cell>0.692***</cell><cell>0.954***</cell></row><row><cell>D ln FP t-1</cell><cell>0.053*</cell><cell>0.102*</cell><cell>0.034</cell><cell>0.128*</cell><cell>0.032</cell></row><row><cell>D ln FP t-2</cell><cell>-0.016</cell><cell>0.048</cell><cell>-0.075</cell><cell>0.033</cell><cell>-0.069</cell></row><row><cell>D ln FP t-3</cell><cell>0.001</cell><cell>0.038</cell><cell>-0.013</cell><cell>0.050</cell><cell>-0.014</cell></row><row><cell>D ln FP t-4</cell><cell>0.027</cell><cell>0.014</cell><cell>0.037</cell><cell>-0.015</cell><cell>0.035</cell></row><row><cell>D ln ER t</cell><cell>0.815***</cell><cell>0.794***</cell><cell>0.894***</cell><cell>0.803***</cell><cell>0.903***</cell></row><row><cell>s.o.a</cell><cell>-0.094***</cell><cell>-0.073***</cell><cell>-0.126***</cell><cell>-0.069***</cell><cell>-0.128***</cell></row><row><cell cols="3">Long-run coefficients with break in 2000:4 in equations (B) and (C)</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Constant</cell><cell>0.535</cell><cell>2.235  *</cell><cell>-0.070</cell><cell>1.993</cell><cell>-0.066</cell></row><row><cell>ln FP t</cell><cell>0.887***</cell><cell>0.516</cell><cell>1.018**</cell><cell>0.572</cell><cell>1.016**</cell></row><row><cell>ln ER t</cell><cell>0.840***</cell><cell>0.831**</cell><cell>0.932**</cell><cell>0.936**</cell><cell>0.937**</cell></row><row><cell>F-co-integration tests</cell><cell>13.031</cell><cell>6.0221</cell><cell>8.418</cell><cell>5.566</cell><cell>8.809</cell></row><row><cell cols="2">Location of the breakpoint p 5 test</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>LR k + 3 d.f.</cell><cell>breakin2000:4***</cell><cell>-</cell><cell>-</cell><cell></cell><cell></cell></row><row><cell>LR 2 d.f.</cell><cell>-</cell><cell>breakin2000:2**</cell><cell>-</cell><cell></cell><cell></cell></row><row><cell>LR 1 d.f.</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell></cell><cell></cell></row><row><cell cols="2">Breusch-Godfrey autocorrelation tests</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>LM(1)</cell><cell>0.033</cell><cell>0.013</cell><cell>0.370</cell><cell></cell><cell></cell></row><row><cell>LM(2)</cell><cell>0.147</cell><cell>0.026</cell><cell>0.515</cell><cell></cell><cell></cell></row><row><cell>LM(3)</cell><cell>1.591</cell><cell>0.949</cell><cell>0.986</cell><cell></cell><cell></cell></row><row><cell>LM(4)</cell><cell>2.357</cell><cell>2.030</cell><cell>2.771</cell><cell></cell><cell></cell></row><row><cell>s</cell><cell>0.001</cell><cell>0.001</cell><cell>0.000</cell><cell></cell><cell></cell></row><row><cell>log.lik.</cell><cell>2406</cell><cell>3876</cell><cell>3881</cell><cell></cell><cell></cell></row></table><note><p>Note: *p-value lower than 10%; **p-value lower than 5%; and ***p-value lower than 1%. s.o.a., Speed of adjustment.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 .</head><label>5</label><figDesc>t-Statistics for the pass-through hypothesis H 0 : e MP,ER = 1 H A : e MP,ER = 1 .Note: *p-value lower than 10%; **p-value lower than 5%; and ***p-value lower than 1%.</figDesc><table><row><cell>Short run</cell><cell>Long run</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Ana Angulo et al.SPATIAL ECONOMIC ANALYSIS</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_1"><p>Referees urged us to consider multiple breaks, but the extra complexity involved makes that a development for the future.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_2"><p>See https://dae.unizar.es/gaecen and https://sites.google.com/a/york.ac.uk/peterburridge/ home/.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_3"><p>A previous version of the paper reported the eigenvalue-based normalization results; however, we have chosen to focus on the more common form here.</p></note>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>variables involved in a model are not stationary (as in our case), but unfortunately it also eliminates the long-run information from the data, which may bias the results.</p></div>
+			</div>
+
+
+			<div type="funding">
+<div><p>FUNDING <rs type="person">J. Mur</rs> and <rs type="person">A. Angulo</rs> received financial support from <rs type="funder">Spanish Ministerio de Economía y Competitividad (MINECO)</rs>/<rs type="funder">Fondo Europeo de Desarrollo Regional (FEDER)</rs> project number <rs type="grantNumber">ECO-2015-65758-P</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_FHzYdEz">
+					<idno type="grant-number">ECO-2015-65758-P</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SUPPLEMENTAL DATA</head><p>Supplemental data for this article can be accessed at <ref type="url" target="http://dx.doi.org/10.1080/17421772.2016.1264620">http://dx.doi.org/10.1080/17421772.2016.  1264620</ref> </p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">A two-step lasso estimation of the spatial weights matrix</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ahrens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/econometrics3010128</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="128" to="155" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Tests for parameter instability and structural change with unknown change point</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W K</forename><surname>Andrews</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2951764</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="page" from="821" to="856" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Tests for parameter instability and structural change with unknown change point: A corrigendum</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W K</forename><surname>Andrews</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/1468-0262.00405</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="395" to="397" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Testing for breaks in the weighting matrix</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Angulo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burridge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<idno>DTECONZ 2017 -01</idno>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<pubPlace>Zaragoza</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Faculty of Economics, University of Zaragoza</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Working Paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Estimating and testing linear models with multiple structural changes</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Perron</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2998540</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="page" from="47" to="78" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Cointegration in panel data with structural breaks and cross-section dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Carrion-I-Silvestre</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/jae.2348</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="1" to="23" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Benjanuvatra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burridge</surname></persName>
+		</author>
+		<title level="m">QML estimation of the spatial weight matrix in the MR-SAR model</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+		<respStmt>
+			<orgName>Department of Economics and Related Studies, University of York</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Working Paper 15/24</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Estimation of the spatial weights matrix under structural constraints</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bhattacharjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Jensen-Butler</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2013.03.005</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="617" to="634" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<author>
+			<persName><forename type="first">J.-F</forename><surname>Brun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Carrère</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Guillaumont</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>De Melo</surname></persName>
+		</author>
+		<idno type="DOI">10.1093/wber/lhi004</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Has distance died? Evidence from a panel gravity model</title>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="99" to="120" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Modelling spatial non stationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/1467-9884.00145</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series D (The Statistician)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title level="m" type="main">Exchange-rate pass-through to import prices in the euro area</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Campa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">S</forename><surname>Goldberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>González-Mínguez</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+	<note>NBER working paper 11632</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Differences in exchange rate pass-through in the euro area</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Campa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>González-Mínguez</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.euroecorev.2004.12.002</idno>
+	</analytic>
+	<monogr>
+		<title level="j">European Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="121" to="145" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Growth, technological interdependence and spatial externalities: Theory and evidence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Case</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">S</forename><surname>Rosen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Hines</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Koch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename></persName>
+		</author>
+		<idno type="DOI">10.1002/jae.963</idno>
+		<idno>doi:10.1002/jae.963</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="1033" to="1062" />
+			<date type="published" when="1993">1993. 2007</date>
+		</imprint>
+	</monogr>
+	<note>Budget spillovers and fiscal policy interdependence: evidence from the states Journal of Public Economics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The impact of misspecified spatial structure in linear regression models</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">New directions in spatial econometrics</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1995">1995</date>
+			<biblScope unit="page" from="115" to="135" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">On the quality of likelihood-based estimators in spatial autoregressive models when the data dependence structure is misspecified</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lagona</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0378-3758(97)00156-0</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="153" to="174" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">A test for a change point in a parametric model based on a maximal Wald-type statistic</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Hawkins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sankhya A</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page" from="368" to="376" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">An extension of Kelejian&apos;s J-test for non-nested spatial models</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2011.01.002</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="281" to="292" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial models with endogenous weighting matrices, and an application to a demand model for cigarettes</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2014.03.001</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="140" to="149" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A generalized moments estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/1468-2354.00027</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">On the asymptotic distribution of the Moran I test statistic with applications</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0304-4076(01)00064-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="page" from="219" to="257" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1468-0262.2004.00558.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">QML estimation of spatial dynamic panel data models with time varying spatial weights matrices</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/17421772.2011.647057</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="31" to="74" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A spatial econometric analysis of convergence across European regions, 1980-1995</title>
+		<author>
+			<persName><forename type="first">Le</forename><surname>Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Baumont</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">European regional growth</title>
+		<editor>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="page" from="99" to="130" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Weight matrices for social influence analysis: An investigation of measurement errors and their effect on model identification and estimation quality</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Scott</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Volz</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.socnet.2008.05.001</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Social Networks</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="309" to="317" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Bounds testing approaches to the analysis of level relationships</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Shin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Smith</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/jae.616</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="289" to="326" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimating a spatial autoregressive model with an endogenous spatial weight matrix</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2014.08.008</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">An autoregressive distributed Lag modelling approach to cointegration analysis</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Shin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Econometrics and economic theory in the 20th century: The Ragnar Frish centennial symposium</title>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Strom</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1999">1999</date>
+			<biblScope unit="page" from="371" to="413" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Specification of spatial models: a simulation study on weights matrices</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Stakhovych</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">H A</forename><surname>Bijmolt</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1435-5957.2008.00213.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="page" from="389" to="408" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Specifying weights in spatial forecasting models: The results of some experiments</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Stetzer</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a140571</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="571" to="584" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Threshold models in time series analysis -30 years on</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Tong</surname></persName>
+		</author>
+		<idno type="DOI">10.4310/SII.2011.v4.n2.a1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Its Interface</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="107" to="118" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,128 @@
+{
+  "dataset_id": "Warehouse_Warehouse_2024_DataForClimaticAnd_10_5061_dryad_kd",
+  "package": "warehouse:Warehouse_2024_DataForClimaticAnd_10_5061_dryad_kd",
+  "dataset": "Warehouse_2024_DataForClimaticAnd_10_5061_dryad_kd",
+  "source_lang": "python",
+  "conversion_method": "tabular_lonlat:dryad.csv(east,north)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2024_DataForClimaticAnd_10_5061_dryad_kd.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "year",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2004, 2021]",
+        "n_unique": 18,
+        "pct_na": 0.0
+      },
+      {
+        "name": "north",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[58.0853, 66.4163]",
+        "n_unique": 1703,
+        "pct_na": 0.0
+      },
+      {
+        "name": "east",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[7.1018, 14.5504]",
+        "n_unique": 1704,
+        "pct_na": 0.0
+      },
+      {
+        "name": "masl",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[3.4000, 790.0000]",
+        "n_unique": 377,
+        "pct_na": 0.0
+      },
+      {
+        "name": "trapcounts",
+        "class": "int64",
+        "typology": "count",
+        "range": "[7, 36735]",
+        "n_unique": 1544,
+        "pct_na": 0.0
+      },
+      {
+        "name": "spruce_vol",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[10.6756, 178.2318]",
+        "n_unique": 1704,
+        "pct_na": 0.0
+      },
+      {
+        "name": "veg_zone",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 3,
+        "pct_na": 0.0
+      },
+      {
+        "name": "felling_border",
+        "class": "int64",
+        "typology": "count",
+        "range": "[83, 71672]",
+        "n_unique": 1693,
+        "pct_na": 0.0
+      },
+      {
+        "name": "temperature",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[6.1985, 15.1341]",
+        "n_unique": 1724,
+        "pct_na": 0.0
+      },
+      {
+        "name": "precipitation",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.8569, 5.9240]",
+        "n_unique": 1719,
+        "pct_na": 0.0
+      },
+      {
+        "name": "soil_moisture",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[31.4706, 68.7909]",
+        "n_unique": 1455,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 1731,
+    "T": 18,
+    "T_var": "year",
+    "k": 11,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_grand_T_grand"
+  },
+  "bloc5": {
+    "geom_type": "Point",
+    "crs_epsg": "4326",
+    "crs_name": "EPSG:4326",
+    "bbox": {
+      "xmin": 7.10182,
+      "xmax": 14.55037,
+      "ymin": 58.08526,
+      "ymax": 66.4163
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false
+  }
+}

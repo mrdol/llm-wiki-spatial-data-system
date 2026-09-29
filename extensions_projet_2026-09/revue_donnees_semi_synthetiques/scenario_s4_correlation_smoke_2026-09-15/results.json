@@ -1,0 +1,121 @@
+{
+  "config": {
+    "schema": "s4_review_pilot_v1",
+    "repetitions": 2,
+    "ranges": 0.1,
+    "pis": 0.2,
+    "snr": 3,
+    "conditional": false,
+    "variants": ["innovation", "trend"],
+    "methods": ["linear", "polynomial", "gam_covariates", "gam_spatial", "forest"],
+    "covariance": "exponential + diagonal nugget; effective range at correlation 0.05",
+    "nugget": "derived from common SNR and pi_s; not independently variable",
+    "target": "innovation: m(X); trend: m(X)+renewed g(s); same marginal observed Y law"
+  },
+  "calibration": [
+    {
+      "dataset": "georgia",
+      "generator": "polynomial",
+      "variant": "innovation",
+      "pi_s": 0.2,
+      "range_fraction": 0.1,
+      "snr_target": 3,
+      "snr_expected": 3,
+      "pi_s_expected": 0.2,
+      "nugget_fraction": 0.25,
+      "expected_moran": 0.09837257912015,
+      "min_eigenvalue": 1.690557412385
+    },
+    {
+      "dataset": "georgia",
+      "generator": "polynomial",
+      "variant": "trend",
+      "pi_s": 0.2,
+      "range_fraction": 0.1,
+      "snr_target": 3,
+      "snr_expected": 3,
+      "pi_s_expected": 0.2,
+      "nugget_fraction": 0.25,
+      "expected_moran": 0.09837257912015,
+      "min_eigenvalue": 1.690557412385
+    },
+    {
+      "dataset": "georgia",
+      "generator": "forest",
+      "variant": "innovation",
+      "pi_s": 0.2,
+      "range_fraction": 0.1,
+      "snr_target": 3,
+      "snr_expected": 3,
+      "pi_s_expected": 0.2,
+      "nugget_fraction": 0.25,
+      "expected_moran": 0.09837257912015,
+      "min_eigenvalue": 1.734646639215
+    },
+    {
+      "dataset": "georgia",
+      "generator": "forest",
+      "variant": "trend",
+      "pi_s": 0.2,
+      "range_fraction": 0.1,
+      "snr_target": 3,
+      "snr_expected": 3,
+      "pi_s_expected": 0.2,
+      "nugget_fraction": 0.25,
+      "expected_moran": 0.09837257912015,
+      "min_eigenvalue": 1.734646639215
+    },
+    {
+      "dataset": "meuse",
+      "generator": "polynomial",
+      "variant": "innovation",
+      "pi_s": 0.2,
+      "range_fraction": 0.1,
+      "snr_target": 3,
+      "snr_expected": 3,
+      "pi_s_expected": 0.2,
+      "nugget_fraction": 0.25,
+      "expected_moran": 0.1989078499803,
+      "min_eigenvalue": 0.07865755550452
+    },
+    {
+      "dataset": "meuse",
+      "generator": "polynomial",
+      "variant": "trend",
+      "pi_s": 0.2,
+      "range_fraction": 0.1,
+      "snr_target": 3,
+      "snr_expected": 3,
+      "pi_s_expected": 0.2,
+      "nugget_fraction": 0.25,
+      "expected_moran": 0.1989078499803,
+      "min_eigenvalue": 0.07865755550452
+    },
+    {
+      "dataset": "meuse",
+      "generator": "forest",
+      "variant": "innovation",
+      "pi_s": 0.2,
+      "range_fraction": 0.1,
+      "snr_target": 3,
+      "snr_expected": 3,
+      "pi_s_expected": 0.2,
+      "nugget_fraction": 0.25,
+      "expected_moran": 0.1989078499803,
+      "min_eigenvalue": 0.06052783052711
+    },
+    {
+      "dataset": "meuse",
+      "generator": "forest",
+      "variant": "trend",
+      "pi_s": 0.2,
+      "range_fraction": 0.1,
+      "snr_target": 3,
+      "snr_expected": 3,
+      "pi_s_expected": 0.2,
+      "nugget_fraction": 0.25,
+      "expected_moran": 0.1989078499803,
+      "min_eigenvalue": 0.06052783052711
+    }
+  ]
+}

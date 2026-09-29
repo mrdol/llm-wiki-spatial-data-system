@@ -1,0 +1,739 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Adaptively Robust Geographically Weighted Regression</title>
+				<funder ref="#_HbC6qZJ #_QXACmQC #_7NaSXvv">
+					<orgName type="full">Japan Society for the Promotion of Science (KAKENHI)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2021-10-14">14 Oct 2021</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Shonosuke</forename><surname>Sugasawa</surname></persName>
+							<email>sugasawa@csis.u-tokyo.ac.jp</email>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Spatial Information Science</orgName>
+								<orgName type="institution">The University of Tokyo</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Daisuke</forename><surname>Murakami</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Data Science</orgName>
+								<orgName type="institution">The Institute of Statistical Mathematics</orgName>
+								<address>
+									<addrLine>5-1-5</addrLine>
+									<postCode>2778568</postCode>
+									<settlement>Kashiwanoha Kashiwa</settlement>
+									<region>Chiba</region>
+									<country>JAPAN Email</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Adaptively Robust Geographically Weighted Regression</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2021-10-14">14 Oct 2021</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">2BCB54406F5B3B6B3DA724BE5A000610</idno>
+					<idno type="arXiv">arXiv:2106.15811v3[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:57+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Majorization-Minimization algorithm</term>
+					<term>robust divergence</term>
+					<term>outliers</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We develop a new robust geographically weighted regression method in the presence of outliers. We embed the standard geographically weighted regression in robust objective function based on γ-divergence. A novel feature of the proposed approach is that two tuning parameters that control robustness and spatial smoothness are automatically tuned in a data-dependent manner. Further, the proposed method can produce robust standard error estimates of the robust estimator and give us a reasonable quantity for local outlier detection. We demonstrate that the proposed method is superior to the existing robust version of geographically weighted regression through simulation and data analysis.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>In the era of open data, traffic volume, crime counts, land cover, and many other spatial data. These data often have outliers. For instance, traffic counts can be extremely large due to congestion after a car accident, while crime counts can be huge in specific districts. Measurement errors and typing errors can produce outliers as well. It is an emergent task to develop regression approaches that flexibly handle outliers in spatial data. The objective of this study is to develop a novel approach to robustify geographically weighted regression (GWR; <ref type="bibr" target="#b3">Brunsdon et al. (1998)</ref>) against outliers. GWR is a local regression approach for modeling spatially varying coefficients, which has been widely accepted in environmental science (e.g., <ref type="bibr" target="#b18">Lin and Wen (2011)</ref>), epidemiology (e.g., <ref type="bibr" target="#b7">Dong et al. (2018)</ref>), and other fields. Yet, the basic GWR is highly sensitive to outlier <ref type="bibr" target="#b8">(Fotheringham et al., 2002)</ref>. Thus, as illustrated in <ref type="bibr" target="#b16">LeSage (2004)</ref>, the local regression estimates can be "contaminated" by an outlier in the local samples. <ref type="bibr" target="#b8">Fotheringham et al. (2002)</ref> suggested two approaches that robustify GWR. The first approach performs GWR after removing samples taking extremely large residuals in an initial fit. This practical approach is explored by <ref type="bibr" target="#b12">Harris et al. (2010)</ref> and extended by <ref type="bibr" target="#b11">Harris et al. (2014)</ref> for outlier detection. The second approach down-weights samples with large residuals through iterative GWR fitting. This down-weighting approach has widely been extended. For instance, <ref type="bibr" target="#b16">LeSage (2004)</ref> proposed a Bayesian GWR with non-constant variance that regularizes (or down-weights) outliers through priors. The Bayesian GWR has been applied to econometric analysis <ref type="bibr" target="#b20">(Ma et al., 2020)</ref>, regional development analysis <ref type="bibr" target="#b5">(Clifton and Romero-Barrutieta, 2006)</ref>, and forest analysis <ref type="bibr" target="#b24">(Subedi et al., 2018)</ref>. Other robust estimation, which assigns less weights for outliers, has also been applied. For example, <ref type="bibr" target="#b26">Zhang and Mei (2011)</ref> applied a least absolute deviation (LAD) estimation, <ref type="bibr" target="#b23">Salvati et al. (2012)</ref> applied a M-quantile estimation, and <ref type="bibr" target="#b4">Chen et al. (2012)</ref> applied an asymmetric absolute loss-based estimation for geographically weighted quantile regression. There are other approaches to handling outliers under spatial dependence (e.g. <ref type="bibr" target="#b21">Mur and Lauridsen, 2007)</ref>, such methods cannot be directly applied to the GWR framework due to the spatial heterogeneity of regression coefficients in GWR.</p><p>The main drawbacks of above mentioned existing robust approaches that we focus on are mainly two points. First, existing methods only consider robust estimation of spatially varying parameters but do not care much about the robust selection of the bandwidth parameter crucially related to final results. Secondly, although existing methods entail some tuning parameters that control robustness against outliers, the selection of these parameters is not carefully discussed; they are simply determined by rule-of-thumb. Since we do not know how many outliers are included in practice, such tuning parameters should be tuned based on the observed data; otherwise, the estimation method can be statistically inefficient or may not be robust enough to produce stable estimates. To overcome the drawbacks, we introduce a new framework for robust estimation and inference of GWR. The primary tool for our proposal is γ-divergence <ref type="bibr" target="#b14">(Jones et al., 2001;</ref><ref type="bibr" target="#b9">Fujisawa and Eguchi, 2008)</ref>, which is a general class of robust objective functions that contains the log-likelihood function as a particular case. We will demonstrate that the resulting estimating equations for regression coefficients can be seen as weighted estimating equations in which potential outliers are automatically down-weighted. In this sense, the proposed approach has some connection with the existing method by <ref type="bibr" target="#b12">Harris et al. (2010)</ref>. We will demonstrate that the robust objective function can be efficiently optimized via the Majorization-Minimization algorithm (e.g. <ref type="bibr" target="#b13">Hunter and Lange, 2004)</ref>. Owing to the statistically coherent framework, we can define a robust cross-validation method to select the optimal bandwidth from data. Furthermore, we can also derive a robust estimation of asymptotic standard errors of estimated coefficients. The γ-divergence includes a tuning parameter that controls the robustness of the objective function, and we propose a data-dependent selection strategy of the tuning parameter via recently proposed criterion <ref type="bibr" target="#b25">(Sugasawa and Yonekura, 2021)</ref> that can be easily implemented in practice. Therefore, in the proposed method, the amount of robustness and spatial bandwidth are automatically determined in a data-dependent manner. Such a feature is a clear advantage over the existing robust approach. This paper is organized as follows. In Section 2, we introduce the proposed robust methods and provide estimation algorithms. In Section 3, we evaluate the numerical performance of the proposed methods together with some existing methods through simulation studies. In Section 4, we demonstrate the proposed method through spatial regression modeling of crime data in Tokyo. Finally, we give some discussions in Section 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Robust Geographically Weighted Regression</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Settings and robust objective function</head><p>Let y i be a response variable and x i is a vector of covariates in the ith location, for i = 1, . . . , n, where n is the number of samples. We suppose we are interested in estimating the spatially varying model: y i ∼ N (x i β i , σ 2 i ), where β i and σ 2 i are spatially varying regression coefficients and error variances. Further suppose that location information s i (e.g. longitude and latitude) is also available for the ith location. These varying parameters can be estimated via geographically weighted likelihood given by</p><formula xml:id="formula_0">( β i , σ 2 i ) = argmax β,σ 2 L i (β, σ 2 ), L i (β, σ 2 ) = n j=1 w( s i -s j /b) log φ(y j ; x j β, σ 2 ), (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where w(•) is a weight function and b is a bandwidth. Given σ 2 , the maximization of (1) with respect to β is equivalent to minimizing n j=1 w( s i -s j /b)(y j -x j β) 2 , which is the standard GWR method.</p><p>A practical limitation of using the geographically weighted method (1) is the potential sensitivity against outliers. If some influential outlier exists at some location, the estimation accuracy of the parameters around the location may worsen. To make the estimation procedure robust against outliers, we replace the log-likelihood function in (1) with the robust divergence. In particular, we adopt a transformed version of the γ-divergence <ref type="bibr" target="#b9">(Fujisawa and Eguchi, 2008)</ref> given by</p><formula xml:id="formula_2">D i (β, σ 2 ) = 1 γ log   n j=1 w ij (b)φ(y j ; x j β, σ 2 ) γ   + 1 1 + γ log    n j=1 w ij (b) φ(t; x j β, σ 2 ) 1+γ dt    = 1 γ log   n j=1 w ij (b)φ(y j ; x j β, σ 2 ) γ   + γ 2(1 + γ) log σ 2 + C,<label>(2)</label></formula><p>where w ij (b) = w( s i -s j /b) and C is an irrelevant constant independent of the parameters. We note that</p><formula xml:id="formula_3">lim γ→0    D i (β, σ 2 ) -γ -1 n j=1 w ij (b)    = L i (β, σ 2 ),</formula><p>thereby the maximization of (2) with respect to β and σ 2 is almost the same as that of (1) when γ is close to 0. Hence, (2) can be regarded as a natural extension of the standard geographically weighted method. Here γ is a tuning parameter controlling the robustness of the resulting estimator, and we provide a data-dependent selection method later.</p><p>Note that the first order condition of the minimizer of (2) with respect to β is given</p><formula xml:id="formula_4">by n j=1 w ij (b)φ(y j ; x j β, σ 2 ) γ x j (y j -x j β) = 0.<label>(3)</label></formula><p>The above equation reduces to the estimating equation of the standard GWR when γ = 0. With non-zero γ, the equation ( <ref type="formula" target="#formula_4">3</ref>) is so called "weighted estimating equation", and φ(y j ; x j β, σ 2 ) γ is supposed to "downweight" outliers in that its value will be small when y j is an outlier, namely, the absolute residual |y j -x j β| is relatively large. In particular, when |y j -x j β| → ∞, it follows that φ(y j ; x j β, σ 2 ) γ |y j -x j β| → 0 as long as γ &gt; 0, so that the outlier information is automatically ignored in the equation (3).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Estimation algorithm</head><p>Although the functional form of (2) seems complicated, we can efficiently minimize -D i (β, σ 2 ) using a Majorization-Minimization (MM) algorithm (e.g. <ref type="bibr" target="#b13">Hunter and Lange, 2004</ref>) similar to one given in <ref type="bibr" target="#b15">(Kawashima and Fujisawa, 2017)</ref>. Using Jensen's inequality, the negative objective function can be evaluated as follows:</p><formula xml:id="formula_5">-D i (β, σ 2 ) ≤ 1 2σ 2 n j=1 u † ij (y j -x j β) 2 + 1 2(1 + γ) log σ 2 + C * ,<label>(4)</label></formula><p>where C * is a constant independent of β and σ 2 , β † and σ 2 † are some fixed values of β and σ 2 , respectively. Here u † ij is known as "normalized weight" given by</p><formula xml:id="formula_6">u † ij = w ij (b)φ(y j ; x j β † , σ 2 † ) γ n ℓ=1 w iℓ (b)φ(y ℓ ; x ℓ β † , σ 2 † ) γ ,</formula><p>which does not depend on the parameters, β and σ 2 , but on the fixed values, β † and σ 2 † . Since the majorization function in (4) is similar to the log-likelihood function of the normal linear regression models, the updating steps for β and σ 2 are analytically obtained. The MM algorithm iterates the computation of the majorization function and minimization of the majorization function, which is summarized as follows:</p><p>Algorithm 1 (MM algorithm). For i = 1, . . . , n, starting with some initial values, β i(0)</p><p>and σ 2 i(0) , repeat the following two steps until convergence:</p><p>-(Computation of normalized weights)</p><formula xml:id="formula_7">u (s) ij = w ij (b)φ(y j ; x j β i(s) , σ 2 i(s) ) γ n ℓ=1 w iℓ (b)φ(y ℓ ; x ℓ β i(s) , σ 2 i(s) ) γ , j = 1, . . . , n -(Update of β and σ 2 ) β i(s+1) ←   n j=1 u (s) ij x j x j   -1 n j=1 u (s) ij x j y j σ 2 i(s+1) ← (1 + γ) n j=1 u (s) ij (y j -x j β i(s+1) ) 2</formula><p>We may use the estimates from the standard GWR method as a reasonable initial value in Algorithm 1. We note that the updating step for β i reduces to the standard</p><formula xml:id="formula_8">GWR estimator under γ = 0, since u (s) ij | γ=0 = w ij (b).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Selection of the tuning parameters</head><p>The proposed method has two tuning parameters, b (bandwidth) and γ (robustness control), which should be selected in a data-dependent manner.</p><p>First, we consider a selection strategy for b with a fixed value of γ. Note that the standard cross-validation technique used in GWR is not appropriate since the squared loss is sensitive to outliers. Instead, we use a robust criterion based on the γ-divergence.</p><p>Let β i(-i) and σ 2 i(-i) are the estimators based on (2) without (x i , y i ). Then, we define a robust cross validation (RCV) criterion for b as</p><formula xml:id="formula_9">RCV(b; γ) = 1 γ log n i=1 φ(y i ; x i β i(-i) , σ 2 i(-i) ) γ + γ 2(1 + γ) log n i=1 σ 2 i(-i) ,<label>(5)</label></formula><p>where the optimal b is the maximizer of RCV(b). When γ is close to 0, the maximization of RCV is almost the same as maximizing n i=1 log φ(y i ;</p><formula xml:id="formula_10">x i β i(-i) , σ 2 i(-i) ), which is equivalent to minimizing n i=1 (y i -x i β i(-i) ) 2 when σ 2 i(-i) is constant over i.</formula><p>Hence, the criterion (5) is a natural generalization of the standard cross-validation technique adopted in GWR.</p><p>We next consider selecting the robustness parameter γ. We here suggest using an asymptotic approximation of the Hyvarinen score <ref type="bibr" target="#b25">(Sugasawa and Yonekura, 2021)</ref> with γ-divergence and the model assumption,</p><formula xml:id="formula_11">y i ∼ N (x i β i , σ 2 i ), defined as H(γ; b) = n i=1 1 σ 4 i(γ) 2 γ(y i -x i β i(γ) ) 2 -σ 2 i(γ) w i(γ) + (y i -x i β i(γ) ) 2 w 2 i(γ) ,<label>(6)</label></formula><p>where so that the actual sample size used in the estimation of β i and σ 2 i can be small, which may break the justification using the criterion (6).</p><formula xml:id="formula_12">w i(γ) = φ(y i ; x i β i(γ) , σ 2 i(γ) ) γ ,</formula><p>To take into account the property of ( <ref type="formula" target="#formula_11">6</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Standard error calculation</head><p>Let n j=1 F ij be the left-hand side of the estimating equation ( <ref type="formula" target="#formula_4">3</ref>). From the standard theory of estimating equations, the asymptotic covariance matrix of β i(γ) as the solution of the estimating equation ( <ref type="formula" target="#formula_4">3</ref>) can be estimated as</p><formula xml:id="formula_13">Var( β i(γ) ) = J i ( β i(γ) , σ i(γ) ) -1 I i ( β i(γ) , σ i(γ) )J i ( β i(γ) , σ i(γ) ) -1 ,<label>where</label></formula><formula xml:id="formula_14">J i (β, σ 2 ) ≡ n j=1 ∂F ij ∂β = n j=1 w ij (b)φ(y j ; x j β, σ 2 ) γ γ(y j -x j β) 2 σ 2 -1 x j x j , I i (β, σ 2 ) ≡ n j=1 F ij F ij = n j=1 w ij (b) 2 φ(y j ; x j β, σ 2 ) 2γ (y j -x j β) 2 x j x j .</formula><p>Note that when γ = 0, the above asymptotic covariance formula reduces to one for the standard GWR method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5">Outlier detection</head><p>A desirable feature of the proposed method is to give a natural outlier detection strategy, using the density power term appeared in (3). Let β i and σ i be the robust estimator with b = b opt and γ = γ opt . We then define the normalized weight as</p><formula xml:id="formula_15">U i = φ(y i ; x i β i , σ 2 i ) γopt n -1 n j=1 φ(y j ; x j β j , σ 2 j ) γopt ,<label>(7)</label></formula><p>where we note that n i=1 U i = n. If y i is an outlier in the sense that the density value φ(y i ; x i β i , σ 2 i ) γopt is extremely small compared to the other observations, the weight U i is also small. Therefore, the small value of U i is a reasonable signal that y i is an outlier.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Simulation Studies</head><p>We present simulation studies to illustrate the performance of the proposed method and existing robust and non-robust approaches through simulation studies. First, we uni-</p><formula xml:id="formula_16">formly generated n = 500 spatial locations s 1 , . . . , s n in the domain {s = (s 1 , s 2 ) | s 1 ∈ [-1, 1], s 2 ∈ [0, 2], s 2 1 + 0.5s 2 2 &gt; (0.5) 2 }.</formula><p>Then, we let z 1 (s i ) and z 2 (s i ) be the two independent realizations of a spatial Gaussian process with mean zero and a covariance matrix defined from an isotropic exponential function: Cov(z k (s i ), z k (s j )) = exp(-s i -s j /φ), k = 1, 2, where φ is the range parameter. We considered two cases of the parameter, φ = 0.4 and 0.8. Then, we define two covariates x 1 (s i ) and x 2 (s i )</p><formula xml:id="formula_17">via linear transformations x 1 (s i ) = z 1 (s i ) and x 2 (s i ) = rz 1 (s i ) + √ 1 -r 2 z 2 (s i ) with</formula><p>r = 0.75, which allows dependence between x 1 (s i ) and x 2 (s i ). Note that the value of spatial range φ is related to the strength of spatial correlation in the covariates, that is, a larger value of φ leads to covariates that are more likely to hold spatial collinearity. To quantify the degree of collinearity, we use the condition number (e.g. <ref type="bibr" target="#b2">Brunsdon et al., 2012)</ref> which computes the ratio of the largest eigenvalues to the smallest eigenvalues of n j=1 w ij x j x j at the ith location, where x j = (x 1 (s j ), x 2 (s j )) and w ij is the spatial weight between ith and jth locations. We here adopt the Gaussian kernel w ij = exp(-s i -s j 2 /2h 2 ) with bandwidth h. Since it is suggested that the condition numbers above around 30 indicates considerable collinearity (e.g. <ref type="bibr" target="#b0">Belsley et al., 2005)</ref>, we calculated the number of locations whose condition number is greater than 30 with various values of h. The results are shown in Table <ref type="table" target="#tab_0">1</ref>, form which we can observe that considerable spatial collinearity exist even under large values of bandwidth h under φ = 0.8.</p><p>The response at each location is generated from the following model:</p><formula xml:id="formula_18">y(s i ) = β 0 (s i ) + β 1 (s i )x 1 (s i ) + β 2 (s i )x 2 (s i ) + ε(s i ), i = 1, . . . , n,</formula><p>where ε(s i )'s are error terms and are mutually independent. We consider the following two scenarios of the distribution of ε(s i ):</p><formula xml:id="formula_19">Scenario (I) ε(s i ) ∼ (1 -ω)N (0, σ 2 ) + ωN (0, a 2 σ 2 ), Scenario (II) ε(s i ) ∼ (1 -ω)N (0, σ 2 ) + ωN (a, σ 2 ),</formula><p>where we set σ 2 = 1, a = 10 and ω ∈ {0, 0.05, 0.1, 0.15}. Here σ 2 is the error variance of non-outlying observations, ω i is the outlier ratio and the second component generates outliers. Outliers are distributed around 0 in scenario (I), while outliers in scenario (II) are always positive, and the error distribution is not symmetric. Regarding the regression coefficients, we independently generated from a Gaussian spatial process.</p><p>We set that all the processes have a zero mean and isotropic exponential function given by Cov(β k (s i ),</p><formula xml:id="formula_20">β k (s j )) = τ 2 exp - s i -s j ψ k , k = 0, 1, 2,</formula><p>where ψ k is the range parameter, and τ 2 is the variance parameter. We fix τ 2 = 2 and</p><formula xml:id="formula_21">ψ k = k + 1 in our study.</formula><p>For the simulated dataset, we applied the proposed GWR using γ-divergence (denoted by DGWR) as well as the standard (non-robust) GWR and robust GWR using an iteratively re-weighting algorithm(denoted by RoGWR) available from R package "GWmodel" <ref type="bibr" target="#b10">(Gollini et al., 2015)</ref>. The tuning parameters in DGWR are selected among </p><p>where b * is the sample median of { s i -s j } i,j=1,...,n . Note that γ = 0 corresponds to the standard (model-based) GWR. We selected the optimal bandwidth for GWR via cross validation, and the same bandwidth is used for RoGWR. These methods are performed using R package "GWmodel" <ref type="bibr" target="#b19">(Lu et al., 2014)</ref>. The estimation performance is evaluated based on the mean squared error (MSE) given by</p><formula xml:id="formula_23">MSE = 1 np n i=1 p-1 k=0 β k (s i ) -β k (s i ) 2 ,</formula><p>where p = 3 and β k (s i ) is the estimated value of β k (s i ). In Figures <ref type="figure" target="#fig_3">1</ref> and <ref type="figure" target="#fig_4">2</ref>, we show boxplots of MSE values based on 500 replications under two scenarios of outlier generation structures. It is observed that once outliers are included in the dataset, both RoGWR and DGWR give more stable estimations than the standard GWR under both scenarios of contamination. Comparing RoGWR and DGWR, they provide pretty similar performance under contamination, but it can be seen that RoGWR may break down under some scenarios such as ω = 0.15 under scenario (II). Comparing the results under two settings of φ, we can see that the MSE values under φ = 0.8 (considerable spatial collinearity) tend to be larger than those under φ = 0.4, but the relative performance among the three methods is almost the same. This means that all the models including DGWR are not robust against spatial collinearity, but DGWR can improve the performance of GWR under existence of outliers, regardless the amount of spatial collinearity.</p><p>In Table <ref type="table" target="#tab_1">2</ref>, the average values of selected bandwidth and robustness parameter (γ) are presented. From the results, we can observe that the selected values of γ increase according to the outlier ratios, which shows that the proposed method has adaptive robustness property; the method exhibits strong robustness with non-negative γ under the existence of outliers while it provides efficient estimation with zero value of γ under no outliers. It is also observed that the difference of the bandwidth parameter selected by GWR and DGWR gets more prominent as the outlier ratio increases, and the use of the unnecessarily large value of bandwidth would lead to over-smoothed estimates of the spatially varying coefficients. We note that the difference in the selected bandwidth under ω = 0 is that DGWR estimates the spatially-varying variance parameter that the standard GWR does not estimate, resulting in the superior performance of DGWR to the other methods.   y i ≡ log(1 + y * i /a i ) to be the response variable in this analysis, which can be interpreted as logarithm values of the number of crimes per unit km 2 . The histogram and spatial distribution of y i are presented in Figure <ref type="figure" target="#fig_5">3</ref>, from which we can observe that most of the observations are appeared to be normally distributed. At the same time, there are some outliers with too small or too large values of y i . It is also observed from the spatial distribution in Figure <ref type="figure" target="#fig_5">3</ref>, such extreme observations are not spatially clustered but are scattered locally.</p><p>Using the five covariates described above, we apply the three methods adopted in the simulation study in Section 3. We selected the optimal values of b and γ among (8)</p><p>in the proposed DGWR, and obtained γ opt = 0.25 and b opt = 0.217. We also adopted different values of b * to select γ, but the optimal value of γ did not change. Since the selected γ opt is positive, the dataset may contain outliers, which is consistent with the results given in Figure <ref type="figure" target="#fig_5">3</ref>. The selected bandwidth for GWR and RoGWR was 0.178, which is slightly smaller than that of DGWR. In Figure <ref type="figure">4</ref>, we provide the histogram and spatial distribution of the normalized weight (7) for local outlier detection. Recall that most normalized weights are around 1, corresponding to non-outliers, but a substantial number of samples have small normalized weights, which are likely to be local outliers. In this analysis, we systematically regarded samples whose normalized weights are smaller than 0.5 as local outliers. In the figure <ref type="figure">5</ref>, we presented spatial distributions of estimated spatially-varying regression coefficients for the five covariates, together with the locations of detected local outliers. We can observe that GWR and RoGWR give relatively similar results because they used the same bandwidth. In contrast, the proposed DGWR provides almost the same but slightly different results, especially around the locations with local outliers, for example, the south part of FPO and ALY and the southwest part of SH. We also computed standard errors of the estimates, using the formula in Section 2.4 for the proposed DGWR method and R package "spgwr" (Bivand and Yu, 2020) for GWR. The results are shown in Figure <ref type="figure">6</ref>, from which apparent differences between standard errors in GWR and those in DGWR can be confirmed. It can be seen that the standard errors in GWR tend to be large around locations in which samples are identified to be outliers, which would indicate that the standard GWR fails to carry out reasonable uncertainty quantification due to the influence of outliers.</p><p>Histogram of observed responce y Frequency 0 2 4 6 8 0 100 200 300 400 500 600 700 observed response 0 1.64 3.28 4.92 6.55 8.19  PD(GWR) PD(RoGWR) PD(DGWR) Value DPD(GWR) DPD(RoGWR) DPD(DGWR) Value FPD(GWR) FPD(RoGWR) FPD(DGWR) Value SH(GWR) SH(RoGWR) SH(DGWR) Value ALY(GWR) ALY(RoGWR) ALY(DGWR) Value </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Conclusion and Discussion</head><p>We employed a technique of γ-divergence to develop a robust version of GWR. A novel feature of the proposed method is its adaptive property; the two tuning parameters that control robustness and spatial smoothness are automatically determined through reasonable criteria. The simulation and empirical studies showed the superiority of the proposed method to the existing methods.</p><p>Although the proposed method is entirely focused on the spatially varying linear regression, the proposed framework for robust fitting of the spatially varying models can be generalized to more general regression models such as generalized linear models.</p><p>Let f (f i |x i ; θ i ) be a regression model in the ith location. Then, the objective function is given by</p><formula xml:id="formula_24">D i (θ) = 1 γ log   n j=1 w ij (b)f (y j |x j ; θ) γ   + 1 1 + γ log    n j=1 w ij (b) f (t|x j ; θ) 1+γ dt    ,<label>(9)</label></formula><p>and the estimator of θ i can be defined as the maximizer of the above objective function.</p><p>When y i ∼ N (x i β i , σ 2 i ), the general objective function reduces to (2) for the proposed DGWR. The bandwidth parameter can be selected by minimizing the following criterion:</p><formula xml:id="formula_25">RCV(b; γ) = 1 γ log n i=1 f (y i |x i ; θ i(-i) ) γ + 1 1 + γ log n i=1 f (y i |x i ; θ i(-i) ) 1+γ dt ,</formula><p>where θ i(-i) is the robust estimator of θ i without using the sample in the ith location, and it again reduces to ( <ref type="formula" target="#formula_9">5</ref>) when y i ∼ N (x i β i , σ 2 i ). Moreover, the general form of the Hyvarinen score (6) to select γ is given by</p><formula xml:id="formula_26">H(γ) = n i=1 δ( θ i ) 2f (y i ; θ i ) 2 f (y i ; θ i ) γ-2 2(γ -1) + f (y i ; θ i ) γ + 2f (y i ; θ i ) γ-1 f (y i ; θ i ) ,</formula><p>where -γ/(1+γ) .</p><formula xml:id="formula_27">f (y i ; θ) = ∂f (y i ; θ)/∂y i , f (y i ; θ) = ∂ 2 f (y i ; θ)/∂y 2 i and δ(θ) = f (t; θ) 1+γ dt</formula><p>When y i ∼ N (x i β i , σ 2 i ), the above general expression reduces to ( <ref type="formula" target="#formula_11">6</ref>). Hence, we can also develop a robust version of other types of geographically weighted regression such as geographically weighted negative binomial regression (da Silva and Rodrigues, 2014).</p><p>However, the main difficulty in applying the general idea is the integral appeared in the objective function ( <ref type="formula" target="#formula_24">9</ref>). Although the integral can be analytically computed under normal distribution, it may need to rely on numerical approximation under general distributions, leading to computationally burdensome to maximize the objective function.</p><p>Finally, a potential limitation of the proposed method is its scalability under large sample sizes. Since the proposed method requires estimation of location-wise parameters via iterative methods, it would be computationally demanding under massive spatial data. Exploration of some scalable versions of DGWR, as done for the standard GWR (e.g. <ref type="bibr" target="#b17">Li et al., 2019;</ref><ref type="bibr" target="#b22">Murakami et al., 2020)</ref>, is an important and interesting issue for future studies.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>and β i(γ) and σ i(γ) are estimates of β i and σ 2 i , respectively, under robustness parameter γ and bandwidth parameter b. It should be noted that most of the weights {w i1 (b), . . . , w in (b)} can take almost 0 when b is small</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>), we propose the following simultaneous selection strategy for γ and b. Algorithm 2 (Selection of γ and b). First prepare candidate sets, γ ∈ Γ = {γ 1 , . . . , γ J } and b ∈ B = {b 1 , . . . , b L }, where γ 1 ≤ • • • ≤ γ J and b 1 ≤ • • • ≤ b L . The selection procedure consists of the following two steps: -(selection of γ) Using the largest bandwidth, namely, b = b L , compute γ opt = argmin γ∈Γ H(γ; b L ). -(selection of b) Compute b opt = argmax b∈B RCV(b; γ opt ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>γ</head><figDesc>∈ {0, 0.01, 0.03, 0.05, 0.1, 0.15, . . . , 0.5} b ∈ {b * /10, 2b * /10, . . . , 9b * /10, b * },</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Boxplot of MSEs for GWR, RoGWR and DGWR based on 500 simulated datasets under scenario (I) with two cases of spatial range parameter to generate covariates, φ = 0.4 (left) and φ = 0.8 (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Boxplot of MSEs for GWR, RoGWR and DGWR based on 500 simulated datasets under scenario (II) with two cases of spatial range parameter to generate covariates, φ = 0.4 (left) and φ = 0.8 (right).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: Histogram (left) and spatial distribution (right) of the response variable.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 4 :Figure 5 :Figure 6 :</head><label>456</label><figDesc>Figure 4: Histogram (left) and spatial distribution (right) of the normalized weight for local outlier detection.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>The number of locations where the condition number is greater than 30 (high spatial collinearity) among 500 locations.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell cols="3">h (bandwidth)</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell cols="8">0.1 0.15 0.2 0.25 0.3 0.35 0.4 0.45 0.5</cell></row><row><cell>φ = 0.4</cell><cell>109 41</cell><cell>12</cell><cell>1</cell><cell>0</cell><cell>0</cell><cell>0</cell><cell>0</cell><cell>0</cell></row><row><cell>φ = 0.8</cell><cell>141 94</cell><cell>80</cell><cell>81</cell><cell>78</cell><cell>73</cell><cell>69</cell><cell>52</cell><cell>33</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Average values of selected bandwidth and γ based on 500 replications.Here we apply the proposed methods to a dataset of the number of police-recorded crimes in the 23 special words of Tokyo, provided by the University of Tsukuba and publicly available online ("GIS database of the number of police-recorded crime at Oaza, chome in Tokyo, 2009-2017", available at https://commons.sk.tsukuba.ac.jp/ data_en). This study focuses on the number of non-burglary crimes in n = 2, 855 minor municipal district in the target area in 2015. For auxiliary information in each district,</figDesc><table><row><cell>ω (outlier ratio)</cell></row></table><note><p>i be a two-dimensional vector of longitude and litigate of the center, a i be area (km 2 ) and x i be the vector of standardized auxiliary information in the ith district. We used</p></note></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>This work was supported by the <rs type="funder">Japan Society for the Promotion of Science (KAKENHI)</rs> Grant Numbers <rs type="grantNumber">18H03628</rs>, <rs type="grantNumber">20H00080</rs>, and <rs type="grantNumber">21H00699</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_HbC6qZJ">
+					<idno type="grant-number">18H03628</idno>
+				</org>
+				<org type="funding" xml:id="_QXACmQC">
+					<idno type="grant-number">20H00080</idno>
+				</org>
+				<org type="funding" xml:id="_7NaSXvv">
+					<idno type="grant-number">21H00699</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Regression diagnostics: Identifying influential data and sources of collinearity</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Belsley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Kuh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Welsch</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<biblScope unit="volume">571</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">spgwr: Geographically Weighted Regression. R package version 0</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Yu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="6" to="33" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Living with collinearity in local regression models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 10th International Symposium on Spatial Accuracy Assessment in Natural Resources and Environmental Sciences</title>
+		<meeting>the 10th International Symposium on Spatial Accuracy Assessment in Natural Resources and Environmental Sciences<address><addrLine>Brasil.</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series D (The Statistician)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Geographically weighted quantile regression (gwqr): An application to us mortality data</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">Y</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">-J</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W.-S</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T.-C</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Matthews</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical analysis</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="134" to="150" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Institutions versus geography: subnational evidence from the united states</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">V</forename><surname>Clifton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Romero-Barrutieta</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Geographically weighted negative binomial regression-incorporating overdispersion</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Da Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C V</forename><surname>Rodrigues</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Computing</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="769" to="783" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression models for ordinal categorical response variables: An application to geo-referenced life satisfaction data</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="35" to="42" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<title level="m">Geographically Weighted Regression</title>
+		<meeting><address><addrLine>West Sussex</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Robust parameter estimation with a small bias against heavy contamination</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Fujisawa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Eguchi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">99</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="2053" to="2081" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Gwmodel: An r package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<date type="published" when="2015">2015. i17</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Multivariate spatial outlier detection using robust geographically weighted methods</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Juggins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Clarke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Geosciences</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="31" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Robust geographically weighted regression: a technique for quantifying spatial relationships between freshwater acidification critical loads and catchment attributes</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Juggins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="286" to="306" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A tutorial on mm algorithms</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Hunter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Lange</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="30" to="37" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A comparison of related density-based minimum divergence estimators</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">L</forename><surname>Hjort</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Basu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="865" to="873" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Robust and sparse regression via γ-divergence</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kawashima</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Fujisawa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Entropy</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page">608</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">A family of geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in spatial econometrics</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="241" to="264" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Fast geographically weighted regression (fastgwr): a scalable algorithm to investigate spatial process heterogeneity in millions of observations</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="175" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Using geographically weighted regression (gwr) to explore spatial varying relationships of immature mosquitoes and human densities with the incidence of dengue</title>
+		<author>
+			<persName><forename type="first">C.-H</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T.-H</forename><surname>Wen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International journal of environmental research and public health</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="2798" to="2815" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The gwmodel r package: further topics for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geospatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="85" to="101" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression analysis for spatial economics data: A bayesian recourse</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Xue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Hu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="page">0160017620959823</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Outliers and spatial dependence in cross-sectional regressions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lauridsen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1752" to="1769" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Scalable gwr: A linear-time algorithm for large-scale geographically weighted regression with polynomial kernels</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Tsutsumida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yoshida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Small area estimation via m-quantile geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Salvati</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Tzavidis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pratesi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Chambers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Test</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Bayesian geographically weighted regression and its application for local modeling of relationships between tree variables</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Subedi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">iForest-Biogeosciences and Forestry</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page">542</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">On selection criteria for the tuning parameter in robust divergence</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sugasawa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yonekura</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2106.11540</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Local least absolute deviation estimation of spatially varying coefficient models: robust geographically weighted regression approaches</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Mei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1467" to="1489" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

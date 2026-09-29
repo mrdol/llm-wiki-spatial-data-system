@@ -1,0 +1,276 @@
+---
+title: paper_usgs_flood_skew
+type: dataset
+created: 2026-09-14
+updated: 2026-09-16
+sources:
+  - data/final_datasets/sf/paper_usgs_flood_skew.rds
+  - DataCite_2021_MethodsForEstimatingRegional_10_3133_sir20215
+tags: [dataset, paper-derived, spatial, point]
+---
+
+Dataset spatial converti en sf a partir des donnees brutes du papier "Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013" (DOI 10.3133/sir20215015).
+
+## Description du jeu de donnees
+
+- Topic: dataset spatial spatio-temporel
+- Observation unit: observation spatiale du dataset "Regional flood skew for parts of the mid-Atlantic region (hydrologic unit 02) in eastern New York and Pennsylvania"
+- Observed population: 183 enregistrements dans l’artefact local paper_usgs_flood_skew.rds; unite declaree : observation spatiale de type POINT. Le nombre de lignes n’est pas le nombre de sites independants.
+- Geographic context: etendue sf: x [1419075, 1871925], y [1870974.8125, 2537880]
+- Temporal context: 70 distinct periods (variable: BegYear)
+- Source description: Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013
+- Description source: paper_dataset_uses.json + lecture directe du papier
+- Description confidence: medium
+- Paper DOI: 10.3133/sir20215015
+- Dataset DOI: 10.5066/p9pgal0d
+- Source URL: https://www.sciencebase.gov/catalog/item/600f341ed34e162231feceb9
+- Local raw dir: `data/raw/papers/DataCite_2021_MethodsForEstimatingRegional_10_3133_sir20215/`
+- Local sf output: `data/final_datasets/sf/paper_usgs_flood_skew.rds`
+
+## Bloc 1 - Formule et variables
+
+### Variables (niveau systeme - inspection directe du sf)
+
+- Candidate Y variables: `UnbiasSkew`, `EMAskew`
+- Candidate Y typology: continuous
+- Candidate X variables in local artifact: `LAT_GAGE`, `LNG_GAGE`, `DRNAREA`, `DRAIN_SQKM`, `BSLDEM100M`, `ELEV`, `COMPRAT`, `LC06FOREST`, `LC06WATER`, `PERMAVE`, `PRECPRIS00`, `NumPks`, `PksNotUsed`, `GagedPks`, `HistPks`, `BegYear`, `EndYear`, `HistPeriod`, `PILFthresh`, `PILFs`, `KENTAU`, `PVALUE`, `SENSLOPE`, `EMAmean`, `EMAStDev`, `MSEskew`, `MSEskewSYS`, `PRL`, `residual`
+- Candidate X count in local artifact: 29
+- Candidate X typology: continuous, categorical
+- Published X variables from paper: DRAIN_SQKM (superficie du bassin versant, km2), LAT_CENT/LONG_CENT (centroide du bassin), BSLDEM100M (pente moyenne du bassin), ELEV (elevation), COMPRAT (ratio de compacite), LC06FOREST (% couverture forestiere), LC06WATER (% couverture en eau), PERMAVE (permeabilite moyenne du sol), PRECPRIS00 (precipitation moyenne)
+- Published X count: 9
+- Coordinates (x, y - excluded from X candidates): `LONG_CENT`, `LAT_CENT`
+- Identifier columns (excluded from X candidates): `IndexNo`, `site_no`, `station_nm`, `state_cd`, `huc_cd`
+- Variables inspected: yes (auto - generate_fiches_papers.R)
+- Presence of imputed X: unknown
+
+#### Detail Y
+
+| Variable | Classe R | Typologie Y | Plage | NA (%) |
+|---|---|---|---|---|
+| `UnbiasSkew` | `numeric` | continuous | [-1.65, 1.66] | 0% |
+| `EMAskew` | `numeric` | continuous | [-1.41, 1.553] | 0% |
+
+> Selection Y/X (paper-loader / curated evidence) : Pour `usgs_flood_skew`, la ou les reponses `UnbiasSkew`, `EMAskew` viennent du loader papier et/ou des preuves de l article `Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013`. Les covariables X retenues sont `DRAIN_SQKM`, `LAT_CENT`, `LONG_CENT`, `BSLDEM100M`, `ELEV`, `COMPRAT`, `LC06FOREST`, `LC06WATER`, `PERMAVE`, `PRECPRIS00` ; 21 autres colonnes candidates restent listees dans Detail X mais ne sont pas retenues dans formula_used. Les coordonnees (`LONG_CENT`, `LAT_CENT`), identifiants (`IndexNo`, `site_no`, `station_nm`, `state_cd`, `huc_cd`), geometries et champs techniques sont exclus de X. Statut benchmark actuel : ready; la promotion package reste conditionnee au bloc benchmark_readiness.
+
+#### Detail X
+
+| Variable | Classe R | Role X | NA (%) |
+|---|---|---|---|
+| `LAT_GAGE` | `numeric` | continuous | 0% |
+| `LNG_GAGE` | `numeric` | continuous | 0% |
+| `DRNAREA` | `numeric` | continuous | 0% |
+| `DRAIN_SQKM` | `numeric` | continuous | 0% |
+| `BSLDEM100M` | `numeric` | continuous | 0% |
+| `ELEV` | `numeric` | continuous | 0% |
+| `COMPRAT` | `numeric` | continuous | 0% |
+| `LC06FOREST` | `numeric` | continuous | 0% |
+| `LC06WATER` | `numeric` | continuous | 0% |
+| `PERMAVE` | `numeric` | continuous | 0% |
+| `PRECPRIS00` | `numeric` | continuous | 0% |
+| `NumPks` | `numeric` | continuous | 0% |
+| `PksNotUsed` | `numeric` | continuous | 0% |
+| `GagedPks` | `numeric` | continuous | 0% |
+| `HistPks` | `numeric` | continuous | 0% |
+| `BegYear` | `numeric` | continuous | 0% |
+| `EndYear` | `numeric` | continuous | 0% |
+| `HistPeriod` | `numeric` | continuous | 0% |
+| `PILFthresh` | `character` | categorical | 0% |
+| `PILFs` | `numeric` | continuous | 0% |
+| `KENTAU` | `numeric` | continuous | 0% |
+| `PVALUE` | `numeric` | rate | 0% |
+| `SENSLOPE` | `numeric` | continuous | 0% |
+| `EMAmean` | `numeric` | continuous | 0% |
+| `EMAStDev` | `numeric` | rate | 0% |
+| `MSEskew` | `numeric` | rate | 0% |
+| `MSEskewSYS` | `numeric` | rate | 0% |
+| `PRL` | `numeric` | continuous | 0% |
+| `residual` | `numeric` | continuous | 0% |
+
+### Formule - niveau publication
+
+- formula_pub: UnbiasSkew ~ DRAIN_SQKM + LAT_CENT + LONG_CENT + BSLDEM100M + ELEV + COMPRAT + LC06FOREST + LC06WATER + PERMAVE + PRECPRIS00 [Bayesian Weighted Least Squares / Bayesian Generalized Least Squares (B-WLS/B-GLS), asymetrie regionale des crues annuelles de pointe]
+- x_terms_pub: DRAIN_SQKM (superficie du bassin versant, km2), LAT_CENT/LONG_CENT (centroide du bassin), BSLDEM100M (pente moyenne du bassin), ELEV (elevation), COMPRAT (ratio de compacite), LC06FOREST (% couverture forestiere), LC06WATER (% couverture en eau), PERMAVE (permeabilite moyenne du sol), PRECPRIS00 (precipitation moyenne)
+- y_term_pub: UnbiasSkew (asymetrie regionale non biaisee des debits de pointe annuels)
+- Reference publication: Veilleux, A.G. & Wagner, D.M. (2021), Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013, USGS Scientific Investigations Report 2021-5015, doi:10.3133/sir20215015. Shapefile HU02basins.shp telecharge directement depuis ScienceBase (10.5066/p9pgal0d, item enfant 5ea08b8e82cefae35a13fe2b) -- pas une reconstruction, N=183 stations de jaugeage identique au depot source. UnbiasSkew = estimation finale non biaisee de l'asymetrie regionale (methode EMA + correction B-WLS/B-GLS documentee dans le rapport) ; les 10 caracteristiques de bassin correspondent exactement aux variables independantes decrites dans le rapport (drainage area, centroid, slope, elevation, compactness, land cover, permeability, precipitation).
+
+### Statut regression canonique
+
+- Statut: resolu
+- Niveau de preuve: publication
+- Methode d estimation: formule publication confirmee et utilisee
+- Correspondance Python/R: aucune identifiee
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
+
+### Formule - niveau systeme
+
+- formula_used: UnbiasSkew ~ DRAIN_SQKM + LAT_CENT + LONG_CENT + BSLDEM100M + ELEV + COMPRAT + LC06FOREST + LC06WATER + PERMAVE + PRECPRIS00
+- Recommended validation: N lignes=183; T declare=70; variable temporelle declaree=BegYear; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification.
+- Selected Y evidence: Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+- Selected Y typology: continuous
+- x_terms_used: DRAIN_SQKM, LAT_CENT, LONG_CENT, BSLDEM100M, ELEV, COMPRAT, LC06FOREST, LC06WATER, PERMAVE, PRECPRIS00
+- y_term_used: UnbiasSkew
+- Note: Reference et decision de curation conservees dans FORMULA_OVERRIDES; cette regeneration ne constitue pas une nouvelle lecture du papier. Distinguer la specification publiee de la formule utilisee.
+
+### Formules candidates
+
+```yaml
+formula_candidates:
+  univariate:
+    formula: "pending"
+    response: "pending"
+    predictors: []
+    role: "simple_baseline"
+    source_type: "none_found"
+    source_ref: "pending"
+    estimator_context: []
+    status: "unavailable"
+
+  multivariate_constrained:
+    formula: "UnbiasSkew ~ DRAIN_SQKM + LAT_CENT + LONG_CENT + BSLDEM100M + ELEV + COMPRAT + LC06FOREST + LC06WATER + PERMAVE + PRECPRIS00"
+    response: "UnbiasSkew (asymetrie regionale non biaisee des debits de pointe annuels)"
+    predictors: ["DRAIN_SQKM (superficie du bassin versant, km2)", "LAT_CENT/LONG_CENT (centroide du bassin)", "BSLDEM100M (pente moyenne du bassin)", "ELEV (elevation)", "COMPRAT (ratio de compacite)", "LC06FOREST (% couverture forestiere)", "LC06WATER (% couverture en eau)", "PERMAVE (permeabilite moyenne du sol)", "PRECPRIS00 (precipitation moyenne)"]
+    role: "paper_main_specification"
+    source_type: "scientific_publication"
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
+    estimator_context: ["ols", "sar_lag", "sem_error", "sdm_mixed", "mgwrsar_gwr"]
+    status: "confirmed"
+
+  ml_or_selected:
+    formula: "UnbiasSkew ~ DRAIN_SQKM + LAT_CENT + LONG_CENT + BSLDEM100M + ELEV + COMPRAT + LC06FOREST + LC06WATER + PERMAVE + PRECPRIS00"
+    response: "UnbiasSkew"
+    predictors: ["DRAIN_SQKM", "LAT_CENT", "LONG_CENT", "BSLDEM100M", "ELEV", "COMPRAT", "LC06FOREST", "LC06WATER", "PERMAVE", "PRECPRIS00"]
+    role: "ml_candidate_features"
+    source_type: "scientific_publication"
+    source_ref: "Voir Bloc 1 - Formule et variables > Reference publication, et Bloc 3 - modeling_evidence.source_ref, pour la citation complete."
+    estimator_context: ["bayesian_wls", "bayesian_gls", "ols", "random_forest"]
+    status: "executable_continuous_variant"
+```
+
+## Bloc 2 - Identification et DOI
+
+- Dataset ID: `paper_usgs_flood_skew`
+- Dataset name: Regional flood skew for parts of the mid-Atlantic region (hydrologic unit 02) in eastern New York and Pennsylvania
+- Source family: paper-derived
+- Source: papier scientifique (voir Paper DOI)
+- Paper title: Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013
+- Paper DOI: 10.3133/sir20215015
+- Dataset DOI: 10.5066/p9pgal0d
+- Source URL: https://www.sciencebase.gov/catalog/item/600f341ed34e162231feceb9
+- Year: 2021 (annee de depot Dryad/DataCite, non verifiee comme annee de publication de l'article -- voir Reference publication)
+
+## Bloc 3 - Typologie des modeles
+
+- Modele niveau 1 (tache): regression / modele spatial (voir formula_pub)
+- Modele niveau 2 (famille): pending
+- Modele niveau 3 (variante): pending
+
+```yaml
+modeling_evidence:
+  existing_model_found: true
+  equation_text: "UnbiasSkew ~ DRAIN_SQKM + LAT_CENT + LONG_CENT + BSLDEM100M + ELEV + COMPRAT + LC06FOREST + LC06WATER + PERMAVE + PRECPRIS00 [Bayesian Weighted Least Squares / Bayesian Generalized Least Squares (B-WLS/B-GLS), asymetrie regionale des crues annuelles de pointe]"
+  equation_family: paper_empirical_or_dataset_specific
+  model_family: spatial_or_paper_specific_regression
+  source_type: scientific_publication_or_package_documentation
+  source_ref: "Veilleux, A.G. & Wagner, D.M. (2021), Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013, USGS Scientific Investigations Report 2021-5015, doi:10.3133/sir20215015. Shapefile HU02basins.shp telecharge directement depuis ScienceBase (10.5066/p9pgal0d, item enfant 5ea08b8e82cefae35a13fe2b) -- pas une reconstruction, N=183 stations de jaugeage identique au depot source. UnbiasSkew = estimation finale non biaisee de l'asymetrie regionale (methode EMA + correction B-WLS/B-GLS documentee dans le rapport) ; les 10 caracteristiques de bassin correspondent exactement aux variables independantes decrites dans le rapport (drainage area, centroid, slope, elevation, compactness, land cover, permeability, precipitation)."
+  confidence: medium
+```
+
+## Benchmark readiness
+
+```yaml
+benchmark_readiness:
+  benchmark_status: "ready"
+  benchmark_task: "regression_continuous"
+  package_include: "yes"
+  has_local_rds: true
+  missing_items: "aucun blocage automatique detecte"
+  reason: "Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09."
+```
+
+- Decision: ready
+- Manque principal: aucun blocage automatique detecte
+- Raison: Y/X/formula_used deja resolus ; estimateurs generiques (continuous) ajoutes en revue de lot du 2026-09-09.
+
+## Estimator eligibility
+
+```yaml
+estimator_eligibility:
+  eligible_estimators:
+    - estimator: ols
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Regression lineaire standard, baseline generique pour reponse continue."
+    - estimator: gam_spatial
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "GAM (mgcv), baseline non-lineaire generique pour reponse continue."
+    - estimator: random_forest
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML non-parametrique generique, Y continu."
+    - estimator: xgboost
+      basis: benchmark_use
+      source_ref: "Revue en lot du 2026-09-09 -- voir Note ci-dessous."
+      notes: "Alternative ML non-parametrique generique, Y continu."
+  conditionally_eligible_estimators: []
+  ineligible_reason: "n/a -- estimateurs generiques eligibles (voir eligible_estimators)."
+  rule: "Revue de la tache avant selection des routes; aucune promotion automatique."
+```
+
+## Bloc 4 - Typologie des donnees
+
+- Data type: spatio-temporel
+- Structure: panel_ou_series
+- N observations: 183
+- k variables: 41
+- T periods: 70
+- Variable temporelle: BegYear
+- N/T profile: N_moyen_T_grand
+- Note N/T (session 2026-08-17, verification directe du `.rds`) : verification empirique montre qu'il n'y a AUCUNE repetition de geometrie (N spatial = N observations exactement) malgre la classification 'Structure: panel_ou_series' / 'Data type: spatio-temporel' ci-dessus -- chaque ligne correspond a un lieu unique. Ce n'est donc pas un panel au sens statistique (pas de correlation intra-unite a modeliser), plutot une coupe transversale avec une covariable/dimension temporelle associee a chaque point distinct.
+
+## Bloc 5 - Resolution et etendue
+
+- Type de geometrie: POINT (source native : POLYGON, preservee dans `geom_origine` ; geometrie active derivee via `st_point_on_surface()` ou equivalent, methodologie documentee dans code/r_catalog/guide_objets_sf.md section 3-5 -- rien n'est perdu, correction 2026-09-16 apres verification via tools/verify_fiche_crs.py)
+- Spatial resolution: point observation (derive d'un polygone source par reduction geometrique -- st_point_on_surface(), rien n'est perdu -- voir Type de geometrie et geom_origine)
+- Temporal resolution: 70 distinct periods (variable: BegYear)
+- CRS EPSG: unknown
+- CRS nom: USA_Contiguous_Albers_Equal_Area_Conic_USGS_version
+- Spatial extent: x [1419075, 1871925], y [1870974.8125, 2537880]
+- Time range: 1829 to 1977 (variable: BegYear)
+- CRS analyse recommande: EPSG exact non resolu, mais le CRS nomme ci-dessus (USA_Contiguous_Albers_Equal_Area_Conic_USGS_version) est deja une projection metrique -- aucune reprojection necessaire, seule la resolution du code EPSG/ESRI precis reste a faire.
+
+## Bloc 6 - Reproductibilite
+
+- License present: unknown
+- License name: unknown
+- License URL: unknown
+- License open: unknown
+- Reproducibility status: OK - loader R enregistre et reexecutable (`usgs_flood_skew` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+- Code available: yes (loader `usgs_flood_skew` dans `code/r_catalog/build_sf_datasets_papers.R`)
+- Repository: paper-derived (voir `inst/kg/paper_dataset_uses.json`)
+
+## Quality Control
+
+- Schema: OK - fiche rendue au format Bloc 1-6 par `generate_fiches_papers.R`.
+- Variables: OK - Y et X identifiees depuis le loader (row$candidate_y_variables / colonnes restantes).
+- Formula: OK - formule publication renseignee et formula_used executable.
+- CRS: WARN - CRS absent du sf source et non resolu automatiquement.
+- Geometry: OK - type geometrique controle (POINT).
+- Missing values: OK - aucune variable avec NA > 20% detectee.
+- Duplicates: OK - aucun doublon exact retenu pour cette fiche.
+- Reproducibility: OK - loader R enregistre et reexecutable (`usgs_flood_skew` dans build_sf_datasets_papers.R) ; source brute tracee dans inst/kg/paper_dataset_uses.json.
+
+## Related Pages
+
+- [[paper_dataset_ingestion_pipeline_2026-08]]
+- Source: Methods for estimating regional skewness of annual peak flows in parts of eastern New York and Pennsylvania, based on data through water year 2013
+
+## Curation documentée — 2026-09-07
+
+Decision conservatoire : N lignes=183; T declare=70; variable temporelle declaree=BegYear; repetitions de coordonnees controlees=0. Grouper les observations du meme site/immeuble/individu dans un seul fold, et respecter la chronologie si l’objectif est prospectif. Le split aleatoire par ligne n’est pas valide sans justification. La fiche et les donnees sont conservees ; aucune suppression ni promotion.
+
+Typologie de la reponse selectionnee : continuous. Ligne Detail Y correspondant a formula_used; les autres reponses candidates ne pilotent pas cette tache.
+
+Provenance des corrections : audit du 2026-09-07, inspection du RDS et sources indiquees dans cette fiche. Regeneration : code/r_catalog/dataset_curation.py et dataset_curation_overrides.json.
+
+Correction 2026-09-16 (mode production de secours) : le champ 'CRS analyse recommande' affirmait a tort que le CRS source etait non geographique/inconnu alors qu'il etait deja renseigne juste au-dessus -- corrige (voir le champ lui-meme pour le texte actuel).

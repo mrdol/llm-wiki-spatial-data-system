@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">On the Effects of Spatial Confounding in Hierarchical Models</title>
+				<funder>
+					<orgName type="full">Fundação de Apoio e Amparo à Pesquisa do Estado do Rio de Janeiro</orgName>
+					<orgName type="abbreviated">FAPERJ</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Conselho Nacional de Desenvolvimento e Pesquisa (CNPq)</orgName>
+				</funder>
+				<funder ref="#_jPpVr5u">
+					<orgName type="full">Natural Sciences and Engineering Research Council</orgName>
+					<orgName type="abbreviated">NSERC</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">FAPERJ</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Coordenação de Aperfeiçoamento de Pessoal de Nível Superior (CAPES)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Widemberg</forename><forename type="middle">S</forename><surname>Nobre</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Instituto de Matemática</orgName>
+								<orgName type="institution">Universidade Federal do Rio de Janeiro</orgName>
+								<address>
+									<settlement>Rio de Janeiro</settlement>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Alexandra</forename><forename type="middle">M</forename><surname>Schmidt</surname></persName>
+							<email>alexandra.schmidt@mcgill.ca</email>
+							<idno type="ORCID">0000-0002-6448-6367</idno>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Epidemiology, Biostatistics and Occupational Health</orgName>
+								<orgName type="institution">McGill University</orgName>
+								<address>
+									<settlement>Montréal</settlement>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">João</forename><forename type="middle">B M</forename><surname>Pereira</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Instituto de Matemática</orgName>
+								<orgName type="institution">Universidade Federal do Rio de Janeiro</orgName>
+								<address>
+									<settlement>Rio de Janeiro</settlement>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">On the Effects of Spatial Confounding in Hierarchical Models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">E77890D6A13F5E7FD285BC631FF73088</idno>
+					<idno type="DOI">10.1111/insr.12407</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Bayesian paradigm</term>
+					<term>Gaussian processes</term>
+					<term>multilevel models</term>
+					<term>restricted spatial regression</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Usually, in spatial generalised linear models, covariates that are spatially smooth are collinear with spatial random effects. This affects the bias and precision of the regression coefficients. This is known in the spatial statistics literature as spatial confounding. We discuss the problem of confounding in the case of multilevel spatial models wherein there are multiple observations within clusters. We show that even under the standard multilevel model, which allows for independent (i.e. not spatially correlated) cluster effects, the cluster-level fixed effects might be biased depending on the structure of the 'true' generating mechanism of the processes. We provide simulation studies in order to investigate the effects of confounding in the estimation of fixed effects present in random intercept models under different scenarios of confounding. One remedy to spatial confounding is restricted spatial regression wherein the spatial random effects are constrained to be orthogonal to the fixed effects of the model. We propose one way to fit a restricted spatial regression model for multilevel data and illustrate it with artificial data analyses. We also briefly describe the issue of confounding in random intercept and slope models.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Usually, in spatial statistics, spatially structured random effects are included in the usual regression model to account for spatial correlation among observations made over a region. However, covariates included in the model might also present some spatial structure, and their association with the outcome might be confounded in the presence of a spatial random effect. This is known in the literature as spatial confounding <ref type="bibr" target="#b2">(Clayton et al., 1993;</ref><ref type="bibr" target="#b17">Reich et al., 2006)</ref>.</p><p>On the other hand, many datasets present a hierarchical, nested or clustered structure <ref type="bibr" target="#b7">(Goldstein, 2011)</ref>. We refer to a hierarchy as consisting of units grouped (clustered) at different levels <ref type="bibr" target="#b7">(Goldstein, 2011)</ref>. Hierarchical models <ref type="bibr" target="#b12">(Lindley &amp; Smith, 1972)</ref> are the natural statistical tool to capture the structure present in these kinds of data. <ref type="bibr" target="#b4">Gelfand et al. (2007)</ref> extended the standard hierarchical model to the case where unit-level observations are clustered at fixed locations spread over a region. In particular, they allow the prior distribution of the coefficients of the unit-level covariates to follow a multivariate spatial process. Here, we aim at investigating the effects of spatial confounding in hierarchical spatial models. <ref type="bibr" target="#b2">Clayton et al. (1993)</ref> were the first to point out the issue of spatial confounding. They noticed that the inclusion of spatial random effects affected the estimates of the fixed effects. <ref type="bibr" target="#b17">Reich et al. (2006)</ref> propose diagnostics to measure posterior variance inflation from collinearity between the fixed effect covariates and spatial random effects. In particular, they propose a model that assumes the spatial random effects to be orthogonal to the fixed effects. This model is known as restricted spatial regression (RSR) <ref type="bibr" target="#b10">(Hodges &amp; Reich, 2010;</ref><ref type="bibr" target="#b11">Hughes &amp; Haran, 2013)</ref>. Under a scenario of dependence between observed and non-observed covariates, <ref type="bibr" target="#b13">Paciorek (2010)</ref> provides extensive simulation analysis and shows how the spatial scale of unobservable and observable covariates defines the structure of the bias in the estimation of the fixed effects.</p><p>Assuming independence between observed and non-observed covariates but under a potential scenario of confounding, <ref type="bibr" target="#b8">Hanks et al. (2015)</ref> explore several data-generating mechanisms to analyse the efficiency of the estimates of the fixed effects in terms of type-S error rates <ref type="bibr" target="#b6">(Gelman &amp; Tuerlinckx, 2000)</ref>. According to their results, RSR offers computational benefits but increases the risk of type-S error for regression parameters, especially when the spatial range of the spatial latent effect increases. To mitigate this potential problem, they propose a posterior predictive approach (RSR-PPD), which inflates the variance of the regressor coefficients to reflect possible collinearity between fixed and random effects. <ref type="bibr" target="#b15">Page et al. (2017)</ref> follow a similar setup of <ref type="bibr" target="#b13">Paciorek (2010)</ref> and investigate the effects of spatial confounding on the kriging predictor for observed quantities. The results suggest lower values of bias as the effective range of observable and unobservable variables varies in similar spatial scales. Moreover, the results also suggest a reduction in the mean squared prediction error (MSPE) as the correlation between fixed and random effect increase in the true generating mechanism.</p><p>Spatial confounding has not been discussed much in the case of multilevel models. <ref type="bibr" target="#b14">Paddock et al. (2016)</ref> fitted standard conditional autoregression and RSR models to longitudinal data and observed that RSR provided more precise estimates of regression coefficients of the clusterlevel covariates when compared with standard conditional autoregression. However, as pointed out by <ref type="bibr" target="#b16">Pereira et al. (2020)</ref>, in the RSR model, they considered the cluster spatial random effects to be constrained only to the orthogonal complement of the cluster-level fixed effects. There is no reason to expect that, in this case, the resultant random effect will have variation restricted to the orthogonal complement of all covariates available.</p><p>This paper is organised as follows. Section 2 discusses the effects of confounding in a random intercept model considering unit and cluster-level covariates. The main differences from previous analysis <ref type="bibr" target="#b13">(Paciorek, 2010;</ref><ref type="bibr" target="#b15">Page et al., 2017)</ref> are that we have more than one observation per cluster (location) and they are assumed independent conditional on any cluster-specific random effects. As there are replicates available in each cluster, we show that even when the cluster-level random effect is assumed to be i.i.d. (no spatial correlation), a biased estimate of the fixed effects might result. In Section 3, we propose one way to fit an RSR model in the case of a random intercept model. The issues of spatial confounding in a random intercept and slope model are discussed in Section 4. Finally, Section 5 provides some discussion and concluding remarks.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Spatial Random Intercept Models</head><p>Consider a stochastic process wherein replicates are observed at each location s 2 G R r , where r D 1, 2 or 3 <ref type="bibr" target="#b4">(Gelfand et al., 2007)</ref>. Here, we define locations as clusters and observations within a cluster as units. Let Y j (s) be the j-th unit observed in the cluster at location s. A spatially varying intercept hierarchical model for Y j (s) with one unit covariate, X j (s), and one cluster covariate, W(s), is defined as</p><formula xml:id="formula_0">Y j .s/ D ˇ0.s/ C X j .s/ˇ1 C j .s/; j .s/ N.0; 2 /; ˇ0.s/ D ˛0 C ˛1W .s/ C .s/;<label>(1)</label></formula><p>where the component ˇ0(s) captures cluster-level characteristics that are shared by units observed at the same location s. This component is decomposed as the sum of an overall intercept, a cluster-level covariate effect and a spatially structured latent component (s). Commonly, (s) follows a zero mean Gaussian process with some valid covariance function <ref type="bibr" target="#b1">(Banerjee et al., 2014)</ref> and is assumed independent of j (s), 8s 2 G, which captures measurement error and is independent across clusters. Consider that observations are available over m spatial locations, and at each location i D 1,2, : : : , m, n i units are observed. Spatial hierarchical models assume that D ( (s 1 ), : : : , (s m )) T is independent from W D (W(s 1 ), : : : , W(s m )) T and X D (X(s 1 ), : : : , X(s m )) T , where X(s i ) D (X 1 (s i ), : : : , X n i .s i //. As a result, the conditional distribution of .Y j X; W/, marginalised with respect to , is given by</p><formula xml:id="formula_1">YjX; W N 1 N ˛0 C Xˇ1 C AW˛1; A † A T C 2 I N ;<label>(2)</label></formula><p>where</p><formula xml:id="formula_2">Y D (Y(s 1 ), : : : , Y(s m )) T , with Y(s i ) D (Y 1 (s i ), : : : , Y n i .s i //, 1 N is an N-dimensional vector of 1's, with N D P m i D1 n i ,</formula><p>A is an N m matrix of 0's and 1's connecting the cluster with each of its units and † is the spatial covariance matrix associated with .</p><p>If we assume D A † A T C 2 I N known, the generalised least square (GLS) estimator of ˇD(˛0,ˇ1,˛1) T is given by</p><formula xml:id="formula_3">O ˇD GY; where G D H T 1 H 1 H T 1 ;<label>(3)</label></formula><p>where H D .1 N j X j AW/, with '|' denoting column binding. The estimator in (3) is unbiased and consistent. Furthermore, under the specification in (2), the distribution of O ˇis multivariate normal with mean ˇand covariance matrix H T 1 H 1 .</p><p>The properties of unbiasedness hold because we assume that ( ) is independent of X j ( ) and W( ). However, as W( ) and X j ( ) vary spatially, and ( ) captures potential spatially structured covariates that could affect generation of the data, there might be some correlation among these components that might affect the properties of the usual estimators of the coefficients associated with W and X. Next, we discuss the effects on the GLS estimator of ˇunder potential scenarios of spatial confounding.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Possible Sources of Confounding in Hierarchical Models</head><p>Assume for convenience that for unit j, X j ( ) is decomposed as the sum of unit, X j . /, and cluster-level characteristics, Ä( ), that is, X D X + AÄ, where X D .X .s 1 /, : : : , X .s m // T , with X .s i / D .X 1 .s i /, : : : , X n i .s i //, and Ä D (Ä(s 1 ), : : : , Ä(s m )) T , where X is assumed to be known. Assume further that Á(s) D ( (s),Ä(s),W (s)) T follows a linear model of coregionalisation (LMC) <ref type="bibr" target="#b5">(Gelfand et al., 2004</ref>) defined as</p><formula xml:id="formula_4">Á.s/ D .s/ Ä.s/ W .s/ ! D B!.s/ D b 11 0 0 b 21 b 22 0 b 31 b 32 b 33 ! ! 1 .s/ ! 2 .s/ ! 3 .s/ ! ;<label>(4)</label></formula><p>where ! k ( ), k D 1, 2, 3, are independent among themselves, each following a zero mean Gaussian process with unit variance, and a valid correlation function k (d), where d denotes Euclidean distance. Then, for a given set of locations, ! k D (! k (s 1 ), : : : , ! k .s m // T N.0; R k / with R k representing a m-dimensional correlation matrix with elements k (d lh ), where d lh is the Euclidean distance between clusters s l and s h . It follows that Á D .</p><p>T ; Ä T ; W T / T N 0; P 3 kD1 T k ˝Rk Á , where T k D b k b T k with b k representing the k-th column of B and '˝' denoting the Kronecker product. In particular, if R k D R, for k D 1,2,3, then Á N.0; T ˝R/ with T D BB T . Looking at the elements of T, we note that Var. .s// D 2 D b 2 11 , Var.Ä.s// D 2 Ä D b 2 21 C b 2 22 and Var.W .s// D 2 W D b 2 31 C b 2 32 C b 2 33 .</p><p>To investigate the effect of the structure in Equation 4 on the estimator O ˇ, we follow similar steps as those described in <ref type="bibr" target="#b15">Page et al. (2017)</ref>.</p><p>Under (1), inference is performed conditioned on W and X. In order to obtain the marginal distribution of (Y | X,W) under the joint distribution in (4), we first obtain the conditional distribution of given Ä and W. Following the properties of the partition of the multivariate normal distribution, we have that . jÄ; W/ N jÄ;W ; † jÄ;W , where</p><formula xml:id="formula_5">jÄ;W D OE b 11 b 21 R 1 b 11 b 31 R 1 2 6 6 6 6 6 4 2 X j D1 b 2 2j R j 2 X j D1 b 2j b 3j R j 3 X j D1 b 2 3j R j 3 7 7 7 7 7 5 1 h Ä W i ; † jÄ;W D b 2 11 R 1 OE b 11 b 21 R 1 b 11 b 31 R 1 2 6 6 6 6 6 4 2 X j D1 b 2 2j R j 2 X j D1 b 2j b 3j R j 3 X j D1 b 2 3j R j 3 7 7 7 7 7 5 1 h b 11 b 21 R 1 b 11 b 31 R 1 i :<label>(5)</label></formula><p>To simplify the calculations that come next, denote by † the second term of † |Ä,W in (5). Marginalising the conditional distribution (Y | X,W, ) with respect to ( | X,W) leads to</p><formula xml:id="formula_6">Y j X; W N HˇC A jÄ;W ; 2 I N C A † A T A † A T :<label>(6)</label></formula><p>Proposition 1. If ÁD( T , Ä T , W T ) T is distributed as in (4) and all covariance components of D A † A T C 2 I N are known, then the sampling distribution of O ˇ, defined in (3), is given by</p><formula xml:id="formula_7">O ˇjX; W N ˇC GA jÄ;W ; H T 1 H 1 GA † A T G T Á : (<label>7</label></formula><formula xml:id="formula_8">)</formula><p>Therefore, it follows that Bias. O ˇ/ D GA jÄ;W :</p><p>Proof. See Section 1.1 of the Supporting Information.</p><p>A particular case that follows from the proposition earlier is when we assume that all three spatial processes, ! k ( ) k D 1,2,3, have the same correlation functions and spatial ranges. This implies that R D R 1 D R 2 D R 3 . In this case, we have the following corollary.</p><formula xml:id="formula_10">Corollary 1. If Á D ( T ,Ä T ,W T ) T is distributed as in (4) with R D R 1 D R 2 D R 3 , it follows that jÄ;W D . ;Ä ;W Ä;W / Ä 2 W det. † Ä;W / Ä C . ;W ;Ä Ä;W / W 2 Ä det. † Ä;W / W; (<label>9</label></formula><formula xml:id="formula_11">)</formula><formula xml:id="formula_12">† jÄ;W D 2 . ;Ä ;W Ä;W / 2 2 Ä 2 W det. † Ä;W / ;Ä . ;W ;Ä Ä;W / 2 2 Ä 2 W det. † Ä;W / ;W ! R; (<label>10</label></formula><formula xml:id="formula_13">)</formula><p>where † Ä,W is the covariance matrix of the pair (Ä( ),W( )) and det( † Ä,W ) its determinant; 2 is the variance of ( ), 2 Ä is the variance of Ä( ), 2 W is the variance of W( ), ,Ä is the correlation between ( ) and Ä( ), ,W is the correlation between ( ) and W( ), and Ä,W is the correlation between Ä( ) and W( ) at any location s. Assuming | Ä,W |&lt;1, ,Ä D ,W D 0 is a necessary and sufficient condition for Bias. O ˇ/ D .0; 0; 0/ T .</p><p>Proof. See Section 1.1.1 of the Supporting Information.</p><p>Note that the previous result also holds in the case of spatial independence among clusters, that is, when R D I m . In other words, even in the usual linear mixed model (LMM), the distribution of the GLS estimator of ˇmight be affected by the issue of confounding. This is not surprising as the cluster-level effect induces a covariance structure among the units within a cluster. And <ref type="bibr" target="#b10">Hodges and Reich (2010)</ref> mention that confounding also arises when different covariance structures are used in proper multivariate normal distributions for random effects.</p><p>An example of such a situation is that of informative cluster size, where the cluster size is associated with both the outcome and a predictor <ref type="bibr" target="#b9">(Hodges, 2013;</ref><ref type="bibr" target="#b20">Williamson, 2016)</ref>.</p><p>Actually, following the model in (4), different scenarios can be envisioned depending on the dependence structure among the components of Á. If Ä( ) is independent from ( ) and W( ), then b 21 D b 32 D 0. Therefore, as GX D .0 1 0/ T and GAW D .0 0 1/ T , which follows from GH D I 3 , it results that Bias. O ˇ/ D .0 0 c 1 / T , with c 1 ¤ 0 representing the bias in the estimate of ˛1. In addition, if we have R D R 1 D R 2 D R 3 , then 2 W D b 2 31 C b 2 33 , and Bias. O ˇ/ D 0 0 ;W = 2 W T (see Section 1.1.2 of the Supporting Information for details).</p><p>The latter result is similar to the one obtained by <ref type="bibr" target="#b15">Page et al. (2017)</ref> as we can write Bias.</p><formula xml:id="formula_14">O ˇ/ D .0 0 ;W = W / T , because ;W D Corr. .s/; W .s// D ;W = q 2 2 W with ,W D Cov( (s),W(s)).</formula><p>And it is clear that the bias does not depend on the spatial structure of the processes nor on the variance of X j ( ).</p><p>Alternatively, if b 31 D b 32 D 0, we have that W( ) is independent from ( ) and Ä( ) and Bias. O ˇ/ D .0 c 2 0/ T , with c 2 ¤ 0 representing the bias in the estimate of ˇ1. Under this scenario, even if R D R 1 D R 2 D R 3 , the bias of O ˇhas a complex structure (see Section 1.1.3 of the Supporting Information for details). The following proposition shows the mean squared error</p><formula xml:id="formula_15">(MSE) of O ˇ, which is defined as E h . O ˇ ˇ/T . O ˇ ˇ/ j X; W i .</formula><p>Proposition 2. Assuming that all conditions of Proposition 1 hold, the MSE of O ˇis</p><formula xml:id="formula_16">MSE. O ˇ/ D tr H T 1 H 1 Á tr GA † A T G T C GA jÄ;W T GA jÄ;W :<label>(11)</label></formula><p>Note that the first term in (11) is the MSE of O ˇwhen B is a diagonal matrix.</p><p>Proof. Follows directly from Proposition 1.</p><p>Except for some particular cases discussed here, it is unclear how bias and MSE are influenced by the elements that define the distribution of ( ( ) |Ä( ),W( )). To better understand the effect of different correlation structures among the components of Á( ) and different spatial scales of the ! k ( )'s, the following subsection performs simulation studies considering different scenarios.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Simulation Studies</head><p>Following <ref type="bibr" target="#b15">Page et al. (2017)</ref>, we now explore how the spatial scale of the cluster effects, the number of units per cluster and the correlation among the components of Á( ) affect the bias and the root MSE (rMSE) of O ˇin Equation 7. For simplicity, we assume there are n units in each of m spatial locations, such that the total number of observations is N D nm. We explore different scenarios by considering different values for the elements of B in Equation <ref type="formula" target="#formula_4">4</ref>and changing the values of the spatial practical range of the elements of Á( ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.1">Geostatistical analysis</head><p>For the geostatistical analysis, we generated uniformly m D 50 locations in the unit square in order to represent the clusters, and we let the number of subjects per cluster (n) take a value in the set {3,5,10}. As there is a one-to-one relationship between the elements of B and the variances and correlations among the components of Á( ) at a given location, we fixed the variances of and correlations among the components of Á( ) in order to compute B. We explore three different scenarios of correlations among the processes ( ), Ä( ) and W( ) that lead to different values for the elements of B in Equation 4. We denote these different values as B scenarios. In the first scenario (Case 1), we fixed Ä,W D Corr(Ä(s),W(s)) at 0.3 and ,Ä at 0.5 and varied ,W in the set {0.3, 0.5, 0.7}. In the second scenario (Case 2), we assumed ,Ä D Ä,W D 0 (i.e. Ä( ) is independent from ( ) and W( )) and considered values of ,W in the set {0.3, 0.5, 0.7}. In the third scenario (Case 3), we assumed ,W D Ä,W D 0 (i.e. W( ) is independent from ( ) and Ä( )) and explored ,Ä in the set {0.3, 0.5, 0.7}. The results for Cases 2 and 3 are presented, respectively, in Sections 3 and 4 of the Supporting Information.</p><p>As the bias and rMSE are influenced by the practical ranges of the components of Á( ), we also explore different R scenarios wherein we consider different practical ranges for ( ), Ä( ) and W( ). The first R scenario assumes that the ! k ( )'s are independent across space. This is obtained by making R 1 D R 2 D R 3 D I m . In this case, we discuss the bias and rMSE results as we vary 2 , 2 Ä and 2 W for data simulated assuming 10 equally spaced values in the interval [0.1, 1.0]. For convenience, we assumed 2 Ä D 2 W . When the ! k ( )'s follow a geostatistical model, we considered an exponential correlation function for each ! k ( ), that is, k .d / D exp . d=Â k /, where d is the Euclidean distance among clusters and Â k is a parameter associated with the spatial range of each process ! k ( ), defining the spatial scale of each of the processes ! k ( ) <ref type="bibr" target="#b13">(Paciorek, 2010)</ref>.</p><p>The values of 2 , 2 Ä and 2 W were fixed at 1. The values of Â k that define the R scenarios were chosen by fixing the effective ranges of ( ) and Ä( ) and W( ). Let d 0 1 , d 0 2 and d 0 3 be the distances at which the correlation functions of ( ) and Ä( ) and W( ) are 0.05, respectively. As N.0; 2 R 1 /, we explored 10 equally spaced values of d 0 1 varying between [0.1, 0.65], and Â 1 follows from the identity d 0 1 3Â 1 <ref type="bibr" target="#b1">(Banerjee et al., 2014)</ref>. Regarding the effective ranges of Ä( ) and W( ), we also explored 10 equally spaced values of d 0 2 and d 0 3 in the interval [0.5, 0.8], and for convenience, we assumed d 0 2 D d 0 3 . To obtain the values of the decay parameters Â 2 and Â 3 , we followed the identity in equations 8.1 and 8.2 of <ref type="bibr" target="#b5">Gelfand et al. (2004)</ref>.</p><p>In all analyses, we fixed 2 D 0.25 and assumed that the unit component of X, X , is generated independently from a zero mean normal distribution with a standard deviation of 0.1. Finally, in order to compute the bias and the rMSE of O ˛1 and O ˇ1 in Equations 8 and 11, we generated 1 000 Á vectors using the fixed values described earlier and computed each quantity of interest and then averaged over them.</p><p>Panels of Figure <ref type="figure" target="#fig_0">1</ref> show the bias surfaces of O ˛1 and O ˇ1 under Case 1 of the B scenario, and R scenario that assumes independence across space (first row), and different degrees of spatial ranges (second row). Regarding O ˛1 (first column of Figure <ref type="figure" target="#fig_0">1</ref>), the bias increases as the correlation between ( ) and W( ) increases, regardless of whether the ! k ( )'s are independent (first row) or spatially structured (second row). Also, when the processes follow a spatial structure, the bias increases smoothly as the number of units per cluster increases (when we move across the columns from n D 3 to n D 10). Under the independence assumption across space, the magnitude of the bias increases as the ratio 2 = 2 W increases. On the other hand, as ( ), Ä( ) and W( ) are spatially structured, the bias increases as the effective range of ( ) decreases. Clearly, both the spatial ranges of ( ), Ä( ) and W( ) and the structure of B influence the bias. This result is similar to that reported by <ref type="bibr" target="#b13">Paciorek (2010)</ref> and <ref type="bibr" target="#b15">Page et al. (2017)</ref>.</p><p>Regarding O ˇ1 (second column of Figure <ref type="figure" target="#fig_0">1</ref>), the bias decreases as the correlation between ( ) and W( ) increases, or as the number of units per cluster increases (when we move across the columns from n D 3 to n D 10). Recall that we keep ,Ä and Ä,W fixed while varying the correlation between ( ) and W( ). This result is not surprising as, from Corollary 1, it is clear that for fixed values of 2 W , 2 Ä , ,Ä and Ä,W , the bias associated with O ˇ1 tends to decrease as the correlation between ( ) and W( ) increases. Regarding the reduction of the bias of O ˇ1 with increasing n, recall that the observed individual covariate, X, is the sum of unit and cluster characteristics, and as n increases and the number of clusters is kept fixed, more of the variability of X is due to X , which is independent from ( ( ),W( )). Therefore, we conjecture that this bias reduction is related to this fact. And regarding the spatial scale of ( ), Ä( ) and W( ), the bias of O ˇ1 increases when ( ) has a smaller spatial scale than that of Ä( ) and W( ). In the case of independence across space (panel B of Figure <ref type="figure" target="#fig_0">1</ref>), the bias of O ˇ1 increases with the ratio 2 = 2 W . Figure <ref type="figure" target="#fig_0">S1</ref> shows the resultant surfaces considering the rMSE. They show similar patterns and magnitude as the ones shown in Figure <ref type="figure" target="#fig_0">1</ref>. This similarity between the bias and rMSE suggests that the bias term in Equation 11 is dominating the value of the rMSE.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.2">Areal data analysis</head><p>Note that the general structure in Equation 4 can also be used to describe a multivariate process for areal data. Following <ref type="bibr" target="#b15">Page et al. (2017)</ref>, we now explore the issues of confounding for hierarchical areal data. We assume that ! k follows a simultaneous conditional autoregressive (simultaneous CAR) model, that is, R k D (I m Â k C) 1 for k D 1, 2, 3, where C is a neighbouring matrix. Our geographical region contains the boundaries of Missouri's 114 counties <ref type="bibr" target="#b15">(Page et al., 2017)</ref>. In this case, C is a 114-dimensional matrix with 0's and 1's, such that (c ij ) D 1 if the j-th county shares boundary with the i-th county in the map, and (c ij ) D 0 otherwise. To guarantee that R k is positive definite, we restrict Â k to be in the interval . 1 min ; 1 max /, where min and max are, respectively, the minimum and maximum eigenvalues of C, which for Missouri's counties are given by 1 min D 0:345 and 1 max D 0:175. We fix the number of units per cluster at n D 5 and consider the spatial scale (Â k ) of the simultaneous CAR model of ! k to take values in the set { 0.3, 0, 0.17}, for k D 1, 2, 3. We also consider variations on the variance of the processes ( ), Ä( ) and W( ) such that 2 ; 2 Ä and 2</p><p>W take values in the set {0.1, 0.5}. For simplicity, we assume 2 Ä D 2 W and Â 2 D Â 3 . Similar to the geostatistical analysis, the elements of X were generated once, and we explore different correlation structures among the elements of Á( ) following the same B scenarios of the previous analysis. The analysis follows by generating 1 000 Á vectors and computing bias and rMSE as obtained in Equations 8 and 11 and averaging over them.</p><p>Panels of Figure <ref type="figure" target="#fig_1">2</ref> show the bias of O ˛1 (panel A) and O ˇ1 (panel B) for Case 1 of the B scenarios under the areal data case. Differently from the geostatistical analysis, now we alternate between spatial and non-spatial dependence structures by considering combinations when Â 1 and/or Â 3 D 0. In general, the conclusions are similar to the ones obtained for O ˛1 and O ˇ1 in the previous analysis. The bias of O ˛1 increases as the correlation between ( ) and W( ) (X-axis in the panels) and the ratio 2 = 2 W increase (line types and solid black or grey circles). For O ˇ1, on the other hand, the bias decreases as the correlation between ( ) and W( ) and the ratio 2 = 2 Ä increases. Similar to the geostatistical analysis, we conjecture that this is associated with the amount of variation of X that is explained by X . The rMSE for O ˛1 and O ˇ1 showed very similar patterns as those obtained for the bias (see Figure <ref type="figure" target="#fig_1">S2</ref>).</p><p>Sections 3 and 4 of the Supporting Information show the results for Cases 2 and 3, respectively, of the B scenarios. As expected from Equation 5, the bias associated with O ˇ1 in Case 2 and O ˛1 in Case 3 is equal to zero. Moreover, we note that the patterns of the bias and rMSE of O ˛1 are very similar under Cases 1 and 2. On the other hand, under Case 3 ( ,W D Ä,W D 0), the magnitude of the bias and rMSE of O ˇ1 decreases as the number of units in the cluster increases.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Prediction in the Presence of Confounding</head><p>We now focus on the issue of prediction of a new observation. Sections 2.3.1 and 2.3.2 describe two possible situations regarding prediction in hierarchical spatial models: prediction of a new unit within an observed cluster and prediction of a new unit in a new cluster (geostatistical case). To investigate the effects of spatial confounding on predictions based on spatial hierarchical models, we follow <ref type="bibr" target="#b15">Page et al. (2017)</ref> and focus on the best linear unbiased predictor (BLUP). As outlined by <ref type="bibr" target="#b15">Page et al. (2017)</ref>, the BLUP in a spatial setting corresponds to the kriging predictor under certain conditions, and when the covariance parameters are known, and a non-informative prior is assigned to the coefficients in the model, the Bayesian and kriging predictors are the same.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1">Prediction at observed locations</head><p>We continue using the model and notation of the previous section. Under the model in Equation 1, it follows that the kriging predictor of Y can be expressed as</p><formula xml:id="formula_17">b Y D H O ˇC A O ;<label>(12)</label></formula><p>where O D † A T 1 .Y H O ˇ/ is the BLUP for <ref type="bibr" target="#b18">(Schabenberger &amp; Gotway, 2004)</ref>. Therefore,</p><formula xml:id="formula_18">substituting O ˇand O in (12) results in b Y D HG C A † A T 1 .I N HG/ Y:<label>(13)</label></formula><p>Now, considering the correlation structure in Equation <ref type="formula" target="#formula_4">4</ref>, and the marginalised distribution of .Y j X; W/ in Equation 6, the sampling distribution of . b Y j X; W/ is described in the following proposition.</p><p>Proposition 3. If ÁD( T , Ä T , W T ) T is distributed as in (4) and all covariance components of D A † A T C 2 I N are known, then the sampling distribution of b Y, defined in (13), is normal with mean vector and covariance matrix given by Proof. See Section 1.3 of the Supporting Information.</p><p>Corollary 2. Under the assumptions of Proposition 3, the kriging predictor of Y is unbiased if, and only if,</p><formula xml:id="formula_19">HGA jÄ;W D A jÄ;W :</formula><p>Proof. Follows directly from ( <ref type="formula">14</ref>).</p><p>This result is different from the one described in Proposition 4 of <ref type="bibr" target="#b15">Page et al. (2017)</ref>, which states that if fixed and random effects vary in the same spatial scale, then b Y is unbiased. Their set-up is simpler than the one described here, as they consider only one unit per location and a single covariate in the model. Corollary 2 shows that other conditions are necessary to guarantee that b Y is unbiased under a hierarchical spatial model. For example, in the general case wherein the components of Á( ) are dependent, even if we assume R D R 1 D R 2 D R 3 , this will not make b Y unbiased as the conditions of Corollary 2 do not hold. The same result is obtained under Case 3 of the B scenarios. Under one of these scenarios (Case 1 or 3), a sufficient and necessary condition for b Y to be unbiased is HG D I N . On the other hand, under Case 2, and assuming R D R 1 D R 2 D R 3 , then Bias. b Y j X; W/ D 0 (see Section 3.3 of the Supporting Information).</p><p>In Sections 2.3, 3.3 and 4.3 of the Supporting Information, we provide simulation studies for Cases 1, 2 and 3 for the B scenarios in order to better understand the bias and root MSPE (rMSPE) of the kriging predictor of Y. In Case 1, although the bias varies in small scales, we note that increasing the number of units per cluster tends to reduce bias, and increasing the correlation between ( ) and W( ) tends to increase bias. Moreover, the bias also seems to depend on the effective range of ( ), Ä( ) and W( ). We note a bias reduction as the effective range of ( ) increases. In general, we also note that the rMSPE increases as the number of units per cluster increases, and for a given n, we note that the rMSPE decreases as the correlation between ( ) and W( ) increases.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2">Prediction at unobserved locations</head><p>The procedure discussed in the previous section can also be extended to perform prediction at unobserved locations. Assume the goal is to predict the outcome for a new unit in a new cluster located at s u ; define † (s u , s o ) a m-dimensional row vector with elements (Cov( (s u ), (s 1 )), : : : , Cov( (s u ), (s m ))), with each element representing the covariance between the process ( ) at the unobserved cluster s u and the observed ones, s o D (s 1 , : : : , s m ). Following properties of the partition of the multivariate normal distribution, the kriging predictor at the unobserved cluster of interest, O Y .s u /, is given by <ref type="bibr" target="#b3">(Cressie, 1993</ref>)</p><formula xml:id="formula_20">O Y .s u / D H T u O ˇC † .s u ; s o /A T 1 .Y H O ˇ/ D H T u G C † .s u ; s o /A T 1 .I N HG/ Y;<label>(16)</label></formula><p>where H(s u ) D (1, X(s u ),W (s u )) T , with X(s u ) and W(s u ) representing the values of the covariate X( ) and W( ) at the new location s u , respectively. Equation 16 is similar to the structure obtained in (13), and the remaining calculations follow in the same fashion as for the fitted values.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Restricted Regression for Spatial Random Intercept Models</head><p>Hodges and <ref type="bibr" target="#b10">Reich (2010)</ref> were the first to propose a method to deal with the issue of spatial confounding. Their proposal is based on the idea of assuming a model in which the spatial random effects are orthogonal to the fixed effects. And as already mentioned in Section 1, this is known as RSR.</p><p>Following Equation 2, we can write Y D 1 N ˛0 + Xˇ1 + AW˛1 + A + with following a zero mean multivariate normal distribution with covariance matrix equal to 2 I N . Following <ref type="bibr" target="#b10">Hodges and Reich (2010)</ref>, we propose to perform the RSR by making H D .1 N j X j AW/ orthogonal to A . More specifically, the proposed restricted model is</p><formula xml:id="formula_21">Y D HˇC .I N H.H T H/ 1 H T /A C ; N.0; 2 I N /:<label>(17)</label></formula><p>Note that Y is decomposed as the sum of three components where the first two belong to orthogonal spaces. There are different ways to impose restricted structures in hierarchical models. If the number of units per cluster is constant at each location, and H only contains clusterlevel covariates such that H D AH , where H represents a (m p) matrix of cluster covariates, then the RSR model is equivalent to premultiplying by A.I m H .H</p><p>T H / 1 H T /. Further, if n is not constant across the clusters, an alternative approach would be to consider the mean of each covariate at each spatial location (see <ref type="bibr" target="#b8">Hanks et al., 2015,</ref> for more details). Next we discuss simulation studies considering different data-generating mechanisms.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Data-generating Mechanism</head><p>Usually, cluster-level random effects are included in the model to capture the effects of missing covariates that, for some reason, were not observed. This simulation study aims at creating scenarios similar to what we find in practice.</p><p>We focus our analysis in the areal data scenario, and again, we consider the counties of Missouri as the geographical region of interest. Let Y j (s i ) be the outcome associated with unit j D 1, 2, : : : , n in cluster i D 1, 2, : : : , m, and we assume</p><formula xml:id="formula_22">Y j .s i / D ˛0 C ˛1W .s i / C ˇ1X j .s i / C ˛ZZ.s i / C j .s i /; (<label>18</label></formula><formula xml:id="formula_23">)</formula><p>where X j .s i / D X j .s i / C Ä.s i /, W(s i ) and Z(s i ) represent observed covariates at the unit and cluster levels, respectively. The vector (Z(s), Ä(s), W (s)) T follows an LMC similar to the one in Equation <ref type="formula" target="#formula_4">4</ref>, but with the processes ! k 's following simultaneous CAR models, that is, R k D (I m Â k C) 1 . We generate different datasets assuming different values for B. Note that this allows us to consider different correlations among the components of (Z(s), Ä(s),W (s)) T and also between Z(s) and Y j (s) by considering different values of ˛Z. We explore two different generating mechanisms for Z( ):</p><p>(i) one that assumes independence (Â 1 D 0) across clusters and (ii) and another that assumes a simultaneous CAR structure with Â 1 D 0.17.</p><p>To generate datasets under (i) and (ii) earlier, we alternate between spatial and non-spatial structures for ! 2 and ! 3 by considering Â 2 D Â 3 taking values in the set { 0.3, 0.0, 0.17}. Then we assume ˛0 D ˛1 D ˇ1 D 1, Corr(Z(s), Ä(s)) D 0.5, Corr(W(s), Ä(s)) D 0.3, 2 Z D 0:5 and 2 W D 2 Ä D 0:1, and n D 5 for all m D 114 clusters. The values of the correlation between Z(s) and W(s) are taken in the set {0, 0.3, 0.5, 0.7}. Finally, we consider ˛Z to be either 1 or 2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Fitted Models</head><p>The goal of this study is to check how the estimates of ˛1 and ˇ1 are affected when we fit either an LMM assuming ( ) follows a zero mean normal prior distribution with variance 2 or its restricted independent regression (RIR) counterpart for data generated from (i) earlier.</p><p>The RIR model is similar to the usual LMM but assuming H D .1 N j X j AW/ orthogonal to A as in Equation <ref type="formula" target="#formula_21">17</ref>. And for data generated from (ii) earlier, we fit either a spatial LMM (SLMM) with ( ) following the usual intrinsic CAR distribution <ref type="bibr" target="#b1">(Banerjee et al., 2014)</ref> or its RSR counterpart, which follows (18) accordingly.</p><p>For each dataset and model, inference was performed following the Bayesian paradigm, and we assigned independent zero mean normal prior distributions for ˛0, ˛1 and ˇ1 with variance 100 and independent half-Cauchy prior distributions for and . The results of these studies are based on 100 Monte Carlo data replicates.</p><p>Panels of Figure <ref type="figure">3</ref> show the bias and type-S error <ref type="bibr" target="#b6">(Gelman &amp; Tuerlinckx, 2000)</ref> based on the posterior mean of ˛1 and ˇ1 obtained from fitting the models to the 100 generated datasets. The type-S error is the proportion of samples wherein the 95% equal-tailed posterior credible intervals for a regression parameter does not overlap the true value used to generate the data. For O ˛1 the bias (panel A) increases as the correlation between Z(s) and W(s) ( Z,W ) increases. In this case, RIR models provide slightly better results than LMM. On the other hand, LMM provided smaller type-S errors, especially for smaller values of Z,W . For O ˇ1, similarly to what was observed on Section 2.2, the bias decreases as Z,W increases. And in general, LMM provided smaller bias for O ˇ1 than the RIR model. The type-S errors are smaller under the LMM than the RIR counterpart for all scenarios considered.</p><p>Results for the case wherein Z( ) is generated from the simultaneous CAR model with Â 1 D 0.17 are shown in panels of Figure <ref type="figure" target="#fig_3">4</ref>. The trend of the bias of O ˛1 and O ˇ1 is very similar to the respective cases when Z( ) is generated under independence among clusters. The magnitude of the bias of O ˇ1 is greater when Z( ) is generated with a spatial structure than when it is generated assuming independence among clusters. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Figure 3. Bias (A, C) and type-S error (B, D) associated with the posterior mean and the 95% equal-tailed posterior credible interval of ˛1 (first row) and ˇ1 (second row) under models linear mixed model (LMM) (grey symbols) and restricted independent regression (RIR) (black symbols) for data generated under case (i). The dash-dotted line represents the case wherein the data were generated with ˛Z D 1 and the dotted line the case wherein ˛Z D 2. The X-axis corresponds to the correlation between Z(s) and W(s) ( Z,W ) in the generating mechanism</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>(grey symbols) and spatial regression (RSR) (black symbols) for data generated under case (ii). The dash-dotted line represents the case wherein the data were generated with ˛Z D 1 and the dotted line the case wherein ˛Z D 2. The X-axis corresponds to the correlation between Z(s) and W(s) ( Z,W ) in the generating mechanism 4 Spatial Random Intercept and Slope Models</head><p>We now discuss the issue of confounding in the case of a random intercept and slope model. A spatially varying intercept and slope hierarchical model for Y j (s) with one unit-level covariate, X j (s), and one cluster covariate, W(s), is defined as</p><formula xml:id="formula_24">Y j .s/ D ˇ0.s/ C ˇ1.s/X j .s/ C j .s/; ˇ0.s/ D ˛0 C ˛1W .s/ C 0 .s/; ˇ1.s/ D 0 C 1 W .s/ C 1 .s/;<label>(19)</label></formula><p>where now the effect of the unit-level characteristic X j (s) varies with the cluster. We assume that the random effects 0 ( ) and 1 ( ) follow an LMC <ref type="bibr" target="#b4">(Gelfand et al., 2007)</ref> and are independent from j ( ), 8j D 1, 2, : : : , n i , and i D 1, 2, : : : , m. Consider that observations are available over m spatial locations, and at each location i D 1, 2, : : : , m, n i units are observed. Spatial hierarchical models assume that 0 D ( 0 (s 1 ), : : : , 0 (s m )) T and 1 D ( 1 (s 1 ), : : : , 1 (s m )) T are independent from W D (W(s 1 ), : : : , W(s m )) T and X D (X(s 1 ), : : : , X(s m )) T , where</p><formula xml:id="formula_25">X(s i ) D (X 1 (s i ), : : : , X n i .s i //.</formula><p>In this case, the conditional distribution of Y | X,W marginalised with respect to 0 and 1 is given by</p><formula xml:id="formula_26">YjX; W N h 1 N ˛0 C 0 X C AW˛1 C A X W 1 ; A † A T C 2 I N Ái ; (<label>20</label></formula><formula xml:id="formula_27">)</formula><p>where † is the covariance matrix of D . T 0 ; T 1 / T , and A D .A j A X / is a N 2m matrix such that A is as previously defined and A X has elements (a X ) ij D X i (s j ) if the i-th unit belongs to the j-th cluster and (a X</p><formula xml:id="formula_28">) ij D 0, otherwise. Assuming V D .1 N j X j AW j A X W/, ı D (˛0, 0 ,</formula><p>˛1, 1 ) T , and ˆD A † A T C 2 I N are known, the GLS estimator of ı is given by</p><formula xml:id="formula_29">O ı D QY; where Q D V T ˆ 1 V 1 V T ˆ 1 ;<label>(21)</label></formula><p>which, under the independence assumption among W, X and , is an unbiased and consistent estimator for ı. Following similar steps to those described in Section 2, next we discuss the effects of confounding on the GLS estimator for ı when we assume W, X, 0 and 1 follow a joint multivariate process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Possible Sources of Confounding in Random Slope and Intercept Models</head><p>As before, we assume that X can be decomposed as X D X + AÄ, where X is known. Assume further that (s) D ( 0 (s), 1 (s), Ä(s), W (s)) T follows an LMC defined as</p><formula xml:id="formula_30">.s/ D 0 @ 0 .s/ 1 .s/ Ä.s/ W .s/ 1 A D B!.s/ D 0 @ b 11 0 0 0 b 21 b 22 0 0 b 31 b 32 b 33 0 b 41 b 42 b 43 b 44 1 A 0 @ ! 1 .s/ ! 2 .s/ ! 3 .s/ ! 4 .s/ 1 A ;<label>(22)</label></formula><p>where ! k ( ), k D 1, 2, 3, 4, are independent among themselves, each following a zero mean Gaussian process with unit variance and a valid correlation function k (d). For a given set of m locations, we have that ! k D (! k (s 1 ), : : : , ! k .s m // T N.0; R k /, for k D 1, 2, 3, 4, with R k representing a m-dimensional correlation matrix. Then, under ( <ref type="formula" target="#formula_30">22</ref>), it follows that D . T 0 ; T 1 ; Ä T ; W T / T N 0; P 4 kD1 T k ˝Rk Á . And following the properties of the partition of the multivariate normal distribution, it follows that j Ä; W N jÄ;W ; † jÄ;W , where</p><formula xml:id="formula_31">jÄ;W D 2 6 4 b 11 b 31 R 1 b 11 b 41 R 1 2 X kD1 b 2k b 3k R k 2 X kD1 b 2k b 4k R k 3 7 5 2 6 6 6 6 4 3 X kD1 b 2 3k R k 3 X kD1 b 3k b 4k R k 4 X kD1 b 2 4k R k 3 7 7 7 7 5 1 h Ä W i ; † jÄ;W D Ä b 2 11 R 1 b 11 b 21 R 1 b 2 21 R 1 C b 2 22 R 2 2 6 4 b 11 b 31 R 1 b 11 b 41 R 1 2 X kD1 b 2k b 3k R k 2 X kD1 b 2k b 4k R k 3 7 5 2 6 6 6 6 4 3 X kD1 b 2 3k R k 3 X kD1 b 3k b 4k R k 4 X kD1 b 2 4k R k 3 7 7 7 7 5 1 2 6 4 b 11 b 31 R 1 b 11 b 41 R 1 2 X kD1 b 2k b 3k R k 2 X kD1 b 2k b 4k R k 3 7 5 T :</formula><p>To simplify the calculations that follow, let † be the second component in the expression for † jÄ;W earlier.</p><p>Marginalising the conditional distribution (Y | X,W, ) with respect to ( | X,W) leads to Y j X; W N Vı C A jÄ;W ; 2 I N C A † A T A † A T Á : (23) Proposition 5. If D . T 0 ; T 1 ; Ä T ; W T / T is distributed as in (22) and all covariance components of ˆD A † A T C 2 I N are known, then the sampling distribution of O ı, defined in (21), is given by O ı j X; W N ı C QA jÄ;W ; QˆB Q T ; (24) where ˆB D ˆ A † A T . It follows then that Bias. O ı/ D QA jÄ;W :</p><p>Proof. See Section 1.4 of the Supporting Information.</p><p>Clearly, Bias. O ı/ has structure similar to Bias. O ˇ/. Similar results to those obtained in Section 2 follow, for example, if B is diagonal, then the components of are independent leading to simplifications in the expression of Bias. O ı/. Also, if the !( )'s are assumed to follow the same Gaussian process (with same correlation function and parameters), further simplification of the expression follows. This is shown in Corollary 3 in Section 1.4.1 of the Supporting Information. The following proposition provides the expression of the MSE of O ı.</p><p>Proposition 6. Assuming that all conditions of Proposition 5 are valid, the MSE of O ı is</p><formula xml:id="formula_33">MSE. O ı/ D tr V T ˆ 1 V 1 Á tr.QA † A T Q T / C QA jÄ;W T QA jÄ;W : (<label>26</label></formula><formula xml:id="formula_34">)</formula><p>Note that the first term in (26) is the MSE of O ı when B is a diagonal matrix.</p><p>Proof. Follows directly from Proposition 5.</p><p>Furthermore, discussions about predictive values and out of sample predictions follow similar steps as those taken in the analysis discussed in the random intercept model. The next subsection describes a simulation study similar to the ones presented in Section 2.2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Simulation Studies</head><p>Here, we repeat the study of Section 2.2 for the bias of the estimators of ( 0 , ˛1, 1 ) T for the geostatistical and areal cases. In these analyses, we fix Corr( 0 (s), 1 (s)) and Corr(Ä(s), W(s)) at 0. <ref type="formula" target="#formula_1">2 and Corr( 0 (s</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.1">Geostatistical analysis</head><p>We generated m D 50 locations uniformly distributed in the unit square and let the number of units per cluster (n) take values in the set {3,5,10}. Further, we fix 2 0 , 2 1 , 2 Ä and 2 W at 1. Our goal is to investigate how the effective ranges of 0 ( ), 1 ( ), Ä( ) and W( ) affect the bias and rMSE of the estimators of ( 0 , ˛1, 1 ) T . To this end, we explore 10 equally spaced values of the effective ranges of the processes in . The effective ranges of 0 (d 0 0 ) and 1 (d 0 1 ) were computed considering the interval [0.1,0.65], whereas for Ä (d 0 Ä ) and W (d 0 W ), we considered the interval [0.5, 0.8]. For convenience, we assumed d 0 0 D d 0 1 and d 0 Ä D d 0 W . Once the practical ranges were fixed, the values of Â 2 , Â 3 and Â 4 in the exponential correlation functions were obtained using the identities discussed in section 8 of <ref type="bibr" target="#b5">Gelfand et al. (2004)</ref>. We fixed 2 D 0.25 and generated the unit component of X, X , from an independent zero mean normal distribution with standard deviation equal to 0.1. We generated 1 000 Monte Carlo replicates of vectors and computed the bias and rMSE of O 0 , O ˛1 and O 1 following Equations 25 and 26 and averaging across the samples.</p><p>Panels of Figure <ref type="figure" target="#fig_5">5</ref> show the bias surfaces of O 0 (panel A), O ˛1 (panel B) and O 1 (panel C). For O 0 , the bias decreases as the effective range of 0 ( ) and 1 ( ) and the number of units per cluster increase. The bias also decreases as the correlation 0 ;W increases. These results are very similar to those obtained in panel D of Figure <ref type="figure" target="#fig_0">1</ref>. In both models, these coefficients are measuring the association between the unit-level covariate X j ( ) and the outcome Y j ( ).</p><p>The bias surfaces of O ˛1 (panel B) do not seem to be much affected by the number of units per cluster. Different from the bias of O 0 , the bias of O ˛1 increases as 0 ;W increases. And for any given cluster size, the bias decreases as the effective ranges of 0 ( ) and 1 ( ) increases. For O 1 , on the other hand, the bias seems to be mainly affected by 0 ;W ; it clearly increases as 0 ;W increases. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.2">Areal data analysis</head><p>Here, we follow very similar steps to those of Section 2.2. We fix the number of units per cluster at n D 5 and consider Â k to take values in the set { 0.3, 0, 0.17}, for k D 1, 2, 3, 4. For simplicity, we assume Â 1 D Â 2 and Â 3 D Â 4 . The variances of the processes 0 ( ), 1 ( ), Ä( ) and W( ) ( 2 0 , 2 1 , 2 Ä and 2 W , respectively) take values in the set {0.1, 0.5}, and we assume, for convenience, that 2 0 D 2 1 and 2 Ä D 2 W . Again, we fix 2 D 0.25 and generated the unit component of X, X , from an independent zero mean normal distribution with standard deviation equal to 0.1. We generated 1 000 Monte Carlo replicates of vectors and computed the bias and rMSE of O 0 , O ˛1 and O 1 averaging across the samples following Equations 25 and 26.</p><p>Panels of Figure <ref type="figure" target="#fig_6">6</ref> show the bias of O 0 (panel A), O ˛1 (panel B) and O 1 (panel C). Similar to what was observed in the geostatistical study, the patterns of bias for O 0 and O ˛1 are similar to those observed for O ˛1 and O ˇ1 for the random intercept model (see panels of Figure <ref type="figure" target="#fig_1">2</ref>). In both models, these set of coefficients are associated with the same covariates. Regarding O 1 , bias increases as the correlation between ( 0 ( ), 1 ( )) and W( ) increases. For a given value of the correlation between ( 0 ( ), 1 ( )) and W( ), bias also increases as the ratio 2 0 = 2 W increases.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Discussion</head><p>We investigated the issue of spatial confounding in spatial multilevel models <ref type="bibr" target="#b4">(Gelfand et al., 2007)</ref>. We discussed the random intercept and random intercept and slope models. In both cases, we assumed that the cluster random effects together with the fixed effects follow an LMC. And following similar steps of those in <ref type="bibr" target="#b15">Page et al. (2017)</ref>, we investigated the effect of this assumption on the GLS estimator of the fixed effects. Simulation studies were provided for the random intercept and random intercept and slope models. The former can be seen as a generalisation of the usual spatial regression model when more than one observation is available at each location.</p><p>As pointed out by <ref type="bibr" target="#b10">Hodges and Reich (2010)</ref>, confounding also occurs when different covariance structures are used in proper multivariate normal distributions for random effects. One of our main contributions is to show that the bias and rMSE of the GLS estimator obtained for the usual LMM (i.e. clusters are independent across space) under the conditional distribution ( |Ä,W) are affected by the scales of, and correlations among, the components of Á (see Figure <ref type="figure" target="#fig_0">1</ref> and results in Sections 2-4 of the Supporting Information).</p><p>To the best of our knowledge, this is the first study to investigate effects of confounding when there is more than one covariate in the model. Clearly, our simulation studies show that confounding affects the estimates of the unit-level and cluster-level effects in different ways (see panels C and D of Figure <ref type="figure" target="#fig_0">1</ref>). When we assume that the cluster effects follow some spatial structure a priori, we obtain similar results to those obtained in <ref type="bibr" target="#b13">Paciorek (2010)</ref>, <ref type="bibr" target="#b8">Hanks et al. (2015)</ref> and <ref type="bibr" target="#b15">Page et al. (2017)</ref>. In particular, as discussed in <ref type="bibr" target="#b13">Paciorek (2010)</ref> and <ref type="bibr" target="#b15">Page et al. (2017)</ref>, our results show that the effects of spatial confounding on bias and rMSE increase when the effective range of the latent random effect varies in a scale smaller than those of the covariates.</p><p>Restricted spatial regression has been proposed as an alternative to handle the issue of confounding between the random effect and covariates of interest. In Section 3, we discussed how to implement restricted regression for random intercept models. We presented a simulation study considering data generated under two different cases: a cluster-level covariate that was assumed independent across clusters and another case wherein the covariate was spatially structured. Then when fitting the models, we attempted to capture the effect of this covariate by including, respectively, independent and spatially structured random effects and compared the LMM with their respective restricted counterparts. The results show that the magnitude of the bias under the LMM and the restricted models depend on the coefficient being considered. For the cluster-level coefficient, O ˛1, there was not much difference in terms of the magnitude of the bias; slightly smaller bias was generally obtained under RSR. For the coefficient of the unit-level covariate, O ˇ1, the bias under the RIR model is always greater than under the usual LMM. Similar results were obtained under the spatial case. This requires further investigation as this is the first study that explores restricted regression with more than one covariate. Similar to <ref type="bibr" target="#b8">Hanks et al. (2015)</ref>, RSR models provided higher values of type-S errors when compared with the SLMM. Section 7 of <ref type="bibr" target="#b8">Hanks et al. (2015)</ref> provides some discussion on how to decide between SLMM and RSR models. As pointed out by a reviewer, it is easier to implement RSR when observations within a cluster are independent than when there is some correlation structure within the cluster, for example, spatio-temporal observations. Two approaches to deal with confounding of fixed effects by spatial and temporal random effects are proposed in <ref type="bibr" target="#b0">Adin et al. (2020)</ref>.</p><p>As pointed out by <ref type="bibr" target="#b13">Paciorek (2010)</ref>, RSR makes a strong assumption of orthogonality between fixed and random effects as residuals and covariates are not orthogonal under GLS estimation. Commonly, random effects are included in the model to account for unobserved structures that might be present in the data and are not captured by the fixed effects. It is likely that these unobserved structures have some degree of collinearity with the fixed effects. More recently, <ref type="bibr" target="#b19">Thaden and Kneib (2018)</ref> proposed an alternative approach to RSR. Their approach is based on structural equation modelling techniques that aim to disentangle direct covariate effects from spatial random effects. As pointed out by a reviewer, this approach is only applicable to situations like the ones considered here, where there are multiple observations at each location. Possible avenue of research would be to extend the idea proposed in <ref type="bibr" target="#b19">Thaden and Kneib (2018)</ref> to the most common case wherein there is only one observation per location.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Bias associated with O ˛1 and O ˇ1 (columns) under independence across space (A, B) and dependence across space (C, D) for Á( ). The rows represent Case 1 of the B scenarios: Ä,W D 0.3, ,Ä D 0.5 and ,W 2 {0.3,0.5,0.7}. The columns within each panel correspond to different number of units per cluster. [Colour figure can be viewed at wileyonlinelibrary. com]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Bias associated with O ˛1 (A) and O ˇ1 (B) under a simultaneous conditional autoregressive model for ! 1 , ! 2 and ! 3 . These values were evaluated assuming Case 1 of the B scenarios: Ä,W D 0.3, ,Ä D 0.5 and ,W 2 {0.3, 0.5, 0.7}. The X-axis corresponds to the correlation between ( ) and W( ) ( ,W )</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>E</head><figDesc>. b Y j X; W/ D HˇC OEHG C A † A T 1 .I N HG/A jÄ;W ; Var. b Y j X; W/ D HG C A † A T 1 .I N HG/ B HG C A † A T 1 .I N HG/ T ; where B D A † A T . Proof. See Section 1.2 of the Supporting Information. As Y and b Y are random quantities, we follow Page et al. (2017) and compute the bias and MSPE respectively as Bias. b Y/ D EOE. b Y Y/ j X; W and MSPE. b Y/ D EOE. b Y Y/ T . b Y Y/ j X; W, which are obtained in the following proposition. Proposition 4. Under the assumptions of Proposition 3, the bias and MSPE of b Y are given by Bias. b Y/ D .I N A † A T 1 /HGA jÄ;W .I N A † A T 1 /A jÄ;W ; (14) MSPE. b Y/ D Bias. b Y/ T Bias. b Y/ C tr.P T P B /; (15) where P D .I N A † A T 1 /HG .I N A † A T 1 / and B is as defined in Proposition 3.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Bias (A, C) and type-S error (B, D) associated with the posterior mean and the 95% equal-tailed posterior credible interval of ˛1 (first row) and ˇ1 (second row) under models spatial linear mixed model (SLMM) (grey symbols) and spatial regression (RSR) (black symbols) for data generated under case (ii). The dash-dotted line represents the case wherein the data were generated with ˛Z D 1 and the dotted line the case wherein ˛Z D 2. The X-axis corresponds to the correlation between Z(s) and W(s) ( Z,W ) in the generating mechanism</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>), Ä(s)) and Corr( 1 (s), Ä(s)) at 0.4, take the values of Corr( 0 (s), W(s)) and Corr( 1 (s), W(s)) in the set {0.2, 0.4, 0.6} and assume Corr( 0 (s), W(s)) D Corr( 1 (s), W(s)).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Bias associated with O 0 , O ˛1 and O 1 under a geostatistical model for 0 , 1 , Ä and W. The rows represent variations in the correlation between ( 0 (s), 1 (s)) and W(s). The columns within each panel correspond to different number of units per cluster. [Colour figure can be viewed at wileyonlinelibrary.com]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Bias associated with O 0 (A), O ˛1 (B) and O 1 (C) under a simultaneous conditional autoregressive model for 0 , 1 , Ä and W. These values were evaluated assuming Corr( 0 (s), 1 (s)) D Corr(Ä(s),W(s)) D 0.2 and Corr( 0 (s), Ä(s)) D Corr( 1 (s), Ä(s)) D 0.4. The X-axis corresponds to the correlation 0 ;W D 1 ;W</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>International Statistical Review (2020) © 2020 International Statistical Institute.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>This work was part of <rs type="institution">Nobre's MSc Dissertartion</rs> under the supervision of A. M. Schmidt and <rs type="person">J. B. M. Pereira</rs>. Schmidt is grateful for financial support from <rs type="funder">Conselho Nacional de Desenvolvimento e Pesquisa (CNPq)</rs> and <rs type="funder">Fundação de Apoio e Amparo à Pesquisa do Estado do Rio de Janeiro (FAPERJ)</rs>, <rs type="person">Brazil</rs>, and from the <rs type="funder">Natural Sciences and Engineering Research Council (NSERC) of Canada</rs> (Discovery Grant <rs type="grantNumber">RGPIN-2017-04999</rs>). Nobre is grateful for financial support from <rs type="funder">Coordenação de Aperfeiçoamento de Pessoal de Nível Superior (CAPES)</rs> and <rs type="funder">FAPERJ</rs>. The authors thank the editor and two anonymous reviewers whose comments greatly improved the presentation of the paper.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_jPpVr5u">
+					<idno type="grant-number">RGPIN-2017-04999</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supporting Information</head><p>Supporting information may be found in the online version of this article.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Alleviating confounding in spatio-temporal areal models with an application on crimes against women in India</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Adin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Goicoa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Schnell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Ugarte</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/2003.01946" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<title level="m">Hierarchical Modeling and Analysis for Spatial Data, 2nd</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Spatial correlation in ecological analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Clayton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bernardinelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Montomoli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Epidemiol</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1193" to="1202" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Statistics for Spatial Data</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A C</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley Series in Probability and Mathematical Statistics: Applied Probability and Statistics</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Multilevel modeling using spatial processes: application to the Singapore housing market</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Tu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>Ong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Statist. Data Anal</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="3567" to="3579" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Nonstationary multivariate process modeling through spatially varying coregionalization (with discussion)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Test</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="263" to="312" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Type S error rates for classical and Bayesian single and multiple comparison procedures</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Tuerlinckx</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Statist</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="373" to="390" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Multilevel Statistical Models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Goldstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley Series in Probability and Statistics</title>
+		<meeting><address><addrLine>New York, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression in practice: geostatistical models, confounding, and robustness under model misspecification</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="243" to="254" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<title level="m">Richly Parameterized Linear Models: Additive, Time Series, and Spatial Models Using Random Effects. Chapman &amp; Hall/CRC Texts in Statistical Science Series</title>
+		<meeting><address><addrLine>New York, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Adding spatially-correlated errors can mess up the fixed effect you love</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Amer. Statist</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="325" to="334" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. B. Stat. Methodol</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="139" to="159" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Bayes estimates for the linear model (with discussion)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">V</forename><surname>Lindley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F M</forename><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. B. Stat. Methodol</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="41" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The importance of scale for spatial-confounding bias and precision of spatial regression estimators</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist. Sci</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">107</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Bayesian restricted spatial regression for examining session features and patient outcomes in open-enrollment group therapy studies</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Paddock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Leininger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">B</forename><surname>Hunter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Med</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="97" to="114" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Estimation and prediction in the presence of spatial confounding for spatial linear models</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Page</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scand. J. Stat</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="780" to="797" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Spatial confounding in hurdle multilevel beta models: the case of the Brazilian Mathematical Olympics for Public Schools</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B M</forename><surname>Pereira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Nobre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">F L</forename><surname>Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Schmidt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Roy. Statist. Soc. Ser. A</title>
+		<imprint>
+			<biblScope unit="volume">183</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1051" to="1073" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Effects of residual smoothing on the posterior of the fixed effects in disease-mapping models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Zadnik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1197" to="1206" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<author>
+			<persName><forename type="first">O</forename><surname>Schabenberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Statistical Methods for Spatial Data Analysis</title>
+		<imprint>
+			<publisher>Chapman &amp; Hall</publisher>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Structural equation models for dealing with spatial confounding</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Thaden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Amer. Statist</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="239" to="252" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Informative cluster size</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Williamson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley Statsref: Statistics Reference Online</title>
+		<imprint>
+			<date type="published" when="2016-01">2016. January 2019. May 2020</date>
+		</imprint>
+	</monogr>
+	<note>Received Accepted August 2020</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

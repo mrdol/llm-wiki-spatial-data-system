@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Adaptive estimation for spatially varying coefficient models</title>
+				<funder ref="#_2Pnyq3G">
+					<orgName type="full">National Statistical Science Research Project</orgName>
+				</funder>
+				<funder ref="#_TcW7Hck">
+					<orgName type="full">National Natural Science Foundation of China</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2023-04-13">13 April 2023</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Heng</forename><surname>Liu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Economics and Statistics</orgName>
+								<orgName type="institution">Guangzhou University</orgName>
+								<address>
+									<postCode>510006</postCode>
+									<settlement>Guangzhou</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Xia</forename><surname>Cui</surname></persName>
+							<email>cuixia@gzhu.edu.cn.</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Economics and Statistics</orgName>
+								<orgName type="institution">Guangzhou University</orgName>
+								<address>
+									<postCode>510006</postCode>
+									<settlement>Guangzhou</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Adaptive estimation for spatially varying coefficient models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2023-04-13">13 April 2023</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">6FE598E152DD38E909B35DF67299A338</idno>
+					<idno type="DOI">10.3934/math.2023713</idno>
+					<note type="submission">Received: 04 February 2023 Revised: 13 March 2023 Accepted: 17 March 2023</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>adaptive estimation</term>
+					<term>generalized Modal EM algorithm</term>
+					<term>geographically weighted regression</term>
+					<term>spatially varying coefficient models Mathematics Subject Classification: 62G05</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In this paper, a new adaptive estimation approach is proposed for the spatially varying coefficient models with unknown error distribution, unlike geographically weighted regression (GWR) and local linear geographically weighted regression (LL), this method can adapt to different error distributions. A generalized Modal EM algorithm is presented to implement the estimation, and the asymptotic property of the estimator is established. Simulation and real data results show that the gain of the new adaptive method over the GWR and LL estimation is considerable for the error of non-Gaussian distributions.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>In spatial data analysis, a common problem is determining the nature of the relationship between variables. In many cases, a simple global model often fails to explain the relationships between certain sets of variables, as the relationships between them may change with the change of position, which is known as spatial heterogeneity. In order to deal with this heterogeneity, the model needs to reflect the structure of spatial variation in the data. Suppose that the spatial data of n positions are randomly selected in the spatial region D ⊆ R 2 , let u i = (u i1 , u i2 ) ⊤ ∈ D is the position of the point i, i = 1, • • • , n, y i is the response variable, x i = (x i1 , x i2 , • • • , x ip ) ⊤ is the explanatory variable and x i1 ≡ 1, allowing a varying intercept in the model. {y i , x i , u i } satisfy the following spatially varying coefficient models (SVCM) <ref type="bibr" target="#b0">[1]</ref><ref type="bibr" target="#b1">[2]</ref><ref type="bibr" target="#b2">[3]</ref>: <ref type="bibr" target="#b0">1)</ref> where β(u i ) = (β 1 (u i ), β 2 (u i ), • • • , β p (u i )) ⊤ is a vector of p-dimensional unknown space-varying functional coefficients defined on D, ε i is an independent and and identically distributed random noise, with E(ε i ) = 0, var(ε i ) = σ 2 , and are independent of x i . Over the past few decades, SVCM has been widely used in geography <ref type="bibr" target="#b3">[4]</ref>, econometrics <ref type="bibr" target="#b4">[5]</ref>, meteorology <ref type="bibr" target="#b5">[6]</ref>, and environmental science <ref type="bibr" target="#b6">[7]</ref>. When β k (•) is a univariate function, the model (1.1) is a varying coefficient model and has been extensively studied <ref type="bibr" target="#b7">[8,</ref><ref type="bibr" target="#b8">9]</ref>. In this study, β k (•) is a bivariate function of the location-specific, and our main goal is to estimate β = (β 1 , β 2 , • • • , β p ) and explore the spatial heterogeneity of regression relations based on the given observations {(y i , x i , u i )} n i=1 . In the rich literature on how to estimate the regression coefficients of SVCM, the Bayesian approach and the smoothing approach are two competing methods. Firstly, the Bayesian approach is an important spatial modeling method that assumes that the regression coefficients obey a certain prior distribution and calculates their posterior distribution for estimation and inference. For example, Gelfand et al. <ref type="bibr" target="#b9">[10]</ref> developed a Bayesian hierarchical framework of spatial point reference data by formulating a Gaussian process for spatially varying coefficients, and Assuncao <ref type="bibr" target="#b10">[11]</ref> introduced the Bayesian space-varying coefficient model (BVCM) for areal data. Recently, Kim and Lee <ref type="bibr" target="#b11">[12]</ref> extended BVCM to handle mixed data with point reference data and areal data. Luo et al. <ref type="bibr" target="#b12">[13]</ref> built the Bayesian spatially clustered coefficient (BSCC) model from the spanning trees of a graph. However, Bayesian methods require careful selection of prior distributions and face the high computational cost issue. Secondly, the smoothing method is a traditional framework for regression, divided into kernel smoothing and smoothing splines. For example, Fotheringham et al. <ref type="bibr" target="#b0">[1]</ref> adopted a locally weighted least squares method of constructing weights by spatial kernel functions, namely geographically weighted regression (GWR), which is essentially a local constant kernel smoother. Mu et al. <ref type="bibr" target="#b13">[14]</ref> used binary splines over triangulation to estimate regression coefficients, which solves the problem of inappropriate smoothness of complex regional boundary features and processes large data sets quickly and effectively enough. Yet, the kernel-based method needs to solve an optimization problem at each sample position which is computationally intensive, and smoothing splines method inference for spatially varying coefficients relies on a bootstrap method.</p><formula xml:id="formula_0">y i = x ⊤ i β(u i ) + ε i = p k=1 x ik β k (u i ) + ε i , i = 1, 2, • • • , n,<label>(1.</label></formula><p>Currently, there are also numerous studies on variable selection in SVCM. Shin et al. <ref type="bibr" target="#b14">[15]</ref> proposed penalized quasi-likelihood methods with spatial dependence. Wang and Sun <ref type="bibr" target="#b15">[16]</ref> represented the space-varying coefficients as a combination of local polynomials at anchor points and applying the least squares with an additive form of lasso and fused-lasso penalties. Li and Sang <ref type="bibr" target="#b16">[17]</ref> proposed a spanning tree graph fused lasso-based spatially clustered coefficient regression (SCC) model with the assumption of spatial clusters, and the regularization term of the SCC model is generalized by a chain graph guided fusion penalty plus a group lasso penalty <ref type="bibr" target="#b17">[18]</ref>. However, each of these methods estimated space-varying coefficients by the least squares criterion, corresponding to the likelihood function when the error term is normally distributed. In practice, the error density was unknown, so it is not appropriate to use the least squares method, which will lose some efficiency, but the adaptive estimation method provides an alternative way.</p><p>The adaptive estimation method was first studied to consider the problem of estimating and inferring an infinite dimensional parameter <ref type="bibr" target="#b18">[19]</ref>. This method replaces the Gaussian density function with a nonparametric estimate of the score function of the log-likelihood estimation and proves that efficiency gain can be achieved in both varying coefficient models <ref type="bibr" target="#b19">[20]</ref> and varying coefficient models with nonstationary covariates <ref type="bibr" target="#b20">[21]</ref>. In this study, we propose an adaptive estimation method to estimate spatially varying coefficients, different from the least squares criterion, the logarithmic function of the new adaptive estimation method is similar to the likelihood structure of the mixed density function, without an explicit solution, and we use the generalized Modal EM (GMEM) algorithm to achieve parameter estimation <ref type="bibr" target="#b21">[22]</ref>. Simulation results show that when the error distribution deviates from the normal distribution, the new estimation is more effective than the existing GWR estimation based on least squares. In addition, the new method is also comparable with existing GWR methods when the error is completely normal. Finally, we illustrate the effectiveness of the proposed adaptive estimation method through two real data examples.</p><p>The rest of this study is organized below. In Section 2, the adaptive estimation of spatial varying coefficient models and the generalized Modal EM algorithm are introduced. In Section 3, through simulation research, the proposed method is compared with the GWR method under five different error densities. In Section 4, the new method is applied to two real-world data examples. This article is briefly discussed in Section 5. All technical conditions and certifications are given in Section Appendix A.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Adaptive kernel estimation method</head><p>For any given u 0 , approximating the spatially varying coefficients by Taylor's expansion as</p><formula xml:id="formula_1">β k (u i ) ≈ β k (u 0 ) + βk (u 0 )(u i -u 0 ) △ = b k + c k (u i -u 0 ), k = 0, • • • , p,<label>(2.1)</label></formula><p>where u i is in a neighborhood of u 0 , βk (u 0 ) = {∂(β k (u)/∂u 1 , ∂(β k (u)/∂u 2 } u=u 0 . Using the above approximation, we have the following objective function for estimating (b 1 , • • • , b p ) and (c 1 ,</p><formula xml:id="formula_2">• • • , c p ) n i=1        y i - p k=1 {b k + c k (u i -u 0 )}x ik        2 K h (||u i -u 0 ||), (2.2)</formula><p>where K h (•) = K(•/h)/h 2 , K(•) is a kernel function, h is a bandwidth, and ||s|| = (s ⊤ s) 1 2 for a vector s. Throughout this study, a Gaussian kernel will be used for K(•). Due to the least squares in (2.2), the resulting estimate may lose some efficiency when the error distribution is not normal. Therefore, we develop an adaptive estimation procedure that can adapt to different error distributions.</p><p>Let f (ε) be the density function of ε. If f (ε) were known, it would be natural to estimate the parameters in (2.1) by maximizing the following log-likelihood function</p><formula xml:id="formula_3">n i=1 log f        y i - p k=1 {b k + c k (u i -u 0 )}x ik        K h (||u i -u 0 ||).</formula><p>(2.3) However, in practice, f (ε) is generally unknown but can be replaced by a leave-one-out kernel density estimator fε = 1 n n j i</p><formula xml:id="formula_4">K h 0 (ε i -εj ), (2.4)</formula><p>where ε j = y j -p k=0 x jk βk (u j ) is a preliminary estimation of ε j based on initial estimator βk , +and βk = bk , which can be estimated by local linear regression estimator ( <ref type="formula" target="#formula_1">2.2</ref></p><formula xml:id="formula_5">). Let θ = (b 1 , • • • , b p , c 1 , • • • , c p ) ⊤ . Then our proposed adaptive estimate for the parameter θ is θ = arg max θ Q(θ) (2.5)</formula><p>where</p><formula xml:id="formula_6">Q(θ) = n i=1 log         1 n j i K h 0 [y i - p k=1 {b k + c k (u i -u 0 )}x ik -ε j ]         K h (||u i -u 0 ||).</formula><p>(2.6)</p><p>Since the logarithmic function of (2.6) has an internal sum, which is similar to the objective function from a random sample of mixed density, so there is no explicit solution. In the following, we use the generalized Modal EM algorithm proposed in Yao <ref type="bibr" target="#b21">[22]</ref> to calculate the parameters.</p><p>Generalized Modal EM algorithm (GMEM): GMEM algorithm is the generalization of Modal EM (MEM) algorithm <ref type="bibr" target="#b22">[23]</ref> that finds the mode of the mixture density and does nonparametric clustering. The MEM algorithm comprises two steps similar to the expectation and the maximization steps in EM algorithm, which aims at maximizing the likelihood function for finite mixture models when the model contains unobserved latent variables. Especially, suppose an m-component finite mixture density be</p><formula xml:id="formula_7">f (x) = m j=1 π j f j (x),</formula><p>where π j is the mixing proportions of mixture component j, and f j (x) is the density of component j. Given any initial value x (0) , in the (l + 1)th step of the MEM algorithm solves a local maximum of the mixture by the following two steps: 1) let</p><formula xml:id="formula_8">p j = π j f j (x (l) ) f (x (l) ) , j = 1, • • • , m, 2) update x (l+1) = arg max x m j=1 p j log f j (x).</formula><p>The first step is the "Expectation" step where the probability of each mixture component j, 1 ≤ j ≤ m, at the current point x (r) is computed. The second step is the "Maximization" step, similar to EM algorithm, which is usually much easier than the original objective function. Detailed properties of MEM algorithms refer to Li et al. <ref type="bibr" target="#b22">[23]</ref>. Yao <ref type="bibr" target="#b21">[22]</ref> proves that the MEM algorithm can be applied to maximize a general mixture-type objective function</p><formula xml:id="formula_9">f (x) = m j=1 w j        log{ K k=1 a jk f jk (x)}        (2.7)</formula><p>where w k and a kl are known positive constants, f jk (x) is positive known function, when j = 1, the objective function (2.7) is simplified to</p><formula xml:id="formula_10">f (x) = w 1 log{ K k=1 a 1k f 1k (x)} ∝ K k=1 a 1k f 1k (x),</formula><p>Therefore, the MEM algorithm in Eq ( <ref type="formula" target="#formula_1">2.7</ref>) is a special case of the generalized Modal EM algorithm (GMEM) if K k=1 a 1k = 1 and f 1k (x) are density functions. Specifically, given the initial value x (0) , in the (l + 1)th step of the GMEM algorithm are following: E-step: let</p><formula xml:id="formula_11">p (l+1) jk = a jk f jk (x (l) ) K k=1 a jk f jk (x (l) ) , j = 1, • • • , m, k = 1, • • • , K, M-step: update x (l+1) = arg max x m j=1 K k=1 {w j p l+1 jk log f jk (x)}.</formula><p>In this study, we note that the objective function Q(θ) of (2.6) has the mixture form of (2.7). Specially,</p><formula xml:id="formula_12">K h (u i -u 0 ), 1 n , K h 0 [y i -p k=1 {b k + c k (u i -u 0 )}x ik -ε j ]</formula><p>in (2.6) corresponds to w j , a jk , f jk (x) in (2.7), respectively. Therefore, GMEM could be directly applied to estimate the parameters of b k , c k in (2.6). Let θ (0) be the initial estimator obtained by minimizing (2.2),</p><formula xml:id="formula_13">θ (l) = (b (l) 1 , • • • , b (l) p , c (l) 1 , • • • , c (l)</formula><p>p ) ⊤ is the estimator of (l)th iteration, ε j is a preliminary estimation of ε j and no need to update,</p><formula xml:id="formula_14">z i = {x ⊤ i , (x i ⊗ (u i -u 0 )) ⊤ } ⊤</formula><p>. At the (l + 1)th iteration, steps E and M are as follows: E-step: calculate the classification probabilities p (k+1)</p><formula xml:id="formula_15">i j , p (l+1) i j = K h 0 [y i -p k=1 {b (l) k + c (l) k (u i -u 0 )}x ik -ε j ] j i K h 0 [y i -p k=1 {b (l) k + c (l) k (u i -u 0 )}x ik -ε j ] . (2.8) M-step: update θ (l+1) θ (l+1) = arg max θ n i=1 j i {p (l+1) i j K h (||u i -u 0 ||) log(K h 0 [y i - p k=1 {b k + c k (u i -u 0 )}x ik -ε j ])} = n i=1 j i arg min θ {p (l+1) i j K h (||u i -u 0 ||)[y i -ε j -z ⊤ i θ] 2 } = ( n i=1 j i p (l+1) i j K h (||u i -u 0 ||)z i z ⊤ i ) -1 n i=1 j i p (l+1) i j K h (||u i -u 0 ||)(y i -εj )z i = (Z ⊤ W Z) -1 Z ⊤ WY,<label>(2.9)</label></formula><p>where</p><formula xml:id="formula_16">Z = (Z 1,n-1 , • • • , Z n,n-1 ) ⊤ , Z i,n-1 =                               x i1 x i1 • • • x i1 . . . . . . . . . • • • x ip x ip • • • x ip (u i -u 0 )x i1 (u i -u 0 )x i1 • • • (u i -u 0 )x i1 . . . . . . . . . • • • (u i -u 0 )x ip (u i -u 0 )x ip • • • (u i -u 0 )x ip                               3p×(n-1) , W = diag(p (l+1) 12 K h (||u 1 -u 0 ||), • • • , p (l+1) 1n K h (||u 1 -u 0 ||), • • • , p (l+1) n,n-1 K h (||u n -u 0 ||)), Y = (y 1 -ε2 , • • • , y 1 - εn , • • • , y n -εn-1 ) ⊤</formula><p>, and the second equation follows the use of Gaussian kernel. If ||θ (l+1) -θ (l) || ≤ 10 -5 , the algorithm ends. Otherwise, the E and M steps of the algorithm continue to iterate. Proposition 2.1. Each iteration of the above E and M steps will monotonically increase Q(θ) in the Eq (2.6), i.e., for any l, Q(θ (l+1) ) ≥ Q(θ (l) ).</p><p>The consistency and asymptotic of θ are established. Let H = diag(1, h, h) ⊗ I p , where ⊗ is the Kronecker product and I p is the unit matrix of p × p. For i, j = 0, 1, 2, k = 1, 2, denote γ i j = u i k K j (∥u∥)du with u = (u 1 , u 2 ), and q(•) is the marginal density function of u. Theorem 2.1. Under the regularity conditions in the A, there exists a consistent maximizer θ = ( b1 , • • • , bp , ĉ1 , • • • , ĉp ) ⊤ of (2.6) with probability approaching 1 such that</p><formula xml:id="formula_17">H( θ -θ) = O p {(nh 2 ) -1/2 + h 2 }.</formula><p>Based on Theorem 2.1, we can know that the proposed adaptive estimator of θ is consistent and its proof is provided in the Appendix. Next, we provide the asymptotic distribution of the proposed estimator.</p><p>Theorem 2.2. Suppose that the regularity conditions in the A hold. Then θ, given in Theorem 2.1, has the following asymptotic distribution</p><formula xml:id="formula_18">√ nh 2 {H( θ -θ) -S -1 h 2 2 p k=1 tr(H β k )ψ k (1 + o p (1))} D -→ N(0 3p×1 , [E{ρ ′ (ε) 2 }] -1 q(u 0 ) -1 S -1 ΛS -1 )}}, where ρ(•) = log f (•), S = diag(γ 01 , γ 21 , γ 21 ) ⊗ Γ(u 0 ), Γ(u 0 ) = {Γ k j (u 0 )} 1≤k, j≤p , Γ k j (u 0 ) = E(x ik x i j |u 0 ), Λ = diag(γ 02 , γ 22 , γ 22 ) ⊗ Γ(u 0 ), and ψ k = γ 21 0 2×1 ⊗ (Γ k j (u 0 )) ⊤ 1≤ j≤p .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Simulation study</head><p>This section simulates the proposed adaptive estimation method and compares it with that of the local linear geographically weighted regression (LL) <ref type="bibr" target="#b23">[24]</ref> and the Geographically Weighted Regression Model (GWR). In numerical experiments, the following four designs of error structure are considered: 1) ε ∼ N(0, 1); 2) ε ∼ t 3 ; 3) ε ∼ 0.5N(-1, 0.5 2 ) + 0.5N(1, 0.5 2 ); 4) ε ∼ e T -E(e T ), where T ∼ N(0, 1).</p><p>The first is the standard normal distribution as a benchmark for comparison, and the second is the t distribution with 3 degrees of freedom. The distributions of the third are doublet and left-biased, and the last one has a long right tail. For the above error distribution, the population positions are located at the N = 25 × 25 regular grid in the square region of D = [0, 1] 2 , and the distance between any two adjacent points in the horizontal and vertical directions is equal. At each location, the response variable y 1 , • • • , y n is generated by y i = β 1 (u i )x i1 + β 2 (u i )x i2 + ε i , where x 1 and x 2 follow N(0, 1) with correlation coefficient ρ = 1/ √ 2, and the regression coefficient function is as follows:</p><formula xml:id="formula_19">β 1 (u) = 1 + 25 12 (u 1 + u 2 ), β 2 (u) = 1 + 1 324 [36 -(6 - 25u 1 2</formula><p>) 2 ][36 -(6 -25u 2 2 ) 2 ], the true coefficient functions contour plots of β 1 (u) and β 2 (u) are shown in Figure <ref type="figure" target="#fig_0">1</ref>. We randomly sample n = 200 and 400 points from the 25 × 25 points in each of the 100 Monte Carlo experiments. There are two bandwidths h and h 0 in the estimate, we use the leave-one-out cross-validation method to select h, and the choice of h 0 = h/ log(n) follows Linton and Xiao <ref type="bibr" target="#b24">[25]</ref>. The performance of the estimator β(•) is evaluated by the square root of the average squared errors (RASE), which calculated as follows:</p><formula xml:id="formula_20">RAS E = 1 n n i=1 2 p=1</formula><p>[ βp (u i ) -β p (u i )] 2 .</p><p>The simulation results are summarized in Table <ref type="table" target="#tab_0">1</ref>. It can be clearly seen that when the error is non-normal, the proposed adaptive estimation is better than LL and GWR, and the improvement of estimation efficiency may also be considerable. When the error is fully normally distributed, our method is still comparable to the LL and GWR method.  Figure <ref type="figure" target="#fig_1">2</ref> visualizes the estimated surfaces of β 1 (•) and β 2 (•) using adaptive estimation method, LL and GWR based on sample size n = 400 when the error distribution of ε is the case 3, These results highlight that the adaptive estimation method can capture more accurate spatial pattern than the LL and GWR method.  Voter data. This dataset includes the proportion of the voting population in 322 areas, as well as several variables that may explain the change in the proportion of the voting population. Specifically, we will explore how the unemployment rate (Unempl), the proportion of ages 25 to 44 (Age 25 44) and no formal education (LowEduc) affect the proportion of the voting population in each region (GenEl2004). Figure <ref type="figure" target="#fig_3">3</ref> shows the spatial distribution of the dependent variable and the three independent variables.</p><p>(a) GenEl2004 (b) Unempl (c) Age25 44 (d) LowEduc The dependent variable GenEl2004 and the independent variable Unempl, Age25 44, LowEduc are y, x 2 , x 3 , x 4 , respectively, x 1 = 1 as intercept terms. We use the spatially varying coefficient models to fit the data as follows:</p><formula xml:id="formula_21">y i = β 1 (u i ) + 4 k=2 β p (u i )x ik + ε i .</formula><p>Figure <ref type="figure" target="#fig_2">4</ref> summarizes estimated coefficient functions using the adaptive method, LL, and GWR respectively, which are considerably in space. Figure <ref type="figure" target="#fig_9">7(a)</ref> shows a residual QQ-plot of the Dublin voter turnout via the adaptive method. From the plot, we can see that the distribution of the residual is very close to normal.</p><p>To evaluate the prediction accuracy of the adaptive method, we set aside 50 observations for comparing the mean squared prediction error (MSPE) of the adaptive method, LL, and GWR. The MSPE is computed as follows:</p><formula xml:id="formula_22">MSPE = 1 m m j=1 (y j -ŷj ) 2 , j = 1, • • • , m,</formula><p>where m = 50 and ŷ j = β1 (u j ) + 4 k=2 βp (u j )x jk . The MSPE values by three methods are comparable, which are 0.018, 0.015 and 0.017, respectively. The QQ-plot of residuals from the Fingure 7(a) are close to the normal distribution, which explains why the MSPE of the adaptive method is very close to the MSPE of the GWR and the LL.</p><p>(a) β1 (b) β2 (c) β3 (d) β4   (a) Purprice (b) FlrArea We take the house sale price (y) as the dependent variable, FlrArea(x 2 ) as the independent variable, x 1 = 1 as the intercept term, and the spatially varying coefficient models of the fitted data is:</p><formula xml:id="formula_23">y i = β 1 (u i ) + β 2 (u i )x 2 + ε i .</formula><p>The estimated coefficient function is shown in Figure <ref type="figure" target="#fig_8">6</ref>, and Figure <ref type="figure" target="#fig_9">7</ref>(b) shows a residual QQ plot via adaptive method for England and Wales house price data. Similar to the analysis in example 1, we set aside 50 observations as the test set. The MSPE of the adaptive approach, LL and GWR are 0.302, 0.339 and 0.548, respectively. The QQ-plot of residuals from the above fit showed a clear deviation from normality, which explains why the MSPE from the adaptive approach is smaller than LL and GWR.</p><p>(a) β1 (b) β2  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Concluding remarks</head><p>In this article, we proposed an adaptive estimation for spatially varying coefficient models. The new estimation procedure can adapt to different errors and improve estimation efficiency than the LL and the GWR method. Simulation studies and two real data applications confirmed our theoretical findings.</p><p>The proposed method in this article can be easily extended to semiparametric varying-coefficient partially linear models, where some coefficients in the model are assumed to be constant and the remaining coefficients are allowed to spatially vary across the studied region. Another interesting future work is the spatiotemporal extension to analyze data collected across time and space.</p><formula xml:id="formula_24">Q(θ (l+1) ) -Q(θ (l) ) = n i=1 K h (||u i -u 0 ||) log          j i K h 0 y i -p k=1 b (l+1) k + c (l+1) k (u i -u 0 ) x ik -ε j j i K h 0 y i -p k=1 b (l) k + c (l) k (u i -u 0 ) x ik -ε j          = n i=1 K h (||u i -u 0 ||) log j i         K h 0 y i -p k=1 b (l) k + c (l) k (u i -u 0 ) x ik -ε j j i K h 0 y i -p k=1 b (l) k + c (l) k (u i -u 0 ) x ik -ε j         ×         K h 0 y i -p k=1 b (l+1) k + c (l+1) k (u i -u 0 ) x ik -ε j K h 0 y i -p k=1 b (l) k + c (l) k (u i -u 0 ) x ik -ε j         = n i=1 K h (||u i -u 0 ||) log          j i p (l+1) i j K h 0 y i -p k=1 b (l+1) k + c (l+1) k (u i -u 0 ) x ik -ε j K h 0 y i -p k=1 b (l) k + c (l) k (u i -u 0 ) x ik -ε j          ,<label>where</label></formula><formula xml:id="formula_25">p (l+1) i j = K h 0 y i -p k=1 b (l) k + c (l) k (u i -u 0 ) x ik -ε j j i K h 0 y i -p k=1 b (l) k + c (l) k (u i -u 0 ) x ik -ε j . From Jensen's inequality, Q(θ (k+1) ) -Q(θ (k) ) ≥ n i=1 K h (||u i -u 0 ||) j i p (l+1) i j log          K h 0 y i -p k=1 b (l+1) k + c (l+1) k (u i -u 0 ) x ik -ε j K h 0 y i -p k=1 b (l) k + c (l) k (u i -u 0 ) x ik -ε j          .</formula><p>Based on the properties of step M of formula (2.9), it is proved that Q(θ (k+1) ) -Q(θ (k) ) ≥ 0.</p><p>Proof of theorem 2.1: According to the the result of Linton and Xiao <ref type="bibr" target="#b24">[25]</ref>, the asymptotic behaviour of θ in (7) is the same as that obtained from (4). Therefore, we prove the asymptotic properties of θ based on (2.3).</p><p>Denote</p><formula xml:id="formula_26">θ * = Hθ, x * i = x i1 , • • • , x ip , ( u i -u 0 h ) ⊤ x i1 , • • • , ( u i -u 0 h ) ⊤ x ip ⊤ , K i = K h (||u i -u 0 ||), R(u i , x i ) = p k=1 β k (u i )x ik -p k=1 {b k + c k (u i -u 0 )}x ik , and a n = (nh 2 ) -1/2 + h 2 . Let ρ(•) = log f (•), objective function (2.3) is written as L(θ) = 1 n n i=1 K i ρ(y i -θ * ⊤ x * i ) △ = L(θ * ).</formula><p>Based on the definition of θ * , it is sufficient to show that for any given η &gt; 0, there exists a large constant c such that</p><formula xml:id="formula_27">P{ sup ∥µ∥=1 L(θ * + a n µ) &lt; L(θ * )} ≥ 1 -η</formula><p>where µ has the same dimension as θ, a n is the convergence rate. By using Taylor expansion, it follows that</p><formula xml:id="formula_28">L(θ * + a n µ) -L(θ * ) = 1 n n i=1 K i {ρ(ε i + R(u i , x i ) -a n µ ⊤ x * i ) -ρ(ε i + R(u i , x i ))} = - 1 n n i=1 K i ρ ′ (ε i + R(u i , x i ))a n µ ⊤ x * i + 1 2n n i=1 K i ρ ′′ (ε i + R(u i , x i ))a 2 n (µ ⊤ x * i ) 2 - 1 6n n i=1 K i ρ ′′′ (z i )a 3 n (µ ⊤ x * i ) 3 △ = I 1 + I 2 + I 3 ,</formula><p>where z i is a value between ε i + R(u i , x i )a n µ ⊤ x * i and ε i + R(u i , x i ).</p><p>For</p><formula xml:id="formula_29">I 1 = -1 n n i=1 K i ρ ′ (ε i + R(u i , x i ))a n µ ⊤ x * i , Let δ 1 = E[ρ ′′ (ε i )]. Since R(u i , x i ) = p k=0 β k (u i )x ik - p k=0 {b k + c k (u i -u 0 )}x ik = O p (h 2 ) = o p (1) and E[ρ ′ (ε)] = 0, so E(I 1 ) = -E(K i ρ ′ (ε i + R(u i , x i ))a n µ ⊤ x * i ) ≈ -a n E{K i ρ ′′ (ε i )R(u i , x i )µ ⊤ x * i } = -a n E[ρ ′′ (ε i )]E[K i R(u i , x i )µ ⊤ x * i ] = -a n δ 1 E[K i R(u i , x i )µ ⊤ x * i ] = -a n δ 1 E{E[R(u i , x i )µ ⊤ x * i |u i ]K i } By using µ ⊤ x * i ≤ ∥µ∥ • ∥x * i ∥,</formula><p>we have E(I 1 ) = O(a n h 2 ).</p><formula xml:id="formula_30">var(I 1 ) = 1 n var{K i ρ ′ (ε i + R(u i , x i ))a n µ ⊤ x * i } = 1 n {E(A 2 ) -[E(A)] 2 } where A = K i ρ ′ (ε i + R(u i , x i ))a n µ ⊤ x * i . Let δ 2 = E[ρ ′ (ε i ) 2 ], then E(A 2 ) = E{K 2 i ρ ′ (ε i + R(u i , x i )) 2 a 2 n (µ ⊤ x * i ) 2 } ≈ a 2 n E{K 2 i ρ ′ (ε i ) 2 (µ ⊤ x * i ) 2 } = a 2 n δ 2 E{E[µ ⊤ x * i x * ⊤ i µ|u i ]K 2 i } = a 2 n δ 2 µ ⊤ E{E[x * i x * ⊤ i |u i ]K 2 i }µ Note that x * i x * ⊤ i = x i j x ik ( u i -u 0 h ) l (( u i -u 0 h ) l ′ ) ⊤ 1≤ j,k≤p;l,l ′ =0,1 , Γ jk (u i ) = E(x i j x ik |u i ), R 2 uK(∥u∥)du = 0 2×1 , R 2 uu ′ uK(∥u∥)du = 0 2×1 , R 2 u 1 u 2 K(∥u∥)du = 0 2×1 , for 1 ≤ j, k ≤ p, then E E(x i j x ik |u i ) u i -u 0 h l u i -u 0 h l ′ ⊤ K 2 i = E Γ jk (u i ) u i -u 0 h l u i -u 0 h l ′ ⊤ K 2 i = 1 h 4 Γ jk (u i ) u i -u 0 h l u i -u 0 h l ′ ⊤ K 2 ∥u i -u 0 ∥ h q(u i )du i = 1 h 2 q(u 0 )Γ jk (u 0 ) t l (t l ′ ) ⊤ K 2 (∥t∥)d t (A.1)</formula><p>The second equation follows the Taylor expansion, and the assumption ε is independent of u and x. Then, E{E[</p><formula xml:id="formula_31">x * i x * ⊤ i |u i ]K 2 i } = 1 h 2 q(u 0 )Λ, where Λ = diag(1, ν 2 , ν 2 ) ⊗ Γ(u 0 ) is a 3p × 3p matrix. Thus, E(A 2 ) = a 2 n δ 2 1 h q(u 0 )µ ⊤ Λµ = O(a 2 n 1 h 2 ).</formula><p>Note that [E(A)] 2 = [E(I 1 )] 2 = [O(a n h 2 ] 2 ≪ E(A 2 ), then var(I 1 ) ≈ 1 n [E(A)] 2 = O(a 2 n 1 nh 2 ). Hence,</p><formula xml:id="formula_32">I 1 = E(I 1 ) + O p ( var(I 1 )) = O p (a n h 2 ) + O p ( a 2 n 1 nh 2 ) = O p (a 2 n ).</formula><p>Similarly,</p><formula xml:id="formula_33">I 2 = 1 2n n i=1 K i ρ ′′ (ε i + R(u i , x i ))a 2 n (µ ⊤ x * i ) 2 = O p (a 2 n ),<label>and</label></formula><formula xml:id="formula_34">I 3 = 1 6n n i=1 K i ρ ′′′ (z i )a 3 n (µ ⊤ x * i ) 3 = O p (a 3 n ).</formula><p>Assume δ 1 &gt; 0, we can choose c large enough such that I 1 + I 2 + I 3 &lt; 0 with probability at least</p><formula xml:id="formula_35">1 -η. Thus P sup ∥µ∥=c L(θ * + a n µ) &lt; L(θ * ) ≥ 1 -η.</formula><p>Proof of theorem 2.2: Since θ * maximizes L(θ * ), then L ′ ( θ * ) = 0. By Taylor expansion,</p><formula xml:id="formula_36">0 = L ′ ( θ * ) = L ′ (θ * ) + L ′′ (θ * )( θ * -θ * ) + o p (1), thus θ * -θ * = -[L ′′ (θ * )] -1 L ′ (θ * )(1 + o p (1)). For L ′′ (θ * ), since L(θ * ) = 1 n n i=1 K i ρ(y i -θ * ⊤ x * i ), and y i -θ * ⊤ x * i = ε i + R(u i , x i ), then L ′′ (θ * ) = 1 n n i=1 K i ρ ′′ (ε i + R(u i , x i ))x * i x * ⊤ i , and the expectation is E[L ′′ (θ * )] = E{K i ρ ′′ (ε i + R(u i , x i ))x * i x * ⊤ i } ≈ E{K i ρ ′′ (ε i )x * i x * ⊤ i } = δ 1 E{E{x * i x * ⊤ i |u i }K i } = δ 1 q(u 0 )Q(1 + o(1)),</formula><p>where S = diag(γ 01 , γ 21 , γ 21 ) ⊗ Γ(u 0 ), the last equation follow (A.1). In this study, we consider the element-wise variance of a matrix, then</p><formula xml:id="formula_37">var[L ′′ (θ * )] = 1 n var{K i ρ ′′ (ε i + R(u i , x i ))x * i x * ⊤ i } = O p ( 1 nh 2 ). Based on the result L ′′ (θ * ) = E[L ′′ (θ * )] + O p √ var[L ′′ (θ * )] and the assumption nh → ∞, it follows that L ′′ (θ * ) = δ 1 q(u 0 )S(1 + o p (1)). For L ′ (θ * ), L ′ (θ * ) = - 1 n n i=1 K i ρ ′ (ε i + R(u i , x i ))x * i = - 1 n n i=1 K i ρ ′ (ε i )x * i - 1 n n i=1 K i ρ ′′ (ε i )R(u i , x i ))x * i △ = -w m -ν n</formula><p>The asymptotic result is determined by w m . Next, calculating the order of ν n .</p><formula xml:id="formula_38">E(ν n ) = E[K i ρ ′′ (ε i )R(u i , x i ))x * i ] = δ 1 E{E{R(u i , x i )x * i |u i }K i } For R(u i , x i )x * i , since β ′′′ j (•) is bounded, then we have R(u i , x i ) = p k=1 β k (u i )x ik - p k=1 {b k + c k (u i -u 0 )}x ik = p k=1 1 2 (u i -u 0 ) ⊤ H β k (u 0 )(u i -u 0 )x ik (1 + o p (1))</formula><p>where H β k is Hessian matrix. By</p><formula xml:id="formula_39">x * i = (x i1 , • • • , x ip , ( u i -u 0 h ) ⊤ x i1 , • • • , ( u i -u 0 h ) ⊤ x ip ) ⊤ , R(u i , x i )x * i =                 p k=1 1 2 (u i -u 0 ) ⊤ H β k (u 0 )(u i -u 0 )x ik x i j        1≤ j≤p ,        p k=1 1 2h (u i -u 0 ) ⊤ H β k (u 0 )(u i -u 0 )(u i -u 0 ) ⊤ x ik x i j        1≤ j≤p          ⊤ 3p×1</formula><p>.</p><p>The expectation about the first item is</p><formula xml:id="formula_40">E        E        p k=1 1 2 (u i -u 0 ) ⊤ H β k (u 0 )(u i -u 0 )x ik x i j |u i        K i        = E        p k=1 1 2 (u i -u 0 ) ⊤ H β k (u 0 )(u i -u 0 )Γ k j (u i )K i        = h 2 2 q(u 0 ) p k=1 Γ k j (u 0 ) t ⊤ H β k tK(∥t∥)d t = h 2 2 q(u 0 ) p k=1 tr(H β k )Γ k j (u 0 )γ 21 ,</formula><p>and the expectation on second item is</p><formula xml:id="formula_41">E        E        p k=1 1 2h (u i -u 0 ) ⊤ H β k (u 0 )(u i -u 0 ) 2 x ik x i j |u i        K i        = h 2 2 q(u 0 ) p k=1 Γ k j (u 0 ) t ⊤ H β k t t ⊤ K(∥t∥)dt = 0 2×1 , then E(ν n ) = δ 1 h 2 2 q(u 0 ) p k=1 tr(H β k )ψ j (1 + o(1))</formula><p>where</p><formula xml:id="formula_42">ψ k = γ 21 0 2×1 ⊗ (Γ k j (u 0 )) ⊤ 1≤ j≤p is a 3p × 1 vector for j = 1, • • • , p. Since var(ν n ) = 1 n var{K i ρ ′′ (ε i )R(u i , x i ))x * i } = O(h 2 /n), then based on the result ν n = E(ν n ) + var( √ ν n</formula><p>) and the assumption nh → ∞, it follows that</p><formula xml:id="formula_43">ν n = δ 1 h 2 2 q(u 0 ) p k=1 tr(H β k )ψ j (1 + o p (1)). Then θ * -θ * = -[L ′′ (θ * )] -1 L ′ (θ * )(1 + o p (1)) = S -1 w n δq(u 0 ) (1 + o p (1)) + S -1 h 2 2 p k=1 tr(H β k )ψ j (1 + o p (1)).</formula><p>For w n , based on the assumption E[ρ ′ (ε i )] = 0, we can easily get E(w n ) = 0, and</p><formula xml:id="formula_44">var(w n ) = 1 n var{ 1 n K i ρ ′ (ε i )x * i } = 1 n E{K 2 i ρ ′ (ε i ) 2 x * i x * ⊤ i } = 1 nh 2 δ 2 q(u 0 )Λ(1 + o(1)).</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. True coefficient functions contour plots of β 1 (left) and β 2 (right).</figDesc><graphic coords="7,102.61,325.09,390.03,190.34" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Estimated surface via adaptive method, LL and GWR based on sample size n = 400 when the error distribution in the case 3.</figDesc><graphic coords="8,127.67,538.74,351.05,171.38" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>4 .</head><label>4</label><figDesc>Real data analysisExample 1. (Dublin Voter Turnout Data) This section applies the proposed methodology to Dublin</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Response and independent variables for voter turnout data in Dublin.</figDesc><graphic coords="9,94.04,239.98,87.76,78.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Estimated coefficient functions for voter turnout data in Dublin using adaptive method (top), LL (middle) and GWR (bottom).</figDesc><graphic coords="10,94.04,260.87,87.76,78.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Example 2 .</head><label>2</label><figDesc>(England and Wales House Price Data) England and Wales house price data is publicly available in the R package GWmodel. The dataset includes 10 variables, namely: house sale price (PurPrice), BldIntWr, BldPostW, bld60, bld70, bld80, T ypDetch, T ypS emiD, T ypFlat and floor area (FlrArea). With the exception of the floor area (FlrArea), all independent variables are indicative variables (1 or 0).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 5</head><label>5</label><figDesc>is shown Spatial distribution of PurPrice and FlrArea.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Response and independent variables for house price data in England and Wales.</figDesc><graphic coords="10,113.98,491.33,153.59,148.56" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Estimated coefficient functions for house price data in England and Wales using adaptive method (top), LL (middle) and GWR (bottom).</figDesc><graphic coords="11,113.98,512.61,153.59,148.56" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Residual QQ-plot for two data examples: (a) Dublin voter turnout data; (b) England and Wales housing data.</figDesc><graphic coords="12,90.21,98.91,186.48,139.86" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Comparison RASE and its standard error in brackets.</figDesc><table><row><cell>ε</cell><cell>GWR</cell><cell>n = 200 LL</cell><cell>Adaptive</cell><cell>GWR</cell><cell>n = 400 LL</cell><cell>Adaptive</cell></row><row><cell>1</cell><cell>0.838(0.101)</cell><cell>0.787(0.099)</cell><cell>0.978(0.097)</cell><cell>0.677(0.051)</cell><cell>0.561(0.051)</cell><cell>0.790(0.048)</cell></row><row><cell>2</cell><cell>0.964(0.152)</cell><cell>0.857(0.123)</cell><cell>0.854(0.110)</cell><cell>0.737(0.090)</cell><cell>0.655(0.067)</cell><cell>0.538(0.028)</cell></row><row><cell>3</cell><cell>1.104(0.109)</cell><cell>1.009(0.107)</cell><cell>0.940(0.081)</cell><cell>0.796(0.061)</cell><cell>0.685(0.052)</cell><cell>0.632(0.031)</cell></row><row><cell>4</cell><cell>0.869(0.175)</cell><cell>0.837(0.127)</cell><cell>0.653(0.084)</cell><cell>0.692(0.158)</cell><cell>0.621(0.131)</cell><cell>0.405(0.060)</cell></row><row><cell></cell><cell cols="6">GWR: geographically weighted regression; LL: local linear geographically weighted regression.</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>This work was supported by the <rs type="funder">National Natural Science Foundation of China</rs> (Grant No. <rs type="grantNumber">11871173</rs>), the <rs type="funder">National Statistical Science Research Project</rs> (Grant No. <rs type="grantNumber">2020LZ09</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_TcW7Hck">
+					<idno type="grant-number">11871173</idno>
+				</org>
+				<org type="funding" xml:id="_2Pnyq3G">
+					<idno type="grant-number">2020LZ09</idno>
+				</org>
+			</listOrg>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conflict of interest</head><p>The authors declare that there is no conflict of interest.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. Appendix</head><p>This section will give proofs of propositions 2.1, theorem 2.1 and theorem 2.2, with the required regular conditions as follows:</p><p>1) K(•) is bounded, symmetric, and has bounded support and bounded derivatives; 2) {x i } n i=1 , {u i } n i=1 , {ε i } n i=1 are independent and identically distributed and</p><formula xml:id="formula_45">{ε i } n i=1 is independent of {x i } n</formula><p>i=1 and {u i } n i=1 . In addition, the independent variable x has bounded support; 3) The probability density function f (ε) of ε has fourth-order bounded continuous derivative.</p><p>Assume </p><formula xml:id="formula_46">E[ρ ′ (ε)] = 0, E[ρ ′′ (ε)] &lt; ∞, E[ρ ′ (ε) 2 ] &lt; ∞</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><figDesc>and ρ ′′′ (•) is bounded; 4) The marginal density q(u) of u has a continuous second derivative in some neighborhood of u 0 and q(u 0 ) 0; 5) h → 0, when n → ∞, nh → ∞, h 0 = h/ log(n); 6) β k (•), k = 1, • • • , p has bounded and continuous third derivative.Proof of propositions 2.1: Note thatBased on Lyapunov Central Limit Theorem, we have the following result√ nh 2 { θ * -θ * -S -1 h 2 2 p k=1 tr(H β k )ψ k (1 + o p (1))} D → N(0 3p×1 , δ -2 1 δ 2 q(u 0 ) -1 S -1 ΛS -1 ).By δ -1 1 = δ 2 , the theorem is proved. © 2023 the Author(s), licensee AIMS Press. This is an open access article distributed under the terms of the Creative Commons Attribution License (http://creativecommons.org/licenses/by/4.0)</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.1996.tb00936.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1538-4632.1996.tb00936.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Geogr. Anal</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/1467-9884.00145</idno>
+		<ptr target="https://doi.org/10.1111/1467-9884.00145" />
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. D-Stat</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient models: testing for spatial heteroscedasticity and reweighting estimation of the coefficients</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">J</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a43201</idno>
+		<ptr target="https://doi.org/10.1068/a43201" />
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="1723" to="1745" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Coverage inequality and quality of volunteered geographic features in chinese cities: analyzing the associated local characteristics using geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Lei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">Y</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Pi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">L</forename><surname>Cai</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.apgeog.2016.11.002</idno>
+		<ptr target="https://doi.org/10.1016/j.apgeog.2016.11.002" />
+	</analytic>
+	<monogr>
+		<title level="j">Appl. Geogr</title>
+		<imprint>
+			<biblScope unit="volume">78</biblScope>
+			<biblScope unit="page" from="78" to="93" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Estimation for semiparametric nonlinear regression of irregularly located spatial time-series data</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Al-Sulami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">Y</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">D</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhu</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ecosta.2017.01.002</idno>
+		<ptr target="https://doi.org/10.1016/j.ecosta.2017.01.002" />
+	</analytic>
+	<monogr>
+		<title level="j">Economet. Stat</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="22" to="35" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Adaptively varying-coefficient spatiotemporal models</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">D</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Steinskog</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tjøstheim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><forename type="middle">W</forename><surname>Yao</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-9868.2009.00710.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1467-9868.2009.00710.x" />
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. B-Stat. Methodol</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="859" to="880" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Spatially varying relationships between surface urban heat islands and driving factors across cities in China</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">P</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">P</forename><surname>Lu</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/2399808317716935</idno>
+		<ptr target="https://doi.org/10.1177/2399808317716935" />
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plan. B-Urban</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="377" to="394" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Statistical methods with varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Q</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.4310/SII.2008.v1.n1.a15</idno>
+		<ptr target="https://doi.org/10.4310/SII.2008.v1.n1.a15" />
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Interface</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="179" to="195" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Varying-coefficient models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.2517-6161.1993.tb01939.x</idno>
+		<ptr target="https://doi.org/10.1111/j.2517-6161.1993.tb01939.x" />
+	</analytic>
+	<monogr>
+		<title level="j">J. R. Stat. Soc. Ser. B-Stat. Methodol</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="757" to="779" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial process modelling for univariate and multivariate dynamic spatial data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gamerman</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/env.715</idno>
+		<ptr target="https://doi.org/10.1002/env.715" />
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="465" to="479" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Space varying coefficient models for small area data</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Assuncao</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/env.599</idno>
+		<ptr target="https://doi.org/10.1002/env.599" />
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="453" to="473" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Hierarchical spatially varying coefficient process model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00401706.2017.1317290</idno>
+		<ptr target="https://doi.org/10.1080/00401706.2017.1317290" />
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="page" from="521" to="527" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A Bayesian contiguous partitioning method for learning clustered latent variables</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">T</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">Y</forename><surname>Sang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Mallick</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Mach. Learn. Res</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="1748" to="1799" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Estimation and inference in spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Mu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/env.2485</idno>
+		<ptr target="https://doi.org/10.1002/env.2485" />
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page">2485</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Autologistic network model on binary data for disease progression study</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">E</forename><surname>Shin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">Y</forename><surname>Sang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">A</forename><surname>Ferguson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">X K</forename><surname>Song</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/biom.13111</idno>
+		<ptr target="https://doi.org/10.1111/biom.13111" />
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="page" from="1310" to="1320" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Penalized local polynomial regression for spatial data</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/biom.13077</idno>
+		<ptr target="https://doi.org/10.1111/biom.13077" />
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="page" from="1179" to="1190" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Spatial homogeneity pursuit of regression coefficients for large datasets</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">R</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">Y</forename><surname>Sang</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/01621459.2018.1529595</idno>
+		<ptr target="https://doi.org/10.1080/01621459.2018.1529595" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Am. Stat. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="page" from="1050" to="1062" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Sparse spatially clustered coefficient model via adaptive regularization</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">Y</forename><surname>Sang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Kellstedt</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.csda.2022.107581</idno>
+		<ptr target="https://doi.org/10.1016/j.csda.2022.107581" />
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Stat. Data Anal</title>
+		<imprint>
+			<biblScope unit="volume">177</biblScope>
+			<biblScope unit="page">107581</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Efficient nonparametric testing and estimation</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Stein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1956">1956</date>
+			<publisher>University California Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Adaptive estimation for varying coefficient models</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">X</forename><surname>Yao</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jmva.2015.01.017</idno>
+		<ptr target="https://doi.org/10.1016/j.jmva.2015.01.017" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Multivar. Anal</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="17" to="31" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Adaptive estimation for varying coefficient models with non stationary covariates</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">Y</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/03610926.2018.1484483</idno>
+		<ptr target="https://doi.org/10.1080/03610926.2018.1484483" />
+	</analytic>
+	<monogr>
+		<title level="j">Commun. Stat. Theory M</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="4034" to="4050" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A note on EM algorithm for mixture models</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">X</forename><surname>Yao</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.spl.2012.10.017</idno>
+		<ptr target="https://doi.org/10.1016/j.spl.2012.10.017" />
+	</analytic>
+	<monogr>
+		<title level="j">Stat. Probabil. Lett</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="page" from="519" to="526" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A nonparametric statistical approach to clustering via mode identification</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Jia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">G</forename><surname>Lindsay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Mach. Learn. Res</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="1687" to="1723" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Local linear estimation of spatially varying coefficient models: an improvement on the geographically weighted regression technique</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">D</forename><surname>Yan</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a3941</idno>
+		<ptr target="https://doi.org/10.1068/a3941" />
+	</analytic>
+	<monogr>
+		<title level="j">Environ. Plann. A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="986" to="1005" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A nonparametric regression estimator that adapts to error distribution of unknown form</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Linton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">J</forename><surname>Xiao</surname></persName>
+		</author>
+		<idno type="DOI">10.1017/S026646660707017X</idno>
+		<ptr target="https://doi.org/10.1017/S026646660707017X" />
+	</analytic>
+	<monogr>
+		<title level="j">Economet. Theory</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="371" to="413" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

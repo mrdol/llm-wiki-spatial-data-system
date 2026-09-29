@@ -1,0 +1,2027 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A class of models for large zero-inflated spatial data</title>
+				<funder ref="#_KqQSXvv">
+					<orgName type="full">unknown</orgName>
+				</funder>
+				<funder ref="#_87Mwwzu">
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2024-04">April 2024.]</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Ben</forename><forename type="middle">Seiyon</forename><surname>Lee</surname></persName>
+							<idno type="ORCID">0000-0003-0658-7458</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">George Mason University</orgName>
+								<address>
+									<addrLine>4400 University Drive</addrLine>
+									<postCode>MS 4A7 22030-4444</postCode>
+									<settlement>Fairfax</settlement>
+									<region>VA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution" key="instit1">M. Haran</orgName>
+								<orgName type="institution" key="instit2">The Pennsylvania State University</orgName>
+								<address>
+									<settlement>State College</settlement>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Murali</forename><surname>Haran</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">George Mason University</orgName>
+								<address>
+									<addrLine>4400 University Drive</addrLine>
+									<postCode>MS 4A7 22030-4444</postCode>
+									<settlement>Fairfax</settlement>
+									<region>VA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A class of models for large zero-inflated spatial data</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2024-04">April 2024.]</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">EA7A99B85C9E0B10C255A6351A5BEC17</idno>
+					<idno type="DOI">10.1007/s13253-024-00619-9</idno>
+					<note type="submission">Received April 2023. Revised February 2024. Accepted February 2024.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-21T11:52+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Zero-inflated spatial data</term>
+					<term>Spatial statistics</term>
+					<term>Two-part models</term>
+					<term>Bayesian analysis</term>
+					<term>Basis representation</term>
+					<term>Computational statistics</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatially correlated data with an excess of zeros, usually referred to as zero-inflated spatial data, arise in many disciplines. Examples include count data, for instance, abundance (or lack thereof) of animal species and disease counts, as well as semi-continuous data like observed precipitation. Spatial two-part models are a flexible class of models for such data. Fitting two-part models can be computationally expensive for large data due to high-dimensional dependent latent variables, costly matrix operations, and slow mixing Markov chains. We describe a flexible, computationally efficient approach for modeling large zero-inflated spatial data using the projection-based intrinsic conditional autoregression (PICAR) framework. We study our approach, which we call PICAR-Z, through extensive simulation studies and two environmental data sets. Our results suggest that PICAR-Z provides accurate predictions while remaining computationally efficient. An important goal of our work is to allow researchers who are not experts in computation to easily build computationally efficient extensions to zero-inflated spatial models; this also allows for a more thorough exploration of modeling choices in two-part models than was previously possible. We show that PICAR-Z is easy to implement and extend in popular probabilistic programming languages such as nimble and stan.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Zero-inflated spatial data are spatially dependent observations characterized by an excess of zeros. Zero-inflated spatial data are common in many disciplines; for example, counts of harbor seals on glacial ice <ref type="bibr" target="#b74">(Ver Hoef and Jansen 2007)</ref>, annual mental health expenditures among US federal employees <ref type="bibr" target="#b57">(Neelon et al. 2011)</ref>, and the number of torrential rainfall events in a region of interest <ref type="bibr" target="#b43">(Lee and Kim 2017)</ref>. These data are typically a mixture of zeros and either discrete counts or positive real numbers. Standard probability distributions may not be appropriate for modeling zero-inflated data as they are unable to account effectively for the excess zeros (cf. <ref type="bibr" target="#b0">Agarwal et al. 2002;</ref><ref type="bibr" target="#b67">Rathbun and Fei 2006;</ref><ref type="bibr" target="#b41">Lambert 1992)</ref>.</p><p>A class of parametric mixture distributions called two-part models <ref type="bibr" target="#b53">(Mullahy 1986;</ref><ref type="bibr" target="#b41">Lambert 1992)</ref> are popular for modeling zero-inflated data. Two-part models account for both the excess zeros and the skewed distribution of nonzero values by using two latent random variables, one for occurrence and the other for prevalence. The occurrence process dictates whether a structural zero or nonzero value is observed, and the prevalence process determines the value of the structural nonzero observations. Two-part models have been extended to model zero-inflated spatial observations (cf. <ref type="bibr" target="#b0">Agarwal et al. 2002;</ref><ref type="bibr" target="#b74">Ver Hoef and Jansen 2007;</ref><ref type="bibr" target="#b62">Olsen and Schafer 2001)</ref> where the occurrence and prevalence random variables vary with respect to space (i.e., they are spatial random processes). Spatial two-part models are an extension of the well-known spatial generalized linear mixed models (SGLMMs) <ref type="bibr" target="#b20">(Diggle et al. 1998)</ref>, albeit with two separate latent spatial processes.</p><p>Modeling large zero-inflated spatial datasets remains a key challenge from both a computational and modeling standpoint. First, fitting spatial two-part models can be computationally prohibitive for large datasets because these models are generally overparameterized <ref type="bibr" target="#b68">(Recta et al. 2012;</ref><ref type="bibr" target="#b74">Ver Hoef and Jansen 2007)</ref> with more unknown parameters than observations. For high-dimensional data, model-fitting can be computationally burdensome due to large matrix operations, estimation of high-dimensional latent random effects, and slow mixing Markov Chain Monte Carlo (MCMC) algorithms. Second, the underlying occurrence and prevalence spatial processes may potentially exhibit complex spatial dependence characteristics such as non-stationarity and anisotropy. Third, the occurrence and prevalence processes may be strongly correlated, and directly modeling the cross-correlations can be computationally expensive <ref type="bibr" target="#b68">(Recta et al. 2012)</ref>.</p><p>Novel modeling approaches for zero-inflated spatial data have been proposed, but these methods may not scale to larger datasets. In non-spatial settings, Frequentist methods have been used to fit two-part models using Gauss-Hermite quadrature <ref type="bibr" target="#b51">(Min and Agresti 2005)</ref>, expectation-maximization <ref type="bibr" target="#b41">(Lambert 1992;</ref><ref type="bibr" target="#b69">Roeder et al. 1999)</ref>, and restricted maximum quasi-likelihoods <ref type="bibr" target="#b38">(Kim et al. 2012)</ref>. However, these methods do not address a key component of spatial two-part models-inference for the two n-dimensional vectors of latent spatial random effects from the occurrence and prevalence spatial processes. <ref type="bibr" target="#b49">Lyashevska et al. (2016)</ref> employs a Monte Carlo maximum likelihood approach to model a moderately large zero-inflated spatial dataset (n = 4029), but this approach still requires estimation of the high-dimensional spatial random effects and costly matrix operations.</p><p>In the Bayesian framework, the literature primarily focuses on the sophistication of zero-inflated spatial models. However, there is a dearth of studies examining the computational issues associated with large zero-inflated spatial datasets. Studies have modeled spatio-temporal dependence <ref type="bibr" target="#b23">(Fernandes et al. 2009;</ref><ref type="bibr">Neelon et al. 2016;</ref><ref type="bibr" target="#b1">Arcuti et al. 2016)</ref>, addressed overdispersion <ref type="bibr" target="#b28">(Gschlößl and Czado 2008;</ref><ref type="bibr" target="#b44">Lee et al. 2016)</ref>, used skewed distributions <ref type="bibr" target="#b21">(Dreassi et al. 2014;</ref><ref type="bibr" target="#b48">Liu et al. 2016)</ref>, used t-distributions to model heavy tailed behavior <ref type="bibr" target="#b58">(Neelon et al. 2015)</ref>, and modeled prevalence with scale mixtures of normal distributions (Fruhwirth-Schnatter and Pyne 2010) or Student-t processes <ref type="bibr" target="#b8">(Bopp et al. 2020</ref>). Another study facilitates posterior sampling for zero-inflated negative binomial distributions (ZINB) by using latent variables that are represented as scale mixtures of normal distribu-tions <ref type="bibr" target="#b54">(Neelon 2019)</ref>. A notable exception is <ref type="bibr" target="#b76">Wang et al. (2015)</ref>, which models the presence and abundance of Atlantic cod in 1325 locations along the Gulf of Maine using predictive processes <ref type="bibr" target="#b3">(Banerjee et al. 2008)</ref>. Predictive processes still requires O(nm 2 +m 3 ) operations where m is the number of knots and n is the dataset size, and careful attention must be paid to knot selection <ref type="bibr" target="#b31">(Guhaniyogi et al. 2011)</ref>.</p><p>In this study, we introduce a computationally efficient approach for fitting a broad range of two-part models to high-dimensional zero-inflated spatial data. We use projection-based intrinsic conditional autoregression (PICAR) <ref type="bibr" target="#b42">(Lee and Haran 2022)</ref> to reduce the dimensions of and correlation between the spatial random effects in two-part spatial models. The PICAR method represents the spatial random effects using empirical basis functions based on the Moran's I statistic and piecewise linear basis functions. Various basis representations have been directly or indirectly used to model spatial data; for instance, predictive processes <ref type="bibr" target="#b3">(Banerjee et al. 2008)</ref>, random projections ( <ref type="formula">Guan and Haran 2018, 2019; Banerjee et al. 2013;  Park and Haran 2020</ref>), Moran's basis for areal models (Hughes and Haran 2013), stochastic partial differential equations <ref type="bibr" target="#b47">(Lindgren et al. 2011)</ref>, kernel convolutions <ref type="bibr" target="#b34">(Higdon 1998)</ref>, eigenvector spatial filtering <ref type="bibr" target="#b27">(Griffith 2003)</ref>, and multi-resolution basis functions <ref type="bibr" target="#b60">(Nychka et al. 2015;</ref><ref type="bibr" target="#b36">Katzfuss 2017)</ref>, among others. Hughes and Haran (2013) made a significant contribution in modeling large binary and count spatial datasets within the discrete spatial domain while de-confounding the spatial random effects; however, their methods does not extend to zero-inflated spatial data nor spatial datasets in the continuous domain.</p><p>To our knowledge, this is the first approach that readily lends itself to wide range of user-specified spatial two-part models while also reducing computational costs for large datasets. We demonstrate the applicability of our proposed approach (PICAR-Z) via simulation studies as well as two real-world applications -a bivalve species abundance dataset and ice thickness measurements in West Antarctica. Because our approach allows for efficient inference, it enables practitioners to thoroughly explore the advantages (and disadvantages) of various modeling choices in two-part models than was previously possible.</p><p>The rest of the manuscript is as follows. In Sect. 3, we introduce the general two-part modeling framework for zero-inflated data. We also provide an overview of spatial two-part models and examine the inherent modeling and computational challenges. In Sect. 4, we propose a computationally efficient approach to fit high-dimensional spatial two-part models (PICAR-Z) and provide some implementation guidelines. We demonstrate the utility of PICAR-Z through four different simulation studies in Sect. 5 as well as two high-dimensional environmental datasets in Sect. 6. Finally, a summary and directions for future research are provided in Sect. 7.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">DESCRIPTION OF THE DATA</head><p>Our proposed methodology (PICAR-Z) is motivated by two challenges in the environmental sciences (ecology and glaciology). We provide an overview of the motivating research questions as well as descriptions of the corresponding zero-inflated spatial datasets.</p><p>Bivalve Species Abundance in the Wadden SeaThe Dutch Wadden Sea (DWS) is a UNESCO World Heritage region and a crucial protected ecological habitat comprised of sand barriers, salt marshes, mudflats, and gullies <ref type="bibr" target="#b14">(Compton et al. 2013;</ref><ref type="bibr" target="#b49">Lyashevska et al. 2016)</ref>. Most notably, the DWS is a critical sanctuary for hundreds of thousands of shorebirds <ref type="bibr" target="#b49">(Lyashevska et al. 2016)</ref> as it serves as a vital feeding and breeding location for a wide array of bird species <ref type="bibr" target="#b7">(Boere and Piersma 2012)</ref>. The DWS plays a critical role in the bird species' yearly migratory journey by providing an abundance of food resources, such as the Baltic tellin (Macoma balthica), a species of benthic invertebrates. The Baltic tellin is one of the most commonly found macrobenthic species in the western DWS <ref type="bibr">(van der Meer et al. 2003)</ref> and one of the preferred preys of bird species <ref type="bibr" target="#b49">(Lyashevska et al. 2016</ref>); however, there has been a steady decline in the population over the past 2 decades <ref type="bibr" target="#b17">(Dairain et al. 2020)</ref>. Recent studies have examined this decline in adult survival with respect to factors such as global warming <ref type="bibr" target="#b5">(Beukema and Dekker 2020)</ref>, habitat selection <ref type="bibr">(van der Meer et al. 2003)</ref>, and proliferative disorders <ref type="bibr" target="#b17">(Dairain et al. 2020</ref>). In addition, there are environmental factors that affect species survival such as the silt content, median grain size, and altitude <ref type="bibr" target="#b49">(Lyashevska et al. 2016)</ref>. Analyzing the abundance of Baltic tellin species, while considering spatial dependence and external environmental factors, can provide valuable insights for ecologists and conservationists. This information can guide resource allocation and the development of conservation policies, benefiting not only the Baltic tellin but also the diverse bird species within the Dutch Wadden Sea ecosystem.</p><p>We examine spatial abundance data of the Baltic tellin species from <ref type="bibr" target="#b49">Lyashevska et al. (2016)</ref> originally obtained from the synoptic intertidal benthic surveys (SIBES) monitoring program <ref type="bibr" target="#b14">(Compton et al. 2013;</ref><ref type="bibr" target="#b6">Bijleveld et al. 2012)</ref>. The dataset includes counts of the Baltic tellin (Macoma balthica) species sampled at n = 4029 locations. The dataset exhibits zero-inflation as 65.9% of the locations have zero-counts as well as spatial dependence. The occurrence (presence vs. absence) and prevalence (values of positive counts) maps are provided in the supplement. Given the zero-inflated counts, spatial dependence, and large number of locations, computationally-efficient spatial two-part models are well-suited for analyzing this dataset.</p><p>Antarctic Ice Sheet Thickness Based on available geological records, mass loss from the Antarctic ice sheets can potentially lead to drastic global sea level rise <ref type="bibr" target="#b19">(Deschamps et al. 2012)</ref>, in some cases up to 60 m <ref type="bibr" target="#b24">(Fretwell et al. 2012)</ref>. Existing studies <ref type="bibr" target="#b72">(Serreze and Barry 2011;</ref><ref type="bibr" target="#b77">Zhang 2007)</ref> suggest that a portion of the Antarctic ice sheet could experience significant mass-loss in the next few centuries as a consequence of global climate change. This presents a significant threat since a substantial portion of the world's population resides in low-elevation coastal regions <ref type="bibr" target="#b26">(Greve et al. 2011)</ref>. In fact, nearly eight percent of the global population is threatened by a mere five-meter rise in sea level <ref type="bibr" target="#b59">(Nicholls et al. 2008)</ref> and 13 percent of the global urban population is threatened by a ten-meter sea level rise <ref type="bibr" target="#b50">(McGranahan et al. 2007</ref>). Since Antarctic mass-loss is both a threat to heavily-populated coastal regions and a key indicator of global climate change, an important first step entails understanding the underlying spatial patterns of mass-loss by modeling the current thickness of the Antarctic ice sheet.</p><p>We examine semicontinuous observations of ice thickness from the Bedmap2 dataset <ref type="bibr" target="#b24">(Fretwell et al. 2012)</ref>, generated using satellite altimetry, airborne and ground radar surveys, and seismic sounding. Similar to <ref type="bibr" target="#b12">Chang et al. (2016)</ref>, we examine gridded ice thickness observations at 20 km resolution over a 171 × 171 grid spanning the entirety of Antarc-tica including vulnerable regions in the Amundsen Sea Embayment (West Antarctica). The resulting dataset consists of n = 29,241 semi-continuous observations of ice sheet thickness where 10,327 (35.3%) are zeros. The observed dataset poses significant modeling and computational challenges due to: (1) high-dimensional observations; (2) the presence of zeros and positive thickness measurements; and (3) the data is collected at regularly-spaced intervals with many unobserved locations in the spatial domain. Traditional spatial generalized linear mixed models are unable to account for the zero-inflation and existing spatial two-part models are unable to scale to large datasets. In this Sect. 6.2, we utilize PICAR-Z to model the semicontinuous ice thickness and interpolate, or downscale, at unobserved locations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">ZERO-INFLATED SPATIAL MODELS</head><p>In this section, we provide an overview of the two-part modeling framework <ref type="bibr" target="#b53">(Mullahy 1986;</ref><ref type="bibr" target="#b41">Lambert 1992</ref>) for spatially dependent zero-inflated observations (cf. Ver Hoef and Jansen 2007; <ref type="bibr">Neelon et al. 2016;</ref><ref type="bibr" target="#b76">Wang et al. 2015)</ref>. Let Z (s) be a zero-inflated observation for spatial location s ⊂ D within the spatial domain D ∈ R 2 . In the spatial two-part modeling framework, Z (s) are generated as follows.</p><formula xml:id="formula_0">Z (s) = 0 if O(s) = 0 P(s) if O(s) = 1. ,<label>(1)</label></formula><p>where O(s) and P(s) are the spatial occurrence and prevalence processes, respectively. The occurrence process is typically specified as O(s) ∼ Bern(•|π(s)) with spatially varying probabilities π(s) ∈ (0, 1). The prevalence process is modeled as P(s) ∼ F(•|θ(s)) where F(•|θ(s)) is a discrete or continuous probability distribution with spatially-varying parameters θ (s). The key distinction from the univariate case is that the occurrence O and prevalence P random variables now vary across space; hence, we model the occurrence and prevalence as spatial random processes O(s) and P(s). Spatial two-part models typically fall into two classes-hurdle and mixture models. In hurdle models, the occurrence random process O(s) specifies which locations are associated with zero-or nonzero values. For the nonzero data, their respective positive values are generated by the prevalence random process P(s). In the discrete case, F(•|θ(s)) is a zerotruncated probability mass function such as the zero-truncated Poisson or the zero-truncated negative binomial distribution. For semi-continuous observations, F(•|θ(s)) can be a probability density function with positive support such as a log-normal or gamma distribution. For mixture models, the zero-valued observations can be generated by both processes O(s) and P(s). Here, O(s) determines whether a location is classified as a structural zero or nonzero case. For the structural nonzero cases, the prevalence random process P(s) generates both zeros and positive values. In the discrete case, F(•|θ(s)) is a non-degenerate mass function such as the Poisson or Negative-Binomial distribution. For semi-continuous observations, F(•|θ(s)) can be a censored model such as a Tobit Type I.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">MODELING FRAMEWORK: SPATIAL TWO-PART MODELS</head><p>Here, we outline the general hierarchical modeling framework for spatial two-part models. The occurrence process O(s) corresponds to the Bernouilli probability distribution with either a probit or a logit link function. The prevalence process P(s) employs the appropriate probability distribution based on the observation class (discrete vs. semi-continuous) and zero-inflation structure (hurdle vs. mixture). For hurdle models, a zero-truncated distribution (e.g., zero-truncated Poisson, zero-truncated negative binomial, lognormal, or gamma) is a sensible choice for F(•|θ). Mixture models utilize a distribution with non-negative support (e.g., Poisson, negative binomial, or Tobit Type I). For both processes, their respective linear predictors (η o and η p ) include the fixed and spatial random effects. The linear predictor for the occurrence process is η o = Xβ o + W o + o , where β o and W o are the vectors of the fixed effects and spatial random effects, respectively, and o are the iid observational errors. The linear predictor for the prevalence process η p can be constructed similarly to η o . The latent spatial random sub-processes W o (s) and W p (s) can be modeled as a stationary zero-mean Gaussian process with a Matérn covariance function <ref type="bibr" target="#b73">(Stein 2012)</ref>, a widely used class of stationary and isotropic covariance functions. Link functions g o (•) and g p (•) are specified according to the spatial processes. To complete the Bayesian hierarchical model, we designate prior distributions for the model parameters.</p><p>The Bayesian hierarchical framework for spatial two-part models is:</p><formula xml:id="formula_1">Data Model: Z|O(s), P(s) ∼ F • |O(s), P(s) Process Model: O(s)|π(s) ∼ Bern(•|π(s)) P(s)|θ(s) ∼ F(•|θ(s)) Sub-process Model 1: π(s)|η o (s) = g -1 o (η o (s)) (Occurrence) η o (s)|β o , W o (s), o (s) = X(s) β o + W o (s) + o (s) W o = (W o (s 1 ), . . . , W o (s n )) W o |φ o , σ 2 o ∼ N (0 0 0, σ 2 o R φ o ), (s)|τ 2 o ∼ N (0, τ 2 o ) Sub-process Model 2: θ(s)|η p (s) = g -1 p (η p (s)) (Prevalence) η p (s)|β p , W p (s), p (s) = X(s) β p + W p (s) + p (s) W p = (W p (s 1 ), . . . , W p (s n )) W p |φ p , σ 2 p ∼ N (0, σ 2 p R φ p ) (s)|τ 2 p ∼ N (0, τ 2 p ) Parameter Model: β o ∼ p(β o ), β p ∼ p(β p ), φ o ∼ p(φ o ), φ p ∼ p(φ p ) σ 2 o ∼ p(σ 2 o ), σ 2 p ∼ p(σ 2 p ), τ 2 o ∼ p(τ 2 o ), τ 2 p ∼ p(τ 2 p ) (<label>2</label></formula><formula xml:id="formula_2">)</formula><p>where F • |O(s), P(s) is the distribution function of a spatial two-part model. From Eq. 2, the likelihood function f z|O(s), P(s) is defined as:</p><formula xml:id="formula_3">f z|O(s), P(s) = π(s) + (1 -π(s)) × f (0; θ(s)), if z = 0 (1 -π(s)) × f (z; θ(s)), if z &gt; 0. ,<label>(3)</label></formula><p>where π(s) and θ(s) are the spatially-varying occurrence probabilities and prevalence intensities, respectively, and f (z; θ(s)) is the density function of the prevalence process. Spatial two-part models fall into two classes (hurdle and mixture models). The key difference between both classes lies in the choice of F(•|θ(s)), the distribution of the prevalence process P(s). We provide a detailed description of four spatial two-part models (count hurdle, semicontinuous hurdle, count mixture, and semicontinuous mixture) in the Supplement.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">COMPUTATIONAL CHALLENGES</head><p>Spatial two-part models are subject to computational obstacles in the high-dimensional setting. Both the occurrence O(s) and prevalence P(s) processes include latent spatial random fields, which can be computationally prohibitive to model for even moderately large datasets (more than 1000 observations) <ref type="bibr" target="#b32">(Haran 2011)</ref>. These require a costly evaluation of an n-dimensional multivariate normal likelihood function with O(n 3 ) operations at each iteration of the MCMC algorithm. The highly correlated spatial random effects can result in poor mixing Markov chains (cf. <ref type="bibr" target="#b13">Christensen and Waagepetersen 2002;</ref><ref type="bibr" target="#b33">Haran et al. 2003)</ref>. Another consideration is modeling the cross-covariance between the occurrence and prevalence processes, which also requires expensive matrix inversions and computing determinants <ref type="bibr" target="#b68">(Recta et al. 2012)</ref>.</p><p>Past studies employed Guass-Hermite quadrature <ref type="bibr" target="#b51">(Min and Agresti 2005)</ref>, expectationmaximization <ref type="bibr" target="#b41">(Lambert 1992;</ref><ref type="bibr" target="#b69">Roeder et al. 1999)</ref>, or restricted maximum quasi-likelihoods <ref type="bibr" target="#b38">(Kim et al. 2012)</ref> to fit zero-inflated models. However, such approximations may not scale well with high-dimensional random effects <ref type="bibr">(Neelon et al. 2016</ref>) that exhibit spatial correlation. In the spatial setting, Monte Carlo Maximum Likelihood <ref type="bibr" target="#b49">(Lyashevska et al. 2016</ref>) and predictive processes <ref type="bibr" target="#b76">(Wang et al. 2015)</ref> have been incorporated into the two-part modeling framework. Yet, these approaches are still computationally costly and they may not scale well to larger datasets. For instance, <ref type="bibr" target="#b49">Lyashevska et al. (2016)</ref> required over 72 h to model 4029 zero-inflated spatial observations. <ref type="bibr" target="#b76">Wang et al. (2015)</ref> models a dataset with 1325 locations using predictive processes <ref type="bibr" target="#b3">(Banerjee et al. 2008)</ref>, which scales at O(nm 2 + m 3 ) where n is the number of observed locations and m denotes the number of knot locations. Selecting the proper knot locations <ref type="bibr" target="#b31">(Guhaniyogi et al. 2011)</ref> can also be challenging.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">A COMPUTATIONALLY EFFICIENT APPROACH FOR FITTING TWO-PART MODELS</head><p>In this section, we propose a scalable method (PICAR-Z) for fitting high-dimensional spatial two-part models. Our approach builds upon the projection-based intrinsic conditional autoregression (PICAR) framework <ref type="bibr" target="#b42">(Lee and Haran 2022)</ref>. We present the general hierarchical modeling framework, practical guidelines for implementation, and a discussion of the computational speedup associated with PICAR-Z.</p><p>Consider the vector of spatial random effects W = (W (s 1 ), . . . , W (s n )) , which can be approximated as a linear combination of spatial basis functions: W ≈ δ where is an n× p basis function matrix where each column denotes a basis function, and δ ∈ R p are the re-parameterized spatial random effects (or basis coefficients). Moreover, δ ∼ N (0, δ ) where δ is the p × p covariance matrix for the coefficients. Basis functions can be interpreted as a set of distinct spatial patterns and a weighted sum of these patterns constructs a spatial random field. Basis representation has been a popular approach to model spatial data (cf. <ref type="bibr" target="#b15">Cressie and Johannesson 2008;</ref><ref type="bibr" target="#b3">Banerjee et al. 2008;</ref><ref type="bibr" target="#b35">Hughes and Haran 2013;</ref><ref type="bibr" target="#b47">Lindgren et al. 2011;</ref><ref type="bibr" target="#b70">Rue et al. 2009;</ref><ref type="bibr" target="#b33">Haran et al. 2003;</ref><ref type="bibr" target="#b27">Griffith 2003;</ref><ref type="bibr" target="#b34">Higdon 1998;</ref><ref type="bibr" target="#b60">Nychka et al. 2015)</ref>. Basis representations tend to be computationally efficient <ref type="bibr" target="#b16">(Cressie and Wikle 2015)</ref> as they help bypass large matrix operations and reduce the dimensions of and correlation among the spatial random effects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">PROJECTION INTRINSIC AUTOREGRESSION (PICAR)</head><p>The projection-based intrinsic conditional auto-regression (PICAR) approach consists of three components: (1) generate a triangular mesh on the spatial domain D ⊂ R 2 ; (2) construct a spatial field on the mesh vertices using nonparametric basis functions; (3) interpolate onto the observation locations using piece-wise linear basis functions. Please see <ref type="bibr" target="#b42">(Lee and Haran 2022)</ref> for extensions to other classes of hierarchical spatial models such as spatial generalized linear mixed models, spatially-varying coefficients models, and ordinal spatial models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Mesh construction</head><p>Prior to fitting the model, we generate a mesh enveloping the observed spatial locations via Delaunay Triangulation <ref type="bibr" target="#b35">(Hjelle and Daehlen 2006)</ref>. Next, the the spatial domain D is partitioned into a collection of non-intersecting irregular triangles. The triangles can share a common edge, corner (i.e., nodes or vertices), or both. The mesh generates a latent undirected graph G = {V, E}, where V = {1, 2, . . . , m} are the mesh vertices and E are the edges.</p><p>Each edge E is represented as a pair (i, j) denoting the connection between i and j. The graph G is characterized by its weights matrix N, an m × m matrix where N ii = 0 and N i j = 1 when mesh node i is connected to node j and N i j = 0 otherwise. The triangular mesh can built using the R-INLA package (Lindgren and Rue 2015).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Moran's basis functions</head><p>Next, we construct the Moran's basis functions ( <ref type="formula">Hughes and Haran 2013; Griffith 2003</ref>) on the set of mesh vertices V of graph G. The Moran's basis functions refer to the leading p eigenvectors of the Moran's operator (I -11 /m)N(I -11 /m), where I is the identity matrix and 1 is a vector of 1's. Note that this operator is a component of the Moran's I statistic:</p><formula xml:id="formula_4">I (A) = m 1 N1 Z (I -11 /m)N(I -11 /m)Z Z (I -11 /m)Z ,</formula><p>a diagnostic of spatial dependence <ref type="bibr" target="#b52">(Moran 1950</ref>) used for areal spatial data. Values of the Moran's I above -1 m-1 indicate positive spatial autocorrelation and values below -1 m-1 indicate negative spatial autocorrelation <ref type="bibr" target="#b27">(Griffith 2003)</ref>. For the triangular mesh, the positive eigenvectors represent the patterns of spatial clustering, or dependence, among the mesh nodes, and their corresponding eigenvalues denote the magnitude of clustering. We construct the Moran's basis function matrix M ∈ R m× p , by selecting the first p eigenvectors of the Moran's operator where p m. Rank selection for p proceeds via an automated heuristic (Lee and Haran 2022) based on out-of-sample validation. A spatial random field can be constructed through a linear combinations of the Moran's basis functions (contained in matrix M) and their corresponding weights δ ∈ R p .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Piece-wise linear basis functions</head><p>To complete the PICAR approach, we introduce a set of piece-wise linear basis functions <ref type="bibr" target="#b11">(Brenner and Scott 2007)</ref> to interpolate points within the triangular mesh (i.e., the undirected graph G = (V, E)). Following Lee and Haran (2022), we construct a spatial random field on the mesh nodes W = (W (v 1 ), . . . , W (v m )) where v i ∈ V and then project, or interpolate, onto the observed locations W = (W (s 1 ), . . . , W (s n )) where s i ∈ D. The latent spatial random field W can be represented as W = A W, where A is an n × m projector matrix containing the piece-wise linear basis functions. The rows of A correspond to an observation location s i ∈ D, and the columns correspond to a mesh node v i ∈ V . The ith row of A contains the weights to linearly interpolate W (s i ). In practice, we use an n × m projector matrix A for fitting the hierarchical spatial model. For model validation and prediction, we generate an n CV × m projector matrix A CV that interpolates onto the n CV validation locations.</p><p>The PICAR approach (Lee and Haran 2022) is specifically designed for spatial models in the continuous spatial domain and includes both a projection (P) and an intrinsic CAR (ICAR) component. The discretizing step of PICAR resembles models like ICAR for areal spatial data <ref type="bibr" target="#b4">(Besag and Kooperberg 1995)</ref>. However, because the full PICAR approach ultimately extends to the continuous domain and includes dimension-reduction, it allows practitioners to interpolate and quantify uncertainty at unobserved spatial locations on a continuous domain, as shown in examples in Sect. 6. As discussed in <ref type="bibr" target="#b42">Lee and Haran (2022)</ref> and Hughes and <ref type="bibr" target="#b35">Haran (2013)</ref>, δ ∼ N (0, (M QM) -1 ) where Q represents the ICAR precision matrix. If rank(M) = m, then the latent process W ∼ N (0, Q -1 ), which is analogous to a Gaussian Markov random field with an ICAR precision matrix located on the mesh vertices. As for the projection component, PICAR represents the latent continuous spatial process as W = A W = AMδ which is simply a projection of W onto the continuous domain through projection matrix A.</p><p>PICAR's projected Moran's basis functions (AM) and the restricted Moran's basis functions (HH) from Hughes and Haran (2013) share some features. Both bases are eigenvectors of a variant of the Moran's operator, (I -11 /m)N(I -11 /m) for PICAR and (I -P)N(I -P) for HH where P = X(X X) -1 X . However, PICAR's bases can project onto the continuous spatial domain using projector matrix A, while the HH bases are limited to the discrete spatial domain. Recent critiques of low-rank restricted spatial regression models (RSR) <ref type="bibr" target="#b78">(Zimmerman and Ver Hoef 2022;</ref><ref type="bibr" target="#b37">Khan and Calder 2022)</ref> show that RSR approaches like HH have poor inferential and predictive performance compared to non-RSR SGLMMs and even non-spatial models. However, PICAR and PICAR-Z do not suffer from these issues because neither is an RSR approach; the focus is entirely on creating a computationally efficient approach and no attempt is made to examine spatial confounding.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">PICAR APPROACH FOR ZERO-INFLATED SPATIAL DATA</head><p>The PICAR approach readily extends to spatial two-part models (Eq. 2). Using PICAR, we approximate both the latent spatial occurrence O(s) and prevalence P(s) processes as an expansion of Moran's basis functions <ref type="bibr" target="#b27">(Griffith 2003;</ref><ref type="bibr" target="#b35">Hughes and Haran 2013)</ref>. PICAR-Z approximates the spatial random effects for the occurrence and prevalences processes, respectively, as W o ≈ A o M o δ o and W p ≈ A p M p δ p using projector matrices A o and A p , Moran's basis functions matrices M o and M p , and basis coefficients δ o and δ p . The PICAR-Z hierarchical framework for spatial two-part models is:</p><formula xml:id="formula_5">Data Model: Z (s)|O(s), P(s) ∼ F • |O(s), P(s) Process Model: O(s)|π(s) ∼ Bern(π(s)) P(s)|θ(s) ∼ F(•|θ(s)) Sub-process Model 1: π(s)|η o (s) = g -1 o (η o (s)) (Occurrence) η o (s)|β o , δ o = X(s) β o + [A o M o δ o ](s) δ o |τ o ∼ N (0, τ -1 o (M o Q o M o ) -1 ) Sub-process Model 2: θ(s)|η p (s) = g -1 p (η p (s)) (Prevalence) η p (s)|β p , δ p = X(s) β p + [A p M p δ p ](s) δ p |τ p ∼ N (0, τ -1 p (M p Q p M p ) -1 ), Parameter Model: β o ∼ N (μ β o , β o ), β p ∼ N (μ β p , β p ) τ o ∼ G(α τ o , β τ o ), τ p ∼ G(α τ p , β τ p )</formula><p>where F •|O(s), P(s) is the distribution of the specified two-part model such as the hurdle and mixture models. F(•|θ(s)) denote the distribution function of the prevalence process. A o and A p are the projectors matrices for the occurrence and prevalence processes, respectively. For the occurrence and prevalence processes, we now incorporate the Moran's basis functions matrices M o and M p , the basis coefficients δ o and δ p , and the precision parameters τ o and τ p . Q, the m × m prior precision matrix for the mesh vertices, is typically fixed prior to model fitting (see <ref type="bibr" target="#b42">Lee and Haran (2022)</ref> for additional details).</p><p>[A o M o δ o ](s) denotes the value of the basis expansion A o M o δ o corresponding to location s. The interpretation of [A p M p δ p ] follows similarly. The PICAR-Z approach is amenable to be modified to capture the cross-covariance between the occurrence O(s) and prevalence P(s) processes. Past studies have examined methodology for estimating the cross-covariance between two spatial random fields <ref type="bibr" target="#b61">(Oliver 2003;</ref><ref type="bibr" target="#b68">Recta et al. 2012)</ref>. We extend the general modeling framework from <ref type="bibr" target="#b68">Recta et al. (2012)</ref> to high-dimensional settings by imposing correlation on the dimension-reduced Moran's basis coefficients δ o and δ p . We provide additional details for modeling the cross-correlation under the PICAR-Z framework in the supplement.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">TUNING MECHANISMS</head><p>Though most of the PICAR-Z approach is readily automated, there are key tuning mechanisms left to the practitioner: (1) selecting the rank of Moran's basis functions matrices ( p o and p p ); (2) specifying the precision matrices of the mesh vertices (Q o and Q p ); and</p><p>(3) identifying the appropriate two-part model. Here, we examine these tuning mechanisms in detail and provide practical guidelines for implementation.</p><p>First, we provide an automated heuristic to select the appropriate ranks ( p o and p p ) of the Moran's basis function matrices for both processes, M o and M p . First, we generate two augmented datasets, Z * o and Z * p , constructed from the original zero-inflated spatial dataset Z. The first dataset is generated as:</p><formula xml:id="formula_6">Z * o (s) = 0, if Z (s) = 0 1, if Z (s) &gt; 0. , (<label>4</label></formula><formula xml:id="formula_7">)</formula><p>The second dataset Z * p ∈ R n p is the collection of all observations such that Z (s) &gt; 0 and n p corresponds to the sample size of Z * p . Next, we generate a set P consisting of h equally spaced points within the interval [2, P] where P is the maximum rank and h is the interval resolution (h = P -1 by default). Here, P &lt; m and both P and h are chosen by the user.</p><p>For the augmented dataset Z * o , we proceed in the following way. For each p ∈ P, we construct an n×(k + p) matrix of augmented covariates Xo = [X A o M p ] where X ∈ R n×k is the original covariate matrix, A o ∈ R n×m is the projector matrix, and M p ∈ R m× p are the leading p eigenvectors of the Moran's operator. Next, we use maximum likelihood approaches to fit the appropriate generalized linear model (GLM) for binary responses with a logit or probit link function. Finally, we set p o to be the rank p that yields the lowest out-of-sample root mean squared prediction error (rmspe) or area under the ROC curve (AUC).</p><p>We implement a similar procedure for the second augmented dataset Z * p ∈ R n p . For each p ∈ P, we construct an n p × (k + p) matrix of augmented covariates Xp = X p A p M p where X p ∈ R n p ×k is the matrix of covariates, A p ∈ R n p ×m is the projector matrix, and M p ∈ R m× p are the leading p eigenvectors of the Moran's operator. Note that the rows of X p , A p , and M p correspond to the n p locations with nonzero values. Next, we use maximum likelihood approaches to fit the appropriate generalized linear model (GLM) for positive responses. For count data, the likelihood function is a zero-truncated Poisson distribution. For semi-continuous data in the hurdle model framework, we employ a lognormal distribution as the likelihood function. For semi-continuous data in the mixture model framework, we simply fit the traditional linear model. Then, we set p p to be the rank p that yields the lowest out-of-sample root mean squared prediction error (rmspe).</p><p>Next, we provide some choices for Q, the prior precision matrix for the mesh vertices W. By default, we set Q to be the precision matrix of an intrinsic conditional auto-regressive model (ICAR). Another option would set Q as the precision matrix of a conditional autoregressive model (CAR) with estimable autocorrelation parameter ρ ∈ (0, 1) such that Q = (N1-ρN), where N is the adjacency matrix. In practice, estimating ρ could potentially offset the computational gains of the PICAR-Z approach. Note that there are two latent processes (occurrence and prevalence), hence we must estimate two additional parameters, ρ o and ρ p , and construct two precision matrices Q O and Q p . At each iteration of the MCMC algorithm, both ρ o and ρ p must be sampled, and determinants |Q O | and |Q p | must be recomputed. This would increase computational costs on the order of O( <ref type="formula" target="#formula_1">2</ref>3 m 3 ) operations (i.e., two additional Cholesky decompositions of an m × m precision matrix). Another alternative is setting Q = I , where the basis coefficients δ o and δ p are uncorrelated a priori.</p><p>Specifying the class (hurdle vs. mixture) of two-part model is an active area of research <ref type="bibr">(cf. Feng 2021;</ref><ref type="bibr" target="#b75">Vuong 1989;</ref><ref type="bibr">Neelon et al. 2016)</ref>. Past studies have selected the appropriate model class using the Akaike Information Criterion (AIC) <ref type="bibr" target="#b22">(Feng 2021)</ref> or the Vuong test statistics <ref type="bibr" target="#b75">(Vuong 1989)</ref>. However, the choice between a hurdle and mixture model depends on the aims of the investigator and prior scientific knowledge regarding the zero-generating processes (i.e. should the prevalence process also generate zeros). For practitioners, we suggest conducting a sensitivity analysis using both mixture and hurdle models, and then select the appropriate model based on out-of-sample validation. Since PICAR-Z is computationally efficient and scales to larger datasets, conducting such a sensitivity analysis should be feasible in many settings.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4.">COMPUTATIONAL ADVANTAGES</head><p>The PICAR-Z approach requires shorter walltimes per iteration (of the MCMC algorithm) as well as fewer iterations for the Markov chain to converge. The computational speedup results from exploiting lower-dimensional and weakly correlated basis coefficients δ o and δ p and also bypassing expensive matrix operations (e.g. Cholesky decompositions). The PICAR-Z approach has a computational complexity of O(2np) as opposed to O(2n 3 ) for the full hierarchical spatial two-part model.</p><p>We examine mixing in MCMC algorithms within the context of spatial two-part models. The PICAR-Z approach generates a faster mixing MCMC algorithm than fitting the full twopart model using the 'reparameterized' method <ref type="bibr" target="#b13">(Christensen and Waagepetersen 2002)</ref> and a competing approach using bi-square basis functions <ref type="bibr" target="#b15">(Cressie and Johannesson 2008)</ref>. This is corroborated by the larger effective sample size per second (ES/sec), which approximates the rate at which samples are produced from an MCMC algorithm that are equivalent to samples from an IID sampler. Larger values of ES/sec indicates faster mixing. In the simulated examples (Sect. 5), the PICAR-Z approach returns a larger ES/sec than the 'reparameterized' approach across all model parameters and spatial random effects (see supplement).</p><p>For PICAR, the two major computational bottlenecks are constructing the Moran's operator and computing its k-leading eigencomponents. The Moran's operator requires the matrix operation (I -11 /m)N(I -11 /m) which results in 2m 3m 2 floating point operations (FLOPs) where m is the number of mesh vertices. For dense mesh structures (large m), we can generate the Moran's operator by leveraging the embarrassingly parallel operations as well the sparsity of the weights matrix N. Next, the first k eigencomponents of the Moran's Operator can be computed using a partial eigendecomposition approach such as the Implicitly Restarted Arnoldi Method <ref type="bibr" target="#b45">(Lehoucq et al. 1998</ref>) from the RSpectra package <ref type="bibr" target="#b64">(Qiu and Mei 2019)</ref>. Since the PICAR-Z approach generally selects the leading p o or p p eigenvectors where p o m and p p m, an expensive full eigendecomposition of the Moran's operator is not necessary.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">SIMULATION STUDY</head><p>In this section, we conduct an extensive simulation study focusing on four commonlyused spatial two-part models: (1) hurdle model with count data; (2) mixture model with count data; (3) hurdle model with semi-continuous data; and (4) mixture model with semicontinuous data. In addition, we provide comparisons to a low-rank approach with nested bisquare basis functions <ref type="bibr" target="#b71">(Sengupta and Cressie 2013;</ref><ref type="bibr" target="#b15">Cressie and Johannesson 2008)</ref> and a 'reparameterized' method <ref type="bibr" target="#b13">(Christensen and Waagepetersen 2002)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">SIMULATION STUDY DESIGN</head><p>For all four two-part models, we simulate B = 100 samples for a total of 4 × 100 = 400 datasets in the simulation study. In each sample, we generate a set of 1400 randomlyselected locations on the unit square. 1000 observations are allocated for model-fitting and the remaining 400 reserved for model validation. We chose a smaller sample size n = 1000 to allow for comparisons against a 'reparameterized' method, which may be difficult to implement with larger datasets (see Sect. 3.2). Please see the supplement for details on the 'reparameterized' approach.</p><p>For each sample, we randomly generate a matrix of covariates X = [X 1 , X 2 ]. We use the same regression coefficients β o = β p = (1, 1) T for all datasets in the simulation study. The spatial random effects W o and W p are generated from the multivariate Gaussian process proposed in <ref type="bibr" target="#b68">Recta et al. (2012)</ref>. Note that the prohibitively high computational costs made it challenging to explore model structures carefully and extend them to higher-dimensional settings.</p><formula xml:id="formula_8">W o W p ∼ N 0 0 , C(•|ν o , φ o , σ 2 o ) ρL o L T p ρL o L T p C(•|ν p , φ p , σ 2 p ) .</formula><p>where C(•|ν o , φ o , σ 2 o ) and C(•|ν p , φ p , σ 2 p ) are covariance matrices for W o and W p , respectively. ρ represents cross-correlation between the occurrence and prevalence processes at the same location. We fix ρ = 0.7 to impose moderate positive cross-correlation between the occurrence and prevalence processes. L o and</p><formula xml:id="formula_9">L p are the lower-triangular Choleski factors of C(•|ν o , φ o , σ 2 o ) and C(•|ν p , φ p , σ 2 p ), respectively. That is, C(•|ν o , φ o , σ 2 o ) = L o L T o and C(•|ν p , φ p , σ 2 p ) = L p L T p . The covariance matrices, C(•|ν o , φ o , σ 2 o ) and C(•|ν p , φ p , σ 2 p )</formula><p>are from the Matérn class (cf. <ref type="bibr" target="#b65">Rasmussen and Williams 2006;</ref><ref type="bibr" target="#b66">Rasmussen 2004</ref>) of covariance functions with parameters ν o = ν p = 0.5, σ 2 o = σ 2 p = 1, and φ o = φ p = 0.2. We use the exponential covariance function (ν = 0.5) to generate a "rough" latent spatial process that is not mean square differentiable <ref type="bibr" target="#b66">(Rasmussen 2004)</ref>.</p><p>We first generate realizations from the latent occurrence process O(s) such that the underlying probability surface is modeled as π(s) = logit -1 (X(s) β O + W O (s)). Next, we generate realizations from the prevalence process P(s) from the corresponding prevalence distribution F(•|θ(s)) (Eq. 2) with spatially varying intensity (or mean) processes θ(s). We use a zero-truncated Poisson, Lognormal, Poisson, and Type I Tobit distribution for the hurdle count, hurdle semi-continuous, mixture count, and mixture semi-continuous cases, respectively. For the hurdle count and mixture count cases, we model the underlying intensity process as θ(s) = exp{X(s) β P + W p (s)}. For the semi-continuous models, we specify θ(s) = (μ(s), τ 2 ) with the mean process μ(s) = X(s) β P + W p (s) and nugget variance τ 2 = 0.1. Finally, the observed data are drawn from the respective distribution of the spatial two-part model F(•|O(s), P(s)). Our simulated datasets exhibit balance in the number of zero-and nonzero-valued observations (see summary in the supplement)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Implementation and competing methods</head><p>To complete the hierarchical framework, we specify prior distributions for the zeroinflated spatial model parameters. We assign a multivariate normal prior for the regression coefficients where β O ∼ N (0, 100I) and β P ∼ N (0, 100I). For the variance of the spatial basis coefficients, we specify a non-informative inverse gamma priors where σ 2 O ∼ IG(0.002, 0.002) and σ 2 P ∼ IG(0.002, 0.002). The cross-correlation coefficient between the occurrence and prevalence processes ρ follows a uniform distribution ρ ∼ U(-1, 1). For the semi-continuous cases, the nugget variance τ 2 for the prevalence process follows an inverse gamma distribution τ 2 ∼ IG(0.002, 0.002). For the PICAR-Z approach, we ran 150, 000 iterations of the MCMC algorithm. The MCMC algorithm is implemented using the programming language nimble (de <ref type="bibr" target="#b18">Valpine et al. 2017)</ref>. The selected rank, p o and p p , varies across datasets and the class of two-part models. The median rank for the occurrence processes ( p o ), is smaller than the median rank for the prevalence processes ( p p ), which is consistent with results from a previous study <ref type="bibr" target="#b42">(Lee and Haran 2022)</ref>. We provide a table and summary of the chosen ranks in the supplement.</p><p>The AUC is used to assess how well each approach classifies zero-valued observations in a binary classification setting. The out-of-sample root mean squared prediction error (rmspe</p><formula xml:id="formula_10">) is rmspe = 1 n CV n CV i=1 (Y * i -Ŷ * i ) 2</formula><p>, where n CV = 400, Y * i 's denote the i-th value in the validation sample, and Ŷ * i 's are the predicted values at the i-th location. In addition, we compare the computational walltimes to draw 150,000 samples from the respective posterior distributions via MCMC. We asses convergence of the Markov chains using the batch means standard errors. The computation times are based on a single 2.4 GHz Intel Xeon Gold 6240R processor. All the code was run on the George Mason University Office of Research Computing (ORC) HOPPER high-performance computing infrastructure.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">RESULTS</head><p>Table 1 contains the out-of-sample prediction results for the entire validation sample (rmspe), positive-valued observations (rmspe), and zero versus nonzero values (AUC) as well as the average model-fitting walltimes. Results of the simulation study suggest that PICAR-Z outperforms both competing approaches in prediction across all four classes of two-part models (see Table <ref type="table" target="#tab_0">1</ref>). All approaches perform comparably for binary classification of the zero versus nonzero cases, as corroborated by similar AUC values. However, the PICAR-Z methods (with and without cross-correlation) provide more accurate predictions for the nonzero (i.e., positive-valued) observations, in comparison to the other two methods. Estimating the correlation parameter does not strongly affect accuracy, save for the semi-continuous hurdle case. Note that the PICAR-Z approach outperformed the 'reparameterized' approach in predictive performance, which is consistent with results from past studies that examined basis representations of spatial latent fields <ref type="bibr" target="#b9">(Bradley et al. 2019;</ref><ref type="bibr" target="#b42">Lee and Haran 2022)</ref>. Figure <ref type="figure">1</ref> provides a visual representation of the latent probability π(s) and log-intensity log(θ (s)) surfaces.</p><p>We also consider mixing in MCMC algorithms by examining the effective sample size per second (ES/sec), or the rate at which independent samples are generated by the MCMC algorithm. Larger values of ES/sec are indicative of faster mixing Markov chains. Note that PICAR-Z approach generates a faster mixing MCMC algorithm than the 'reparameterized' approach <ref type="bibr" target="#b13">(Christensen and Waagepetersen 2002)</ref>, a method specifically designed to improve mixing for SGLMMs. For model parameters β 1o , β 2o , β 1 p , and β 1 p , PICAR-Z yields an ES/sec of 218.89, 214.15, 44.00, and 43.83, respectively. The 'reparameterized' approach returns an ES/sec 0.66, 0.63, 0.26, and 0.25, respectively. For the spatial random effects W o (s) and W p (s), the median ES/sec is 53.09 and 28.70 for the PICAR-Z approach and 0.71 and 0.40 for the 'reparameterized' approach, an improvement by a factor of roughly 74.3 and 72.5. Across all four model classes, the PICAR-Z approach has shorter walltimes to run 150,000 iterations of the Metropolis-Hastings algorithm than 'low-rank (bisquare)' and the 'reparameterized' approach (Table <ref type="table" target="#tab_0">1</ref>). Against the 'reparameterized' approach, PICAR-Z exhibits a speed-up factor of roughly 152.4, 121.2, 203.9, and 177.4 for the count hurdle, semi-continuous hurdle, count mixture, and semi-continuous mixture models, respectively. We also conducted a sensitivity analysis regarding the proportion of zeros within the sample and various model performance metrics. Results (see supplement) indicate that datasets Results are grouped by two-part model (hurdle vs. mixture), data type (counts vs. semi-continuous), and approach (PICAR-Z, PICAR-Z with cross-correlation, 'low-rank (bisquare)', and the 'reparameterized' approach). Results include the root mean squared prediction error (rmspe) for the entire validation dataset and the nonzero data. For zero-versus nonzero classification, we report the area under the ROC curve (AUC). Model-fitting walltimes are reported in minutes with a low proportion of zeros have lower AUC (poor classification) than datasets with larger proportion of zeros. Low proportions of zeros are linked with shorter model-fitting walltimes. Boxplots of the relevant metrics -Total RMSPE, NonZero RMPSE, AUC for the zero-valued observations, and walltimes -are also provided in the supplement.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">APPLICATIONS</head><p>We demonstrate the scalability and flexibility of PICAR-Z on two large environmental datasets with spatially-referenced zero-inflated observations-zero-inflated counts of a bivalve species and high-resolution ice thickness measurements over West Antarctica.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1.">BIVALVE SPECIES IN THE DUTCH WADDEN SEA</head><p>We randomly select 3220 observations to fit our model and hold out 806 observations for validation. Covariates include environmental variables that affect the abundance of the Macoma balthica species such as: (1) median grain size of the sediments; (2) silt content of the sediments; and (3) altitude. Using PICAR-Z, we fit the hurdle count model and the zero-inflated Poisson model (mixture). We construct a triangular mesh with m = 4028 mesh vertices. In both the count hurdle and mixture cases, the automated heuristic (Sect. 4.3) chose ranks p o = 14 and p p = 64 for the occurrence and prevalence processes, respectively. Figure <ref type="figure">1</ref>. Prediction results from a single simulated example. Data are generated from the spatial count mixture model in Sect. 5. Top row includes the true and predicted probability surfaces π(s) for the occurrence random process O(s). Bottom row presents the true and predicted log-intensity surfaces log(θ (s)) for the prevalence random process P(s). Column 1 presents the true latent probability and log-intensity surfaces. Columns 2-3 include the predicted surfaces for PICAR-Z (column 2), low-rank approach with bi-square basis functions (column 3), and the 'reparameterized' approach (column 4). In the fifth column, a color scale is provided for the probability and log-intensity surfaces.</p><p>We employ similar model specifications and prior distributions as in the simulated examples (Sect. 5.2), including a comparisons to the low-rank (bisquare) approach. Comparative results are provided in Table <ref type="table" target="#tab_1">2</ref>. Both the PICAR-Z and correlated PICAR-Z approach outperforms low-rank approaches in predictions and shorter model-fitting walltimes. These results hold in both the hurdle and mixture modeling approaches. Note that PICAR-Z provides more accurate predictions, compared to the low-rank approach, among the nonzero observations. Comparisons to the 'reparameterized' approach <ref type="bibr" target="#b13">(Christensen and Waagepetersen 2002)</ref> are computationally prohibitive due to the long wall times associated with the MCMC algorithms. Under PICAR-Z, both the hurdle and mixture models provide comparable out-ofsample predictions, yet the hurdle model has a shorter walltime; therefore, we recommend the count hurdle model for this particular case. We present the inferential results for the regression coefficients β o and β p in the supplement.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2.">ICE-SHEET THICKNESS DATA FOR WEST ANTARCTICA</head><p>Similar to the previous application, we partition our dataset accordingly by assigning 23,000 locations as a training set and the remaining 6241 locations as the validation set. We model the observed ice thickness data using: (1) a hurdle semicontinuous model with a lognormal prevalence process; and (2) a semi-continuous mixture model using the Tobit Type I model. We rescale the spatial domain into the unit square, and include the X-and Y -coordinates as covariates. We implement similar settings as the semi-continuous cases in Sect. 5 including the parameters' prior distributions. Due to the high-dimensional observations, we Results include the root mean squared prediction error (rmspe) for the entire validation dataset and the nonzero data. For zero-versus nonzero classification, we report the area under the ROC curve (AUC). Model-fitting walltimes are reported in minutes omit comparisons to the correlated PICAR-Z and 'reparameterized' approaches. For PICAR-Z, we construct a triangular mesh with m = 5888 mesh vertices. For both the hurdle model, the automated heuristic chose ranks p o = 46 and p p = 200 for the occurrence and prevalence processes, respectively. In the mixture model, we use ranks p o = 46 and p p = 80. For the low-rank approach we use the quad-tree structure (84 basis functions) from Sect. 5. Comparative results are provided in Table <ref type="table" target="#tab_2">3</ref> and maps of the predicted values are provided in Fig. <ref type="figure" target="#fig_0">2</ref>. Both PICAR-Z performs yields more accurate out-of-sample predictions than the low-rank approach in both the total rmspe (hurdle: 353.31 vs. 372.53 and mixture: 314.47 vs. 323.77) and the rmspe among positive values (hurdle: 436.39 vs. 461.27 and mixture: 384.32 vs. 398.51). Both approaches yield comparable results among zero vs. nonzero predictions based on AUC (hurdle: 0.95 vs. 0.96 and mixture: 0.94 vs. 0.92 ). For the hurdle model, walltimes are slightly shorter for the 'low-rank (bisquare)' approach, which can be attributed to fewer basis functions chosen to represent the prevalence process. Despite the longer walltimes, PICAR-Z provides more accurate predictions and a larger effective sample size. The mixture model (Tobit Type I) is able to predict more accurately than the hurdle model; however, it comes at the cost of slightly longer walltimes. Maps of the corresponding prediction standard deviations are provided in the supplement. Note that PICAR-Z yields more accurate predictions, albeit with larger uncertainties. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.">DISCUSSION</head><p>In this study, we propose a computationally efficient approach (PICAR-Z) to model high-dimensional zero-inflated spatial count and semi-continuous observations. Our method approximates the two latent spatial random fields using the PICAR representation. PICAR-Z scales well to higher dimensions, is automated, and extends to a wide range of spatial twopart models. In both simulated and real-world examples, PICAR-Z yields comparable results to the 'reparameterized' approach in both inference and prediction, yet incurs just a fraction of the computational costs. In addition, PICAR-Z outperforms a competing approach in both predictions and computational costs. Our method can be easily implemented in a programming language for Markov chain Monte Carlo algorithms such as nimble and stan. PICAR-Z significantly reduces computational overhead while maintaining model performance; thereby allowing practitioners to investigate a wider range of two-part spatial models than was previously possible.</p><p>While this study focuses on four types of two-part models, a natural extension would extend ideas from complex two-part models to the spatial setting. Examples include hurdle models with skewed distributions <ref type="bibr" target="#b21">(Dreassi et al. 2014;</ref><ref type="bibr" target="#b48">Liu et al. 2016)</ref>, t-distributions to model heavy tailed behavior <ref type="bibr" target="#b58">(Neelon et al. 2015)</ref>, or scale mixtures of normal distributions (Fruhwirth-Schnatter and Pyne 2010). Next, our approach does not provide a procedure for choosing between hurdle and mixture models, at least prior to model-fitting. Developing a formal test or automated heuristic to select the appropriate class of spatial two-part models would be a promising area of future research.</p><p>Extending PICAR-Z to the multivariate or spatio-temporal setting has potential for future research. The latent spatial processes can be linked using nonstationary multivariate covariance functions <ref type="bibr" target="#b39">(Kleiber and Nychka 2012)</ref> and or basis functions weighted with Gaussian graphical vectors <ref type="bibr" target="#b40">(Krock et al. 2021)</ref>. For spatio-temporal data, modeling basis coefficients as a vector-autoregressive process <ref type="bibr" target="#b10">(Bradley et al. 2015)</ref> can induce temporal dependencies in the latent spatial occurrence and prevalence processes. In light of recent critiques from <ref type="bibr" target="#b78">Zimmerman and Ver Hoef (2022)</ref> and <ref type="bibr" target="#b37">Khan and Calder (2022)</ref>, a subsequent studies would benefit from rigorously examining spatial confounding in zero-inflated spatial datasets by modifying PICAR-Z and the de-confounded Moran's basis functions (Hughes and Haran 2013).</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Maps of the observed ice-thickness at the 6241 validation locations (top left). Predicted values using the hurdle semi-continuous model with PICAR-Z (top middle) and 'low-rank (bisquare)' (top right). Predictions using the mixture semi-continuous model with PICAR-Z (bottom middle) and 'low-rank (bisquare)' (bottom right).</figDesc><graphic coords="19,77.23,66.28,340.36,232.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><graphic coords="17,77.23,66.43,340.36,186.85" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Simulation Study Results: Median values for all 100 samples in the simulation study</figDesc><table><row><cell>Two-part</cell><cell>Fitting</cell><cell>Total</cell><cell>NonZero</cell><cell>Zero</cell><cell>Time</cell></row><row><cell>model</cell><cell>method</cell><cell>RMSPE</cell><cell>RMSPE</cell><cell>AUC</cell><cell>(mins)</cell></row><row><cell>Count</cell><cell>PICAR-Z</cell><cell>2.182</cell><cell>2.594</cell><cell>0.726</cell><cell>1.500</cell></row><row><cell>Hurdle</cell><cell>PICAR-Z (Cor)</cell><cell>2.195</cell><cell>2.581</cell><cell>0.725</cell><cell>2.100</cell></row><row><cell></cell><cell>Bi-square</cell><cell>2.252</cell><cell>2.701</cell><cell>0.722</cell><cell>2.200</cell></row><row><cell></cell><cell>Reparameterized</cell><cell>2.209</cell><cell>2.952</cell><cell>0.723</cell><cell>228.600</cell></row><row><cell>Semi-continuous</cell><cell>PICAR-Z</cell><cell>2.376</cell><cell>2.917</cell><cell>0.737</cell><cell>1.900</cell></row><row><cell>Hurdle</cell><cell>PICAR-Z (Cor)</cell><cell>2.353</cell><cell>2.953</cell><cell>0.736</cell><cell>3.500</cell></row><row><cell></cell><cell>Bi-square</cell><cell>2.834</cell><cell>3.503</cell><cell>0.731</cell><cell>2.200</cell></row><row><cell></cell><cell>Reparameterized</cell><cell>2.532</cell><cell>3.285</cell><cell>0.734</cell><cell>230.300</cell></row><row><cell>Count</cell><cell>PICAR-Z</cell><cell>2.366</cell><cell>3.374</cell><cell>0.805</cell><cell>1.900</cell></row><row><cell>Mixture</cell><cell>PICAR-Z (Cor)</cell><cell>2.366</cell><cell>3.364</cell><cell>0.806</cell><cell>2.600</cell></row><row><cell></cell><cell>Bi-square</cell><cell>2.528</cell><cell>3.462</cell><cell>0.802</cell><cell>2.700</cell></row><row><cell></cell><cell>Reparameterized</cell><cell>2.428</cell><cell>3.704</cell><cell>0.806</cell><cell>387.400</cell></row><row><cell>Semi-continuous</cell><cell>PICAR-Z</cell><cell>0.515</cell><cell>0.825</cell><cell>0.854</cell><cell>2.200</cell></row><row><cell>Mixture</cell><cell>PICAR-Z (Cor)</cell><cell>0.518</cell><cell>0.831</cell><cell>0.859</cell><cell>3.200</cell></row><row><cell></cell><cell>Bi-square</cell><cell>0.563</cell><cell>0.882</cell><cell>0.789</cell><cell>2.700</cell></row><row><cell></cell><cell>Reparameterized</cell><cell>0.676</cell><cell>1.081</cell><cell>0.734</cell><cell>390.200</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Bivalve Species Results: Results are grouped by two-part model (hurdle vs. mixture) and approach (PICAR-Z, PICAR-Z with cross-correlation, and low-rank approach using bi-square basis functions)Results include the root mean squared prediction error (rmspe) for the entire validation dataset and the nonzero data. For zero-versus nonzero classification, we report the area under the ROC curve (AUC). Model-fitting walltimes are reported in minutes</figDesc><table><row><cell>Two-part</cell><cell>Fitting</cell><cell>Total</cell><cell>NonZero</cell><cell>Zero</cell><cell>Time</cell></row><row><cell>model</cell><cell>method</cell><cell>RMSPE</cell><cell>RMSPE</cell><cell>AUC</cell><cell>(mins)</cell></row><row><cell>Count</cell><cell>PICAR-Z</cell><cell>4.50</cell><cell>7.41</cell><cell>0.64</cell><cell>2.53</cell></row><row><cell>Hurdle</cell><cell>PICAR-Z (Cor)</cell><cell>4.50</cell><cell>7.40</cell><cell>0.64</cell><cell>3.05</cell></row><row><cell></cell><cell>Bi-square</cell><cell>4.80</cell><cell>7.83</cell><cell>0.64</cell><cell>3.15</cell></row><row><cell>Count</cell><cell>PICAR-Z</cell><cell>4.51</cell><cell>7.41</cell><cell>0.64</cell><cell>4.53</cell></row><row><cell>Mixture</cell><cell>PICAR-Z (Cor)</cell><cell>4.52</cell><cell>7.41</cell><cell>0.64</cell><cell>4.88</cell></row><row><cell></cell><cell>Bi-square</cell><cell>4.82</cell><cell>7.89</cell><cell>0.64</cell><cell>4.95</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>West Antarctica Ice Thickness Results: Results are grouped by two-part model (hurdle vs. mixture) and approach (PICAR-Z vs. low-rank with bi-square basis functions)</figDesc><table><row><cell>Two-part</cell><cell>Fitting</cell><cell>Total</cell><cell>NonZero</cell><cell>Zero</cell><cell>Time</cell></row><row><cell>model</cell><cell>method</cell><cell>RMSPE</cell><cell>RMSPE</cell><cell>AUC</cell><cell>(mins)</cell></row><row><cell>Semi-continuous</cell><cell>PICAR-Z</cell><cell>352.31</cell><cell>436.39</cell><cell>0.95</cell><cell>31.47</cell></row><row><cell>Hurdle</cell><cell>Bi-square</cell><cell>372.53</cell><cell>461.27</cell><cell>0.96</cell><cell>28.73</cell></row><row><cell>Semi-continuous</cell><cell>PICAR-Z</cell><cell>314.47</cell><cell>384.32</cell><cell>0.94</cell><cell>33.44</cell></row><row><cell>Mixture</cell><cell>Bi-square</cell><cell>323.77</cell><cell>398.51</cell><cell>0.92</cell><cell>34.29</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>We compare the PICAR-Z method against the low-rank (bisquare) approach <ref type="bibr" target="#b71">(Sengupta and Cressie 2013;</ref><ref type="bibr" target="#b15">Cressie and Johannesson 2008)</ref> as well as the 'reparameterized' approach <ref type="bibr" target="#b13">(Christensen and Waagepetersen 2002)</ref>. Due to computational constraints, we elected to use the approach from <ref type="bibr" target="#b13">Christensen and Waagepetersen (2002)</ref> over the full spatial hierarchical two-part model from Sect. 3.1. The 'reparameterized' approach is, by design, a computationally efficient method for modeling latent spatial random processes as it improves mixing in the MCMC algorithm by considerably reducing the correlation in the spatial random effects. This method preserves the rank of the spatial random effects and improves mixing in the MCMC algorithm by considerably reducing the correlation in the spatial random effects. For the 'reparameterized' approach, we assume that the class of covariance function (Matérn) and the smoothness parameter (ν = 0.5) are known a priori, which may not necessarily be the case in other scenarios. Additional details for the competing approaches are provided in the supplement.</p><p>We provide the following validation metrics averaged over all samples in the simulation study: (1) out-of-sample root mean squared prediction error (rmspe total) for all observations; (2) area under the receiver operating characteristic curve (AUC) for the zerovalued observations; and (3) rmspe for the nonzero-valued observations (rmspe positive).</p></div>
+<div><head>ACKNOWLEDGEMENTS</head><p>We are grateful to <rs type="person">Yawen Guan</rs> and <rs type="person">Jaewoo Park</rs> for helpful discussions. This research received no specific grant from any funding agency in the public, commercial, or not-for-profit sectors. Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of any funding entity. Any errors and opinions are, of course, those of the authors. We are not aware of any real or perceived conflicts of interest for any authors. Accompanying code can be accessed at the following github repository <ref type="url" target="https://github.com/benee55/PICAR_Z_Code">https://github.com/benee55/PICAR_Z_Code</ref>. This project was supported by resources provided by the <rs type="institution">Office of Research Computing at George Mason University</rs> (<ref type="url" target="https://orc.gmu.edu">https://orc.gmu.edu</ref>) and funded in part by grants from the <rs type="funder">National Science Foundation</rs> (Award Number <rs type="grantNumber">2018631</rs>).</p></div>
+			</div>
+			
+			<div type="funding">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Funding This research received no specific grant from any funding agency in the public, commercial, or not-forprofit sectors.</p></div>
+			</div>
+
+
+			<listOrg type="funding">
+				<org type="funding" xml:id="_KqQSXvv">
+					<orgName type="program" subtype="full">Christensen and Waagepetersen 2002</orgName>
+				</org>
+				<org type="funding" xml:id="_87Mwwzu">
+					<idno type="grant-number">2018631</idno>
+				</org>
+			</listOrg>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Declarations Conflicts of interest</head><p>All authors declare that they have no conflicts of interest.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Publisher's Note Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Zero-inflated models with application to spatial count data</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Agarwal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Citron-Pousty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Ecol Stat</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="341" to="355" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Bayesian spatiotemporal analysis of zero-inflated biological population density data by a delta-normal spatiotemporal additive model: Bayesian analysis of zero-inflated biological data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Arcuti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pollice</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Ribecco</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D'</forename><surname>Onghia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biom J</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="372" to="386" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Efficient Gaussian process regression for large datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Dunson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">T</forename><surname>Tokdar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="75" to="89" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Gaussian predictive process models for large spatial data sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc: Ser B (Stat Methodol)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">On conditional and intrinsic autoregressions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Kooperberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="733" to="746" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Half a century of monitoring macrobenthic animals on tidal flats in the Dutch Wadden Sea</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Beukema</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Dekker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mar Ecol Prog Ser</title>
+		<imprint>
+			<biblScope unit="volume">656</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Designing a benthic monitoring programme with multiple conflicting objectives</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">I</forename><surname>Bijleveld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Van Gils</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Van Der Meer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Dekinga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Kraan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">W</forename><surname>Van Der Veer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Piersma</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods Ecol Evol</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="526" to="536" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Flyway protection and the predicament of our migrant birds: a critical look at international conservation policies and the dutch wadden sea</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">C</forename><surname>Boere</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Piersma</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ocean Coast Manag</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="157" to="168" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Projecting flood-inducing precipitation with a Bayesian analogue model</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">P</forename><surname>Bopp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Shaby</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Forest</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mejía</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Agric Biol Environ Stat</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="229" to="249" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Bayesian hierarchical models with conjugate full-conditional distributions for dependent data from the natural exponential family</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Bradley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Holan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">0</biblScope>
+			<biblScope unit="page" from="1" to="29" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Spatio-temporal change of support with application to American community survey multi-year period estimates</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Bradley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Holan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="255" to="270" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Brenner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Scott</surname></persName>
+		</author>
+		<title level="m">The mathematical theory of finite element methods</title>
+		<imprint>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">15</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Calibrating an ice sheet model using high-dimensional binary spatial data</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Applegate</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Pollard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">513</biblScope>
+			<biblScope unit="page" from="57" to="72" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Bayesian prediction of spatial count data using generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">F</forename><surname>Christensen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Waagepetersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="280" to="286" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Distinctly variable mudscapes: distribution gradients of intertidal macrofauna across the Dutch Wadden sea</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Compton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Holthuijsen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Koolhaas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Dekinga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Horn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Galama</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brugge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Van Der Wal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Van</forename><surname>Der Meer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Sea Res</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="103" to="116" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Fixed rank kriging for very large spatial data sets</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Johannesson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc: Ser B (Stat Methodol)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="209" to="226" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Statistics for spatio-temporal data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<publisher>Wiley</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">High prevalences of disseminated neoplasia in the Baltic tellin Limecola balthica in the Wadden Sea</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Dairain</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">Y</forename><surname>Engelsma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Drent</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Dekker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Thieltges</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Dis Aquat Org</title>
+		<imprint>
+			<biblScope unit="volume">138</biblScope>
+			<biblScope unit="page" from="89" to="96" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Programming with models: writing statistical algorithms for general model structures with nimble</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>De Valpine</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Turek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Paciorek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Anderson-Bergman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Temple</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bodik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Comput Graph Stat</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="403" to="413" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Ice-sheet collapse and sea-level rise at the Bølling warming 14,600 years ago</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Deschamps</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Durand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Bard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hamelin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Camoin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Henderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Okuno</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yokoyama</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">483</biblScope>
+			<biblScope unit="issue">7391</biblScope>
+			<biblScope unit="page">559</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Model-based geostatistics</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Tawn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Moyeed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Roy Stat Soc: Ser C (Appl Stat)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="299" to="350" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Small area estimation for semicontinuous skewed spatial data: An application to the grape wine production in tuscany</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Dreassi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Petrucci</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Rocco</forename><forename type="middle">E</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biom J</title>
+		<imprint>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="141" to="156" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A comparison of zero-inflated and hurdle models for modeling zero-inflated count data</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">X</forename><surname>Feng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Distrib Appl</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Modelling zero-inflated spatio-temporal processes</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">V</forename><surname>Fernandes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">S</forename><surname>Migon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Model: Int J</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="3" to="25" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Bedmap 2: improved ice bed, surface and thickness datasets for Antarctica</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Fretwell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Pritchard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Vaughan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bamber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Barrand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bianchi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bingham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Blankenship</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casassa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cryosphere Discuss</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="4305" to="4361" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Bayesian inference for finite mixtures of univariate and multivariate skewnormal and skew-t distributions</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fruhwirth-Schnatter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Pyne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="317" to="336" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Initial results of the SeaRISE numerical experiments with the models SICOPOLIS and IcIES for the greenland ice sheet</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Greve</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Saito</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Abe</forename><forename type="middle">-</forename><surname>Ouchi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Glaciol</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">58</biblScope>
+			<biblScope unit="page" from="23" to="30" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Spatial filtering</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial autocorrelation and spatial filtering</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="page" from="91" to="130" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Modelling count data with overdispersion and spatial effects</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gschlößl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Czado</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Pap</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="531" to="552" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A computationally efficient projection-based approach for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Guan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Comput Graph Stat</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="701" to="714" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<monogr>
+		<title level="m" type="main">Fast expectation-maximization algorithms for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Guan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1909.05440</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Adaptive Gaussian predictive process models for large spatial datasets</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Guhaniyogi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="997" to="1007" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<title level="m" type="main">Gaussian random field models for spatial data. Handbook of Markov Chain Monte Carlo</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="449" to="478" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Accelerating computation in Markov random field models for spatial data via structured MCMC</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Comput Graph Stat</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="249" to="264" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A process-convolution approach to modelling temperatures in the North Atlantic Ocean</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Higdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Ecol Stat</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="173" to="190" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">Ø</forename><surname>Hjelle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M ;</forename><surname>Daehlen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Springer Science &amp; Business Media</title>
+		<imprint>
+			<date type="published" when="2006">2006. 2013</date>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="139" to="159" />
+		</imprint>
+	</monogr>
+	<note>Triangulations and applications</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">A multi-resolution approximation for massive spatial datasets</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Katzfuss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="issue">517</biblScope>
+			<biblScope unit="page" from="201" to="214" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression methods: implications for inference</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Khan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="issue">537</biblScope>
+			<biblScope unit="page" from="482" to="494" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">BLUP (REMQL) estimation of a correlated random effects negative binomial hurdle model</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C-Ch</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">H</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Fine</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Stone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Health Serv Outcomes Res Method</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="302" to="319" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Nonstationary modeling for multivariate spatial processes</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kleiber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Multivar Anal</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="page" from="76" to="91" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title level="m" type="main">Modeling massive highly-multivariate nonstationary spatial data with the basis graphical lasso</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Krock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kleiber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hammerling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Becker</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2101.02404</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Zero-inflated Poisson regression, with an application to defects in manufacturing</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lambert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="14" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">PICAR: an efficient extendable approach for fitting hierarchical spatial models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">S</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="187" to="198" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Applicability of zero-inflated models to fit the torrential rainfall count data with extra zeros in South Korea</title>
+		<author>
+			<persName><forename type="first">C-E</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Water</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">123</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Spatial modeling of data with excessive zeros applied to reindeer pellet-group counts</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Alam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Noh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Rönnegård</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Skarin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecol Evol</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">19</biblScope>
+			<biblScope unit="page" from="7047" to="7056" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<title level="m" type="main">ARPACK users&apos; guide: solution of large-scale eigenvalue problems with implicitly restarted Arnoldi methods</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Lehoucq</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Sorensen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Yang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1998">1998</date>
+			<publisher>SIAM</publisher>
+			<biblScope unit="volume">6</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Bayesian spatial modelling with R-INLA</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Softw</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">19</biblScope>
+			<biblScope unit="page" from="1" to="25" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">An explicit link between Gaussian fields and Gaussian Markov random fields: the stochastic partial differential equation approach</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lindström</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc: Ser B (Stat Methodol)</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="423" to="498" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Analyzing repeated measures semi-continuous data, with application to an alcohol dependence study</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Strawderman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O'</forename><surname>Quigley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Methods Med Res</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="133" to="152" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Mapping species abundance by a spatial zero-inflated Poisson model: a case study in the Wadden Sea</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Lyashevska</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Brus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Van Der Meer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Netherlands. Ecol Evol</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="532" to="543" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">The rising tide: assessing the risks of climate change and human settlements in low elevation coastal zones</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mcgranahan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Balk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Anderson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Urban</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="17" to="37" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Random effect models for repeated measures of zero-inflated count data</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Min</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Agresti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Model</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Notes on continuous stochastic phenomena</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Moran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">1/2</biblScope>
+			<biblScope unit="page" from="17" to="23" />
+			<date type="published" when="1950">1950</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Specification and testing of some modified count data models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mullahy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econom</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="341" to="365" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Bayesian zero-inflated negative binomial regression based on Pólya-gamma mixtures</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Neelon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Anal</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">829</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Spatiotemporal hurdle models for zero-inflated count data: exploring trends in emergency department visits</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Neelon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Ling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Hastings</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Methods Med Res</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="2558" to="2576" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Modeling zero-modified count and semicontinuous data in health services research Part 1: background and overview</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Neelon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O'</forename><surname>Malley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Med</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">27</biblScope>
+			<biblScope unit="page" from="5070" to="5093" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">A Bayesian two-part latent class model for longitudinal medical expenditure data: assessing the impact of mental health and substance abuse parity</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Neelon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O'</forename><surname>Malley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Normand</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S-Lt</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="280" to="289" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Bayesian two-part spatial models for semicontinuous data with application to emergency department expenditures</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Neelon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Seb</forename><surname>Neelon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="465" to="479" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Global estimates of the impact of a collapse of the West Antarctic ice sheet: an application of FUND</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Nicholls</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Tol</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">T</forename><surname>Vafeidis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Clim Change</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page">171</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">A multiresolution Gaussian process model for the analysis of large spatial datasets</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bandyopadhyay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hammerling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sain</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Comput Graph Stat</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="579" to="599" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Gaussian cosimulation: modelling of the cross-covariance</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Oliver</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Math Geol</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="681" to="698" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">A two-part random-effects model for semicontinuous longitudinal data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">K</forename><surname>Olsen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Schafer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="issue">454</biblScope>
+			<biblScope unit="page" from="730" to="745" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">Reduced-dimensional Monte Carlo maximum likelihood for latent Gaussian random field models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Park</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Comput Graph Stat</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="269" to="283" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<monogr>
+		<title level="m" type="main">RSpectra: solvers for large-scale eigenvalue and SVD problems. R package version 0</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Qiu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mei</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="15" to="15" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<monogr>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rasmussen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Williams</surname></persName>
+		</author>
+		<title level="m">Adaptive computation and machine learning</title>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>MIT Press</publisher>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+	<note>Gaussian Processes for Machine Learning</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Gaussian processes in machine learning</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Rasmussen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advanced lectures on machine learning</title>
+		<imprint>
+			<biblScope unit="page" from="63" to="71" />
+			<date type="published" when="2004">2004</date>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">A spatial zero-inflated poisson regression model for oak regeneration</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Rathbun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Ecol Stat</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="409" to="426" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">A two-stage model for incidence and prevalence in point-level spatial count data</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Recta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Rosenberger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="162" to="174" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Modeling uncertainty in latent class membership: a case study in criminology</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Roeder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">G</forename><surname>Lynch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Nagin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="issue">447</biblScope>
+			<biblScope unit="page" from="766" to="776" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Martino</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Chopin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc: Ser B (Stat Methodol)</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="319" to="392" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">Hierarchical statistical modeling of big spatial datasets using the exponential family of distributions</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sengupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Stat</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="14" to="44" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<analytic>
+		<title level="a" type="main">Processes and impacts of Arctic amplification: a research synthesis</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Serreze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">G</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Planet Change</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="85" to="96" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">Large spatial variability in lifetime egg production in an intertidal Baltic tellin (Macoma balthica) population</title>
+		<author>
+			<persName><forename type="first">Ml ;</forename><surname>Stein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Der Meer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Beukema</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Dekker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Springer Science &amp; Business Media van</title>
+		<imprint>
+			<date type="published" when="2003">2012. 2003</date>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="page" from="274" to="278" />
+		</imprint>
+	</monogr>
+	<note>Interpolation of spatial data: some theory for kriging</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<analytic>
+		<title level="a" type="main">Space-time zero-inflated count models of harbor seals</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Ver Hoef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Jansen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="697" to="712" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b75">
+	<analytic>
+		<title level="a" type="main">Likelihood ratio tests for model selection and non-nested hypotheses</title>
+		<author>
+			<persName><forename type="first">Q</forename><forename type="middle">H</forename><surname>Vuong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econom: J Econom Soc</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="307" to="333" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b76">
+	<analytic>
+		<title level="a" type="main">Bayesian spatial-temporal modeling of ecological zero-inflated count data</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M-H</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Kuo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Dey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sin</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">189</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b77">
+	<analytic>
+		<title level="a" type="main">Increasing Antarctic sea ice under warming atmospheric and oceanic conditions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Clim</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2515" to="2529" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b78">
+	<analytic>
+		<title level="a" type="main">On deconfounding spatial confounding in linear models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Zimmerman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ver</forename><surname>Hoef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Am Stat</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="159" to="167" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

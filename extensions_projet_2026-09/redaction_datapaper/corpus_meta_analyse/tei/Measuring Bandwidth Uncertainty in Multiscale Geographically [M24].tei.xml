@@ -1,0 +1,914 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Measuring Bandwidth Uncertainty in Multiscale Geographically Weighted Regression Using Akaike Weights</title>
+				<funder ref="#_wvpsGs3">
+					<orgName type="full">U.S. National Science Foundation</orgName>
+					<orgName type="abbreviated">NSF</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Ziqi</forename><surname>Li</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">A</forename><forename type="middle">Stewart</forename><surname>Fotheringham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Taylor</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department" key="dep1">Center for Geospatial Information Science</orgName>
+								<orgName type="department" key="dep2">Department of Geographical Sciences</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Levi</forename><forename type="middle">John</forename><surname>Wolf</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">School of Geographical Sciences</orgName>
+								<orgName type="institution">University of Bristol</orgName>
+								<address>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Measuring Bandwidth Uncertainty in Multiscale Geographically Weighted Regression Using Akaike Weights</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">FA7212EBCB83F04020A5172CC58546C1</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>multiscale geographically weighted regression</term>
+					<term>bandwidth</term>
+					<term>spatial processes scale</term>
+					<term>Akaike weight</term>
+					<term>model selection uncertainty</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Bandwidth, a key parameter in geographically weighted regression models, is closely related to the spatial scale at which the underlying spatially heterogeneous processes being examined take place. Generally, a single optimal bandwidth (geographically weighted regression) or a set of covariate-specific optimal bandwidths (multiscale geographically weighted regression) is chosen based on some criterion such as the Akaike Information Criterion (AIC) and then parameter estimation and inference are conditional on the choice of this bandwidth. In this paper, we find that bandwidth selection is subject to uncertainty in both single-scale and multi-scale geographically weighted regression models and demonstrate that this uncertainty can be measured and accounted for. Based on simulation studies and an empirical example of obesity rates in Phoenix, we show that bandwidth uncertainties can be quantitatively measured by Akaike weights, and confidence intervals for bandwidths can be obtained. Understanding bandwidth uncertainty offers important insights about the scales over which different processes operate, especially when comparing covariate-specific bandwidths. Additionally, unconditional parameter estimates can be computed based on Akaike weights accounts for bandwidth selection uncertainty.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Investigating spatial processes through associations between a response variable and a set of explanatory variables has been one of the most important and fertile research areas in geography and related fields. Spatial processes, however, have the intrinsic properties of potentially being both heterogeneous and operating over different spatial scales. Classic global models ignore both these properties and return only stationary (single) parameter estimates and provide no information on spatial scale. Local models such as geographically weighted regression (GWR) can capture the heterogeneity of process but inadequately incorporate multi-scale properties of processes into the modeling. Their major limitation is the use of only a single kernel bandwidth across the set of covariates, which is the equivalent of assuming that the different processes being modeled all operate at the same scale <ref type="bibr" target="#b7">(Fotheringham et al., 2017;</ref><ref type="bibr">Murakami et al., 2019)</ref>.</p><p>Such an assumption seems unrealistic in the real world. For example, the measured ambient temperature of a location is affected by the local built environment, regional weather patterns and trends in global warming, all of which operate at different scales. A recent advancement to GWR termed Multi-scale GWR (MGWR) removes the single bandwidth assumption and allows the bandwidths for each covariate to vary <ref type="bibr" target="#b7">(Fotheringham et al., 2017)</ref>. This results in each parameter surface being allowed to have a different degree of spatial variation, reflecting variation across covariate-specific processes.</p><p>Comparisons of MGWR with other single-scale and multi-scale spatially varying coefficients (SVC) models are available, such as the comparison with classic GWR <ref type="bibr" target="#b7">(Fotheringham et al., 2017;</ref><ref type="bibr" target="#b13">Harris, 2019;</ref><ref type="bibr">Murakami et al., 2019)</ref>, with Bayesian SVC <ref type="bibr">(Wolf et al., 2017)</ref>, with eigenvector spatial filtering (ESF) <ref type="bibr" target="#b20">(Oshan et al., 2018)</ref>, and with random-effects eigenvector spatial filtering (RE-ESF) <ref type="bibr">(Murakami et al., 2019)</ref>. All comparisons agree that in terms of parameter estimation accuracies, MGWR is superior to the classic GWR and comparable to much more complicated models such as Bayesian SVC and RE-ESF.</p><p>Additionally, an analytical inferential framework <ref type="bibr">(Yu et al., 2019)</ref>, computational improvements by parallelization <ref type="bibr">(Li et al., 2019;</ref><ref type="bibr">Li and Fotheringham, 2019)</ref>, and accessible software <ref type="bibr" target="#b21">(Oshan et al., 2019a)</ref> have been developed for MGWR, all of which greatly enhances the utility of MGWR in modeling multiscale spatially heterogeneous processes.</p><p>Bandwidth is a key parameter in the geographically weighted regression framework. The major advance of MGWR over GWR is that covariate-specific bandwidths are obtained rather than a single "average" bandwidth. Consequently, GWR can be considered as a special case of MGWR when all bandwidths are the same. Often the optimal bandwidth selection is data-driven based on model selection statistics such as an Akaike Information Criterion (AIC), Bayesian Information Criterion (BIC), generalized cross-validation, or some other panelized fit score. The fundamental goal of choosing the optimal bandwidth is to find the best tradeoff between bias and variance for parameter estimates. A large bandwidth produces local parameter estimates with low variance at the cost of high bias (under-fitting), whereas a small bandwidth yields parameter estimates with low bias but high variance (over-fitting). Once the optimal bandwidth is determined, it can be interpreted in terms of the spatial scale of the underlying data generating process. In other words, a larger bandwidth determined by the data indicates a spatially smoothed process which has regional to global trend, whereas a smaller bandwidth reveals spatially localized relationships. Therefore, covariate-specific optimal bandwidths obtained in MGWR can be used as explicit indicators of the scale at which various processes operate <ref type="bibr" target="#b7">(Fotheringham et al., 2017)</ref>. The bandwidth also has an interpretable realworld meaning. There are two popular definitions of bandwidth that are used in the GWR framework: (i) a distance-based measure and (ii) the number of nearest neighbors used in each local regression. The interpretation of say a 50-km bandwidth (or 300-nearest neighbors) is that the process being estimated at the current location is affected by other neighboring locations in a spatially discounted manner up to a radius of 50 km (or 300-nearest neighbors). In either case, this means that the data at the focal point of the local regression (if they exist) have a weight of 1 and all other data used in the local calibration have a weight less than 1, depending on how far they are from the regression point.</p><p>The use of multiple bandwidths gives MGWR the capability to potentially differentiate local, regional and global processes by comparing the optimal bandwidths for different covariates. However, if the analyst wants to make an inference about bandwidths as indicators of the relative spatial scales of different processes, it is naïve to simply compare the covariate-specific bandwidths which are obtained based on the single observed dataset (i.e. deterministic) and draw a conclusion that one process is more local or global than another. It is quite possible that the covariate-specific bandwidths are different by chance and subject to the sampling variation of the uncaptured noise (i.e. stochastic). Understanding the covariate-specific bandwidth uncertainty is thus crucial to being able to make inferences about the different spatial scales over which processes operate. Smoothing parameter (e.g. bandwidth, in the context of GWR) uncertainties have been recognized in the statistical literature for spline-based generalized additive models <ref type="bibr" target="#b11">(Hastie et al., 2009;</ref><ref type="bibr" target="#b29">Wood et al., 2016)</ref>. Additionally, previous studies show that GWR and MGWR bandwidths are not fixed from the evidence of Monte Carlo simulations and sub-sampling results <ref type="bibr" target="#b7">(Fotheringham et al., 2017;</ref><ref type="bibr" target="#b28">Wolf et al., 2018;</ref><ref type="bibr" target="#b22">Oshan et al., 2019b)</ref>. Nevertheless, there are no methods in the context of GWR framework to quantitatively measure such bandwidth uncertainties. Another issue of neglecting bandwidth uncertainty is that parameter estimation and inference are conditional on the optimal bandwidths and therefore incorporation of bandwidth uncertainty into parameter uncertainty is important <ref type="bibr" target="#b28">(Wolf et al., 2018)</ref>. By doing so, parameter estimates would be unconditional of the chosen bandwidth thus making inference more robust.</p><p>Ignoring the uncertainties from bandwidth selection will lead to underestimates of the variances for local parameter estimates because the variance of the component stemming from bandwidth selection uncertainty is missing and, consequently, this will make it easier to declare local results as 'interesting' or 'significant'. This method has drawn great attention and is widely used in applied statistics <ref type="bibr" target="#b24">(Posada and Buckley, 2004;</ref><ref type="bibr" target="#b15">Johnson and Omland, 2004;</ref><ref type="bibr" target="#b16">Koh, 2008;</ref><ref type="bibr" target="#b25">Pinsky et al., 2013)</ref>. Akaike weights are computed based on AIC and can be interpreted as the relative likelihood of a certain model being selected given the data. For instance, a model with an Akaike weight of 0.6 indicates that given the data at hand, it has a 60% chance of being selected as the optimal model among other candidate models. In the context of GWR, bandwidth selection is a type of model selection. Candidate bandwidths are evaluated based on AIC (or an equivalent measure) and the bandwidth with minimum AIC is selected as the optimal one. It is a natural extension therefore to use the Akaike weights to measure the relative likelihood of a bandwidth being selected as optimal and to quantify the bandwidth selection uncertainty. Moreover, Akaike weights can be used to average parameter estimates and variances following a multi-model inference framework with the advantage that the resulting parameters are unconditional of the selected model. This approach has been shown to be useful in the statistical literature and in applied studies <ref type="bibr">(Burnham and Anderson, 2002;</ref><ref type="bibr" target="#b27">Wagenmakers and Farrell, 2004;</ref><ref type="bibr" target="#b26">Symonds and Moussalli, 2011;</ref><ref type="bibr" target="#b3">Burnham and Anderson, 2011)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Overview of the procedure for measuring bandwidth uncertainty</head><p>In this paper, we demonstrate that bandwidth has intrinsic uncertainty from the evidence of bootstrapping and from Akaike weights, which can both be used to obtain confidence intervals (CI) for bandwidths in MGWR. We also examine the use of Akaike weights to compute unconditional parameter estimates and variances and compare them with their conditional equivalents. The paper proceeds as follows. In Section 3, the background of MGWR is reviewed. In Section 4 bandwidth uncertainties are examined with a simulation dataset using bootstrapping and Akaike weights. In Section 5, an empirical example of obesity rate modeling for the city of Phoenix is presented. The paper concludes with remarks in Section 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Background of MGWR related to Akaike weights</head><p>Multiscale geographically weighted regression (MGWR) was developed under the generalized additive model framework of <ref type="bibr" target="#b10">Hastie and Tibshirani (1990)</ref> by <ref type="bibr" target="#b7">Fotheringham et al. (2017)</ref>. MGWR is formulated as 𝒚 = 𝒇 𝟏 (𝒙 𝟏 ) + 𝒇 𝟐 (𝒙 𝟐 ) + ⋯ + 𝒇 𝒌 (𝒙 𝒌 ) + 𝜺 (1) where 𝒚 is a column vector of response variables, 𝒇 𝟏 (𝒙 𝟏 ), ⋯ 𝒇 𝒌 (𝒙 𝒌 ) are additive components which are smooth functions of covariates, and 𝜺 is a column vector of i.i.d. error terms. The response variable 𝒚 is the data observed over a spatial surface and 𝒇 𝟏 , ⋯ 𝒇 𝒌 are spatial additive components estimated with covariatespecific bandwidths, so MGWR can be formulated as 𝒚 = 𝒇 𝒃𝒘 𝟏 (𝒙 𝟏 ) + 𝒇 𝒃𝒘 𝟐 (𝒙 𝟐 ) + ⋯ + 𝒇 𝒃𝒘 𝒌 (𝒙 𝒌 ) + 𝜺 (2) where each additive component 𝒇 𝒃𝒘 𝒋 (𝒙 𝒋 ) is a product of element-wise multiplication ( ⨂ ) of local parameters 𝜷 𝒋 and covariate 𝒙 𝒋 𝒇 𝒃𝒘 𝒋 (𝒙 𝒋 ) = 𝜷 𝒋 ⨂𝒙 𝒋 = 𝛽 56 𝑥 56 𝛽 86 𝑥 86 ⋮ 𝛽 :6 𝑥 :6</p><p>(3)</p><p>The calibration of each smooth function 𝒇 𝒃𝒘 𝒋 in MGWR model uses the back-fitting algorithm developed by <ref type="bibr" target="#b1">Buja et al. (1989)</ref>. The estimation procedure can be initialized in various ways (e.g. using GWR estimates, <ref type="bibr" target="#b7">Fotheringham et al. 2017)</ref> and then parameters are estimated and updated by calibrating univariate GWR models that regress the current estimated additive component plus partial residual on each covariate (𝒇 𝒋 + 𝜺 ~ 𝒙 𝒋 ) successively. The back-fitting converge when parameter estimates are unchanging within a predefined threshold. A detailed description and implementation of the back-fitting algorithm can be found in <ref type="bibr" target="#b7">Fotheringham et al. (2017)</ref> and <ref type="bibr" target="#b21">Oshan et al. (2019a)</ref>. Covariate-specific optimal bandwidths are estimated within univariate GWRs by minimizing the corrected AIC (AICc), which is formulated as</p><formula xml:id="formula_0">𝐴𝐼𝐶 ? = -2log ℒ + 2𝑛 𝑡𝑟 𝑺 + 1 𝑛 -𝑡𝑟(𝑺) -2 (<label>4</label></formula><formula xml:id="formula_1">)</formula><p>where ℒ is the model likelihood given the data and 𝑡𝑟 𝑺 is the trace of the hat matrix. AICc is a small sample bias adjustment to the classic AIC and should be used when the ratio of data points and number of parameters is below 40, which is often seen in GWR when processes have high-heterogeneity. When the ratio is greater than 40, the AICc rapidly approaches the classic AIC <ref type="bibr">(Hurvich and Tsai, 1989;</ref><ref type="bibr">Burnham and Anderson, 2002)</ref>. Therefore, in general, this corrected version of AIC is often suggested in GWR for bandwidth selection <ref type="bibr" target="#b6">(Fotheringham et al., 2002)</ref>. The use of AIC or its variant AICc for model selection is based on the information-theory that there is a relationship between expected Kullback-Leibler distance (information lost) and the maximized log-likelihood. The best model represents the process that generated the data with minimum information lost.</p><p>To obtain Akaike weights, we first need to define the "comparison set" of models. In the context of MGWR, of interest is the set of covariate-specific bandwidths that best approximate the underlying spatial processes.</p><p>During the bandwidth selection of each univariate GWR within the back-fitting of MGWR, the optimal bandwidth is selected based on the minimum AICc. For simplicity, we will use AIC here (rather than AICc) as a generic term for all AIC variants. A candidate set of R bandwidths can be defined as {𝑏𝑤 5 , 𝑏𝑤 8 , 𝑏𝑤 N … , 𝑏𝑤 P } beforehand or within the bandwidth search routine. In either case, we consider a set of candidate bandwidths to evaluate AIC and the minimum AIC obtained within the R bandwidths is denoted as 𝐴𝐼𝐶 RS: . For bandwidth k within the candidate set R, AIC differences can be computed as ∆ U = 𝐴𝐼𝐶 U -𝐴𝐼𝐶 RS: . Then, the Akaike weight of a candidate bandwidth 𝑘 ∈ 1 … 𝑅 can be obtained by</p><formula xml:id="formula_2">𝑤 U = exp (- 1 2 ∆ U ) exp (- 1 2 ∆ \ ) P \]5 (<label>5</label></formula><formula xml:id="formula_3">)</formula><p>The numerator exp (-5 8 ∆ U ) denotes the likelihood of the bandwidth given the maximum likelihood estimators based on the same data, which also measure the relative strength of evidence for each bandwidth <ref type="bibr">(Akaike, 1983;</ref><ref type="bibr">Burnham and Anderson, 2002)</ref>. The denominator is used to normalize the Akaike weights so that all values lie between 0 and 1 with the sum being 1 ( 𝑤 U P 5 = 1) <ref type="bibr">(Burnham and Anderson, 2002)</ref>.</p><p>The resulting Akaike weight is the likelihood of a given bandwidth being the optimal one. For instance, an Akaike weight of 0.75 for a bandwidth indicates that this bandwidth has a 75% chance of being the bandwidth that best approximates the corresponding underlying process. Following this approach, the Akaike weight curve can be plotted against a set of candidate bandwidths for each covariate in the MGWR model and the bandwidth probability distribution can be obtained. In the following section, we will examine the use of Akaike weights for measuring bandwidth uncertainty based on a simulated dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Investigating bandwidth uncertainty in a controlled experiment</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Construction of a simulated dataset with two different spatially heterogeneous processes</head><p>We simulate a study area with 1000 locations that are randomly distributed in a circular coordinate space.</p><p>A circular coordinate space is used because in a later section we rotate the coordinate space to see if the optimal bandwidth is sensitive to the orientation of the heterogeneity in the processes. The 𝑥 and 𝑦 coordinates of location 𝑖 are denoted as 𝑢 S and 𝑣 S and are constructed with the following formulas ( <ref type="formula" target="#formula_4">6</ref>) and ( <ref type="formula" target="#formula_5">7</ref>)</p><formula xml:id="formula_4">𝑢 5S = 12.5 + 12.5 𝑟 cos 𝜃<label>(6)</label></formula><p>𝑣 5S = 12.5 + 12.5 𝑟 sin 𝜃</p><p>where a radius 𝑟 and angle 𝜃 are randomly selected from uniform distributions. Then we synthesize two spatial processes using formulas ( <ref type="formula">8</ref>) and ( <ref type="formula">9</ref>), and these true parameter surfaces, 𝒃 𝟏 and 𝒃 𝟐 , are shown in 𝑏 5S = 1 + (36 -(6 -𝑢 S /2) 8 (36 -(6 -𝑣 S /2) 8 /324 (8) 𝑏 8S = 2 + 1/24 * (𝑢 S + 𝑣 S ) (9) [Figure 1 about here] and low values at the periphery. The parameters range between 0 to 5. The process 𝒃 𝟐 has relative low heterogeneity, with a positive trend from southeast to northwest ranging from 2.4 to 3.7. A similar data generating process can be seen in <ref type="bibr" target="#b7">Fotheringham et al. (2017)</ref>.</p><p>Covariate vectors 𝒙 𝟏 and 𝒙 𝟐 are randomly drawn from a normal distribution with mean of 0 and variance of 1. A spatially random noise vector 𝜺 is added to the surface with mean of 0 and variance of 1. Those two processes, 𝒃 𝟏 and 𝒃 𝟐 , along with two covariates, 𝒙 𝟏 and 𝒙 𝟐 , and a random noise are used to generate the synthetic response variable 𝒚 in the following manner:</p><formula xml:id="formula_6">𝒚 = 𝒃 𝟏 𝒙 𝟏 + 𝒃 𝟐 𝒙 𝟐 + 𝜺 (<label>10</label></formula><formula xml:id="formula_7">)</formula><p>An MGWR model is calibrated on this synthetic dataset using the mgwr python package <ref type="bibr" target="#b21">(Oshan et al., 2019a)</ref>. For consistency, in the following simulation and empirical studies we use an adaptive bi-square kernel <ref type="bibr" target="#b6">(Fotheringham et al., 2002)</ref> where the bandwidth is interpreted as the number of nearest neighbors and the largest possible bandwidth is the total number of locations in the dataset. For this model, the two covariate-specific optimal bandwidths are 70 and 300 for the local process 𝒃 𝟏 and the regional process 𝒃 𝟐 respectively. Recovered parameter estimate surfaces for this synthetic dataset are shown in Figure <ref type="figure">2</ref>.</p><p>[Figure <ref type="figure">2</ref> about here]</p><p>Figure <ref type="figure">2</ref>. Recovered parameter surfaces using MGWR with optimal bandwidths 70 and 300 for the highand low-heterogeneity processes, respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Bandwidth selection uncertainty: evidence from bootstrapping</head><p>Bootstrapping is a variant of Monte Carlo estimation for confidence intervals based on random sampling with replacement <ref type="bibr">(Efron and Tibshirani, 1993)</ref>. The technique is popularly used for deriving empirical confidence intervals of a statistic when the analytical solution is unavailable. In this paper, we are interested in assessing how the selected optimal bandwidths vary across each bootstrap sample and from this the empirical distribution of optimal bandwidths can be obtained. We use a non-parametric residual-based bootstrap method by randomly resampling residuals which are added to the fitted values. This specific type of bootstrap method has been widely used in regression problems and can also be found in the GWR literature <ref type="bibr" target="#b19">(Mei et al., 2016;</ref><ref type="bibr" target="#b12">Harris et al., 2017)</ref>.</p><p>In the context presented here we first calibrate an MGWR model with the original response vector 𝒚 and two covariates 𝒙 𝟏 , 𝒙 𝟐 and save the fitted values 𝒚 and residuals 𝜺. Then we generate B (B=1,000) bootstrap samples with each sample containing a new response vector 𝒚 * = 𝒚 + 𝜺 𝒓𝒂𝒏𝒅 where 𝜺 𝒓𝒂𝒏𝒅 is a residual vector randomly drawn with replacement from 𝜺. For each bootstrap sample, we regress 𝒚 * onto 𝑿 using MGWR and save the optimal covariate-specific bandwidths from MGWR. Finally, the estimated bootstrap optimal bandwidth distribution can be acquired from these B bootstrap samples, and these bandwidth selection frequencies represent the uncertainty of a certain bandwidth j being selected as the optimal bandwidth. A 95% empirical confidence interval can be obtained by using the 2.5% and 97.5% percentiles of the bandwidths from the bootstrap samples <ref type="bibr">(Efron and Tibshirani, 1993)</ref>. This bootstrap method is applied to GWR for comparison with MGWR. The bootstrap results are presented in Figure <ref type="figure" target="#fig_2">3</ref> and Table <ref type="table" target="#tab_0">1</ref>.</p><p>[Figure <ref type="figure" target="#fig_2">3</ref> about here] [Table <ref type="table" target="#tab_0">1</ref> about here] Figure <ref type="figure" target="#fig_2">3</ref> shows the distribution of the optimal bandwidths from the bootstrap samples for GWR (in green)</p><p>and MGWR (in blue and orange). The optimal bandwidth selected for the original dataset is 90 (number of nearest neighbors) for GWR and the optimal covariate-specific bandwidths are 70 and 300 for MGWR. It is clear that the MGWR covariate-specific bandwidths describe adequately the relative amounts of heterogeneity in the underlying data generating processes 𝒃 𝟏 and 𝒃 𝟐 . In contrast, the single optimal bandwidth in GWR lies between the two covariate-specific bandwidths in MGWR and does not differentiate between the two processes or represent either particularly accurately. Bandwidth statistics are summarized in Table <ref type="table" target="#tab_0">1</ref>. For GWR, the single optimal bandwidths have a mean of 93.6 and standard deviation of 10.1 across the 1000 bootstrap samples. The empirical 95% confidence interval is <ref type="bibr">[80,</ref><ref type="bibr">110]</ref>.</p><p>For MGWR, the optimal bandwidth for the high-heterogeneity process 𝒃 𝟏 has a mean of 73.5, standard deviation of 8.4, and the empirical 95% confidence interval is <ref type="bibr">[60,</ref><ref type="bibr">90]</ref>. The optimal bandwidth for the lowheterogeneity process 𝒃 𝟐 has a mean of 300.5, standard deviation of 80.1 and an empirical confidence interval of <ref type="bibr">[130,</ref><ref type="bibr">440]</ref>. By comparing the two covariate-specific bandwidths in MGWR, we can see that the selection of the bandwidth for the low heterogeneity process 𝒃 𝟐 tends to be more uncertain than that of the high heterogeneity process 𝒃 𝟏 and has a much wider confidence interval (310 vs. 30).</p><p>Given the evidence from bootstrapping, it is clear that bandwidth selection in both GWR and MGWR is subject to the sampling variation of the random noise contained in the data. Bootstrapping provides a useful way for quantifying this bandwidth selection uncertainty and for deriving empirical confidence intervals for bandwidths. The mutually exclusive confidence intervals for the bandwidths associated with processes 𝒃 𝟏 and 𝒃 𝟐 imply that the two processes have significantly different optimal bandwidths at the 95% confidence level and we can thus claim that process 𝒃 𝟏 operates at a relatively more local scale than process 𝒃 𝟐 .</p><p>Following the same bootstrapping method described above, another simple simulation is conducted to explore how the optimal bandwidths and associated uncertainties respond to variations in the orientation of the process holding the level of heterogeneity constant. To do this, we rotate the spatial process 𝒃 𝟐 (in Figure <ref type="figure">2</ref>) to reproduce four spatial processes with different orientations but each having the same degree of heterogeneity, as illustrated in Figure <ref type="figure" target="#fig_4">4</ref>.  Figure <ref type="figure" target="#fig_5">5</ref> shows the optimal bandwidth distributions for these four processes obtained from 1000 bootstrap samples and it is clear that the bandwidth distributions for each of the four processes are roughly the same.</p><p>Consequently, process orientation has no effect on the optimal bandwidths obtained from MGWR; bandwidth variation is a function solely of the scale over which the processes operate.</p><p>[Figure <ref type="figure" target="#fig_5">5</ref> about here] </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Using Akaike weights for measuring bandwidth selection uncertainty</head><p>Following equation ( <ref type="formula" target="#formula_2">5</ref>) in Section 3, we compute Akaike weights for the simulation dataset described in Section 4.1 which involves two processes with different degrees of spatial heterogeneity. For each covariate, we evaluate candidate bandwidths from 50 to 1000 nearest neighbors with a 10-neighbor interval<ref type="foot" target="#foot_0">foot_0</ref> . Each candidate bandwidth has a corresponding Akaike weight representing the probability of it being the optimal bandwidth (Figure <ref type="figure">6</ref>). These Akaike weights can be compared with the bootstrap relative frequencies described in the previous section. There is a clear similarity between the two approaches for the processes shown in Figure <ref type="figure">6</ref>. Following <ref type="bibr">Burnham and Anderson (2002)</ref> and <ref type="bibr" target="#b26">Symonds and Moussalli (2011)</ref>, a 95% confidence interval (CI) of bandwidths can be obtained by ranking the Akaike weights in descending order and including bandwidths into the CI until the cumulative Akaike weight equals to 0.95. In some cases, where a coarse searching interval is used, the cumulative Akaike weight might not be exactly 0.95; therefore, the inclusion to the bandwidth CI should stop when the cumulative Akaike weight is just above 0.95. Table <ref type="table" target="#tab_1">2</ref> shows how this procedure operates for process 𝒃 𝟏 . The optimal bandwidth of 70 has an Akaike weight of 0.42. Bandwidths of 60, 80, and 90 have descending Akaike weights of 0.25, 0.23, and 0.05, respectively.</p><p>Inclusion into the 95% CI stops after adding the bandwidth 90 because at this point the cumulative Akaike weight equals 0.95. Consequently, we can conclude that the 95% CI of bandwidths for process 𝒃 𝟏 is <ref type="bibr">[60,</ref><ref type="bibr">90]</ref>. The bandwidth CI is not necessarily symmetrical, and if bandwidth 50 is included this would create a 99% CI.</p><p>[Table <ref type="table" target="#tab_1">2</ref> about here] [Figure <ref type="figure">6</ref> about here]</p><p>Figure <ref type="figure">6</ref>. Akaike weights and bootstrap frequencies for different bandwidths.</p><p>The Akaike weight-based 95% bandwidth CIs can be compared with the 95% CIs obtained from bootstrapping (Table <ref type="table" target="#tab_2">3</ref>). The 95% CI computed based on Akaike weights is <ref type="bibr">[60,</ref><ref type="bibr">90]</ref> for process 𝒃 𝟏 , which is exactly the same as the 95% confidence interval obtained from bootstrapping. For process 𝒃 𝟐 , the Akaike weights-based 95% CI is <ref type="bibr">[160,</ref><ref type="bibr">500]</ref> which is similar to the 95% confidence interval obtained from bootstrapping <ref type="bibr">[130,</ref><ref type="bibr">440]</ref>. Based on the Akaike weights-based bandwidth confidence interval, we also arrive at the same conclusion that processes 𝒃 𝟏 and 𝒃 𝟐 have significantly different optimal bandwidths at the 95% confidence level. This result is particularly robust, since Akaike weights and bootstrapping embed two distinct concepts of measuring model selection uncertainty. The former uses a data-based weight-ofevidence while the latter models the sampling distribution of the bandwidth parameter when each bandwidth is still estimated without uncertainty. Using the Akaike weights is preferred because not only is it much less computer-intensive but it also employs the statistically grounded concept of model likelihood given a set of candidate models and data <ref type="bibr">(Burnham and Anderson, 2002)</ref>.</p><p>[Table <ref type="table" target="#tab_2">3</ref> about here] 4.4 Unconditional inference: accounting for bandwidth selection uncertainty in local parameter estimation Following the multi-model inference approach of <ref type="bibr">Burnham and Anderson (2002)</ref>, averaging models based on a spectrum of bandwidths can give parameters that are unconditional on the choice of the bandwidths.</p><p>In this section, we compare the unconditional inference with MGWR inference. For each set of local parameters for the j th covariate, 𝜷 𝒋 , unconditional parameter estimates, 𝜷 6 can be computed based on</p><p>Akaike weights:</p><formula xml:id="formula_8">𝜷 6 = 𝑤 \6 𝜷 𝒓𝒋 P \]5<label>(11)</label></formula><p>where there are R candidate bandwidths being evaluated during the bandwidth selection; 𝑤 \6 is the Akaike weight for bandwidth r and 𝜷 𝒓𝒋 is the set of local parameter estimates obtained when using bandwidth r.</p><p>The variance of parameter estimates 𝜷 𝒋 can be calculated using the following equation <ref type="bibr">(Burnham and Anderson, 2002)</ref>:</p><formula xml:id="formula_9">𝑣𝑎𝑟 𝜷 𝒋 = 𝑤 \6 𝑣𝑎𝑟 𝜷 𝒓𝒋 + 𝜷 \6 -𝜷 𝒋 8 8 (<label>12</label></formula><formula xml:id="formula_10">)</formula><p>Note that there are two components in 𝑣𝑎𝑟 𝜷 𝒋 : (i) the variance from parameter estimation, 𝑣𝑎𝑟 𝜷 𝒓𝒋 , and</p><p>(ii) the variance from bandwidth selection uncertainty, 𝜷 \6 -𝜷 𝒋 8</p><p>. Therefore, usually the variance of the unconditional parameter estimates will be greater than that of the conditional parameter estimates because the latter are based purely on a single set of covariate-specific bandwidths (i.e. deterministic) and therefore neglects bandwidth selection uncertainty <ref type="bibr">(Symonds and Moussalli, 2010)</ref>. However, it worth noting that this might not always be true in (M)GWR because using a smaller bandwidth will yield larger parameter variances than using a larger bandwidth, ceteris paribus. However, weighted parameter variance is expected to yield more accurate confidence intervals for the local parameter estimates because bandwidth uncertainty is accounted for. Additionally, the averaged parameter estimates have a Bayesian interpretation if the Akaike weights are specified as prior probabilities on the bandwidths <ref type="bibr" target="#b0">(Bozdogan, 1987;</ref><ref type="bibr">Akaike, 1989)</ref>. In Figure <ref type="figure" target="#fig_6">7</ref> we compare the uncertainties associated with the conditional parameter estimates obtained from MGWR with covariate-specific optimal bandwidths with their unconditional equivalents obtained using Akaike weights for the two processes 𝒃 𝟏 and 𝒃 𝟐 . For both processes we plot three sets of unconditional local parameter standard errors (on the y-axis) against their equivalent conditional standard errors. These are obtained by: (i) using the lower bound of the 95% bandwidth CI (in green); (ii) using the upper bound of the 95% bandwidth CI (in orange); and (iii) using the Akaike-weighted standard errors (in blue). For process 𝒃 𝟏 the upper and lower bounds of the 95% bandwidth confidence interval are 60 and 90 respectively. Using a bandwidth of 60 (90) for the calibration gives higher (lower) parameter standard errors than those obtained using the optimal bandwidth of 70. This is due to the bandwidth's bias-variance tradeoff property: using a smaller bandwidth results in greater parameter uncertainty but reduced bias. Akaikeweighted parameter standard errors are computed based on bandwidths from 60 to 90 (95% bandwidth CI)</p><p>with weights derived from equation ( <ref type="formula" target="#formula_9">12</ref>) and, as expected, these generally have slightly larger uncertainty than the conditional parameter estimates because they include bandwidth uncertainty. For process 𝒃 𝟐 the results are similar to those for 𝒃 𝟏 although the range of both the conditional and unconditional standard errors is much lower. This is because the bandwidth CI lies between 160 and 490 nearest neighbors for process 𝒃 𝟐 whereas it is between 60 and 90 nearest neighbors for 𝒃 𝟏 creating more variability in the results.</p><p>When the optimal bandwidth is large and the level of process heterogeneity is low, the results are relatively insensitive to bandwidth variation within the 95% CI.</p><p>[Figure <ref type="figure" target="#fig_6">7</ref> about here]</p><p>This is also seen in Figure <ref type="figure" target="#fig_7">8</ref> where the results of the unconditional and conditional local estimates of 𝒃 𝟏 and 𝒃 𝟐 are shown and where the horizontal axis depicts the conditional local parameter estimates from MGWR and the vertical axis depicts the unconditional local parameter estimates using the Akaike-weights procedure described above. We also represent the Akaike-weighted 95% CI (red) and the upper (green) and lower (orange) 95% CI using the bandwidth CI based on the cumulative Akaike weights. The Akaike weighted parameter estimate CI is computed by 𝜷 6 ±1.96 𝑣𝑎𝑟 𝜷 𝒋 . All the local parameter estimates using the lower and upper bounds of the bandwidth CI are within the Akaike-weighted parameter CI indicating that using any bandwidth within the 95% bandwidth CI will produce parameter estimates within the Akaike-weighted parameter CI. This helps in interpreting how bandwidth changes will impact the local parameter estimates; that is, we can now determine what degree of bandwidth change will generate significantly different local parameter estimates. Our results indicate that using any bandwidth within the 95% confidence interval of the optimal bandwidth does not have a significant impact on the local parameter estimates.</p><p>[Figure <ref type="figure" target="#fig_7">8</ref> about here] To examine whether unconditional local parameters which account for bandwidth uncertainties are more accurate than conditional parameters, we conduct a Monte Carlo simulation using the model described in Section 4.1 equation ( <ref type="formula">9</ref>). The model was run for 1000 realizations using fixed covariates and randomly drawn errors. Within each realization we compute conditional and unconditional parameter estimates and confidence intervals and count how many times each type of confidence interval contains the true parameters 𝒃 𝟏 and 𝒃 𝟐 . A good 95% confidence interval should contain true parameters 95% of the time.</p><p>Results indicate that the Akaike-weighted parameter estimate confidence intervals have marginally better coverage probabilities than the conditional confidence intervals (0.81 vs. 0.80 for 𝒃 𝟏 ) and (0.89 vs. 0.87 for 𝒃 𝟐 ) although 94.1% and 97.2% of total locations, respectively, have increased confidence interval coverage probabilities of more than 1%. <ref type="bibr" target="#b28">Wolf et al. (2018)</ref> compare MGWR parameter standard errors with those obtained by Bayesian Spatially Varying Coefficients model and find that the MGWR parameter confidence intervals are much smaller than the Bayesian counterparts, potentially because of neglecting bandwidth uncertainty in MGWR. In this study, however, we show that even after taking bandwidth uncertainty into account, parameter confidence interval coverage probability is still less than the nominal 95% level, which reveals that there may exist other sources of parameter estimate uncertainty that are neglected. The overall R 2 value for this MGWR model is 0.93.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">An empirical example of obesity modeling in Phoenix</head><p>For each of the covariates and the intercept, we determine optimal bandwidths using AICc within a range of 40 to 815 nearest neighbors with a step size of 10. Figure <ref type="figure" target="#fig_9">9</ref> shows the bandwidth search history where the x-axis is the bandwidth being evaluated and the y-axis is the AICc value. Covariate-specific optimal bandwidths with minimum AICc values are 70, 40, 815, 260, 815 and 500 for intercept, Pct_Checkup, Median_Age, Pct_Hispanic, Pct_SNAP, and Pct_College, respectively. We can see that for the Intercept and Pct_Checkup, with small optimal bandwidths, AICc values increase dramatically with increasing bandwidths, which suggests the data generating processes in both cases are very local. For the covariates Median_Age, and Pct_SNAP, the AICc value decrease with increasing bandwidths suggesting the data generating processes for these relationships are global and for the covariates Pct_Hispanic and Pct_College, the optimal bandwidths suggest processes that exhibit some degree of spatial heterogeneity although this is not very pronounced.</p><p>[Figure <ref type="figure" target="#fig_9">9</ref> about here] Akaike weights and bandwidth CIs are computed for these five covariates plus the intercept as shown in Figure 10. In each case the red line shows the optimal bandwidth and the two green lines show the upper and lower bounds of the 95% bandwidth CI. The sum of the area under the Akaike weight curve is equal to 1 and the sum of the area bounded by green dashed lines is approximately equal to 0.95. The optimal bandwidth and confidence intervals are summarized in Table <ref type="table">4</ref>. The Intercept has an optimal bandwidth of 70 with a bandwidth CI from 60 to 100. The optimal bandwidth of the covariate Pct_Checkup is 40 with a bandwidth CI from 40 to 50 indicating a very locally heterogeneous relationship with obesity rate. The covariates Median_Age and Pct_SNAP both have global bandwidths of 815 with similar bandwidth CIs of <ref type="bibr">[440, 815] and [370, 815]</ref>, respectively. The covariate Pct_Hispanic has an optimal bandwidth of 260 with the CI from 160 to 450 indicating that the associated process is heterogeneous over a moderate spatial scale.</p><p>Finally, the covariate Pct_College has an optimal bandwidth of 500 with a CI from 290 to 760, again indicating a process that exhibits a low degree of spatial heterogeneity. Consequently, we can conclude that the local parameter estimates for the Intercept and Pct_Checkup are significantly more heterogeneous than the estimates of the other covariates; the local parameter estimates for Median_Age and Pct_SNAP exhibit no significant spatial heterogeneity and the relationships between these variables and obesity rates and constant across Phoenix; and that the relationships between obesity rates and Pct_Hispanic and Pct_College exhibit significant spatial heterogeneity but this heterogeneity is significantly less than for the Intercept and Pct_Checkup.</p><p>between the two sets of parameter estimates and standard errors (unconditional and conditional) can be found in Figures <ref type="figure" target="#fig_11">12</ref> and <ref type="figure" target="#fig_12">13</ref>. Figure <ref type="figure" target="#fig_10">11</ref> shows the significant Akaike weighted local parameters for each covariate using the same color scheme. Insignificant parameters are masked out and shaded in grey, based on the critical t-values with multiple hypothesis testing adjustment <ref type="bibr">(da Silva and Fotheringham, 2015;</ref><ref type="bibr">Yu et al., 2019)</ref>. The different degrees of heterogeneity observed from the local parameter maps are closely related to the variations in the optimal bandwidths previously discussed. The local parameter estimates for the Intercept and Pct_Checkup are visually much more heterogeneous than the local estimates associated with the other covariates which have larger bandwidths. The estimates for the local Intercept include both significantly positive and significantly negative estimates, both of which are locally clustered. The cluster of significantly positive estimates in central Phoenix indicate that here obesity rates are significantly higher than expected given the socio-economic conditions modeled in this part of the city. Conversely, in the northwest and southeast of the greater Phoenix region, there are areas where obesity rates are significantly lower than expected given the modeled conditions in those areas. In the remaining parts of the city the local intercept estimates are not significantly different from zero. The local estimates for Pct_Checkup have the greatest spatial variability with a range between -0.61 to 0.35 (including insignificant estimates) and significant negative relationships between obesity and having regular check-ups are found across wide parts of central Phoenix in a band that stretches from the western to the most eastern parts of the city. No significant relationships are found in the rest of the city. The local parameter estimates for Median_Age are significantly positive everywhere -as we age, we have a tendency to become obese -and they vary only gradually across the city. Similarly, there are only minor variations in the local estimates for the parameters associated with the covariate Pct_Hispanic and these are generally insignificant except in Scottsdale and Tempe. The local parameter estimates for Pct_SNAP, and Pct_College are virtually identical everywhere indicating again the global nature of these relationships. As expected, obesity rates are higher in areas with high percentages of families on SNAP and lower in areas where higher proportions of the population have a college degree.</p><p>[Figure <ref type="figure" target="#fig_10">11</ref> about here]   [Figure <ref type="figure" target="#fig_12">13</ref> about here]</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusion and future work</head><p>Bandwidths in geographically weighted regression (GWR) are essentially related to the scale over which the underlying spatial processes operates. The recent advancement of multi-scale geographically weighted regression (MGWR) allows covariate-specific optimal bandwidths to be determined, allowing comparisons of the spatial scales over which different processes operate to be made <ref type="bibr" target="#b7">(Fotheringham et al., 2017)</ref>. However, bandwidth selection based on optimizing a goodness-of-fit criterion such as AICc contains an intrinsic uncertainty associated with it because bandwidth uncertainty is not accounted for. In this paper, we correct this omission and show from the evidence of bootstrapping that the selection of the optimal bandwidth is subject to random sampling variation and that it is important to account for this uncertainty when relating bandwidths to the scales of spatial processes.</p><p>In this paper, we examine the use of Akaike weights, an information-theory statistic, to measure covariatespecific bandwidth uncertainty and to obtain bandwidth confidence intervals. Akaike weights quantify the probability that a given bandwidth is optimal, which is a natural extension from AIC-based model selection <ref type="bibr">(Burnham and Anderson, 2002)</ref>. For example, a bandwidth with an Akaike weight of 0.6 has probability of 0.6 of being selected as the optimal bandwidth given the data. Based on both simulated data and an empirical example of modelling Phoenix obesity rates, we find that Akaike weights-derived bandwidth confidence intervals can provide useful insights into the spatial scale over which different processes operate. Akaike weights can also be perceived as the prior probability of a model being the true model, and therefore, can be used to weight parameter estimates across candidate bandwidths and obtain unconditional local parameters that are independent of a single bandwidth. We find that unconditional local parameter estimates generally have more accurate confidence intervals although the improvements are marginal in the examples used here. The computation of Akaike weights is implemented in the mgwr python package <ref type="bibr" target="#b21">(Oshan et al., 2019a)</ref> to increase accessibility of the methodology introduced in this paper.</p><p>Model selection uncertainty has gained increasing attention in statistical modeling although the majority of the literature about model selection relates to variable selection. Within the geographically weighted regression framework, bandwidth selection is essentially a model selection problem. In this paper, we therefore pay attention to the issue of model uncertainty from the aspect of bandwidth selection to help understand how spatial processes operate. An important future task is to investigate variable selection uncertainty and bandwidth uncertainty simultaneously in terms of their impact on local parameter estimates.</p><p>It would be useful to investigate how the optimal bandwidth(s) and their associated uncertainties behave under the presence of omitted variable bias, which is an often-encountered scenario in real-world applications. It is expected that model parameter estimates will be more robust when simultaneously accounting for both bandwidth uncertainty and variable selection uncertainty so that they are not conditional on a pre-selected bandwidth nor a set of pre-selected variables. These tasks and the work presented here provide great potential to enhance the quantification of process heterogeneity and scale.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>Burnham and Anderson (2002)  discuss extensively the uncertainty regarding model selection and propose using the Akaike weight, an information-theory based statistic, to measure model selection uncertainties.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 .</head><label>1</label><figDesc>Figure1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Optimal bandwidth distributions of two processes in Figure 1 under bootstrapping.</figDesc><graphic coords="10,72.00,72.00,467.28,233.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>[</head><figDesc>Figure 4 about here]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Four generated spatial processes with the same degree of heterogeneity.</figDesc><graphic coords="11,72.00,530.40,468.00,108.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Optimal bandwidth distributions of four same heterogeneity processes in Figure 4 under bootstrapping.</figDesc><graphic coords="12,72.00,199.68,468.00,187.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Comparison of conditional and unconditional standard errors of local parameter estimates for processes 𝒃 𝟏 and 𝒃 𝟐 .</figDesc><graphic coords="16,72.00,72.00,467.04,233.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 8 :</head><label>8</label><figDesc>Figure 8: Comparison of conditional and unconditional local parameter estimates for processes b 1 and b 2</figDesc><graphic coords="17,72.00,447.60,467.04,233.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>A</head><figDesc>real-world study is used to illustrate the use of Akaike weights in quantifying bandwidth uncertainty through an MGWR analysis of obesity rate determinants. The example uses the percentage of adults (age ≥ 18) defined as obese 2 (body mass index (BMI) ≥30.0 kg/m²) by The Centers for Disease Control and Prevention (CDC) in each of the 815 census tracts in the Phoenix metropolitan area 3 as the response variable, and the five most influential covariates that determine obesity rates identified by the study of Oshan et al. (2019c): percentage of population visiting to doctor for a routine check-up within the past year; median age of people living in the census tract; percentage of population of Hispanic origin; percentage of households receiving Supplemental Nutrition Assistance Program (SNAP) benefits, and the percentage of people with a college degree. The obesity and the annual checkup data are downloaded from the 2014 "500 Cities project" from the CDC 4 , and the socio-demographic covariates are retrieved from the American Community Survey (ACS) 2015 5-year estimates dataset 5 . The regression model is formulated as follows: 𝑃𝑐𝑡_𝑂𝑏𝑒𝑠𝑖𝑡𝑦 = 𝛽 { + 𝛽 5 𝑃𝑐𝑡_𝐶ℎ𝑒𝑐𝑘𝑢𝑝 + 𝛽 8 𝑀𝑒𝑑𝑖𝑎𝑛_𝐴𝑔𝑒 + 𝛽 N 𝑃𝑐𝑡_𝐻𝑖𝑠𝑝𝑎𝑛𝑖𝑐 +𝛽 ‚ 𝑃𝑐𝑡_𝑆𝑁𝐴𝑃 + 𝛽 … 𝑃𝑐𝑡_𝐶𝑜𝑙𝑙𝑒𝑔𝑒 + 𝜀 (13) where obesity percentage (Pct_Obesity) is regressed on percentage of population undergoing yearly checkups (Pct_Checkup), median age of people in the census tract (Median_Age), percentage of Hispanic population, percentage of SNAP recipients (Pct_SNAP), and percentage of population with college degrees (Pct_College). We apply an adaptive bi-square kernel using nearest neighbors to calibrate the MGWR model. The largest possible bandwidth in this setting is the total number of census tracts in the study area which is 815. Both the covariates and the response variable are standardized as suggested by Fotheringham et al. (2017) so that bandwidths and local parameters are comparable and invariant to the scale of the data.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. AICc values against bandwidth for each of the five covariates and the intercept. The red line is the optimal covariate-specific bandwidth based on the minimum AICc value.</figDesc><graphic coords="20,72.00,72.00,467.04,233.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 11 .</head><label>11</label><figDesc>Figure 11. Maps of Akaike weighted local parameter estimates with insignificant parameters masked out and shaded in grey.</figDesc><graphic coords="23,83.04,72.00,445.44,540.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 12 .</head><label>12</label><figDesc>Figure 12. Comparison of conditional parameter estimates (based on the optimal bandwidths) with unconditional parameter estimates (calculated with Akaike weights).[Figure 12 about here]</figDesc><graphic coords="24,126.00,72.00,360.00,235.44" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 13 .</head><label>13</label><figDesc>Figure 13. Comparison of conditional parameter standard errors (based on the optimal bandwidths) with unconditional parameter standard errors (calculated with Akaike weights).</figDesc><graphic coords="24,126.00,390.72,360.00,217.68" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><graphic coords="8,109.68,507.84,392.64,180.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><graphic coords="13,72.00,479.76,467.28,218.16" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><graphic coords="21,72.00,109.92,466.80,252.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Summary statistics for the optimal bandwidths obtained from the bootstrap samples.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>95%</cell><cell></cell></row><row><cell></cell><cell>OPTIMAL</cell><cell>MEAN</cell><cell>STD</cell><cell>CONFIDENCE</cell><cell>WIDTH</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>INTERVAL</cell><cell></cell></row><row><cell>GWR BW</cell><cell>90</cell><cell>93.6</cell><cell>10.1</cell><cell>[80, 110]</cell><cell>30</cell></row><row><cell>MGWR 𝒃 𝟏 BW</cell><cell>70</cell><cell>73.5</cell><cell>8.4</cell><cell>[60, 90]</cell><cell>30</cell></row><row><cell>𝒃 𝟐 BW</cell><cell>300</cell><cell>300.5</cell><cell>80.1</cell><cell>[130, 440]</cell><cell>310</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>An example of obtaining the 95% confidence set of bandwidth for process 𝒃 𝟏 using Akaike weights.</figDesc><table><row><cell>BANDWIDTH</cell><cell>AICC</cell><cell>AKAIKE WEIGHT</cell><cell>CUM. AKAIKE WEIGHT</cell></row><row><cell>70</cell><cell>2907.87</cell><cell>0.42</cell><cell>0.42</cell></row><row><cell>60</cell><cell>2908.94</cell><cell>0.25</cell><cell>0.67</cell></row><row><cell>80</cell><cell>2909.13</cell><cell>0.23</cell><cell>0.90</cell></row><row><cell>90</cell><cell>2911.98</cell><cell>0.05</cell><cell>0.95</cell></row><row><cell>50</cell><cell>2912.69</cell><cell>0.04</cell><cell>0.99</cell></row><row><cell>…</cell><cell>…</cell><cell>…</cell><cell>…</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>95% confidence interval of bandwidth based on Akaike weight and bootstrapping.</figDesc><table><row><cell>PROCESS</cell><cell>OPTIMAL BANDWIDTH</cell><cell>95% AKAIKE WEIGHT CI</cell><cell>95% BOOTSTRAP CI</cell></row><row><cell>𝒃 𝟏</cell><cell>70</cell><cell>[60, 90]</cell><cell>[60, 90]</cell></row><row><cell>𝒃 𝟐</cell><cell>300</cell><cell>[160, 500]</cell><cell>[130, 440]</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>Using a smaller step-size rather than 10 will produce more detailed Akaike weight curve but with additional computation.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>https://www.cdc.gov/500cities/definitions/unhealthy-behaviors.htm#OBESITY</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>Six sparsely populated tracts are removed in this example.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>https://www.cdc.gov/500cities</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>https://data.census.gov</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>This research was funded by <rs type="funder">U.S. National Science Foundation (NSF)</rs> grant number <rs type="grantNumber">1758786</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_wvpsGs3">
+					<idno type="grant-number">1758786</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Maps of each of the four sets of local Akaike-weighted parameter estimates are shown in Figure <ref type="figure">11</ref>. These are shown to be very similar to the conditional parameter estimates obtained from MGWR and comparisons</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>[</head><figDesc>Figure 10 about here]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 10 .</head><label>10</label><figDesc>Akaike weights computed for different bandwidths for each set of local parameter estimates.The red line is the optimal bandwidth found by MGWR. The green lines depict the lower and upper bounds of the 95% confidence interval for each optimal bandwidth</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>[</head><figDesc>Table 4 about here]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>95% confidence interval of bandwidth based on Akaike weight for each covariate.</figDesc><table><row><cell>COVARIATES</cell><cell>OPTIMAL</cell><cell>95% CONFIDENCE</cell></row><row><cell></cell><cell>BANDWIDTH</cell><cell>INTERVAL</cell></row><row><cell>Intercept</cell><cell>70</cell><cell>[60, 100]</cell></row><row><cell>Pct_Check_up</cell><cell>40</cell><cell>[40, 50]</cell></row><row><cell>Median_Age</cell><cell>815</cell><cell>[440, 815]</cell></row><row><cell>Pct_Hispanic</cell><cell>260</cell><cell>[160, 450]</cell></row><row><cell>Pct_SNAP</cell><cell>500</cell><cell>[370, 815]</cell></row><row><cell>Pct_College</cell><cell>815</cell><cell>[290, 760]</cell></row></table></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Model selection and Akaike&apos;s information criterion (AIC): The general theory and its analytical extensions</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bozdogan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Psychometrika</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="345" to="370" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Linear smoothers and additive models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Buja</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="453" to="510" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Practical use of the information-theoretic approach</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">P</forename><surname>Burnham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Anderson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Model Selection and Inference</title>
+		<meeting><address><addrLine>New York, NY</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">AIC model selection and multimodel inference in behavioral ecology: some background, observations, and comparisons</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">P</forename><surname>Burnham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">P</forename><surname>Huyvaert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Behavioral ecology and sociobiology</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="23" to="35" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">The multiple testing issue in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Da Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="233" to="247" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">An introduction to the bootstrap</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994">1994</date>
+			<publisher>CRC press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (mgwr)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Multimodel inference in ecology and evolution: challenges and solutions</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Grueber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Nakagawa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Laws</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">G</forename><surname>Jamieson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of evolutionary biology</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="699" to="711" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<title level="m">Generalized Additive Models</title>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="1990">1990</date>
+			<biblScope unit="volume">43</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">The elements of statistical learning: data mining, inference, and prediction</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Springer Series in Statistics</title>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Introducing bootstrap methods to investigate coefficient non-stationarity in spatial regression models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="241" to="261" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A simulation study on specifying a regression model for spatial data: choosing between autocorrelation and heterogeneity effects</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="151" to="181" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A corrected Akaike information criterion for vector autoregressive model selection</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Hurvich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Tsai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of time series analysis</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="271" to="279" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Model selection in ecology and evolution</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Omland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trends in ecology &amp; evolution</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="101" to="108" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Can oil palm plantations be made more hospitable for forest butterflies and birds</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">P</forename><surname>Koh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Ecology</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1002" to="1009" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<title level="m">Computational Improvements to multiscale geographically weighted regression</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Fast Geographically Weighted Regression (FastGWR): a scalable algorithm to investigate spatial process heterogeneity in millions of observations</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="175" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A bootstrap test for constant coefficients in geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1622" to="1643" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A comparison of spatially varying regression coefficient estimates using geographically weighted and spatial-filter-based techniques</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="53" to="75" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">mgwr: A Python implementation of multiscale geographically weighted regression for investigating process spatial heterogeneity and scale</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+			<date type="published" when="2019">2019a</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A comment on geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1289" to="1299" />
+			<date type="published" when="2019">2019b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">A multiscale spatial analysis of obesity determinants in Phoenix</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.31219/osf.io/unfwj</idno>
+		<ptr target="https://doi.org/10.31219/osf.io/unfwj" />
+		<imprint>
+			<pubPlace>Arizona</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Model selection and model averaging in phylogenetics: advantages of Akaike information criterion and Bayesian approaches over likelihood ratio tests</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Posada</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">R</forename><surname>Buckley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Systematic biology</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="793" to="808" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Marine taxa track local climate velocities</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Pinsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Worm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Fogarty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Sarmiento</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Levin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science</title>
+		<imprint>
+			<biblScope unit="volume">341</biblScope>
+			<biblScope unit="issue">6151</biblScope>
+			<biblScope unit="page" from="1239" to="1242" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">A brief guide to model selection, multimodel inference and model averaging in behavioural ecology using Akaike&apos;s information criterion</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Symonds</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Moussalli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Behavioral Ecology and Sociobiology</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="13" to="21" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">AIC model selection using Akaike weights</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Wagenmakers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farrell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Psychonomic bulletin &amp; review</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="192" to="196" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Single and multiscale models of process spatial heterogeneity</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="223" to="246" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Smoothing parameter and model selection for general smooth models</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Pya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Säfken</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">516</biblScope>
+			<biblScope unit="page" from="1548" to="1563" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">An assessment of coefficient accuracy in linear regression models with spatially varying coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Inference in multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12189</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<idno type="DOI">10.31219/osf.io/etb42</idno>
+		<title level="m">On bias of geographically weighted regression models</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

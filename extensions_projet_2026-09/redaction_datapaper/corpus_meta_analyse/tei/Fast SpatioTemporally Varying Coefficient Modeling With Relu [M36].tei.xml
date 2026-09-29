@@ -1,0 +1,1352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Fast spatio-temporally varying coefficient modeling with reluctant interaction selection</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Daisuke</forename><surname>Murakami</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Singular Perturbations Inc</orgName>
+								<address>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Institute of Statistical Mathematics</orgName>
+								<address>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Shinichiro</forename><surname>Shirota</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="institution">Hitotsubashi University</orgName>
+								<address>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Seiji</forename><surname>Kajita</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Singular Perturbations Inc</orgName>
+								<address>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Mami</forename><surname>Kajita</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Singular Perturbations Inc</orgName>
+								<address>
+									<country>Japan;</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Fast spatio-temporally varying coefficient modeling with reluctant interaction selection</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">25DFEEFA0538D0F2531CA0AF8CFC6DE9</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatially and temporally varying coefficient (STVC) models are attracting attention as a flexible tool to explore the spatio-temporal patterns in regression coefficients. However, these models often struggle with balancing computational efficiency, flexibility, and interpretability of the coefficients. To address this challenge, this study develops a fast and flexible STVC model. To enhance flexibility and interpretability, we assume multiple processes in each varying coefficient, including purely spatial, purely temporal, and spatio-temporal interaction processes with or without time cyclicity. We combine a pre-conditioning method with a model selection procedure, inspired by reluctant interaction modeling, to estimate the strength of each process in each coefficient in a computationally efficient manner, while removing redundant processes as necessary. Monte Carlo experiments demonstrate that the proposed method outperforms alternatives in terms of coefficient estimation accuracy and computational 1 arXiv:2410.07229v2 [stat.ME] 4 Jan 2025 efficiency. We then apply the proposed method to a crime analysis. The result confirms that the proposed method provides reasonable estimates.</p><p>The STVC model is implemented in an R package spmoran.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatio-temporally varying coefficient (STVC) models have been used to explore the relationship between explained and explanatory variables varying over space and time. Geographically and temporally weighted regression (GTWR; <ref type="bibr" target="#b21">[22,</ref><ref type="bibr" target="#b12">13]</ref>) is the most popular STVC model, while the Gaussian process <ref type="bibr" target="#b45">[46]</ref> and generalized additive model (GAM; <ref type="bibr" target="#b48">[49]</ref>) have also been used for estimating/predicting STVCs. These models have been applied to analyze crime occurrence <ref type="bibr" target="#b34">[35]</ref>, carbon emission <ref type="bibr" target="#b18">[19]</ref>, habitat quality <ref type="bibr" target="#b20">[21]</ref>, and epidemic <ref type="bibr" target="#b40">[41]</ref>.</p><p>Although each STVC is typically assumed to obey a single spatio-temporal process, it may depend on multiple processes. Specifically, regression coefficients can exhibit (i) spatial, (ii) temporal, and/or (iii) spatio-temporal variations (Fig. <ref type="figure" target="#fig_0">1</ref>). For example, when modeling crime density, the regression coefficients may depend on multiple processes, including a process spatially varying depending on neighborhood characteristics (e.g., income level), a process varying temporally depending on macroeconomic conditions, and a process varying spatio-temporally in response to urban activities over time. To enhance the interpretability and stability of the STVC modeling, it will be useful to estimate the proportion of (i -iii) in each coefficient while eliminating redundant processes, if necessary.</p><p>In addition, (ii) and (iii) can exhibit either non-cyclic or cyclic temporal variation. For instance, in the crime example, coefficients may vary non-cyclically depending on urban expansion over the years, while they may vary cyclically throughout a day, week, and year. Unfortunately, if all the aforementioned pat- terns are considered, the resulting STVC model is highly complex, leading to an overfitting and a high computational burden.</p><p>Therefore, this study develops a fast and flexible STVC modeling approach that involves constant coefficients, spatially varying coefficients (SVC), cyclic/noncyclic temporally varying coefficients, and cyclic/non-cyclic STVC, corresponding to (i), (ii), and (iii), respectively. To improve stability and computational efficiency, we propose a practical model selection method inspired by the idea of reluctant interaction modeling <ref type="bibr" target="#b52">[53,</ref><ref type="bibr" target="#b43">44]</ref>. Based on the principle that "one should prefer main (or non-interaction) effects over interactions if all else is equal," this approach estimates main/non-interaction processes first, followed by interaction processes. In our context, (i) and (ii) correspond to the main/non-interaction processes and (iii), which models interactions between space and time, corresponds to the interaction process. The remainder of the sections are organized as follows. Section 2 reviews related models. Section 3 explains our proposed method. Sections 4 and 5 assess the modeling accuracy and computational efficiency of our method through Monte Carlo experiments and an empirical application, respectively. Section 6 concludes our discussion.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Related models</head><p>This section reviews related models, including GTWR, GP, and GAMs, for spatio-temporal data. As explained below, the challenges associated with these models are as follows: GTWR: inflexibility and high computational cost; GP: high computational cost; GAM: lack of accuracy due to a degeneracy problem.</p><p>The developed STVC model to overcome these challenges is described in Section 3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Geographically and temporally weighted models</head><p>Conventional GTWR estimates coefficients at site s ∈ R 2 at time t ∈ R 1 through a least squares estimation using sample weights based on the space-time kernel k hs (d s,s ′ )k ht (d t,t ′ ). d s,s ′ represents the Euclidean distance between locations s and s ′ , d t,t ′ represents the time difference between t and t ′ , and h s is the spatial bandwidth parameter; a larger h s yields a larger-scale map pattern in the coefficients. h t is another bandwidth that determines the temporal scale.</p><p>As explained in Section 1, distinguishing (i) spatial, (ii) temporal, and (iii) space-time interaction is important to improve the interpretability and flexibility of the coefficients. In this regard, the product kernel k hs (d s,s ′ )k ht (d t,t ′ ) ignores (i) and (ii). Although GTWR has been extended for flexible modeling <ref type="bibr" target="#b49">[50,</ref><ref type="bibr" target="#b26">27,</ref><ref type="bibr" target="#b50">51,</ref><ref type="bibr" target="#b51">52,</ref><ref type="bibr" target="#b24">25]</ref>, to the best of the author's knowledge, (i) -(iii) have not been considered simultaneously in GTWR studies. Considering the computational cost of optimizing the bandwidth parameters <ref type="bibr" target="#b26">[27]</ref>, extending GTWR to accommodate (i -iii), which requires additional bandwidth parameters, may be less reasonable. GTWR faces challenges in flexibility and computational efficiency.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Gaussian process models</head><p>While GTWR weights samples, GP parameterizes covariance using a kernel k θ (d s,s ′ , d t,t ′ ) depending on parameters θ to model a spatio-temporal process.</p><p>As reviewed in <ref type="bibr" target="#b37">[38]</ref>, various kernels have been proposed in geostatistics. For example, k θ (d s,s ′ , d t,t ′ ) = k θ (d s,s ′ )k θ (d t,t ′ ), which is also used in GTWR studies, and k θ (d s,s ′ , d t,t ′ ) = k θ (d s,s ′ ) + k θ (d t,t ′ ) are recognized as basic specifications in the literature. Among more sophisticated kernels (e.g., <ref type="bibr" target="#b15">[16,</ref><ref type="bibr" target="#b7">8,</ref><ref type="bibr" target="#b3">4]</ref>), the productsum kernel <ref type="bibr" target="#b7">[8]</ref> is popular due to its simplicity and flexibility. This kernel is</p><formula xml:id="formula_0">defined as k θ (d s,s ′ , d t,t ′ ) = k θ (d s,s ′ ) + k θ (d t,t ′ ) + ξk θ (d s,s ′ )k θ (d t,t ′ )</formula><p>where ξ is a parameter. The three terms in this kernel characterize (i) spatial, (ii) temporal, and (iii) spatio-temporal processes, respectively.</p><p>While the above-mentioned kernels assume non-cyclic temporal patterns, numerous studies have developed kernels for modeling space and circular time processes (e.g., <ref type="bibr" target="#b39">[40,</ref><ref type="bibr" target="#b22">23,</ref><ref type="bibr" target="#b44">45]</ref>) 1 . These cyclic kernels capture the overnight dependence such that 23:55 and 00:05 are as close as 23:45 and 23:55. Cyclic kernels are also helpful for modeling temporal processes over a week and a year.</p><p>A challenge with GP is the computation burden arising from the inversion of the N × N covariance kernel matrix, where N is the sample size. This burden is even more severe for the GP-based S(T)VC model, as it requires a heavy inversion for each varying coefficient (see <ref type="bibr" target="#b14">[15]</ref>).</p><p>To lighten the computation cost, a wide variety of approximate GPs have been proposed in geostatistics, as reviewed in <ref type="bibr" target="#b19">[20]</ref> and <ref type="bibr" target="#b17">[18]</ref>. Existing methods approximate GPs using L(&lt;&lt; N ) basis functions (see <ref type="bibr" target="#b4">[5]</ref> for review), sparse covariance matrix (e.g., <ref type="bibr" target="#b13">[14]</ref>), or sparse precision matrix (e.g., <ref type="bibr" target="#b25">[26]</ref>, <ref type="bibr" target="#b5">[6]</ref> ). The 1 Wrapping time to a circle takes us to the realm of directional or angular data where we find applications to environmental sciences, e.g., wind directions and wave directions. Traditional models for directional data have employed the von Mises distribution; however, recent work has elaborated the virtues of the wrapping and projection approaches, particularly in space and space-time settings (see <ref type="bibr" target="#b22">[23]</ref> and <ref type="bibr" target="#b44">[45]</ref>). For a review of directional data methodology, see, for example, <ref type="bibr" target="#b11">[12]</ref>, <ref type="bibr" target="#b28">[29]</ref>, and <ref type="bibr" target="#b29">[30]</ref>.</p><p>nearest neighbor Gaussian process (NNGP; <ref type="bibr" target="#b5">[6]</ref>, <ref type="bibr" target="#b6">[7]</ref>), which is categorized in the third approach, is among popular approaches whose accuracy and scalability have been demonstrated. Especially, the conjugate NNGP <ref type="bibr" target="#b10">[11]</ref>, which employs a cross-validation instead of the Markov-Chain Monte Carlo simulation that makes the original NNGP slow, is extremely fast while maintaining the accuracy.</p><p>However, as noted by the authors, the cross-validation can be inefficient in richly parameterized settings like our case, assuming variance parameters for each space, time, and space-time process by coefficients (Section 3). Unfortunately, most approximate GPs do not assume such highly parameterized settings. It is unclear how to apply them for modeling our STVCs.</p><p>Exceptionally, GAM, which is a basis function approach that can approximate geostatistical GP <ref type="bibr" target="#b23">[24]</ref>, has been extended to adapt to such highly parameterized settings. The next subsection reviews studies on GAM.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Generalized additive models</head><p>GAM accommodates various patterns using a linear combination of basis functions <ref type="bibr" target="#b47">[48]</ref>. Owing to its parsimonious model structure and fast estimation algorithms (e.g., <ref type="bibr" target="#b46">[47]</ref>), GAM is computationally more efficient than GTWR and GP models.</p><p>When modeling STVCs, GAM uses L spatial and L t temporal basis functions for modeling (i) and (ii), respectively. For (iii), GAM typically considers LL t basis functions defined by their products. If L and/or L t are too small, the resulting varying coefficient becomes over-smoothed and less accurate. This degeneracy problem <ref type="bibr" target="#b42">[43]</ref> becomes severe when considering (iii) because a large number of basis functions are needed to accurately model space-time interactions. Unfortunately, the large basis dimension makes GAM slow. Therefore, extending GAM to accommodate a large number of basis functions while main-taining its computational efficiency remains an important issue.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Methodology</head><p>We develop a fast and flexible STVC model that defines each varying coefficient as a sum of constant (mean), (i) spatial, (ii) Q cyclic/non-cyclic temporal, and (iii) Q cyclic/non-cyclic spatio-temporal processes, each of which are defined by a linear combination of basis functions. Section 3.1 introduces our STVC model and Section 3.3 describes its estimation and selection procedure.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Model</head><p>This study considers the explained variable y(s, t) observed at site s ∈ {1, . . . , S} in a study region D ⊂ R 2 at time t = {t 1 , . . . , t Q } measured on several axes indexed by q ∈ {1, . . . , Q}. For example, q = 1 and q = 2 represent month and hour in the empirical study in Section 5, respectively. We assume a longitudinal data with/without missing values, whose explained variables are observed repeatedly at the S sample locations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.1">Model for data</head><p>We consider the following model:</p><formula xml:id="formula_1">y(s, t) = P p=1 x p (s, t)β p (s, t) + ϵ(s, t), ϵ(s, t) ∼ N (0, σ 2 ),<label>(1)</label></formula><p>where x p (s, t) is the p-th covariate, with p = 1 assumed to be constant (i.e., x 1 (s, t) = 1), and σ 2 is the noise variance. The coefficient β p (s, t) is specified as</p><formula xml:id="formula_2">β p (s, t) = b p + w p (s) + Q q=1 w p (t q ) + Q q=1 w p (s, t q ),<label>(2)</label></formula><p>where b p denotes the mean. w p (s), w p (t q ), and w p (s, t q ) are zero-mean processes explaining (i), (ii), and (iii), respectively. β p (s, t) represents a varying intercept for p = 1 while varying coefficients for p ≥ 2. Instead of the independent noise ϵ(s, t), the varying intercept captures residual spatio-temporal dependence (see Section 3.1.2).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.2">Model for processes</head><p>To specify the spatial process ω p (s), we consider the Moran's I statistic, which measures the strength of spatial dependence of a vector ω p whose elements are ω p (s)|s ∈ {1, . . . , S}, as follows:</p><formula xml:id="formula_3">I[ω p ] = c ω p M KM ω ′ p ω p M ω ′ p .<label>(3)</label></formula><p>c = S/1K1 ′ is a scaling factor. M = I -11 ′ /S is a centering matrix where I is an identity matrix, and 1 is a vector of ones. K is a spatial kernel matrix with zero diagonals. This statistic indicates I[ω p ] &gt; 0 in the presence of positive spatial dependence, whereas I[ω p ] ≈ 0 in the absence of spatial dependence.</p><p>Let us eigen-decompose M KM into EΛE ′ , where Λ is a diagonal matrix whose elements are the positive eigenvalues λ 1 , . . . , λ L in descending order and The spatial process ω p (s) is specified as follows:</p><formula xml:id="formula_4">w p (s) = e(s)γ p,0 , γ p,0 ∼ N (0, τ 2 p,0 Λ αp,0 ),<label>(4)</label></formula><p>where e(s) is the s-th row of the E matrix. τ 2 p,0 and α p,0 determine the variance and smoothness of the process. The latter also determines the strength of the spatial dependence. I[ω p ] approaches the theoretical maximum, suggesting marked spatial dependence when α p,0 → ∞, while approaches zero, suggesting the absence of spatial dependence when α p,0 → -∞ <ref type="bibr" target="#b33">[34]</ref>. Therefore, ω p (s) describes a positively dependent map pattern, which is typically assumed in SVC.</p><p>The temporal process w p (t q ) is also defined based on Moran's I statistic on the q-th time axis. It measures the temporal dependence of a vector ω p,q whose elements are w p (t q )|t q ∈ {1, . . . , T q } as follows:</p><formula xml:id="formula_5">I[ω p,q ] = c q ωp,qMqKqMqω ′ p,q ωp,qMqω ′ p,q .</formula><p>c q is a scaling factor, K q is a temporal kernel matrix with zero diagonals, and</p><formula xml:id="formula_6">M q = I q -1 q 1 q /T q</formula><p>, where I q and is an identity matrix and 1 q is a vector of ones. As with the spatial eigenvectors, the temporal eigenpairs are extracted</p><formula xml:id="formula_7">as M q K q M q → E q Λ q E ′ q ,</formula><p>where Λ q is a diagonal matrix whose elements are the positive eigenvalues λ lq , . . . , λ Lq and E q is a matrix of the L q corresponding eigenvectors, which describe positively dependent temporal patterns measured by the Moran's I statistic.</p><p>The temporal process is specified as follows:</p><formula xml:id="formula_8">w p (t q ) = e(t q )γ p,q , γ p,q ∼ N (0, τ 2 p,q Λ αp,q q ),<label>(5)</label></formula><p>where e(t q ) is the t q -th row of the E q matrix. This process depends on the variance parameter τ 2 p,q and the smoothness parameter α p,q , which controls the intensity of temporal dependence measured by I[ω p (t q )].</p><p>The spatio-temporal process is specified as follows:</p><formula xml:id="formula_9">w p (s, t q ) = (e(s) ⊗ e(t q )) γ p,q(st) , γ p,q(st) ∼ N 0, τ 2 p,q(st) (Λ ⊗ Λ q ) α p,q(st) ,<label>(6)</label></formula><p>where ⊗ represents the Kronecker product. The pattern depends on the variance parameter τ 2 p,q(st) and another parameter α p,q(st) measuring the strength of spatio-temporal dependence measured by the following Moran's I statistic:</p><formula xml:id="formula_10">I[ω p,q(st) ] = c q(st) ω p,q(st) M q(st) K q(st) M q(st) ω ′ p,q(st) ω p,q(st) M q(st) ω ′ p,q(st) .<label>(7)</label></formula><p>ω p,q(st) is a vector whose elements are w p (s, t q )|s ∈ {1, . . . , S}, t q ∈ {1, . . . , T q },</p><formula xml:id="formula_11">K q(st) = K ⊗ K q is a space-time kernel matrix and M q(st) = M ⊗ M q . 2</formula><p>Following <ref type="bibr" target="#b34">[35]</ref>, the (s, s ′ )-th element of the spatial kernel matrix K is given by k s,s ′ = exp(-d s,s ′ /r s ) to model exponentially decaying spatial dependence, where r s is the longest edge length of the minimum spanning tree (MST) connecting the sample sites (see <ref type="bibr" target="#b9">[10]</ref>). The (t q , t ′ q )-th element of K q is given by k tq,t ′ q = exp(-d tq,t ′ q /r q ), where r q is the largest time difference separating the sampled time points, which equals the longest edge length of the MST connecting the sampled time points. For the cyclic temporal process (e.g., weekly cycle), the difference d tq,t ′ q is evaluated on the cyclic axis. The elements of K q(st) are given by a product kernel k (s,tq),(s ′ ,t ′ q ) = exp(-d s,s ′ /r s )exp(-d tq,t ′ q /r q ), which is widely used for spatio-temporal modeling (see Section 1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Property of the model</head><p>Although both our STVC model and GAM consider basis functions for modeling STVCs, the former has several advantages as follows. First, the number of basis functions/eigenvectors is automatically determined by the number of positive</p><formula xml:id="formula_12">2 M q(st) K q(st) M q(st) = (M ⊗ Mq)(K ⊗ Kq)(M ⊗ Mq) = (M KM ) ⊗ (MqKqMq). By applying eigen-decomposition to M KM and MqKqMq, respectively, M q(st) K q(st) M q(st) is approximated by (EΛE ′ ) ⊗ (EqΛqE ′ q ) = (E ⊗ Eq)(Λ ⊗ Λq)(E ⊗ Eq) ′ .</formula><p>The columns of the E ⊗ Eq matrix are mutually orthogonal in the case of longitudinal data, which we assumed, and Λ ⊗ Λq is a diagonal matrix. Therefore, the diagonal elements λ l λ lq &gt; 0, where l ∈ {1, , . . . , L}, lq ∈ {1, , . . . , Lq}, represent the positive eigenvalues, and the columns of the E ⊗ Eq matrix represent the corresponding eigenvectors of the M q(st) K q(st) M q(st) matrix. Therefore, similar to the spatial case, these eigen-pairs, which are used in Eq.( <ref type="formula" target="#formula_9">6</ref>), are available to describe the process explained by spatio-temporal Moran's I statistic (Eq. 7).</p><p>eigenvalues, explaining positive dependence. Second, the proposed model explicitly estimates the strength of spatial and/or temporal dependence measured by Moran's I statistics based on the α parameters, while GAMs implicitly assume α = 0. Thus, our specification is more appropriate for modeling STVCs.</p><p>Notably, the eigen-decomposition can be approximated for large samples, as described in <ref type="bibr" target="#b31">[32]</ref>. </p><formula xml:id="formula_13">Our STVC model (Eq.</formula><formula xml:id="formula_14">+ P p=1 x p (s, t) e(s) ⊗ e(t 1 ), . . . , e(s) ⊗ e(t Q )       γ p,1(st)</formula><p>. . .</p><formula xml:id="formula_15">γ p,q(st)       (iii) +ϵ(s, t),<label>(8)</label></formula><p>where</p><formula xml:id="formula_16">γ 0 = [γ ′ p,0 , γ ′ p</formula><p>,1 , . . . , γ ′ p,Q ] ′ . The first two terms explain main/non-interaction effects (i) and (ii), and the third term explains (iii) space-time interactions. Equation (8) consists of the following basis functions: Main (i) -(ii) : x p (s, t)e(s), x p (s, t)e(t 1 ), . . . , x p (s, t)e(t Q ) (9) Interaction (iii) : x p (s, t) e(s) ⊗ e(t 1 ) , . . . , x p (s, t) e(s) ⊗ e(t Q )</p><p>The main terms (Eq. 9) contain P (L + Q q=1 L q ) basis functions, and the interaction terms (Eq. 10) contain P L Q q=1 L q basis functions. The latter can be quite large. For example, in Section 5, we apply our model to a crime analysis assuming P = 5, M = 2, L = 35, L 1 = 47, and L 2 = 23. The resulting numbers of basis functions are 530 for the main and 12,250 for the interaction terms. The latter is considerably larger than typical settings of GAMs, assuming at most thousands of basis functions. In addition, the number of the variance parameters (i.e., τ 2 p,q , τ 2 p,q(st) , α p,q , α p,q(st) ) in our model equals 2P (1 + 2Q), which is considerably larger than conventional GAMs and STVC models. For instance, GTWR considers only two hyper-parameters representing spatial and temporal bandwidths. The estimation can be computationally intractable.</p><p>To lighten the computational cost, we select K 0 main terms from Eq. ( <ref type="formula">9</ref>)</p><p>and K interaction terms from Eq. ( <ref type="formula" target="#formula_17">10</ref>). The model with the selected terms is expressed as follows:</p><formula xml:id="formula_18">y = Xb + Z K γ K + ϵ, γ K ∼ N (0, V (Θ K )), ϵ ∼ N (0, σ 2 I)<label>(11)</label></formula><p>where y (N × 1) is a vector of explained variables, X (N × P ) is a matrix of explanatory variables,</p><formula xml:id="formula_19">b =       b 1 . . . b P       , γ K =          γ 0 γ 1 . . . γ K          , V (Θ K ) =          V (Θ 0 ) O • • • O O V (θ 1 ) • • • O . . . . . . . . . . . . O O • • • V (θ K )          . (<label>12</label></formula><formula xml:id="formula_20">)</formula><p>O represents matrix of zeros, and</p><formula xml:id="formula_21">Θ K = {Θ 0 , θ 1 , . . . , θ K }. Z K = [Z 0 , Z 1 , . . . , Z K ]</formula><p>with a size of N × L, where L is the total number of basis functions/eigenvectors.</p><p>Z 0 is a matrix of the basis functions explaining the K 0 main effects selected from Eq. ( <ref type="formula">9</ref>), Θ 0 is the set of the corresponding variance parameters, and V (Θ 0 ) is a block diagonal matrix whose elements are the variance matrices τ 2 p,q Λ p,q p,q of the K 0 selected effects. For example, if x 3 (s, t)e(s) and x 1 (s, t)e(t 2 ) are the selected main effects, each row of Z 0 consists of [x 3 (s, t)e(s), x 1 (s, t)e(t 2 )],</p><formula xml:id="formula_22">Θ 0 = {τ 2 3,0 , α 3,0 , τ 2 1,2 , α 1,2 }, and V (Θ 0 ) =    τ 2 3,0 Λ α3,0 O O τ 2 1,2 Λ α1,2 2   .</formula><p>Z k is a matrix of the basis functions describing the k-th selected interaction effect from Eq. ( <ref type="formula" target="#formula_17">10</ref>), and θ k is the corresponding variance parameters. For instance, if x 4 (s, t) e(s) ⊗ e(t 3 ) is the k-th selected effect, each row of Z k is given by x 4 (s, t) e(s) ⊗ e(t 3 ) , θ k = {τ 2 4,3(st) , α 4,3(st) }, and V (θ k ) = τ 2 4,3(st) (Λ ⊗ Λ 3 ) α 4,<ref type="foot" target="#foot_0">foot_0</ref>(st) .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Estimation</head><p>To estimate the STVCs while addressing the computational burden and overfitting associated with the large basis dimension, we combine a fast likelihood maximization method <ref type="bibr" target="#b34">[35]</ref> with a model selection inspired by reluctant interaction modeling <ref type="bibr" target="#b52">[53]</ref>. Following the latter, we distinguish between the main/noninteraction and interaction terms, which can slow down computation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.1">Marginal likelihood</head><p>Eq. ( <ref type="formula" target="#formula_18">11</ref>) is identical to the conventional linear mixed model. As derived in Appendix A, the following marginal log-likelihood 3 with respect to the variance parameters Θ K = {Θ 0 , θ 1 , . . . , θ K } is readily obtained as follows (see <ref type="bibr" target="#b32">[33]</ref>):</p><formula xml:id="formula_23">l(Θ K ) = - 1 2 log |H K,K | - N -P 2 1 + log 2π ε′ ε + û′ û N -P ,<label>(13)</label></formula><p>where</p><formula xml:id="formula_24">V (Θ K ) 1/2 ûK = γK , ε = y -X b -Z K V (Θ K ) 1/2 ûK and    b ûK    = H -1 K,K h K,y .<label>(14)</label></formula><formula xml:id="formula_25">H K,K =    X ′ X G ′ K,X G K,X G K,K + I    and h K,y =    X ′ y G K,y    where G K,K =          G 0,0 G 0,1 . . . G 0,K G 1,0 G 1,1 . . . G 1,K . . . . . . . . . . . . G K,0 G K,1 . . . G K,K          , G K,X =          G 1,X G 2,X . . . G K,X          , in which G k, k = σ -2 V (θ k ) 1/2 Z ′ k Z kV (θ k) 1/2 and G k,X = σ -1 V (θ k ) 1/2 Z ′ k X.</formula><p>G K,y is defined similarly for y.</p><p>For model selection, we will use the marginal Bayesian information criterion (BIC), which is defined as follows (see <ref type="bibr" target="#b8">[9]</ref>, <ref type="bibr" target="#b38">[39]</ref>):</p><formula xml:id="formula_26">BIC(Θ K ) = -2l(Θ K ) + log(N )(P + dim(Θ K ) + 1), (<label>15</label></formula><formula xml:id="formula_27">)</formula><p>where dim(Θ K ) denotes the number of elements in Θ K . <ref type="bibr" target="#b34">[35]</ref> demonstrated the accuracy of an SVC model selection based on the marginal BIC.</p><p>Once the parameters in Θ K are estimated, the coefficient estimates b and γK are readily obtained using Eq. ( <ref type="formula" target="#formula_24">14</ref>). These estimates are then used to obtain the predictive mean of the STVCs. For example, if the spatial pattern, the 2nd and 3rd temporal patterns, and the 1st and 2nd interaction patterns are selected for the p-th STVC, the predictive mean yields βp (s, t) = bp + e(s)γ p</p><formula xml:id="formula_28">+ 3 q=2 e(t q )γ p,q + 2 q=1 (e(s) ⊗ e(t q ))γ p,q(st) , (<label>16</label></formula><formula xml:id="formula_29">)</formula><p>where bp is the p-th element of b and γp , γp,q γp,q(st) are elements of γK .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.2">Estimation and model selection procedure</head><p>The log-likelihood contains H -1 K,K , whose size equals (P + L) × (P + L), and</p><formula xml:id="formula_30">|H K,K |.</formula><p>Their computational complexities rapidly grow in an order of (P + L) 3 .</p><p>Because of the large basis dimension in the interaction terms, their calculations can be very slow.</p><p>To avoid explicit calculations of these two, we propose to select the main effects first, and then select the interaction terms while updating H -1 K,K and</p><formula xml:id="formula_31">|H K,K | in each step.</formula><p>The calculation procedure is summarized as follows:</p><p>1. Estimate and select the main effects only model M 0 :</p><formula xml:id="formula_32">y = Xb + Z 0 γ 0 + ϵ, γ 0 ∼ N (0, V (Θ 0 ))</formula><p>, ϵ ∼ N (0, σ 2 I) following the process described in <ref type="bibr" target="#b34">[35]</ref>.</p><p>The calculation procedure is summarized as follows:</p><p>(a) Initialize Θ0 and evaluate BIC( Θ0 ).</p><p>(b) The following steps are repeated for each p ∈ {0, 1, . . . , P } and q ∈ {0, 1, . . . , Q} until the marginal BIC does not improve:</p><p>i. Partition the parameters as Θ0 = { θ0(p,q) , Θ0(-p,q) }, where θ0(p,q) = {α p,q , τ 2 p,q }. Estimate θcand 0(p,q) by maximizing the log-likelihood l(θ 0(p,q) , Θ0(-p,q) ) given Θ0(-p,q) . Subsequently, evaluate BIC( θcand 0(p,q) , Θ0(-p,q) ) using Eq.( <ref type="formula" target="#formula_26">15</ref>).</p><p>ii. Evaluate BIC( Θ0(-p,q) ) of the model that eliminates the (p, q)th main effect from the model M 0 .</p><p>iii. If BIC( θcand 0(p,q) , Θ0(-p,q) ) &lt; BIC( Θ0(-p,q) ), Θ0 = { θcand 0(p,q) , Θ0(-p,q) } is the updated parameter estimates. Otherwise, the model M 0 is updated by assuming Θ0 = Θ0(-p,q) and removing the basis functions explaining the (p, q)-th main effect from Z 0 .</p><p>2. Initialize κ cand = P M and K = 0, as well as M K = M 0 , ΘK = Θ0 , and Z K = Z 0 . Calculate H K,K = H 0,0 using Z 0 , and evaluate H -1 K,K and</p><formula xml:id="formula_33">|H K,K |.</formula><p>In the subsequent step, use them to evaluate the likelihood.</p><p>3. Iterate the following procedure for each κ ∈ {1, . . . , κ cand }, and select κ minimizing the marginal BIC value:</p><p>(a) Estimate θ κ by maximizing the likelihood of the following model M κ composed of the already selected terms and the κ-th interaction term:</p><formula xml:id="formula_34">M κ : y = Xb + Z K γ K + Z κ γ κ + ϵ, ϵ ∼ N (0, σ 2 I), γ K ∼ N (0, V ( ΘK )), γ κ ∼ N (0, V (θ κ )). (<label>17</label></formula><formula xml:id="formula_35">)</formula><p>In this step, ΘK is fixed, and θ κ is estimated by numerically maximizing the log-likelihood.</p><p>(b) Evaluate the marginal BIC of the model M κ .</p><p>4. If the BIC value of the selected model M κ is worse than M K , M K is the final model. Otherwise, M κ is the updated model. In the latter case, calculate the following quantities required to evaluate the updated log-</p><formula xml:id="formula_36">likelihood value: M K+1 = M κ, ΘK+1 = { ΘK , θκ }, Z K+1 = [Z K , Z κ],<label>and</label></formula><formula xml:id="formula_37">H K+1,K+1 =    H K,K G K,κ G ′ K,κ G κ,κ    .<label>(18)</label></formula><p>where</p><formula xml:id="formula_38">G K,κ = [G ′ 1,κ , . . . , G ′ K,κ ] ′ and G k,κ is similarly defined as G k,k ′ .</formula><p>Subsequently, evaluate H -1 K+1,K+1 and |H K+1,K+1 | following the fast procedure explained in Section 3.3.3.</p><p>5. Exclude κ from the candidate set as κ ∈ {1, . . . , κ cand }\κ.</p><p>6. K → K + 1 7. Iterate steps 3 -5 until BIC converges. M K is the final model.</p><p>We used the marginal BIC (Eq. 15) following <ref type="bibr" target="#b34">[35]</ref>, suggesting the accuracy of the BIC-based model selection in he case of an SVC model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.3">Inverse and determinant calculation</head><p>The estimation in Step 3 (a) iteratively evaluates H -1 K+1,K+1 to find the maximum likelihood estimates, which is computationally demanding. The inversion can be expressed by applying Schur's lemma to Eq. ( <ref type="formula" target="#formula_37">18</ref>), as follows:</p><formula xml:id="formula_39">H -1 K+1,K+1 =    H -1 K,K + H -1 K,K G K,κ Q -1 κ,κ G ′ K,κ H -1 K,K -H -1 K,K G K,κ Q -1 κ,κ -Q -1 κ,κ G ′ K,κ H -1 K,K Q -1 κ,κ    (<label>19</label></formula><formula xml:id="formula_40">)</formula><p>where</p><formula xml:id="formula_41">Q κ,κ = G κ,κ -G ′ K,κ H -1 K,K G K,κ</formula><p>with a size of L κ × L κ , where L κ is the number of basis functions in the κ-th interaction term. Since H -1 K,K , the heaviest part in Eq. ( <ref type="formula" target="#formula_39">19</ref>), has already been evaluated in the previous iteration, Q κ,κ is the only matrix to be iteratively inverted in <ref type="bibr">Step 3(a)</ref>. The computational complexity equals O(L 3 κ ), which is considerably smaller than the complexity O((P + L) 3 ) in the direct calculation of H -1 K+1,K+1 .</p><p>The determinant |H K+1,K+1 | also requires a heavy computation. To avoid the direct evaluation, we use the following equality, which is obtained by applying another Schur's formula to Eq. ( <ref type="formula" target="#formula_37">18</ref>):</p><formula xml:id="formula_42">|H K+1,K+1 | = |H K,K ||Q κ,κ |.<label>(20)</label></formula><p>Since |H K,K | was evaluated in the previous iteration and Q κ,κ was evaluated above, the additional computational cost is quite small. In summary, we proposed an STVC modeling method that sequentially adds interaction terms. Because a small matrix Q κ,κ is inverted in each sequence instead of the large matrix H K,K , the model estimation is computationally efficient.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Monte Carlo experiments</head><p>This section demonstrates three Monte Carlo experiments. Section 4.1 assesses whether the proposed method successfully estimates the true patterns while avoiding over-fitting. Section 4.2 compares the proposed method with GAM, which is an alternative capable of modeling all the patterns considered in our model. Section 4.3 compares the proposed method with GTWR. Following GTWR, this section considers non-cyclic patterns only.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Basic comparison</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.1">Outline</head><p>This section considers the following regression model: y(s, t) = β 1 (s, t) + x 2 (s, t)β 2 (s, t) + x 3 (s, t)β 3 (s, t) + ϵ(s, t) ϵ(s, t) ∼ N (0, 1),</p><p>where x p (i, t) ∼ N (0, 1) and t = {t 1 , t 2 }. The following specifications are considered for the three coefficients:</p><formula xml:id="formula_44">LM β p (s, t) = b p , S β p (s, t) = b p + v p [w p (s)], ST β p (s, t) = b p + v p [w p (s) + w p (t 1 )], ST int β p (s, t) = b p + v p [w p (s) + w p (t 1 ) + w p (s, t 1 )], STc β p (s, t) = b p + v p [w p (s) + w p (t 1 ) + w p (t 2 )], STc int β p (s, t) = b p + v p [w p (s) + w p (t 1 ) + w p (t 2 ) + w p (s, t 1 ) + w p (s, t 2 )],<label>(22)</label></formula><p>where {b 1 , b 2 , b 3 } = {1, 2, -0.5} and [•] denotes standardization to zero mean and variance one. w p (t 1 ) and w p (t 2 ) are non-cyclic and cyclic temporal processes, respectively, and w p (s, t 1 ) and w p (s, t 2 ) are their corresponding interaction terms. w p (s), w p (t q ), w p (s, t q ) are randomly sampled using Eqs. (4 -6), assuming α p = α p,q = α p,q(st) = 1 and τ 2 p = τ 2 p,q = τ 2 p,q(st) for simplicity <ref type="foot" target="#foot_1">4</ref> . S and T in Eq. ( <ref type="formula" target="#formula_44">22</ref>) represent space and time, respectively, c represents circular time, and the subscript int denotes space-time interaction. The standard deviations of the three coefficients are given by (v 1 , v 2 , v 3 ) = (1, 2, 1). We refer to β 2 (s, t), which explains a larger amount of variation, the strong coefficient, and β 3 (s, t), which explains a smaller variation, the weak coefficient. Among the models, STc int considers all discussed patterns. The main objective of this section is to assess whether this model accurately estimates both simple and complex patterns while avoiding over-and under-fitting.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.2">Result</head><p>Figure2 summarizes the RMSEs. In many cases, the RMSE values are the smallest when the fitted and true processes coincide. Interestingly, the full model STc int also performs the best in most cases. This result suggests that the proposed method accurately describes the space-time patterns in the regression coefficients, regardless of whether the true pattern is simple or complex. Table <ref type="table" target="#tab_0">1</ref> summarizes the proportions of each element (w p (s), w p (t 1 ), w p (t 2 ), w p (s, t 1 ), w p (s, t 2 )) selected for each coefficient. In all the cases, truly exiting elements are appropriately selected by more than 89 % of probability. Regarding the constant coefficients, which are β 3 (s, t) in case 2 and β 2 (s, t) in case 1, the space-time interactions are appropriately estimated as absent in more than 96 % of the simulations. Thus, the accuracy of our interaction selection method is verified.</p><p>In case 3, the constant coefficients β 2 (s, t) and β 3 (s, t) are mistakenly estimated as varying with a certain probability, probably because of the difficulty in distin-guishing spatio-temporal variations in the intercept and regression coefficients.</p><p>Nevertheless, as listed in Table <ref type="table" target="#tab_1">2</ref>, the standard deviations of the estimated β 2 (s, t) and β 3 (s, t) in case 3 are reasonably small. Our STVC model is confirmed to accurately estimate the coefficients with the help of the interaction selection method. Improving our model selection accuracy in case 3 remains an important issue that can be resolved in different ways, for example, by applying Lasso, penalized complexity <ref type="bibr" target="#b41">[42]</ref>, or other penalty. 100,000 synthetic explained variables were generated at 500 locations at 200 regular time points. The spatial coordinates were generated from two uniform distributions. Randomly selected N samples among them were regarded as observations and the remaining samples were used for predictive accuracy evaluation. The circular period was assumed as 20.</p><p>This section considers the small, medium, and large sample scenarios, assuming N ∈ {2000, 10000, 50000}, respectively. In each scenario, the models are fit 200 times and their accuracy and computational efficiency are compared.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.2">Result</head><p>Figure3 displays boxplots of the RMSE values for the strong and weak STVCs.</p><p>For reference, LM and S are also compared. As expected, GAM, GAM2, and STc int outperform S owing to their consideration of temporal variations. Among them, RMSEs are smaller for STc int , GAM2, and GAM, in that order, coinciding with the descending order of their basis dimensions. The accuracy of STc int can be attributed to the larger number of basis functions introduced by the proposed procedure. As elaborated later, conventional GAMs struggle with such a large basis dimension due to computational costs. The proposed method efficiently enhances accuracy as the sample size increases from 10000 to 50000, whereas GAMs show less improvement. This underscores the usefulness of our method in improving modeling accuracy for larger samples. Fig. <ref type="figure" target="#fig_6">4</ref> compares the outof-sample predictive accuracy, confirming that our model successfully enhances predictive accuracy.</p><p>Table 3 compares the computation time using a 12-core Mac computer with 64 GB of memory. We considered another GAM2 assuming the same number of basis functions as STc int , denoted as GAM2*. According to the table, STc int is significantly faster than GAM2*. The computational efficiency of  STc int was confirmed. In addition, GAM2* was not available when N = 2, 000 because of the singular fit. The proposed algorithm is essential for handling high-dimensional STVC models stably.</p><p>Table <ref type="table">3</ref>: Average computation time for the first five trials (in seconds). GAM2* could not be estimated when N = 2,000 because of the large basis dimension relative to N . Although these models can be parallelized using the mgcv package, the resulting computation times were slower than non-parallel estimation. This is likely due to the large number of basis functions assumed in this study. These computation times are not reported. N S GAM2* STc int 2,000 6.8 NA 11.4 10,000 8.0 2161.5 296.6 50,000 19.5 2970.2 342.9</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Comparison with GTWR</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.1">Outline</head><p>This section compares the proposed method with GWR and GTWR, which are widely used for modeling SVC and STVC, respectively. Following our model, an exponential kernel is used for their local weighting, and the bandwidth is optimized by minimizing the corrected Akaike Information Criterion (AICc).</p><p>GWR and GTWR were implemented using the R package GWmodel (<ref type="url" target="https://cran.r-project.org/web/packages/GWmodel/index.html">https:   //cran.r-project.org/web/packages/GWmodel/index.html</ref>). <ref type="foot" target="#foot_3">6</ref>We assume three scenarios for data generation. In alignment with the GTWR assumptions, all scenarios incorporate only non-cyclical time patterns.</p><p>Scenario I generates synthetic data as follows:</p><p>y(s, t) = β 1 (s, t) + x 2 (s, t)β 2 (s, t) + x 3 (s, t)β 3 (s, t) + ϵ(s, t) ϵ(s, t) ∼ N (0, σ 2 ),</p><formula xml:id="formula_45">β p (s, t) = b p + τ p [w p (s) + w p (t) + w p (s, t)].<label>(24)</label></formula><p>As in the previous section, </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.2">Result</head><p>Figure5 compares the RMSEs for the strong and weak STVCs. For reference, LM and S are compared again. In scenario I, GTWR and STc int outperform GWR and S, confirming the importance of considering temporal patterns in regression coefficients. However, GTWR exhibits higher RMSEs compared to the spatial models for the SVCs assumed in β 3 (s, t) in scenario II and β 2 (s, t) in scenario III. This trend is pronounced in scenario III, where a larger variation is assumed in the SVC. In contrast, our STc int method demonstrates better accuracy than both S and GWR, even when SVC is the true process. These findings suggest that our method is more accurate and robust to the underlying spatiotemporal structure of the coefficients compared to the alternative methods. The superior performance of STc int is attributed to its flexibility in accommodating the differences in smoothness and variation of each spatial and/or temporal process in each coefficient, whereas GTWR assumes uniform bandwidth/scale parameters across the coefficients. The median computation times in scenario I are 0.905 (GWR), 0.993 (S), 110.2 (GTWR), and 1.792 seconds, respectively. Owing to the proposed algorithm, STc int is significantly faster and more accurate alternative to GTWR.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Application</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Outline</head><p>This section applies the proposed method to analyze hourly and monthly larceny counts per square km, which we will call the larceny density (source: Crime Dashboard: <ref type="url" target="https://www.sanfranciscopolice.org/stay-safe/crime-data/crime-dashboard">https://www.sanfranciscopolice.org/stay-safe/crime-data/   crime-dashboard</ref>), by 194 districts between 2017 and 2021 (N = 279, 360) in San Francisco. As shown in Fig. <ref type="figure">6</ref> (left), larceny drastically decreased in early 2020 due to the coronavirus disease (COVID-19), and gradually recovered thereafter. A cyclic pattern, increasing during the day and decreasing at night, is also evident from Fig. <ref type="figure">6</ref> (right). Larceny densities mapped in Fig. <ref type="figure">7</ref> show that larceny was concentrated in the northeastern city center, especially during 2017 -2019, which was before COVID-19, during the daytime hours. The explained variable is the logged larceny density. The covariates include yearly), and racial heterogeneity (RacialHet; yearly) measured by 1 -Σ<ref type="foot" target="#foot_4">foot_4</ref> i=1 a 2 i , where a i is the share of the i-th racial population among the seven racial groups defined by the U.S. census (Fig. <ref type="figure" target="#fig_10">8</ref>). LarenyPre is considered to estimate the strength of the repetitive tendency of crime at a neighborhood-level; this tendency, which is called near repeat victimization <ref type="bibr" target="#b0">[1]</ref>, is attributable to the groups committing crimes in the same area or spatial concentration of facilities with risk. 7 RacialHet is considered because a higher racial heterogeneity can lower the level of social control <ref type="bibr" target="#b2">[3]</ref>. These variables are sourced from the American Community Survey Tables (<ref type="url" target="https://www.census.gov/programs-surveys/acs/">https://www.census.gov/programs-surveys/acs/</ref>). The six models LM, S, ST, ST int , STc, STc int considered in Section 4 were compared. Here, ST, ST int , and STc int consider non-cyclic time series by month during 2017 -2021 while STc and STc int consider cyclic time series by hour.</p><p>They are estimated without parallelization. in regression coefficients. STc int , which considers all of these, achieved the best accuracy.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Result</head><p>Regarding computation time, STc int tends to be slower than the other simpler models, as expected. However, it took only 832 seconds for the large samples with N = 279, 360, confirming the computational efficiency of the proposed method.  Table 6 summarizes the proportion of variances in each STVC. This table suggests that the determinants of larceny risk are spatially varying but less time varying. Exceptionally, the coefficients on LarcenyPre and PopDen have relatively strong monthly and hourly temporal variations. As explained later, the former strongly reflects COVID-19, while the latter captures the periodic pattern in daily urban activity. In particular, 28.4 % of the variation in the LarcenyPre coefficient is attributed to the month, while 9.2 % is attributed to the hour. This suggests that LarcenyPre exhibits a strong seasonal pattern and a weak hourly pattern.</p><p>Space-time interaction is found only in the spatially varying intercept and the coefficient on PopDen. Non-interaction terms were sufficient to capture most coefficient variations. If all interaction and non-interaction terms were equally considered, as in the existing studies, the number of basis functions would be very large, and the resulting model would be complex and computationally inefficient. The utility of the proposed method is confirmed in identifying an accurate and parsimonious STVC model computational efficiency.</p><p>Figures 9 -11 map the estimated varying intercept and STVCs for LarcenyPre and PopDen, which exhibit relatively strong time variations. Based on the intercept, the northeastern city center has been the hot-spot over the years, and this tendency becomes more pronounced during the day. As expected, this map pattern is consistent with the observed larceny distribution in Fig. <ref type="figure">7</ref>. Before 2020, coefficients on LarcenyPre were positive across areas, with particularly high values observed in the northeastern bayside area. This suggests a pattern of repeated larceny occurrences within the same neighborhood, especially in the bayside area. However, this repetitive tendency significantly weakened in 2020 with the onset of COVID-19. Based on the result, larceny occurrences became randomized and hard to predict during the pandemic. By 2021, the repetitive tendency recovered to the before COVID-19 level. It is also conceivable that larceny was more likely to recur within the same area during the day than at night. The coefficients of PopDen consistently exhibit high values in a middle western area. According to Fig. <ref type="figure" target="#fig_10">8</ref>, this hotspot has a relatively high income level compared to the neighboring areas, suggesting a higher risk in the local populated and affluent area. In contrast, coefficients of PopDen decline in the northeastern central area where income levels are lower, indicating that the risk of larceny in populated areas may depend on the neighborhood wealth. In 2020, coefficients of PopDen slightly increased relative to other years. This was due to the increased chance of committing a larceny near one's home rather than in the city center owing to the movement restrictions during the pandemic. The increase in coefficients was particularly noticeable at night, suggesting a higher risk at nighttime in populated areas during the pandemic year.</p><p>The coefficients of Income and RacialHet, which are estimated to be nearly constant over time, are plotted for August 2019 in Fig. <ref type="figure" target="#fig_4">12</ref>. The coefficients on Income show large positive values in the southeastern area where income levels are low, suggesting that a higher income might increase the risk of larceny in this area. Although the coefficients of RacialHet tend to be high in several northwestern districts, their influence is marginal owing to their weak explanatory power, as shown in Table <ref type="table" target="#tab_4">5</ref>.</p><p>In summary, the proposed method effectively identified space-time patterns in multiple time scales within each coefficient in a computationally efficient manner. The modeling accuracy for crime was enhanced compared to the conventional spatial model (S), ignoring the temporal variation. Based on the empirical result, the determinants of larceny risk vary spatially but exhibit less temporal variation. This suggests that effective countermeasures need to be tailored to specific neighborhoods. Figure 12: Estimated varying coefficients of other explanatory variables in April 2019 during 12:00 -12:59. These coefficients are spatially varying but approximately constant over time.</p><p>applicability of our method for a wide variety of real-world problems.</p><p>The proposed STVC model is implemented in the resf_vc function in an R package spmoran (<ref type="url" target="https://cran.r-project.org/web/packages/spmoran/index.html">https://cran.r-project.org/web/packages/spmoran/   index.html</ref>). See a support site (<ref type="url" target="https://github.com/dmuraka/spmoran">https://github.com/dmuraka/spmoran</ref>) for details on how to implement this model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Appendix: Derivation of the marginal likelihood</head><p>Let us express our model (Eq. 11) as follows:</p><formula xml:id="formula_46">y = Xb + Z K V (Θ K ) 1/2 u K + ϵ, u K ∼ N (0, σ 2 I), ϵ ∼ N (0, σ 2 I), (<label>25</label></formula><formula xml:id="formula_47">)</formula><p>where</p><formula xml:id="formula_48">γ K = V (Θ K ) 1/2 u K . The model is expressed in distribution form as p(y, u K |b, Θ K , σ 2 ) = p(y|b, u K , Θ K , σ 2 )p(u K |σ 2 ), (<label>26</label></formula><formula xml:id="formula_49">)</formula><p>where</p><formula xml:id="formula_50">p(y|b, u K , Θ K , σ 2 ) = 1 (2πσ 2 ) N/2 exp - ϵ ′ ϵ 2σ 2 ,<label>(27)</label></formula><formula xml:id="formula_51">p(u K |Θ K , σ 2 ) = 1 (2πσ 2 ) L/2 exp - u ′ K u K 2σ 2 .<label>(28)</label></formula><p>L represents the dimension of u K . By multiplying Eqs. <ref type="bibr">(27 -28)</ref>, we have</p><formula xml:id="formula_52">p(y, u K |b, Θ K , σ 2 ) = 1 (2πσ 2 ) (N + L)/2 exp - ϵ ′ ϵ + u ′ K u K 2σ 2 .<label>(29)</label></formula><p>By applying the Taylor expansion around an estimate ĉK = [ b′ , û′</p><formula xml:id="formula_53">K ] ′ of c K = [b ′ , u ′ K ] ′ , we obtain log p(y, u K |b, Θ K , σ 2 ) = log p(y, ûK | b, Θ K , σ 2 )+ 1 2 (c K -ĉK ) ′ ∂ 2 log p(y, u K |b, Θ K , σ 2 ) ∂c K ∂c ′ K (c K -ĉK ),<label>(30)</label></formula><p>where no reminder terms exist because higher order terms are zero since y and c K are Gaussians. The Hessian matrix equals ∂ 2 log p(y,u K |b,Θ K ) <ref type="bibr" target="#b48">[49]</ref>.</p><formula xml:id="formula_54">∂c K ∂c ′ K = H K,K</formula><p>By organizing the equality, we have</p><formula xml:id="formula_55">ϵ ′ ϵ + u ′ K u K = ε′ ε + û′ K ûK + (c K -ĉK ) ′ H K,K (c K -ĉK ),<label>(31)</label></formula><p>where ε = y -X b -Z K V (Θ K ) 1/2 ûK . By substituting it into Eq. ( <ref type="formula" target="#formula_52">29</ref>), we have p(y, u K |b, Θ K , σ 2 ) = 1</p><formula xml:id="formula_56">(2πσ 2 ) (N + L)/2 exp - ε′ ε + û′ K ûK + (c K -ĉK ) ′ H K,K (c K -ĉK ) 2σ 2 = (2πσ 2 ) (P + L)/2 |H K,K | -1/2 (2πσ 2 ) (N -P )/2 exp - ε′ ε + ĉ′ K ĉK 2σ 2 × 1 (2πσ 2 ) (P + L)/2 |H K,K | -1/2 exp -(c K -ĉK ) ′ H K,K (c K -ĉK )<label>2σ 2 . (32)</label></formula><p>Because the third line represents the probability density function of c K ∼</p><formula xml:id="formula_57">N (ĉ K , σ 2 H -1 K,K ), 1 (2πσ 2 ) (P + L)/2 |H K,K | -1/2 exp -(c K -ĉK ) ′ H K,K (c K -ĉK ) 2σ 2 dc K = 1,<label>(33)</label></formula><p>Let us evaluate p(y|Θ K , σ 2 ) = p(y, u K |b, Θ K , σ 2 )dc K using Eq. ( <ref type="formula" target="#formula_57">33</ref>). Subsequently, we obtain</p><formula xml:id="formula_58">p(y|Θ K , σ 2 ) = |H K,K | -1/2 (2πσ 2 ) (N -P )/2 exp - ε′ ε + û′ K ûK 2σ 2 . (<label>34</label></formula><formula xml:id="formula_59">)</formula><p>The maximum likelihood estimate σ2 = ε′ ε+ û′ K ûK N -P of σ 2 is readily obtained by solving ∂p(y|Θ K ,σ 2 ) ∂σ 2 = 0. By substituting the estimate, the likelihood becomes</p><formula xml:id="formula_60">p(y|Θ K ) = |H K,K | -1/2 2π ε′ ε+ û′ K ûK N -P (N -P )/2 exp - N -P 2 .<label>(35)</label></formula><p>By taking the logarithm, our marginal log-likelihood (Eq. 13) is derived.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: (i) Spatial, (ii) temporal, and (iii) spatio-temporal patterns.</figDesc><graphic coords="3,142.63,124.80,326.00,105.49" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>E = [e 1</head><label>1</label><figDesc>, . . . , e L ] consists of the corresponding eigenvectors (L &lt; N ).<ref type="bibr" target="#b16">[17]</ref> proved that I[e l ] = cλ l , meaning that I[e 1 ] ≥ I[e 2 ], . . . , ≥ I[e L ], where I[e 1 ] = cλ 1 is the theoretical maximum of the Moran's I statistic and I[e L ] = cλ L ≈ 0. In other words, the L eigenvectors facilitate as basis functions describing positively dependent map patterns in each level.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>1) is rewritten by substituting Eqs.(2 -6) as follows: y(s, t) = P p=1 x p (s, t)b p + P p=1 x p (s, t) e(s), e(t 1 ), . . . , e(t Q ) γ 0 (i) and (ii)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>Synthetic samples are generated from Eq. (21) at 200 locations over 40 regular time points, assuming a circular period of 10. The spatial coordinates are generated from two uniform distributions. The samples are generated under the following scenarios for the true coefficients β 1 (s, t), β 2 (s, t), β 3 (s, t): (I) ST, STc int , LM, (II) ST, LM, STc int , (III) STc int , LM, LM. In each scenario, we fit six models assuming LM, S, ST, ST int , STc, STc int (Eq. 22) as the full specification for β p (s, t), while b p as the minimal specification. For each model, the elements in each coefficient are estimated/selected using our proposed procedure. The model estimation is repeated 400 times for each scenario, and the gap between the true coefficient values and their predictive means (see Eq. 16) is evaluated by the root mean squared error (RMSE).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: RMSEs of β 1 (s, t), β 2 (s, t), and β 3 (s, t) under scenarios (I -III) for the fitted models. The red dots represent the RMSE values obtained by fitting the true model.</figDesc><graphic coords="20,133.77,254.74,353.27,190.92" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: RMSE of the STVC estimates</figDesc><graphic coords="24,133.77,132.50,354.33,326.84" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: RMSE of the predictive values</figDesc><graphic coords="24,135.55,506.57,340.16,134.62" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>β 2 (s, t) and β 3 (s, t) are the strong and weak STVCs in Scenario I, respectively. Scenario II replaces the weak STVC with a weak SVC defined as β 3 (s, t) = b 2 + τ 2 [w 2 (s)]. Scenario III replaces the strong STVC in Scenario I with a strong SVC. Considering the computational cost of GTWR, this section assumes 1,000 samples observed at 10 regular time points at 100 locations, with coordinates generated by uniform distributions.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Boxplots of the RMSEs for the regression coefficients.</figDesc><graphic coords="27,133.77,227.24,368.51,319.21" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 6 :Figure 7 :</head><label>67</label><figDesc>Figure 6: Larceny density by month (left) and hour (right)</figDesc><graphic coords="28,133.77,471.66,352.57,127.22" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 8 :</head><label>8</label><figDesc>Figure 8: Covariates in April 2019</figDesc><graphic coords="30,133.77,328.58,349.44,101.95" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 9 :</head><label>9</label><figDesc>Figure 9: Estimated varying intercept in April by month by hour</figDesc><graphic coords="33,133.77,222.70,345.83,328.30" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 10 :</head><label>10</label><figDesc>Figure 10: Estimated varying coefficient of LarcenyPre in April by month by hour</figDesc><graphic coords="34,133.77,308.09,345.65,323.65" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 11 :Figure 12 :</head><label>1112</label><figDesc>Figure 11: Estimated varying coefficient of PopDen in April by month by hour</figDesc><graphic coords="36,133.77,129.55,345.12,324.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><graphic coords="29,133.77,255.81,357.36,262.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Proportions of each element w p (s), w p (t 1 ), w p (t 2 ), w p (s, t 1 ), w p (s, t 2 ) selected over the Monte Carlo iterations. Existing elements, which should be selected, are shown in bold. w p (s) w p (t 1 ) w p (t 2 ) w p (s, t 1 ) w p (s, t 2 )</figDesc><table><row><cell></cell><cell>β 1 (s, t)</cell><cell>1.00</cell><cell>1.00</cell><cell>0.34</cell><cell>0.52</cell><cell>0.17</cell></row><row><cell>Case 1</cell><cell>β 2 (s, t)</cell><cell>1.00</cell><cell>1.00</cell><cell>1.00</cell><cell>1.00</cell><cell>0.95</cell></row><row><cell></cell><cell>β 3 (s, t)</cell><cell>0.33</cell><cell>0.17</cell><cell>0.07</cell><cell>0.03</cell><cell>0.03</cell></row><row><cell></cell><cell>β 1 (s, t)</cell><cell>1.00</cell><cell>1.00</cell><cell>0.41</cell><cell>0.25</cell><cell>0.06</cell></row><row><cell>Case 2</cell><cell>β 2 (s, t)</cell><cell>0.37</cell><cell>0.59</cell><cell>0.23</cell><cell>0.02</cell><cell>0.04</cell></row><row><cell></cell><cell>β 3 (s, t)</cell><cell>1.00</cell><cell>1.00</cell><cell>0.99</cell><cell>1.00</cell><cell>0.89</cell></row><row><cell></cell><cell>β 1 (s, t)</cell><cell>1.00</cell><cell>1.00</cell><cell>1.00</cell><cell>1.00</cell><cell>0.93</cell></row><row><cell>Case 3</cell><cell>β 2 (s, t)</cell><cell>0.92</cell><cell>0.75</cell><cell>0.26</cell><cell>0.58</cell><cell>0.28</cell></row><row><cell></cell><cell>β 3 (s, t)</cell><cell>0.94</cell><cell>0.81</cell><cell>0.38</cell><cell>0.58</cell><cell>0.28</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Mean standard deviation of the true and estimated coefficients. For the latter, the only coefficients that are estimated varying (i.e., not constant) are used for the evaluation.(s, t) β 2 (s, t) β 3 (s, t) β 1 (s, t) β 2 (s, t) β 3 (s, t)</figDesc><table><row><cell></cell><cell></cell><cell>True</cell><cell></cell><cell></cell><cell>Estimate</cell><cell></cell></row><row><cell>β 1 Case 1</cell><cell>1.00</cell><cell>2.00</cell><cell>0.00</cell><cell>1.01</cell><cell>1.81</cell><cell>0.09</cell></row><row><cell>Case 2</cell><cell>1.00</cell><cell>0.00</cell><cell>1.00</cell><cell>1.00</cell><cell>0.06</cell><cell>0.96</cell></row><row><cell>Case 3</cell><cell>1.00</cell><cell>0.00</cell><cell>0.00</cell><cell>0.90</cell><cell>0.14</cell><cell>0.14</cell></row></table><note><p>p (s, t 2 ) are set as 20.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 4</head><label>4</label><figDesc>ST and ST int ) or space-time interactions (ST int and STc int )</figDesc><table><row><cell>summarizes the error statistics and computation time. LM achieves</cell></row><row><cell>a reasonable accuracy because it implicitly considers dynamic spatio-temporal</cell></row><row><cell>patterns through LarcenyPre. However, S demonstrates superior adjusted R-</cell></row><row><cell>squares (R 2 adj ), log-likelihood, and BIC values, indicating that SVC greatly im-</cell></row><row><cell>proves the modeling accuracy. The accuracy is further improved by considering</cell></row><row><cell>temporal patterns (</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 :</head><label>4</label><figDesc>Error statistics and computation time (CP time) in seconds. R2   </figDesc><table><row><cell>adj</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 :</head><label>5</label><figDesc>Variance explained by each regression term x p (s, t) βp (s, t) in STc int .</figDesc><table><row><cell cols="5">Intercept LarcenyPre PopDen Income RacialHet</cell></row><row><cell>0.114</cell><cell>0.146</cell><cell>0.107</cell><cell>0.024</cell><cell>0.015</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 :</head><label>6</label><figDesc>Proportion of the variances in the varying coefficients estimated by STc int . Zeros, representing the unselected variables, are omitted for simplicity.</figDesc><table><row><cell></cell><cell cols="5">Intercept LarcenyPre PopDen Income RacialHet</cell></row><row><cell>Spatial</cell><cell>0.922</cell><cell>0.624</cell><cell>0.854</cell><cell>0.958</cell><cell>0.983</cell></row><row><cell>Month</cell><cell>0.008</cell><cell>0.284</cell><cell>0.051</cell><cell>0.013</cell><cell>0.016</cell></row><row><cell>Hour</cell><cell>0.048</cell><cell>0.092</cell><cell>0.047</cell><cell>0.029</cell><cell>0.001</cell></row><row><cell>Spatial×Month</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Spatial×Hour</cell><cell>0.022</cell><cell></cell><cell>0.048</cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_0"><p>It is derived by marginalizing b and γ K from the full likelihood. As explained in Section 6.2.6 of<ref type="bibr" target="#b47">[48]</ref>, it is a marginal log-likelihood in a Bayesian fashion, which is obtained by considering γ K ∼ N (0, V (Θ K )) as a Gaussian prior. It is a type of restricted likelihood.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>The absolute values of τ 2 p , τ 2 p,q , τ 2 p,q(st) do not change the result because the variances are rescaled by the [•] operator</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>Since the cyclic temporal basis function is not implemented in the mgcv package, the cyclic basis functions are approximated by acyclic ones.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_3"><p>The kernel of GWR is defined by an exponentially-decaying function of spatial distance only. In other words, regardless of the time difference, the local weights on any two locations are the same if they have the same spatial distance from the regression point. The bandwidth is estimated by maximizing the AICc.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_4"><p>LarenyPre is a temporal lag of the explained variable. Although the least squares estimator of the coefficient is biased, it is consistent under standard assumptions (e.g.,<ref type="bibr" target="#b1">[2]</ref>), meaning that the bias asymptotically disappears for large samples like our case. Besides, if explained variables are normally distributed, as we assumed, the estimator has asymptotic optimal properties<ref type="bibr" target="#b27">[28]</ref>. Therefore, LarcenyPre is treated same as other covariates, and the coefficient is estimated using the penalized least squares estimator (Eq. 14).</p></note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Comparison with GAM</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.1">Outline</head><p>This section compares STc int with GAM, a scalable alternative for large samples.</p><p>We consider two specifications called GAM and GAM2. GAM defines each STVC by [non-cyclic interaction process] + [cyclic interaction process]. These interaction processes are defined by the product of space and temporal basis functions approximating GPs (see <ref type="bibr" target="#b23">[24]</ref>) 5 . GAM2 defines each STVC by [abovementioned interaction terms] + [pure spatial process] + [non-cyclic temporal process] + [cyclic temporal process]. Thus, GAM2 is more consistent with STc int .</p><p>GAM and GAM2 are implemented using the R package mgcv (<ref type="url" target="https://cran.r-project.org/web/packages/mgcv/index.html">https:   //cran.r-project.org/web/packages/mgcv/index.html</ref>). Their basis functions are selected using the method of <ref type="bibr" target="#b30">[31]</ref>, which is implemented in the package.</p><p>Although we tried to consider the same number of basis functions as our STc int , the resulting GAMs became too slow to use in the simulation. Therefore, we rely on the default basis dimension settings in mgcv.</p><p>The modeling accuracy of these models is compared by fitting them on synthetic data generated from the following STVC model:</p><formula xml:id="formula_61">y i,t = β 1 (s, t) + x 2 (s, t)β 2 (s, t) + x 3 (s, t)β 3 (s, t) + ϵ(s, t) ϵ(s, t) ∼ N (0, σ 2 ), β p (s, t) = b p + τ p [w p (s) + w p (t 1 ) + w p (t 2 ) + w p (s, t 1 ) + w p (t 2 )], (<label>23</label></formula><formula xml:id="formula_62">)</formula><p>where the standard deviations of the varying coefficients are {τ 1 , τ 2 , τ 3 } = {1, 2, 0.5}, meaning that β 2 (s, t) is the strong STVC while β 3 (s, t) is a weak STVC, similar to the previous experiment. The cyclic time periods for w p (t 2 )</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Concluding remarks</head><p>This study develops a scalable STVC model and a procedure to select the optimal varying coefficient specification. Unlike existing methods, the proposed method explicitly distinguishes between the main/non-interaction and interaction effects. The resulting method accurately and computationally efficiently identifies multiple spatial and temporal processes within regression coefficients, as demonstrated in Monte Carlo experiments. Additionally, through crime modeling, it is also confirmed that the proposed method provides intuitively reasonable coefficient estimates.</p><p>Cyclic temporal patterns by hour, day of the week, and season are ubiquitous as well as dynamic temporal patterns. As demonstrated in Section 5, the strength of some regression coefficients exhibits cyclic patterns. Nevertheless, cyclic patterns have rarely been considered in STVC modeling. Our empirical study highlights the importance of considering not just spatial but also cyclic and non-cyclic temporal (and space-time) patterns in regression coefficients.</p><p>However, some challenges remain to be resolved. Specifically, the developed method assumes a Gaussian explained variable. Algorithm must be extended to handle counts, binary, or other non-Gaussian data. An extension under the generalized linear model framework appears promising to overcome this limitation, although a time consuming iteration of the weighed least squares estimation is likely needed. Alternatively, transforming the explained variables is another approach that potentially avoids such an additional iteration. In fact, a Gaussian SVC model has been extended to various non-Gaussian models by introducing a flexible transformation function, as shown in <ref type="bibr" target="#b35">[36]</ref>. A similar transformation approach is also available to approximate a Poisson model for count data with accuracy comparable to the usual generalized linear model <ref type="bibr" target="#b36">[37]</ref>. The introduction of these transformation functions would enhance the</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Near-repeat victimization of sex crimes and threat incidents against women and girls in tokyo, japan</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Amemiya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Shimada</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Crime Science</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="1" to="6" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Time series: Theory and methods</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Brockwell</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1991">1991</date>
+			<publisher>Springer-Verlag</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Using geographically weighted regression to explore local crime patterns</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cahill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mulligan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science Computer Review</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="174" to="193" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Classes of nonseparable, spatio-temporal stationary covariance functions</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-C</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical association</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="issue">448</biblScope>
+			<biblScope unit="page" from="1330" to="1339" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Basis-function models in spatial statistics</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sainsbury-Dale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zammit-Mangion</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual Review of Statistics and Its Application</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="373" to="400" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Hierarchical nearest-neighbor gaussian process models for large geostatistical datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">514</biblScope>
+			<biblScope unit="page" from="800" to="812" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">On nearest-neighbor gaussian process models for massive spatial data</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Wiley Interdisciplinary Reviews: Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="162" to="171" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Product-sum covariance for spacetime modeling: an environmental application</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>De Cesare</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Myers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Posa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics: The official journal of the International Environmetrics Society</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="11" to="23" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">A note on bic in mixed-effects models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Delattre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lavielle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M.-A</forename><surname>Poursat</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial modelling: a comprehensive framework for principal coordinate analysis of neighbour matrices (pcnm)</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">R</forename><surname>Peres-Neto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological modelling</title>
+		<imprint>
+			<biblScope unit="volume">196</biblScope>
+			<biblScope unit="issue">3-4</biblScope>
+			<biblScope unit="page" from="483" to="493" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Efficient algorithms for bayesian nearest neighbor gaussian processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Morton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">E</forename><surname>Andersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="401" to="414" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Statistical analysis of circular data</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">I</forename><surname>Fisher</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>Cambridge University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Geographical and temporal weighted regression (gtwr)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Covariance tapering for interpolation of large spatial datasets</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Genton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="502" to="523" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Nonseparable, stationary covariance functions for space-time data</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gneiting</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">458</biblScope>
+			<biblScope unit="page" from="590" to="600" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<title level="m">Spatial Autocorrelation and Spatial Filtering: Gaining Understanding Through Theory and Scientific Visualization</title>
+		<imprint>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Exploring the efficacy of statistical and deep learning methods for large spatial datasets: A case study</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Hazra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Nag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Yadav</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="24" />
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Spatial-temporal characteristics and influencing factors of land-use carbon emissions: an empirical analysis based on the gtwr model</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2023">2023</date>
+			<publisher>Land</publisher>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page">1506</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A case study competition among methods for analyzing large spatial data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Heaton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Guinness</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Guhaniyogi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Gerber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Gramacy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hammerling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Katzfuss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="398" to="425" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Exploring the spatial and temporal driving mechanisms of landscape patterns on habitat quality in a city undergoing rapid urbanization based on gtwr and mgwr: The case of nanjing, china</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Indicators</title>
+		<imprint>
+			<biblScope unit="volume">143</biblScope>
+			<biblScope unit="page">109333</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Geographically and temporally weighted regression for modeling spatio-temporal variation in house prices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International journal of geographical information science</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="383" to="401" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Spatial analysis of wave direction data using wrapped Gaussian processes</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Jona-Lasinio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jona-Lasinio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="1478" to="1498" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Geoadditive models</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Kammann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Wand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society Series C: Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">An enhanced geographically and temporally weighted neural network for remote sensing estimation of surface ozone</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Shen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Geoscience and Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">An explicit link between gaussian fields and gaussian markov random fields: the stochastic partial differential equation approach</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lindström</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society Series B: Statistical Methodology</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="423" to="498" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">A mixed geographically and temporally weighted regression: Exploring spatial-temporal variations from global and local perspectives</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Qiu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Entropy</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">53</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Applied time series econometrics</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lütkepohl</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<publisher>Cambridge University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Statistics of Directional Data</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">V</forename><surname>Mardia</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1972">1972</date>
+			<publisher>Academic</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">V</forename><surname>Mardia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">E</forename><surname>Jupp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Directional Statistics</title>
+		<imprint>
+			<date type="published" when="2000">2000</date>
+			<publisher>Wiley</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Practical variable selection for generalized additive models</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Marra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="2372" to="2387" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Eigenvector spatial filtering for large data sets: fixed and random effects approaches</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="23" to="49" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient modeling for large datasets: Eliminating n from spatial regressions</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="39" to="64" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A memory-free spatial additive mixed modeling for big spatial data</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Japanese Journal of Statistics and Data Science</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="215" to="241" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Scalable model selection for spatial additive mixed modeling: Application to crime analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kajita</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kajita</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page">577</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Compositionallywarped additive mixed modeling for a wide variety of non-gaussian spatial data</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kajita</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kajita</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Matsui</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page">100520</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Improved log-gaussian approximation for over-dispersed poisson regression: application to spatial analysis of covid-19</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Matsui</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PloS one</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">260836</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">30 years of space-time covariance functions</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Porcu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Wiley Interdisciplinary Reviews: Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">1512</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Bias-reduced marginal akaike information criteria based on a monte carlo method for linear mixed-effects models</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Sakamoto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scandinavian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="87" to="115" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Space and circular time log Gaussian Cox processes with application to crime event data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Shirota</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="481" to="503" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sifriyani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Rasjid</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Rosadi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Anwar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Wahyuni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jalaluddin</surname></persName>
+		</author>
+		<title level="m">Spatial-temporal epidemiology of covid-19 using a geographically and temporally weighted regression model. Symmetry</title>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page">742</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Penalising model component complexity: A principled, practical approach to constructing priors</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riebler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Martins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Sørbye</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Limitations on low rank approximations for covariance matrices of spatial data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Reluctant generalised additive modelling</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Tay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">S205-S224</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">88</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Modeling space and space-time directional data using projected gaussian processes</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="issue">508</biblScope>
+			<biblScope unit="page" from="1565" to="1580" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Gaussian processes for regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rasmussen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in neural information processing systems</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Fast stable restricted maximum likelihood and marginal likelihood estimation of semiparametric generalized linear models</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society Series B: Statistical Methodology</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="3" to="36" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<monogr>
+		<title level="m" type="main">Generalized additive models: an introduction with R</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<publisher>CRC press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Generalized additive models for gigadata: modeling the uk black smoke network daily data</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Shaddick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">H</forename><surname>Augustin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="issue">519</biblScope>
+			<biblScope unit="page" from="1199" to="1210" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">A geographically and temporally weighted autoregressive model with application to housing prices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1186" to="1204" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically and temporally weighted regression: Exploring the spatiotemporal determinants of housing prices</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Ren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Du</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="489" to="511" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Geographically and temporally neural network weighted regression for modeling spatiotemporal non-stationary relationships</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="582" to="608" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bien</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1907.08414</idno>
+		<title level="m">Reluctant interaction modeling</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

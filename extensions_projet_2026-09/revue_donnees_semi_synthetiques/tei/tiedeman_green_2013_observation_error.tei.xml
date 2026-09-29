@@ -1,0 +1,1392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Effect of correlated observation error on parameters, predictions, and uncertainty</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2013-10-07">7 October 2013.</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Claire</forename><forename type="middle">R</forename><surname>Tiedeman</surname></persName>
+							<email>tiedeman@usgs.gov</email>
+							<affiliation key="aff0">
+								<orgName type="department">Water Resources Discipline</orgName>
+								<orgName type="institution">U.S. Geological Survey</orgName>
+								<address>
+									<addrLine>Menlo Park</addrLine>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Christopher</forename><forename type="middle">T</forename><surname>Green</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Water Resources Discipline</orgName>
+								<orgName type="institution">U.S. Geological Survey</orgName>
+								<address>
+									<addrLine>Menlo Park</addrLine>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="institution">U.S. Geological Survey</orgName>
+								<address>
+									<addrLine>345 Middlefield Rd.</addrLine>
+									<postCode>94025</postCode>
+									<settlement>Menlo Park</settlement>
+									<region>CA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Effect of correlated observation error on parameters, predictions, and uncertainty</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2013-10-07">7 October 2013.</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">0831ECAA7EEDC886A0A8A20EE56358E4</idno>
+					<idno type="DOI">10.1002/wrcr.20499</idno>
+					<note type="submission">Received 27 December 2012; revised 14 August 2013; accepted 23 August 2013;</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:10+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Correlations among observation errors are typically omitted when calculating observation weights for model calibration by inverse methods. We explore the effects of omitting these correlations on estimates of parameters, predictions, and uncertainties. First, we develop a new analytical expression for the difference in parameter variance estimated with and without error correlations for a simple one-parameter two-observation inverse model. Results indicate that omitting error correlations from both the weight matrix and the variance calculation can either increase or decrease the parameter variance, depending on the values of error correlation () and the ratio of dimensionless scaled sensitivities (r dss ). For small , the difference in variance is always small, but for large , the difference varies widely depending on the sign and magnitude of r dss . Next, we consider a groundwater reactive transport model of denitrification with four parameters and correlated geochemical observation errors that are computed by an error-propagation approach that is new for hydrogeologic studies. We compare parameter estimates, predictions, and uncertainties obtained with and without the error correlations. Omitting the correlations modestly to substantially changes parameter estimates, and causes both increases and decreases of parameter variances, consistent with the analytical expression. Differences in predictions for the models calibrated with and without error correlations can be greater than parameter differences when both are considered relative to their respective confidence intervals. These results indicate that including observation error correlations in weighting for nonlinear regression can have important effects on parameter estimates, predictions, and their respective uncertainties.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>[2] A diagonal weight matrix commonly is used to represent system-state observation errors in inverse models of groundwater systems, with the weights calculated as the inverse of observation error variances [e.g., <ref type="bibr" target="#b25">Hill and Tiedeman, 2007;</ref><ref type="bibr" target="#b44">Singh et al., 2008;</ref><ref type="bibr" target="#b27">James et al., 2009;</ref><ref type="bibr" target="#b31">Liu and Kitanidis, 2011;</ref><ref type="bibr" target="#b33">Majdalani and Ackerer, 2011;</ref><ref type="bibr">Kowalski et al., 2012;</ref><ref type="bibr" target="#b51">Yoon and McKenna, 2012]</ref>. This representation and other common simplifications assume there are no observation error correlations. The necessary methods for including error correlations in inverse modeling have been available for decades [e.g., <ref type="bibr" target="#b37">Neuman and Yakowitz, 1979;</ref><ref type="bibr" target="#b10">Cooley, 1982;</ref><ref type="bibr" target="#b7">Carrera and Neuman, 1986;</ref><ref type="bibr" target="#b34">McLaughlin and Townley, 1996;</ref><ref type="bibr" target="#b25">Hill and Tiedeman, 2007]</ref> and can be implemented, for example, using the inverse modeling software PEST <ref type="bibr" target="#b14">[Doherty, 2008</ref><ref type="bibr" target="#b15">[Doherty, , 2010] ]</ref> and UCODE_2005 <ref type="bibr" target="#b39">[Poeter et al., 2005]</ref>. The methods include the correlations by allowing for a full observation variance-covariance matrix to represent observation errors ; this matrix is inverted to obtain the full weight matrix. However, despite availability of these methods, difficulties with quantifying the terms that characterize observation error correlations often lead to their omission and to using a diagonal observation weight matrix for convenience.</p><p>[3] Various types of error correlations are widespread in hydrologic models. Error correlations can result from phenomena such as barometric pumping of wells <ref type="bibr" target="#b50">[Weeks, 1979]</ref> and entrapped air in the unsaturated zone <ref type="bibr" target="#b22">[Healy and Cook, 2002]</ref> that create spatially and temporally correlated anomalies in groundwater levels. Correlations in errors arise also from use of multiple observations that derive from a single direct measurement, a common situation in hydrologic studies. For example, the water table elevation at a monitoring well is usually calculated from measurements of well elevation and depth of water, so error in the well elevation propagates to all head observations over time at that well. Streamflow observations are usually estimated as nonlinear functions of water depth and empirical rating curve constants. For both stream and groundwater depth, estimates often depend on the nonlinear equations and empirical constants used to estimate pressure from the voltage and temperature at a pressure transducer <ref type="bibr" target="#b18">[Freeman et al., 2004]</ref>. Additional examples include multiple observations of temporal changes in hydraulic heads that depend on an instantaneous head measurement [e.g., <ref type="bibr" target="#b26">Hill et al., 2000]</ref> and multiple observations of flow-change between stream gauging stations that depend on a single flow estimate. Although error correlations in hydrologic models have not been extensively characterized, these and other examples indicate that error correlations are potentially widespread.</p><p>[4] In this work, we explore the effect of system-state observation error correlations on parameter estimates, predictions, and uncertainty measures. We use both an analytical expression and a groundwater reactive transport model of denitrification to compare results obtained with and without error correlations. For the transport model, geochemical observation errors are correlated because selected direct measurements are used to calculate more than one calibration observation. The correlations are calculated by propagation of measurement error, a method that has precedence for geochemical data [e.g., <ref type="bibr" target="#b3">Ballentine and Hall, 1999;</ref><ref type="bibr" target="#b0">Aeschbach-Hertig et al., 1999</ref><ref type="bibr">, 2000;</ref><ref type="bibr" target="#b38">Peeters et al., 2002]</ref> but, to our knowledge, has not been used previously to calculate error correlations in observation weight matrices for hydrogeologic investigations. <ref type="bibr" target="#b24">Hill [1992]</ref> and <ref type="bibr" target="#b9">Christensen et al. [1998]</ref> use a less general approach applied to streamflow gains and losses. In the context of inverse modeling, full weight matrices can be used to represent observation, model, and parameter error.</p><p>[5] Few groundwater studies have considered correlated observation errors. <ref type="bibr" target="#b9">Christensen et al. [1998]</ref> used a full weight matrix to represent correlated error in base flows, by expanding the method proposed by <ref type="bibr" target="#b24">Hill [1992]</ref> to derive the error covariance terms for a system of branching streams. <ref type="bibr" target="#b9">Christensen et al. [1998]</ref> did not compare results using a full and a diagonal weight matrix, but <ref type="bibr" target="#b17">Foglia et al. [2009]</ref> reported that an unpublished follow-up comparison found that base flow error correlations had a small effect on the parameter estimates but a larger effect on parameter uncertainty.</p><p>[6] <ref type="bibr" target="#b11">Cooley [2004]</ref> accounted for both observation and model errors in the weight matrix, by summing the variance-covariance matrices of the two error types. Model error was formulated as the difference between stochastic representations of the true and the spatially averaged parameter distributions. <ref type="bibr" target="#b12">Cooley and Christensen [2006]</ref> and <ref type="bibr" target="#b8">Christensen and Doherty [2008]</ref> used synthetic models to examine the consequences of using a diagonal instead of a correct full weight matrix calculated by the method of <ref type="bibr" target="#b11">Cooley [2004]</ref>. Their weight matrices were dominated by model error. <ref type="bibr" target="#b12">Cooley and Christensen [2006]</ref> reported that the variance of head prediction residuals was larger in a model calibrated with a full weight matrix compared to the same model calibrated with a diagonal weight matrix. They also found that confidence intervals on predictions calculated with a diagonal weight matrix were much too small whereas those calculated with a full weight matrix were nearly correct. Their results underscore the importance of using the correct full weight matrix when observation and model error correlations exist. <ref type="bibr" target="#b8">Christensen and Doherty [2008]</ref> found that inversion with a full weight matrix produced less accurate predictions, in contrast to expected results based <ref type="bibr" target="#b11">on Cooley [2004]</ref>. They noted that their result was most likely related to difficulties with generating (by a Monte Carlo method) and inverting the variancecovariance matrix of total error. <ref type="bibr" target="#b32">Lu et al. [2013]</ref> considered correlations between total errors in the context of weighting for model averaging. They found that using the variancecovariance matrix of total errors to calculate the weights resulted in better predictive performance for models of both synthetic and experimental uranium transport, compared to using the variance-covariance matrix of observation errors.</p><p>[7] A full weight matrix commonly is used for parameter errors. For example, when pilot points and regularization are used to estimate the spatial variability of a parameter field, a full variance-covariance matrix for prior information error often is used to represent the spatial correlation of these errors [e.g., <ref type="bibr" target="#b4">Bentley, 1997;</ref><ref type="bibr" target="#b2">Alcolea et al., 2006;</ref><ref type="bibr" target="#b44">Singh et al., 2008;</ref><ref type="bibr" target="#b23">Hendricks-Franssen et al., 2009]</ref>. To our knowledge, there are no studies that evaluate the effect of including versus excluding these correlated errors.</p><p>[8] The implications of observation error correlations extend also to Bayesian methods in hydrologic modeling. In rainfall-runoff modeling, streamflows are the primary system-state observations used for calibration. Observation errors largely stem from using stage-discharge rating curves to determine the flows [e.g., <ref type="bibr" target="#b35">McMillan et al., 2010]</ref> and these errors can be correlated as suggested by <ref type="bibr" target="#b17">Foglia et al. [2009]</ref>. Recent rainfall-runoff modeling research has comprehensively examined methods for characterizing both model and observation error and its effect on prediction uncertainty [e.g., <ref type="bibr" target="#b47">Thyer et al., 2009;</ref><ref type="bibr" target="#b42">Schoups and Vrugt, 2010;</ref><ref type="bibr" target="#b40">Renard et al., 2010</ref><ref type="bibr" target="#b41">Renard et al., , 2011]]</ref>. In these papers, error models are developed for the different error sources, and the parameters of these models are estimated together with rainfall-runoff model parameters. The results show that error correlations can be pronounced and that accurate estimates of observation uncertainty are critical for predictive capabilities and for the decomposition of input and structural errors <ref type="bibr" target="#b47">[Thyer et al., 2009;</ref><ref type="bibr" target="#b40">Renard et al., 2010]</ref>.</p><p>[9] In this paper, we first present methods for model calibration, error propagation, and calculation of uncertainty. We next consider parameter uncertainty in a simple oneparameter, two-observation inverse model, and derive a new analytical expression for the errors in uncertainty estimates when observation error correlations are omitted. For this model, we also compare uncertainty estimates that are typically obtained in practice with those derived from theoretical calculation of the variances. A reactive transport model of denitrification is then introduced, calibrated using both full and diagonal weight matrices, and used to predict future nitrate concentrations and uncertainty. Model error is accounted for by considering multiple realizations of the geology. The derived analytical expression helps to explain the differences in reactive transport model parameter uncertainty in the calibrations with and without error correlations and provides some general guidance about the importance of using a full weight matrix in inverse models for which observation errors are correlated. Results are expected to have broad relevance, as most of the methods and analyses presented here for exploring the effects of correlated errors apply regardless of the source of these errors.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Nonlinear Regression and Weighting</head><p>[10] In this work, parameters are estimated by weighted least squares nonlinear regression using the Gauss-Marquardt-Levenberg method implemented in PEST <ref type="bibr" target="#b14">[Doherty, 2008]</ref>. This method minimizes the following objective function, which is a measure of model fit to the observations <ref type="bibr">[Hill and Tiedeman 2007, p. 28]</ref>:</p><formula xml:id="formula_0">S ¼ e T xe ¼ y À y 0 b ð Þ ½ T x y À y 0 b ð Þ ½ ð<label>1Þ</label></formula><p>where e ¼ y À y 0 (b) is the residual vector of length nd, y is a vector of nd observed values, y 0 (b) is a vector of nd simulated equivalents, b is a vector of np parameter values, and x is the nd Â nd observation weight matrix that can be diagonal or full. Individual residuals are</p><formula xml:id="formula_1">e i ¼ y i À y 0 i b ð Þ.</formula><p>[11] If the observation weight matrix x is defined as being proportional to the inverse of the observation error variance-covariance matrix, then the parameters estimated by weighted linear regression will have the smallest possible variance <ref type="bibr">[Hill and Tiedeman, 2007, p. 34]</ref>. <ref type="bibr">Cooley [2004, pp. 133-134]</ref> showed that this statement also is valid for nonlinear regression. When observation errors are correlated, a full weight matrix x full is needed:</p><formula xml:id="formula_2">x full ¼ V full ð Þ À1<label>ð2Þ</label></formula><p>where V full () is the full variance-covariance matrix of the observation errors , containing off-diagonal elements that quantify the correlations. In this paper, the term ''full'' denotes a matrix containing at least one nonzero offdiagonal term. When observation errors are uncorrelated or when correlations are omitted, a diagonal weight matrix x diag is used:</p><formula xml:id="formula_3">x diag ¼ V diag ð Þ À1<label>ð3Þ</label></formula><p>where V diag () is the diagonal observation variancecovariance matrix, with the diagonal elements equal to:</p><formula xml:id="formula_4">! ii ¼ 1= 2 yi ; i ¼ 1; nd<label>ð4Þ</label></formula><p>where ! ii is the weight for observation y i and 2 y i is the observation error variance. <ref type="bibr">Hill and Tiedeman [2007, Appendix A.3</ref>] discuss the assumptions required for diagonal weighting to be correct.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Calculating Observation Error Variance-Covariance Matrix by First-Order Error Propagation</head><p>[12] When calibration observations are derived from multiple direct measurements, the observation error variances and covariances can be estimated by propagating the measurement error (Figure <ref type="figure" target="#fig_0">1</ref>) [e.g., <ref type="bibr" target="#b43">Sherman, 1989;</ref><ref type="bibr" target="#b45">Tellinghuisen, 2001;</ref><ref type="bibr" target="#b16">Feldman et al., 2008]</ref>. As discussed in section 1, derived observations commonly are used to calibrate hydrologic models. Issues of measurement error propagation are, therefore, widely applicable to hydrologic models and are likely to become increasingly important as geochemical data and estimates of groundwater ages are used more frequently to calibrate models.</p><p>[13] Let observations y i and y k be expressed as linear or nonlinear functions of nm independent measurements, u 1 . . . u nm :</p><formula xml:id="formula_5">y i ¼ f i u 1 . . . u nm ð Þ y k ¼ f k u 1 . . . u nm ð Þ<label>ð5Þ</label></formula><p>The first-order, second-moment error-propagation equations for calculating the error variance of observation y i and the error covariance of observations y i and y k , derived using a first-order Taylor series expansion, are: <ref type="bibr">[Meyer, 1992, pp. 40</ref> and 45] where 2 u ' is the error variance of measurement u l , 2 y i is the error variance of observation y i , and y i y k is the error covariance for observations y i and y k . Equation ( <ref type="formula" target="#formula_6">6</ref>) is used to calculate the diagonal elements of both V diag () and V full (). Equation ( <ref type="formula" target="#formula_7">7</ref>) is used to calculate the off-diagonal elements of V full () and is nonzero when the same measurement u l is used to calculate more than one observation. The equations are evaluated at the expected values of the measurements used to estimate a specific observation. Multiple measurements of the same type can be averaged to provide a single expected value, depending on the type of observation (e.g., time averaged or temporally varying). Additional terms containing measurement covariances are present in both equations if the errors of the measured quantities u 1 . . . u nm are correlated <ref type="bibr">[Meyer, 1992, pp. 40 and 45]</ref>. Compared to these additional terms, the measurement error variance terms shown in equations ( <ref type="formula" target="#formula_6">6</ref>) and (7) tend to dominate the uncertainty calculated by the error-propagation equations <ref type="bibr">[Bevington and Robinson, 1992, p. 43]</ref>. Investigation of measurement error correlations is a topic for possible future research.</p><formula xml:id="formula_6">2 yi ¼ X nm '¼1 @f i @u ' 2 2 u'<label>ð6Þ</label></formula><formula xml:id="formula_7">yiyk ¼ X nm '¼1 @f i @u ' @f k @u ' 2 u'<label>ð7Þ</label></formula><p>[14] Observation error correlations are often more intuitively understandable than the covariances in equation ( <ref type="formula" target="#formula_7">7</ref>), and are calculated using elements of V full ():</p><formula xml:id="formula_8">ik ¼ yiyk yi yk<label>ð8Þ</label></formula><p>Correlations can range from À1.0 to 1.0, with larger absolute values indicating a greater degree of correlation. <ref type="bibr">[15]</ref> In this study, we compare two scenarios to obtain insight into the effects on parameter and prediction uncertainty of omitting observation error correlations. In the first scenario, the error correlations are known, have been correctly quantified, and are included in the observation weighting (i.e., a full matrix is used) and in the calculation of parameter uncertainty. In the second scenario, the error correlations are omitted in both the weighting (i.e., a diagonal matrix is used) and the calculation of uncertainty, as is common in practice. For both these scenarios, we estimate parameter uncertainty using the parameter variancecovariance matrix V(b) calculated as:</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Parameter and Prediction Uncertainty</head><formula xml:id="formula_9">V b ð Þ ¼ s 2 X T xX À Á À1<label>ð9aÞ</label></formula><p>where s 2 ¼ S/(nd À np) is the calculated error variance of the regression and X is a nd Â np matrix of observation sensitivities @y 0 i b ð Þ=@b j . For nonlinear models, X generally differs for different sets of parameter values. Estimated parameter variances 2 b j are the diagonal terms of V(b).</p><p>[16] In the first scenario of this study, with the full weight matrix calculated as the inverse of the full observation error variance-covariance matrix, equation (9a) is the theoretically correct expression for V(b). It is produced by solving for the variance-covariance matrix of the parameter vector and defining the observation weight matrix as the inverse of the error variance-covariance matrix <ref type="bibr">[Hill and Tiedeman, 2007, pp. 396-398]</ref>. In the second scenario (and in common practice), we use equation (9a) under the assumption that the error correlations are not known, or are assumed to be negligible, and thus are absent from both x and V(). That is, a diagonal weight matrix is assumed to arise from a diagonal V(), as in equation (3). Our approach presumes that if the error correlations have been quantified, resulting in a known full V(), then a full weight matrix will be used that accounts for them, rather than a diagonal weight matrix that does not.</p><p>[17] When error correlations exist but are omitted from the weight matrix for the reasons given above, equation (9a) is not the theoretically correct expression for the variance-covariance matrix. The correct expression is obtained by using a diagonal weight matrix but a full V() <ref type="bibr" target="#b11">[Cooley, 2004;</ref><ref type="bibr" target="#b12">Cooley and Christensen, 2006]</ref>. Under that condition, the derivation of V(b) for a diagonal weight matrix does not simplify to equation (9a), instead yielding a more complex expression that includes V(): <ref type="bibr">Hill and Tiedeman, 2007, equation (C.20)</ref>]. This equation is generally not usable in practice when the error covariances are not known, and therefore it is not a primary focus of this study. However, it serves as a useful point of comparison with equation (9a) to evaluate differences between theoretical and practical estimates of parameter variances when the weight matrix is diagonal.</p><formula xml:id="formula_10">V b ð Þ ¼ s 2 X T xX À Á À1 X T xV ð ÞxX X T xX À Á À1<label>ð9bÞ</label></formula><formula xml:id="formula_11">[</formula><p>[18] Other measures of parameter uncertainty used here are confidence intervals and coefficients of variation. The individual, linear, 95% confidence interval for parameter b j is calculated as <ref type="bibr">[Hill and Tiedeman, 2007, p. 138]</ref> </p><formula xml:id="formula_12">: b j 6t nd À np; 0:025 ð Þ bj<label>ð10Þ</label></formula><p>where t(nd À np, 0.025) is the Student t-statistic for nd À np degrees of freedom and a significance level of 0.95 and 2 b j is calculated with equation (9a). Linear confidence intervals are used in this study as an efficient basis for comparing the different estimates of parameters and their uncertainties, and assume that observation errors are normally distributed. The coefficient of variation for b j is:</p><formula xml:id="formula_13">cv j ¼ bj =jb j j ð<label>11Þ</label></formula><p>where 2 b j is calculated with equation (9a). <ref type="bibr">[19]</ref> Prediction uncertainty is calculated by a first-order second-moment method <ref type="bibr">[Hill and Tiedeman, 2007, p. 159</ref></p><formula xml:id="formula_14">] : 2 z' ¼ x z' V b ð Þx T z'<label>ð12Þ</label></formula><p>where 2 z ' is the variance of prediction z ' and x z ' is the vector of sensitivities @z ' =@b j . Individual, linear 95% confidence intervals are used to express prediction uncertainty, and are calculated in an analogous manner to equation (10). In this study, all calculations with equation (12) use equation (9a) to calculate V(b).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4.">Effect of Observation Error Correlation on Uncertainty for a Simple Inverse Model 2.4.1. Effect on Parameter Variance</head><p>[20] To derive a general expression for the effects of observation error correlations on parameter uncertainty, equation ( <ref type="formula" target="#formula_9">9a</ref>) is used with the assumption that the model is linear with respect to the parameters. The parameter variance-covariance matrix in equation ( <ref type="formula" target="#formula_9">9a</ref>) is a function of model fit s 2 , sensitivities X, and the weighting x. When computed for models calibrated with x full instead of x diag , both x and s 2 differ in the two calculations. For a linear model, the sensitivities are independent of parameter values and thus are the same in the two calibrations. Under these conditions, the variance-covariance matrices calculated with the full and diagonal weight matrices are:</p><formula xml:id="formula_15">V full b ð Þ ¼ s 2 full X T x full X À Á À1<label>ð13Þ</label></formula><formula xml:id="formula_16">V diag b ð Þ ¼ s 2 diag X T x diag X À Á À1<label>ð14Þ</label></formula><p>where s 2 full and s 2 diag are the regression error variances for the models calibrated with x full and x diag , respectively. Use of these equations is consistent with our approach for calculating parameter uncertainty discussed in section 2.3. The diagonals of V full b ð Þ are the variances calculated with observation error correlations, 2 b j ;full , and the diagonals of V diag b ð Þ are estimates calculated without error correlations, 2 b j ;diag . The ratio 2 b j ;diag = 2 b j ;full is a metric of the change in parameter variance when a diagonal instead of a full weight matrix is used; that is, when error correlations are excluded instead of included. Values of 2 b j ;diag = 2 b j ;full &gt; 1.0 indicate the parameter variance is larger for the calibration with the diagonal weight matrix; values &lt;1.0 indicate the variance is smaller for the diagonal weight matrix.</p><p>[21] We derive an analytical expression for 2 b j ;diag = 2 b j ;full that provides insight into how interaction between the sensitivities and the observation error correlations affect parameter uncertainty estimates. First the s 2 term is expanded using equation (1):</p><formula xml:id="formula_17">s 2 ¼ nd À np ð Þ À1 y À y 0 b ð Þ ½ T x y À y 0 b ð Þ ½ ð<label>15aÞ</label></formula><p>For a linear model, y 0 b ð Þ ¼ Xb. Furthermore, using the solution to the weighted least squares regression normal equations, by which <ref type="bibr">[Draper and Smith, 1998, p. 222]</ref>, the simulated values can be expressed as</p><formula xml:id="formula_18">b ¼ X T xX Â Ã À1 X T xy</formula><formula xml:id="formula_19">y 0 b ð Þ ¼ X X T xX Â Ã À1 X T xy.</formula><p>Substituting this into equation ( <ref type="formula" target="#formula_17">15a</ref>) and performing matrix algebra yields:</p><formula xml:id="formula_20">s 2 ¼ nd À np ð Þ À1 y T xy À y T xX X T xX Â Ã À1 X T xy h i<label>ð15bÞ</label></formula><p>[22] Formulating equation (15b) for both a full and a diagonal weight matrix, substituting these expressions into equations ( <ref type="formula" target="#formula_15">13</ref>) and ( <ref type="formula" target="#formula_16">14</ref>), and forming the ratio of the diagonals yields:</p><formula xml:id="formula_21">2 bj;diag = 2 bj;full ¼ y T x diag y À y T x diag X X T x diag X Â Ã À1 X T x diag y h i X T x diag X Â Ã À1 jj y T x full y À y T x full X X T x full X Â Ã À1 X T x full y h i X T x full X Â Ã À1 jj<label>ð16Þ</label></formula><p>where jj denotes the jth diagonal of a variance-covariance matrix.</p><p>[23] To obtain insight into the effect of observation error correlations on 2 b 1 ;diag = 2 b 1 ;full , we expand equation ( <ref type="formula" target="#formula_21">16</ref>) for a simple linear inverse model with one parameter b 1 and two observations y 1 and y 2 . This yields:</p><formula xml:id="formula_22">2 b1;diag = 2 b1;full ¼ 2 y1 2 y2 X 2 11 2 y2 þ X 2 21 2 y1 À 2X 11 X 21 y1y2 2 2 y1 2 y2 À 2 y1y2 X 2 11 2 y2 þ X 2 21 2 y1 2<label>ð17aÞ</label></formula><p>where 2 y 1 and 2 y 2 are the error variances for observations y 1 and y 2 , respectively, y 1 y 2 is the error covariance between the two observations, X 11 ¼ @y 0 1 =@b 1 , and X 21 ¼ @y 0 2 =@b 1 . Details of the derivation are provided in supporting information.</p><p>[24] Equation (17a) can be expressed in terms of just two variables: (equation ( <ref type="formula" target="#formula_8">8</ref>)), the correlation between errors in observations y 1 and y 2 ; and r dss , a ratio composed of sensitivities and variances :</p><formula xml:id="formula_23">2 b1;diag = 2 b1;full ¼ 1 þ r 2 dss À 2r dss À Á 2 1 þ r 2 dss À Á 2 1 À 2 ð Þ<label>ð17bÞ</label></formula><p>For the special case in which one observation is insensitive to the parameter, equation (17b) becomes:</p><formula xml:id="formula_24">2 b1;diag = 2 b1;full ¼ 1= 1 À 2 À Á ; for X 11 ¼ 0 or X 21 ¼ 0<label>ð17cÞ</label></formula><p>In equation ( <ref type="formula" target="#formula_22">17b</ref>), r dss is defined as:</p><formula xml:id="formula_25">r dss ¼ X 21 = y2 X 11 = y1 ¼ dss 21 dss 11<label>ð18Þ</label></formula><p>where the dimensionless scaled sensitivity (dss) is a measure of the information an observation provides about a parameter <ref type="bibr">[Hill and Tiedeman, 2007, p. 48]</ref>:</p><formula xml:id="formula_26">dss ij ¼ @y 0 i @b j jb j j! 1=2 ii<label>ð19Þ</label></formula><p>Thus, r dss is the ratio of the information that observations y 1 and y 2 provide about parameter b 1 , as measured by dss calculated using diagonal weighting. This form of dss is used because it allows the effects of sensitivity and error correlations to be distinguished in equation ( <ref type="formula" target="#formula_22">17b</ref>).</p><p>[25] To explain the analytical results in equation ( <ref type="formula" target="#formula_22">17b</ref>), it is useful to return to equations ( <ref type="formula" target="#formula_15">13</ref>) and ( <ref type="formula" target="#formula_16">14</ref>) and express the variance ratio as</p><formula xml:id="formula_27">2 b 1 ;diag = 2 b 1 ;full ¼ s 2 diag =s 2 full h i Â 2 b 1;diag = 2 b 1;full h i<label>where</label></formula><formula xml:id="formula_28">s 2 diag =s 2 full ¼ 1 þ r 2 dss À 2r dss 1 þ r 2 dss<label>ð20aÞ</label></formula><p>TIEDEMAN AND GREEN: EFFECT OF CORRELATED OBSERVATION ERROR</p><formula xml:id="formula_29">s 2 diag =s 2 full ¼ 1; for X 11 ¼ 0 or X 21 ¼ 0<label>ð20bÞ</label></formula><formula xml:id="formula_30">2 b1;diag = 2 b1;full X T x diag X À Á À1 = X T x full X À Á À1 ¼ 1þ r 2 dss À 2r dss 1 þr 2 dss À Á 1 À 2 ð Þ<label>ð21aÞ</label></formula><formula xml:id="formula_31">2 b1;diag = 2 b1;full ¼ 1= 1 À 2 À Á for X 11 ¼ 0 or X 21 ¼ 0<label>ð21bÞ</label></formula><p>Derivations of equations ( <ref type="formula" target="#formula_28">20a</ref>) and ( <ref type="formula" target="#formula_30">21a</ref>) are provided in supporting information. Equation ( <ref type="formula" target="#formula_28">20a</ref>) also can be derived from equation 50 in <ref type="bibr" target="#b12">Cooley and Christensen (2006)</ref>. In equation ( <ref type="formula" target="#formula_30">21</ref>) we have defined 2</p><formula xml:id="formula_32">b 1;diag ¼ X T x diag X À Á À1<label>and</label></formula><formula xml:id="formula_33">2 b 1;full ¼ X T x full X À Á À1</formula><p>, and we denote 2 b 1;diag and 2 b 1;full to be ''scaled parameter variances.''</p><p>[26] The s 2 diag =s 2 full term of 2 b 1 ;diag = 2 b 1 ;full measures how the observation error correlations and sensitivities affect the difference in fit of models calibrated with and without the correlations. If the model is correct and the weights reflect the accuracy of the observations, s 2 is expected to be 1 <ref type="bibr">[Hill and Tiedeman, 2007, p. 96]</ref>. For the simple oneparameter two-observation example, the underlying model is assumed to be correct, and x full correctly reflects the accuracy of the observations, so s 2 is expected to be 1 for the calibration with x full . Therefore, s 2 diag =s 2 full &gt; 1 can be interpreted as the fit being worse than expected for the model calibrated with x diag , and s 2 diag =s 2 full &lt; 1 can be interpreted as the fit being better than expected for this model. The X T xX À Á À1 term of a parameter variance-covariance matrix measures how the interaction of weighting and sensitivities affects the uncertainty of individual parameters.</p><p>For the one-parameter two-observation example, the 2 b 1 ;diag = 2 b 1 ;full term of 2 b 1 ;diag = 2 b 1 ;full reflects how this interaction affects the difference in uncertainty of b 1 when calculated with and without the observation error correlations.</p><p>[27] Graphs of the ratios in equations ( <ref type="formula" target="#formula_22">17b</ref>), (20a), and (21a) are shown in Figure <ref type="figure">2</ref>. Different families of curves are produced depending on whether the sign of the product r dss is negative or positive. <ref type="bibr">Cooley [2004, pp. 50 and 54]</ref> also found that differences between uncertainties calculated without and with observation and model error correlations were dependent on the signs and magnitudes of sensitivities and correlations. Figure <ref type="figure">2</ref> shows that the values of all three ratios depend on both and r dss when jr dss j is between about 0.1 and 10. The ratios for a given approach constant values when jr dss j &lt; 0.1 and jr dss j &gt; 10; that is, when the two dss differ by more than a factor of 10. The constant values equal the right-hand sides of equations ( <ref type="formula" target="#formula_22">17c</ref>), (20b), and (21b), which represent the special case in which one observation is insensitive to the parameter. In this case, Figure <ref type="figure">2</ref>. Ratios showing the difference in parameter variance (equation ( <ref type="formula" target="#formula_22">17b</ref>)), model fit (equation ( <ref type="formula" target="#formula_28">20a</ref>)), and scaled parameter variance (equation ( <ref type="formula" target="#formula_30">21a</ref>)) when calculated with a diagonal instead of a full observation weight matrix, for (a, b, c) r dss &lt; 0 and (d, e, f) r dss &gt; 0, where is observation error correlation, r dss ¼ dss 21 /dss 11 , and dss are dimensionless scaled sensitivities. These ratios assume that when the diagonal weight matrix is used, the observation error correlations are unknown and not included in the calculation of parameter variance.</p><p>excluding the observation error correlations always overestimates the parameter variance, because the right side of (17c) is always &gt;1. This effect on the variance is caused entirely by the scaled variance term (equation ( <ref type="formula" target="#formula_30">21b</ref>)), because the model fit term is the same in the models with full and diagonal weighting (equation ( <ref type="formula" target="#formula_28">20b</ref>)). To illustrate this result, consider that observation y 2 is insensitive for the simple example. Despite this insensitivity, y 2 provides information that reduces the uncertainty of parameter b 1 through the correlation of its error with that of observation y 1 , reducing 2 b 1 ;full in comparison to 2 b 1 ;diag . As the correlation becomes larger, 2 b 1 ;diag = 2 b 1 ;full of equation (17c) becomes larger, and the effect of omitting the error correlations in the model with diagonal weighting is more pronounced. While an inverse model with one sensitive and one insensitive observation will rarely occur in practice, the results for this case can be generalized to help explain the effect of error correlations on parameter uncertainty for inverse models that have some insensitive observation types, as illustrated in section 3.5.1.</p><p>[28] For a given , the difference in parameter uncertainty computed with and without observation error correlations is greatest when jr dss j¼1 (Figures <ref type="figure">2a</ref> and <ref type="figure">2d</ref>). That is, the largest differences occur when each observation contributes the same amount of information about parameter b 1 .</p><p>[29] For $0.1 &lt; jr dss j&lt;$10 and r dss &lt; 0, excluding the error correlations always increases the parameter variance 2 b 1 ( 2 b 1 ;diag &gt; 2 b 1 ;full ) as well as s 2 and 2 b 1 (Figures <ref type="figure">2a-2c</ref>). Negative r dss occurs when (1) is negative and the dss each have the same sign or (2) is positive and the dss have opposite signs. For case (1), negative indicates that one observation is expected to be larger than its mean and the other is expected to be smaller than its mean, and samesigned dss indicates that the simulated values both increase, or both decrease, in response to a change in b 1 . That is, a change in b 1 affects the simulated values in the opposite manner from how the error correlations affect the observed values; a similar lack of agreement between the sensitivities and correlations occurs for case (2). The consequence is that the diagonal model tends to achieve a fit that is worse than expected (s 2 diag &gt; s 2 full , Figure <ref type="figure">2b</ref>), given its weighting that does not include the observation error correlations. This lack of agreement also contributes to the scaled variance term being larger for the model with diagonal weighting ( 2 b 1 ;diag &gt; 2 b 1 ;full , Figure <ref type="figure">2c</ref>). The effect of excluding the correlations has a greater impact on this uncertainty term than on the model fit term, as shown by the ratios in Figure <ref type="figure">2c</ref> being larger than those in Figure <ref type="figure">2b</ref>.</p><p>[30] For r dss &gt; 0 and jr dss j close to 1, excluding the error correlations decreases the estimated parameter variance 2  <ref type="figure">2f</ref>). Positive r dss occurs when (1) is positive and the dss have the same sign or (2) is negative and the dss have opposite signs. In both these cases, a change in b 1 changes the simulated values in a manner consistent with how the observations jointly vary about their means. This consistency between the sensitivities and correlations means that the model with diagonal weighting fits the observations better than expected (Figure <ref type="figure">2e</ref>). Similarly, it causes b 1 in the model with diagonal weighting to have a smaller uncertainty as measured by the scaled variance term. When jr dss j is close to 1, there is a pronounced effect on 2 b 1 of the sensitivities and correlations being consistent (Figure <ref type="figure">2d</ref>). In contrast, when jr dss j is further from 1, and one observation has a smaller magnitude of sensitivity than the other, this effect is less pronounced or absent. Figure <ref type="figure">2d</ref> also shows that even if observation error correlations are large, there are values of jr dss j for which the parameter variance calculated with the full weight matrix is the same as that calculated using the diagonal weight matrix.</p><p>[31] To evaluate the effect of using the theoretically correct parameter variance for a diagonal weight matrix (which assumes the error correlations are known), we compare the results in equation ( <ref type="formula" target="#formula_22">17b</ref>) with an alternative parameter variance ratio:</p><formula xml:id="formula_34">_ 2 b1;diag = 2 b1;full ¼ 1 þ r 2 dss À Á 2 À 4 2 r 2 dss 1 þ r 2 dss À Á 2 1 À 2 ð Þ<label>ð22Þ</label></formula><p>where _ 2 b 1 ;diag is the variance of parameter b 1 for the diagonal weight matrix, calculated with equation ( <ref type="formula" target="#formula_9">9b</ref>). The derivation is provided in supporting information. The ratio _ 2 b 1 ;diag = 2 b 1 ;full measures the difference in parameter variance calculated with the full and diagonal weight matrices assuming that a known full V() is available for both calculations.</p><p>[32] Equation ( <ref type="formula" target="#formula_34">22</ref>) and Figure <ref type="figure">3</ref> illustrate that _ 2 b 1 ;diag = 2 b 1 ;full is independent of the signs of or r dss , and is always greater than or equal to 1, in contrast to the ratios of 2 b 1 ;diag = 2 b 1 ;full shown in Figure <ref type="figure">2</ref>. The results for jr dss j ¼ 0.01 or 100 are nearly identical to those in Figures <ref type="figure">2a</ref> and <ref type="figure">2d</ref>, because these jr dss j approach the case where one observation is insensitive, and under that condition the right side of equation ( <ref type="formula" target="#formula_34">22</ref>) reduces to that of equation ( <ref type="formula" target="#formula_22">17c</ref>). When each observation provides the same amount of Figure <ref type="figure">3</ref>. Ratios showing the difference in parameter variance, computed using equation ( <ref type="formula" target="#formula_34">22</ref>), when calculated with a diagonal instead of a full observation weight matrix. These ratios assume that when the diagonal weight matrix is used, the observation error correlations are known and included in the calculation of parameter variance.</p><p>information about the parameter (jr dss j ¼ 1), the results in Figure <ref type="figure">3</ref> differ substantially from those in Figures <ref type="figure">2a</ref> and <ref type="figure">2d</ref>. In Figure <ref type="figure">3</ref>, the variance ratio equals 1, indicating the parameter variances calculated with the full and diagonal weight matrices are the same. In Figure <ref type="figure">2</ref>, the differences in the two variances are maximized when jr dss j¼ 1. Thus, for this one-parameter, two-observation model, the parameter variance typically calculated in practice for a diagonal weight matrix ( 2 b 1 ;diag ) often is less accurate than the theoretically correct (yet typically unobtainable in practice) parameter variance for a diagonal weight matrix ( _ 2 b 1 ;diag ), where accuracy is measured relative to the variance calculated for the full weight matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4.2.">Effect on Prediction Variance</head><p>[33] Often in groundwater modeling, predictions and their uncertainty are of greater interest than parameter uncertainty. Prediction uncertainty is indirectly affected by the observation error correlations through their effect on parameter uncertainty, as shown in equation ( <ref type="formula" target="#formula_14">12</ref>). Applying this equation to the one-parameter two-observation inverse model yields 2 z ' ;diag ¼ X 2 z ' V diag b ð Þ, the variance of prediction z ' calculated with observation error correlations excluded, and 2 z ' ;full ¼ X 2 z ' V full b ð Þ, the variance calculated with the correlations included. Here X 2 z ' is a scalar because there is only one parameter, and it is the same in both equations because the model is assumed linear. The ratio of prediction variances is:</p><formula xml:id="formula_35">2 z';diag = 2 z';full ¼ V diag b ð Þ=V full b ð Þ ¼ 2 b1;diag = 2 b1;full<label>ð23Þ</label></formula><p>[34] Thus, for a one-parameter, two-observation model, the effects of observation error correlations and sensitivities on the prediction variance ratio are the same as the effects on the parameter variance ratio.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Application: Reactive Transport Model</head><p>[35] A reactive transport model of denitrification is used to illustrate differences in parameter estimates and uncer-tainty from calibrations with and without observation error correlations included in the weighting. Predicted future nitrate concentrations and their uncertainty also are compared for different calibrations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Model, Parameters, and Calibration Observations</head><p>[36] The numerical reactive transport model was developed by <ref type="bibr" target="#b20">Green et al. [2010]</ref> as part of an investigation of mixing effects on estimates of reaction parameters, using field data from an agricultural setting in the San Joaquin Valley, California (Figure <ref type="figure" target="#fig_2">4</ref>). It simulates the reactions of O 2 and NO À 3 in water that recharges a shallow alluvial aquifer and migrates toward a river. Steady-state flow is simulated using MODFLOW-2000 <ref type="bibr" target="#b21">[Harbaugh et al., 2000]</ref>. Advection and hydrodynamic dispersion are simulated using a random-walk particle tracking code, RWHet <ref type="bibr" target="#b29">[LaBolle et al., 2000]</ref>, with backward-tracking. Solute concentrations in each well sample are estimated with a program module that calculates, for every particle in the sample, the concentration as a result of the input history of solute and the reactions occurring in the aquifer (see supporting information). This study explores the effect of observation error correlations on reaction parameter estimates and uncertainty, with the hydraulic and transport parameters kept constant. The comparisons in this study of results with and without error correlations are, therefore, not sensitive to dispersion or noise in the random walk solution.</p><p>[37] The model has four reaction parameters, including the nitrogen isotope fractionation parameter (" N ), firstorder denitrification rate (k N ), first-order O 2 decay rate (k O ), and concentration of O 2 above which denitrification does not occur ([O 2 ] cut ). <ref type="bibr" target="#b20">Green et al. [2010]</ref> calibrated the model for several realizations of the heterogeneous sedimentary deposits ; five such realizations are considered here (realizations 1, 45, 124, 131, and 136 in <ref type="bibr" target="#b20">Green et al., 2010)</ref>. The previous calibrations were rerun with minor modifications for the purposes of this study including removing upper limits of the [O 2 ] cut parameter (previously &lt;0.05 mmol L À1 ). Five realizations are used for consistency with the approach of <ref type="bibr" target="#b20">Green et al. [2010]</ref> and to allow evaluation of the effects of the error correlations relative to the effects of geological uncertainty as represented by the multiple realizations of heterogeneity.</p><p>[38] The modeling techniques described above were used to obtain simulated equivalents for six types of observations. Three of the types are directly-measured observations (Table <ref type="table" target="#tab_0">1</ref>). The concentration of NO À 3 , and the stable isotope ratio 15 N of NO À 3 ( 15 N[NO À 3 ]) were determined by laboratory analysis of field samples, and the concentration of O 2 was measured in the field. The other three observation types are each derived from five or more directlymeasured values, including O 2 , NO À 3 , and 15 N[NO À 3 ] (Table <ref type="table" target="#tab_1">2</ref>). These types include the apparent O 2 decay rate (k O,app ), fraction NO À 3 remaining (f N ), and apparent isotope fractionation factor (" N,app ). Details of these calculations are provided in supporting information. Because of the shared dependencies of some observation types on one or more direct measurements (Figure <ref type="figure" target="#fig_0">1</ref> and Table <ref type="table" target="#tab_1">2</ref>, supporting information), errors in the observations are correlated. For all observation types except " N,app , observed values are available from 14 piezometers at various depths in five well clusters (Figure <ref type="figure" target="#fig_2">4</ref>). Calculated values of " N,app are available from 6 piezometers.</p><p>[39] Note that there is an oxygen decay rate model parameter (k O ) and an apparent oxygen decay rate observation type (k O,app ). Similarly, there is an isotope fractionation parameter (" N ) and an apparent isotope fractionation observation type (" N,app ). The parameters k O and " N are considered the intrinsic field values of the oxygen decay rate and isotope fractionation, respectively, and are estimated using inverse modeling with reactions applied to individual particles. The observed values k O,app and " N,app are the oxygen decay rate and isotope fractionation, respectively, calculated as described above and in supporting information and using bulk sample concentrations in place of individual particle concentrations. They are considered apparent values that are commonly estimated for field studies [e.g., <ref type="bibr" target="#b6">Böhlke, 2002;</ref><ref type="bibr" target="#b19">Green et al., 2008;</ref><ref type="bibr" target="#b46">Tesoriero and Puckett, 2011;</ref><ref type="bibr" target="#b30">Liao et al., 2012]</ref> and differ from the intrinsic values because of the effects of mixing during dispersive transport and field collection of a groundwater sample.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Observation Error Correlations and Weight Matrices</head><p>[40] The equations in supporting information and estimates of measurement error variances 2 u ' (Table <ref type="table" target="#tab_0">1</ref>) were used in equations ( <ref type="formula" target="#formula_6">6</ref>) and ( <ref type="formula" target="#formula_7">7</ref>) to propagate measurement error to observation error. For NO À 3 , T, and P, samples were available for multiple dates at each well during the year of the study. For each of these measurements, the value of 2 u ' in equations ( <ref type="formula" target="#formula_6">6</ref>) and ( <ref type="formula" target="#formula_7">7</ref>) was set equal to the annual-average of those samples to provide a single estimated observation consistent with the annual-average value estimated by the transport model at each well. The values of 2 y i for O 2 , NO À 3 , and 15 N[NO À 3 ] (Table <ref type="table" target="#tab_0">1</ref>) and the calculated values of 2 y i for k O,app , f N , and " N,app (Table <ref type="table" target="#tab_1">2</ref>) were then used to populate V diag (). These values of 2 y i and the values of y i y k calculated with equation ( <ref type="formula" target="#formula_7">7</ref>) were used to populate V full (). Finally, V diag () and V full () were inverted to obtain x diag and x full , respectively.</p><p>[41] To screen for possible effects of nonlinearity and non-Gaussianity, estimates of observation variances from equation (6) were compared to a Monte Carlo simulation with 10,000 realizations of measurement errors for a single set of input measurements with standard deviations set equal to the medians of estimated errors in Table <ref type="table" target="#tab_0">1</ref>. The Monte Carlo simulated observation error distributions (Figure <ref type="figure" target="#fig_3">5</ref>) are approximately normal, and the first-order estimates of standard deviations are within 20% of the actual values, a small difference in comparison to the orders-of-  magnitude variability among the estimated standard deviations for a given observation type (Table <ref type="table" target="#tab_1">2</ref>). These effects of nonlinearity and non-Gaussianity are, therefore, unlikely to strongly affect the results of this study.</p><p>[42] There are seven pairs of observation types with correlated errors (Table <ref type="table" target="#tab_2">3</ref>). For each of these pairs, the correlation for an individual observation pair is nonzero only if both observations are associated with the same monitoring well. For example, observations of [O 2 ] and k O,app from the same well always have correlated errors, but [O 2 ] errors at one well are not correlated with k O,app errors at any other well. Thus, because not all pairs of observation types have correlated errors, and because for those that are correlated only a few of the individual observation pairs have correlated errors, V full () is sparse. Of the 5776 entries in this 76 Â 76 matrix, 76 entries are the variances on the diagonals, and only 126 of the 5700 off-diagonal entries have nonzero covariances. This matrix is symmetric, and so only 63 observation pairs have correlated errors. In general, ob-servation error variance-covariance matrices are likely to be sparse when error correlations stem from a set of measurements at a given location being used to calculate more than one calibration observation for that location alone.</p><p>[43] For each of the seven pairs of observation types with correlated errors, Table <ref type="table" target="#tab_2">3</ref> presents the average fraction of the covariance that is produced by each input measurement type. The entries for the first four pairs listed in the table show that because there is only one shared input measurement in the calculations of the observation types in the pair, 100% of the covariance between the two types is produced by that single shared measurement. Entries for observation pairs f N and k O,app , and k O,app and " N,app , show that the covariances stem almost entirely from the strong dependency of these observation types on [Ar] measurements. The covariance between f N and " N,app is not as strongly dependent on one particular input measurement.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Effect of Error Correlations on Parameter Estimates and Uncertainty</head><p>[44] The reactive transport model was calibrated twice for each of the five geologic realizations, once without observation error correlations included (using x diag ) and once with the correlations included (using x full ). The vector of parameters estimated using x diag is denoted b diag and that estimated using x full is denoted b full . Individual parameters are b j,diag and b j,full . The dss indicate that for each parameter, there are at least two observation types with moderate to large sensitivities (Figure <ref type="figure" target="#fig_4">6</ref>), so all four parameters were estimated in the regression. Parameter estimates and their linear confidence intervals for the 10 calibrations are shown in Table <ref type="table" target="#tab_3">4</ref> and Figure <ref type="figure" target="#fig_5">7</ref>. Most of the estimated values fall within previously observed ranges, for example, À10 to À30% for " N <ref type="bibr" target="#b20">[Green et al., 2010]</ref>, 0.05-0.5 yr À1 for k N <ref type="bibr" target="#b19">[Green et al., 2008;</ref><ref type="bibr" target="#b46">Tesoriero and Puckett, 2011]</ref>, 0.02-0.3 yr À1 for k O <ref type="bibr" target="#b46">[Tesoriero and Puckett, 2011]</ref>, and 0-0.06 mmol L À1 for [O 2 ] cut <ref type="bibr" target="#b20">[Green et al., 2010]</ref>. When x diag is used and the observation error correlations are omitted, estimates of parameters " N , k N , and k O are smaller for all realizations and estimates of [O 2 ] cut are larger for four of the five realizations, compared to when x full is used. Median differences range from 30% for " N to 81% for [O 2 ] cut (Table <ref type="table" target="#tab_3">4</ref>).  </p><formula xml:id="formula_36">À Á ' = yiyk ¼ X ns j¼1 @f i @u ' @f k @u ' 2 u' ns X ns j¼1 X nm '¼1 @f i @u ' @f k @u ' 2 u' ns ,</formula><p>where, ' is an input measurement (nm 7) used to calculate model observations y i and y k , j is an individual sample (ns 14) for which input measurements were available, and f i and f k are the systems of equations used to derive model observations y i and y k from input measurement values u ' . b All pairs of f N and " N,app observations have positive error correlations except for one pair with a correlation of À0.69.</p><p>[45] For " N , k N , and [O 2 ] cut , the differences in parameter estimates for the calibrations using x diag and x full are generally small compared to the size of the confidence intervals (Figure <ref type="figure" target="#fig_5">7</ref>). For these parameters, the intervals for b j,diag and for b j,full fully overlap for most of the realizations. In addition, the differences in b j,diag or b j,full across the five realizations tend to be larger than the differences between b j,diag and b j,full for a given realization. The variability among realizations largely stems from differences of sediment distributions that affect paths and travel times between the water table and well screen, and therefore affect the travel time distributions of samples and the apparent reaction rates. Thus, for the error correlations considered here, the structural errors related to geological uncertainty and the uncorrelated observation errors affect the estimates of " N , k N , and [O 2 ] cut more strongly than does the omission of error correlations.</p><p>[46] In contrast, differences between b j,diag and b j,full for parameter k O are much larger compared to their confidence intervals, and the intervals for b j,diag and b j,full overlap less, particularly for realizations 1, 131, and 136. The estimates and intervals for " N in realizations 45 and 124 and for k N in realization 45 also have these characteristics. These larger differences between b j,diag and b j,full relative to the confidence intervals occur because parameter uncertainty is smaller (Figure <ref type="figure" target="#fig_6">8</ref>). The coefficients of variation (cv, equation (11)) for k O in all realizations, and for " N and k N in realizations 45 and 124, are substantially smaller than those of most other parameters. This suggests that the importance of including observation error correlations in the weighting increases as parameter uncertainty decreases. With smaller uncertainty, there is greater confidence in the differences between the parameter values estimated with and without these correlations. Also, for parameter k O , the differences  Percent difference, defined as 100 Â (b j,diag À b j,full )/jb j,full j.</p><p>between b j,diag and b j,full for some individual realizations are large relative to the differences in b j,diag and b j,full across the realizations.</p><p>[47] For most realizations, the magnitudes of the confidence intervals differ for the parameters estimated using x diag and those estimated using x full (Figure <ref type="figure" target="#fig_5">7</ref>). The ratios of parameter variances ( 2 b j ;diag = 2 b j ;full , equation ( <ref type="formula" target="#formula_21">16</ref>)) more clearly display the parameter uncertainty differences (Figure <ref type="figure" target="#fig_7">9a</ref>), where 2 b j ;diag and 2 b j ;full are calculated using sensitivities evaluated at the optimal parameter estimates from the models calibrated with x diag and x full , respectively. The ratios range from 0.4 to 3.7 across all parameters and realizations (Figure <ref type="figure" target="#fig_7">9a</ref>). For three parameters, there are systematic differences in the parameter variances over the five realizations. For " N , all variances are larger when x diag is used, for k N all variances are smaller, and for k O most variances are smaller. These results show that when a diagonal weight matrix is incorrectly used, parameter uncertainty estimates can be smaller or larger than the uncertainty calculated using the correct full weight matrix, which is consistent with the derived results for the oneparameter two-observation model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4.">Effect of Error Correlations on Predicted Nitrate Concentrations and Uncertainty</head><p>[48] We next evaluate differences in predictions and uncertainties (equation ( <ref type="formula" target="#formula_14">12</ref>)) for the reactive transport model. Predictions of interest include [NO À 3 ] concentrations tens of years in the future at 4 piezometers in a cluster near the river (Figure <ref type="figure" target="#fig_2">4</ref>) based on a scenario of constant NO À 3 flux to the water table after 2005. Concentrations predicted by the model calibrated with x diag are too high, compared to those predicted by the model calibrated with x full , for all piezometers and all realizations (Figure <ref type="figure" target="#fig_8">10</ref>). Predicted [NO À 3 ] is most sensitive to k O and k N , and is slightly sensitive to [O 2 ] cut (Figure <ref type="figure" target="#fig_10">11</ref>). These sensitivities are all negative, indicating that as a parameter value increases, predicted [NO À 3 ] concentrations will decrease. Furthermore, in the model calibrations with x diag , estimated k O and k N are smaller, and estimated [O 2 ] cut is mostly larger, compared to the calibrations with x full (Table <ref type="table" target="#tab_3">4</ref> and Figure <ref type="figure" target="#fig_5">7</ref>). The smaller estimates of k O and k N combined with the prediction sensitivity information explain why predicted [NO À 3 ] is too large in the models calibrated with x diag .</p><p>[49] For a given realization and piezometer, the differences in predicted [NO À 3 ] in the models with and without error correlations (Figure <ref type="figure" target="#fig_8">10</ref>) are typically greater than the differences in parameter estimates (Figure <ref type="figure" target="#fig_5">7</ref>), relative to their respective confidence intervals. These prediction differences are largest for realization 45, which is likely because of the large k N differences relative to its parameter confidence intervals (Figure <ref type="figure" target="#fig_5">7</ref>). For each piezometer, there are moderate differences between the two predictions for a  realization, compared to the differences across all realizations excluding 136. This realization has an unusually large estimate of k N compared to the other realizations (Figure <ref type="figure" target="#fig_5">7</ref>). Therefore, among the first four realizations, accounting for correlated observation error is moderately important even when considered relative to the variability in predictions caused by uncertainty in the model structure.</p><p>[50] Ratios of the prediction variances ( 2 NO À 3 ;diag = 2 NO À 3 ;full ) show that the uncertainty for the models calibrated with x diag range from about 50% smaller to 20% larger than those for the models calibrated with x full (Figure <ref type="figure" target="#fig_9">12</ref>). Thus, omitting the observation error correlations can result in either underestimation or overestimation of prediction uncertainty. Although for a given realization the magnitude of the uncertainty among the four predictions can be highly variable (e.g., Figure <ref type="figure" target="#fig_8">10</ref>, realization 1), the variance ratios fall within a fairly narrow range (e.g., Figure <ref type="figure" target="#fig_9">12</ref>, ratios for realization 1 range from 0.6 to 0.8).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5.">Discussion of Reactive Transport Model Results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5.1.">Insight into Parameter Variance Ratios From Derivations for Simple Model</head><p>[51] The derivations for the one-parameter two-observation model in section 2 help to explain the differences in reactive transport model parameter variances calculated with and without observation error correlations. We first  evaluate the scaled parameter variances for parameters " N and [O 2 ] cut and then analyze the model fit term.</p><p>[52] Compared to other parameters, the conditions for " N are closest to those for the one-parameter two-observation model, because only the 15 N[NO À 3 ] and " N,app observation types are sensitive to " N (Figure <ref type="figure" target="#fig_4">6</ref>). The dss for all 15 N[NO À 3 ] observations with respect to " N are positive, the dss for all " N,app observations with respect to " N are negative, and the error correlations () are negative for all pairs of 15 N[NO À 3 ] and " N,app observations (Table <ref type="table" target="#tab_2">3</ref>). Because the signs are the same within each of these observation groups, we loosely generalize the analytical derivation in equation ( <ref type="formula" target="#formula_30">21</ref>) and apply it to this parameter and the relevant pairs of observation types.</p><p>[53] Equation ( <ref type="formula" target="#formula_30">21</ref>) for the ratio of scaled parameter variances predicts correctly that the contribution of information from two observation types that are insensitive to " N , but have correlated errors with an observation type sensitive to " N , dominates the uncertainty calculated with the correlations included. As shown in Figure <ref type="figure" target="#fig_7">9b</ref>, <ref type="figure">2</ref> " N ;diag = 2 " N ;full calculated using the reactive transport model ranges from 1.7 to 2.9, indicating that excluding the observation error correlations increases this term of the parameter variance. Calculations with equation ( <ref type="formula" target="#formula_30">21a</ref>) using median values of r dss and show that if 15 N[NO À 3 ] and " N,app were the only observation types involved, 2 " N ;diag = 2 " N ;full would equal 0.8 (Table <ref type="table" target="#tab_4">5</ref>). That is, the scaled variance for parameter " N calculated with x diag would be smaller than that calculated with x full . This is not the case, however, because " N,app observations also are moderately to strongly correlated with [NO À 3 ] and f N observations (Table <ref type="table" target="#tab_2">3</ref>), which are insensitive to parameter " N (Figure <ref type="figure" target="#fig_4">6</ref>). Calculations with equation ( <ref type="formula" target="#formula_30">21b</ref>) show that the correlations between [NO À 3 ] and " N,app and between f N and " N,app strongly contribute to 2 " N ;diag being larger than 2 " N ;full (Table <ref type="table" target="#tab_4">5</ref>), even though [NO À 3 ] and f N observations are insensitive to " N . The results in Figure <ref type="figure" target="#fig_7">9b</ref> are consistent with these calculations.</p><p>[54] Equation ( <ref type="formula" target="#formula_30">21</ref>) also provides insight into the changes in scaled parameter variance for model parameter [O 2 ] cut when observation error correlations are excluded. In contrast to the situation for parameter " N , several observation types are sensitive to [O 2 ] cut (Figure <ref type="figure" target="#fig_4">6</ref>) and four pairs of these types have moderate to large error correlations (Table <ref type="table" target="#tab_4">5</ref>). For each pair of observations, the ratio of scaled parameter variances was calculated by equation (21b) using the median r dss and values over all individual observation pairs. For a majority of the four pairs, excluding the observation error correlations was predicted to increase the  3 ] concentration at a piezometer location and b j is a model parameter. Box shows interquartile range and whiskers show minimum and maximum values. For each parameter, the summary statistics are calculated using pss for all four prediction locations and all five realizations. For parameter " N , all pss ¼ 0.     <ref type="table" target="#tab_4">5</ref>). This result using the derivations from the simple model is consistent with the results for [O 2 ] cut using the four-parameter six-observationtype reactive transport model, in which for most realizations 2 <ref type="figure" target="#fig_7">9b</ref>).</p><formula xml:id="formula_37">O 2 ½ cut ;diag = 2 O 2 ½ cut ;full &gt; 1 (Figure</formula><p>[55] The ratios of parameter variances for " N and [O 2 ] cut (Figure <ref type="figure" target="#fig_7">9a</ref>) equal the product of the ratios of the scaled parameter variances and the term s 2 diag =s 2 full . For all realizations of the reactive transport model, s 2 diag =s 2 full &lt; 1 (Figure <ref type="figure" target="#fig_7">9c</ref>). This causes the ratios of parameter variances 2 " N ;diag = 2 " N ;full and 2</p><formula xml:id="formula_38">O 2 ½ cut ;diag = 2 O 2</formula><p>½ cut ;full to be smaller than the respective ratios of scaled parameter variances (Figures <ref type="figure" target="#fig_7">9a</ref> and <ref type="figure" target="#fig_7">9b</ref>). The discussion in section 2 for the oneparameter two-observation model, which was assumed to have no structural error, showed that s 2 diag =s 2 full &lt; 1 can be interpreted as the model with x diag fitting the observation data better than expected. Unlike that simple model, the reactive transport model has structural error, yet a similar approach to interpreting differences in s 2 applies. For this model, we consider x full to accurately represent the observation error. The model fit term s 2 full ranges from 11 to 21, strongly suggesting model error in each individual realization. The result that s 2 diag =s 2 full &lt; 1 can then be interpreted as the model calibrated with x diag underestimating the effect of model error. Similarly, s 2 diag =s 2 full &gt; 1 would indicate that this model overestimates the effect of model error. This interpretation of s 2 diag =s 2 full illustrates that when error correlations exist but are omitted from the weighting, incorrect conclusions about model error can be drawn.</p><p>[56] The findings from the simple model about interactions between error correlations and sensitivities help explain why s 2 diag =s 2 full &lt; 1 for all realizations. For the reactive transport model, there are 107 unique combinations of r dss and , where r dss is the ratio of the dss for two different observations with respect to the same parameter, and is the error correlation of the two observations. For example, three such combinations are (1) dss " N;app ;k O =dss f N ;k O and " N;app ;f N , (2) dss " N;app ;k N =dss f N ;k N and " N;app ;f N , and (3) dss O 2 ½ ;k O =dss k O;app ;k O and O 2 ½ ;k O;app , where for dss the first subscript is an observation and the second is a parameter. For every realization, a large majority (73-78%) of these combinations have positive r dss . This result is consistent with the derivations for the one-parameter two-observation model, which showed when r dss &gt; 0, s 2 diag =s 2 full &lt; 1 (Figure <ref type="figure">2e</ref>), because the signs of sensitivities together with the effect of the error correlations (which are embedded in the observed values) causes the model calibrated with x diag to fit the observations better than expected. The results for the reactive transport model suggest that the same interactions between the sensitivities and correlations affect model fit for this more complex model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.5.2.">Prediction Variance Ratios</head><p>[57] For all four predictions, the variance ratios ( 2 NO À 3 ;diag = 2 NO À 3 ;full ) for some realizations are &gt;1 and for other realizations are &lt;1 (Figure <ref type="figure" target="#fig_9">12</ref>). Whereas the derivations for the one-parameter two-observation model provided insight into the parameter variance ratios for the reactive transport model, there are greater limitations to using results of the simple model to explain the prediction variance ratios for the more complex model. For the simple model, the ratio of prediction variances calculated with x diag and x full equals the ratio of the respective parameter variances (equation ( <ref type="formula" target="#formula_35">23</ref>)), because for that model the parameter variance-covariance matrix reduces to a scalar. For a multiple parameter model, however, this matrix contains variances for all parameters and covariances for all parameter pairs. The variance of an individual prediction is a function of all these matrix terms and of the prediction sensitivities (equation ( <ref type="formula" target="#formula_14">12</ref>)). Parameter covariances can have a substantial effect on prediction uncertainty <ref type="bibr" target="#b48">[Tiedeman et al., 2003</ref><ref type="bibr" target="#b49">[Tiedeman et al., , 2004]]</ref>. The derivations for the oneparameter model do not capture all the complexities of parameter uncertainty that affect prediction uncertainty in multiple parameter models, and thus are limited in their ability to explain the results in Figure <ref type="figure" target="#fig_9">12</ref>. Comprehensive evaluation of how observation error correlations affect prediction uncertainty for a multiple parameter model might benefit from a derivation of prediction variance ratios for a two-parameter, two-observation model. This is a topic for potential future research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Summary and Conclusions</head><p>[58] This paper shows that parameter estimates, predicted quantities, and measures of uncertainty can differ in inverse models calibrated with and without observation error correlations included. For the application presented, the differences are modest for some parameters and predictions, and more substantial for others. The insights and conclusions of this work are relevant to a broad range of studies with error correlations arising from derived observations or other factors.</p><p>[59] Analytical derivation of the difference in the estimated parameter variance for a simple one-parameter twoobservation model provides insight into how interactions of weights and sensitivities affect parameter uncertainty in a model calibrated with and without observation error correlations. The derivation is based on the equations for parameter variances that are typically used in practice. It shows that when one observation is insensitive but is correlated with the other sensitive observation, excluding the correlations (i.e., using x diag ) will always overestimate the variance. For the general case in which both observations are sensitive, the difference in parameter variance is a function of the ratio (r dss ) of the dimensionless scaled sensitivities for the two observations and the error correlation () for the observation pair. When r dss is negative, the variance calculated with x diag will always be larger than that calculated with x full , and the difference increases as jj increases. When r dss is positive, the variance calculated with x diag will be smaller for jr dss j relatively close to 1, and larger otherwise. Furthermore, for some values of r dss , there is little or no difference in the parameter uncertainty calculated with x diag and x full , even when jj is very large.</p><p>[60] A reactive transport model of denitrification with four parameters and six observation types was calibrated with x full in which observation error correlations stem from common dependencies on directly measured quantities, and with x diag that ignores these correlations. Parameter estimates for two calibrations differ by tens of percent. The differences tend to be large relative to the parameter 95% confidence intervals when the intervals are small. Differences in parameter uncertainty cover a wide range; ratios of parameter variances for the models calibrated with x diag and x full range from 0.4 to 3.7. Differences in predicted nitrate concentrations for the two calibrated models, relative to their confidence intervals, tend to be greater than the corresponding differences in parameter estimates.</p><p>[61] Based on the results presented, we offer the following conclusions about the importance of including observation error correlations, and thus using a full weight matrix, in inverse models for which parameter variances are calculated with equations typically used in practice:</p><p>[62] 1. If error correlations among all observation pairs are expected to be small (e.g., Figure <ref type="figure">2</ref>, curves for jj ¼ 0.1 and 0.3), then excluding them will not greatly affect parameter estimates or uncertainty, or the regression error variance s 2 .</p><p>[63] 2. If some error correlations are expected to be large (e.g., jj &gt; 0.3), excluding them might substantially change parameter uncertainty from that calculated with the correlations, but this is not guaranteed. Even with large error correlations, parameter uncertainty differences can be small, as shown in the analytical derivations of the parameter variance (e.g., Figure <ref type="figure">2d</ref> with jj ¼ 0.90 and jr dss j ¼ $0.3 or $4.0) as well as in the results from the reactive transport model (e.g., Figure <ref type="figure" target="#fig_7">9a</ref> showing ratios of $1 for some realizations).</p><p>[64] 3. If observations or observation types with zero or small sensitivity to some parameters have correlated errors with other sensitive observations or types, excluding these correlations can substantially overestimate parameter uncertainty. This was clearly demonstrated by the analytical derivation (equation ( <ref type="formula" target="#formula_22">17c</ref>)) as well as by the results for the reactive transport model (parameter " N ). Thus, it is important to assess whether errors of insensitive observations are correlated with errors of sensitive observations, and to include these correlations in the weighting. The magnitudes of possible error correlations might be assessed qualitatively at first, using knowledge about the observations, how they are calculated, and the sources of their error.</p><p>[65] 4. Interaction between sensitivities and the observation error correlations can cause a model that excludes the correlations to fit the observations differently than is expected on the basis of the observation accuracy reflected in the weighting. The fit can be either better or worse, and the difference depends on the signs of the product r dss . The consequence of the unexpected fit is that a model that omits error correlations in the weighting might yield incorrect estimates of the magnitude of model error.</p><p>[66] 5. Differences in predictions for models calibrated with x diag and x full can be greater than differences in parameter estimates when both are considered relative to their respective confidence intervals. Thus the observation error correlations can have different degrees of impact on parameters and predictions.</p><p>[67] In summary, our results show that including observation error correlations, even when the observation error variance-covariance matrix is relatively sparse, can have a modest to substantial effect on parameter estimates, predictions, and measures of uncertainty, comparable in some cases to the magnitude of effects from structural uncertainty stemming from geological variability. Because this is the first comprehensive study comparing results from calibrations with and without these correlations, work with additional models to further evaluate the effects of observation error correlations will be helpful for testing and refining the conclusions drawn here.</p><p>[68] Acknowledgments. We thank Steen Christensen, Mary Hill, Associate Editor Ming Ye, and two anonymous reviewers for comments that substantially improved this paper. We also thank Eurybiades Busenberg for help with dissolved-gas equations. This work was funded by the National Research Program and the National Water Quality Assessment Program of the U.S. Geological Survey.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure1. Relationships between input measurements and output observations for this study, and in general terms.</figDesc><graphic coords="3,119.40,563.70,383.33,160.04" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>diag &lt; 2 b 1 ;full ), s 2 , and the scaled parameter variance 2 b 1 (Figures 2d-</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Example geologic realization and site map showing observation well locations (modified from Green et al. [2010], Figure 2).</figDesc><graphic coords="8,111.74,542.04,382.68,181.76" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Probability density functions of derived observations calculated by Monte Carlo analysis using 10,000 realizations of errors in direct measurements, and equations in supporting information for deriving observations from measurements. Normalized observations for each of the derived observation types are calculated as (y MC À y m )/ m where y m and m are, respectively, the mean and the standard deviation of all the simulated observations for a particular observation type, and y MC is a single Monte Carlo generated observation.</figDesc><graphic coords="10,66.44,74.10,221.40,138.72" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Dimensionless scaled sensitivities (dss) calculated for the model calibrated with a diagonal weight matrix. Box shows interquartile range and whiskers show minimum and maximum values. For each parameter and observation type, these summary statistics are calculated using all individual dss over all five realizations. For observation types with no box and whiskers, all dss ¼ 0.</figDesc><graphic coords="11,131.36,74.10,359.21,250.70" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Estimates and individual linear 95% confidence intervals for the four parameters of the reactive transport model.</figDesc><graphic coords="12,87.42,74.10,431.21,214.53" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Parameter coefficients of variation (cv) for reactive transport model calibrated with the full weight matrix.</figDesc><graphic coords="12,66.27,526.28,221.73,186.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Ratios of (a) parameter variance, (b) scaled parameter variance, and (c) model fit calculated in reactive transport models calibrated with the diagonal and full weight matrices. For ratios &gt;1, the quantity calculated using the diagonal weight matrix is larger. Vertical lines connect minimum and maximum values among the five realizations.</figDesc><graphic coords="13,143.32,74.10,335.44,188.45" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 10 .</head><label>10</label><figDesc>Figure10. Predicted nitrate concentrations and 95% linear confidence intervals at a cluster of four piezometers (P, Q, R, and S, in order from shallowest to deepest) at the downgradient end of the transect shown in Figure4.</figDesc><graphic coords="13,143.32,489.09,335.44,223.65" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 12 .</head><label>12</label><figDesc>Figure12. Ratios of prediction variance, calculated in reactive transport models calibrated with the diagonal and full weight matrices. For ratios &gt;1, prediction uncertainty calculated using the diagonal weight matrix is larger. Vertical lines connect minimum and maximum values among the five realizations for each piezometer.</figDesc><graphic coords="14,66.27,446.51,221.73,233.24" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 11 .</head><label>11</label><figDesc>Figure 11. Prediction scaled sensitivities (pss) for [NO À 3 ], defined as pss 'j ¼ @z ' =@b j À Á b j =z ' À Á [Hill and Tiedeman, 2007, p. 161, equation (8.2c)], where z ' is predicted [NO À3 ] concentration at a piezometer location and b j is a model parameter. Box shows interquartile range and whiskers show minimum and maximum values. For each parameter, the summary statistics are calculated using pss for all four prediction locations and all five realizations. For parameter " N , all pss ¼ 0.</figDesc><graphic coords="14,66.27,74.10,221.73,162.37" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>c</head><figDesc>Calculated using equation (21a).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>d</head><figDesc>Calculated using equation (21b).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>½</head><figDesc>cut ;full &gt; 1 (Table</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><graphic coords="6,111.74,399.86,382.68,280.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Direct Measurement Types, Values, and Estimated Errors</figDesc><table><row><cell></cell><cell></cell><cell>Median (Range)</cell><cell>Also an Observation</cell></row><row><cell></cell><cell>Median (Range) of</cell><cell>of Measurement Error</cell><cell>Type for Reactive</cell></row><row><cell>Measurement Type</cell><cell>Measured Value</cell><cell>Standard Deviation a</cell><cell>Transport Model Calibration?</cell></row><row><cell>[O 2 ] (mmol L À1 ) [NO À 3 ] (mmol L À1 ) 15 N[NO À 3 ] (%) 15 N[N 2 ] (%)</cell><cell>0.0063 (0.0031-0.19) 1.0 (0.12-2.6) 13.5 (5.4-27.) 0.21 (À1.5 to 2.3)</cell><cell>0.0095 (0.0046-0.044) 0.29 (0.016-2.0) 0.54 (0.54-2.2) 0.20 (0.20-0.81)</cell><cell>yes yes yes no</cell></row><row><cell>T ( C)</cell><cell>19.2 (19.2-19.2)</cell><cell>0.95 (0.95-0.95)</cell><cell>no</cell></row><row><cell>P (mm Hg) Ar (mmol L À1 )</cell><cell>757.5 (756.9-757.8) 0.016 (0.014-0.025)</cell><cell>4.1 (4.1-4.1) 0.00032 (0.00025-0.0024)</cell><cell>no no</cell></row><row><cell>[SF 6 ] (pptv) [N 2 ] (mmol L À1 )</cell><cell>1.2 (0.34-3.5) 0.86 (0.62-1.6)</cell><cell>0.69 (0.10-4.3) 0.032 (0.015-0.25)</cell><cell>no no</cell></row><row><cell cols="2">a Standard deviations are squared to obtain measurement error variances 2 u' .</cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Derived Observation Types, Values, Estimated Errors, and Relevant Equations</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>Median (Range) of</cell><cell></cell></row><row><cell></cell><cell></cell><cell>Median (Range) of</cell><cell>Observation Error</cell><cell></cell></row><row><cell>Observation Type</cell><cell>Measurements Used to Derive</cell><cell>Observed Value</cell><cell>Standard Deviation a</cell><cell>Equations b</cell></row><row><cell>k O,app (yr À1 ) f N " N,app (%)</cell><cell>[ O 2 ], T, P, [Ar], [SF 6 ] [NO À 3 ], T, P, [Ar], [N 2 ] [ N O À 3 ], 15 N[NO À 3 ], 15 N[N 2 ],</cell><cell>0.16 (0.048-0.31) 0.77 (0.32-1.0) À15 (À20 to À3)</cell><cell>0.09 (0.02-0.2) 0.09 (0.03-0.5) 3.6 (1.2-7.7)</cell><cell>S22, S35-S43 S23-S24, S34, S36-S43 S23-S24, S26, S31-S34, S36-S43</cell></row><row><cell></cell><cell>T, P, [Ar], [N 2 ]</cell><cell></cell><cell></cell><cell></cell></row></table><note><p>a Standard deviations are squared to obtain observation error variances 2 yi . b See supporting information.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Observation Error Correlations and Average Fraction of Covariance Produced by Individual Direct Measurements</figDesc><table><row><cell>Pair of</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="2">Observation Types</cell><cell>Error Correlation</cell><cell></cell><cell cols="5">Average Fraction of Covariance a Produced by Direct Measurements</cell><cell></cell></row><row><cell>y i</cell><cell>y k</cell><cell>Median (min to max)</cell><cell>[O 2 ]</cell><cell>[ N O À 3 ]</cell><cell>15 N[NO À 3 ]</cell><cell>T</cell><cell>P</cell><cell>[ A r ]</cell><cell>[ N 2 ]</cell></row><row><cell>[O 2 ] f N " N,app 15 N[NO À 3 ] f N</cell><cell>k O,app [NO À 3 ] [NO À 3 ] " N,app k O,app</cell><cell>À0.87 (À0.97 to À0.21) À0.59 (À0.97 to À0.27) À0.33 (À0.88 to À0.08) À0.27 (À0.41 to À0.2) À0.01 (À0.08 to 0.0)</cell><cell>1</cell><cell>1 1</cell><cell>1</cell><cell>0.005</cell><cell>0.0003</cell><cell>0.995</cell><cell></cell></row><row><cell>k O,app f N</cell><cell>" N,app " N,app</cell><cell>À0.01 (À0.01 to 0.01) 0.7 (À0.69 to 0.93) b</cell><cell></cell><cell>0.722</cell><cell></cell><cell>0.003 0.003</cell><cell>0.0002 0.0002</cell><cell>0.997 0.154</cell><cell>0.121</cell></row></table><note><p>a Calculated with yiyk</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Parameter Estimates From Model Calibrations With the Full and the Diagonal Observation Weight Matrices</figDesc><table><row><cell></cell><cell></cell><cell>" N (%)</cell><cell></cell><cell></cell><cell>k N (yr À1 )</cell><cell></cell><cell></cell><cell>k O (yr À1 )</cell><cell></cell><cell></cell><cell cols="2">[ O 2 ] cut (mmol L À1 )</cell></row><row><cell></cell><cell></cell><cell>Estimate</cell><cell></cell><cell></cell><cell>Estimate</cell><cell></cell><cell></cell><cell>Estimate</cell><cell></cell><cell></cell><cell>Estimate</cell><cell></cell></row><row><cell>Realization</cell><cell>Full</cell><cell>Diag</cell><cell>Pct diff a</cell><cell>full</cell><cell>diag</cell><cell>Pct diff</cell><cell>full</cell><cell>diag</cell><cell>Pct diff</cell><cell>Full</cell><cell>diag</cell><cell>Pct diff</cell></row><row><cell>1</cell><cell>À22</cell><cell>À31</cell><cell>À42</cell><cell>0.059</cell><cell>0.047</cell><cell>À19</cell><cell>0.25</cell><cell>0.17</cell><cell>À32</cell><cell>0.012</cell><cell>0.021</cell><cell>81</cell></row><row><cell>45</cell><cell>À11</cell><cell>À17</cell><cell>À44</cell><cell>0.044</cell><cell>0.031</cell><cell>À30</cell><cell>0.17</cell><cell>0.14</cell><cell>À17</cell><cell>0.095</cell><cell>0.085</cell><cell>À11</cell></row><row><cell>124</cell><cell>À13</cell><cell>À16</cell><cell>À26</cell><cell>0.041</cell><cell>0.033</cell><cell>À18</cell><cell>0.18</cell><cell>0.13</cell><cell>À24</cell><cell>0.042</cell><cell>0.050</cell><cell>19</cell></row><row><cell>131</cell><cell>À37</cell><cell>À39</cell><cell>À7</cell><cell>0.043</cell><cell>0.032</cell><cell>À25</cell><cell>0.27</cell><cell>0.19</cell><cell>À29</cell><cell>0.003</cell><cell>0.008</cell><cell>211</cell></row><row><cell>136</cell><cell>À19</cell><cell>À25</cell><cell>À30</cell><cell>0.120</cell><cell>0.118</cell><cell>À2</cell><cell>0.21</cell><cell>0.15</cell><cell>À28</cell><cell>0.008</cell><cell>0.018</cell><cell>130</cell></row><row><cell>Median</cell><cell>À19</cell><cell>À25</cell><cell>À30</cell><cell>0.044</cell><cell>0.033</cell><cell>À19</cell><cell>0.21</cell><cell>0.15</cell><cell>À28</cell><cell>0.012</cell><cell>0.021</cell><cell>81</cell></row><row><cell>a</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 .</head><label>5</label><figDesc>Scaled Parameter Variance Ratios ( 2</figDesc><table><row><cell>bj;diag = 2 bj;full )</cell></row></table><note><p>a Pairs listed have at least one type sensitive to parameter " N or [O 2 ] cut , and have median jj &gt; 0.01. b Median values.</p></note></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Interpretation of dissolved atmospheric noble gases in natural waters</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Aeschbach-Hertig</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Peeters</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Beyerle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kipfer</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/1999WR900130</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="2779" to="2792" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Palaeotemperature reconstruction from noble gases in ground water taking into account equilibration with entrapped air</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Aeschbach-Hertig</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Peeters</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Beyerle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kipfer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">405</biblScope>
+			<biblScope unit="page" from="1040" to="1044" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Pilot points method incorporating prior information for solving the groundwater flow inverse problem</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Alcolea</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Carrera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Medina</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Water Resour</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1678" to="1689" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Determining paleotemperature and other variables by using an error-weighted, nonlinear inversion of noble gas concentrations in water</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Ballentine</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Hall</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0016-7037(99)00131-3</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geochim. Cosmochim. Acta</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">16</biblScope>
+			<biblScope unit="page" from="2315" to="2336" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Influence of the regularization weighting matrix on parameter estimates</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">R</forename><surname>Bentley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Water Resour</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="231" to="247" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Data Reduction and Error Analysis for the Physical Sciences</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Bevington</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Robinson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1992">1992</date>
+			<publisher>McGraw Hill</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Groundwater recharge and agricultural contamination</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Böhlke</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrogeol. J</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="153" to="179" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Estimation of aquifer parameters under transient and steady state conditions: 1. Maximum likelihood method incorporating prior information</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Carrera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">P</forename><surname>Neuman</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/WR022i002p00199</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="199" to="210" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Predictive error dependencies when using pilot points and singular value decomposition in groundwater model calibration</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Christensen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Doherty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Water Resour</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="674" to="700" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Prediction of regional ground water flow to streams</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Christensen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>Rasmussen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Moller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ground Water</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="351" to="360" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Incorporation of prior information on parameters into nonlinear regression groundwater flow models, 1. Theory</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Cooley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="965" to="976" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Cooley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">A theory for modeling ground-water flow in heterogeneous media</title>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="volume">1679</biblScope>
+			<biblScope unit="page">220</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Bias and uncertainty in regression-calibrated models of groundwater flow in heterogeneous media</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Cooley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Christensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Water Resour</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="639" to="656" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">R</forename><surname>Draper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Smith</surname></persName>
+		</author>
+		<title level="m">Applied Regression Analysis</title>
+		<meeting><address><addrLine>Hoboken, N.J.</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="volume">2</biblScope>
+		</imprint>
+	</monogr>
+	<note>nd ed.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">PEST: Model-Independent Parameter Estimation User Manual</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Doherty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Watermark Comput</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<date type="published" when="2008">2008</date>
+			<pubPlace>Corinda, Australia</pubPlace>
+		</imprint>
+	</monogr>
+	<note>th ed.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Addendum to the PEST Manual</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Doherty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Watermark Comput</title>
+		<imprint>
+			<date type="published" when="2010-09">2010. September 2010</date>
+			<pubPlace>Corinda, Australia</pubPlace>
+		</imprint>
+	</monogr>
+	<note>edition</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">On the information content of the thermal infrared cooling rate profile from satellite instrument measurements</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Feldman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">N</forename><surname>Liou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Shia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">L</forename><surname>Yung</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2007JD009041</idno>
+	</analytic>
+	<monogr>
+		<title level="j">J. Geophys. Res</title>
+		<imprint>
+			<biblScope unit="volume">113</biblScope>
+			<biblScope unit="page">11118</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Sensitivity analysis, calibration, and testing of a distributed hydrological model using error-based weighting and one objective function</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Foglia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">W</forename><surname>Mehl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burlando</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2008WR007255</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page">6427</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Use of submersible pressure transducers in water-resources investigations</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Freeman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Carpenter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">O</forename><surname>Rosenberry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Rousseau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Unger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Mclean</surname></persName>
+		</author>
+		<ptr target="http://pubs.usgs.gov/twri/twri8a3/" />
+	</analytic>
+	<monogr>
+		<title level="j">U.S. Geol. Surv. Tech. Water Resour. Invest. 8-A</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Fate and transport of nitrate in four shallow aquifers in agricultural areas of the USA</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Green</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Pucket</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Böhlke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Bekins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">P</forename><surname>Phillips</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Kauffman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Denver</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">M</forename><surname>Johnson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Environ. Qual</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="994" to="1009" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Mixing effects on apparent reaction rates and isotope fractionation during denitrification in a heterogeneous aquifer</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Green</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Böhlke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Bekins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">P</forename><surname>Phillips</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2009WR008903</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page">8525</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">MODFLOW-2000, the U.S. Geological Survey modular ground-water model-User guide to modularization concepts and the ground-water flow process</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Harbaugh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">R</forename><surname>Banta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Mcdonald</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">U.S. Geol. Surv. Open-File Rep</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="page">134</biblScope>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Using groundwater levels to estimate recharge</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">W</forename><surname>Healy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">G</forename><surname>Cook</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrogeol. J</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="91" to="109" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A comparison of seven methods for the inverse modelling of groundwater flow. Application to the characterisation of well catchments</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Hendricks Franssen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Alcolea</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Riva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bakr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Van Der Wiel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Stauffer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Guadagnini</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.advwatres.2009.02.011</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Water Resour</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="851" to="872" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A computer program (MODFLOWP) for estimating parameters of a transient, three-dimensional, ground-water flow model using nonlinear regression</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hill</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">U.S. Geol. Surv. Open-File Rep</title>
+		<imprint>
+			<biblScope unit="page">358</biblScope>
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Effective Groundwater Model Calibration</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Tiedeman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">With Analysis of Sensitivities, Predictions and Uncertainty</title>
+		<meeting><address><addrLine>Hoboken, N. J.</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">MODFLOW-2000, the U.S. Geological Survey modular ground-water model-User guide to the observation, sensitivity, and parameterestimation processes and three post-processing programs</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">R</forename><surname>Banta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Harbaugh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">R</forename><surname>Anderman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">U.S. Geol. Surv. Open-File Rep</title>
+		<imprint>
+			<biblScope unit="page">210</biblScope>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>James</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Doherty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A. -A</forename><surname>Eddebbarh</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1745-6584.2009.00626.x</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Practical postcalibration uncertainty analysis</title>
+		<meeting><address><addrLine>Yucca Mountain, Nevada</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="851" to="869" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">On parameterization of the inverse problem for estimating aquifer properties using tracer data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Kowalsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Finsterle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">H</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Murray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Commer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Newcomer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Englert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">I</forename><surname>Steefel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Hubbard</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2011WR011203</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page">6535</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Diffusion processes in composite porous media and their numerical integration by random walks: Generalized stochastic differential equations with discontinuous coefficients</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Labolle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Quastel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">E</forename><surname>Fogg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gravner</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/1999WR900224</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="651" to="662" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Factors controlling nitrate fluxes in groundwater in agricultural areas</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Liao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Green</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Bekins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Böhlke</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2011WR011008</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Large-scale inverse modeling with an application in hydraulic tomography</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">K</forename><surname>Kitanidis</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2010WR009144</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page">2501</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ye</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Meyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">P</forename><surname>Curtis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X.-F</forename><surname>Niu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">B</forename><surname>Yabusaki</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/wrcr.20441</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Effects of error covariance structure on estimation of model averaging weights and predictive performance</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+	<note>in press</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Identification of groundwater parameters using an adaptative multiscale method</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Majdalani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ackerer</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1745-6584.2010.00750.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Ground Water</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="548" to="559" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A reassessment of the groundwater inverse problem</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mclaughlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">R</forename><surname>Townley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1131" to="1161" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Impacts of uncertain river flow data on rainfall-runoff model calibration and discharge predictions</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Mcmillan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Freer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pappenberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Krueger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Clark</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Hydrol. Processes</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1270" to="1284" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Meyer</surname></persName>
+		</author>
+		<title level="m">Data Analysis for Scientists and Engineers</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley</publisher>
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">A statistical approach to the inverse problem of aquifer hydrology, 1, Theory</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">P</forename><surname>Neuman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yakowitz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="845" to="860" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Improving noble gas based paleoclimate reconstruction and groundwater dating using 20Ne/22Ne ratios, Geochim</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Peeters</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Beyerle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Aeschbach-Hertig</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Holocher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Brennwald</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kipfer</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0016-7037(02)00969-9</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Cosmochim. Acta</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="587" to="600" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">UCODE_2005 and six other computer codes for universal sensitivity analysis, calibration, and uncertainty evaluation</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">P</forename><surname>Poeter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">R</forename><surname>Banta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Mehl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Christensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">U.S. Geol. Surv. Tech. Methods</title>
+		<imprint>
+			<biblScope unit="page">283</biblScope>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Understanding predictive uncertainty in hydrologic modeling: The challenge of identifying input and structural errors</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Renard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kavetski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Thyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Kuczera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">W</forename><surname>Franks</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2009WR008328</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page">5521</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Toward a reliable decomposition of predictive uncertainty in hydrological modeling: Characterizing rainfall errors using conditional simulation</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Renard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kavetski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Leblois</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Thyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Kuczera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">W</forename><surname>Franks</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2011WR010643</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page">11516</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">A formal likelihood function for parameter and predictive inference of hydrologic models with correlated, heteroscedastic, and non-Gaussian errors</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Schoups</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Vrugt</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2009WR008933</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page">10531</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Uncertainty in air flow calculations using tracer gas measurements</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Sherman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Build. Environ</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="347" to="354" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">An interactive multiobjective optimization framework for groundwater inverse modeling</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">S</forename><surname>Minsker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Valocchi</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.advwatres.2008.05.005</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Water Resour</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1269" to="1283" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Statistical error propagation</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tellinghuisen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Phys. Chem. A</title>
+		<imprint>
+			<biblScope unit="volume">105</biblScope>
+			<biblScope unit="page" from="3917" to="3921" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">O 2 reduction and denitrification rates in shallow aquifers</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Tesoriero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Puckett</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2011WR010471</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<date type="published" when="2011">2011. 12522</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Critical evaluation of parameter consistency and predictive uncertainty in hydrological modeling: A case study using Bayesian total error analysis</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Thyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Renard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kavetski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Kuczera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">W</forename><surname>Franks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Srikanthan</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2008WR006825</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Methods for using groundwater model predictions to guide hydrogeologic data collection, with application to the Death Valley regional groundwater flow system</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Tiedeman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">A</forename><surname>. D'agnese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">C</forename><surname>Faunt</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2001WR001255</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">1010</biblScope>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">A method for evaluating the importance of system state observations to model predictions, with application to the Death Valley regional groundwater flow system</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Tiedeman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Ely</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>O'brien</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2004WR003313</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page">12411</biblScope>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Barometric fluctuations in wells tapping deep unconfined aquifers</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">P</forename><surname>Weeks</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/WR015i005p01167</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1167" to="1176" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Highly parameterized inverse estimation of hydraulic conductivity and porosity in a three-dimensional, heterogeneous transport experiment</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yoon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Mckenna</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2012WR012149</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Water Resour. Res</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page">10536</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

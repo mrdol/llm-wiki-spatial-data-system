@@ -1,0 +1,1027 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">MedMNIST v2 -A large-scale lightweight benchmark for 2D and 3D biomedical image classification</title>
+				<funder ref="#_4HMPumx">
+					<orgName type="full">National Science Foundation of China</orgName>
+				</funder>
+				<funder ref="#_Y3FQVD3 #_txbUyEa">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Jiancheng</forename><surname>Yang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Shanghai Jiao tong University</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">china</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Rui</forename><surname>Shi</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution">Shanghai Jiao tong University</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">china</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Donglai</forename><surname>Wei</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Boston college</orgName>
+								<address>
+									<addrLine>chestnut Hill</addrLine>
+									<region>MA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Zequan</forename><surname>Liu</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="institution">RWtH Aachen University</orgName>
+								<address>
+									<settlement>Aachen</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Lin</forename><surname>Zhao</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">Department of endocrinology and Metabolism</orgName>
+								<orgName type="institution" key="instit1">fudan institute of Metabolic Diseases, Zhongshan Hospital</orgName>
+								<orgName type="institution" key="instit2">fudan University</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">china</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Bilian</forename><surname>Ke</surname></persName>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Ophthalmology</orgName>
+								<orgName type="institution" key="instit1">Shanghai General Hospital</orgName>
+								<orgName type="institution" key="instit2">Shanghai Jiao tong University School of Medicine</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">china</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Hanspeter</forename><surname>Pfister</surname></persName>
+							<affiliation key="aff5">
+								<orgName type="institution">Harvard University</orgName>
+								<address>
+									<settlement>cambridge</settlement>
+									<region>MA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Bingbing</forename><surname>Ni</surname></persName>
+							<email>nibingbing@sjtu.edu.cn</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Shanghai Jiao tong University</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">china</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">MedMNIST v2 -A large-scale lightweight benchmark for 2D and 3D biomedical image classification</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">A3A0B860E616933CE2132FC53E562BD8</idno>
+					<idno type="DOI">10.1038/s41597-022-01721-8</idno>
+					<note type="submission">Received: 29 November 2021; Accepted: 26 September 2022;</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We introduce MedMNIST v2, a large-scale MNIST-like dataset collection of standardized biomedical images, including 12 datasets for 2D and 6 datasets for 3D. All images are pre-processed into a small size of 28 × 28 (2D) or 28 × 28 × 28 (3D) with the corresponding classification labels so that no background knowledge is required for users. Covering primary data modalities in biomedical images, MedMNIST v2 is designed to perform classification on lightweight 2D and 3D images with various dataset scales (from 100 to 100,000) and diverse tasks (binary/multi-class, ordinal regression, and multi-label). The resulting dataset, consisting of 708,069 2D images and 9,998 3D images in total, could support numerous research/educational purposes in biomedical image analysis, computer vision, and machine learning. We benchmark several baseline methods on MedMNIST v2, including 2D/3D neural networks and opensource/commercial AutoML tools. The data and code are publicly available at <ref type="url" target="https://medmnist.com/">https://medmnist.com/</ref>.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Background &amp; Summary</head><p>Deep learning based biomedical image analysis plays an important role in the intersection of artificial intelligence and healthcare <ref type="bibr" target="#b0">[1]</ref><ref type="bibr" target="#b1">[2]</ref><ref type="bibr" target="#b2">[3]</ref> . Is deep learning a panacea in this area? Because of the inherent complexity in biomedicine, data modalities, dataset scales and tasks in biomedical image analysis could be highly diverse. Numerous biomedical imaging modalities are designed for specific purposes by adjusting sensors and imaging protocols. The biomedical image dataset scales in biomedical image analysis could range from 100 to 100,000. Moreover, even only considering medical image classification, there are binary/multi-class classification, multi-label classification, and ordinal regression. As a result, it needs large amounts of engineering effort to tune the deep learning models in real practice. On the other hand, it is not easy to identify whether a specific model design could be generalizable if it is only evaluated on a few datasets. Large and diverse datasets are urged by the research communities to fairly evaluate generalization performance of models.</p><p>Benchmarking data-driven approaches on various domains has been addressed by researchers. Visual Domain Decathlon (VDD) <ref type="bibr" target="#b3">4</ref> develops an evaluation protocol on 10 existing natural image datasets to assess the model generalizability on different domains. In medical imaging area, Medical Segmentation Decathlon (MSD) <ref type="bibr" target="#b4">5</ref> introduces 10 3D medical image segmentation datasets to evaluate end-to-end segmentation performance: from whole 3D volumes to targets. It is particularly important to understand the end-to-end performance of the current state of the art with MSD. However, the contribution of each part in the end-to-end systems could be particularly hard to analyze. As reported in the winning solutions <ref type="bibr" target="#b5">6,</ref><ref type="bibr" target="#b6">7</ref> , hyperparameter tuning, pre/post-processing, model ensemble strategies and training/test-time augmentation could be more important than the machine learning part (e.g., model architectures, learning scheme). Therefore, a large but simple dataset focusing on the machine learning part like VDD, rather than the end-to-end system like MSD, will serve as a better benchmark to evaluate the generalization performance of the machine learning algorithms on the medical image analysis tasks.</p><p>In this study, we aim at a new "decathlon" dataset for biomedical image analysis, named MedMNIST v2. As illustrated in Fig. <ref type="figure" target="#fig_0">1</ref>, MedMNIST v2 is a large-scale benchmark for 2D and 3D biomedical image classification, covering 12 2D datasets with 708,069 images and 6 3D datasets with 9,998 images. It is designed to be:</p><p>• Diverse: It covers diverse data modalities, dataset scales (from 100 to 100,000), and tasks (binary/multi-class, multi-label, and ordinal regression). It is as diverse as the VDD <ref type="bibr" target="#b3">4</ref> and MSD <ref type="bibr" target="#b4">5</ref> to fairly evaluate the generalizable performance of machine learning algorithms in different settings, but both 2D and 3D biomedical images are provided.</p><p>• Standardized: Each sub-dataset is pre-processed into the same format (see details in Methods), which requires no background knowledge for users. As an MNIST-like 8 dataset collection to perform classification tasks on small images, it primarily focuses on the machine learning part rather than the end-to-end system. Furthermore, we provide standard train-validation-test splits for all datasets in MedMNIST v2, therefore algorithms could be easily compared.</p><p>• Lightweight: The small size of 28 × 28 (2D) or 28 × 28 × 28 (3D) is friendly to evaluate machine learning algorithms.</p><p>• Educational: As an interdisciplinary research area, biomedical image analysis is difficult to hand on for researchers from other communities, as it requires background knowledge from computer vision, machine learning, biomedical imaging, and clinical science. Our data with the Creative Commons (CC) License is easy to use for educational purposes.</p><p>MedMNIST v2 is extended from our preliminary version, MedMNIST v1 <ref type="bibr" target="#b8">9</ref> , with 10 2D datasets for medical image classification. As MedMNIST v1 is more medical-oriented, we additionally provide 2 2D bioimage datasets. Considering the popularity of 3D imaging in biomedical area, we carefully develop 6 3D datasets following the same design principle as 2D ones. A comparison of the "decathlon" datasets could be found in Table <ref type="table">1</ref>. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Visual Domain Decathlon 4</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Medical Segmentation Decathlon 5</head><p>MedMNIST v1 <ref type="bibr" target="#b8">9</ref> MedMNIST v2</p><p>Domain Natural Medical Medical Medical Task Classification Segmentation Classification Classification Datasets 10 10 10 18 2D/3D 2D 3D 2D 2D &amp; 3D Image Size Variable (≈72 2 ) Variable (≈(30-300) 3 ) Fixed (28 2 ) Fixed (28 2 &amp; 28 3 ) Table 1. A comparison of MedMNIST v2 and other "decathlon" datasets. We benchmark several standard deep learning methods and AutoML tools with MedMNIST v2 on both 2D and 3D datasets, including ResNets 10 with early-stopping strategies on validation set, open-source AutoML tools (auto-sklearn 11 and AutoKeras 12 ) and a commercial AutoML tool, Google AutoML Vision (for 2D only). All benchmark experiments are repeated at least 3 times for more stable results than in MedMNIST v1. Besides, the code for MedMNIST has been refactored to make it more friendly to use.</p><p>As a large-scale benchmark in biomedical image analysis, MedMNIST has been particularly useful for machine learning and computer vision research <ref type="bibr" target="#b12">[13]</ref><ref type="bibr" target="#b13">[14]</ref><ref type="bibr" target="#b14">[15]</ref> , e.g., AutoML, trustworthy machine learning, domain adaptive learning. Moreover, considering the scarcity of 3D image classification datasets, the MedMNIST3D in MedMNIST v2 from diverse backgrounds could benefit research in 3D computer vision.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Design principles.</head><p>The MedMNIST v2 dataset consists of 12 2D and 6 3D standardized datasets from carefully selected sources covering primary data modalities (e.g., X-ray, OCT, ultrasound, CT, electron microscope), diverse classification tasks (binary/multi-class, ordinal regression, and multi-label) and dataset scales (from 100 to 100,000). We illustrate the landscape of MedMNIST v2 in Fig. <ref type="figure" target="#fig_1">2</ref>. As it is hard to categorize the data modalities, we use the imaging resolution instead to represent the modality. The diverse dataset design could lead to diverse task difficulty, which is desirable as a biomedical image classification benchmark.</p><p>Although it is fair to compare performance on the test set only, it could be expensive to compare the impact of the train-validation split. Therefore, we provide an official train-validation-test split for each subset. We use the official data split from source dataset (if provided) to avoid data leakage. If the source dataset has only a split of training and validation set, we use the official validation set as test set and split the official training set with a ratio of 9:1 into training-validation. For the dataset without an official split, we split the dataset randomly at the patient level with a ratio of 7:1:2 into training-validation-test. All images are pre-processed into a MNIST-like format, i.e., 28 × 28 (2D) or 28 × 28 × 28 (3D), with cubic spline interpolation operation for image resizing. The MedMNIST uses the classification labels from the source datasets directly in most cases, but the labels could be simplified (merged or deleted classes) if the classification tasks on the small images are too difficult. All source datasets are either associated with the Creative Commons (CC) Licenses or developed by us, which allows us to develop derivative datasets based on them. Some datasets are under CC-BY-NC license; we have contacted the authors and obtained the permission to re-distribute the datasets.</p><p>We list the details of all datasets in Table <ref type="table" target="#tab_0">2</ref>. For simplicity, we call the collection of all 2D datasets as MedMNIST2D, and that of 3D as MedMNIST3D. In the next sections, we will describe how each dataset is created.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Details for MedMNIST2D.</head><p>PathMNIST. The PathMNIST is based on a prior study <ref type="bibr" target="#b15">16,</ref><ref type="bibr" target="#b16">17</ref> for predicting survival from colorectal cancer histology slides, providing a dataset (NCT-CRC-HE-100K) of 100,000 non-overlapping image patches from hematoxylin &amp; eosin stained histological images, and a test dataset (CRC-VAL-HE-7K) of 7,180 image patches from a different clinical center. The dataset is comprised of 9 types of tissues, resulting in a multi-class classification task. We resize the source images of 3 × 224 × 224 into 3 × 28 × 28, and split NCT-CRC-HE-100K into training and validation set with a ratio of 9:1. The CRC-VAL-HE-7K is treated as the test set. ChestMNIST. The ChestMNIST is based on the NIH-ChestXray14 dataset <ref type="bibr" target="#b17">18</ref> , a dataset comprising 112,120 frontal-view X-Ray images of 30,805 unique patients with the text-mined 14 disease labels, which could be formulized as a multi-label binary-class classification task. We use the official data split, and resize the source images of 1 × 1,024 × 1,024 into 1 × 28 × 28.</p><p>DermaMNIST. The DermaMNIST is based on the HAM10000 <ref type="bibr" target="#b18">[19]</ref><ref type="bibr" target="#b19">[20]</ref><ref type="bibr" target="#b20">[21]</ref> , a large collection of multi-source dermatoscopic images of common pigmented skin lesions. The dataset consists of 10,015 dermatoscopic images categorized as 7 different diseases, formulized as a multi-class classification task. We split the images into training, validation and test set with a ratio of 7:1:2. The source images of 3 × 600 × 450 are resized into 3 × 28 × 28.</p><p>OCTMNIST. The OCTMNIST is based on a prior dataset <ref type="bibr" target="#b21">22,</ref><ref type="bibr" target="#b22">23</ref> of 109,309 valid optical coherence tomography (OCT) images for retinal diseases. The dataset is comprised of 4 diagnosis categories, leading to a multi-class classification task. We split the source training set with a ratio of 9:1 into training and validation set, and use its source validation set as the test set. The source images are gray-scale, and their sizes are (384-1,536) × (277-512). We center-crop the images with a window size of length of the short edge and resize them into 1 × 28 × 28.</p><p>PneumoniaMNIST. The PneumoniaMNIST is based on a prior dataset <ref type="bibr" target="#b21">22,</ref><ref type="bibr" target="#b22">23</ref> of 5,856 pediatric chest X-Ray images. The task is binary-class classification of pneumonia against normal. We split the source training set with a ratio of 9:1 into training and validation set, and use its source validation set as the test set. The source images are gray-scale, and their sizes are (384-2,916) × (127-2,713). We center-crop the images with a window size of length of the short edge and resize them into 1 × 28 × 28.</p><p>RetinaMNIST. The RetinaMNIST is based on the DeepDRiD <ref type="bibr" target="#b23">24</ref> challenge, which provides a dataset of 1,600 retina fundus images. The task is ordinal regression for 5-level grading of diabetic retinopathy severity. We split the source training set with a ratio of 9:1 into training and validation set, and use the source validation set as the test set. The source images of 3 × 1,736 × 1,824 are center-cropped with a window size of length of the short edge and resized into 3 × 28 × 28.</p><p>BreastMNIST. The BreastMNIST is based on a dataset <ref type="bibr" target="#b24">25</ref> of 780 breast ultrasound images. It is categorized into 3 classes: normal, benign, and malignant. As we use low-resolution images, we simplify the task into binary classification by combining normal and benign as positive and classifying them against malignant as negative.</p><p>Name Source Data Modality Task (# Classes/ Labels) # Samples # Training/Validation/Test</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MedMNIST2D</head><p>PathMNIST Kather et al. <ref type="bibr" target="#b15">16,</ref><ref type="bibr" target="#b16">17</ref> Colon Pathology MC (9) 107,180 89,996/10,004/7,180 ChestMNIST Wang et al. <ref type="bibr" target="#b17">18</ref> Chest X-Ray ML ( <ref type="formula">14</ref>) BC (2) 112,120 78,468/11,219/22,433 DermaMNIST Tschandl et al. <ref type="bibr" target="#b18">19,</ref><ref type="bibr" target="#b19">20</ref> , Codella et al. <ref type="bibr" target="#b20">21</ref> Dermatoscope MC (7) 10,015 7,007/1,003/2,005 OCTMNIST Kermany et al. <ref type="bibr" target="#b21">22,</ref><ref type="bibr" target="#b22">23</ref> Retinal OCT MC (4) 109,309 97,477/10,832/1,000 PneumoniaMNIST Kermany et al. <ref type="bibr" target="#b21">22,</ref><ref type="bibr" target="#b22">23</ref> Chest X-Ray BC (2) 5,856 4,708/524/624 RetinaMNIST DeepDRiD Team <ref type="bibr" target="#b23">24</ref> Fundus Camera OR ( <ref type="formula">5</ref> We split the source dataset with a ratio of 7:1:2 into training, validation and test set. The source images of 1 × 500 × 500 are resized into 1 × 28 × 28.</p><p>BloodMNIST. The BloodMNIST is based on a dataset <ref type="bibr" target="#b25">26,</ref><ref type="bibr" target="#b26">27</ref> of individual normal cells, captured from individuals without infection, hematologic or oncologic disease and free of any pharmacologic treatment at the moment of blood collection. It contains a total of 17,092 images and is organized into 8 classes. We split the source dataset with a ratio of 7:1:2 into training, validation and test set. The source images with resolution 3 × 360 × 363 pixels are center-cropped into 3 × 200 × 200, and then resized into 3 × 28 × 28.</p><p>TissueMNIST. We use the BBBC051 <ref type="bibr" target="#b27">28</ref> , available from the Broad Bioimage Benchmark Collection <ref type="bibr" target="#b28">29</ref> . The dataset contains 236,386 human kidney cortex cells, segmented from 3 reference tissue specimens and organized into 8 categories. We split the source dataset with a ratio of 7:1:2 into training, validation and test set. Each gray-scale image is 32 × 32 × 7 pixels, where 7 denotes 7 slices. We obtain 2D maximum projections by taking the maximum pixel value along the axial-axis of each pixel, and resize them into 28 × 28 gray-scale images.</p><p>Organ{A,C,S}MNIST. The Organ{A,C,S}MNIST is based on 3D computed tomography (CT) images from Liver Tumor Segmentation Benchmark (LiTS) <ref type="bibr" target="#b29">30</ref> . They are renamed from OrganMNIST_{Axial,Coronal,Sagittal} (in MedMNIST v1 <ref type="bibr" target="#b8">9</ref> ) for simplicity. We use bounding-box annotations of 11 body organs from another study <ref type="bibr" target="#b30">31</ref> to obtain the organ labels. Hounsfield-Unit (HU) of the 3D images are transformed into gray-scale with an abdominal window. We crop 2D images from the center slices of the 3D bounding boxes in axial/coronal/sagittal views (planes). The only differences of Organ{A,C,S}MNIST are the views. The images are resized into 1 × 28 × 28 to perform multi-class classification of 11 body organs. 115 and 16 CT scans from the source training set are used as training and validation set, respectively. The 70 CT scans from the source test set are treated as the test set.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Details for MedMNIST3D.</head><p>OrganMNIST3D. The source of the OrganMNIST3D is the same as that of the Organ{A,C,S}MNIST. Instead of 2D images, we directly use the 3D bounding boxes and process the images into 28 × 28 × 28 to perform multi-class classification of 11 body organs. The same 115 and 16 CT scans as the Organ{A,C,S}MNIST from the source training set are used as training and validation set, respectively, and the same 70 CT scans as the Organ{A,C,S}MNIST from the source test set are treated as the test set.</p><p>NoduleMNIST3D. The NoduleMNIST3D is based on the LIDC-IDRI <ref type="bibr" target="#b31">32</ref> , a large public lung nodule dataset, containing images from thoracic CT scans. The dataset is designed for both lung nodule segmentation and 5-level malignancy classification task. To perform binary classification, we categorize cases with malignancy level 1/2 into negative class and 4/5 into positive class, ignoring the cases with malignancy level 3. We split the source dataset with a ratio of 7:1:2 into training, validation and test set, and center-crop the spatially normalized images (with a spacing of 1 mm × 1 mm × 1 mm) into 28 × 28 × 28.</p><p>AdrenalMNIST3D. The AdrenalMNIST3D is a new 3D shape classification dataset, consisting of shape masks from 1,584 left and right adrenal glands (i.e., 792 patients). Collected from Zhongshan Hospital Affiliated to Fudan University, each 3D shape of adrenal gland is annotated by an expert endocrinologist using abdominal computed tomography (CT), together with a binary classification label of normal adrenal gland or adrenal mass. Considering patient privacy, we do not provide the source CT scans, but the real 3D shapes of adrenal glands and their classification labels. We calculate the center of adrenal and resize the center-cropped 64 mm × 64 mm × 64 mm volume into 28 × 28 × 28. The dataset is randomly split into training/validation/test set of 1,188/98/298 on a patient level.</p><p>FractureMNIST3D. The FractureMNIST3D is based on the RibFrac Dataset <ref type="bibr" target="#b32">33</ref> , containing around 5,000 rib fractures from 660 computed tomography (CT) scans. The dataset organizes detected rib fractures into 4 clinical categories (i.e., buckle, nondisplaced, displaced, and segmental rib fractures). As we use low-resolution images, we disregard segmental rib fractures and classify 3 types of rib fractures (i.e., buckle, nondisplaced, and displaced). For each annotated fracture area, we calculate its center and resize the center-cropped 64 mm × 64 mm × 64 mm image into 28 × 28 × 28. The official split of training, validation and test set is used.</p><p>VesselMNIST3D. The VesselMNIST3D is based on an open-access 3D intracranial aneurysm dataset, IntrA <ref type="bibr" target="#b33">34</ref> , containing 103 3D models (meshes) of entire brain vessels collected by reconstructing MRA images. 1,694 healthy vessel segments and 215 aneurysm segments are generated automatically from the complete models. We fix the non-watertight mesh with PyMeshFix <ref type="bibr" target="#b34">35</ref> and voxelize the watertight mesh with trimesh <ref type="bibr" target="#b35">36</ref> into 28 × 28 × 28 voxels. We split the source dataset with a ratio of 7:1:2 into training, validation and test set.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SynapseMNIST3D.</head><p>The SynapseMNIST3D is a new 3D volume dataset to classify whether a synapse is excitatory or inhibitory. It uses a 3D image volume of an adult rat acquired by a multi-beam scanning electron microscope. The original data is of the size 100 × 100 × 100 um 3 and the resolution 8 × 8 × 30 nm 3 , where a (30um) <ref type="bibr" target="#b2">3</ref> sub-volume was used in the MitoEM dataset <ref type="bibr" target="#b36">37</ref> with dense 3D mitochondria instance segmentation labels. Three neuroscience experts segment a pyramidal neuron within the whole volume and proofread all the synapses on this neuron with excitatory/inhibitory labels. For each labeled synaptic location, we crop a 3D volume of 1024 × 1024 × 1024 nm <ref type="bibr" target="#b2">3</ref> and resize it into 28 × 28 × 28 voxels. Finally, the dataset is randomly split with a ratio of 7:1:2 into training, validation and test set.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data Records</head><p>The data files of MedMNIST v2 dataset can be accessed at Zenodo <ref type="bibr" target="#b37">38</ref> . It contains 12 pre-processed 2D datasets (MedMNIST2D) and 6 pre-processed 3D datasets (MedMNIST3D). Each subset is saved in NumPy 39 npz format, named as &lt;data&gt; mnist.npz for MedMNIST2D and &lt;data&gt; mnist3d.npz for MedMNIST3D, and is comprised of 6 keys ("train_images", "train_labels", "val_images", "val_labels", "test_images", "test_labels").</p><p>The data type of the dataset is uint8.</p><p>• "{train,val,test}_images": an array containing images, with a shape of N × 28 × 28 for 2D gray-scale datasets, of N × 28 × 28 × 3 for 2D RGB datasets, of N × 28 × 28 × 28 for 3D datasets. N denotes the number of samples in training/validation/test set.</p><p>• "{train,val,test}_labels": an array containing ground-truth labels, with a shape of N × 1 for multi-class/binary-class/ordinal regression datasets, of N × L for multi-lable binary-class datasets. N denotes the number of samples in training/validation/test set and L denotes the number of task labels in the multi-label dataset (i.e., 14 for the ChestMNIST).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Technical Validation</head><p>Baseline methods. For MedMNIST2D, we first implement ResNets <ref type="bibr" target="#b9">10</ref> with a simple early-stopping strategy on validation set as baseline methods. The ResNet model contains 4 residual layers and each layer has several blocks, which is a stack of convolutional layers, batch normalization and ReLU activation. The input channel is always 3 since we convert gray-scale images into RGB images. To fairly compare with other methods, the input resolutions are 28 or 224 (resized from 28) for the ResNet-18 and ResNet-50. For all model training, we use cross entropy-loss and set the batch size as 128. We utilize an Adam optimizer <ref type="bibr" target="#b39">40</ref> with an initial learning rate of 0.001 and train the model for 100 epochs, delaying the learning rate by 0.1 after 50 and 75 epochs. For MedMNIST3D, we implement ResNet-18/ResNet-50 10 with 2.5D/3D/ACS <ref type="bibr" target="#b40">41</ref> convolutions with a simple early-stopping strategy on validation set as baseline methods, using the one-line 2D neural network converters provided in the official ACS code repository (<ref type="url" target="https://github.com/M3DV/ACSConv">https://github.com/M3DV/ACSConv</ref>). When loading the datasets, we copy the single channel into 3 channels to make it compatible. For all model training, we use cross-entropy loss and set the batch size as 32. We utilize an Adam optimizer <ref type="bibr" target="#b39">40</ref> with an initial learning rate of 0.001 and train the model for 100 epochs, delaying the learning rate by 0.1 after 50 and 75 epochs. Additionally, as a regularization for the two datasets of shape modality (i.e., AdrenalMNIST3D/VesselMNIST3D), we multiply the training set by a random value in [0, 1] during training and multiply the images by a fixed coefficient of 0.5 during evaluation.</p><p>The details of model implementation and training scheme can be found in our code.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>AutoML Methods.</head><p>We have also selected several AutoML methods: auto-sklearn <ref type="bibr" target="#b10">11</ref> as the representative of open-source AutoML tools for statistical machine learning, AutoKeras <ref type="bibr" target="#b11">12</ref> as the representative of open-source AutoML tools for deep learning, and Google AutoML Vision as the representative of commercial black-box AutoML tools, with deep learning empowered. We run auto-sklearn <ref type="bibr" target="#b10">11</ref> and AutoKeras 12 on both MedMNIST2D and MedMNIST3D, and Google AutoML Vision on MedMNIST2D only. auto-sklearn <ref type="bibr" target="#b10">11</ref> automatically searches the algorithms and hyper-parameters in scikit-learn 42 package. We set time limit for search of appropriate models according to the dataset scale. The time limit is 2 hours for 2D datasets with scale &lt;10,000, 4 hours for those of [10,000,50,000], and 6 hours for those &gt;50,000. For 3D datasets, we set time limit as 4 hours. We flatten the images into one dimension, and provide reshaped one-dimensional data with the corresponding labels for auto-sklearn to fit.</p><p>AutoKeras <ref type="bibr" target="#b11">12</ref> based on Keras package <ref type="bibr" target="#b42">43</ref> searches deep neural networks and hyper-parameters. For each dataset, we set number of max_trials as 20 and number of epochs as 20. It tries 20 different Keras models and trains each model for 20 epochs. We <ref type="url" target="https://cloud.google.com/vision/automl/docs">choose the best model based on the highest AUC</ref> score on validation set.</p><p>Google AutoML Vision (<ref type="url" target="https://cloud.google.com/vision/automl/docs">https://cloud.google.com/vision/automl/docs</ref>, experimented in July, 2021) is a commercial AutoML tool offered as a service from Google Cloud. We train Edge exportable models of MedMNIST2D on Google AutoML Vision and export trained quantized models into TensorFlow Lite format to do offline inference. We set number of node hours of each dataset according to the data scale. We allocate 1 node hour for dataset with scale around 1,000, 2 node hours for scale around 10,000, 3 node hours for scale around 100,000, and 4 node hours for scale around 200,000.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>evaluation.</head><p>Area under ROC curve (AUC) <ref type="bibr" target="#b43">44</ref> and Accuracy (ACC) are used as the evaluation metrics. AUC is a threshold-free metric to evaluate the continuous prediction scores, while ACC evaluates the discrete prediction labels given threshold (or argmax). AUC is less sensitive to class imbalance than ACC. Since there is no severe class imbalance on our datasets, ACC could also serve as a good metric. Although there are many other metrics, we simply select AUC and ACC for the sake of simplicity and standardization of evaluation. We report the AUC and ACC for each dataset. Data users are also encouraged to analyze the average performance over the 12 2D datasets and 6 3D datasets to benchmark their methods. Thereby, we report average AUC and ACC score over MedMNIST2D and MedMNIST3D respectively to easily compare the performance of different methods.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Benchmark on each dataset.</head><p>The performance on each dataset of MedMNIST2D and MedMNIST3D is reported in Tables <ref type="table" target="#tab_1">3</ref> and <ref type="table">4</ref>, respectively. We calculate the mean value of at least 3 trials for each method on each dataset.</p><p>For 2D datasets, Google AutoML Vision is well-performing in general, however it could not always win, even compared with the baseline ResNet-18 and ResNet-50. Auto-sklearn performs poorly on most datasets, indicating that the typical statistical machine learning algorithms do not work well on our 2D medical image datasets. AutoKeras performs well on datasets with large scales, however relatively worse on datasets with small scale. With the same depth of ResNet backbone, datasets of resolution 224 outperform resolution 28 in general. For datasets of resolution 28, ResNet-18 wins higher scores than ResNet-50 on most datasets. For 3D datasets, AutoKeras does not work well, while auto-sklearn performs better than on MedMNIST2D. Auto-sklearn is superior to ResNet-18 + 2.5D and ResNet-50 + 2.5D in general, and even outperforms all the other methods in ACC score on AdrenalMNIST3D. 2.5D models have poorer performance compared with 3D and ACS models, while 3D and ACS models are comparable to each other. With 3D convolution, ResNet-50 backbone surpasses ResNet-18.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Average performance of each method.</head><p>To compare the performance of various methods, we report the average AUC and average ACC of each method over all datasets. The average performance of methods on MedMNIST2D and MedMNIST3D are reported in Tables <ref type="table" target="#tab_2">5</ref> and <ref type="table" target="#tab_3">6</ref>, respectively. Despite the great gap among the metrics of different sub-datasets, the average AUC and ACC could still manifest the performance of each method.</p><p>For Table 4. Benchmark on each dataset of MedMNIST3D in metrics of AUC and ACC.</p><p>images in axial/coronal/sagittal views (planes), respectively. They are sliced before being resized into 1 × 28 × 28.</p><p>On the other hand, OrganMNIST3D is resized into 28 × 28 × 28 directly. Therefore, the Organ{A,C,S}MNIST metrics in Table <ref type="table" target="#tab_1">3</ref> and the OrganMNIST3D metrics in Table <ref type="table">4</ref> should not be compared.</p><p>We perform experiments to clarify the difference between Organ{A,C,S}MNIST and OrganMNIST3D. We slice the OrganMNIST3D dataset in the axial/coronal/sagittal views (planes) respectively to generate the central slices. For each view, we take the 60% central slices when slicing and discard the other 40% slices. We evaluate the model performance on the OrganMNIST3D, with 2D-input ResNet-18 trained with Organ{A,C,S}MNIST and the axial/coronal/sagittal central slices of OrganMNIST3D, as well as 3D-input ResNet-18. The results are reported in Table <ref type="table">7</ref>. The performance of 3D-input models is comparable to that of 2D-input models with axial view in general. In other words, with an appropriate setting, the 2D inputs and 3D inputs are comparable on the OrganMNIST3D dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Usage Notes</head><p>The MedMNIST can be freely available at <ref type="url" target="https://medmnist.com/">https://medmnist.com/</ref>. We would be grateful if the users of MedMNIST dataset could cite MedMNIST v1 <ref type="bibr" target="#b8">9</ref> and v2 (this paper), as well as the corresponding source dataset in the publications.</p><p>Please note that this dataset is NOT intended for clinical use, as substantially reducing the resolution of medical images might result in images that are insufficient to represent and capture different disease pathologies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>AVG AUC AVG ACC</head><p>ResNet-18 ( <ref type="formula">28</ref> Table 7. Model performance on OrganMNIST3D test set in various settings, including (upper) 2D-input ResNet-18 10 trained with Organ{A,C,S}MNIST and axial/coronal/sagittal central slices of OrganMNIST3D, and (lower) 3D-input ResNet-18 with 2.5D/3D/ACS 41 convolutions, trained with OrganMNIST3D (same as Table <ref type="table">4</ref>).</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 An overview of MedMNIST v2. MedMNIST is a large-scale MNIST-like collection of standardized 2D and 3D biomedical images with classification labels. It is designed to be diverse, standardized, educational, and lightweight, which could support numerous research/educational purposes.</figDesc><graphic coords="2,98.62,54.78,456.14,237.74" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2</head><label>2</label><figDesc>Fig. 2 The landscape of MedMNIST v2. The horizontal axis denotes the base-10 logarithm of the dataset scale, and the vertical axis denotes base-10 logarithm of imaging resolution. The upward and downward triangles are used to distinguish between 2D datasets and 3D datasets, and the 4 different colors represent different tasks.</figDesc><graphic coords="3,155.63,46.23,324.02,198.26" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 .</head><label>2</label><figDesc>Data</figDesc><table><row><cell>)</cell><cell>1,600</cell><cell>1,080/120/400</cell></row></table><note><p>summary of MedMNIST v2 dataset, including data source, data modality, type of the classification task together with the number of classes for multi-class or that of labels for multi-label, number of samples in total and in each data split (training/validation/test). Upper: MedMNIST2D, 12 datasets of 2D images. Lower: MedMNIST3D, 6 datasets of 3D images. MC: Multi-Class. BC: Binary-Class. ML: Multi-Label. OR: Ordinal Regression.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3 .</head><label>3</label><figDesc>MedMNIST2D, Google AutoML Vision outperforms all the other methods in average AUC, however, it is very close to the performance of baseline ResNets. The ResNets surpass auto-sklearn and AutoKeras, and outperform Google AutoML Vision in average ACC. Under the same backbone, the datasets with resolution of 224 win higher AUC and ACC score than resolution of 28. While under the same resolution, ResNet-18 is superior to ResNet-50. For MedMNIST3D, AutoKeras does not perform well, performing worse than auto-sklearn. Under the same ResNet backbone, 2.5D models are inferior to 3D and ACS models and perform worse than auto-sklearn and AutoKeras. Surprisingly, the ResNet-50 with standard 3D convolution outperforms all the other methods on average. Difference between Organ{A,C,S}MNIST and OrganMNIST3D. Organ{A,C,S}MNIST and OrganMNIST3D are generated from the same source dataset, and share the same task and the same data split. However, samples in the 2D and 3D datasets are different. Organ{A,C,S}MNIST are sampled slices of 3D bounding boxes of 3D CT Benchmark on each dataset of MedMNIST2D in metrics of AUC and ACC.</figDesc><table><row><cell></cell><cell></cell><cell cols="2">PathMNIST</cell><cell cols="2">ChestMNIST</cell><cell cols="3">DermaMNIST</cell><cell cols="2">OCTMNIST</cell><cell cols="3">PneumoniaMNIST RetinaMNIST</cell></row><row><cell>Methods</cell><cell></cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell></cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell></row><row><cell cols="2">ResNet-18 (28) 10</cell><cell>0.983</cell><cell>0.907</cell><cell>0.768</cell><cell>0.947</cell><cell cols="2">0.917</cell><cell>0.735</cell><cell>0.943</cell><cell>0.743</cell><cell>0.944</cell><cell>0.854</cell><cell>0.717</cell><cell>0.524</cell></row><row><cell cols="2">ResNet-18 (224) 10</cell><cell>0.989</cell><cell>0.909</cell><cell>0.773</cell><cell>0.947</cell><cell cols="2">0.920</cell><cell>0.754</cell><cell>0.958</cell><cell>0.763</cell><cell>0.956</cell><cell>0.864</cell><cell>0.710</cell><cell>0.493</cell></row><row><cell cols="2">ResNet-50 (28) 10</cell><cell>0.990</cell><cell>0.911</cell><cell>0.769</cell><cell>0.947</cell><cell cols="2">0.913</cell><cell>0.735</cell><cell>0.952</cell><cell>0.762</cell><cell>0.948</cell><cell>0.854</cell><cell>0.726</cell><cell>0.528</cell></row><row><cell cols="2">ResNet-50 (224) 10</cell><cell>0.989</cell><cell>0.892</cell><cell>0.773</cell><cell>0.948</cell><cell cols="2">0.912</cell><cell>0.731</cell><cell>0.958</cell><cell>0.776</cell><cell>0.962</cell><cell>0.884</cell><cell>0.716</cell><cell>0.511</cell></row><row><cell>auto-sklearn 11</cell><cell></cell><cell>0.934</cell><cell>0.716</cell><cell>0.649</cell><cell>0.779</cell><cell cols="2">0.902</cell><cell>0.719</cell><cell>0.887</cell><cell>0.601</cell><cell>0.942</cell><cell>0.855</cell><cell>0.690</cell><cell>0.515</cell></row><row><cell>AutoKeras 12</cell><cell></cell><cell>0.959</cell><cell>0.834</cell><cell>0.742</cell><cell>0.937</cell><cell cols="2">0.915</cell><cell>0.749</cell><cell>0.955</cell><cell>0.763</cell><cell>0.947</cell><cell>0.878</cell><cell>0.719</cell><cell>0.503</cell></row><row><cell cols="2">Google AutoML Vision</cell><cell>0.944</cell><cell>0.728</cell><cell>0.778</cell><cell>0.948</cell><cell cols="2">0.914</cell><cell>0.768</cell><cell>0.963</cell><cell>0.771</cell><cell>0.991</cell><cell>0.946</cell><cell>0.750</cell><cell>0.531</cell></row><row><cell>Methods</cell><cell></cell><cell cols="2">BreastMNIST</cell><cell cols="2">BloodMNIST</cell><cell cols="3">TissueMNIST</cell><cell cols="4">OrganAMNIST OrganCMNIST</cell><cell>OrganSMNIST</cell></row><row><cell></cell><cell></cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell></cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell></row><row><cell cols="2">ResNet-18 (28) 10</cell><cell>0.901</cell><cell>0.863</cell><cell>0.998</cell><cell>0.958</cell><cell cols="2">0.930</cell><cell>0.676</cell><cell>0.997</cell><cell>0.935</cell><cell>0.992</cell><cell>0.900</cell><cell>0.972</cell><cell>0.782</cell></row><row><cell cols="2">ResNet-18 (224) 10</cell><cell>0.891</cell><cell>0.833</cell><cell>0.998</cell><cell>0.963</cell><cell cols="2">0.933</cell><cell>0.681</cell><cell>0.998</cell><cell>0.951</cell><cell>0.994</cell><cell>0.920</cell><cell>0.974</cell><cell>0.778</cell></row><row><cell cols="2">ResNet-50 (28) 10</cell><cell>0.857</cell><cell>0.812</cell><cell>0.997</cell><cell>0.956</cell><cell cols="2">0.931</cell><cell>0.680</cell><cell>0.997</cell><cell>0.935</cell><cell>0.992</cell><cell>0.905</cell><cell>0.972</cell><cell>0.770</cell></row><row><cell cols="2">ResNet-50 (224) 10</cell><cell>0.866</cell><cell>0.842</cell><cell>0.997</cell><cell>0.950</cell><cell cols="2">0.932</cell><cell>0.680</cell><cell>0.998</cell><cell>0.947</cell><cell>0.993</cell><cell>0.911</cell><cell>0.975</cell><cell>0.785</cell></row><row><cell>auto-sklearn 11</cell><cell></cell><cell>0.836</cell><cell>0.803</cell><cell>0.984</cell><cell>0.878</cell><cell cols="2">0.828</cell><cell>0.532</cell><cell>0.963</cell><cell>0.762</cell><cell>0.976</cell><cell>0.829</cell><cell>0.945</cell><cell>0.672</cell></row><row><cell>AutoKeras 12</cell><cell></cell><cell>0.871</cell><cell>0.831</cell><cell>0.998</cell><cell>0.961</cell><cell cols="2">0.941</cell><cell>0.703</cell><cell>0.994</cell><cell>0.905</cell><cell>0.990</cell><cell>0.879</cell><cell>0.974</cell><cell>0.813</cell></row><row><cell cols="2">Google AutoML Vision</cell><cell>0.919</cell><cell>0.861</cell><cell>0.998</cell><cell>0.966</cell><cell cols="2">0.924</cell><cell>0.673</cell><cell>0.990</cell><cell>0.886</cell><cell>0.988</cell><cell>0.877</cell><cell>0.964</cell><cell>0.749</cell></row><row><cell></cell><cell cols="13">OrganMNIST3D NoduleMNIST3D FractureMNIST3D AdrenalMNIST3D VesselMNIST3D SynapseMNIST3D</cell></row><row><cell>Methods</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell><cell cols="2">AUC</cell><cell cols="2">ACC</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell><cell>AUC</cell><cell>ACC</cell></row><row><cell>ResNet-18 10 +2.5D</cell><cell>0.977</cell><cell>0.788</cell><cell>0.838</cell><cell>0.835</cell><cell cols="2">0.587</cell><cell cols="2">0.451</cell><cell>0.718</cell><cell>0.772</cell><cell>0.748</cell><cell>0.846</cell><cell>0.634</cell><cell>0.696</cell></row><row><cell>ResNet-18 10 +3D</cell><cell>0.996</cell><cell>0.907</cell><cell>0.863</cell><cell>0.844</cell><cell cols="2">0.712</cell><cell cols="2">0.508</cell><cell>0.827</cell><cell>0.721</cell><cell>0.874</cell><cell>0.877</cell><cell>0.820</cell><cell>0.745</cell></row><row><cell>ResNet-18 10 +ACS 41</cell><cell>0.994</cell><cell>0.900</cell><cell>0.873</cell><cell>0.847</cell><cell cols="2">0.714</cell><cell cols="2">0.497</cell><cell>0.839</cell><cell>0.754</cell><cell>0.930</cell><cell>0.928</cell><cell>0.705</cell><cell>0.722</cell></row><row><cell>ResNet-50 10 +2.5D</cell><cell>0.974</cell><cell>0.769</cell><cell>0.835</cell><cell>0.848</cell><cell cols="2">0.552</cell><cell cols="2">0.397</cell><cell>0.732</cell><cell>0.763</cell><cell>0.751</cell><cell>0.877</cell><cell>0.669</cell><cell>0.735</cell></row><row><cell>ResNet-50 10 +3D</cell><cell>0.994</cell><cell>0.883</cell><cell>0.875</cell><cell>0.847</cell><cell cols="2">0.725</cell><cell cols="2">0.494</cell><cell>0.828</cell><cell>0.745</cell><cell>0.907</cell><cell>0.918</cell><cell>0.851</cell><cell>0.795</cell></row><row><cell>ResNet-50 10 +ACS 41</cell><cell>0.994</cell><cell>0.889</cell><cell>0.886</cell><cell>0.841</cell><cell cols="2">0.750</cell><cell cols="2">0.517</cell><cell>0.828</cell><cell>0.758</cell><cell>0.912</cell><cell>0.858</cell><cell>0.719</cell><cell>0.709</cell></row><row><cell>auto-sklearn 11</cell><cell>0.977</cell><cell>0.814</cell><cell>0.914</cell><cell>0.874</cell><cell cols="2">0.628</cell><cell cols="2">0.453</cell><cell>0.828</cell><cell>0.802</cell><cell>0.910</cell><cell>0.915</cell><cell>0.631</cell><cell>0.730</cell></row><row><cell>AutoKeras 12</cell><cell>0.979</cell><cell>0.804</cell><cell>0.844</cell><cell>0.834</cell><cell cols="2">0.642</cell><cell cols="2">0.458</cell><cell>0.804</cell><cell>0.705</cell><cell>0.773</cell><cell>0.894</cell><cell>0.538</cell><cell>0.724</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 5 .</head><label>5</label><figDesc>Average performance of MedMNIST2D in metrics of average AUC and average ACC over all 2D datasets.</figDesc><table><row><cell>) 10</cell><cell>0.922</cell><cell>0.819</cell></row><row><cell>ResNet-18 (224) 10</cell><cell>0.925</cell><cell>0.821</cell></row><row><cell>ResNet-50 (28) 10</cell><cell>0.920</cell><cell>0.816</cell></row><row><cell>ResNet-50 (224) 10</cell><cell>0.923</cell><cell>0.821</cell></row><row><cell>auto-sklearn 11</cell><cell>0.878</cell><cell>0.722</cell></row><row><cell>AutoKeras 12</cell><cell>0.917</cell><cell>0.813</cell></row><row><cell>Google AutoML Vision</cell><cell>0.927</cell><cell>0.809</cell></row><row><cell>Methods</cell><cell>AVG AUC</cell><cell>AVG ACC</cell></row><row><cell>ResNet-18 10 +2.5D</cell><cell>0.750</cell><cell>0.731</cell></row><row><cell>ResNet-18 10 +3D</cell><cell>0.849</cell><cell>0.767</cell></row><row><cell>ResNet-18 10 +ACS 41</cell><cell>0.842</cell><cell>0.775</cell></row><row><cell>ResNet-50 10 +2.5D</cell><cell>0.752</cell><cell>0.732</cell></row><row><cell>ResNet-50 10 +3D</cell><cell>0.863</cell><cell>0.780</cell></row><row><cell>ResNet-50 10 +ACS 41</cell><cell>0.848</cell><cell>0.762</cell></row><row><cell>auto-sklearn 11</cell><cell>0.815</cell><cell>0.765</cell></row><row><cell>AutoKeras 12</cell><cell>0.763</cell><cell>0.737</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 6 .</head><label>6</label><figDesc>Average performance of MedMNIST3D in metrics of average AUC and average ACC over all 3D datasets.</figDesc><table><row><cell>Methods</cell><cell>AUC</cell><cell>ACC</cell></row><row><cell>2D-Input ResNet-18</cell><cell></cell><cell></cell></row><row><cell>Trained with OrganAMNIST</cell><cell>0.995</cell><cell>0.907</cell></row><row><cell>Trained with axial central slices of OrganMNIST3D</cell><cell>0.995</cell><cell>0.916</cell></row><row><cell>Trained with OrganCMNIST</cell><cell>0.991</cell><cell>0.877</cell></row><row><cell cols="2">Trained with coronal central slices of OrganMNIST3D 0.992</cell><cell>0.890</cell></row><row><cell>Trained with OrganSMNIST</cell><cell>0.959</cell><cell>0.697</cell></row><row><cell cols="2">Trained with sagittal central slices of OrganMNIST3D 0.963</cell><cell>0.701</cell></row><row><cell>3D-Input ResNet-18</cell><cell></cell><cell></cell></row><row><cell>2.5D trained with OrganMNIST3D</cell><cell>0.977</cell><cell>0.788</cell></row><row><cell>3D trained with OrganMNIST3D</cell><cell>0.996</cell><cell>0.907</cell></row><row><cell>ACS trained with OrganMNIST3D</cell><cell>0.994</cell><cell>0.900</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Scientific Data | (2023) 10:41 | https://doi.org/10.1038/s41597-022-01721-8</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>This work was supported by <rs type="funder">National Science Foundation of China</rs> (<rs type="grantNumber">U20B200011</rs>, <rs type="grantNumber">61976137</rs>). This work was also supported by Grant <rs type="grantNumber">YG2021ZD18</rs> from <rs type="affiliation">Shanghai Jiao Tong University Medical Engineering Cross Research</rs>. We would like to acknowledge all authors of the open datasets used in this study.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_4HMPumx">
+					<idno type="grant-number">U20B200011</idno>
+				</org>
+				<org type="funding" xml:id="_Y3FQVD3">
+					<idno type="grant-number">61976137</idno>
+				</org>
+				<org type="funding" xml:id="_txbUyEa">
+					<idno type="grant-number">YG2021ZD18</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Code availability</head><p>The data API and evaluation script in Python is available at <ref type="url" target="https://github.com/MedMNIST/MedMNIST">https://github.com/MedMNIST/MedMNIST</ref>. The reproducible experiment codebase is available at <ref type="url" target="https://github.com/MedMNIST/experiments">https://github.com/MedMNIST/experiments</ref>.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Competing interests</head><p>The authors declare no competing interests.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Author contributions</head><p>J.Y. conceived the experiments. J.Y. and R.S. developed the code and benchmark. J.Y., R.S., D.W., Z.L., L.Z., B.K. and H.P. contributed to data collection, cleaning and annotations. J.Y., R.S., D.W. and B.N. wrote the manuscript. All authors reviewed the manuscript.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Deep learning in medical image analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-I</forename><surname>Suk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual review of biomedical engineering</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="221" to="248" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">A survey on deep learning in medical image analysis</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Litjens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medical image analysis</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="60" to="88" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A comparison of deep learning performance against health-care professionals in detecting diseases from medical imaging: a systematic review and meta-analysis</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The lancet digital health</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="271" to="e297" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Learning multiple visual domains with residual adapters</title>
+		<author>
+			<persName><forename type="first">S.-A</forename><surname>Rebuffi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bilen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Vedaldi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="506" to="516" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">A large annotated medical image dataset for the development and evaluation of segmentation algorithms</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Simpson</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/1902.09063" />
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Preprint at</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The medical segmentation decathlon</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Antonelli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature communications</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">nnu-net: a self-configuring method for deep learning-based biomedical image segmentation</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Isensee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">F</forename><surname>Jaeger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Kohl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Petersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">H</forename><surname>Maier-Hein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature methods</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="203" to="211" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lecun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Cortes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Burges</surname></persName>
+		</author>
+		<ptr target="http://yann.lecun.com/exdb/mnist/" />
+		<title level="m">Mnist handwritten digit database</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Medmnist classification decathlon: A lightweight automl benchmark for medical image analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Ni</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Symposium on Biomedical Imaging</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="191" to="195" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Deep residual learning for image recognition</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conference on Computer Vision and Pattern Recognition</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="770" to="778" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Auto-sklearn: efficient and robust automated machine learning</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Feurer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Automated Machine Learning</title>
+		<meeting><address><addrLine>Cham</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="113" to="134" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Auto-keras: An efficient neural architecture search system</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Hu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conference on Knowledge Discovery and Data Mining</title>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="1946" to="1956" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Elastic net nonparallel hyperplane support vector machine and its geometrical rationality</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Qi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Neural Networks and Learning Systems</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Alleviating data imbalance issue with perturbed input during inference</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conference on Medical Image Computing and Computer Assisted Intervention</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="407" to="417" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A principled approach to failure analysis and model repairment: Demonstration in medical imaging</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Henn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conference on Medical Image Computing and Computer Assisted Intervention</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="509" to="518" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Predicting survival from colorectal cancer histology slides using deep learning: A retrospective multicenter study</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Kather</surname></persName>
+		</author>
+		<idno type="DOI">10.1371/journal.pmed.1002730</idno>
+		<ptr target="https://doi.org/10.1371/journal.pmed.1002730" />
+	</analytic>
+	<monogr>
+		<title level="j">PLOS Medicine</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">000 histological images of human colorectal cancer and healthy tissue</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Kather</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Halama</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Marx</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/zenodo.1214456</idno>
+		<ptr target="https://doi.org/10.5281/zenodo.1214456" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">100</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Chestx-ray8: Hospital-scale chest x-ray database and benchmarks on weakly-supervised classification and localization of common thorax diseases</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conference on Computer Vision and Pattern Recognition</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="3462" to="3471" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The ham10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Tschandl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rosendahl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kittler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scientific data</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page">180161</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<title level="m" type="main">The HAM10000 dataset, a large collection of multi-source dermatoscopic images of common pigmented skin lesions</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Tschandl</surname></persName>
+		</author>
+		<idno type="DOI">10.7910/DVN/DBW86T</idno>
+		<ptr target="https://doi.org/10.7910/DVN/DBW86T" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Skin lesion analysis toward melanoma detection 2018: A challenge hosted by the international skin imaging collaboration (isic)</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Codella</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/1902.03368v2" />
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Preprint at</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Identifying medical diagnoses and treatable diseases by image-based deep learning</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Kermany</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.cell.2018.02.010</idno>
+		<ptr target="https://doi.org/10.1016/j.cell.2018.02.010" />
+	</analytic>
+	<monogr>
+		<title level="j">Cell</title>
+		<imprint>
+			<biblScope unit="volume">172</biblScope>
+			<biblScope unit="page" from="1122" to="1131" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Large dataset of labeled optical coherence tomography (oct) and chest x-ray images</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Kermany</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Goldbaum</surname></persName>
+		</author>
+		<idno type="DOI">10.17632/rscbjbr9sj.3</idno>
+		<ptr target="https://doi.org/10.17632/rscbjbr9sj.3" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">The 2nd diabetic retinopathy-grading and image quality estimation challenge</title>
+		<author>
+			<persName><surname>Deepdrid</surname></persName>
+		</author>
+		<ptr target="https://isbi.deepdr.org/data.html" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Dataset of breast ultrasound images</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Al-Dhabyani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gomaa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Khaled</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fahmy</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.dib.2019.104863</idno>
+		<ptr target="https://doi.org/10.1016/j.dib.2019.104863" />
+	</analytic>
+	<monogr>
+		<title level="j">Data in Brief</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A dataset of microscopic peripheral blood cell images for development of automatic recognition systems</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Acevedo</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.dib.2020.105474</idno>
+		<ptr target="https://doi.org/10.1016/j.dib.2020.105474" />
+	</analytic>
+	<monogr>
+		<title level="j">Data in Brief</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page">105474</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">A dataset for microscopic peripheral blood cell images for development of automatic recognition systems</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Acevedo</surname></persName>
+		</author>
+		<idno type="DOI">10.17632/snkd93bnjr.1</idno>
+		<ptr target="https://doi.org/10.17632/snkd93bnjr.1" />
+	</analytic>
+	<monogr>
+		<title level="m">Mendeley Data</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">In situ classification of cell types in human kidney tissue using 3d nuclear staining</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Woloshuk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cytometry Part A</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Annotated high-throughput microscopy image sets for validation</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Ljosa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Sokolnicki</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Carpenter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature methods</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="637" to="637" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">The liver tumor segmentation benchmark (lits)</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Bilic</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Image Analysis</title>
+		<imprint>
+			<biblScope unit="volume">84</biblScope>
+			<biblScope unit="page">102680</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Efficient multiple organ localization in ct image using 3d region proposal network</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Xu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Medical Imaging</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="1885" to="1898" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The lung image database consortium (lidc) and image database resource initiative (idri): A completed reference database of lung nodules on ct scans</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">G</forename><surname>Armato</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Iii</surname></persName>
+		</author>
+		<idno type="DOI">10.1118/1.3528204</idno>
+		<ptr target="https://doi.org/10.1118/1.3528204" />
+	</analytic>
+	<monogr>
+		<title level="j">Medical Physics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="915" to="931" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Deep-learning-assisted detection and segmentation of rib fractures from ct scans: Development and validation of fracnet</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Jin</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ebiom.2020.103106</idno>
+		<ptr target="https://doi.org/10.1016/j.ebiom.2020.103106" />
+	</analytic>
+	<monogr>
+		<title level="j">EBioMedicine</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page">103106</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Intra: 3d intracranial aneurysm dataset for deep learning</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Xia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Igarashi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conference on Computer Vision and Pattern Recognition</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A lightweight approach to repairing digitized polygon meshes</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Attene</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Visual Computer</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="1393" to="1406" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">Dawson-Haggerty</forename></persName>
+		</author>
+		<ptr target="https://trimsh.org/" />
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Mitoem dataset: Large-scale 3d mitochondria instance segmentation from em images</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Conference on Medical Image Computing and Computer Assisted Intervention</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="66" to="76" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">Medmnist v2: A large-scale lightweight benchmark for 2d and 3d biomedical image classification</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yang</surname></persName>
+		</author>
+		<idno type="DOI">10.5281/zenodo.5208230</idno>
+		<ptr target="https://doi.org/10.5281/zenodo.5208230" />
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Array programming with numpy</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">585</biblScope>
+			<biblScope unit="page" from="357" to="362" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">A method for stochastic optimization</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Kingma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ba</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Adam</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/1412.6980" />
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Preprint at</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Reinventing 2d convolutions for 3d images</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yang</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/JBHI.2021.3049452</idno>
+		<ptr target="https://doi.org/10.1109/JBHI.2021.3049452" />
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Journal of Biomedical and Health Informatics</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="1" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Scikit-learn: Machine learning in python</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pedregosa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of machine Learning research</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="2825" to="2830" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">F</forename><surname>Chollet</surname></persName>
+		</author>
+		<ptr target="https://keras.io" />
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">The use of the area under the roc curve in the evaluation of machine learning algorithms</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">P</forename><surname>Bradley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pattern recognition</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="1145" to="1159" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

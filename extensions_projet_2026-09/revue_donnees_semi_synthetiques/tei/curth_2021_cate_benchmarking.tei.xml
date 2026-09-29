@@ -1,0 +1,1917 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Really Doing Great at Estimating CATE? A Critical Look at ML Benchmarking Practices in Treatment Effect Estimation</title>
+				<funder>
+					<orgName type="full">Office of Naval Research</orgName>
+					<orgName type="abbreviated">ONR</orgName>
+				</funder>
+				<funder ref="#_tMY8EXT">
+					<orgName type="full">AstraZeneca</orgName>
+				</funder>
+				<funder ref="#_DbMpwtQ">
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Alicia</forename><surname>Curth</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Cambridge</orgName>
+								<orgName type="institution" key="instit2">University of Cambridge UCLA</orgName>
+								<orgName type="institution" key="instit3">The Alan Turing Institute</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">David</forename><surname>Svensson</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Cambridge</orgName>
+								<orgName type="institution" key="instit2">University of Cambridge UCLA</orgName>
+								<orgName type="institution" key="instit3">The Alan Turing Institute</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">James</forename><surname>Weatherall</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Cambridge</orgName>
+								<orgName type="institution" key="instit2">University of Cambridge UCLA</orgName>
+								<orgName type="institution" key="instit3">The Alan Turing Institute</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Astrazeneca</forename><surname>Mihaela Van Der Schaar</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="institution" key="instit1">University of Cambridge</orgName>
+								<orgName type="institution" key="instit2">University of Cambridge UCLA</orgName>
+								<orgName type="institution" key="instit3">The Alan Turing Institute</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Really Doing Great at Estimating CATE? A Critical Look at ML Benchmarking Practices in Treatment Effect Estimation</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">7EB4AE4B924515A05B0458294AD6D0C1</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:09+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The machine learning (ML) toolbox for estimation of heterogeneous treatment effects from observational data is expanding rapidly, yet many of its algorithms have been evaluated only on a very limited set of semi-synthetic benchmark datasets. In this paper, we investigate current benchmarking practices for ML-based conditional average treatment effect (CATE) estimators, with special focus on empirical evaluation based on the popular semi-synthetic IHDP benchmark. We identify problems with current practice and highlight that semi-synthetic benchmark datasets, which (unlike real-world benchmarks used elsewhere in ML) do not necessarily reflect properties of real data, can systematically favor some algorithms over others -a fact that is rarely acknowledged but of immense relevance for interpretation of empirical results. Further, we argue that current evaluation metrics evaluate performance only for a small subset of possible use cases of CATE estimators, and discuss alternative metrics relevant for applications in personalized medicine. Additionally, we discuss alternatives for current benchmark datasets, and implications of our findings for benchmarking in CATE estimation.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Modeling treatment effect heterogeneity has become a hot topic in machine learning (ML) research over the last five years <ref type="bibr" target="#b0">[1]</ref><ref type="bibr" target="#b1">[2]</ref><ref type="bibr" target="#b2">[3]</ref><ref type="bibr" target="#b3">[4]</ref><ref type="bibr" target="#b4">[5]</ref><ref type="bibr" target="#b5">[6]</ref><ref type="bibr" target="#b6">[7]</ref><ref type="bibr" target="#b7">[8]</ref><ref type="bibr" target="#b8">[9]</ref><ref type="bibr" target="#b9">[10]</ref>. This is not surprising: most of empirical science ultimately aims to assess the effect of treatments, policies or other interventions, and interest is slowly moving from the population average to the individual in many applications. A particularly prominent motivating example (which motivates also the authors of this paper) is personalized medicine and the goal to develop treatment strategies for each individual patient <ref type="bibr" target="#b10">[11]</ref>. In this context, ML-algorithms which estimate conditional average treatment effects (CATE) have many more use cases than 'just' providing estimates of (personalized) effects: they can be used to provide decision support (e.g. providing treatment recommendations <ref type="bibr" target="#b11">[12]</ref>), to find the right patients for a treatment (e.g. subgroup selection in clinical trials <ref type="bibr" target="#b12">[13]</ref>) or for scientific discovery (e.g. discovering effect modifiers <ref type="bibr" target="#b13">[14]</ref>).</p><p>Yet, while the majority of ML research in CATE estimation has been on deep models <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b4">[5]</ref><ref type="bibr" target="#b5">[6]</ref><ref type="bibr" target="#b6">[7]</ref><ref type="bibr" target="#b7">[8]</ref><ref type="bibr" target="#b8">[9]</ref><ref type="bibr" target="#b9">[10]</ref>, applications in substantive fields have continued to rely on tree-based methods, e.g. causal forests <ref type="bibr" target="#b14">[15,</ref><ref type="bibr" target="#b15">16]</ref> in econometrics <ref type="bibr" target="#b16">[17,</ref><ref type="bibr" target="#b17">18]</ref> or model-based recursive partitioning <ref type="bibr" target="#b18">[19]</ref> and the forest-based virtual twins approach <ref type="bibr" target="#b19">[20]</ref> in statistics in medicine. Even though some of this can surely be attributed to a time lag in adoption of novel methodology and reluctance to change, we believe that hesitation in adoption may also be rooted in insufficient and unconvincing empirical evaluation of such algorithms thus far, both in terms of datasets and metrics that were considered.</p><p>When new algorithms are proposed within the ML community, it is common practice to empirically evaluate their performance against existing baseline algorithms on benchmark datasets, which, in other areas of ML, often consist of a body of real data e.g. ImageNet <ref type="bibr" target="#b20">[21]</ref>. When trying to evaluate estimators of CATE on real data, the fundamental problem is that -even if strict identifying assumptions hold -ground truth individual treatment effects are never observed <ref type="bibr" target="#b21">[22]</ref>. That is because, in reality, we can only ever either observe an individuals 'potential' outcome under treatment -Y (1) -or without treatment -Y (0)-, but never both; yet the estimation target is the expected value of the (unobserved) difference Y (1) -Y (0). Thus, to provide proof-of-concept, papers proposing new CATE estimators have largely relied on synthetic or semi-synthetic datasets (with real covariates), in which both potential outcomes are simulated and hence known, to showcase their properties. As is common in other areas of ML <ref type="bibr" target="#b22">[23]</ref>, a few of these (semi-synthetic) datasets have emerged as de facto 'standard' benchmarks which have been used in a wide range of ML papers in the last years. The most prominent example of this is unquestionably <ref type="bibr" target="#b23">[24]</ref>'s Infant Health Development Program (IHDP) benchmark; since its first use in <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2]</ref>, it has been used in almost all algorithmic papers on binary heterogeneous treatment effect estimation published at major ML conferences (e.g. <ref type="bibr" target="#b2">[3]</ref><ref type="bibr" target="#b3">[4]</ref><ref type="bibr" target="#b4">[5]</ref><ref type="bibr" target="#b5">[6]</ref><ref type="bibr" target="#b6">[7]</ref><ref type="bibr" target="#b7">[8]</ref><ref type="bibr" target="#b8">[9]</ref><ref type="bibr" target="#b9">[10]</ref><ref type="bibr" target="#b24">[25]</ref><ref type="bibr" target="#b25">[26]</ref><ref type="bibr" target="#b26">[27]</ref>).</p><p>As we discuss below, this common practice of blindly relying on standard benchmarking tasks has recently encountered criticism in other areas of ML (e.g. <ref type="bibr" target="#b22">[23,</ref><ref type="bibr" target="#b27">28,</ref><ref type="bibr" target="#b28">29]</ref>). In this paper, we argue that current ML benchmarking practices in CATE estimation not only suffer from some of the same problems, but have a crucial additional problematic dimension that the literature seems to be oblivious to: semi-synthetic benchmarks like IHDP are treated the same as real-world benchmarks prevalent elsewhere in ML, yet, because the data are partially simulated, such benchmarks necessarily encode some assumptions on problem structure (which do not necessarily reflect characteristics that are likely to appear in real applications) in the underlying data generating process (DGP) and may systematically favour some types of algorithms over others.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Outlook.</head><p>To verify this, we present an in depth case study of the IHDP benchmark (Section 3), and highlight that there is a range of problems with its current use. While some of these issues are unique to the IHDP benchmark, we present additional evidence that some issues -e.g. the systematic advantage of some algorithms over others due to how the data is generated -are prevalent in semisynthetic benchmark datasets more generally by analyzing some of the ACIC2016 <ref type="bibr" target="#b29">[30]</ref> simulations (Appendix D). Because a central goal of this paper is to raise awareness of the limitations inherent to the current use of generic semi-synthetic benchmark comparisons in the ML CATE literature, we then discuss (dis-)advantages of semi-synthetic datasets and alternative approaches with the aim to encourage more fair and insightful benchmarking practices and to provide a starting point for researchers looking to use or develop new benchmarks (Section 4). Further, we reconsider what is being evaluated, and discuss other metrics that might be more interesting for practical applications and how they lead to new requirements on benchmark datasets (Section 5). We close by discussing implications (Section 6).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark:</head><p>The critiques presented here are specifically aimed at current evaluation practices in ML methods papers, i.e. papers proposing CATE estimation algorithms published at ML conferences. This excludes papers published in substantive fields and methods papers published in e.g. econometrics and statistics, which follow different standards for empirical evaluation (see Appendix B).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.1">Related work</head><p>Critiques of benchmarking practices in other ML sub-fields. There is a broader movement across ML critizising existing benchmarking practices, e.g. for lack of documentation and understanding of contexts of dataset creation <ref type="bibr" target="#b30">[31,</ref><ref type="bibr" target="#b31">32]</ref>, label inconsistencies <ref type="bibr" target="#b32">[33]</ref>, undervaluing data quality more generally <ref type="bibr" target="#b33">[34]</ref>, ignorance for socio-technical context of datasets <ref type="bibr" target="#b28">[29]</ref> and the overall fragility of the benchmarking process <ref type="bibr" target="#b22">[23]</ref>. A common point of criticism that is particularly applicable to our context is that (possibly flawed) datasets and associated performance metrics often unintentionally become the de facto benchmark task for a problem due to use in a seminal paper in the field because reviewers subsequently expect replication of results <ref type="bibr" target="#b22">[23,</ref><ref type="bibr" target="#b28">29]</ref>. We would argue that this is indeed exactly what happened with the IHDP benchmark: The seminal work of <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2]</ref> introduced the ML community to both the CATE estimation problem and the benchmark (which had previously been used only in <ref type="bibr" target="#b23">[24]</ref> in statistics) unintentionally making it the ML benchmark for CATE estimation. Further, <ref type="bibr" target="#b22">[23]</ref> also found the relative performance of algorithms on real-world benchmarks for natural language processing, computer vision, reinforcement learning and transformers to be sensitive to the considered task and dataset. This is similar to our point that the DGPs in semi-synthetic benchmarks may inherently favour some algorithms, yet the key difference in our context is that such (dis-)advantages are systematic (partially foreseeable) and artificially created through the choice of DGP, instead of naturally inherent to a real application as in <ref type="bibr" target="#b22">[23]</ref>.</p><p>Alternative evaluation frameworks proposed in the treatment effect literature. Next to fully synthetic 'toy' DGPs designed for individual method papers (e.g. <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b9">10,</ref><ref type="bibr" target="#b14">15,</ref><ref type="bibr" target="#b34">35]</ref>), a number of semisynthetic benchmarks (based on real covariates but using simulated outcomes) have been created for the Atlantic Causal Inference Competitions (ACIC) <ref type="bibr" target="#b29">[30,</ref><ref type="bibr" target="#b35">[36]</ref><ref type="bibr" target="#b36">[37]</ref><ref type="bibr" target="#b37">[38]</ref> and for CATE benchmarking papers in econometrics <ref type="bibr" target="#b38">[39]</ref> and statistics in medicine <ref type="bibr" target="#b39">[40]</ref>. Of these, only the ACIC2016 benchmark has been used repeatedly for evaluation of CATE estimators in the ML literature (e.g. in <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b25">26,</ref><ref type="bibr" target="#b40">41,</ref><ref type="bibr" target="#b41">42]</ref>). Additionally, new frameworks for benchmarking of CATE estimators have been proposed recently; using generative models <ref type="bibr" target="#b42">[43,</ref><ref type="bibr" target="#b43">44]</ref>, interventional datasets <ref type="bibr" target="#b44">[45]</ref> or biased subsampling of RCTs <ref type="bibr" target="#b45">[46]</ref>. By showcasing why current practice is problematic and potentially harmful, our paper is complementary to this line of work: we aim to argue that adoption of new benchmarking practices is indeed necessary. Therefore, we discuss the (dis)advantages of different proposals in more detail in section 4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Background: Problem Setup and Learning Algorithms</head><p>We operate under the standard setup in the potential outcomes (PO) framework <ref type="bibr" target="#b46">[47]</ref>. That is, we assume that any individual, associated with (pre-treatment) covariates X ∈ X , has two potential outcomes Y (0) and Y (1) of which only Y = Y (W ) = W Y (1) + (1 -W )Y (0), the outcome associated with the administered (binary) treatment W ∈ {0, 1}, is observed. We are interested in τ (x), the conditional average treatment effect (CATE), which is the expected difference between an individual's POs (conditional on covariates), i.e.</p><formula xml:id="formula_0">τ (x) = E[Y (1) -Y (0)|X = x] = µ 1 (x) -µ 0 (x)<label>(1)</label></formula><p>where</p><formula xml:id="formula_1">µ w (x) = E[Y (w)|X = x]</formula><p>is the expected PO. Identification of causal effects from observational data requires imposition of untestable assumptions; here, we rely on the strong ignorability conditions <ref type="bibr" target="#b47">[48]</ref>, which ensure that CATE is identifiable and can be estimated from observed data because E[Y (w)|X = x] = E[Y |W = w, X = x] (i.e. -conditional on covariates -treated and untreated units are exchangeable). In Appendix A, we give an extended overview of the problem setup, necessary assumptions and unique problem characteristics.</p><p>The problem with real data and why we need to simulate for benchmarking. The fundamental problem of causal inference <ref type="bibr" target="#b21">[22]</ref> -the absence of one of the POs in practice -makes benchmarking CATE estimators inherently more difficult than standard supervised learning algorithms: the ground truth label Y (1) -Y (0) for any observation with X = x is unknown in practice, making it impossible to test performance using real world benchmarks without further assumptions. Instead, to empirically evaluate estimators, the treatment effect estimation literature has historically relied on simulated outcome data, in which both POs are known and identifying assumptions hold because treatment assignment can be controlled. The most common approach for simulating outcomes seems to be to rely on data generating processes (DPGs) with additive effects (see e.g. the simulations used in [9, 10, 14-16, 20, 35, 49, 50]), i.e. to let µ w (x) = f 0 (x) + wf τ (x); that is, to assume that the treated regression surface µ 1 (x) can be additively decomposed into a component shared with the control group (f 0 (x)) and f τ (x), an offset function determining treatment effect and heterogeneity. Additionally, f τ (x) is often a simpler function than the treated surface f 1 (x) itself. Instead of additive transformations, it would also be possible that the PO regression surfaces have more general relationships, e.g. µ 1 (x) = g(µ 0 (x)) with g(•) some transformation function -in the IHDP benchmark, for example, g(•) is a logarithmic transformation -however, this specification seems less popular than additive parametrizations used in most DGPs in related work.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Learning Algorithms and how DGPs can determine their performance.</head><p>A plethora of ML-based CATE estimators have been proposed in recent years. Here, we distinguish them along two key axes 1 : (i) the underlying ML method and (ii) the estimation strategy. The former is straightforward and refers simply to the ML method used to implement an algorithm, e.g. a random forest. The latter is crucial in the CATE context but has received relatively little explicit attention in the ML literature. As in <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b51">52]</ref>, we distinguish between two types of estimation strategy: indirect estimators that target the POs, i.e. first obtain estimates μw (x) and then simply set τ (x) = μ1 (x) -μ0 (x), and estimators that target CATE directly, e.g. by using pseudo-outcomes or other two-step procedures <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b34">35,</ref><ref type="bibr" target="#b48">49,</ref><ref type="bibr" target="#b52">53]</ref>.</p><p>From a theoretical viewpoint, we expect that the type of underlying DGP will (at least partially) determine which combination of ML method and estimation strategy will be most successful on any benchmark dataset. To see this,</p><formula xml:id="formula_2">let sq ( f (X)) = E[( f (X)-f (X)) 2</formula><p>] denote the expected MSE for an estimate f (x) of a function f (x) and consider the behaviour of sq (τ (X)) for different strategies. For indirect estimators, we have that sq (τ (X)) ≤ 2( sq ( f1 (X)) + sq ( f0 (X))), so that the error rate on the more complex of the regression surfaces will determine performance <ref type="bibr" target="#b3">[4,</ref><ref type="bibr" target="#b9">10]</ref>. Some direct estimators, on the other hand, can instead reach the same performance as a supervised learning algorithm with (hypothetical) target Y (1) -Y (0), so that they can attain the error rate associated with f τ (x) (see <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b48">49,</ref><ref type="bibr" target="#b52">53]</ref>). Whenever f τ (x) is easier to estimate than the more complex of f 1 (x) and f 0 (x) (e.g. due to being sparser or smoother <ref type="bibr" target="#b9">[10,</ref><ref type="bibr" target="#b52">53]</ref>), direct learners thus have a clear theoretical advantage -which diminishes as f 1 (x) and f 0 (x) become less similar (making f τ (x) increasingly complex). Further, the properties of the underlying ML method used to implement any estimation strategy will determine how well different types of functions f w (x) and/or f τ (x) can be fit using a finite sample of observed data from a specific DGP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">A Close Look at Current Practice: A Case Study of IHDP</head><p>Motivating example. A popular baseline algorithm for CATE estimation from the statistics community is Wager &amp; Athey (2018)'s <ref type="bibr" target="#b14">[15,</ref><ref type="bibr" target="#b15">16]</ref> Causal Forest (CF), which -unlike most ML estimatorstargets CATE directly, comes with a set of theoretical guarantees and has already been applied in real empirical studies <ref type="bibr" target="#b16">[17,</ref><ref type="bibr" target="#b17">18]</ref>. Nonetheless, the seminal work of Shalit et al. (2017) <ref type="bibr" target="#b1">[2]</ref> (and many extensions, e.g. <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b50">51,</ref><ref type="bibr" target="#b53">54]</ref>) shows that the neural network (NN)-based TARNet and its many variants outperform CF by lengths on the IHDP benchmark: across 1000 replications, <ref type="bibr" target="#b1">[2]</ref> report an average RMSE of 0.88(0.02) for TARNet but 3.8(0.2) for CF. We asked ourselves a simple question: Why? Is it because TARNet is a uniformly better estimator? Or is it because TARNet is a NN while CF is a random forest (RF)? Is it maybe because TARNet models the potential outcomes, while CF models CATE directly? Is it the used metric? Or is it something else inherent to DGP or implementation?</p><p>IHDP benchmarking practice. The IHDP benchmark simulates outcomes based on real covariates (n = 747, d = 25) and treatments of the Infant Health and Development Program, a randomized experiment targeting an intervention which provides specialist child care to premature infants with low birth weight, originally discovering a positive effect on cognitive test scores <ref type="bibr" target="#b54">[55]</ref>. To mimic an observational study, <ref type="bibr" target="#b23">[24]</ref> introduced confounding and imbalance (n 0 = 608, n 1 = 139) by excluding a non-random proportion of treated individuals (those with nonwhite mothers), leading to incomplete overlap for the control group. The popular benchmark uses a DGP labelled setup 'B' in <ref type="bibr" target="#b23">[24]</ref>, with</p><formula xml:id="formula_3">µ 0 (x) = exp((x + A)β) and µ 1 (x) = xβ -ω<label>(2)</label></formula><p>where β is a sparse coefficient vector with entries sampled from (0, 0.1, 0.2, 0.3, 0.4) with probabilities (0.6, 0.1, 0.1, 0.1, 0.1), A is a fixed offset matrix, and ω is set uniquely in every simulation run, ensuring that the average treatment effect on the treated (ATT), which was the main estimand of interest in <ref type="bibr" target="#b23">[24]</ref>, is equal to 4. <ref type="bibr" target="#b1">[2]</ref> created benchmarks based on 100 and 1000 realizations of the DGP, with pre-determined train-test splits (90/10). To evaluate the performance in estimating CATE, both <ref type="bibr" target="#b23">[24]</ref> and Experimental setup. <ref type="foot" target="#foot_1">2</ref> We present a case study comparing the empirical performance of estimators relying on (i) different ML-methods (NNs and RFs 3 ) and (ii) different estimation strategies (direct and indirect) to examine the sources of performance differences between the RF-based, direct estimator Causal forest (CF) <ref type="bibr" target="#b14">[15,</ref><ref type="bibr" target="#b15">16]</ref> and the NN-based, indirect estimator TARNet<ref type="foot" target="#foot_4">foot_4</ref>  <ref type="bibr" target="#b1">[2]</ref>. We use <ref type="bibr" target="#b1">[2]</ref>'s IHDP-100 dataset (100 realizations of the DGP) and report out-of-sample performance.</p><p>We consider two (model-agnostic) indirect estimation strategies which are commonly referred to as T-and S-learner <ref type="bibr" target="#b48">[49]</ref>; the former fits two separate regression surfaces for each treatment arm, while the latter fits a single model in which W is included as a standard covariate. We consider standard RF-based implementations (TRF and SRF) and a NN-based T-learner (TNet). Instead of a standard NN-based S-learner we use TARNet (as it can be seen as a hybrid of S-and T-learner <ref type="bibr" target="#b9">[10]</ref>). As direct estimators, we consider <ref type="bibr" target="#b15">[16]</ref>'s CF, which relies on a two-stage procedure solving a local moment equation inspired by the Robinson transformation <ref type="bibr" target="#b56">[57]</ref>, and, as a NN-based variant, we use <ref type="bibr" target="#b34">[35]</ref>'s R-learner (RNet), which relies on the same principle. For all forest-based methods we use the R-package <ref type="url" target="file://localhost/opt/grobid/grobid-home/tmp/grf">grf</ref>  <ref type="bibr" target="#b57">[58]</ref> and for all NN-based methods we use the python-implementations <ref type="url" target="file://localhost/opt/grobid/grobid-home/tmp/catenets">catenets</ref>  <ref type="bibr" target="#b9">[10]</ref>. We use all models off-the-shelf; for all RFs this entails using 2000 trees, and all NNs have hyperparameter settings similar to those used in <ref type="bibr" target="#b1">[2]</ref> for the IHDP experiments. We repeat each run 5 times with different seeds for all models. For further details, refer to the the Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Empirical findings</head><p>Figure <ref type="figure">1</ref>: τ (x) and µ w (x) in 3 test-set realizations with σ τ at the 10th, 50th and 90th percentile across runs.</p><p>• Preliminaries: Clearing up misconceptions about the IHDP benchmark. We would like to begin by emphasizing that IHDP is not 'one dataset': As different numbers of variables enter the response surfaces in each realization, there are systematic differences across simulation runsa fact that is rarely taken into account. When the shared linear predictor is small -in runs in which β is randomly more sparse -the exponential in µ 0 (x) and linear function in µ 1 (x) will run almost parallel, making τ (x) close to constant. Conversely, many nonzero entries in β will lead to more exponential behaviour in µ 0 (x) -making τ (x) highly nonlinear. While <ref type="bibr" target="#b23">[24]</ref> fixed the magnitude of the ATT across runs through an offset, CATE is thus allowed to vary freely, leading to σ τ = V ar test (τ (x)) (capturing the spread of CATE within the test-set of a run) differing by orders of magnitude, ranging between 0.04 and 51.51, across the 100 simulations.</p><p>Fig. <ref type="figure">1</ref> shows τ (x) and µ w (x) for runs with small/medium/large σ τ , indeed exhibiting the expected behaviour. We also note a further qualitative difference: in runs with small σ τ , all individuals benefit from treatment, yet for large σ τ , some individuals experience a very large negative effect. In the context of the intervention studied in the original IHDP experiment, it seems plausible that individuals with high µ 0 (x) would have smaller τ (x) in magnitude, yet the large negative effects observed in runs with large σ τ do not seem to be compatible with the original results of <ref type="bibr" target="#b54">[55]</ref>. To the best of our knowledge, the outcomes were indeed not created to mimic a specific realistic scenario, rather setup 'B' (eq. 2) was only one of multiple DGPs used in <ref type="bibr" target="#b23">[24]</ref> to compare different ATT estimators. •Finding (i): Reporting simple averages of RMSE across simulation runs appears inappropriate. In Fig. <ref type="figure" target="#fig_1">2</ref> we plot a histogram of test RMSE across the 100 realizations of the simulation, in which it is obvious that the right tail of scores very long and heavy. Averaging over such scores gives extremely high weight to the few runs with very high RMSE, which, as we show below, are the runs with large σ τ . The common practice to simply report averaged RMSE across all runs gives algorithms that perform well mainly for the few runs with large σ τ a clear advantage (which is problematic due to a lack of justification why these runs should be more important, especially because -as outlined above -these runs appear to be the least realistic); thus it might be more appropriate to consider alternative metrics to aggregate scores across runs (e.g. normalized RMSE or paired sample test statistics). •Finding (ii): Comparing the estimators under consideration across all runs, indirect strategies appear to perform better than the direct alternative and NNs appear to outperform RFs. In the left panel of Fig. <ref type="figure" target="#fig_2">3</ref>(a), we plot RMSE by σ τ for TARNet, TNet, TRF and CF on IHDP-100. We omit RNet and SRF for readability, refer to Appendix D.1 for full results. We observe that the considered direct estimators consistently perform worse than their indirect alternatives. This is not unexpected given the DGP and the theoretical arguments in the previous section: µ 0 (x) and µ 1 (x) are not similar (on an additive scale) in the underlying DGP, making τ (x) a difficult function to estimate directly. Thus, direct learners have no expected theoretical advantage in this setting; absent such advantage, we conjecture that the two-stage nature of such algorithms may hurt finite sample performance relative to indirect estimators as errors could accumulate across stages. Further, considering only the left panel of Fig. <ref type="figure" target="#fig_2">3</ref>(a), it appears as if NN-based estimators have a clear advantage on this dataset and the underlying ML-method seems to matter much more than the CATE estimation strategy used. TARNet also consistently outperforms TNet; this is not surprising given that the linear predictor Xβ is shared across both outcome surfaces, making for a perfect shared representation that TARNet can exploit.</p><p>•Finding (iii): Relative performance systematically differs across runs. Recall that simulation runs in which more covariates have (large) nonzero coefficients have higher CATE heterogeneity and magnitude. In the left panel of Fig. <ref type="figure" target="#fig_2">3</ref>(a), it is obvious that as the measured variation in CATE increases, the absolute discrepancy between methods becomes more extreme. Due to high differences in magnitude, this perspective masks more interesting differences that become most apparent when considering relative differences using only the simulation runs with less extreme σ τ . In the right panel of Fig. <ref type="figure" target="#fig_2">3</ref>(a) we observe that the considered forest-based estimators perform better than the NN-based versions for σ τ small, and that the discrepancy between direct and indirect learners is less extreme.</p><p>Figure <ref type="figure">4</ref>: True and predicted CATE for TNet and TRF, on 3 datasets with σ τ at the 10th, 50th and 90th percentile across runs.</p><p>•Finding (iv): Tree-based methods suffer in the tails due to the exponential. The findings above let us speculate that the poor performance of the forest-based estimators (which can be thought of as adaptive nearest neighbor methods <ref type="bibr" target="#b14">[15]</ref>) may be partially caused by boundary bias on exponential specifications. We confirm this in Fig. <ref type="figure">4</ref> where we plot T-learner estimates of τ (x) for the 3 realizations shown in Fig. <ref type="figure">1</ref>. We observe that for large σ τ , major performance discrepancies indeed arise only for the small subset of individuals with the largest linear predictor, which is where the exponential is the steepest and RFs hence cannot extrapolate.</p><p>•Finding (vi): Tweaking the DGP slightly by creating an additive TE leads to completely different results. Finally, to further test finding (ii), i.e. whether the observed performance differences across estimation strategies are indeed due to τ (x) not being simpler to estimate than the µ w (x), we slightly alter the original simulation. We use µ * 0 (x) = µ 0 (x) and µ * 1 (x) = µ 1 (x) + µ 0 (x); i.e. the treatment effect is now additive and simple (linear). In Fig. <ref type="figure" target="#fig_2">3</ref>(b) we report the RMSE of estimating CATE by σ µ0 (as we found the variance induced by the exponential specification in µ 0 (x), and not σ τ , to drive variation across runs). We observe that in this setting, almost all conclusions on relative performance are indeed reversed from what we observed in 3(a): CF performs best throughout, the considered direct learners perform better and NNs no longer have a clear advantage over RFs (possibly because the boundary bias now appears on both regression surfaces, which can difference out). This provides additional evidence that performance may indeed be partially determined by the fit of learning algorithm and the assumptions underlying the DGP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Conclusion Case study</head><p>The empirical investigation above allows us to resolve our questions asked in the motivating example: The advantage of TARNet over CF on the IHDP benchmark has multiple sources; the DGP underlying the IHDP benchmark indeed appears to favour both the considered (i) NNs over RFs and (ii) indirect over direct estimators. Further, CF performs worse on runs with extreme σ τ , which effectively get much higher weight than the runs with very low σ τ where it performs best. We conclude that the IHDP benchmark has multiple limitations, some of which are unique to its DGP and use -e.g. the heavy tail in the RMSE scores. Other problems are inherent to the use of semi-synthetic data more generally: in Appendix D.2, we perform a similar case study of a subset of the (semi-synthetic) ACIC2016 benchmark simulations and find that also here some algorithms are systematically favoured by characteristics that were embedded in the DGPs used for simulation. Additionally, we contrast the algorithms' performance on the two semi-synthetic datasets with their performance on the real-world Twins dataset <ref type="bibr" target="#b58">[59]</ref> in Appendix D.3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Creating alternative benchmarks</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">(Dis)Advantages of simulating fully synthetic outcomes</head><p>In the previous section, we presented some evidence that would seem to speak against the use of (semi-) synthetic datasets for benchmarking: we consider 'credibility' of such benchmarking results a major problem, as we showed that synthetic DGPs can inherently favour some class of algorithms over others. One could argue that any real world data can also inherently favour some algorithms <ref type="bibr" target="#b22">[23]</ref>; however, the nature of favoured algorithms would usually not be known a priori, and any real data would at least reflect a scenario similar to what an algorithm will encounter when deployedwhich is not necessarily the case for hand-crafted DGPs. Further, we have ourselves experienced in the past that coming up with a good set of synthetic response surfaces from scratch is extremely difficult: there are infinite possibilities for combining functional forms for outcome generation with CATE-specific experimental knobs, e.g. the degree of CATE heterogeneity and structure of confounding. Exhaustively considering all possible combinations would not only be computationally prohibitive, but might also not provide insightful experimental evidence for use in practice given that only a subset might realistically appear in the wild.</p><p>Nonetheless, we think that -if inherent limitations of (semi-)synthetic benchmarks are taken into account and properly discussed when interpreting results -datasets with simulated outcomes can be very useful for benchmarking, especially when the goal is to understand performance differences of algorithms: Simulations allow to directly study the effects of relevant experimental knobs, e.g. sample size, functional forms, confounding, and the degree and form of effect heterogeneity. Additionally, domain knowledge from target applications (e.g. on plausible functional forms, the degree of effect heterogeneity and form of confounding) could be used to select the most likely scenarios among a plethora of possible simulations. As we discuss below, it would also be possible to simulate response surfaces according to models fit to some real data. Further, high quality real data (which we discuss below) can be extremely difficult to come by and make publicly available, making simulations a good solution for reproducible, open science. Finally, the 'data-blind' benchmarking culture in ML can also lead to misinterpretation of findings based on real-world data <ref type="bibr" target="#b28">[29]</ref>, so that simulations can be a safer and more ethical choice if the goal is only to showcase performance differences.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Alternatives to simulating fully synthetic response surfaces</head><p>Below, we discuss four alternative benchmarking approaches used or proposed in recent literature. All have advantages and disadvantages, leading us to conclude that no approach appears bulletproof.</p><p>• 1. Simulate only the treatment effect and use real baseline outcomes. In CATE estimation, only change in outcome due to treatment, and not the baseline outcome itself, is of key interest. To construct datasets with baseline outcomes of realistic complexity, it is therefore possible to use untreated (continuous) outcomes from a real dataset (or outcomes from datasets without treatments) as Y (0) and add only a simulated τ (x) to obtain Y (1) = Y (0) + τ (x), resulting in known CATE τ (x). Such partially simulated POs (using simulated treatment assignments) were used in <ref type="bibr" target="#b38">[39]</ref>. Advantages: This approach preserves some realism in outcomes, works with any real data even if no treatments are available, and allows the investigator to systematically vary only the target function (instead of the nuisance functions µ w (x)). Disadvantages: Similar to fully synthetic outcome functions, this approach can lack credibility as the simulated τ (x) may be unrealistic and could inherently favour some algorithms by design.</p><p>• 2. Use models fit on real data to generate outcomes and act as ground truth. Instead of handcrafting possibly unrealistic response surfaces, one could fit any PO model on factual (real) data, and then generate new, ground truth POs for all observations in the sample using the fitted model (e.g. <ref type="bibr" target="#b39">[40,</ref><ref type="bibr" target="#b59">60]</ref>). <ref type="bibr" target="#b42">[43]</ref> and <ref type="bibr" target="#b43">[44]</ref> take this approach one step further, and suggest fitting generative models not only for the POs, but also for the covariates, allowing to generate completely new samples. Advantages: This approach could be interpreted as calibration of synthetic DGPs to real data; it effectively corresponds to choosing the best simulation model within the considered outcome model class (e.g. RFs or NNs). As suggested by <ref type="bibr" target="#b43">[44]</ref>, additional explicit experimental knobs can be incorporated through post-fitting manipulation of learned outcome or treatment mechanisms. Disadvantages: This approach may also lack credibility because resulting benchmarks can be expected to favour algorithms that are most closely related to those that generated the data.</p><p>• 3. Use biased subsampling of RCT data to construct observational studies. To assess performance of algorithms under (observed) confounding in observational settings, <ref type="bibr" target="#b45">[46]</ref> propose to create benchmarks by performing biased subsampling of real RCT datasets. Advantages: This approach retains real outcomes, and can be used to evaluate how well confounding is tackled in ATE and PO estimation. Disadvantages: Even in RCTs, Y (1) -Y (0) is unobserved, thus this approach lacks a mechanism to directly evaluate CATE estimates (unless X is discrete and low-dimensional, so that there can be multiple observations for each X = x). Nonetheless, as treatment is randomized, the Horvitz-Thompson transformation <ref type="bibr" target="#b60">[61]</ref> could be used as an unbiased (yet noisy) proxy for evaluation as in e.g. <ref type="bibr" target="#b61">[62]</ref>.</p><p>• 4. Use 'all potential outcomes' data. In some situations, it is possible to construct (proxies of) counterfactuals from real data, making a real contrast Y (1) -Y (0) available for evaluation of estimators (while only one outcome is used at training time). The Twins benchmark dataset used in <ref type="bibr" target="#b4">[5,</ref><ref type="bibr" target="#b58">59]</ref>, in which Twins represent counterfactuals, is the only such benchmark in current use that we are aware of (see Appendix D.3 for a description of the dataset and some experimental results). <ref type="bibr" target="#b44">[45]</ref> highlight other applications in which multiple potential outcomes can be derived for essentially identical units, including gene regulatory networks and software systems. Additionally, we would argue that in some cases, pre-and post-treatment observations from longitudinal datasets could serve as proxies for counterfactuals <ref type="foot" target="#foot_5">5</ref> , e.g. if treatments act quickly and observations are recorded at sufficiently small time-intervals (so that the necessary assumption 'nothing changed except for treatment' <ref type="bibr" target="#b21">[22]</ref> is credible), or if data from cross-over trials <ref type="bibr" target="#b62">[63]</ref> is available. Advantages: Such approaches essentially allow to overcome the fundamental problem of absence of Y (1) -Y (0) while preserving credibility of the benchmarking results as all used data is real. Disadvantages: In many applications, such data may be hard to come by. Each dataset also represents only one specific real world scenario which will be domain-specific and not necessarily generalizable; additionally, no experimental knobs are available.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Considering Alternative Evaluation Metrics</head><p>So far, we have discussed only the datasets which algorithms are evaluated on, and not what is evaluated. Next, we move to argue that current benchmarking practice has also led to a focus on a restricted set of evaluation metrics, which evaluate performance only for a subset of possible use cases of CATE estimators. Most papers report only the PEHE, which corresponds to evaluating only the statistical estimation quality of the CATE function itself <ref type="foot" target="#foot_6">6</ref> . This would be most relevant for applications where the exact value of individual CATE estimates are used directly, e.g. for statistical reporting. In many practical applications, however, it is not the exact CATE estimate that is of ultimate interest, but quantities and decisions derived from it <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b11">12]</ref>. Below, we give two examples of possible downstream tasks and implied performance metrics with practical relevance in the context of drug development and personalized medicine.</p><p>• Do estimators correctly identify drivers of effect heterogeneity? In medicine, one distinguishes patient characteristics by whether they have prognostic value -providing information on outcomes regardless of treatment status -or predictive value -providing information on the differential effect of treatment <ref type="bibr" target="#b12">[13,</ref><ref type="bibr" target="#b63">64]</ref>. Being able to correctly recognize the two types of covariates is key for clinical and research settings: predictive information may be interesting from a purely scientific perspective, can be used in drug development, for definition of subgroups and for assignment of treatments in practice, while prognostic information may e.g. be used in trial planning <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b49">50,</ref><ref type="bibr" target="#b64">65]</ref>. It can therefore be of great interest to assess whether CATE estimators correctly identify predictive information, i.e. drivers of effect heterogeneity, instead of relying on spurious correlations. This can be evaluated e.g. by using variable importance measures to assess the proportion of correctly top-ranked predictive covariates <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b65">66]</ref>. Using this approach, <ref type="bibr" target="#b13">[14]</ref> found that CFs and xgboost-based T-learners often mistake prognostic variables for predictive ones, and that good performance in terms of RMSE of CATE does not necessarily translate to good performance in terms of identifying predictive information.</p><p>• Do estimators lead to correct treatment rules? In the presence of predictive biomarkers with qualitative interactions, there exist patients who benefit and patients who are harmed by treatment <ref type="bibr" target="#b12">[13]</ref>; if the ultimate goal is to use a CATE estimator for decision support it can thus be relevant to test whether a model correctly 'classifies' such patients <ref type="bibr" target="#b11">[12]</ref>. Possible metrics include the value</p><formula xml:id="formula_4">E[Y (d(X))] = E[d(X)Y (1) + (1 -d(X))Y (0)] [67] of the implied treatment rule d(X) =</formula><p>1{τ(x) &gt; δ} for threshold δ ([2] report the related policy risk only for the real-world Jobs dataset) or evaluation of rankings implied by τ (x) using e.g. the area under the receiver-operating curve with classification target 1{τ(x) &gt; 0} <ref type="bibr" target="#b67">[68]</ref>.</p><p>Relative to commonly considered 'experimental knobs' (usually the degree of confounding, as in e.g. <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b8">9]</ref>) -the metrics outlined above highlight that there are relevant additional dimensions to DGPs that should be varied in benchmark experiments. Evaluating the discovery of drivers of heterogeneity, for example, requires ground truth knowledge of variable status and varying degrees of predictive and prognostic information, which can e.g. be achieved by conducting a range of simulations as in <ref type="bibr" target="#b13">[14]</ref>. Current benchmarking practice, however, does not allow to assess performance on this task, and may even inadvertedly discourage research in this direction. This is because popular 'black-box' benchmark datasets that were created through repeated random sampling of DGPs (IHDP, ACIC2016) do not record which variables enter each response surface, so that no ground truth is available for performance assessment. Further, due to the special DGP used in IHDP, there is no predictive/prognostic distinction -all important variables are both predictive and prognostic -so that models explicitly searching for such structure will underperform on this benchmark (see <ref type="bibr" target="#b9">[10]</ref> for an example of this), making this an unattractive modeling strategy and research direction if evaluation on standard benchmarks is required. Other metrics also reveal important DGP dimensions; e.g. to evaluate treatment rules implied by a CATE estimator, it would be important to systematically vary the amount of harm versus benefit a treatment brings across a population, instead of having it vary uncontrolled as a by-product of other changes in the DGP.</p><p>Remark: Oracle vs factual metrics. PEHE and alternatives above are 'oracle metrics' as they cannot be computed by practitioners during deployment (they require an unknown ground truth). It could thus be insightful to, where possible, report 'factual metrics', e.g. performance on predicting factual observations or other recently proposed factual validation criteria (e.g. <ref type="bibr" target="#b24">[25,</ref><ref type="bibr" target="#b40">41]</ref>), alongside 'oracle metrics': if relative factual performance correlates well with oracle metrics, this can provide heuristics for model selection in practice; if not, this can make practitioners aware of possible fallacies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusions and takeaways</head><p>A central goal of this paper was to raise awareness of the limitations inherent to the current use of generic semi-synthetic benchmark comparisons in the ML CATE literature. Our case studies highlighted that for semi-synthetic benchmark datasets -e.g. IHDP -in which (a component of) the DGP is known, some estimators can have an expected advantage over others, due to a better fit of underlying ML method and/or estimation strategy with the assumptions underlying the generation of the POs. We do not consider this finding surprising, yet it is rarely taken into account (or is at least not explicitly discussed) when benchmark datasets and baseline algorithms are selected for use in related work. 'Data-blindness', especially w.r.t. how data was generated, can thus be harmful and misleading; it can result in ignorance for systematic disadvantages some types of algorithms may have on a benchmark (which, as in the case of IHDP, does not even necessarily reflect characteristics of real data). This is particularly problematic in a community like ML, where a lack of 'state-of-the-art' results on popular benchmarks can prohibit publication and follow-up research, leading to inadvertent 'overfitting' of research to a specific benchmark <ref type="bibr" target="#b22">[23]</ref>. Below, we discuss additional takeaways.</p><p>• No type of dataset is without flaws, thus acknowledging limitations is essential. We do not aim to discourage the use of (semi-)synthetic data in general: on the contrary, we have argued that using simulated outcomes can have many advantages. Instead, we conclude that all data sources have inherent downsides, and would argue that increased awareness and acknowledgement of possible limitations of used datasets (by both authors and reviewers) is most crucial to ensure fair benchmarking of CATE estimators and correct interpretation of empirical results, e.g. by discussing whether any included algorithms are known to be inherently (dis)advantaged on a particular dataset. Conducting experiments across multiple types of benchmarks (e.g. considering both a range of synthetic setups and a real 'all potential outcomes' dataset) may lead to most convincing conclusions.</p><p>• Interaction with domain experts is instrumental for credible benchmarking. We consider increased collaboration with domain experts from relevant applications essential for creation of any type of new CATE benchmark dataset and task, either (i) to curate and make publicly available real data, (ii) to understand which simulation settings are more (less) realistic in different domains or (iii) to understand the relevance of different metrics of success. Further, domain knowledge will be crucial to move from ideal conditions to new tasks and corresponding datasets incorporating additional complications prevalent in real data -e.g. missing data <ref type="bibr" target="#b68">[69]</ref>, noise in (subjective) outcomes <ref type="bibr" target="#b69">[70]</ref>, limited compliance <ref type="bibr" target="#b70">[71]</ref> and other types of endpoints (e.g. time-to-event outcomes <ref type="bibr" target="#b71">[72]</ref>) -which are not considered in any current ML benchmark dataset for CATE estimation.</p><p>• Insightful benchmark comparisons require careful choice of baseline algorithms. Our case studies have shown that sensible baseline algorithms are necessary to understand drivers of performance. Because many DGPs will favour one class of algorithms over another, we consider it important for authors to provide principled instead of 'apples to oranges' baseline comparisons -the latter may mask the sources of performance gain. That is, we consider some baseline comparisons more insightful than others. Instead of the common practice of direct comparisons of estimators that vary along multiple dimensions, e.g. TARNet and CF in our motivating IHDP example, we would, for example, be interested whether a newly proposed learning strategy outperforms existing learning strategies implemented using the same underlying ML method, or conversely, whether a new ML method applied to the CATE estimation context outperforms commonly applied ML methods using the same (pre-existing) learning strategy.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>[2] report averages of PEHE ('Precision in Estimating Heterogeneous Effects') -the RMSE of estimating τ (x), i.e. n -1 test ntest i=1 (τ (x i ) -τ (x i )) 2 , -across realizations.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Histogram of test RMSE of CATE estimation for TARNet and CF on IHDP.</figDesc><graphic coords="5,391.14,528.65,106.92,59.15" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: Out-of-sample RMSE of CATE estimation across 100 IHDP draws (original and modified setting) for TNet, TARNet, TRF and CF. Averaged across 5 runs, bar indicates one standard error. Shaded area in left plots indicates area which are zoomed on in right plots.</figDesc><graphic coords="6,125.31,57.76,178.19,64.15" type="bitmap" /></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>Here, we focus on two axes most relevant to our case studies; an additional modeling dimension outside the scope of this paper would be the handling of confounding-induced covariate shift, e.g. by learning balancing representations<ref type="bibr" target="#b1">[2]</ref> or propensity weighting<ref type="bibr" target="#b5">[6,</ref><ref type="bibr" target="#b8">9,</ref><ref type="bibr" target="#b50">51]</ref> </p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>Code to replicate all experiments is available at https://github.com/AliciaCurth/CATENets</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>In principle, many other base-methods could have been considered for this study; other popular CATE estimators rely on BART<ref type="bibr" target="#b23">[24,</ref><ref type="bibr" target="#b55">56]</ref>, Gaussian Processes[3,  </p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_3"><p>4] and GANs<ref type="bibr" target="#b4">[5]</ref>. Here, we focus on RFs due to their popularity in applied research and NNs due to their popularity in the recent ML CATE literature.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_4"><p>Here, we focus on<ref type="bibr" target="#b1">[2]</ref>'s TARNet instead of CFRNet (which adds a balancing term to handle selection on observables) because the latter adds an additional modeling dimension on top of the two dimensions whose effect we wish to isolate in this paper. Further, the performance improvement of CFRNet over TARNet (0.71 vs 0.88) is marginal relative to the gap between CF and TARNet discussed above.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_5"><p>Note that we suggest these approaches only to obtain realistic proxies of counterfactuals for benchmarking purposes in methods research, not as an identification strategy in substantive applications.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_6"><p>In a similar vein, the absolute bias in ATE estimation is sometimes also reported due to its use in<ref type="bibr" target="#b1">[2]</ref> </p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments and Disclosure of Funding</head><p>Some parts of this paper were previously presented in "<rs type="programName">Doing Great at Estimating CATE? On the Neglected Assumptions in Benchmark Comparisons of Treatment Effect Estimators" (Curth &amp; van der Schaar, 2021</rs>) <ref type="bibr" target="#b72">[73]</ref> at the workshop on Neglected Assumptions in Causal Inference at ICML 2021. We thank workshop attendants, anonymous reviewers (at both the workshop and NeurIPS21) as well as members of the vanderschaar-lab for many insightful comment and suggestions. AC gratefully acknowledges funding from <rs type="funder">AstraZeneca</rs>. Additionally, MvdS received funding from the <rs type="funder">Office of Naval Research (ONR)</rs> and the <rs type="funder">National Science Foundation</rs> (<rs type="funder">NSF</rs>, grant number <rs type="grantNumber">1722516</rs>).</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_tMY8EXT">
+					<orgName type="program" subtype="full">Doing Great at Estimating CATE? On the Neglected Assumptions in Benchmark Comparisons of Treatment Effect Estimators&quot; (Curth &amp; van der Schaar, 2021</orgName>
+				</org>
+				<org type="funding" xml:id="_DbMpwtQ">
+					<idno type="grant-number">1722516</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Learning representations for counterfactual inference</title>
+		<author>
+			<persName><forename type="first">Fredrik</forename><surname>Johansson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Uri</forename><surname>Shalit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Sontag</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International conference on machine learning</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="3020" to="3029" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Estimating individual treatment effect: generalization bounds and algorithms</title>
+		<author>
+			<persName><forename type="first">Uri</forename><surname>Shalit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Fredrik D Johansson</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Sontag</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="3076" to="3085" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Bayesian inference of individualized treatment effects using multi-task gaussian processes</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ahmed</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alaa</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van Der Schaar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="3424" to="3432" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Limits of estimating heterogeneous treatment effects: Guidelines for practical algorithm design</title>
+		<author>
+			<persName><forename type="first">Ahmed</forename><surname>Alaa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van Der Schaar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="129" to="138" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Ganite: Estimation of individualized treatment effects using generative adversarial nets</title>
+		<author>
+			<persName><forename type="first">Jinsung</forename><surname>Yoon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><surname>Jordon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van Der Schaar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Counterfactual regression with importance sampling weights</title>
+		<author>
+			<persName><forename type="first">Negar</forename><surname>Hassanpour</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Russell</forename><surname>Greiner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">IJCAI</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="5880" to="5887" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Learning overlapping representations for the estimation of individualized treatment effects</title>
+		<author>
+			<persName><forename type="first">Yao</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alexis</forename><surname>Bellot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van Der Schaar</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2001.04754</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Learning disentangled representations for counterfactual regression</title>
+		<author>
+			<persName><forename type="first">Negar</forename><surname>Hassanpour</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Russell</forename><surname>Greiner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Counterfactual representation learning with balancing weights</title>
+		<author>
+			<persName><forename type="first">Serge</forename><surname>Assaad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shuxi</forename><surname>Zeng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chenyang</forename><surname>Tao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shounak</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Nikhil</forename><surname>Mehta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ricardo</forename><surname>Henao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fan</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lawrence</forename><surname>Carin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Duke</forename></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Artificial Intelligence and Statistics</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="1972" to="1980" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation of heterogeneous treatment effects: From theory to learning algorithms</title>
+		<author>
+			<persName><forename type="first">Alicia</forename><surname>Curth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Schaar</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Artificial Intelligence and Statistics</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="1810" to="1818" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">From real-world patient data to individualized treatment effects using machine learning: Current and future methods to address underlying challenges</title>
+		<author>
+			<persName><forename type="first">Ioana</forename><surname>Bica</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ahmed</forename><forename type="middle">M</forename><surname>Alaa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Craig</forename><surname>Lambert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Der</forename><surname>Schaar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Clinical Pharmacology &amp; Therapeutics</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="87" to="100" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Causal decision making and causal effect estimation are not the same... and why it matters</title>
+		<author>
+			<persName><forename type="first">Carlos</forename><surname>Fernández</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">-Loría</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Foster</forename><surname>Provost</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2104.04103</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Tutorial in biostatistics: datadriven subgroup identification and analysis in clinical trials</title>
+		<author>
+			<persName><forename type="first">Ilya</forename><surname>Lipkovich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alex</forename><surname>Dmitrienko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ralph B D'agostino</forename><surname>Sr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in medicine</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="136" to="196" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">On discovering treatment effect-modifiers using virtual twins and causal forest ml in the presence of prognostic biomarkers</title>
+		<author>
+			<persName><forename type="first">Erik</forename><surname>Hermansson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Svensson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">21st International Conference on Computational Science and Its Applications</title>
+		<imprint>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+	<note>To Appear</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Estimation and inference of heterogeneous treatment effects using random forests</title>
+		<author>
+			<persName><forename type="first">Stefan</forename><surname>Wager</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Susan</forename><surname>Athey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">113</biblScope>
+			<biblScope unit="issue">523</biblScope>
+			<biblScope unit="page" from="1228" to="1242" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Generalized random forests</title>
+		<author>
+			<persName><forename type="first">Susan</forename><surname>Athey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Julie</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stefan</forename><surname>Wager</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="1148" to="1178" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Estimating treatment effects with causal forests: An application</title>
+		<author>
+			<persName><forename type="first">Susan</forename><surname>Athey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stefan</forename><surname>Wager</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1902.07409</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Using causal forests to predict treatment heterogeneity: An application to summer jobs</title>
+		<author>
+			<persName><forename type="first">Jonathan</forename><surname>Davis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sara</forename><forename type="middle">B</forename><surname>Heller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="546" to="550" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Model-based recursive partitioning for subgroup analyses</title>
+		<author>
+			<persName><forename type="first">Heidi</forename><surname>Seibold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Achim</forename><surname>Zeileis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Torsten</forename><surname>Hothorn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The international journal of biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="45" to="63" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Subgroup identification from randomized clinical trial data</title>
+		<author>
+			<persName><forename type="first">Jared C</forename><surname>Foster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jeremy Mg</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stephen</forename><forename type="middle">J</forename><surname>Ruberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in medicine</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">24</biblScope>
+			<biblScope unit="page" from="2867" to="2880" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Imagenet: A largescale hierarchical image database</title>
+		<author>
+			<persName><forename type="first">Jia</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wei</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Richard</forename><surname>Socher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Li-Jia</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kai</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Li</forename><surname>Fei-Fei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2009 IEEE conference on computer vision and pattern recognition</title>
+		<imprint>
+			<publisher>Ieee</publisher>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="page" from="248" to="255" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Statistics and causal inference</title>
+		<author>
+			<persName><forename type="first">Paul</forename><forename type="middle">W</forename><surname>Holland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="issue">396</biblScope>
+			<biblScope unit="page" from="945" to="960" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">The benchmark lottery</title>
+		<author>
+			<persName><forename type="first">Mostafa</forename><surname>Dehghani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yi</forename><surname>Tay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alexey</forename><forename type="middle">A</forename><surname>Gritsenko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zhe</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Neil</forename><surname>Houlsby</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fernando</forename><surname>Diaz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Donald</forename><surname>Metzler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Oriol</forename><surname>Vinyals</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Bayesian nonparametric modeling for causal inference</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Jennifer</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hill</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="217" to="240" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Counterfactual cross-validation: Stable model selection procedure for causal inference models</title>
+		<author>
+			<persName><forename type="first">Yuta</forename><surname>Saito</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shota</forename><surname>Yasui</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="8398" to="8407" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Reconsidering generative objectives for counterfactual reasoning</title>
+		<author>
+			<persName><forename type="first">Danni</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chenyang</forename><surname>Tao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Junya</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fan</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Feng</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lawrence</forename><surname>Carin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<author>
+			<persName><forename type="first">Hyun-Suk</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yao</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">William</forename><surname>Zame</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Cong</forename><surname>Shen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jang-Won</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van Der Schaar</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2006.07917</idno>
+		<title level="m">Robust recursive partitioning for heterogeneous treatment effects with uncertainty quantification</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Data and its (dis) contents: A survey of dataset development and use in machine learning research</title>
+		<author>
+			<persName><forename type="first">Amandalynne</forename><surname>Paullada</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Deborah</forename><surname>Inioluwa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Emily</forename><forename type="middle">M</forename><surname>Raji</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Emily</forename><surname>Bender</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alex</forename><surname>Denton</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hanna</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2012.05345</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">It&apos;s compaslicated: The messy relationship between rai datasets and algorithmic fairness benchmarks</title>
+		<author>
+			<persName><forename type="first">Michelle</forename><surname>Bao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Angela</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Samantha</forename><surname>Zottola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Brian</forename><surname>Brubach</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sarah</forename><surname>Desmarais</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aaron</forename><surname>Horowitz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kristian</forename><surname>Lum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Suresh</forename><surname>Venkatasubramanian</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2106.05498</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Automated versus do-it-yourself methods for causal inference: Lessons learned from a data analysis competition</title>
+		<author>
+			<persName><forename type="first">Jennifer</forename><surname>Vincent Dorie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Uri</forename><surname>Hill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marc</forename><surname>Shalit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dan</forename><surname>Scott</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Cervone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="43" to="68" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">Timnit</forename><surname>Gebru</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jamie</forename><surname>Morgenstern</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Briana</forename><surname>Vecchione</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jennifer</forename><forename type="middle">Wortman</forename><surname>Vaughan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hanna</forename><surname>Wallach</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hal</forename><surname>Daumé</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Iii</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kate</forename><surname>Crawford</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1803.09010</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Datasheets for datasets. arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Towards accountability for machine learning datasets: Practices from software engineering and infrastructure</title>
+		<author>
+			<persName><forename type="first">Ben</forename><surname>Hutchinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrew</forename><surname>Smart</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alex</forename><surname>Hanna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Emily</forename><surname>Denton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christina</forename><surname>Greer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Oddur</forename><surname>Kjartansson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Parker</forename><surname>Barnes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Margaret</forename><surname>Mitchell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2021 ACM Conference on Fairness, Accountability, and Transparency</title>
+		<meeting>the 2021 ACM Conference on Fairness, Accountability, and Transparency</meeting>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="560" to="575" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">From imagenet to image classification: Contextualizing progress on benchmarks</title>
+		<author>
+			<persName><forename type="first">Dimitris</forename><surname>Tsipras</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shibani</forename><surname>Santurkar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Logan</forename><surname>Engstrom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrew</forename><surname>Ilyas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aleksander</forename><surname>Madry</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="9625" to="9635" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">everyone wants to do the model work, not the data work&quot;: Data cascades in high-stakes ai</title>
+		<author>
+			<persName><forename type="first">Nithya</forename><surname>Sambasivan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shivani</forename><surname>Kapania</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hannah</forename><surname>Highfill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Diana</forename><surname>Akrong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Praveen</forename><surname>Paritosh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lora</forename><forename type="middle">M</forename><surname>Aroyo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">proceedings of the 2021 CHI Conference on Human Factors in Computing Systems</title>
+		<meeting>the 2021 CHI Conference on Human Factors in Computing Systems</meeting>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="1" to="15" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<title level="m" type="main">Quasi-oracle estimation of heterogeneous treatment effects</title>
+		<author>
+			<persName><forename type="first">Xinkun</forename><surname>Nie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stefan</forename><surname>Wager</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1712.04912</idno>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">Benchmarking framework for performance-evaluation of causal inference analysis</title>
+		<author>
+			<persName><forename type="first">Yishai</forename><surname>Shimoni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chen</forename><surname>Yanover</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ehud</forename><surname>Karavani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yaara</forename><surname>Goldschmnidt</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1802.05046</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m" type="main">Atlantic causal inference conference (acic) data analysis challenge</title>
+		<author>
+			<persName><forename type="first">Richard</forename><surname>Hahn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Vincent</forename><surname>Dorie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jared</forename><forename type="middle">S</forename><surname>Murray</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1905.09515</idno>
+		<imprint>
+			<date type="published" when="2017">2017. 2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">Susan</forename><surname>Gruber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Geneviève</forename><surname>Lefebvre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tibor</forename><surname>Schuster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alexandre</forename><surname>Piché</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<publisher>Data challenge</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Machine learning estimation of heterogeneous causal effects: Empirical monte carlo evidence</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Michael C Knaus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Anthony</forename><surname>Lechner</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Strittmatter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Econometrics Journal</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="134" to="161" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Comparing methods for estimation of heterogeneous treatment effects using observational data from health care databases</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Wendling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Jung</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Callahan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">H</forename><surname>Schuler</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Shah</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Gallego</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in medicine</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">23</biblScope>
+			<biblScope unit="page" from="3309" to="3324" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Validating causal inference models via influence functions</title>
+		<author>
+			<persName><forename type="first">Ahmed</forename><surname>Alaa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Der</forename><surname>Schaar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="191" to="201" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Identifying causal-effect inference failure with uncertainty-aware models</title>
+		<author>
+			<persName><forename type="first">Andrew</forename><surname>Jesson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sören</forename><surname>Mindermann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Uri</forename><surname>Shalit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yarin</forename><surname>Gal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Using wasserstein generative adversarial networks for the design of monte carlo simulations</title>
+		<author>
+			<persName><forename type="first">Susan</forename><surname>Athey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Guido</forename><forename type="middle">W</forename><surname>Imbens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jonas</forename><surname>Metzger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Evan</forename><surname>Munro</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<author>
+			<persName><forename type="first">Brady</forename><surname>Neal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chin-Wei</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sunand</forename><surname>Raghupathi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Realcause</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2011.15007</idno>
+		<title level="m">Realistic causal inference benchmarking</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<title level="m" type="main">The case for evaluating causal models using interventional measures and empirical data</title>
+		<author>
+			<persName><forename type="first">Amanda</forename><surname>Gentzel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dan</forename><surname>Garant</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Jensen</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1910.05387</idno>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">How and why to use experimental data to evaluate methods for observational causal inference</title>
+		<author>
+			<persName><forename type="first">Amanda</forename><forename type="middle">M</forename><surname>Gentzel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Purva</forename><surname>Pruthi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Jensen</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="3660" to="3671" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Causal inference using potential outcomes: Design, modeling, decisions</title>
+		<author>
+			<persName><surname>Donald B Rubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="issue">469</biblScope>
+			<biblScope unit="page" from="322" to="331" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">The central role of the propensity score in observational studies for causal effects</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Paul</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Donald</forename><forename type="middle">B</forename><surname>Rosenbaum</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Rubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="41" to="55" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Metalearners for estimating heterogeneous treatment effects using machine learning</title>
+		<author>
+			<persName><surname>Sören R Künzel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peter</forename><forename type="middle">J</forename><surname>Jasjeet S Sekhon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bin</forename><surname>Bickel</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the national academy of sciences</title>
+		<meeting>the national academy of sciences</meeting>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">116</biblScope>
+			<biblScope unit="page" from="4156" to="4165" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Distinguishing prognostic and predictive biomarkers: an information theoretic approach</title>
+		<author>
+			<persName><forename type="first">Konstantinos</forename><surname>Sechidis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Konstantinos</forename><surname>Papangelou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Paul D Metcalfe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><surname>Svensson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gavin</forename><surname>Weatherall</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Brown</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">19</biblScope>
+			<biblScope unit="page" from="3365" to="3376" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<title level="m" type="main">Learning weighted representations for generalization across designs</title>
+		<author>
+			<persName><forename type="first">Nathan</forename><surname>Fredrik D Johansson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Uri</forename><surname>Kallus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Shalit</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Sontag</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1802.08598</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<monogr>
+		<title level="m" type="main">On inductive biases for heterogeneous treatment effect estimation</title>
+		<author>
+			<persName><forename type="first">Alicia</forename><surname>Curth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van Der Schaar</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2106.03765</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<monogr>
+		<author>
+			<persName><forename type="first">H</forename><surname>Edward</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kennedy</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2004.14497</idno>
+		<title level="m">Optimal doubly robust estimation of heterogeneous causal effects</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Representation learning for treatment effect estimation from observational data</title>
+		<author>
+			<persName><forename type="first">Liuyi</forename><surname>Yao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sheng</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yaliang</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mengdi</forename><surname>Huai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jing</forename><surname>Gao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aidong</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<biblScope unit="page">31</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Effects of early intervention on cognitive function of low birth weight preterm infants</title>
+		<author>
+			<persName><forename type="first">Jeanne</forename><surname>Brooks-Gunn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fong-Ruey</forename><surname>Liaw</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Pamela</forename><forename type="middle">Kato</forename><surname>Klebanov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of pediatrics</title>
+		<imprint>
+			<biblScope unit="volume">120</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="350" to="359" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Bayesian regression tree models for causal inference: Regularization, confounding, and heterogeneous effects (with discussion)</title>
+		<author>
+			<persName><forename type="first">Richard</forename><surname>Hahn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jared</forename><forename type="middle">S</forename><surname>Murray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Carlos</forename><forename type="middle">M</forename><surname>Carvalho</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Analysis</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="965" to="1056" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Root-n-consistent semiparametric regression</title>
+		<author>
+			<persName><surname>Peter M Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica: Journal of the Econometric Society</title>
+		<imprint>
+			<biblScope unit="page" from="931" to="954" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">Julie</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Susan</forename><surname>Athey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Rina</forename><surname>Friedberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Vitor</forename><surname>Hadad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Hirshberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Miner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Erik</forename><surname>Sverdrup</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stefan</forename><surname>Wager</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marvin</forename><surname>Wright</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note>grf: Generalized random forests</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Causal effect inference with deep latent-variable models</title>
+		<author>
+			<persName><forename type="first">Christos</forename><surname>Louizos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Uri</forename><surname>Shalit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Joris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><surname>Mooij</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Richard</forename><surname>Sontag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Max</forename><surname>Zemel</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Welling</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="6446" to="6456" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Plasmode simulation for the evaluation of pharmacoepidemiologic methods in complex healthcare databases</title>
+		<author>
+			<persName><forename type="first">Sebastian</forename><surname>Jessica M Franklin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jennifer</forename><forename type="middle">M</forename><surname>Schneeweiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jeremy</forename><forename type="middle">A</forename><surname>Polinski</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Rassen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational statistics &amp; data analysis</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="219" to="226" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">A generalization of sampling without replacement from a finite universe</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Daniel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Donovan</forename><forename type="middle">J</forename><surname>Horvitz</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Thompson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">260</biblScope>
+			<biblScope unit="page" from="663" to="685" />
+			<date type="published" when="1952">1952</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Removing hidden confounding by experimental grounding</title>
+		<author>
+			<persName><forename type="first">Nathan</forename><surname>Kallus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aahlad</forename><surname>Manas Puli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Uri</forename><surname>Shalit</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in neural information processing systems</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="10888" to="10897" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<monogr>
+		<title level="m" type="main">Cross-over trials in clinical research</title>
+		<author>
+			<persName><surname>Stephen S Senn</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<biblScope unit="volume">5</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">Biomarker: predictive or prognostic</title>
+		<author>
+			<persName><surname>Karla V Ballman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of clinical oncology: official journal of the American Society of Clinical Oncology</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">33</biblScope>
+			<biblScope unit="page" from="3968" to="3971" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<monogr>
+		<title level="m" type="main">Guideline on the investigation of subgroups in confirmatory clinical trials</title>
+		<author>
+			<persName><forename type="first">European</forename><surname>Medicines</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Agency</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<analytic>
+		<title level="a" type="main">Subgroup identification for precision medicine: A comparative review of 13 methods</title>
+		<author>
+			<persName><forename type="first">Wei-Yin</forename><surname>Loh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Luxi</forename><surname>Cao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peigen</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Data Mining and Knowledge Discovery</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page">1326</biblScope>
+			<date type="published" when="2019">2019</date>
+			<publisher>Wiley Interdisciplinary Reviews</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Performance guarantees for individualized treatment rules</title>
+		<author>
+			<persName><forename type="first">Min</forename><surname>Qian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Susan</forename><forename type="middle">A</forename><surname>Murphy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of statistics</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">1180</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">Look before you leap: systematic evaluation of tree-based statistical methods in subgroup identification</title>
+		<author>
+			<persName><forename type="first">Yang</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Xiwen</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Donghui</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lijiang</forename><surname>Geng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Xiaojing</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wei</forename><surname>Zheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ming-Hui</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of biopharmaceutical statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1082" to="1102" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">Doubly robust treatment effect estimation with missing attributes</title>
+		<author>
+			<persName><forename type="first">Imke</forename><surname>Mayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Erik</forename><surname>Sverdrup</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tobias</forename><surname>Gauss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jean-Denis</forename><surname>Moyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stefan</forename><surname>Wager</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Julie</forename><surname>Josse</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1409" to="1431" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Subjective and objective outcomes in randomized clinical trials: definitions differed in methods publications and were often absent from trial reports</title>
+		<author>
+			<persName><forename type="first">Helene</forename><surname>Moustgaard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Segun</forename><surname>Bello</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Franklin</forename><forename type="middle">G</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Asbjørn</forename><surname>Hróbjartsson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of clinical epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="1327" to="1334" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">Compliance in clinical trials</title>
+		<author>
+			<persName><surname>Pullar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Feely</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Rheumatic Diseases</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="871" to="875" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">Treatment effect quantification for time-to-event endpoints-estimands, analysis strategies, and beyond</title>
+		<author>
+			<persName><forename type="first">Kaspar</forename><surname>Rufibach</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pharmaceutical statistics</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="165" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<monogr>
+		<title level="m" type="main">Doing great at estimating cate? on the neglected assumptions in benchmark comparisons of treatment effect estimators</title>
+		<author>
+			<persName><forename type="first">Alicia</forename><surname>Curth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mihaela</forename><surname>Van Der Schaar</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2107.13346</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

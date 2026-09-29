@@ -1,0 +1,132 @@
+{
+  "dataset_id": "Warehouse_2026_DatasetsForMilanAs_10_5281_zenodo_2",
+  "package": "warehouse:zenodo:milan_urban_analysis",
+  "dataset": "Open Data for Milan Urban Analysis - Education facilities (schools)",
+  "source_lang": "python",
+  "conversion_method": "sheet_lonlat:Original Database.xlsx!Education(latitude,longitude)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2026_DatasetsForMilanAs_10_5281_zenodo_2.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "school_type",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 4,
+        "pct_na": 0.0
+      },
+      {
+        "name": "name",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 388,
+        "pct_na": 0.0
+      },
+      {
+        "name": "address",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 278,
+        "pct_na": 0.0
+      },
+      {
+        "name": "civic_number",
+        "class": "object",
+        "typology": "categorical",
+        "range": null,
+        "n_unique": 89,
+        "pct_na": 0.0
+      },
+      {
+        "name": "municipality",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 1,
+        "pct_na": 0.0
+      },
+      {
+        "name": "school_characteristic",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "autonomy_macro_type",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 3,
+        "pct_na": 0.0
+      },
+      {
+        "name": "autonomy_type",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 7,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [
+      {
+        "name": "latitude",
+        "class": "float64",
+        "pct_na": 0.0
+      },
+      {
+        "name": "longitude",
+        "class": "float64",
+        "pct_na": 0.0
+      }
+    ],
+    "identifier_columns": [
+      {
+        "name": "school_code",
+        "class": "str",
+        "pct_na": 0.0
+      },
+      {
+        "name": "municipality_code",
+        "class": "str",
+        "pct_na": 0.0
+      },
+      {
+        "name": "postal_code",
+        "class": "int64",
+        "pct_na": 0.0
+      }
+    ],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 391,
+    "T": 1,
+    "T_var": null,
+    "k": 8,
+    "data_type": "spatial",
+    "structure": "coupe_transversale",
+    "profil_nt": "N_moyen_T_petit"
+  },
+  "bloc5": {
+    "geom_type": "Point",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": 8.930737,
+      "ymin": 45.406665,
+      "xmax": 9.264354,
+      "ymax": 45.601865
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "Classeur multi-feuilles (12 feuilles) - feuille 'Education' retenue comme table primaire (inventaire des ecoles de Milan, N=391, coordonnees directes, covariables categorielles school_type/autonomy_type/autonomy_macro_type). Les autres feuilles (Healthcare N=23, Private_Schools N=163, Mobility N=129, Supply N=349) sont des inventaires de points comparables mais non fusionnes (perimetres differents, pas de fusion sans decision de modelisation)."
+  }
+}

@@ -12,6 +12,7 @@ add_coords_to_formula <- function(formula, coords, data) {
   response <- deparse(formula[[2]])
   rhs_terms <- attr(stats::terms(formula, data = data), "term.labels")
   rhs_terms <- unique(c(rhs_terms, setdiff(coords, rhs_terms)))
+  rhs_terms <- protect_group_re_terms(rhs_terms)
   out <- stats::reformulate(rhs_terms, response = response)
   environment(out) <- environment(formula)
   out

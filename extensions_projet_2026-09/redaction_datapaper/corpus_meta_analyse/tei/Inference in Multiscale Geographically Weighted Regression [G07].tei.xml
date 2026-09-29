@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Inference in Multiscale Geographically Weighted Regression</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Hanchen</forename><surname>Yu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Government</orgName>
+								<orgName type="institution">Peking University</orgName>
+								<address>
+									<settlement>Beijing</settlement>
+									<country>PRC</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Alexander</forename><forename type="middle">Stewart</forename><surname>Fotheringham</surname></persName>
+							<email>stewart.fotheringham@asu.edu</email>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ziqi</forename><surname>Li</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Taylor</forename><surname>Oshan</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">Center for Geospatial Information Science</orgName>
+								<orgName type="department" key="dep2">Department of Geographical Sciences</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<addrLine>College Park</addrLine>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Wei</forename><surname>Kang</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department" key="dep1">Center for Geospatial Sciences</orgName>
+								<orgName type="department" key="dep2">School of Public policy</orgName>
+								<orgName type="institution">University of California</orgName>
+								<address>
+									<settlement>Riverside</settlement>
+									<region>CA</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Levi</forename><forename type="middle">John</forename><surname>Wolf</surname></persName>
+							<affiliation key="aff4">
+								<orgName type="department">School of Geographical Sciences</orgName>
+								<orgName type="institution">University of Bristol</orgName>
+								<address>
+									<settlement>Bristol</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff5">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Inference in Multiscale Geographically Weighted Regression</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">7A1BBC1198CFFFEFE6F756814C76402B</idno>
+					<idno type="DOI">10.1111/gean.12189</idno>
+					<note type="submission">Submitted: 3 May 2018; Revised version accepted: 18 December 2018.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A recent paper expands the well-known geographically weighted regression (GWR) framework significantly by allowing the bandwidth or smoothing factor in GWR to be derived separately for each covariate in the model-a framework referred to as multiscale GWR (MGWR). However, one limitation of the MGWR framework is that, until now, no inference about the local parameter estimates was possible. Formally, the so-called "hat matrix," which projects the observed response vector into the predicted response vector, was available in GWR but not in MGWR. This paper addresses this limitation by reframing GWR as a Generalized Additive Model, extending this framework to MGWR and then deriving standard errors for the local parameters in MGWR. In addition, we also demonstrate how the effective number of parameters can be obtained for the overall fit of an MGWR model and for each of the covariates within the model. This statistic is essential for comparing model fit between MGWR, GWR, and traditional global models, as well as for adjusting multiple hypothesis tests. We demonstrate these advances to the MGWR framework with both a simulated data set and a real-world data set and provide a link to new software for MGWR (MGWR1.0) which includes the novel inferential framework for MGWR described here.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>There is a great deal of interest in both the geographical and statistical literature on modeling frameworks that allow the estimation of spatially varying parameters (inter alia <ref type="bibr" target="#b3">Casetti 1972;</ref><ref type="bibr">Fotheringham, Brunsdon, and Charlton 2002;</ref><ref type="bibr" target="#b9">Fotheringham, Charlton, and Brunsdon 1998;</ref><ref type="bibr" target="#b12">Gelfand et al. 2003;</ref><ref type="bibr" target="#b13">Griffith 2008;</ref><ref type="bibr" target="#b15">LeSage 2004;</ref><ref type="bibr">Oshan and Fotheringham 2017)</ref>. Two main frameworks dominate the literature-geographically weighted regression (GWR) and spatially varying coefficients models (SVC). The former is a purely local model and based on a spatial disaggregation of a classical regression model in which the local parameter estimates are generated by "borrowing data" around locations and then calibrating separate models for each location <ref type="bibr">(Fotheringham, Brunsdon, and Charlton 2002;</ref><ref type="bibr" target="#b8">Fotheringham et al. 1996)</ref>. The latter is framed in a Bayesian context and although it produces local parameter estimates, it uses all the data to do so rather than being a purely local model <ref type="bibr" target="#b19">(Wolf, Oshan, and Fotheringham 2018)</ref>. Until recently, the Bayesian SVC framework, while usually estimated using many more free parameters (such as prior specifications and Markov chain Monte Carlo tuning parameters), had an advantage over the GWR framework: a variant existed that allowed separate bandwidths to be estimated for each covariate in the model. GWR, however, was limited to fit a single optimal bandwidth, which typically reflected an "average" of the best bandwidths for each process.</p><p>Recently, this limitation was removed by the development of multiscale GWR <ref type="bibr" target="#b10">(Fotheringham, Yang, and Kang 2017)</ref> which allows covariate-specific bandwidths to be optimized. This is a significant development for three reasons. First, allowing each covariate its own level of spatial smoothing places MGWR on the same footing as the non-separable spatially varying coefficients model in the Bayesian framework <ref type="bibr" target="#b11">(Finley 2011)</ref> and in so doing addresses a limitation of the GWR framework. Second, these covariate-specific bandwidths can be used as indicators of the spatial scale over which each process operates. Third, the multi-bandwidth approach produces a more accurate and useful model of real-world processes than GWR and is arguably more more intuitive and easier to calibrate than the Bayesian SVC models. A comparison and fuller discussion of MGWR and Bayesian SVC models is given by <ref type="bibr">Wolf, Oshan, and Fotheringham (2017)</ref>.</p><p>However, although MGWR is a considerable improvement over GWR, a limitation of the MGWR model is that until now no formal inferential framework existed for the local parameter estimates. 1 Formally, the so-called "hat matrix," which projects the observed response vector into the predicted response vector, was available in GWR but not obtained for MGWR. This paper addresses this limitation by reframing GWR as a generalized additive model (GAM) <ref type="bibr" target="#b2">(Buja, Hastie, and Tibshirani 1989;</ref><ref type="bibr" target="#b14">Hastie and Tibshirani 1990)</ref>, and extending this framework to MGWR to derive standard errors for the local parameter estimates. The paper also derives covariate-specific and overall model formulations for the effective number of parameters (ENP) to be computed for MGWR. These diagnostics are essential for comparing model fit between MGWR, GWR, and traditional global models as well as for adjusting multiple comparisons during parameter hypothesis testing. We demonstrate these advances to the MGWR framework with both a simulated data set and a real-world data set. We first reframe GWR as a GAM and then extend this framework to MGWR to derive the standard errors of the local parameter estimates. We provide a link to a user-friendly software package for MGWR which includes the inferential framework described here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>GWR as a GAM</head><p>Standard models such as those calibrated by OLS regression assume that the processes generating the data we observe are the same across space. GWR removes this assumption and allows processes to vary over space. It does this by calibrating a separate regression model at each location by borrowing data from nearby locations and weighting these data by distance from the regression point such that data from locations nearer to the regression point are weighted more than data from more distant locations. This approach is a generalization of kernel regression concepts <ref type="bibr" target="#b4">(Cleveland 1979</ref>), and has significant and powerful meaning in the context of spatial statistics. The rate at which the weights of locations decline as distance increases is controlled by a bandwidth, which is optimized in the GWR calibration procedure. GWR is formulated as where for the observation at location i ∈ {1, 2, … , n}, y i is the response variable, x ij is the jth predictor variable, j ∈ {1, 2, … , k}, ij is the jth parameter estimate, and i is the error term. GWR calibration for the (k,1) coefficients at location i in matrix form is given by where X is the (n, k) matrix of predictor variables (including a column of 1 s for the intercept), y is the (n,1) response variable, and W i is the (n, n) diagonal spatial weighting matrix for location i with the diagonal elements representing the weights attached to each location and is calculated based on a specified kernel function and bandwidth. The bandwidth is assumed to be constant across all the covariates implying that the processes producing the observed values of each covariate vary at the same spatial scale.</p><p>MGWR <ref type="bibr" target="#b10">(Fotheringham, Yang, and Kang 2017)</ref> is a more generalized GWR that loosens the constant bandwidth assumption and allows each predictor to have a different optimized bandwidth. Both GWR and MGWR can be thought of as GAMs. A GAM represents the response variable as the sum of smoothed predictor variables. A typical GAM can be expressed as:</p><p>where f j is a smooth function applied on the jth predictor variable <ref type="bibr" target="#b20">(Wood 2017)</ref>. In the context of (M)GWR, each smooth function f j is a spatial GWR parameter surface calibrated using a known bandwidth. This bandwidth is constant for all predictor variables in GWR but can be varying over j in MGWR.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The hat matrix in GWR</head><p>The derivation of the hat matrix, also referred as a projection matrix or influence matrix, is crucial to deriving inferential statistics in GWR. The hat matrix maps the response values directly to the fitted values and is necessary for calculating model diagnostics such as the corrected Akaike Information Criterion (AICc) and the equivalent/effective number of parameters as well as inferential statistics such as local standard errors and local t values. Each row i in the GWR hat matrix S is given by:</p><p>where X i is the ith row of predictors X. So, the full hat matrix S can be expressed as:</p><p>(1)</p><formula xml:id="formula_0">y i = k ∑ j=1 ij x ij + i (2) ̂ i = X T W i X -1 X T W i y, i ∈ {1, 2, … , n} (<label>3</label></formula><formula xml:id="formula_1">) y = k ∑ j=1 f j +<label>(4)</label></formula><formula xml:id="formula_2">s i = X i X T W i X -1 X T W i</formula><p>The hat matrix S can be decomposed into covariate-specific additive hat matrices R 1…k that map y to the fitted additive terms f1…k . The R 1…k matrices have two properties:</p><p>To derive R j we first express fj as a column vector where x ij and βij are the jth covariate and parameter estimate, respectively, at location i. Let e j be the jth row vector of a k by k identity matrix so where ̂ i is a column vector of k parameter estimates at location i. To proceed, we replace ̂ i in Equation ( <ref type="formula" target="#formula_7">10</ref>) with the GWR estimator and obtain a place-specific estimator:</p><p>Finally, replace each βij in Equation (8) to define the partial smooth for process j as:</p><formula xml:id="formula_3">(5) S = ⎛ ⎜ ⎜ ⎜ ⎝ X 1 � X T W 1 X � -1 X T W 1 … X n � X T W n X � -1 X T W n ⎞ ⎟ ⎟ ⎟ ⎠ n×n (<label>6</label></formula><formula xml:id="formula_4">)</formula><p>(1). fj = R j y. R j projects y onto each fitted additive term fj .</p><p>(2).</p><formula xml:id="formula_6">ŷ = Sy = k ∑ j=1 R j y, which implies k ∑ j=1 R j = S. (<label>8</label></formula><formula xml:id="formula_7">) fj = ⎛ ⎜ ⎜ ⎜ ⎝ x 1j β1j … x nj βnj ⎞ ⎟ ⎟ ⎟ ⎠ (9) e j = 0 … 0 ⏟⏟⏟ j-1 1 0… 0 ⏟⏟⏟ k-j (<label>10</label></formula><formula xml:id="formula_8">) βij = e j ̂ i (<label>11</label></formula><formula xml:id="formula_9">) βij = e j X T W i X -1 X T W i y (<label>12</label></formula><formula xml:id="formula_10">) fj = ⎛ ⎜ ⎜ ⎜ ⎝ x 1j e j � X T W 1 X � -1 X T W 1 … x nj e j � X T W n X � -1 X T W n ⎞ ⎟ ⎟ ⎟ ⎠ y</formula><p>Then, the hat matrix R j for the jth additive term fj is:</p><p>Given that the above hat matrix is derived for GWR when represented as a GAM, we can now develop this same framework to derive the hat matrix equivalent for MGWR.</p><p>MGWR as a GAM <ref type="bibr" target="#b10">Fotheringham, Yang, and Kang (2017)</ref> proposed a backfitting algorithm for the calibration of MGWR models based on viewing the model as a GAM. Firstly, parameter estimates at all locations are initialized and fitted additive terms f1…k are computed based on the initial parameter estimates and data on the covariates. 2 The model residuals ̂ at this point are obtained from:</p><p>Then, the residuals ̂ plus the first additive term f1 are regressed on X 1 (first covariate) using GWR to find an optimal bandwidth bw 1 as well as a new set of parameter estimates in order to update the first additive term f1 and residuals ̂ . This procedure is then repeated for covariate X 2 to update the second additive term f2 and residuals ̂ . The process continues in this way through to the final covariate X k when fk and ̂ are updated. This finishes the first round iteration and the second round starts from the first additive term using the new values for the estimated f k and ̂ . The iterations continue until the change in a convergence indicator (such as the residual sum of squares) becomes sufficiently small between successive iterations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The hat matrix in MGWR</head><p>In this section, we propose a solution to calculate the hat matrix for MGWR using the backfitting calibration procedure described above. We start with initializing the backfitting algorithm using GWR local parameter estimates. We then calculate the additive hat matrix R j for each covariate using Equation ( <ref type="formula">13</ref>). Then, we regress the jth covariate X j against fj + ̂ and find the partial optimal model for the jth covariate yielding an optimized bw j . Let A j be the hat matrix of the partial optimal model so that where f* j is the updated fj and fj is the jth fitted additive term from the previous iteration. From Equation ( <ref type="formula" target="#formula_11">14</ref>) and the properties of R 1…k defined in Equations ( <ref type="formula" target="#formula_3">6</ref>) and ( <ref type="formula" target="#formula_5">7</ref>), we have (13)</p><formula xml:id="formula_11">R j = ⎛ ⎜ ⎜ ⎜ ⎝ x 1j e j � X T W 1 X � -1 X T W 1 … x nj e j � X T W n X � -1 X T W n ⎞ ⎟ ⎟ ⎟ ⎠ n×n (<label>14</label></formula><formula xml:id="formula_12">) ̂ = y - k ∑ j=1 fj (<label>15</label></formula><formula xml:id="formula_13">)</formula><formula xml:id="formula_14">f* j = A j fj + ̂ (<label>16</label></formula><formula xml:id="formula_15">) fj + ̂ = fj + y - k ∑ j=1 fj = R j y + y -Sy</formula><p>Combining Equations ( <ref type="formula" target="#formula_12">15</ref>) to ( <ref type="formula" target="#formula_14">16</ref>), we then obtain Therefore, the additive hat matrix R * j for MGWR in the next iteration is:</p><p>The new hat matrix S * is then updated accordingly</p><p>The pseudo-code for the hat matrix calculation is as follows: MGWR hat matrix calculation</p><formula xml:id="formula_16">1: Initiate f1…k , ̂ , R 1…k , S from GWR {y ∼ X} 2: Do until f1…k converge: 3:</formula><p>For each term j from 1 to k:</p><formula xml:id="formula_17">4: fj , ̂ , A j ← GWR fj + ̂ ∼ X j using optimal bw j 5: R j ← A j R j + A j -A j S 6: S ← k ∑ 1 R j 7: End for 8: End do</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Local standard errors of the parameter estimates in MGWR</head><p>Given we now have a hat matrix defined for MGWR, we can use this to derive standard errors of the local parameter estimates and other diagnostics. We rewrite Equation ( <ref type="formula" target="#formula_6">8</ref>) into matrix multiplication form as: where Then, ̂ j can be given by ( <ref type="formula">17</ref>)</p><formula xml:id="formula_18">f* j = A j fj + ̂ = A j fj + y - k ∑ j=1 fj = A j R j y + y -Sy = A j R j + A j -A j S y (<label>18</label></formula><formula xml:id="formula_19">) R * j = A j R j + A j -A j S (<label>19</label></formula><formula xml:id="formula_20">)</formula><formula xml:id="formula_21">S * = S -R j + R * j (<label>20</label></formula><formula xml:id="formula_22">) fj = diag X j ̂ j (<label>21</label></formula><formula xml:id="formula_23">) diag � X j � = ⎛ ⎜ ⎜ ⎜ ⎜ ⎝ x 1j 0 0 0 x 2j 0 0 0 ⋱ 0 0 0 0 0 0 x nj ⎞ ⎟ ⎟ ⎟ ⎟ ⎠ n×n (<label>22</label></formula><formula xml:id="formula_24">)</formula><formula xml:id="formula_25">̂ j = diag X j -1 fj</formula><p>and we replace fj with R j y to yield where C = diag X j -1 R j . The variances of the parameter estimates ̂ j are then given by where σ2 is the normalized residual sum of squares from MGWR defined by where</p><p>Once the variances of the jth parameter estimates for all n locations are obtained from Equation ( <ref type="formula" target="#formula_28">24</ref>), the standard errors are available using:</p><p>and the local standard errors for all the MGWR parameter estimates are:</p><p>which means the pseudot test for the local parameter estimate in process j at location i is given by the typical t test:</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Covariate-specific ENP values in MGWR</head><p>In the iterative procedure described above, to derive a hat matrix, S, for MGWR, we recognize</p><formula xml:id="formula_26">that ∑ k j=1 R j = S.</formula><p>That is, the overall hat matrix for the MGWR is composed of k covariate-specific projection matrices R j which are derived from an iterative process where for each of the k covariates the smoother fj is projected onto y as: and the additive projection matrix R * j in the next iteration is:</p><formula xml:id="formula_27">̂ j = diag X j -1 fj = diag X j -1 R j y = Cy (<label>(23)</label></formula><formula xml:id="formula_28">)<label>24</label></formula><formula xml:id="formula_29">var ̂ j = diag CC T σ2 (<label>25</label></formula><formula xml:id="formula_30">) σ2 = ∑ � y i -ŷi � 2 n -v 1 (<label>26</label></formula><formula xml:id="formula_31">) v 1 = trace (S) (<label>27</label></formula><formula xml:id="formula_32">)</formula><formula xml:id="formula_33">SE ̂ j = √ var ̂ j (<label>28</label></formula><formula xml:id="formula_34">)</formula><formula xml:id="formula_35">SE ̂ = SE ̂ 1 ,SE ̂ 2 … SE ̂ k n×k (<label>29</label></formula><formula xml:id="formula_36">) βij SE βij ∼ t n-v1 (<label>30</label></formula><formula xml:id="formula_37">) fj = A j R j + A j -A j S y (<label>31</label></formula><formula xml:id="formula_38">) R * j = A j R j + A j -A j S</formula><p>with the new hat matrix S * updated accordingly</p><p>At the final iteration of this process, each R j represents a covariate-specific hat matrix, which can then be used to derive the ENP for each covariate from:</p><p>The value of ENP j is useful because it is used to adjust the critical value of t to account for multiple testing as shown below. Note that the sum of the covariate-specific ENP j values will equal the ENP for the whole model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Covariate-specific adjustments to the critical value of t due to multiple hypothesis testing</head><p>The local t tests for GWR and MGWR suffer from false positives induced by multiple hypothesis testing <ref type="bibr" target="#b16">(Miller 1981;</ref><ref type="bibr" target="#b18">Tukey 1991)</ref>. The issue is further complicated by the potential dependence across local estimates <ref type="bibr" target="#b1">(Benjamini and Yekutieli 2001)</ref>. We follow da Silva and <ref type="bibr" target="#b5">Fotheringham (2016)</ref> who propose an effective correction to the significance level for the local t tests to maintain a proper family-wise error rate ξ (often set as 0.05) and to avoid false postitves in GWR. 3  The adjusted value of for the local t tests is given by:</p><p>where ENP is the effective number of parameters in GWR and P is the number of parameters in the global model. In the case of the calibration of a model by GWR, when the processes are all stationary, the bandwidth would tend to infinity, ENP would tend to P and α would tend to ξ; in all other situations, α &lt; ξ.</p><p>In MGWR, given that we are able to compute ENP j , a separate value of ENP for each covariate, the adjustment to alpha should be undertaken separately for each covariate as:</p><p>For those covariates where the optimized bandwidth tends to infinity, ENP j tends to 1 and j tends to ξ; in all other situations, j &lt; ξ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>An example using simulated data</head><p>To demonstrate the validity of the analytical results provided above, we construct a simulation experiment as follows. Consider a model with two covariates of the following form:</p><p>(32)</p><formula xml:id="formula_39">S * = S -R j + R * j (<label>33</label></formula><formula xml:id="formula_40">)</formula><formula xml:id="formula_41">ENP j = trace R j (34) = ENP P (35) j = ENP j (<label>36</label></formula><formula xml:id="formula_42">)</formula><formula xml:id="formula_43">y i = 1i x 1i + 2i x 2i + i</formula><p>where values of the covariates are randomly drawn from a normal distribution (0, 2) for 625 locations on a regular 25 × 25 grid. The local parameter values, 1i and 2i , are obtained from pre-specified surfaces (see Fig. <ref type="figure" target="#fig_0">1</ref>). The values of y are derived from Equation ( <ref type="formula" target="#formula_41">36</ref>) with i set to zero for all i. Given the values of y i , x 1i , and x 2i for all locations, we calibrate the model in Equation ( <ref type="formula" target="#formula_41">36</ref>) by MGWR to obtain covariate-specific optimized bandwidths and an estimate of σ 2 in Equation ( <ref type="formula" target="#formula_29">25</ref>). 4 To simulate the standard errors of the local parameter estimates, we then undertake the following iterative process:</p><p>1. Draw a random error term, i , from N(0, σ2 ) for each i.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Use these values in Equation (40) to generate a new value of y i for every i.</head><p>3. Regress the new y against x 1 and x 2 using the MGWR calibration procedure and store the local parameter estimates.</p><p>This process is repeated 1,000 times to generate 1,000 estimates for each local coefficient, the standard deviation of which yields an experimental standard error for each local coefficient estimator. Note that in step (i) it is important to draw the random error terms from the normal distribution with mean 0 and variance σ2 which is obtained by calibrating the model in Equation ( <ref type="formula" target="#formula_41">36</ref>), where all i are set to 0 by MGWR. Using some other prior value for the variance of the error term will result in simulated standard errors of the local parmater estimates that are only correct up to some scaling factor.</p><p>The resulting experimental local standard errors of the estimates of β 1 and β 2 are shown in Figs. <ref type="figure" target="#fig_1">2</ref> and <ref type="figure" target="#fig_2">3</ref>, respectively, along with the equivalent analytically derived standard errors from Equation ( <ref type="formula" target="#formula_28">24</ref>). The similarity in the two sets of local standard errors is reinforced in the scatterplots in Fig. <ref type="figure" target="#fig_4">4</ref> and confirms that the analytical expression in Equation ( <ref type="formula" target="#formula_28">24</ref>) yields correct estimates of the local standard errors of the parameters obtained in the calibration of a model by MGWR. We now demonstrate the use of Equation ( <ref type="formula" target="#formula_28">24</ref>) in a real-world data set on educational attainment across counties in Georgia, commonly used in GWR as a demonstrator. We use this to show that when the MGWR covariate-specific bandwidths are all similar to the single bandwidth obtained in GWR, the standard errors of the local parameter estimates from both models, and subsequent inferences drawn from the results, are similar, as expected. This provides further reinforcement of the methodology described above.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>An example of educational attainment in Georgia</head><p>To demonstrate the calculation of local standard errors in a model calibrated by MGWR, we establish a simple model in which the percentage of people with a bachelor's degree is regressed on three covariates: the percentage of foreign-born residents, the percentage of people classified (a) (b)  The covariates used here were checked extensively for local multicollinearity using local correlations, local VIFs, and local condition numbers from both GWR and MGWR and no problems were identified. 5  The global OLS model calibration results are shown in Table <ref type="table" target="#tab_0">1</ref> and indicate that higher proportions of people with a bachelor's degree are associated with counties having higher proportions of residents who are foreign-born and lower proportions of rural population. The proportion of African Americans in each county has no impact on the proportion of people with a bachelor's education. The AICc for this model is 885 and the adjusted r-squared value is 0.54.</p><p>In order to demonstrate the validity of Equation ( <ref type="formula" target="#formula_28">24</ref>) in deriving the standard errors of the local parameter estimates from MGWR, the model described above was calibrated by GWR (where the standard error formulation is well-known) and MGWR. Both calibrations utilize an   adaptive bandwidth using a bisquare weighting function <ref type="bibr">(Fotheringham, Brunsdon, and Charlton 2002)</ref>. Both produce four sets of local parameter estimates and for each we map three inference-related diagnostics: the local parameter estimates themselves; their estimated standard errors; and a map of the local parameter estimates associated with t values which exceed the critical threshold using a 95% confidence interval and adjusted for multiple comparisons during parameter hypothesis testing <ref type="bibr" target="#b5">(da Silva and Fotheringham 2016)</ref>. This latter map is useful in identifying just those locations with significant local parameter estimates to help focus attention on areas of interest. These are given in Figs. <ref type="figure" target="#fig_5">5</ref><ref type="figure" target="#fig_6">6</ref><ref type="figure">7</ref><ref type="figure" target="#fig_8">8</ref>, respectively. Unlike in GWR, the adjusted critical value for the t statistics in MGWR is covariate-specific as the effective number of parameters for each covariate is a function of the covariate-specific bandwidth. The covariate-specific bandwidths, effective number of parameter estimates, adjusted alpha, and critical t values from the MGWR calibration along with their GWR equivalents are shown in Table <ref type="table" target="#tab_1">2</ref>.</p><p>The single optimal bandwidth obtained in the GWR calibration is 117. This is the number of locations (out of a possible 159) that have a non-zero weighting in the local model calibration. However, this is a weighted average across the covariates in the model which themselves may have different optimal weighting functions. The MGWR results demonstrate this. The optimal bandwidths for each of the four sets of parameter estimates are 92 for the intercept, 101 for foreign-born, 158 for rural, and 136 for African American. Conceptually, this means that the site-specific baseline for the model (reflected in the intercept) is more local than in GWR, as are the relationships between foreign-born population fractions and educational attainment. To counterbalance this, the relationships between the remaining covariates and educational attainment are more global than in GWR. So, although all four local sets of parameter estimates from MGWR exhibit only broad regional variations, they do differ slightly with the intercept exhibiting the most spatial variation and rural exhibiting the least. Indeed, the influence of the rural covariate is effectively stationary over space.</p><p>Because in this example the four sets of local parameter estimates vary at a similar spatial scale, the GWR and MGWR results should be similar, as seen by the ENP for both models (11.80 for GWR and 11.37 for MGWR). ENP is a measure of model complexity and represents the equivalent number of independent parameters estimated in a local model. For the whole model, if there is no spatial non-stationarity in the processes being examined, ENP tends to the number of parameters estimated in the global model. Because ENP is a function of the hat matrix, and because we can now obtain a hat matrix for each covariate in MGWR, as well as a "whole model" estimate of ENP, it is possible to obtain a separate ENP value for each covariate as shown in Table <ref type="table" target="#tab_1">2</ref>. These values indicate the equivalent number of independent local parameters required to model the smoother for each covariate. In the limit, as the local model tends to the global model, this value will tend to 1 as the global parameter would apply everywhere. ENP is used to adjust the value of alpha which determines the critical value of t in the presence of multiple tests (da <ref type="bibr" target="#b5">Silva and Fotheringham 2016)</ref>. The effect of this can be seen in Table <ref type="table" target="#tab_1">2</ref> in the reported adjusted values of alpha and the associated critical t values for each covariate.</p><p>Figs. 5-8 demonstrate both the validity and the usefulness of the local standard error estimator for MGWR given in Equation ( <ref type="formula" target="#formula_28">24</ref>). The local parameter estimates and associated standard errors are mapped in (a) and (b), respectively, for both GWR and MGWR while (c) indicates only the significant local parameter estimates defined as having an associated t value greater than the critical value given in Table <ref type="table" target="#tab_1">2</ref> which has been adjusted for multiple tests. In the case of the local intercept, the parameter estimates from GWR and MGWR are similar, although the MGWR local standard errors tend to be slightly larger. The maps of the significant local estimates show (a) (b) (c)     very similar patterns with a raised percentage of people having a bachelor's education centered around Athens and the University of Georgia in the northeast and a lowered percentage in the southern part of the state. The extent of this latter region, however, is more curtailed for the MGWR results.</p><p>In Fig. <ref type="figure" target="#fig_6">6</ref>, both the maps of the local parameter estimates and standard erros for the foreignborn covariate are very similar when derived from GWR and MGWR and consequently the resulting maps of significant local estimates are almost identical and both techniques would yield similar inferences about the role of foreign-born population and education levels which is that higher proportions of people with a bachelor's education are positively associated with higher levels of foreign-born population throughout the state except for the southern counties near the Florida border.</p><p>In the MGWR results from Fig. <ref type="figure">7</ref>, it is clear that although a slight amount of variation in the local parameters exists, the effect of the rural population variable is effectively global. The optimized bandwidth is just about as large as it can get (158 out of 159) and the maps of the local parameter estimates, standard errors, and significant local estimates are very similar throughout the state. 6 The inference from the MGWR results is that the association between the percentage of people with a bachelor's education and the percentage of the population born abroad is significantly positive throughout the state. Although the inferential results from GWR are similar, some difference in the three sets of maps are clear-a result of the optimized GWR bandwidth being 117 instead of the MGWR value of 158. There is a greater variation across the state in all three of the GWR-based maps with a spurious "banding" of intensity of association apparent from north to south. The standard errors of the parameter estimates are consistently larger for GWR than for MGWR but especially so in the southeast of the state.</p><p>In Fig. <ref type="figure" target="#fig_8">8</ref>, although there is some variation in the local estimates for the African American percentage, the local standard errors for each location are relatively high and no location in either the GWR or MGWR results exhibits any significant association between educational attainment levels and the percentage of African American population.</p><p>These results are informative because they demonstrate the similarity between the GWR and MGWR results when the optimal covariate-specific bandwidths are all similar to that of the single GWR bandwidth. This is reassuring because the MGWR standard errors derived from ( <ref type="formula" target="#formula_28">24</ref>) yield, as they should, similar values to those obtained in GWR.</p><p>The derivation of MGWR with a full set of local regression diagnostics is a significant advance in spatial modeling not only because it offers the ability to examine the spatial scales over which different processes operate and to make inferences about local parameter estimates but also because the framework is eminently expandable and scable and therefore arguably offers greater potential for new developments and empirical applications than the equivalent Bayesian framework. A user-friendly suite of software for MGWR that includes the advances made to the model's inferential framework described here is available at <ref type="url" target="https://sgsup.asu.edu/sparc/software/mgwr">https://sgsup.asu.edu/sparc/  software/mgwr</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Notes</head><p>1 <ref type="bibr" target="#b20">Wood(2017)</ref> provides a very useful general simulation method to approximate confidence intervals which involves iterative resampling and re-fitting of models. In each step, one first samples new local coefficients from the estimated slopes and parameter variance-covariance matrix. Then an artificial auxiliary response vector is constructed using these re-sampled local slopes and the model re-fit. This approximates the posterior distribution of the slopes and bandwidth parameters, assuming that the estimates obtained during backfitting reflect the true estimates, and whose sampling distributions are stable. While this approach is useful in its generality, we aim for an explicit, theory-driven formal statement of standard errors specific to the MGWR specification, not a generic Monte Carlo approach to approximate them. 2 The local parameters for the MGWR calibration can be initialized as 0, or as the parameter estimates from a global OLS model or as the local parameter estimates from a GWR calibration <ref type="bibr" target="#b10">(Fotheringham et al. 2017)</ref>. 3 A GWR-specific adjustment to a false discovery rate (FDR)-based correction <ref type="bibr" target="#b0">(Benjamini and Hochberg 1995)</ref> for multiple hypothesis testing is not currently available but is the subject of active investigation.</p><p>Even though there are debates (deCastro and Singer 2006) on the relative efficiacy of FWER and FDRbased corrections for multiple hypothesis testing, there is no doubt that the use of a GWR-specific FWER adjustment for multiple hypothesis tests is far superior to a FDR adjustment which does not account for the appropriate level of dependency in the tests. 4 The MGWR calibration is initialized with the GWR estimates and the calibration process is deemed to have converged once the score of change in the GWR smooth functions (SOC-f) between consecutive backfitting iterations is smaller than 10 -5 , a threshold suggested by <ref type="bibr">Fotheringham et al. (2011)</ref> based on some Monte Carlo experiments. The same initialization and termination criteria are applied to the analysis of the empirical data set. The software (MGWR 1.0) used to derive all the results in this paper can be downloaded at <ref type="url" target="https://sgsup.asu.edu/sparc/software/mgwr://sgsup.asu.edu/sparc/software/mgwr">https://sgsup.asu.edu/sparc/software/mgwr</ref> where users can download a Windows (64 bit) and a MacOS (64 bit) version of the software plus a user manual and three sample data sets, one of which (Georgia) is used below. Users can also access and contribute to the Python source code for MGWR 1.0 at https:/github.com/pysal/mgwr. 5 These results are available from the second author. 6 Note that although the bandwidth is very close to its maximum value, there remains some spatial variation in the local parameter estimates because even though almost all the locations are used in the estimation of the local parameters, the data from these locations are still weighted. For the result to be truly global, the optimized bandwidth would need to be infinite which is operationally impossible. We therefore treat relationships as global if the optimized bandwidth is very close to the maximum possible operationally.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Parameter Surfaces for β 1 and β 2 .</figDesc><graphic coords="9,59.52,449.45,165.14,165.50" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Analytical and simulated local standard errors for β 1 .</figDesc><graphic coords="10,60.22,75.15,163.46,163.46" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Analytical and simulated local standard errors for β 2 .</figDesc><graphic coords="10,60.50,329.54,163.10,163.58" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>as rural, and the percentage of African Americans. The data are drawn from the 1990 US census of population for the 159 counties in the State of Georgia and have been provided as a sample data set in successive releases of the GWR software, the current version being available at https://sgsup.asu.edu/sparc/software/mgwr.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Scatterplots of the analytical and simulated standard errors for β 1 and β 2 .</figDesc><graphic coords="11,61.41,80.46,362.78,171.02" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Intercept.</figDesc><graphic coords="13,64.54,455.48,357.86,160.34" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Foreign-born.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><figDesc>Figure 7. Rural.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. African American.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Global OLS Calibration Results from the Georgia Data</figDesc><table><row><cell>Covariate</cell><cell>Est. Parameter</cell><cell>SE</cell><cell>t value</cell></row><row><cell>Intercept</cell><cell>0.0</cell><cell>0.054</cell><cell>0</cell></row><row><cell>Foreign-born</cell><cell>0.458</cell><cell>0.066</cell><cell>7.0</cell></row><row><cell>Rural</cell><cell>-0.374</cell><cell>0.065</cell><cell>-5.7</cell></row><row><cell>African American</cell><cell>-0.084</cell><cell>0.055</cell><cell>-1.5</cell></row><row><cell>AICc = 332</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Adj. R 2 = 0.54</cell><cell></cell><cell></cell><cell></cell></row><row><cell>n = 159</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>GWR and MGWR Summary Statistics for the Georgia Data Diagnostic</figDesc><table><row><cell></cell><cell>Sum of components</cell><cell></cell><cell>11.37</cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell>African American</cell><cell>136</cell><cell>2.25</cell><cell></cell><cell>0.0221</cell><cell>2.31</cell></row><row><cell></cell><cell>Rural</cell><cell>158</cell><cell>1.75</cell><cell></cell><cell>0.0285</cell><cell>2.21</cell></row><row><cell></cell><cell>Foreign-born</cell><cell>101</cell><cell>3.51</cell><cell></cell><cell>0.0143</cell><cell>2.48</cell></row><row><cell></cell><cell>Intercept</cell><cell>92</cell><cell>3.84</cell><cell></cell><cell>0.0130</cell><cell>2.51</cell></row><row><cell>MGWR</cell><cell>Entire model</cell><cell>n/a</cell><cell>11.37</cell><cell></cell><cell>0.0176</cell><cell>2.40</cell><cell>297</cell></row><row><cell>GWR</cell><cell>Entire model</cell><cell>117</cell><cell>11.80</cell><cell></cell><cell>0.0169</cell><cell>2.41</cell><cell>299</cell></row><row><cell></cell><cell></cell><cell>Bandwidth</cell><cell>Effective No. of</cell><cell>parameters</cell><cell>Adjusted α</cell><cell>Critical t (95%)</cell><cell>AICc</cell><cell>n = 159.</cell></row></table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Summary</head><p>The recent development of MGWR by <ref type="bibr" target="#b10">Fotheringham, Yang, and Kang (2017)</ref> significantly adds to the GWR framework by allowing the optimization of covariate-specific bandwidths which yield potentially valuable information on the spatial scales at which different processes opeate. This development also removes an advantage that the Bayesian non-separable spatially varying coefficients model had over the GWR framework. However, lacking in the MGWR framework was the ability to calculate standard errors for the local parameter estimates and the ENP for both the overall model and each covariate. This paper shows how both these diagnostic statsitics can be computed for MGWR and demonstrates this for both a simulated and an empirical data set. The key to this advance is the derivation of both GWR and MGWR as GAMs from which a hat matrix can be computed and which allows the computation of local standard errors and ENP values.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Controlling the False Discovery Rate: A Practical and Powerful Approach to Multiple Testing</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Benjamini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hochberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society B</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="289" to="300" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">The Control of the False Discovery Rate in Multiple Testing under Dependency</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Benjamini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Yekutieli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1165" to="1188" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Linear Smoothers and Additive Models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Buja</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="453" to="510" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Generating Models by the Expansion Method: Applications to Geographical Research</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="91" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Robust Locally weighted Regression on Smoothing Scatterplots</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Cleveland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="issue">368</biblScope>
+			<biblScope unit="page" from="829" to="836" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The Multiple Testing Issue in Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Da Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Stewart Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="233" to="247" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Controlling the False Discovery Rate: A New Application to Account for Multiple and Dependent Tests in Local Statistics of Spatial Association</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>De Castro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Singer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="180" to="208" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brundson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Chichester</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The Geography of Parameter Space: An Investigation into Spatial Non-stationarity</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographic Information Science</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="605" to="627" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression: A Natural Evolution of the Expansion Method for Spatial Data Analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1905" to="1927" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Multiscale Geographically Weighted Regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Comparing Spatially-varying Coefficients Models for Analysis of Ecological Data with Non-stationary and Anisotropic Residual Dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Spatial Modeling with Spatially Varying Coefficient Processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Spatial-filtering-based Contributions to a Critique of Geographically Weighted Regression (GWR)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2751" to="2769" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">Generalized Additive Models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1990">1990</date>
+			<publisher>Chapman and Hall/CRC Press</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">A Family of Geographically Weighted Regression Models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Spatial Econometrics</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">J G M</forename><surname>Florax</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2004">2004</date>
+			<biblScope unit="page" from="241" to="264" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">G</forename><surname>Miller</surname></persName>
+		</author>
+		<title level="m">Simultaneous Statistical Inference</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A Comparison of Spatially Varying Coefficient Estimates Using Geographically Weighted and Spatial-Filter-Based Techniques</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="53" to="75" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The Philosophy of Multiple Comparisons</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Tukey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="100" to="116" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Single and Multiscale Models of Process Spatial Heterogeneity</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12147</idno>
+		<ptr target="https://doi.org/10.1111/gean.12147" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="223" to="246" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<title level="m">General Additive Models: An Introduction with R, 2nd</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman and Hall/CRC Press</publisher>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

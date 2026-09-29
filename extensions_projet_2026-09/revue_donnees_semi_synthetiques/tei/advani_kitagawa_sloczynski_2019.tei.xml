@@ -1,0 +1,1363 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">MOSTLY HARMLESS SIMULATIONS? USING MONTE CARLO STUDIES FOR ESTIMATOR SELECTION *</title>
+				<funder>
+					<orgName type="full">Programme Evaluation for Policy Analysis</orgName>
+				</funder>
+				<funder ref="#_HY7Gr7f">
+					<orgName type="full">European Research Council</orgName>
+					<orgName type="abbreviated">ERC</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Theodore and Jane Norman Fund</orgName>
+				</funder>
+				<funder ref="#_XqSNh3u">
+					<orgName type="full">Global Development Network</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">CERGE-EI Foundation</orgName>
+				</funder>
+				<funder ref="#_4ZWMCFw">
+					<orgName type="full">Foundation for Polish Science (FNP)</orgName>
+				</funder>
+				<funder ref="#_UNbUdgy">
+					<orgName type="full">ESRC</orgName>
+				</funder>
+				<funder ref="#_sD2d2D9">
+					<orgName type="full">ESRC Centre for Microdata Methods and Practice (cemmap)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2019-04-04">April 4, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Arun</forename><surname>Advani</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Toru</forename><surname>Kitagawa</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Tymon</forename><surname>Słoczy</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ński</forename><forename type="middle">§</forename><surname>Summary</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Costa</forename><surname>Dias</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Gil</forename><surname>Epstein</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Alfonso</forename><surname>Flores-Lagunes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ira</forename><surname>Gang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Martin</forename><surname>Huber</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Justin</forename><surname>Mccrary</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Blaise</forename><surname>Melly</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ma- Teusz</forename><surname>Myśliwski</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Pedro</forename><surname>Sant'anna</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Tony</forename><surname>Strittmatter</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Tim</forename><surname>Vogelsang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ed</forename><surname>Vytlacil</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><roleName>Tiemen</roleName><forename type="first">Jeff</forename><surname>Wooldridge</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics &amp; International Business School</orgName>
+								<orgName type="institution" key="instit1">University of Warwick</orgName>
+								<orgName type="institution" key="instit2">CAGE, and Institute for Fiscal Studies. ‡ University College London and cemmap. § Brandeis University and IZA. Correspondence</orgName>
+								<orgName type="institution" key="instit3">Brandeis University</orgName>
+								<address>
+									<addrLine>415 South Street</addrLine>
+									<postCode>021 02453.</postCode>
+									<settlement>Waltham</settlement>
+									<region>MS MA</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">MOSTLY HARMLESS SIMULATIONS? USING MONTE CARLO STUDIES FOR ESTIMATOR SELECTION *</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-04-04">April 4, 2019</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">F673C1672188112129783788FA7FDF44</idno>
+					<idno type="arXiv">arXiv:1809.09527v2[econ.EM]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:10+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>JEL Classification: C15</term>
+					<term>C21</term>
+					<term>C25</term>
+					<term>C52 empirical Monte Carlo studies</term>
+					<term>program evaluation</term>
+					<term>selection on observables</term>
+					<term>treatment effects</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We consider two recent suggestions for how to perform an empirically motivated Monte Carlo study to help select a treatment effect estimator under unconfoundedness. We show theoretically that neither is likely to be informative except under restrictive conditions that are unlikely to be satisfied in many contexts. To test empirical relevance, we also apply the approaches to a real-world setting where estimator performance is known. Both approaches are worse than random at selecting estimators which minimise absolute bias. They are better when selecting estimators that minimise mean squared error. However, using a simple bootstrap is at least as good and often better. For now researchers would be best advised to use a range of estimators and compare estimates for robustness.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>A large literature focuses on estimating average treatment effects under unconfoundedness (see, e.g., <ref type="bibr" target="#b8">Blundell and Costa Dias 2009</ref><ref type="bibr" target="#b30">, Imbens and Wooldridge 2009</ref><ref type="bibr" target="#b0">, Abadie and Cattaneo 2018)</ref>. 1 Many estimators are available to researchers in this context, and many of these estimators have similar asymptotic properties. This can make it difficult to select which estimator to use. Monte Carlo studies are a useful tool for examining the smallsample properties of these estimation methods, which can guide estimator choice. 2 Early contributions, such as Fr ölich (2004), demonstrate estimator performance in stylised data generating processes (DGPs) which do not resemble any empirical settings. This reliance on unrealistic DGPs is criticised by <ref type="bibr" target="#b29">Huber et al. (2013)</ref> and <ref type="bibr">Busso et al. (2014)</ref>. Both recommend that Monte Carlo studies should intend to replicate actual datasets of interest, although they suggest different procedures for doing this. <ref type="bibr" target="#b29">Huber et al. (2013)</ref> describe this approach to examining the small-sample properties of estimators as an 'empirical Monte Carlo study' <ref type="bibr">(EMCS)</ref>. An important question is whether either type of EMCS can help applied researchers in choosing what estimator(s) to prefer in a given context. <ref type="bibr">Busso et al. (2014)</ref> indicate this might be possible, noting that their results 'suggest the wisdom of conducting a small-scale simulation study tailored to the features of the data at hand'. Similarly, <ref type="bibr" target="#b29">Huber et al. (2013)</ref> suggest that 'the advantage [of an EMCS] is that it is valid in at least one relevant environment', i.e. that it is informative at least about the performance of estimators in the dataset on which it was conducted.</p><p>In this paper we evaluate the premise that EMCS can be informative about the performance of estimators in the particular data which are the basis for the EMCS. We first show theoretically that these approaches are expected to be informative only under very restrictive conditions. These conditions are unlikely to hold in many practical examples faced by a researcher. We then test EMCS performance in a real-world case where we know the actual behaviour of estimators. We find that in terms of selecting estimators on absolute bias they are often worse than choosing randomly. On mean squared error (MSE) they perform better than random, but no better than selecting an estimator based on simple bootstrap estimates of MSEs. Their performance in absolute terms may also still be poor. 1 The unconfoundedness assumption may also be referred to as exogeneity, ignorability, or selection on observables.</p><p>2 See, for example, Fr ölich (2004), <ref type="bibr" target="#b39">Lunceford and Davidian (2004)</ref>, <ref type="bibr" target="#b47">Zhao (2004</ref><ref type="bibr">Zhao ( , 2008))</ref>, <ref type="bibr" target="#b11">Busso et al. (2009)</ref>, <ref type="bibr" target="#b40">Millimet and Tchernis (2009)</ref>, <ref type="bibr" target="#b6">Austin (2010)</ref>, <ref type="bibr">Abadie and Imbens (2011)</ref>, <ref type="bibr" target="#b32">Khwaja et al. (2011)</ref>, <ref type="bibr" target="#b18">Diamond and Sekhon (2013)</ref>, <ref type="bibr" target="#b29">Huber et al. (2013)</ref>, <ref type="bibr">Busso et al. (2014</ref><ref type="bibr" target="#b21">), Fr ölich et al. (2017)</ref>, and <ref type="bibr" target="#b9">Bodory et al. (2018)</ref>, all studying the finite-sample performance of estimators of average treatment effects under unconfoundedness.</p><p>The first type of EMCS we consider is the placebo EMCS <ref type="bibr" target="#b29">(Huber et al., 2013)</ref>. <ref type="foot" target="#foot_0">3</ref> This proposes a way to assign 'realistic placebo treatments among the non-treated', using information about the predictors of treatment status in the original data. It then tests how well estimators can recover the zero effect of the placebo treatment. The performance of estimators in this exercise is hypothesised to be informative about their performance in the original data.</p><p>The second type we describe as the structured EMCS. An exercise of this type is undertaken by <ref type="bibr">Busso et al. (2014)</ref>. <ref type="foot" target="#foot_1">4</ref> Here a parameterised approximation of the original data generating process is created, using functional form assumptions about the distributions of observed covariates. Parameters of their marginal (or conditional) distributions are estimated from the original data. Samples can be drawn from this approximate DGP, to which the estimators can then be applied. Since the treatment effect in this DGP can be calculated directly from knowledge of the parameters, performance of the estimators in these samples can be measured. The performance of estimators in this exercise is also hypothesised to be informative about their performance in the original data.</p><p>To examine whether or not EMCS can correctly choose a best performing estimator, for various definitions of performance, we first focus on a simple example with two estimators that have Gaussian sampling distributions. We show analytically that both these approaches will only be guaranteed to correctly select the preferred estimator if they can correctly reproduce both the biases and the ordering of the variances of estimators. These are restrictive conditions that we show can easily fail in practical applications, such as when the EMCS procedures fail to recover heteroskedastic errors or misspecify the regression equations or propensity scores. In two sets of simulations based on a stylised DGP, both approaches select the better estimator less than 3% of the time, much worse than 50% achievable by selecting randomly.</p><p>To study the extent of the problem in a real-world circumstance, we apply both methods to the National Supported Work (NSW) Demonstration data on men, previously analysed by <ref type="bibr" target="#b34">LaLonde (1986)</ref>, <ref type="bibr" target="#b26">Heckman and Hotz (1989)</ref>, <ref type="bibr" target="#b16">Dehejia and</ref><ref type="bibr">Wahba (1999, 2002)</ref>, <ref type="bibr">Smith and</ref><ref type="bibr">Todd (2001, 2005)</ref>, and many others. In these data participation in a job training programme was randomly assigned, so the treatment effect of the programme can be estimated by comparing sample means. <ref type="bibr" target="#b34">LaLonde (1986)</ref> used these data to test the performance of estimators at reproducing this treatment effect when an artificial comparison group (rather than the experimental controls) was used. We instead use the data to test how well the two EMCS procedures can inform us about the performance of the estimators: Can EMCS tell us which estimator to use? On average how much worse than the optimal estimator is the one chosen by EMCS? How well can EMCS reproduce the ranking of performance across all estimators? Applying the two EMCS procedures we find three main results. First, in terms of absolute bias, the EMCS procedures are no better, and often noticeably worse, than selecting an estimator at random. In two out of three cases we study, the rankings produced are negatively correlated with the true ranking. In one case the preferred estimator selected by EMCS is on average 30-37 times worse than the actual best estimator. Second, EMCS does better at reproducing the performance of estimators in terms of MSE. This is because the MSEs of the estimators are mostly driven by their variances, and EMCS appears more effective at capturing variances. The rankings of estimators are consistently positively correlated with the true rankings, although the estimator preferred by EMCS has an MSE up to twice as high as the best estimator. Third, given the variance result, we also compare EMCS procedures to choosing estimators based on performance criteria estimated from a simple nonparametric bootstrap. We find that the bootstrap is as good, and often much better, than either of the EMCS procedures. Hence even when the procedures are somewhat informative, they are not superior to a procedure that relies on fewer design choices. These results are unfortunate, but nevertheless important. They caution against treating either of these approaches as general solutions to the problem of estimator choice.</p><p>There remains no silver bullet that can assist empirical researchers with the 'right' or 'best' estimator for a particular context. In the absence of a clear choice driven by research design, the best advice at this stage is likely to be implementing a number of estimators, and then considering the range of estimates provided, as <ref type="bibr">Busso et al. (2014)</ref> also suggest.</p><p>Our results also have implications for researchers studying the small-sample properties of treatment effect estimators (see footnote 2). It has been argued that 'it is preferable to study DGPs that are empirically relevant' <ref type="bibr">(Busso et al., 2014)</ref>. Our theoretical and empirical results suggest there is little support for this claim. We show theoretically that misspecification in the construction of the DGP can lead the ranking of estimators to be incorrect for the original dataset. In our empirical example, we see that EMCS is not better than using a bootstrap (and sometimes not better than random) to predict performance in the data on which the EMCS was performed. There seems to be little reason to then think it is particularly informative about performance in other unrelated real datasets, i.e. that testing small-sample properties of estimators in 'real data' is necessarily better than in completely artificial data. A more fruitful path might be to test sensitivity of estimator performance to parameters of the simulation, such as sample size and the degree of heteroskedasticity. This approach is also taken by <ref type="bibr" target="#b29">Huber et al. (2013)</ref>, and might be more helpful in understanding what characteristics of samples most affect the performance of particular estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">EMCS Designs</head><p>We first describe the two main approaches to conducting an EMCS, namely the placebo design of <ref type="bibr" target="#b29">Huber et al. (2013)</ref> and the structured design of <ref type="bibr">Busso et al. (2014)</ref>. In either EMCS design, one simulates many 'empirical Monte Carlo' replication samples from a known data generating process. By implementing the estimators on the simulated replications, one obtains estimates of the sampling distributions and performance criteria (e.g., MSEs) of the estimators, according to which one ranks the candidate estimators.</p><p>Note that the researcher needs to make a choice of what criteria to use to rank estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">The Placebo Design</head><p>The idea of the placebo design is to assign placebo treatments to some control observations, so that by construction the treatment effect is zero, and to then attempt to recover this effect. <ref type="foot" target="#foot_2">5</ref> In particular, covariates and outcomes (X i , Y i ) are first drawn jointly by sampling (with replacement) from the empirical distribution of control observations. Using the original dataset, the propensity score is estimated (e.g., using a logit model). The estimated parameters of this model φ are then used to assign placebo treatments to the generated sample in the following way:</p><formula xml:id="formula_0">D i = 1[S i &gt; 0],<label>(1)</label></formula><formula xml:id="formula_1">S i = π + λX i φ + ǫ i ,<label>(2)</label></formula><p>where ǫ i is an iid error, and both π and λ are additional parameters to be selected. While π shifts the proportion of observations that are treated, λ controls the extent of selection:</p><p>with λ = 1 selection on observables takes the same form in the Monte Carlo samples as in the original dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">The Structured Design</head><p>The idea of the structured design is instead to create a parameterised approximation to the original (unknown) data generating process, and then draw samples from the approximated process. To begin, a fixed number of treated and control observations are created, to match the number of each in the original dataset. Covariates and outcome variables are then drawn from parameterised distributions where the parameters are estimated from the original dataset. For example, the variable black might come from a Bernoulli with mean estimated from the data, and the variable earnings from a log-normal distribution with mean and variance estimated from the data. The parameters of these distributions are typically estimated conditional on treatment status. Parameters of some distributions might also be conditional on the value of other variables; e.g., earnings might be conditional on race as well as treatment status. More conditioning will improve the match of the joint distribution of simulated data to the joint distribution of the original data, but will increase the number of parameters that need to be estimated.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Theory</head><p>To understand the conditions under which an EMCS might be informative about the preferred estimator in some particular dataset, we first construct a simple example. Here we have only two estimators, with a straightforward and restricted joint sampling distribution (bivariate Gaussian). This bivariate Gaussian setting mimics an ideal situation in which the finite sample distribution of the estimators is well approximated by their asymptotic distribution. We show that even in such an ideal, large sample situation, EMCS can fail to select the best estimator if the bias in any one of the estimators or the ranking of variances is not correctly replicated in the simulated samples. We provide simple common cases for treatment effect estimation in which failure to capture the biases and heteroskedasticity contaminates EMCS, and provide results from a simple simulation illustrating this. We then extend the example to the case of more than two estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Simple Example: Two Estimator Case</head><p>Suppose the researcher wants to rank two estimators θ1 and θ2 according to their statistical performances under repeated sampling. These estimators are estimating the same object of interest θ ∈ R, but their constructions are different. For simplicity of the illustration, assume that the joint sampling distribution of the two estimators is bivariate Gaussian:</p><formula xml:id="formula_2">θ1 θ2 ∼ N θ 1 θ 2 , Σ n ,<label>(3)</label></formula><p>where</p><formula xml:id="formula_3">Σ n = n -1 Σ, Σ = σ 2 1 σ 12 σ 12 σ 2 2</formula><p>, and n is the sample size. Here, our implicit assumption is that the estimators ( θ1 , θ2 ) converge to (θ 1 , θ 2 ) at √ n-rate. Let θ 0 be the true value of the parameter of interest. We allow θ1 and/or θ2 to be biased so that θ 1 and/or θ 2 can differ from θ 0 .</p><p>We rank these estimators according to their statistical performances. Given that we often assess the performance of an estimator by its mean squared error (MSE) or mean absolute error (MAE), we may, for instance, rank the estimators according to their MSEs or MAEs. 6 Given the Gaussian assumption, the MSE of each estimator, j = 1, 2, is</p><formula xml:id="formula_4">MSE( θj ) = (θ j -θ 0 ) 2 + n -1 σ 2 j .</formula><p>We denote by j 0 ∈ {1, 2} the index of the strictly preferred estimator, assuming it exists. Ranking the estimators is difficult in practice since we do not know the mean and variances of the estimators as well as the true value of θ. Proposals of the EMCS literature aim to infer a best performing estimator j 0 by estimating the sampling distribution of θ1 and θ2 via some Monte Carlo studies. For simplicity, we assume that the estimators simulated in EMCS also follow bivariate Gaussian,</p><formula xml:id="formula_5">θ * 1 θ * 2 ∼ N θ1 θ2 , Σn ,<label>(4)</label></formula><p>where</p><formula xml:id="formula_6">Σn = a -1 n Σ, Σ = σ2 1 σ12 σ12 σ2 2</formula><p>, and a n is the size of a simulated sample that may differ from the size of the original sample n. The underlying parameters in EMCS, ( θ1 , θ2 , Σ), generally depend on the original sample, but we assume for simplicity that the dependence is negligible and they can be treated as constants. EMCS computes θ * 1 and θ * 2 repeatedly using simulated samples of size a n drawn from a data generating process with 6 MSE and MAE criteria do not take into account the dependence of the estimators. One way to rank the estimators that takes into account their dependence is based on the probability of being closer to the truth, Pr the parameter value set at known value θ0 . For instance, the placebo EMCS approach of <ref type="bibr" target="#b29">Huber et al. (2013)</ref> sets θ0 = 0 and a n ≤ n 0 , the size of the control group in the original data. The approach of structured EMCS sets θ0 at an estimate of θ 0 constructed from the original sample. In implementing EMCS, we do not have to know the mean and variance parameters of ( θ * 1 , θ * 2 ), and they can be estimated with arbitrary accuracy based on the simulated estimators. EMCS accordingly obtains the MSE of each estimator, j = 1, 2, by</p><formula xml:id="formula_7">MSE( θj ) = ( θj -θ0 ) 2 + a -1 n σ2 j .</formula><p>We denote by ĵ0 the index for a best performing estimator estimated from EMCS, ĵ0 ≡ arg min j MSE( θj ). To assess the validity of EMCS, we define a criterion of EMCSvalidity by the probability that ĵ0 coincides with j 0 , Pr( ĵ0 = j 0 ), where the probability is evaluated under repeated sampling of the original samples. In the examples to follow, we investigate how this criterion of EMCS-validity becomes one or zero depending on the parameter values in the bivariate Gaussian distributions of ( <ref type="formula" target="#formula_2">3</ref>) and ( <ref type="formula" target="#formula_5">4</ref>). We assume away the dependence of the parameters in (4) on the original sample for simplicity of illustration. In such a case the MSE estimates in EMCS and resulting selection of a best estimator ĵ0 are nonrandom when the number of Monte Carlo iterations is large enough. The criterion of EMCS-validity in this case is either 1 or 0.</p><p>We can also consider the average regret type criterion such as E(MSE( θĵ 0 ) -MSE( θj 0 )) ≥ 0 to quantify EMCS-validity. Here, the expectation concerns the sampling distribution of EMCS's selection of an optimal estimator ĵ0 . This average regret criterion can quantify severity of a wrong choice of the estimators in terms of how much MSE is on average sacrificed relative to the true best-performing estimator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.1">Scenario 1</head><p>Denote the biases in ( θ1 , θ2</p><formula xml:id="formula_8">) ′ by b = (b 1 , b 2 ) ′ = (θ 1 -θ 0 , θ 2 -θ 0 ) ′ and the biases in ( θ * 1 , θ * 2 ) ′ by b = ( b1 , b2 ) ′ = ( θ1 -θ0 , θ2 -θ0 ) ′ .</formula><p>We start with a scenario in which ( θ1 , θ2 ) are unbiased and the distribution of ( θ * 1 , θ * 2 ) well replicates the distribution of ( θ1 , θ2 ) in the following sense:</p><formula xml:id="formula_9">b = b = 0, Σ = Σ. (<label>5</label></formula><formula xml:id="formula_10">)</formula><p>Here, the biases and the sample-size-adjusted variances of the estimators simulated in EMCS coincide with those of the estimators in the original data generating process. Note that the true parameter value assumed in EMCS, θ0 , does not have to agree with the true parameter value in the original sampling process, θ 0 .</p><p>In the current scenario, the ranking of the true MSEs clearly coincides with the ranking of the MSE estimates in EMCS, implying Pr( ĵ0 = j 0 ) = 1. This is a benchmark case in which EMCS works. The next two scenarios show that once we depart from the assumptions in ( <ref type="formula" target="#formula_9">5</ref>), EMCS can be no longer valid.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.2">Scenario 2</head><p>Assume that the estimators are free from biases both in the original data generating process and EMCS, b = b = 0, but EMCS fails to replicate the normalised covariance matrix of the estimators, Σ = Σ. In this case, the MSE estimates in EMCS correctly rank the true MSEs of the estimators (assuming σ 2 1 = σ 2 2 ) if and only if the ordering of the variances of the two estimators agrees between the original sampling process and the simulated</p><formula xml:id="formula_11">sampling process, i.e. (σ 2 1 -σ 2 2 )( σ2 1 -σ2 2 ) &gt; 0.</formula><p>Otherwise, EMCS reverses the ranking of the estimators and incorrectly selects a suboptimal estimator as optimal, Pr( ĵ0 = j 0 ) = 0.</p><p>Hence, even when EMCS well replicates the biases of the estimators, it can fail to select a best performing estimator due to an incorrect variance ordering.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.3">Scenario 3</head><p>In the third scenario, we assume that EMCS correctly replicates the variance ordering of the estimators, i.e. (σ 2 1σ 2 2 )( σ2 1 -σ2 2 ) &gt; 0, but fails to replicate the biases, (b 1 , b 2 ) = ( b1 , b2 ). To be specific, we set ( b1 , b2 ) = (0, 0), but (b 1 , b 2 ) = (0, b 2 ), b 2 = 0. This can correspond to a situation that the estimator 1 is correctly specified and has no bias, whereas estimator 2 is misspecified and is subject to bias in the original data generating process. EMCS, however, fails to capture the misspecification bias in estimator 2.</p><formula xml:id="formula_12">Suppose σ 2 1 &gt; σ 2 2 holds. The true MSEs are MSE( θ1 ) = n -1 σ 2 1 and MSE( θ2 ) = b 2 2 + n -1 σ 2 2 , while the MSE estimates in EMCS are MSE( θ1 ) = a -1 n σ2 1 and MSE( θ2 ) = a -1 n σ2</formula><p>2 . Since we assumed that EMCS correctly replicates the variance of the estimators, EMCS selects j = 2 as a best estimator. This selection of the estimator is indeed misleading</p><formula xml:id="formula_13">if b 2 is far from zero, since if |b 2 | &gt; σ 2 1 -σ 2 2 n</formula><p>, θ1 outperforms θ2 in terms of MSE. This scenario highlights that EMCS-based selection of the estimator can fail if any one of the estimators is misspecified and the simulation design in EMCS does not replicate the misspecification bias.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Are Scenarios 2 and 3 Relevant in Treatment Effect Estimation?</head><p>We next provide simple but empirically relevant examples where we focus on the estimation of treatment effects, and show that both types of EMCS may yield misleading choices of the estimators for the reasons illustrated in Scenarios 2 and 3 above.</p><p>Data are given by a random sample of {(Y i , D i , X i ) : i = 1, . . . , n}, where Y i ∈ R is unit i's observed post-treatment outcome, D i ∈ {0, 1} is her treatment status, and X i ∈ R d x is a vector of her pre-treatment characteristics whose support is assumed to be bounded. We denote unit i's potential outcomes by (Y i (1), Y i (0)). We assume the unconfoundedness assumption, (Y(1), Y(0)) ⊥ D|X, throughout. The propensity score is denoted by e(x) = Pr(D = 1|X = x).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.1">An Example for Scenario 2</head><p>To keep our example as simple as possible, consider the following data generating processes:</p><formula xml:id="formula_14">E(Y(1)|X = x) = β 0 + β 1 + x ′ β 2 , (<label>6</label></formula><formula xml:id="formula_15">) E(Y(0)|X = x) = β 0 + x ′ β 2 , Var(Y(1)|X = x) = cσ 2 ǫ , Var(Y(0)|X = x) = σ 2 ǫ , c &gt; 0, e(x) = γ 0 + x ′ γ 1 .</formula><p>The specified mean equations for both potential outcomes imply that the conditional average treatment effects are homogeneous over observed characteristics and equal to β 1 . The potential outcomes are heteroskedastic if c = 1. We assume a linear probability for the propensity score in order to simplify analytical comparisons of the variances of the estimators we introduce below.</p><p>Suppose that the parameter of interest is the population average treatment effect for the treated (ATT),</p><formula xml:id="formula_16">θ 0 = E(Y(1) -Y(0)|D = 1). Since specification (6) implies homoge- neous conditional average treatment effects, E(Y(1) -Y(0)|X = x) = β 1 , the true value of ATT is θ 0 = β 1 .</formula><p>We consider two different estimators to estimate the population ATT. The first estimator θ1 is a semiparametric estimator for ATT, which is consistent without assuming functional forms for the outcome and propensity score equations, and asymptotically attains the semiparametric efficiency bound (SEB) of ATT derived by <ref type="bibr" target="#b24">Hahn (1998)</ref>. Estimators that attain this property include the inverse probability weighting (IPW) estimator with nonparametrically estimated propensity scores <ref type="bibr" target="#b27">(Hirano et al., 2003)</ref>, doubly robust esti-mators of <ref type="bibr" target="#b24">Hahn (1998)</ref>, covariate or propensity score matching estimators with a single covariate <ref type="bibr">(Abadie and</ref><ref type="bibr">Imbens, 2006, 2016)</ref>, and covariate balancing estimators of <ref type="bibr" target="#b15">Chen et al. (2008)</ref> and <ref type="bibr" target="#b22">Graham et al. (2012</ref><ref type="bibr">Graham et al. ( , 2016))</ref>. We can set any one of these estimators as our first estimator without affecting the analysis below.</p><p>We specify the second estimator θ2 as the ordinary least squares estimator of β 1 in the following regression equation:</p><formula xml:id="formula_17">Y i = β 0 + β 1 D i + X ′ i β 2 + ǫ i , E(ǫ i |D i , X i ) = 0. (<label>7</label></formula><formula xml:id="formula_18">)</formula><p>In other words, θ2 = β1,OLS . The specification of (6) implies that θ2 is unbiased and consistent for the population ATT, θ 0 . We consider a situation in which the finite sample distribution of ( θ1 , θ2 ) is well approximated by its large sample normal approximation,</p><formula xml:id="formula_19">i.e. θ1 θ2 ∼ N θ 0 θ 0 , 1 n σ 2 1 σ 12 σ 12 σ 2 2 ,</formula><p>where σ 2 1 is the asymptotic variance of √ n( θ1θ 0 ) given by SEB for ATT without the knowledge of propensity scores, and σ 2 2 is the asymptotic variance of √ n( θ2θ 0 ). Under the current specification, they are obtained as</p><formula xml:id="formula_20">σ 2 1 = σ 2 ǫ Pr(D = 1) c + E e(X) 1 -e(X) |D = 1 , (<label>8</label></formula><formula xml:id="formula_21">)</formula><formula xml:id="formula_22">σ 2 2 = σ 2 ǫ Pr(D = 1) c • E((1 -e(X)) 2 |D = 1) [E(1 -e(X)|D = 1)] 2 + E(e(X)(1 -e(X))|D = 1) [E(1 -e(X)|D = 1)] 2 . (<label>9</label></formula><formula xml:id="formula_23">)</formula><p>See Appendix A for their derivations.</p><p>When Y(1) and Y(0) share the variance (c = 1), it can be shown that the OLS estimator is more efficient than the semiparametric estimator, σ 2 2 &lt; σ 2 1 , due to exploitation of the correct functional form of the regression equation. In contrast, if the variance of the treated outcome is higher than the variance of the control outcome (c &gt; 1), the simple OLS estimator that does not take into account the heteroskedastic errors can become less efficient than the semiparametric estimator. Specifically, we show in Appendix A that</p><formula xml:id="formula_24">σ 2 2 &gt; σ 2 1 iff c &gt; ∆ 1 ∆ 2 + 1, where<label>(10)</label></formula><formula xml:id="formula_25">∆ 1 = E 1 1 -e(X) |D = 1 - 1 E(1 -e(X)|D = 1) ≥ 0, ∆ 2 = E((1 -e(X)) 2 |D = 1) [E(1 -e(X)|D = 1)] 2 -1 ≥ 0.</formula><p>Hence, if the degree of heteroskedasticity satisfies the condition in (10), the semiparametric estimator θ1 is strictly preferred to the OLS estimator θ2 .</p><p>Given that c meets (10), consider applying the placebo EMCS proposed in <ref type="bibr" target="#b29">Huber et al. (2013)</ref>. We assume that the two estimators are centred at zero and their simulated distributions can be well approximated by bivariate Gaussian,</p><formula xml:id="formula_26">θ * 1 θ * 2 ∼ N 0 0 , 1 n 0 σ2 1 σ12 σ12 σ2 2 ,</formula><p>where n 0 is the sample size of control group in the original sample. Suppose also that the propensity scores used to generate the placebo treatment coincide with the true propensity scores in the original data. Since the placebo treated group is generated from the original control group, it fails to replicate the variance of the treatment outcomes in the original data. As a result, the variances of √ n 0 θ * 1 and √ n 0 θ * 2 are given by the homoskedastic version (c = 1) of ( <ref type="formula" target="#formula_20">8</ref>) and ( <ref type="formula" target="#formula_22">9</ref>),</p><formula xml:id="formula_27">σ2 1 = σ 2 ǫ Pr(D = 1) Ẽ 1 1 -e(X) |D = 1 ≥ σ2 2 = σ 2 ǫ Pr(D = 1) • 1 Ẽ(1 -e(X)|D = 1) ,<label>(11)</label></formula><p>where Pr and Ẽ are the probability and expectation with respect to the sampling distribution specified in the placebo EMCS. This inequality is strict if e(X)|D = 1 is nondegenerate. EMCS therefore incorrectly selects the OLS estimator θ2 as a preferred estimator. The underlying mechanism for why EMCS goes wrong is in line with Scenario 2 in the previous subsection. Even in a rather ideal situation where EMCS well replicates the unbiasedness of the estimators, artificially creating a placebo treated group from the control group in the original sample distorts the variance ordering among the estimators.</p><p>Exactly the same reasoning can also invalidate structured EMCS designs if the estimated data generating process from which the data are to be simulated ignores or fails to replicate the underlying heteroskedasticity of the potential outcome distributions.</p><p>This problem can be seen in a simple simulation study. We draw 1,000 samples from a data generating process of the form given by equation ( <ref type="formula" target="#formula_14">6</ref>) with 1,000 observations per sample. <ref type="foot" target="#foot_3">7</ref> For each sample we run 1,000 replications of the placebo and structured EMCS procedures, considering IPW and OLS as our two estimators. This gives us 'the true MSE' for each estimator (based on the original samples) as well as 1,000 estimates of the MSE for each combination of an estimator and an EMCS design. Looking at a simple count of how many times each procedure selects the right estimator, we see that the placebo approach selects the superior estimator only 19 times (1.9% of the time) and the structured approach is little better at 30 times (3.0%). This compares with 97.6% and 100% for the placebo and structured procedures, respectively, when there is no heteroskedasticity. Of course this is a single example, and in a very stylised context; in Section 4 we will see that the performance of these methods is also poor in a 'real-world' example.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2">An Example for Scenario 3</head><p>We shift our focus to Scenario 3. We now introduce a bias in one of the estimators in the original data generating process. For this purpose, we maintain the two estimators as in the previous example, but alter the potential outcome equations from ( <ref type="formula" target="#formula_14">6</ref>) with</p><formula xml:id="formula_28">E(Y(1)|X = x) = β 0 + β 1 + x ′ β t , (<label>12</label></formula><formula xml:id="formula_29">) E(Y(0)|X = x) = β 0 + x ′ β c ,</formula><p>with distinct slopes, β t = β c . This causes the regression specification of ( <ref type="formula" target="#formula_17">7</ref>) to be misspecified so that θ2 is no longer consistent for the population ATT,</p><formula xml:id="formula_30">plim n→∞ θ2 = θ 2 = θ 0 = β 1 + E(X ′ |D = 1)(β t -β c ).</formula><p>See, e.g., Słoczy ński (2018) for analytical characterizations of the bias. On the other hand, the semiparametric estimator θ1 remains consistent and semiparametrically efficient (asymptotically attains SEB). Hence, assuming that the finite sample distribution of ( θ1 , θ2 ) is well approximated by its asymptotic normal approximation, we have θ1 θ2 ∼ N θ 0 θ 0 + b 2 , 1 n Σ .</p><p>As we argued in Scenario 3 above, the bias in θ2 makes θ2 inferior to unbiased estimator θ1 even when σ 2 2 &lt; σ 2 1 if b 2 or the sample size is sufficiently large. In the placebo EMCS procedure of <ref type="bibr" target="#b29">Huber et al. (2013)</ref>, the fact that the placebo treated group is generated from the original control group removes the misspecification issue of the OLS estimator caused by the non-parallel potential outcome equations. Hence, θ * 2 behaves as a correctly specified OLS estimator with homoskedastic errors, and the simulated distribution of θ * 2 fails to replicate the bias in θ2 . Since the variance ordering in EMCS obtained in (11) is preserved in the current example, EMCS erroneously concludes that the OLS estimator θ2 dominates the semiparametric estimator θ1 .</p><p>In case of structured EMCS procedures, if the data generating process from which Monte Carlo samples are drawn is estimated under misspecification, the structured EMCS misleads the estimator selection for exactly the same reason. For example, if one were to construct the Monte Carlo data generating process using linear regressions additive in D i , structured EMCS will then wrongly conclude that the OLS estimator θ2 outperforms the semiparametric estimator θ1 .</p><p>Again we perform a simple simulation, analogous to the previous subsection but modifying the potential outcome equations as given by equation ( <ref type="formula" target="#formula_28">12</ref>). We perform 1,000 replications of each EMCS procedure using the same estimators, and then compare in how many cases the EMCS correctly selects the estimator with the lower MSE.</p><p>Again the performance of EMCS is rather poor: placebo EMCS correctly selects IPW 2.3% of the time, and structured EMCS is correct only .2% of the time. See Advani et al. (2019) for further details.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">More Than Two Estimators</head><p>Applications of EMCS often consider comparing more than two estimators. Fragility of EMCS-based estimator selection highlighted in the two estimator examples above naturally carries over to settings with more than two estimators, since ranking over multiple estimators consists of transitive pairwise rankings of any two candidate estimators. The Monte Carlo exercises and the empirical application below consider a setting with seven estimators in the context of program evaluation with observational data. Let ( θ1 , . . . , θJ ) be the pool of J candidate estimators, and let the purpose of EMCS be to obtain a complete ordering among these J estimators according to the MSE criteria.</p><p>The EMCS-validity criteria introduced above, Pr( ĵ0 = j 0 ) and E(MSE( θĵ 0 )-MSE( θj 0 )), can be straightforwardly extended to the case with several estimators. In addition, to measure similarity or dissimilarity between the true ranking and estimated rankings in EMCS, it can be of interest to look at the distribution of the Kendall's tau,</p><formula xml:id="formula_31">τ = 2 J(J -1) ∑ i&lt;j 1{(ρ(i) -ρ(j))( ρ(i) -ρ(j)) &gt; 0}</formula><p>where ρ(j) and ρ(j), j ∈ {1, . . . , J}, are the ranks of estimator j with respect to the true MSE and estimated MSE in EMCS, respectively. Noting τ ∈ [-1, 1] has a distribution under repeated sampling, its mean or other location parameters can summarise how well EMCS can assess the relative performances among the candidate estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Application</head><p>To demonstrate the empirical relevance of the theoretical results discussed above, and consider the extent to which they might be a problem in practice, we provide an application of EMCS procedures to a real-world dataset. In these data we have an experimental estimate of the treatment effect. By (initially) treating the experimental estimate as the true treatment effect, the aim is to show whether (or not) EMCS procedures can accurately recover the ranking of estimators that we see from the experiment. We first discuss the data used, then our approach, next the estimators, and finally the details of how the EMCS procedures were conducted.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Data and Context</head><p>We focus on the data for men from LaLonde (1986), used also by <ref type="bibr" target="#b26">Heckman and Hotz (1989)</ref>, <ref type="bibr" target="#b16">Dehejia and</ref><ref type="bibr">Wahba (1999, 2002)</ref>, and <ref type="bibr">Smith and</ref><ref type="bibr">Todd (2001, 2005)</ref>. <ref type="foot" target="#foot_4">8</ref> A subset of these data comes from the National Supported Work (NSW) Demonstration, which was a work experience programme that operated in the mid-1970s at 15 locations in the United States (for a detailed description of the programme see <ref type="bibr">Smith and Todd, 2005)</ref>. This programme served several groups of disadvantaged workers, such as women with dependent children receiving welfare, former drug addicts, ex-convicts, and school drop-outs. Unlike many social programmes, the NSW implemented random assignment among eligible participants. This random selection allowed for straightforward evaluation of the programme via a comparison of mean outcomes in the treatment and control groups.</p><p>In an influential paper, LaLonde (1986) uses the design of this programme to assess the performance of a large number of nonexperimental estimators of average treatment effects, many of which are based on the assumption of unconfoundedness. He sets aside the original control group from the NSW data and creates several alternative comparison groups using data from the Current Population Survey (CPS) and the Panel Study of Income Dynamics (PSID), two standard datasets on the U.S. population. His key insight is that a 'good' estimator should be able to closely replicate the experimental estimate of the effect of NSW using nonexperimental data. He finds that very few of the estimates are close to this benchmark. This result motivated a large number of replications and follow-ups, and established a testbed for estimators of average treatment effects under unconfoundedness (see, e.g., <ref type="bibr" target="#b26">Heckman and Hotz 1989;</ref><ref type="bibr" target="#b16">Dehejia and</ref><ref type="bibr">Wahba 1999, 2002;</ref><ref type="bibr">Smith and</ref><ref type="bibr">Todd 2001, 2005;</ref><ref type="bibr">Abadie and Imbens 2011;</ref><ref type="bibr" target="#b18">Diamond and Sekhon 2013)</ref>. Like many other papers, we use the largest of the six nonexperimental comparison groups constructed by <ref type="bibr" target="#b34">LaLonde (1986)</ref>, which he refers to as CPS-1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Approach</head><p>In this paper we take the key insight of LaLonde (1986) one step further. We treat the NSW-CPS data from LaLonde (1986) as a finite population, with 185 treated observations and 7,660 comparison observations in our main example. This comes from taking the treated sample used by <ref type="bibr" target="#b16">Dehejia and Wahba (1999)</ref> and a trimmed version of the CPS-1 dataset, where the literature suggests conditional independence might hold using the available conditioning variables. <ref type="foot" target="#foot_5">9</ref> From this we draw 1,000 samples, each composed of 100 treated observations and 1,900 comparison observations. We then implement the estimators described below. For each sample and each estimator we compute the difference between the estimate and the 'true effect' ($1,794), which comes from the experimental estimate of the impact of NSW on earnings. With 1,000 such differences for each estimator, we can compute the MSE and other performance measures for that estimator in these data. Then, on each of the 1,000 samples, we implement the two EMCS procedures described in Section 2, and compare their performances in terms of the criteria introduced in Section 3.</p><p>One limitation of this approach is that the 'true effect' we calculate is subject to sampling error. We therefore consider a second case, where we apply the insight of <ref type="bibr">Smith and Todd (2005)</ref> that the control sample from the NSW can be compared to the same nonexperimental comparison group. The NSW control sample includes people who were selected in the same way as those actually treated, but who were randomised out of treatment. Now we know that the 'true effect' is a precise zero, since the control sample did not actually receive treatment. Thus, we have an original dataset of 142 'treated' observations (who in reality received no treatment) and 7,467 comparison units. This comes from taking the 'early random assignment' control sample from <ref type="bibr">Smith and Todd (2005)</ref> and a version of the CPS-1 dataset trimmed to overlap with these controls. Again we draw samples by selecting 100 treated observations and 1,900 comparison observations from this population, with the true effect being precisely zero in each sample, and then perform EMCS on these samples.</p><p>Another possible worry might be that our example applies estimators that are suitable under unconfoundedness, i.e. when potential outcomes are independent of treatment assignment, conditional on observed covariates. <ref type="bibr">Smith and Todd (2005)</ref> question this assumption in the context of the NSW-CPS data, and especially in the context of their 'early random assignment' samples. To address this concern, we take a third approach. The basic idea is to construct a population similar to the NSW-CPS data where unconfoundedness holds by construction, and then draw samples from this. We begin with a trimmed version of the Dehejia and Wahba (1999) dataset used in the first case.</p><p>Next, we perform 4-nearest neighbour matching (with replacement) to impute the 'missing' potential outcome for each observation. This is our new population, in which we have complete knowledge of both potential outcomes, as well as a propensity score for each observation estimated from the NSW-CPS data. We then draw random subsamples of 2,000 observations (covariates, potential outcomes, and propensity scores) from this artificially created population. For each observation we create a perturbed propensity score by adding a logistic error to the NSW-CPS estimated propensity score. We assign to treatment the individuals in the top quarter of the perturbed propensity score distribution (giving 500 treated and 1,500 nontreated in each sample). By construction treatment is therefore ensured to be independent of potential outcomes in this subsample. The overlap assumption is also satisfied, since the inclusion of a logistic error ensures that no individual is guaranteed to be treated. The true value of ATT in this sampling process is given by 1 Pr(D=1) • E [e(x) • (Y(1) -Y(0))], where e(x) is the probability of being treated in the assignment rule based on the ranking of the perturbed propensity scores. By design we know Y(1), Y(0), and Pr(D = 1) = .25, and we can approximate e(x) by the empirical frequencies in the simulations. Finally, we implement EMCS on the samples drawn in this way.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Estimators</head><p>In all our simulations we study the impact of the NSW programme on earnings in 1978. We consider seven nonexperimental estimators: linear regression, Oaxaca-Blinder, inverse probability weighting (IPW), doubly-robust regression, uniform kernel matching, nearest neighbour matching, and bias-adjusted nearest neighbour matching. For details see Appendix B. In each case we focus on the average treatment effect on the treated (ATT), unless a given method does not allow for heterogeneity in effects (in which case we estimate the overall effect of treatment). As noted above, all of these estimators are based on the assumption of unconfoundedness.</p><p>We use a single set of control variables in all our simulations. Following <ref type="bibr" target="#b16">Dehejia and Wahba (1999)</ref> and <ref type="bibr">Smith and Todd (2005)</ref>, we control for age, age squared, age cubed, education, education squared, whether a high school dropout, whether married, whether black, whether Hispanic, earnings in months 13-24 prior to randomization, earnings in 1975, nonemployment in months 13-24 prior to randomization, nonemployment in 1975, and the interaction of education and earnings in months 13-24 prior to randomization.</p><p>We conduct all our simulations in Stata and use several user-written commands in our estimation procedures: nnmatch <ref type="bibr" target="#b1">(Abadie et al. 2004)</ref>, oaxaca <ref type="bibr" target="#b31">(Jann 2008)</ref>, and psmatch2 <ref type="bibr" target="#b38">Leuven and Sianesi 2003)</ref>.</p><formula xml:id="formula_32">(</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4">Procedures</head><p>In Section 2 we noted that for the placebo design we require some choice of π and λ, where λ determines the degree of covariate overlap between the 'placebo treated' and 'placebo control' observations and π determines the proportion of the 'placebo treated'.</p><p>We choose π to ensure that the proportion of the 'placebo treated' observations in each placebo EMCS replication is equal to the proportion of treated units in the sample. <ref type="foot" target="#foot_6">10</ref> We also follow <ref type="bibr" target="#b29">Huber et al. (2013)</ref> in choosing λ = 1 as well as in using a logit model to estimate the propensity score.</p><p>The structured design requires more choices, in particular how we specify the joint probability distribution as the product of the marginal distribution for treatment status and some conditional distributions. As discussed in Section 2, we begin each structured EMCS replication by generating a fixed number of treated and nontreated observations to match the numbers in the sample. We then order the covariates, regress each covariate on the preceding covariates (using logistic regression for binary covariates), and use this to define the conditional distribution for that covariate. In EMCS replications the covariates are then drawn in the same order, from the appropriate conditional distribution. Full details of the procedure are provided in Appendix C.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Results</head><p>We now describe the results of our tests of the two EMCS procedures -placebo and structured -in the context of our real-world data. As described in Subsection 4.2, we perform three sets of tests. First, we apply the two procedures to the NSW treatment sample, combined with the CPS-1 comparison dataset. We find the performance of the procedures to be poor when it comes to finding the estimator with the lowest bias. When we study MSE (i.e., account also for variance), performance is better. This is because the rankings of estimators are mainly being driven by the variance, and both EMCS methods do well at replicating the variance components. However, given this, we also test a simple bootstrap procedure and find that it is more effective at picking the best estimator. Then, we follow <ref type="bibr">Smith and Todd (2005)</ref> in using the NSW controls as our 'treated' sample instead:</p><p>now the effect we intend to estimate must be zero for sure, removing worries that poor performance might be an artefact caused by sampling uncertainty around the true effect.</p><p>We find that the previous results are maintained. Finally, we use an adjusted version of the original data, constructed so that conditional independence necessarily holds, to allay concerns that poor performance is driven by a context in which unconfoundedness may not hold. Again we find that the EMCS procedures do not perform well on bias, and are better on MSE, although here the bootstrap does not clearly dominate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Testing EMCS in the NSW Data</head><p>Our first results using 'real-world' data focus on the variant of the original NSW treatment sample constructed by <ref type="bibr" target="#b16">Dehejia and Wahba (1999)</ref>, combined with a trimmed version of the CPS-1 comparison dataset. We create 1,000 samples from the original dataset by sampling 100 treated and 1,900 nontreated observations from the 185 possible treated and 7,660 comparison units in the original data. We implement the two EMCS procedures 1,000 times on each of the 1,000 samples, giving a total of 1,000,000 replications for each EMCS procedure. In each replication we implement the seven estimators described earlier, and measure how well the two EMCS procedures help us assess the relative performance of the estimators. We might measure performance of an estimator in terms of absolute bias or MSE (which also takes into account its variance). Performance of EMCS ('EMCS-validity') is then measured by how well the EMCS procedure replicates these features of an estimator in the original samples. In Section 3, we described two measures of EMCS performance suitable for when we have many estimators:</p><p>1. the average regret, i.e. average difference in absolute bias/MSE between the estimator selected by EMCS and the estimator with the actual minimum absolute bias/MSE; and 2. the average Kendall's tau (Kendall's rank correlation coefficient), which measures the similarity between the ranking of estimators suggested by EMCS and the 'true' ranking from the original samples.</p><p>For ease of interpretation, it is also useful to normalise the values of average regret. Our discussion below focuses on the average regret as a percentage of the minimum value of absolute bias/MSE. However, we also consider an alternative normalisation, where we divide the average regret for a given EMCS procedure by the average regret for random selection of estimators (which we discuss further below). Finally, we also consider an additional measure, which is straightforward to interpret, namely 3 the average correlation in absolute bias/MSE (rather than in the rankings, as given by Kendall's tau).</p><p>In each case the comparison is between what the EMCS procedure suggests and the results from taking the 'true effect' in the original data, and then calculating the absolute bias/MSE of each estimator across the 1,000 samples.</p><p>To provide a benchmark for the performance of EMCS, we also include results from two other procedures. In the first we simply apply nonparametric bootstrap to the same samples used for the EMCS procedures. <ref type="foot" target="#foot_7">11</ref> We can then compare estimators on absolute bias, variance, or MSE, and also see how the resulting rankings compare to those from the original samples. Our estimates of absolute bias and MSE are centred around the point estimates in each original sample. In the second we do not create any samples, but simply rank estimators randomly. This provides a 'worst-case' benchmark: suppose a researcher knows nothing at all about performance and just picks an estimator blindly, how would they do? Here we cannot compute a result for the correlation, but can for average regret and Kendall's tau. Table <ref type="table">1</ref> shows the results from these simulations. Appendix F in <ref type="bibr" target="#b5">Advani et al. (2019)</ref> provides further details.</p><p>The first result is that performance of both EMCS procedures in terms of bias is very poor. The average regret in terms of absolute bias, as a percentage of the absolute bias for the best estimator, is 3,067% (3,766%) for placebo (structured), i.e. an order of magnitude larger than the minimum value. It is worse than choosing completely randomly, which would be 1,184% worse than the best estimator, and worse than the bootstrap, 1,000%. Looking at the ranking across estimators, the average Kendall's tau is -.21 (-.37) for placebo (structured). So the rankings produced by EMCS are, on average, negatively correlated with the ranking in the original samples. This is worse than random, which</p><p>Table 1: EMCS-validity using different performance metrics EMCS approach Placebo Structured Bootstrap Random Absolute bias (minimum = 16) Average regret (% of minimum) 3,067 3,766 1,000 1,184 Average regret (% of random) 259.0 318.1 84.5 100.0 Average Kendall's tau -.214 -.372 .016 0 Average correlation -.437 -.505 .275 -Mean squared error (minimum = 512,322) Average regret (% of minimum) 18.2 16.3 7.9 141.9 Average regret (% of random) 12.8 11.5 5.6 100.0 Average Kendall's tau .599 .635 .828 0 Average correlation .647 .791 .809 -Variance (minimum = 454,278) Average regret (% of minimum) 2.7 11.2 1.9 148.0 Average regret (% of random) 1.8 7.6 1.3 100.0 Average Kendall's tau .767 .812 .883 0 Average correlation .895 .920 .862 -Notes: 'EMCS approach' denotes the way in which the empirical Monte Carlo samples were generated. 'Placebo' and 'Structured' generate samples using the placebo and structured approaches described in Section 2. 'Bootstrap' generates nonparametric bootstrap samples by sampling with replacement the same number of observations as the original data. 'Random' does not generate samples but instead randomly assigns rankings to the estimators (hence statistics are only available for the performance metrics based on rankings).</p><p>The absolute bias, mean squared error, and variance are features of estimators. The 'minimum' value for each feature is its lowest value among our estimators in the original data generating process (i.e. we have one value of each feature for each estimator in the 'original samples' and we report the lowest of these values). See Appendix F in <ref type="bibr" target="#b5">Advani et al. (2019)</ref> for more details. Four performance measures are used for each of these statistics. 'Average regret' measures the average increase in the statistic from choosing the estimator actually selected by the EMCS approach rather than the estimator with the minimum value of this statistic, as a percentage of (i) that minimum value or (ii) the average regret for random selection of estimators. 'Average Kendall's tau' measures the average correlation in the ranking of estimators provided by the EMCS approach relative to the ranking in the original samples. 'Average correlation' measures the average correlation in the actual values of the statistic (rather than the ranking) provided by the EMCS approach relative to the values in the original samples. All averages are taken with respect to 1,000 original samples; for each sample, a separate simulation study was conducted. The results for random selection of estimators are analytical; instead of actually generating random rankings, we report the known values of expected Kendall's tau (zero) and expected regret with random rankings. The latter value is equal to the average regret across estimators, with an equal probability of each estimator to be selected as 'best'.</p><p>gives .00, and bootstrap, .02. The same pattern is seen in the average correlation coefficients for absolute bias, which are -.44 (-.51).</p><p>A researcher might be interested in knowing about performance of estimators in terms of MSE rather than only considering bias. Here EMCS performs much better. The average regret for placebo (structured) is now only 18% (16%), much better than random (142%).</p><p>Similarly, average Kendall's tau is now .60 and .64 for placebo and structured, respectively, much better than .00 for random. The lowest panel of Table <ref type="table">1</ref> shows that this is driven by the much better performance in replicating the variances. Since the rankings here are mostly determined by the variance, being able to reproduce variances substantially improves the measures of performance relative to the metrics based on absolute bias.</p><p>However, looking at our other benchmark case -the bootstrap -we see that it outperforms both EMCS methods in terms of MSE. Average regret is lower at 7.9%, and the average Kendall's tau is much higher at .83. Given that MSE performance for EMCS is driven by the variance components, this does not seem surprising. The bootstrap is a simpler procedure than the two EMCS methods, and its ability to help us understand the variability of estimators is well known. It therefore seems like a potentially valuable path which has fewer design choices than EMCS.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Removing Sampling Error from the 'True Effect'</head><p>The previous subsection calculated the MSE for each estimator by comparing the value of the estimate in each sample to a 'true effect' measured using the experiment. One concern might be that the estimate from the experiment is subject to sampling error, and this might somehow negatively affect our performance measures for EMCS. To test this, we now use as our 'treated' observations the 'early random assignment' NSW control sample from <ref type="bibr">Smith and Todd (2005)</ref>. Since these individuals were selected for the programme in the same way as those actually treated, but were then randomised out, the actual treatment effect for them is precisely zero. We therefore repeat the exercise on these data, again implementing the two EMCS procedures 1,000 times on each of the 1,000 original samples.</p><p>Table 2 documents the results. Appendix F in Advani et al. (2019) provides further details.</p><p>Our conclusions are similar to those in the previous subsection. In terms of absolute bias, the average regret is much lower than previously, at 30% (42%) for placebo (structured). However, this is mostly driven by a large increase in the minimum value of absolute bias, since it is much more difficult to recover the true effect of NSW in these data <ref type="bibr">(Smith and Todd, 2005)</ref>. This can alternatively be seen from normalising values by the average regret for random selection of estimators. In the first simulation study, the average regret for placebo (structured) is 2.6 (3.2) times larger than for random; in the second, it is 1.6 (2.2) times larger. While these values continue to be smaller in the second simulation study, their overall magnitudes are similar in both cases. This also makes it clear that EMCS is still worse than choosing at random (average regret of 19%) and boot-</p><p>Table 2: EMCS-validity ensuring no sampling error in the treatment effect EMCS approach Placebo Structured Bootstrap Random Absolute bias (minimum = 954) Average regret (% of minimum) 30.2 41.6 10.4 19.0 Average regret (% of random) 158.9 219.1 54.9 100.0 Average Kendall's tau -.274 -.466 .320 0 Average correlation -.418 -.822 .263 -Mean squared error (minimum = 1,222,627) Average regret (% of minimum) 22.5 32.1 17.4 94.4 Average regret (% of random) 23.9 34.0 18.4 100.0 Average Kendall's tau .645 .549 .809 0 Average correlation .843 .814 .746 -Variance (minimum = 296,671) Average regret (% of minimum) 1.2 5.0 9.0 262.6 Average regret (% of random) .5 1.9 3.4 100.0 Average Kendall's tau .950 .665 .762 0 Average correlation .959 .934 .833 -Notes: See Table 1.</p><p>strap (10%). As before, the average Kendall's tau is negative for placebo (structured) at -.27 (-.47), which is worse than random (.00) and bootstrap (.32) as well. On MSE performance is better, with average regret of 23% (32%) and average Kendall's tau of .65 (.55).</p><p>These are much better than random (94% and .00), but worse than bootstrap (17% and .81).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Ensuring Unconfoundedness Holds</head><p>Another potential concern is whether the conditional independence assumption holds.</p><p>Here we take the approach described in Subsection 4.2 to generate 1,000 samples in which conditional independence holds by construction. Then, we implement the two EMCS procedures 500 times on each of these samples.</p><p>Table 3 displays the results. Appendix F in Advani et al. (2019) provides further details.</p><p>The previous results are broadly maintained even after ensuring conditional independence. In terms of absolute bias the performance of both EMCS approaches is similar to random, though now slightly better than bootstrap. In terms of MSE both procedures perform better than random selection of estimators and also marginally better than bootstrap. Average regret in terms of MSE is worse than in the first case, though average</p><p>Table 3: EMCS-validity ensuring unconfoundedness holds EMCS approach Placebo Structured Bootstrap Random Absolute bias (minimum = 68) Average regret (% of minimum) 593.5 670.1 972.1 522.0 Average regret (% of random) 113.7 128.4 186.2 100.0 Average Kendall's tau -.003 .057 -.300 0 Average correlation -.048 .217 -.263 -Mean squared error (minimum = 340,300) Average regret (% of minimum) 260.1 89.7 276.1 682.9 Average regret (% of random) 38.1 13.1 40.4 100.0 Average Kendall's tau .737 .729 .632 0 Average correlation .943 .790 .778 -Variance (minimum = 137,574) Average regret (% of minimum) 0 .3 0 1,631 Average regret (% of random) 0 0 0 100.0 Average Kendall's tau .768 .727 .752 0 Average correlation .951 .820 .820 -Notes: See Table 1.</p><p>Kendall's tau is a little higher, so it is also not obvious that contexts where conditional independence holds should necessarily see better performance of EMCS procedures.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Discussion</head><p>Advances in econometrics have left the empirical researcher blessed with a wealth of possible treatment effect estimators from which to choose. They have not yet provided clear guidance on which of these estimators should be preferred in which context. In this paper we studied two proposals which suggest an approach to choosing an appropriate estimator for a given context. The first approach (placebo) suggests a way to introduce placebo treatments to some control observations in a dataset, and studies how well estimators can pick up the true zero effect. The second approach (structured) creates data from a known DGP whose parameters are estimated from features of the original data, and studies how well estimators can pick up the implied true effect in the DGP.</p><p>We showed theoretically that both approaches can only be guaranteed to work under rather restrictive conditions. Specifically, when they can correctly reproduce both the biases and the ordering of the variances of estimators. We showed simple practical cases where one or other of these might fail, and gave an example of the consequences based on simulations from an artificial DGP. To provide a real-world example, we also implemented the EMCS procedures in the NSW-CPS data, where we know the 'true effect' of the programme. This allowed us to compute actual performance of the estimators in samples from the original data, and compare this to what EMCS would suggest if applied to these samples. We showed that in this example EMCS performs badly on ordering estimators in terms of absolute bias, and the estimator it suggests is often many times worse than the best (or even than selecting randomly). In this example both EMCS procedures perform much better in terms of MSE because reproducing the variance term turns out to drive the MSE in these data. But, this leads the methods to be no better (and sometimes substantially worse) than a simple bootstrap procedure.</p><p>These results are unfortunate, but nevertheless important. There remains no silver bullet that can assist empirical researchers with the 'right' or 'best' estimator for a particular context. In the absence of a clear choice driven by research design, the best advice at this stage is likely to be implementing a number of estimators, and then considering the range of estimates provided, as <ref type="bibr">Busso et al. (2014)</ref> also suggest.</p><p>One possible future alternative, recently proposed, is synth-validation <ref type="bibr" target="#b41">(Schuler et al., 2017)</ref>. This approach is related to cross-validation and is based on estimating 'the estimation error of causal inference methods applied to a given dataset'. The authors provide simulations which suggest that this 'lowers the expected estimation error relative to consistently using any single method'. Further work is needed to test how general this approach is, and whether it can reliably guide researchers in selecting estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B Empirical Application: Estimators</head><p>We use seven estimators in our empirical application.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Linear regression (OLS).</head><p>2. Oaxaca-Blinder -we follow <ref type="bibr" target="#b33">Kline (2011)</ref> in using the Oaxaca-Blinder decomposition to estimate the ATT.</p><p>3. Inverse probability weighting (IPW) -we first estimate the propensity score using a logit model, and then use inverse weighting with normalised weights to estimate the ATT.</p><p>4. Doubly-robust regression -as in <ref type="bibr" target="#b46">Wooldridge (2007)</ref> and Słoczy ński and Wooldridge (2018), we use the inverse-probability-weighted regression-adjustment (IPWRA) estimator. This is effectively a combination of the two estimators above, IPW and Oaxaca-Blinder. It satisfies the double robustness property.</p><p>5. Uniform kernel matching -we first estimate the propensity score using a logit model, and then match on propensity scores using a uniform kernel. We select the bandwidth on the basis of leave-one-out cross-validation (as in <ref type="bibr" target="#b11">Busso et al. 2009 and</ref><ref type="bibr" target="#b29">Huber et al. 2013)</ref>, using a search grid .005 × 1.25 g-1 for g = 1, 2, . . . , 15. The computational time of doing this for each replication is prohibitive. Consequently we calculate this once for each original sample, and use the recovered optimal bandwidth in all EMCS replications for that sample.</p><p>6. Nearest neighbour matching -nearest neighbour matching on propensity scores, which are first estimated from a logit regression, with matching on the single nearest neighbour. We match with replacement; if there are ties, all of the tied observations are used.</p><p>7. Bias-adjusted nearest neighbour matching -as above, but correcting bias as in <ref type="bibr">Abadie and Imbens (2011)</ref>, since nearest neighbour matching is not √ n-consistent.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C Empirical Application: Structured EMCS Procedure</head><p>Here we detail precisely the procedure followed to implement the structured EMCS in our empirical application. As noted previously, we begin each structured EMCS replication by generating a fixed number of treated and nontreated observations to match the number in the sample. We then draw an employment status pair of u74 and u75 (nonemployment in months 13-24 prior to randomization and nonemployment in 1975), conditional on treatment status, to match the observed conditional joint probability. For individuals who are employed in only one period, an income is drawn from a log normal distribution conditional on treatment and employment statuses, with mean and variance calibrated to the respective conditional moments in the data. Where individuals are employed in both periods a joint log normal distribution is used, again conditioning on treatment status. In all cases, whenever the income draw in a particular year lies outside the relevant support observed in the data, conditional on treatment status, the observation is replaced with the limit point of the empirical support, as also suggested by <ref type="bibr">Busso et al. (2014)</ref>. We model the joint distribution of the remaining control variables as a particular treestructured conditional probability distribution, so that we can better fit the correlation structure in the data. The process for generating these covariates is as follows:</p><p>1. The covariates are ordered: treatment status, employment statuses, income in each period, whether a high school dropout (nodegree), education (educ), age, whether married, whether black, and whether Hispanic. This ordering is arbitrary, and a similar correlation structure would be generated if the ordering were changed.</p><p>2. Using the sample on which the EMCS is being performed, each covariate from nodegree onward is regressed on all the covariates listed before it (we use the logit model for binary variables). <ref type="foot" target="#foot_8">12</ref> These regressions are not to be interpreted causally; they simply give the conditional mean of each variable given all preceding covariates.</p><p>3. In the simulated dataset, covariates are drawn sequentially in the same order. For binary covariates a temporary value is drawn from a U [0, 1] distribution. Then the covariate is equal to one if the temporary value is less than the conditional probability for that observation. The conditional probability is found using the values of the existing generated covariates and the estimated coefficients from step 2. Age and education are drawn from a normal distribution whose mean depends on the other covariates and whose variance is equal to that of the residuals from the relevant model. Again, we replace extreme values with the limit of the support, conditional on treatment status (for education, also conditional on dropout status).</p><p>The outcome studied is earnings in 1978, re78. The simulated outcome, Y i for individual i, is then generated in two steps. In the first step, we generate a conditional mean using the parameters of a flexible linear model fitted to the sampled data. Precisely, we estimate (δ 0 , δ 1 ) from the following linear model:</p><formula xml:id="formula_33">E(Y|D, X) = (1 -D)Xδ 0 + DXδ 1 . (<label>16</label></formula><formula xml:id="formula_34">)</formula><p>The predicted conditional mean in the replication is then calculated using the estimated coefficients ( δ0 , δ1 ) from above, and the simulated treatment status and covariates, D i and X i . In the second step, the simulated outcome, Y i , is determined as a draw from a normal distribution with the estimated conditional mean (1</p><formula xml:id="formula_35">-D i )X i δ0 + D i X i δ1</formula><p>and the variance that is fitted to that of the residuals from the model in equation ( <ref type="formula" target="#formula_33">16</ref>), conditional on treatment status. Once again, we replace extreme values of re78 with the limit point of the support, also conditional on treatment status. 'True effects' in each replication, θ0 , are calculated using the conditional means for both treatment statuses, and the difference in conditional means, i.e. the individual-level treatment effect, is averaged over the subsample of treated units. Thus, we implicitly focus on the sample average treatment effect on the treated (SATT), not on the population average treatment effect on the treated (ATT).</p><p>Both of these measures can be used as the benchmark effect in simulations and we have no particular preference for either.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>(| ê1 | ≤ | ê2 |), where ê1 = θ1θ 0 and ê2 = θ2θ 0 are the estimation errors of the two estimators. That is, θ1 is preferred to θ2 if Pr (| ê1 | ≤ | ê2 |) &gt; 1/2 and θ2 is preferred to θ1 if Pr (| ê1 | ≤ | ê2 |) &lt; 1/2. Considering this criterion instead of MSE does not affect the main results in our simple example.</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_0"><p>It is also applied by<ref type="bibr" target="#b36">Lechner and Wunsch (2013)</ref>,<ref type="bibr" target="#b28">Huber et al. (2016)</ref>, Fr ölich et al. (2017),<ref type="bibr" target="#b35">Lechner and Strittmatter (2017)</ref>, and<ref type="bibr" target="#b9">Bodory et al. (2018)</ref>. A related approach is proposed by<ref type="bibr" target="#b41">Schuler et al. (2017)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>A similar approach is also used byAbadie and Imbens (2011),<ref type="bibr" target="#b37">Lee (2013), and</ref> Díaz et al. (2015).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>A similar approach is developed by<ref type="bibr" target="#b7">Bertrand et al. (2004)</ref> who study inference in difference-indifferences methods using simulations with randomly generated 'placebo laws' in state-level data, i.e. policy changes which never actually happened. For follow-up studies, see<ref type="bibr" target="#b25">Hansen (2007)</ref>,<ref type="bibr" target="#b14">Cameron et al. (2008)</ref>, and<ref type="bibr" target="#b10">Brewer et al. (2018)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_3"><p>See<ref type="bibr" target="#b5">Advani et al. (2019)</ref> for details: Appendix D for our procedure and parameter values; Appendix E for simulation results.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_4"><p>Recent work by Cal ónico and<ref type="bibr" target="#b13">Smith (2017)</ref> highlights the effects of the NSW programme for women. Prior to this women were largely ignored in the NSW literature subsequent to<ref type="bibr" target="#b34">LaLonde (1986)</ref> because the analysis datafile for women was not preserved.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_5"><p>We use a logit model to predict propensity to be in the experimental data (either as treatment or control) versus being in the CPS-1 data. We then drop all CPS-1 observations with propensity scores below the minimum or above the maximum in the experimental data. This is the trimmed CPS-1 dataset, which we then combine with the NSW treated observations from<ref type="bibr" target="#b16">Dehejia and Wahba (1999)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10" xml:id="foot_6"><p>It should be noted, however, that the way these datasets were constructed by<ref type="bibr" target="#b34">LaLonde (1986)</ref> results in samples that are best described as choice-based. More precisely, the treatment and control groups are heavily overrepresented relative to their population proportions. SeeSmith and Todd (2005)  for a further discussion of this issue.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="11" xml:id="foot_7"><p>Precisely, we sample with replacement, and draw replication samples of the same size as the original sample. In consequence, our bootstrap samples are also of the same size as the structured samples. Both are larger than the placebo samples, which are of the size of the original comparison subsample.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="12" xml:id="foot_8"><p>One exception is educ which is regressed on the prior listed covariates conditional on nodegree. Clearly, it is not possible for a high school dropout to have twelve years of schooling or more; it is also not possible for a non-dropout to have less than twelve years of schooling.</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>This research was supported by a grant from the <rs type="funder">CERGE-EI Foundation</rs> under a program of the <rs type="funder">Global Development Network</rs> (Grant No: <rs type="grantNumber">RRC12+09</rs>). All opinions expressed are those of the authors and have not been endorsed by CERGE-EI or the GDN. Advani also acknowledges support from <rs type="funder">Programme Evaluation for Policy Analysis</rs>, a node of the <rs type="institution">National Centre for Research Methods</rs>, supported by the <rs type="funder">ESRC</rs> (Grant No: <rs type="grantNumber">RES-576-25-0042</rs>). Kitagawa also acknowledges support from the <rs type="funder">ESRC</rs> through the <rs type="funder">ESRC Centre for Microdata Methods and Practice (cemmap)</rs> (Grant No: <rs type="grantNumber">RES-589-28-0001</rs>) and from the <rs type="funder">ERC</rs> through an <rs type="grantName">ERC starting grant</rs> (Grant No: <rs type="grantNumber">EPP-715940</rs>). Słoczy ński also acknowledges support from the <rs type="funder">Foundation for Polish Science (FNP)</rs> through a <rs type="grantName">START scholarship</rs> and from the <rs type="funder">Theodore and Jane Norman Fund</rs>. No authors are aware of any conflict of interest.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_XqSNh3u">
+					<idno type="grant-number">RRC12+09</idno>
+				</org>
+				<org type="funding" xml:id="_UNbUdgy">
+					<idno type="grant-number">RES-576-25-0042</idno>
+				</org>
+				<org type="funding" xml:id="_sD2d2D9">
+					<idno type="grant-number">RES-589-28-0001</idno>
+				</org>
+				<org type="funding" xml:id="_HY7Gr7f">
+					<idno type="grant-number">EPP-715940</idno>
+					<orgName type="grant-name">ERC starting grant</orgName>
+				</org>
+				<org type="funding" xml:id="_4ZWMCFw">
+					<orgName type="grant-name">START scholarship</orgName>
+				</org>
+			</listOrg>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>. Previously circulated as 'Mostly Harmless Simulations? On the Internal Validity of Empirical Monte Carlo Studies'. For helpful comments, we thank Thierry Magnac (Co-Editor), four anonymous referees, Alberto Abadie, Cathy Balfe, Richard Blundell, Colin Cameron, M ónica Woutersen, and numerous seminar and conference participants. We also thank Michael Lechner and Blaise Melly for providing us with their codes, as well as Steven Karel and Francesco Pontiggia for assistance with the Brandeis HPC cluster.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A Theory</head><p>Derivations of (8) and (9): A general expression of SEB for ATT in the absence of knowledge of the propensity score is given by</p><formula xml:id="formula_36">SEB ATT = 1 Pr(D = 1) E Var(Y(1)|X) + e(X) 1 -e(X) Var(Y(0)|X) + (τ(X) -θ 0 ) 2 |D = 1 .</formula><p>Plugging the current specifications for Var(Y(1)|X) and Var(Y(0)|X) and noting τ(X) = θ 0 for all X, the expression of ( <ref type="formula">8</ref>) follows.</p><p>By the partialling out argument of the least squares regression and the linear probability specification of the propensity score, the asymptotic variance of √ n( θ2θ 0 ) can be written as</p><formula xml:id="formula_37">Avar( √ n( θ2 -θ 0 )) = E(ǫ 2 (D -e(X)) 2 ) [E((D -e(X)) 2 )] 2 = E Var(Y(1)|X)(1 -e(X)) 2 e(X) + Var(Y(0)|X)e(X) 2 (1 -e(X)) [E(e(X)(1 -e(X))] 2 = σ 2 Pr(D = 1) • E c(1 -e(X)) 2 + e(X)(1 -e(X))|D = 1 [E(1 -e(X)|D = 1)] 2 ,</formula><p>where the third line follows from Bayes rule applied to each denominator and numerator.</p><p>Proof of (10): Rewrite (8) and ( <ref type="formula">9</ref>) as</p><formula xml:id="formula_38">σ 2 1 = σ 2 Pr(D = 1) c -1 + E 1 1 -e(X) |D = 1 , (<label>13</label></formula><formula xml:id="formula_39">)</formula><formula xml:id="formula_40">σ 2 2 = σ 2 Pr(D = 1) (c -1) • E((1 -e(X)) 2 |D = 1) [E(1 -e(X)|D = 1)] 2 + 1 E(1 -e(X)|D = 1) . (<label>14</label></formula><formula xml:id="formula_41">)</formula><p>Hence, we obtain</p><formula xml:id="formula_42">σ 2 2 -σ 2 1 = σ 2 Pr(D = 1) [(c -1)∆ 2 -∆ 1 ] ,<label>(15)</label></formula><p>∆ 1 ≥ 0 by Jensen's inequality, and ∆ 2 ≥ 0. Hence, the condition for σ 2 2 &gt; σ 2 1 follows as in (10).</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Econometric Methods for Program Evaluation</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Abadie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Cattaneo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual Review of Economics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="465" to="503" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Implementing Matching Estimators for Average Treatment Effects in Stata</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Abadie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Herr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">W</forename><surname>Imbens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stata Journal</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="290" to="311" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Large Sample Properties of Matching Estimators for Average Treatment Effects</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Abadie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">W</forename><surname>Imbens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="235" to="267" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Bias-Corrected Matching Estimators for Average Treatment Effects</title>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Matching on the Estimated Propensity Score</title>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">84</biblScope>
+			<biblScope unit="page" from="781" to="807" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Supplementary Appendix for &apos;Mostly Harmless Simulations? Using Monte Carlo Studies for Estimator Selection</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Advani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kitagawa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Słoczy Ński</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The Performance of Different Propensity-Score Methods for Estimating Differences in Proportions (Risk Differences or Absolute Risk Reductions) in Observational Studies</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C</forename><surname>Austin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="2137" to="2148" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">How Much Should We Trust Differences-in-Differences Estimates?</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bertrand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Duflo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">And</forename><forename type="middle">S</forename><surname>Mullainathan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Quarterly Journal of Economics</title>
+		<imprint>
+			<biblScope unit="volume">119</biblScope>
+			<biblScope unit="page" from="249" to="275" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Alternative Approaches to Evaluation in Empirical Microeconomics</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Blundell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">Costa</forename><surname>Dias</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Human Resources</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="565" to="640" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">The Finite Sample Performance of Inference Methods for Propensity Score Matching and Weighting Estimators</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bodory</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Camponovo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Huber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lechner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Inference with Difference-in-Differences Revisited</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brewer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">F</forename><surname>Crossley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">And</forename><forename type="middle">R</forename><surname>Joyce</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometric Methods</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<title level="m" type="main">Finite Sample Properties of Semiparametric Estimators of Average Treatment Effects</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Busso</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Dinardo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mccrary</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+	<note>unpublished manuscript</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">New Evidence on the Finite Sample Properties of Propensity Score Reweighting and Matching Estimators</title>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="page" from="885" to="897" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The Women of the National Supported Work Demonstration</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Cal Ónico</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Labor Economics</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="65" to="S97" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Bootstrap-Based Improvements for Inference with Clustered Errors</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">C</forename><surname>Cameron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Gelbach</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Miller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<biblScope unit="page" from="414" to="427" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Hong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">And</forename><forename type="middle">A</forename><surname>Tarozzi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Semiparametric Efficiency in GMM Models with Auxiliary Data</title>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="808" to="843" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Causal Effects in Nonexperimental Studies: Reevaluating the Evaluation of Training Programs</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Dehejia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wahba</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="page" from="1053" to="1062" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Propensity Score-Matching Methods for Nonexperimental Causal Studies</title>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">84</biblScope>
+			<biblScope unit="page" from="151" to="161" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Genetic Matching for Estimating Causal Effects: A General Multivariate Matching Method for Achieving Balance in Observational Studies</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Diamond</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Sekhon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="932" to="945" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A Matching Estimator Based on a Bilevel Optimization Problem</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Íaz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Rau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Rivera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="page" from="803" to="812" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Finite-Sample Properties of Propensity-Score Matching and Weighting Estimators</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fr Ölich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="page" from="77" to="90" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">The Finite Sample Performance of Semi-and Nonparametric Estimators for Treatment Effects and Policy Evaluation</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fr Ölich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Huber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wiesenfarth</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">115</biblScope>
+			<biblScope unit="page" from="91" to="102" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Inverse Probability Tilting for Moment Condition Models with Missing Data</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">S</forename><surname>Graham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Campos</forename><surname>De Xavier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">And</forename><forename type="middle">D</forename><surname>Pinto</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Egel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economic Studies</title>
+		<imprint>
+			<biblScope unit="volume">79</biblScope>
+			<biblScope unit="page" from="1053" to="1079" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Efficient Estimation of Data Combination Models by the Method of Auxiliary-to-Study Tilting (AST)</title>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="288" to="301" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">On the Role of the Propensity Score in Efficient Semiparametric Estimation of Average Treatment Effects</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hahn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">66</biblScope>
+			<biblScope unit="page" from="315" to="331" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Generalized Least Squares Inference in Panel and Multilevel Models with Serial Correlation and Fixed Effects</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">B</forename><surname>Hansen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="670" to="694" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Choosing Among Alternative Nonexperimental Methods for Estimating the Impact of Social Programs: The Case of Manpower Training</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Heckman</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hotz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">84</biblScope>
+			<biblScope unit="page" from="862" to="874" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Efficient Estimation of Average Treatment Effects Using the Estimated Propensity Score</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Hirano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">W</forename><surname>Imbens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Ridder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="1161" to="1189" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">The Finite Sample Performance of Estimators for Mediation Analysis Under Sequential Conditional Independence</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Huber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lechner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mellace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="139" to="160" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">The Performance of Estimators Based on the Propensity Score</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Huber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lechner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wunsch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">175</biblScope>
+			<biblScope unit="page" from="1" to="21" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Recent Developments in the Econometrics of Program Evaluation</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">W</forename><surname>Imbens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Wooldridge</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Literature</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="5" to="86" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The Blinder-Oaxaca Decomposition for Linear Regression Models</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Jann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stata Journal</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="453" to="479" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A Comparison of Treatment Effects Estimators Using a Structural Model of AMI Treatment Choices and Severity of Illness Information from Hospital Charts</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Khwaja</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Picone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Salm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Trogdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="825" to="853" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Oaxaca-Blinder as a Reweighting Estimator</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kline</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">American Economic Review: Papers &amp; Proceedings</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="page" from="532" to="537" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Evaluating the Econometric Evaluations of Training Programs with Experimental Data</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Lalonde</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="604" to="620" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Practical Procedures to Deal with Common Support Problems in Matching Estimation</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Lechner</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Strittmatter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Sensitivity of Matching-Based Program Evaluations to the Availability of Control Variables</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lechner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wunsch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Labour Economics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="111" to="121" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Propensity Score Matching and Variations on the Balancing Test</title>
+		<author>
+			<persName><forename type="first">W.-S</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="47" to="80" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<title level="m" type="main">PSMATCH2: Stata Module to Perform Full Mahalanobis and Propensity Score Matching, Common Support Graphing, and Covariate Imbalance Testing</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Leuven</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Sianesi</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+	<note>This version 4.0.6</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Stratification and Weighting via the Propensity Score in Estimation of Causal Treatment Effects: A Comparative Study</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Lunceford</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Davidian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="2937" to="2960" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">On the Specification of Propensity Scores, with Applications to the Analysis of Trade Policies</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Millimet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tchernis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="397" to="415" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<title level="m" type="main">Synth-Validation: Selecting the Best Causal Inference Method for a Given Dataset</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Schuler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Jung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Shah</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+	<note>lished manuscript</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<monogr>
+		<title level="m" type="main">A General Weighted Average Representation of the Ordinary and Two-Stage Least Squares Estimands</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Słoczy Ński</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>unpublished manuscript</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">A General Double Robustness Result for Estimating Average Treatment Effects</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Słoczy Ński</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Wooldridge</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="112" to="133" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Reconciling Conflicting Evidence on the Performance of Propensity-Score Matching Methods</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">E</forename><surname>Todd</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Review: Papers &amp; Proceedings</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="page" from="112" to="118" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Does Matching Overcome LaLonde&apos;s Critique of Nonexperimental Estimators?</title>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">125</biblScope>
+			<biblScope unit="page" from="305" to="353" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Inverse Probability Weighted Estimation for General Missing Data Problems</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Wooldridge</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">141</biblScope>
+			<biblScope unit="page" from="1281" to="1301" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Using Matching to Estimate Treatment Effects: Data Requirements, Matching Metrics, and Monte Carlo Evidence</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="page" from="91" to="107" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Sensitivity of Propensity Score Methods to the Specifications</title>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letters</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="page" from="309" to="319" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

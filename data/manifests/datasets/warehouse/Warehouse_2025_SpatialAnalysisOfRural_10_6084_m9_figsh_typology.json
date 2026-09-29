@@ -1,0 +1,97 @@
+{
+  "dataset_id": "Warehouse_2025_SpatialAnalysisOfRural_10_6084_m9_figsh",
+  "package": "warehouse:figshare:spatial_analysis_rural_morocco",
+  "dataset": "Spatial analysis of rural multidimensional poverty and nighttime lights in Morocco",
+  "source_lang": "python",
+  "conversion_method": "name_join:geoBoundaries_MAR_ADM2(75/75, dont 7 via alias orthographique verifie)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2025_SpatialAnalysisOfRural_10_6084_m9_figsh.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "Province",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 75,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Rural multidimensional poverty rate ",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 63.8570]",
+        "n_unique": 74,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Rural IPM",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 32.9103]",
+        "n_unique": 74,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Rural poverty intensity ",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 51.5375]",
+        "n_unique": 74,
+        "pct_na": 0.0
+      },
+      {
+        "name": "NTL_urban",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.1369, 62.4498]",
+        "n_unique": 75,
+        "pct_na": 0.0
+      },
+      {
+        "name": "NTL_agricultural",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 24.0281]",
+        "n_unique": 75,
+        "pct_na": 0.0
+      },
+      {
+        "name": "NTL",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0973, 53.7438]",
+        "n_unique": 75,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 75,
+    "T": 1,
+    "T_var": null,
+    "k": 7,
+    "data_type": "spatial",
+    "structure": "coupe_transversale",
+    "profil_nt": "N_moyen_T_petit"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": -17.104826,
+      "ymin": 20.769783,
+      "xmax": -0.998429,
+      "ymax": 35.922427
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "Geometrie jointe par nom de province (Province) contre geoBoundaries MAR-ADM2 (75 provinces/prefectures, decoupage post-reforme 2015 - GADM ADM2 ecarte car obsolete, 54 unites seulement). 68/75 par normalisation directe (accents, mots administratifs, script arabe retires), 7/75 via alias orthographique verifie individuellement (ex. Rehamna/Rhamna, Tanger-Assilah/Tangier-Assilah, Taroudannt/Taroudant). 0 ligne non appariee."
+  }
+}

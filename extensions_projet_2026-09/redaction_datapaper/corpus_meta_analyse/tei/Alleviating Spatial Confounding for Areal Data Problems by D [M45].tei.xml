@@ -1,0 +1,731 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Alleviating Spatial Confounding for Areal Data Problems by Displacing the Geographical Centroids</title>
+				<funder>
+					<orgName type="full">CAPES</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">FAPEMIG, Brazilian</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">CNPq</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Marcos</forename><surname>Oliveira Prates</surname></persName>
+							<email>marcosop@est.ufmg.br</email>
+							<affiliation key="aff0">
+								<orgName type="department">Departmento de Estatística</orgName>
+								<orgName type="institution">UFMG</orgName>
+								<address>
+									<addrLine>Belo Horizonte</addrLine>
+									<country key="BR">Brasil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Renato</forename><surname>Martins Assunção</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Departmento de Ciência da Computação</orgName>
+								<orgName type="institution">UFMG</orgName>
+								<address>
+									<addrLine>Belo Horizonte</addrLine>
+									<country key="BR">Brasil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Erica</forename><forename type="middle">Castilho</forename><surname>Rodrigues</surname></persName>
+							<email>ericacastirodrigues@gmail.com</email>
+							<affiliation key="aff2">
+								<orgName type="department">Departmento de Estatística</orgName>
+								<orgName type="institution">UFOP</orgName>
+								<address>
+									<region>Ouro Preto</region>
+									<country key="BR">Brasil</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Alleviating Spatial Confounding for Areal Data Problems by Displacing the Geographical Centroids</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">97C61C687EC75D835D5EA7E1CF62189C</idno>
+					<idno type="DOI">10.1214/18-BA1123</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Areal Data</term>
+					<term>Bayesian Statistics</term>
+					<term>Spatial Confounding</term>
+					<term>Spatial Regression</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial confounding between the spatial random effects and fixed effects covariates has been recently discovered and showed that it may bring misleading interpretation to the model results. Techniques to alleviate this problem are based on decomposing the spatial random effect and fitting a restricted spatial regression. In this paper, we propose a different approach: a transformation of the geographic space to ensure that the unobserved spatial random effect added to the regression is orthogonal to the fixed effects covariates. Our approach, named SPOCK, has the additional benefit of providing a fast and simple computational method to estimate the parameters. Also, it does not constrain the distribution class assumed for the spatial error term. A simulation study and real data analyses are presented to better understand the advantages of the new method in comparison with the existing ones.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatial generalized linear mixed models (SGLMM) for areal data analysis have become a common tool for data analysis in recent years with the availability of spatially referenced data sets. <ref type="bibr" target="#b1">Besag et al. (1991)</ref> introduced a hierarchical modeling adding random spatial effects to a generalized linear regression model. The spatial dependence is captured by a latent Gaussian Markov Random Field (GMRF). One important advantage of this GMRF approach is to induce a sparse precision matrix that allows for intuitive conditional interpretation and fast Bayesian computation <ref type="bibr" target="#b22">(Rue and Held, 2005)</ref>. In the past 20 years, <ref type="bibr" target="#b1">Besag et al. (1991)</ref> model (hereafter ICAR) has become the most popular areal model for its flexibility and due to its implementation in the WinBUGS software <ref type="bibr" target="#b13">(Lunn et al., 2000)</ref>, which is freely available.</p><p>Most spatial data are observational rather than experimental and we commonly observe correlation or multicollinearity between the covariates, also called explanatory or fixed-effect variables. As a consequence of this multicollinearity, in non-spatial regression problems, the estimated coefficients are affected by the presence of the other covariates. This is called confounding and it can lead to implausible estimates. It also affects the variance of the covariates' coefficients estimators which are inflated with respect to what one would have in case the covariates were orthogonal to each other.</p><p>In the spatial context, <ref type="bibr" target="#b3">Clayton et al. (1993)</ref> and <ref type="bibr" target="#b20">Reich et al. (2006)</ref> identified the existence of confounding between the fixed and random effects in SGLMM. In their work, <ref type="bibr" target="#b20">Reich et al. (2006)</ref> show that explanatory variables having a spatial pattern may be confounded with the spatial random effects, resulting in fixed effects estimates that are counterintuitive. Thus, they propose an alternative model, called hereafter RHZ model, to alleviate this confounding problem. The RHZ model projects the spatial effects into the orthogonal space spanned by the explanatory variables.</p><p>Another well known shortcoming of SGLMM is the computational burden when dealing with high dimensional latent effects. Recently, <ref type="bibr" target="#b10">Hughes and Haran (2013)</ref> introduce an alternative model (hereafter, HH model) that alleviates spatial confounding and, at the same time, requires less computational effort. They also consider an orthogonal projection of the spatial effects in a way that takes into account the explanatory variables and the spatial structure. Properties of the HH model was further studied by <ref type="bibr" target="#b15">Murakami and Griffith (2015)</ref>.</p><p>The main idea behind the <ref type="bibr" target="#b20">Reich et al. (2006)</ref> and <ref type="bibr" target="#b10">Hughes and Haran (2013)</ref> methods is to project the unobserved spatial effects vector in the linear space orthogonal to the explanatory variables. As a consequence, they end up with a precision matrix that is far from sparse losing one of the main advantages of the Markov random fields. Another drawback from RHZ and HH methods is that them become computationally expensive when the spatial effects have parameters. Therefore, it is harder to use them with more flexible spatial structures <ref type="bibr" target="#b0">(Besag, 1974;</ref><ref type="bibr" target="#b12">Leroux et al., 1999;</ref><ref type="bibr" target="#b21">Rodrigues and Assunção, 2012)</ref>.</p><p>From a geostatistical perspective, <ref type="bibr" target="#b16">Paciorek (2010)</ref> dealt with the effects of confounding between the spatial random effects and possible explanatory variables. He showed that it can lead to bias in the parameter estimation. <ref type="bibr" target="#b6">Hanks et al. (2015)</ref> also studied the effects of spatial confounding in the continuous support situation. They proposed a posterior predictive approach to correct Type-S error on the credibility intervals produced by RHZ. Recently, <ref type="bibr" target="#b7">Hefley et al. (2017)</ref> proposed a regularized spatial regression that can also deal with spatial confounding and improve the predictive power the model.</p><p>In this paper, we adopt a different approach to deal with spatial confounding in lattice data. Rather than removing the explanatory variables effect from the spatial random effects, we alter the spatial pattern of the map by purging the covariates from the geography. We do this by projecting the spatial coordinates of the areas into the orthogonal space of the covariates, producing a new set of geographical coordinates. These new coordinates induce a different neighborhood structure for the areas that are used to define a different precision matrix. The transformed geography retains the spatial neighborhood that is orthogonal to the covariates. One important consequence of our approach is that we maintain the sparsity of the spatial effects precision matrix allowing for very fast Bayesian computation while controlling for spatial confounding.</p><p>Our new approach is called SPOCK, an acronym for SPatial Orthogonal Centroid "K"orrection. SPOCK led us to understand better the role of spatial confounding and its effect on parameter estimation. It gives a more clear understanding of the conceptual differences between the parameters in models that do and do not alleviate spatial confounding. In a striking example, <ref type="bibr" target="#b20">Reich et al. (2006)</ref> showed that spatial confounding may provide counter intuitive results in some situations. Sign and relevance of covariates can change drastically after one adds a spatial random effect in a lattice-data regression model. Some important questions arise. When does that occur? Is it always necessary to correct for spatial confounding? If not, when to do so? There is an on-going discussion among the researchers about the need for spatial confounding correction and the meaning of the resulting fixed-effect parameters <ref type="bibr" target="#b16">(Paciorek, 2010;</ref><ref type="bibr" target="#b6">Hanks et al., 2015;</ref><ref type="bibr" target="#b7">Hefley et al., 2017)</ref>. With our model as a framework, in the simulation study of Section 5, we revisit these questions and try to better understand what are the consequences of correcting for spatial confounding and when it is adequate to do so. The contributions of this paper are the following:</p><p>• a new conceptual approach, SPOCK, to handle spatial confounding;</p><p>• because our approach retains the Markovian property, it is extremely efficient for Bayesian computation even in high dimension problems generated by maps with very large number of areas;</p><p>• in contrast with the present alternatives, SPOCK deals easily with other spatial models for the random effects;</p><p>• SPOCK is very simple to implement and it can be run in any Bayesian spatial software such as WinBUGS, CARBayes <ref type="bibr" target="#b11">(Lee, 2013)</ref> and R-INLA <ref type="bibr" target="#b23">(Rue et al., 2009)</ref>.</p><p>The paper proceeds as follows. In Section 2 we review the traditional SGLMM model and present a summary of the RHZ and HH methods. Section 3 introduces SPOCK and its properties are discussed. Section 4 proposes a diagnostic tool to test the need to correct for spatial confounding. In Section 5, a simulation study is performed to compare the proposed method against RHZ and HH methods in terms of precision of estimates and time. It also provides insights on when to correct for spatial confounding and what are the consequences of it. In Section 6.1, we revisit three classical real spatial datasets, the Slovenia dataset <ref type="bibr" target="#b26">(Zadnik and Reich, 2006)</ref>, the North Carolina SIDS <ref type="bibr" target="#b4">(Cressie, 1991)</ref>, and the Scotland lips <ref type="bibr" target="#b2">(Breslow and Clayton, 1993)</ref>. These examples illustrate that all three models lead to very similar estimates but SPOCK is one or two orders of magnitude faster than the other methods. Finally, the paper concludes with a discussion in Section 7.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Existing methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">SGLMM</head><p>Spatial Generalized Linear Mixed Models (SGLMM) is a wide class of models that accommodates spatial dependence through a random effect term. Let Y i be the observation of an area i, i = 1, . . . , n with distribution given by Y i ∼ π(y|μ i , δ, X i , β) with g(μ i ) = X i β + θ i , where β is the fixed effects coefficients vector and X is a n × q full-rank design matrix with the covariates. Typically, X includes a first column of constant values equal to 1. We let X i be its i-th row, g is an appropriate link function, and μ i = E(Y i |X i ). The vector of hyperparameters of the distribution is δ. Finally, θ represents a vector with spatially structured random variables capturing the spatial patterns shared by the areas in study.</p><p>The most simple instance of this model is the Gaussian model where</p><formula xml:id="formula_0">Y i |μ i , τ ∼ N (μ i , τ ) with μ i = X i β + θ i .</formula><p>(</p><p>Traditionally the spatial random effect θ = (θ 1 , . . . , θ n ) is defined as an intrinsic conditional autoregressive (ICAR) models introduced by <ref type="bibr" target="#b1">Besag et al. (1991)</ref>. The prior specification of the ICAR model is given by</p><formula xml:id="formula_2">π(θ|τ θ ) ∝ τ n-1 θ exp - τ θ 2 θ Qθ , (<label>2</label></formula><formula xml:id="formula_3">)</formula><p>where Q is the precision matrix given by Q = D -A where D a diagonal matrix with the i-th entry equal to the number of neighbors of region i and A is the graph zero/one adjacency matrix. The parameter τ θ is the spatial precision. <ref type="bibr" target="#b3">Clayton et al. (1993)</ref> introduced the concept of spatial confounding between the fixed effects estimates and the spatial random effects in SGLMM. However, only recently, <ref type="bibr" target="#b20">Reich et al. (2006)</ref> revisited the problem motivated by a striking case study where the credible interval for a certain fixed effect coefficient changes drastically after introducing the spatial random effects. They proposed an alternative method to alleviate this confounding problem. The idea proposed is to include in the model a random effect that belongs to the orthogonal space of the fixed effects predictors. A new R n basis can be used to re-express</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Non-Confounding SGLMM</head><formula xml:id="formula_4">θ = θ X + θ ⊥ = Kθ 1 + Lθ 2 , (<label>3</label></formula><formula xml:id="formula_5">)</formula><p>where K is a n × q matrix that has the same span as X, L is a n × (nq) matrix whose columns lie in the orthogonal space of X, and θ 1 and θ 2 are vectors with dimensions q and nq, respectively. Equation (1) can be represented as</p><formula xml:id="formula_6">Y i |μ i , τ ∼ N (μ i , τ ) with μ i = X i β + K i θ 1 + L i θ 2 ,</formula><p>where K i and L i are the i-th rows of K and L, respectively. The vector θ follows the ICAR distribution in (2). Using this parametrization, it was shown that K causes a confounding in the estimates of β. <ref type="bibr" target="#b20">Reich et al. (2006)</ref> suggested the removal of the K component leading to the RHZ model:</p><formula xml:id="formula_7">Y i |μ i , τ ∼ N (μ i , τ ) with μ i = X i β + L i θ 2 , θ 2 ∼ N n-q 0, L QL . (<label>4</label></formula><formula xml:id="formula_8">)</formula><p>Although it alleviates the confounding between the spatial random effects and the estimates of the fixed effects, <ref type="bibr" target="#b10">Hughes and Haran (2013)</ref> noticed that this method is computationally inefficient. The reason is that the new precision matrix generated by (4) is not sparse and has dimension nq ≈ n. To reduce the computational demand of the RHZ model they proposed a low-rank alternative model for the L matrix. This new model uses the so-called Moran operator P ⊥ AP ⊥ and</p><formula xml:id="formula_9">P ⊥ = I -X(X X) -1 X (<label>5</label></formula><formula xml:id="formula_10">)</formula><p>is the projection matrix into the orthogonal space of the span of X. They showed that the Moran operator retains the spatial patterns of the data and it is only necessary to select the h n higher positive eigenvalues of the spectrum of the Moran operator, called attractive eigenvalues. In this way, they were able to reduce the dimension of the random effect by using a low-rank approximation of P maintaining the spatial information necessary in model estimation. The HH model is defined as Y i |μ i , τ ∼ N (μ i , τ I) with μ i = X i β + M i θ 2 and θ 2 ∼ N h (0, M QM ), where M contains the first h eingenvectors of the Moran operator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Purging the covariates from the geography</head><p>Although <ref type="bibr" target="#b20">Reich et al. (2006)</ref> and <ref type="bibr" target="#b10">Hughes and Haran (2013)</ref> were successful in alleviating the confounding and in reducing the dimension of the spatial random effects as presented in Section 2.2, their approaches have two main drawbacks: (1) the RHZ and HH models lost the original SGLMM model sparsity of the precision matrix and hence do not take advantage of the Markov property in the Bayesian calculations; (2) compounding with (1), their computational cost increases sharply if parameters appear in the precision matrix Q (e.g., <ref type="bibr" target="#b0">Besag, 1974;</ref><ref type="bibr" target="#b12">Leroux et al., 1999;</ref><ref type="bibr" target="#b21">Rodrigues and Assunção, 2012)</ref>. In this case, one needs to recalculate eigenvalues and eigenvectors of Q each time its parameters are updated.</p><p>In order to propose a fast SGLMM that alleviates the confounding problem, we introduce SPOCK, a novel approach to the problem capable of maintaining the Markov properties of the precision matrix as well as allowing for unknown parameters in the matrix Q. SPOCK not only produces a fast alternative to RHZ and HH but, more importantly, it also represents a new and rather different conceptual perspective on how to deal with the problem. We will show that this new way of seeing the spatial confounding can help in clarifying the discussion about the need for and the consequences of the confounding alleviation.</p><p>Instead of reparametrizing the random effects vector by decomposing it into two orthogonal subspaces, we project the neighborhood graph vertices into the orthogonal space of the covariate matrix X. In geostatistics, <ref type="bibr" target="#b24">Sampson and Guttorp (1992)</ref> also suggested a deformation of the space to transform a non stationary field into stationary one. Our method requires a coordinate system representing each area by a centroid point and then we transform these geographical centroids inducing a new neighborhood structure that is not influenced by the covariates. SPOCK depends crucially on the fact that the distance between the centroids represents approximately the graph structure. For example, in the usual maps of counties in the US and Brazilian states, this assumption is satisfied, as we will show in Table <ref type="table" target="#tab_0">1</ref>. However, it is possible to imagine situations in which this assumption is not true. Consider Figure <ref type="figure">1</ref>: (a) Original centroids of a pseudo-map where the adjacency neighborhood structure is represented by a spiral. One area is highlighted with a square symbol as well as its two neighbors with respect to this graph represented by triangles. (b) The same graph with the square area is shown with its two nearest neighbors (as triangles) with respect to the Euclidian distance between the centroids. a map in which the areas are arranged in such a way that the neighborhood structure is represented by a spiral graph, as in Figure <ref type="figure">1(a)</ref>. We mark an arbitrary area in this map with a square. Its neighbors in the spiral neighborhood structure are marked with triangles. In Figure <ref type="figure">1(b)</ref>, we show the same graph with the same square reference area but its two neighboring triangles are now those two nearest centroids with respect to the Euclidean distance between the centroids. Comparing the two graphs, we see that the nearest neighbors in the spiral neighborhood structure do not coincide with the nearest neighbors in the structure induced by the distance between the centroids. This type of situation is adverse for SPOCK. However, in usual geographical maps, it is large the correspondence between nearest neighbors by the two criteria, as we shall see in Table <ref type="table" target="#tab_0">1</ref>.</p><p>Spatial effects defined on this transformed geography will attenuate the confounding with the predictors. The projected image of the original graph (hereafter, projected graph) allows us to keep the sparsity of the precision matrix Q and the Markov properties of random effects, making the fitting of our model more efficient than RHZ and HH <ref type="bibr" target="#b22">(Rue and Held, 2005)</ref>. Since SPOCK works only by redefining the non-zero pattern of Q by means of the projected graph, it allows the user to adjust a variety of parameterbased spatial structure such as <ref type="bibr" target="#b0">Besag (1974)</ref>; <ref type="bibr" target="#b1">Besag et al. (1991)</ref>; <ref type="bibr" target="#b12">Leroux et al. (1999)</ref>; <ref type="bibr" target="#b21">Rodrigues and Assunção (2012)</ref>.</p><p>To motivate our method, suppose that we can partition the neighborhood graph as we did with the random effects in Section 2.2. That is, suppose that the neighborhood graph could also be partitioned into two parts, one related with the covariates and another one orthogonal to them. It is not clear how to directly partition the graph in this way. When the distance between the areas centroids reflects the neighborhood structure of the graph, a projection of the numerical coordinates of these centroids can produce a partition of the graph into the two desired components: one correlated with X and another one uncorrelated.</p><p>In a more formal way to provide intuition about spatial confounding and about our method, we interpolate our lattice data with a smooth surface. Let s = [s 1 , s 2 ] be the n × 2 matrix with the areas' centroids coordinates. We associate each entry of the random effect θ with a specific location, its area centroid. Conceptually, interpolate the θ i values with a smooth surface ψ(s 1 , s 2 ) defined for any arbitrary position (s 1 , s 2 ) in the continuous map region such that θ = (ψ 1 , . . . , ψ n ) with ψ i = ψ(s i1 , s i2 ).</p><p>We want to emphasize the purely mathematical nature of this interpolating function. We are aware that statistical lattice data are not continuous and that each θ i is associated with the entire i-th region rather than with one single location. We do not attach a substantive interpretation for such function ψ(s 1 , s 2 ). We are not suggesting any kind of asymptotic process, where the areas shrink in size until they become a point. Our interpolating function is simply a convenient mathematical abstraction useful to explain our method and it does not play any role in our method itself. Let (s 10 , s 20 ) be a reference location such as a central position in the map and ∇ψ = (γ 1 , γ 2 ) be the gradient of ψ evaluated at (s 10 , s 20 ). When ψ is smooth enough, a Taylor expansion allows the value ψ(s 1 , s 2 ) in an arbitrary map position (s 1 , s 2 ) to be written as For smooth surfaces ψ(s 1 , s 2 ), the gradient ∇ψ does not change abruptly and hence the Hessian is not expected to vary substantially and should be small. We stress that these assumptions are not required to apply our method. Their role is only to provide a motivation to understand the rationale behind SPOCK.</p><formula xml:id="formula_11">ψ(s 1 , s 2 ) = ψ(s 10 , s 20 ) + (s 1 -s 10 , s 2 -s 20 ) ∇ψ + R(s 1 , s 2 , s 10 , s 20 ) = γ 0 + γ 1 (s 1 -s 10 ) + γ 2 (s 2 -s 20 ) + R(s 1 , s 2 , s 10 , s 20 ) . (<label>6</label></formula><p>Evaluating the expression (6) at the centroids s and organizing the result as a vector, we have</p><formula xml:id="formula_12">θ = ψ(s) = γ 0 1 + γ 1 (s 1 -s 10 1) + γ 2 (s 2 -s 20 1) + R(s 1 , s 2 , s 10 , s 20 ) = (γ 0 -s 10 -s 20 )1 + γ 1 s 1 + γ 2 s 2 + R(s 1 , s 2 , s 10 , s 20 ) = [1, s 1 , s 2 ]γ + R .</formula><p>In this way, we expressed the spatial random effects with a linear combination of the coordinates s 1 and s 2 based on the assumption that θ can be cast on a smooth surface.</p><p>Returning to the SGLMM model, we can rewrite (1) as </p><formula xml:id="formula_13">Y = Xβ + [1, s 1 , s 2 ]γ + R = Xβ + P [1, s 1 , s 2 ]γ + P ⊥ [1, s 1 , s 2 ]γ + R = X β + X X -1 X [1, s 1 , s 2 ]γ + P ⊥ [1, s 1 , s 2 ]γ + R</formula><formula xml:id="formula_14">= Xβ * + P ⊥ [1, s 1 , s 2 ]γ + R , (<label>7</label></formula><formula xml:id="formula_15">)</formula><p>where we used that I = P + P ⊥ with P ⊥ defined in (5). One of the main advantages of expression (7) is to clearly and intuitively answer to <ref type="bibr" target="#b8">Hodges and Reich (2011)</ref> when they ask how "adding spatially correlated errors can mess up the fixed effect you love".</p><p>The X fixed effect is messed up by the spatial random effect θ when two conditions are met: (a) the covariates in X have a linear association with s so P [1, s 1 , s 2 ] is not close to the zero matrix and (b) γ is not small. Under these two conditions, the difference between β and β * will be large. This motivates our diagnostic tool proposed in Section 4 to verify the need to correct for spatial confounding.</p><p>Expression (7) also justifies SPOCK as a method to deal with spatial confounding in spatial regression. We split the linear component of the spatial random effect θ into two pieces and remove the component P [1, s 1 , s 2 ]γ, which can be confounded with X. In Figure <ref type="figure" target="#fig_1">2</ref>, we show a graphical model representation that explains SPOCK and how it differs from the RHZ and HH concepts. In (a), we have the usual ICAR model. The node G represents the neighborhood graph, which affects both, the covariates X and the spatial effects θ. The response node Y is formed according to (1). In (b), we have a new representation of the same model in (a) but now we decompose some of the nodes to contrast the different approaches. The node θ is split into two pieces, θ X and θ ⊥ , following the RHZ solution as in (3). We also introduce a conceptual decomposition of the graph G into two pieces. The first one is G X , and it carries the shared information between the graph and X. The second one is G ⊥ , and it contains the orthogonal information in G, after extracting G X . We explain in the next paragraph what we mean by this decomposition of the neighborhood graph and how it is carried out in practice. Node G ⊥ links directly only to the θ ⊥ component of the spatial random effect, while G X links only to θ X . The RHZ and HH models are represented in (c) and they are obtained by removing the node θ X and keeping only the θ ⊥ , as shown in (4). The nodes and edges removed are shown with dashed lines in the figure. Our SPOCK approach is represented in (d). Differently from RHZ and HH, our geography transformation means the removal of G X and its children. One important additional difference is that θ ⊥ in our model is not the same as that defined by RHZ and HH. In our case, G ⊥ directly induces a new θ ⊥ with a sparse precision matrix Q .</p><p>To explain how we construct G ⊥ , we use the same spatial dataset from Slovenia that motivated <ref type="bibr" target="#b20">Reich et al. (2006)</ref> in their work. Figure <ref type="figure" target="#fig_2">3(a)</ref> shows the Slovenia map represented by its centroids (grey dots). The single predictor variable is a social-economic status measure (SES). This predictor has a strong spatial pattern, with a gradient crossing from the SouthWest to the NorthEast in the map. Our new geography is given by the projected centroids s = P ⊥ s shown in Figure <ref type="figure" target="#fig_2">3(b)</ref>. These new set of coordinates represent the node with the projected graph G ⊥ in Figure <ref type="figure" target="#fig_1">2</ref>. If there is no spatial confounding, we expect s and s to be approximately the same. In the original map in the left hand side, we selected one area (black square) and its original neighbors (black triangles) to show where they are located in the new projected map. We can see that the neighboring areas in the original map are separated out and may become isolated from one another in this new geography.</p><p>After projecting the original coordinates with P ⊥ to obtain the new spatial coordinates s , we need to specify the neighborhood structure. To define the edges of the G ⊥ neighborhood structure, we consider two alternatives: 1) to use the number of neighbors k i of each area in the original graph (Knn); 2) to use the Delaunay triangulation to automatically define the number of neighbors. In the first method, we add edges between areas i and j if area j is among the k i nearest neighbors of area i in the new geography. In the second method, a Delaunay triangulation is performed over the new centroids and the vertices connected by the triangles' edges are considered neighbors. To choose between these two methods, we analyzed their ability to reproduce the true and original map adjacency structure when there is no spatial confounding. After all, when X is not associated with θ, we expect to see only small changes in the spatial relationship between the areas. Table <ref type="table" target="#tab_0">1</ref> shows the result of using the two methods in two collections of maps totaling 76 widely different geographical structures. The first set is composed by the 48 maps of counties from each one of the US states but Alaska and Hawaii. The size and shape of the US states varies widely and hence this collection gives a good idea of how the method works in different situations. The second set is composed by 26 maps of counties (indeed, municipalities) of individual Brazilian states. For each one of these 76 maps, we calculate the sensitivity (or precision) of each method: the proportion of neighboring pairs of counties in the original state map that is reproduced into either the Delaunay or Knn neighborhood map in the new geography. Table <ref type="table" target="#tab_0">1</ref> shows the average sensitivity over all 76 maps. We also calculate the recall of each method: the proportion of neighboring pairs of counties in the reconstructed adjacency structure that is also a neighboring pair in the original map. For both measures, sensitivity and recall, the higher value, the better. It is clear from the table that the Knn method is preferred according to this criterion and, from now on, all analysis in this manuscript is performed using the Knn method to reconstruct the neighborhood structure after projecting the coordinates.</p><p>The new adjacency matrix generated by the Knn method replaces the original adjacency matrix used in the SGLMM model. After that, the user can select his preferred algorithm to fit the model and carry out inference. For example, he can use the INLA <ref type="bibr" target="#b23">(Rue et al., 2009)</ref> algorithm in order to take advantages of the Markov properties of the new matrix Q generated by the projected graph and to avoid traditional Markov chain Monte Carlo (MCMC) convergence problems. For this reason we use R-INLA to perform our analysis in this paper but since there is no software restriction to fit our method we also used a SPOCK MCMC version through CARBayes.</p><p>To better visualize the impact of different spatial trends in the projected graph we revisit the Slovenia map example in Figure <ref type="figure">4</ref>(a) where the map is now centered at the origin (0, 0) and presents its original neighboring structure. For all areas, we keep the k i number of neighbors in the original map to reconstruct the Knn neighboring structure of the projected geography. Different spatial trends are created for one explanatory variable X. linear trend based on the centroids' coordinates. Figure <ref type="figure">4</ref></p><formula xml:id="formula_16">(c) has X i = s 2 1i + s 2 2i , while Figure 4(d) has X i = s 3 1i + s 3 2i .</formula><p>The original centroids are projected into the space generated by P ⊥ . We do not show this new geography but rather, in Figure <ref type="figure">4</ref>, we show the original map with each i-th centroid connected to its new k i neighbors in the projected space. Although there is some overlap between segments connecting the new neighbors, we can see that each area in Figure <ref type="figure">4</ref>(b) has all its k i neighbors approximately in the (1, 1) direction. As X i = (1, 1)(s i1 , s i2 ) , it explains the Y variation in the (1, 1) direction and so, for the spatial effect, it remains to explain the Y variation in the orthogonal (-1, 1) direction. In the new geography, far away areas (and therefore, with practically independent spatial effects) are those distant in the (-1, 1) direction. Hence, the new neighborhood structure must be the k i nearest neighbors in the (1, 1) direction. When X has a quadratic spatial trend, Figure <ref type="figure">4</ref>(c), there is almost no effect on the projected centroids. This happens because the orthogonal component of s in the span of X. is negligible and thus no confounding correction is necessary. This pattern is very similar to the one we obtain when X is randomly generated (without any spatial pattern). Finally, Figure <ref type="figure">4(d</ref>) presents a cubic pattern for X. In this case, although not as perfect as in Figure <ref type="figure">4</ref>(b), the orthogonal projection of s in the span of X is significant and therefore some correction is needed. From Figure <ref type="figure">4</ref>, it is clear that different spatial trends generates different effects over the projected graph. This is expected since the projected graph should be orthogonal to the information in the span of X.</p><p>4 When do we need to correct for spatial confounding?</p><p>An additional advantage of the SPOCK approach is to provide a diagnostic tool for detecting the need for spatial confounding alleviation. <ref type="bibr" target="#b7">Hefley et al. (2017)</ref> provide a way to measure spatial multicollinearity through model fitting. However, practitioners might prefer to use the traditional SGLMM rather than the set of new methods to deal with spatial confounding, unless it is really necessary. The following diagnostic tool can be used in an exploratory analysis providing guidance to which model is appropriate prior to any model fit. As we saw in Figure <ref type="figure">4</ref>, when the spatial coordinates have no linear association with the covariates, our methodology has no effect on the geography. This could lead one to think that we should always correct for spatial confounding as an insurance policy. However, there is a clear price in using the methods that alleviate spatial confounding. They are more complex and hence epidemiologists and public health agents have a harder time to interpret them <ref type="bibr" target="#b6">(Hanks et al., 2015)</ref>. Next, we provide a tool based on canonical correlation suggesting either one should do the confounding correction or not.</p><p>To verify the degree of linear association between the centroids s and the covariates X, we apply the canonical correlation technique which measures how much variability the two sets share and if they have some common linear dimensions.</p><p>The main idea of the technique is to find two linear combinations U = sa and V = Xb, where a and b are 2 × 1 and q × 1, respectively, such that the correlation between U and V is maximized. The solution leads to a maximum correlation given by ρ, the largest eigenvalue of the matrix</p><formula xml:id="formula_17">S -1/2 ss S sx S -1 xx S xs S -1/2 ss</formula><p>, where S = [S ss S sx ; S xs S xx ] is the empirical covariance matrix of [s, X]. The need for spatial confounding correction is based on a statistical test of the null hypothesis that ρ = 0. There are two possible approaches, one based on an asymptotic test and another based on a Monte Carlo test.</p><p>The asymptotic test is based on the Wilks' Lambda statistic Λ, which asymptotically has a distribution F <ref type="bibr" target="#b25">(Wilks, 1935)</ref>. This statistic is a multivariate generalization of the coefficient of determination. The basic idea is to fit a multivariate regression model where the multivariate response variable is s and the covariates are composed by X. The test statistic measures the proportion of the s variability that can not be explained by the predictors in X. If this value is small, we have evidence that there is a linear relationship between the two data sets and a correction for spatial confounding should be considered. Under the normality assumption for the two matrices, s and X, or if we have a large number of observations, we have Λ following approximately an F distribution. In cases where these assumptions are not valid, we carry out a randomization test by randomly permuting the rows of either s or X.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Simulation</head><p>In this section, we present three simulation studies. The first one aims to give insights on the implications of the model assumptions to alleviate spatial confounding when using SPOCK. It also compares the results obtained by the SPOCK methodology with the competitor methods and the computational time of the available implementations.</p><p>The second study compares the effect on the spatial confounding problem obtained by SPOCK and the alternative methods when the spatial coordinates s have a non-linear dependence on the covariates X. The third, study the Type-S error rate <ref type="bibr" target="#b5">(Gelman and Tuerlinckx, 2000)</ref> and coverage of the proposed methods from an areal data perspective.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Linear confounding</head><p>Using the Slovenia map, we carry out a simulation study with a linear dependence between the covariates and the space with two main goals: 1) to understand and discuss what are the implications of the models assumptions and when it is necessary to use some spatial confounding alleviation method; 2) to compare the results of the SPOCK methodology with the existing RHZ and HH alternative models. The following model is selected to generate the data</p><formula xml:id="formula_18">Y i = β 0 + β 1 X 1i + β 2 X 2i + θ i + e i with e i ind ∼ N (0, τ e )</formula><p>and i = 1, . . . , n where θ is the spatial effect, n is the number of regions in the Slovenia map. The coefficients values are β = (2, 1, -1). We selected 3 simulation scenarios:</p><p>1. (ICAR spatial-X) The spatial effect is generated using the ICAR structure (that is, θ ∼ N (0, τ θ Q)) with covariate X 1i generated as i.i.d. N (0, 1) and covariate X 2i equal to s i1 , the first coordinate of i-th area centroid;</p><p>2. (RHZ) The spatial random effect is generated by the orthogonal RHZ proposal: θ ∼ N (0, τ θ P ⊥ Q(P ⊥ ) ). The explanatory variables are the same as in scenario 1;</p><p>3. (ICAR non-spatial-X) Its is equal to scenario 1 except that the explanatory variable X 2i is also generated from independent standard normal distribution without any spatial information.</p><p>For each scenario, we generated 1000 datasets with the following combination of τ θ and τ e , the precision of the random effects and error term, respectively: In the simulation study, to make the computation time measuring fair between SPOCK (CARBayes) and the competitor models (RHZ and HH) that are MCMC based, all MCMC models were run with a single chain of size 15000, a burnin period of 5000 samples ending with a chain of 10000 samples.</p><p>We estimate the posterior mean of the fixed effects in each one of the 1000 replications. Table <ref type="table" target="#tab_0">1</ref> in Section S1 in the supplementary material <ref type="bibr" target="#b17">(Prates et al., 2018)</ref> presents the median and 2.5% and 97.5% percentiles of these estimates. We can see that, for all scenarios, the SPOCK model provides very similar inference compared to the LM, RHZ, and HH models. The ICAR model has a slightly different behavior. When the true generating model is the ICAR spatial-X, the ICAR model apparently outperforms the other models as τ θ decreases. However, this is not so simple, as we explain soon. In the RHZ scenario, the ICAR model clearly has a large variance associated with β 2 , specially when τ θ = 0.2. This is expected because, as <ref type="bibr" target="#b20">Reich et al. (2006)</ref> show, as the ratio τ θ /τ e decreases, the confounding problem becomes severe. Finally, in the ICAR non-spatial-X scenario, with no spatial information in the explanatory variables, all models seem to present a similar behavior, independently of precision differences. From Table <ref type="table" target="#tab_0">1</ref> in Section S1 in the supplementary material, we can get two main conclusions. First, there is are major differences in the estimates provided by the SPOCK and the RHZ or HH models, making it a competitive model. The difference of the fitted parameters between the ICAR model and the other three models is large when the ratio between the spatial effect precision and the error precision is small (τ θ /τ e = 0.2). The second one, is the apparent better behavior of the ICAR model in the ICAR spatial-X scenario. We discuss that this is not necessarily so in the following. <ref type="bibr" target="#b8">Hodges and Reich (2011)</ref> discuss the interpretation of confounding in spatial regression and link it with the multicollinearity problem in linear regression. By construction, the solution proposed by <ref type="bibr" target="#b20">Reich et al. (2006)</ref> and more recently by <ref type="bibr" target="#b10">Hughes and Haran (2013)</ref> assigns to X all the spatial variation that θ and X are competing for. That is, RHZ, HH and our own method aims to estimate <ref type="bibr">7)</ref>. There is not an universal agreement around this solution. <ref type="bibr" target="#b16">Paciorek (2010)</ref> and <ref type="bibr" target="#b6">Hanks et al. (2015)</ref> argue that making the spatial random effects orthogonal to the span of X is a very strong choice to alleviate the confounding problem.</p><formula xml:id="formula_19">β * = β + (X X) -1 X [1, s 1 , s 2 ]γ in (</formula><p>To gain a better understanding of the effects of alleviating confounding we compare the β Bayesian estimate (posterior mean) with β * , rather than with β. To investigate this issue, we produce Figure <ref type="figure" target="#fig_5">5</ref>. We calculate the ratio β/β * in each one of the 1000 simulations and show them in the box plots for the 3 scenarios with τ θ = 0.2 and τ e = 1 fixed. Similar figures appear with the other values for τ θ and τ e . Each scenario is shown in a different column. The first and second rows of plots present β0 /β * 0 and β1 /β * 1 , respectively. Their coefficients β 0 and β 1 are not associated with spatial covariates. They have a similar behavior in all scenarios and the main conclusion is that the different methods produce very similar results, all of them centered around 1. The third row presents the distribution of the ratio β2 /β * 2 . The first two scenarios, ICAR spatial-X and RHZ, have β 2 associated with a covariate with spatial structure. In this case, the traditional ICAR method has a much larger variance than the methods that alleviate spatial confounding. This shows that the ICAR method is not a good choice when the aim is to assign to X all the variation shared with θ. In the ICAR non-spatial-X scenario, all methods show a similar behavior, as expected.</p><p>After demonstrating that the SPOCK model is able to deal with the spatial confounding problem and provide very similar results to RHZ and HH models, we evaluate the average time to run each algorithm in their current available implementations.  Table <ref type="table" target="#tab_1">2</ref> presents the median execution time of 1000 replicates of each model for scenario RHZ. The LM method is substantially faster than the others. However, the LM method does not take into account the spatial variation that improves modeling. Among the spatial models, SPOCK combined with R-INLA clearly outperforms the RHZ and HH implementations in running time and it has comparable time with the ICAR fit by R-INLA. The RHZ has the largest median time, while the HH method seems to run around 10 times slower than SPOCK (R-INLA) and around 35% slower than the SPOCK (CARBayes).</p><formula xml:id="formula_20">τ e = 0.2, τ θ = 1 τ e = 1, τ θ = 1 τ e = 1, τ θ = 0.2 Model Time<label>(</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Non-linear confounding</head><p>The second simulation study is focused on understanding how the methods alleviate spatial confounding when there is non-linear dependence between the spatial coordinates s and the covariates. To do so, we keep the Slovenia map and perform a simulation with the ICAR spatial-X scenario of Section 5.1 fixing τ e = 1 and τ θ = 0.2 which is the most severe confounding scheme considered.</p><p>The data are generated by the following model</p><formula xml:id="formula_21">Y i = β 0 +β 1 X 1i +β 2 g(s i1 , s i2 )+θ i +e i</formula><p>with e i ind ∼ N (0, τ e ) and i = 1, . . . , n where the coefficients values β are the same as in Section 5.1; X 1i and θ are generated according to ICAR spatial-X scenario; and X 2i = g(s i1 , s i2 ) is a non-linear function of the area centroids. To be more specific, a quadratic and a cubic scenario were created respectively as: (a</p><formula xml:id="formula_22">) X 2i = g(s i1 , s i2 ) = s 2 i1 + s 2 i2 , and (b) X 2i = g(s i1 , s i2 ) = s 3 i1 + s 3 i2 .</formula><p>For each scenario 1000 datasets were generated. As discussed in Section 5.1 we use the ratio of β/β * as a more adequate measure of the spatial confounding. For each one of the 1000 simulations the ratio was calculated and Figure <ref type="figure">1</ref> in Section S2 in the supplementary material presents the box plot of the posterior bias estimates of β/β * . SPOCK provides very similar results in comparison to the RHZ and HH models. As expected, the estimates of fixed effects β 1 related with the covariate without spatial information present a similar behavior for all methods (Figure <ref type="figure">1(</ref> <ref type="bibr">b)</ref> in Section S2 in the supplementary material). All of them alleviate the spatial confounding for non-linear dependence, as can be seen in Figure <ref type="figure">1(c</ref>) in Section S2 of the supplementary material. <ref type="bibr" target="#b6">Hanks et al. (2015)</ref> conducted a study to examine the Type-S error rate for restricted spatial regression (RSR) models and SGLMM in a geostatistical perspective. They consider that a Type-S error occurred when the regression parameters are equal to zero (β = 0 or β * = 0) and the 95% equal-tailed posterior credible interval for the regression parameter does not contain zero. In their study, they concluded that the RSR model has higher Type-S error than the traditional SGLMM.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Type-S error rates</head><p>In this Section, we present a study to verify the Type-S error as in <ref type="bibr" target="#b6">Hanks et al. (2015)</ref> and also the coverage of the regression coefficients for areal data. We used the Slovenia map and generate 1000 datasets from the following model:</p><formula xml:id="formula_23">Y i = β 0 + β 1 X 1i + β 2 X 2i + θ i + e i with e i ind ∼ N (0, τ e ) and i = 1, . . . , n.</formula><p>The number of regions in the map is n = 192 and θ is the spatial effect following an ICAR model. The coefficients values are β = (2, 1, 0) and both explanatory variables, X 1 and X 2 , are generated from independent standard normal distribution without any spatial information. We fitted the same combinations of the precision parameters τ θ and τ e used in Section 5.1. In this scenario, β = β * since there is no spatial information in X.</p><p>For each of the three scenarios, we recorded the coverage for β 1 and Type-S error for β 2 of the following models: SPOCK, RHZ, HH, ICAR, and LM. Table <ref type="table">3</ref> shows that, as the precision of the spatial random effects decreases, the RHZ model drastically increases its Type-S error. This result agrees with the conclusion presented in <ref type="bibr" target="#b6">Hanks et al. (2015)</ref>. With a smaller spatial precision, SPOCK and HH slightly overestimates the Type-S error. The other methods seem to correctly control the nominal 5% Type-S error.</p><p>Table 3 also presents the coverage rate of the 95% equal-tailed posterior credible interval for β 1 . Only the RHZ model present smaller coverage rate. As previously observed with τ e , τ θ 0.2, 1 1, 1 1, 0.2 SPOCK (R-INLA) 6.1% 7.3% 13.8% SPOCK (CARBayes) 5.9% 7.2% 14.2% Type-S RHZ 6.5% 15.7% 40.2% HH 5.6% 6.9% 11.5% ICAR 5.5% 6.1% 5.8% LM 5.6% 5.4% 6.4% SPOCK (R-INLA) 94.0% 94.0% 91.0% SPOCK (CARBayes) 94.0% 94.0% 91.0% Coverage RHZ 94.0% 88.0% 65.0% HH 94.0% 94.0% 92.0% ICAR 94.0% 94.0% 94.0% LM 95.0% 96.0% 96.0%</p><p>Table <ref type="table">3</ref>: Type-S error and coverage rates from 1000 replicates of the regression coefficients in the three scenarios for the fitted models.</p><p>the Type-S error, the coverage gets worse when the precision of the spatial effect is smaller. All other methods, including SPOCK, seem to control the coverage rate for the coefficient.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Applications</head><p>In this Section, different real data sets studied in the literature are presented to verify the presence of spatial confounding and the results presented by SPOCK in terms of estimation and computation time. bf In all real data examples, the HH model was fitted selecting half of the maximum Moran attractive eigenvectors (HH-Half) and the maximum Moran attractive eigenvectors (HH-Max). To make a fair comparison in terms of computation time between SPOCK and the competitor models (RHZ and HH) that are MCMC based, we also fitted SPOCK using the CARBayes package in addition to using INLA. To make them time comparable, all MCMC models were run with a single chain of size 50000, with a burnin period of 15000 samples ending with a chain of 35000 samples.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Slovenia dataset</head><p>The proposed model was adjusted to the same dataset used by <ref type="bibr" target="#b20">Reich et al. (2006)</ref>. The response variable Y i is the number of cases of stomach cancer observed in the municipalities of Slovenia during the 1995-2001 period. The single covariate is the standardized value of a socioeconomic status measure for each area i = 1, . . . , 192. Therefore, we have the following model Y i |λ i , ∼ Poisson(λ) with log(λ i ) = X i β + θ i and β being the fixed effect and θ the spatial effect. Using a simple exploratory analysis, the authors noticed that the data show a negative relationship between the response and the explanatory variable. This is expected based on the common knowledge of association between health risk and deprivation. Their first attempt was to fit the data with the traditional SGLMM to capture the spatial heterogeneity. However, from Figure <ref type="figure" target="#fig_6">6</ref>(a), it is clear that the explanatory variable has a diagonal spatial trend, presenting higher values in the southwest and smaller in the northeast. This is confirmed by the highly significant Moran index, with I = 0.55 with p-value approximately equal to zero. This is an indication of the presence of confounding between the random spatial effects and the socioeconomic level. The pattern in this dataset is similar to what we simulated in Section 3 when we took X i = s i1 + s i2 (see Figure <ref type="figure">4(b)</ref>). After the SGLMM model was fitted by <ref type="bibr" target="#b20">Reich et al. (2006)</ref>, the coefficient associated with the socioeconomic level had a very wide credibility interval that covered even positive values. That is, the negative covariate effect disappeared.</p><p>Using our diagnostic test from Section 4, we can verify if there is evidence of spatial confounding. Calculating the first canonical correlation between the spatial centroids s and the covariate X, we find it equal to 0.670. This value is highly significant according to both, the asymptotic and the permutation test, obtained from <ref type="bibr" target="#b14">Menzel (2012)</ref>. The value is also high in absolute terms, indicating that the random spatial effects will be mixed up with the covariate effects.</p><p>To better understand the confounding effect between the explanatory variable and the random effects, we look at the spatial residuals from the ICAR model. From <ref type="bibr">Figure 6(b)</ref>, it is clear that both, the spatial random effect and the explanatory variable, share a southwest to northeast trend and therefore are competing for the spatial variability contained in the response Y i . Figure <ref type="figure" target="#fig_6">6(c</ref>) show the posterior mean estimates for the spatial effects under our SPOCK (R-INLA) model. After alleviating the spatial confounding, there is still some spatial trend left in the same southwest to northeast direction. However, the spatial dependence now is weaker and the spatial effects are smoothed toward zero. This is expected since, after alleviating the spatial confounding, we assume that the exploratory variable carries most of the spatial information in Y i . Although weaker, it is important to notice that the spatial random effect structure from the SPOCK (R-INLA) model is still coherent with the space under analysis.</p><p>Table <ref type="table" target="#tab_2">4</ref> shows the posterior mean estimates and credible intervals obtained applying all discussed models. The SPOCKs point estimate and credible interval are similar to those from the RHZ and HH-Max models. The HH-Half provide slightly different results than the other models. This could be due to a non adequate choice of the number of Moran attractive eigenvectors. As it can be seen in the last column of Table 4: Posterior mean estimate and credible intervals of the coefficient associated with the socioeconomic variable (Se) for the five fitted models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">SIDS dataset</head><p>As a second example we fitted the models for the sudden infant death syndrome (SIDS) dataset, collected in the 100 counties of the North Carolina state during the year of 1974. These data were used by <ref type="bibr" target="#b4">Cressie (1991)</ref>. <ref type="bibr" target="#b21">Rodrigues and Assunção (2012)</ref> extended these analyzes including covariates that explain the county mortality rate. We include in our models one of these covariates, the percentage of mothers who had prenatal care. The Moran index is equal to I = 0.29 with p-value approximately equal to zero, which indicates the presence of spatial correlation. From Figure <ref type="figure" target="#fig_7">7</ref>, the centroids configuration is somewhat altered after the projection. The canonical correlation with the centroids is large, 0.394, and this value is significant according to the asymptotic test and the permutation test. The first two columns of Table <ref type="table" target="#tab_3">5</ref> show the parameter estimates for all models. The ICAR and HH-Half models are the ones for which the parameter seemed to be non-significant. The HH-Half was not able to alleviate the spatial confounding in this example, while HH-Max provide different estimates from the other methods but at least a significant one. The confidence intervals obtained for the other models were very close to each other. The last column of this table shows the required time to fit the models, and again, SPOCK has a much better performance in both cases than the RHZ and HH fits.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.3">Scotland dataset</head><p>The models were also fitted to the famous lip cancer dataset recorded in Scotland districts from 1975 to 1986 <ref type="bibr" target="#b2">(Breslow and Clayton, 1993)</ref>. The covariate used in this case was the workforce percentage in each district employed in agriculture, fishing and forestry. According to the Moran index, this variable does not have a spatial structure (I = 0.07 and p-value = 0.16). The canonical correlation between the centroids and the covariate is small, 0.196, and not significant, suggesting that spatial confounding may not be present. Figure <ref type="figure" target="#fig_8">8</ref> shows that the centroids arrangement on the map is practically unchanged after their projection in the orthogonal space of this covariate. Table <ref type="table" target="#tab_4">6</ref> presents the results obtained after the estimation of the three models. The values estimated by all models are very similar to each other, as expected. And again, the proposed model outperforms its competitors implementations with both, using INLA (R-INLA) and MCMC (CARBayes).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusion</head><p>In this paper, we introduced an alternative way to alleviate spatial confounding. The main idea is to construct a graph capable of capturing the spatial dependence orthogonal to the space generated by the span of X. By doing so, the introduced method maintains the original sparsity of the precision matrix Q and introduces no restriction in the spatial modeling setup. As one reviewer pointed out, "the asymptotics are not clear when the size of the areal regions shrink toward zero and the density of spatial units increases, leading to continuous spatial support rather than discrete." In particular, the type of folding that <ref type="bibr" target="#b24">Sampson and Guttorp (1992)</ref> caution against may also be an issue here. Therefore, it is not clear to us if our method can be extended to the continuous setting by an asymptotic argument. However, we think that for many applied researchers dealing with areal data this asymptotic approach is not of concern because it is artificial to think on a limiting process in this situation. For example, consider the case of Bayesian disease mapping.</p><p>One needs risk population (and cases) in each small area and it does seem awkward to imagine a limiting process where the area is reduced to zero and hence no population is possible inside it. This is an interesting mathematical issue but we think that most areal data researchers will be concerned and limited to work with areas bounded from below.</p><p>From our simulation study and real data examples, we were able to show that the SPOCK approach provides similar results to the other methods that alleviate confounding. These alternative models project the spatial random effects on the orthogonal space spanned by X. Instead, SPOCK projects the original geographical structure on that same vector space. In all simulated scenarios and real data analyses, our method was faster than the available implementations of the other existing methodologies. This advantage can make it attractive to researchers in different areas, specially when working with very large spatial datasets. Another advantage is that our method can be used with any usual ICAR implementation such as R-INLA, WinBUGS, OpenBUGS, and CARBayes.</p><p>We showed that, when no spatial confounding is present, it does not matter which method one uses. However, when this is not the case, running the usual ICAR produces different coefficients and inference from those obtained from the three methods to alleviate spatial confounding. The reason for this behavior is that these two classes of models estimate different parameters. While ICAR estimates β, the others estimate β * . Specific application considerations should guide which parameter is more meaningful. In the common situation where the spatial effects θ represent geographically structured nuisance effects, it may be desirable to assign to X all spatial variation shared with the random spatial effect θ and hence, to estimate β * . However, as mentioned by <ref type="bibr" target="#b16">Paciorek (2010)</ref>, the data generating system may have a non-observed spatial confounder with the observed explanatory variables and setting all spatial variation to the observed covariates may not be appropriate.</p><p>As seen in the simulation study, the SPOCK methodology has coverage close to the nominal value and controls for the Type-S error, having a slight inflation when the spatial random effect has large variability. This is a nice property since the RHZ model can severely inflate the Type-S error and severely deflate the coverage rate. Another nice property is that SPOCK inspires a diagnostic test to decide when we should carry out the correction for spatial confounding. It is simple and can be calculated previous to any model fitting. When there is no spatial confounding, fitting ICAR will lead to the same inference as the spatial confounding alleviating methods as β and β * are the same. However, fitting ICAR in the other situation, when there is unobserved spatial confounders, leads to an estimate of β, rather than of β * . The user should be aware of these differences so he does not use one believing to have the other.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>) where R(s 1 , s 2 , s 10 , s 20 )/||h|| goes to zero as h = (s 1 -s 10 , s 2 -s 20 ) → 0. The remainder R(s 1 , s 2 , s 10 , s 20 ) is a quadratic form given by h H(r)h where H(r) is the ψ Hessian matrix evaluated at a point r that lies somewhere between (s 1 , s 2 ) and (s 10 , s 20 ). The value of R(s 1 , s 2 , s 10 , s 20 ) is bounded by the largest eigenvalue modulus of the Hessian matrix H(r) as we vary (s 1 , s 2 ) (and hence, r).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Graphical model representation of the models: (a) usual ICAR model; (b) ICAR with some nodes decomposed; (c) RHZ and HH models; (d) SPOCK model.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: (a) Original centroids of the Slovenia. (b) New centroids after projecting the original centroids coordinates into the vector space orthogonal to the span of X.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>Figure 4: (a) Original Slovenia map. (b) Reconstructed adjacency matrix when X is a linear trend of the centroids coordinates. (c) Reconstructed adjacency matrix when X is a quadratic trend of the centroids coordinates (d) Reconstructed adjacency matrix when X is a cubic trend of the centroids coordinates.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>(a) τ e = 0.2 and τ θ = 1; (b) τ e = 1 and τ θ = 1; (c) τ e = 1 and τ θ = 0.2, to study their effects in model estimation and each running time. For each one of the nine scenarios, the posterior estimates of the following models were recorded: 1) SPOCK, 2) RHZ, 3) HH, 4) ICAR, 5) linear model (LM), as well as their execution time. The R software (R Development Core Team, 2011) was used to fit all proposed models. For the RHZ model, we used the R script freely available in http://www4.stat.ncsu.edu/ ~reich/Code/. The HH model was fitted using the R package ngspatial (Hughes and Cui, 2017, version 1.2) with half of the maximum Moran attractive eigenvectors. To fit the LM and ICAR models, we used the R-INLA package. Finally, SPOCK was fitted with one INLA version (SPOCK (R-INLA)) and one MCMC version (SPOCK (CARBayes)). Therefore, our time comparison is between the available implementation of the methods and not the computational complexity of the algorithms involved.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: (a) Posterior estimates for β 0 under the different models. (b) Posterior estimates for β 1 under the different models. (c) Posterior estimates for β 2 under the different models.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 6 :</head><label>6</label><figDesc>Figure 6: (a) Standardized socioeconomic level for the municipalities of Slovenia. (b) Posterior mean estimates for spatial random effects of the ICAR model. (c) Posterior mean estimates for spatial random effects of the SPOCK (R-INLA) model.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 7 :</head><label>7</label><figDesc>Figure 7: (a) Original centroids of North Carolina. (b) New centroids after projecting the original centroids coordinates into the vector space orthogonal to the span of X.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 8 :</head><label>8</label><figDesc>Figure 8: (a) Original centroids of Scotland. (b) New centroids after projecting the original centroids coordinates into the vector space orthogonal to the span of X.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Percentage agreement in the zero-one pattern between the original graph precision matrix and the projected precision matrices.</figDesc><table><row><cell></cell><cell cols="2">avg. Sensitivity</cell><cell cols="2">avg. Recall</cell></row><row><cell></cell><cell cols="4">Delaunay Knn Delaunay Knn</cell></row><row><cell>48 U.S. state maps</cell><cell>91.9</cell><cell>96.1</cell><cell>80.7</cell><cell>85.3</cell></row><row><cell>26 Brazilian state maps</cell><cell>91.9</cell><cell>96.7</cell><cell>80.5</cell><cell>86.6</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Median execution time (in seconds) from 1000 replicates in scenario 2 (RHZ) and the execution standard deviation (sd) of the evaluation time of each method.</figDesc><table><row><cell></cell><cell>sec)</cell><cell>sd</cell><cell>Time (sec)</cell><cell>sd</cell><cell>Time (sec)</cell><cell>sd</cell></row><row><cell>SPOCK (R-INLA)</cell><cell>0.466</cell><cell>0.025</cell><cell>0.471</cell><cell>0.033</cell><cell>0.487</cell><cell>0.047</cell></row><row><cell>SPOCK (CARBayes)</cell><cell>2.750</cell><cell>0.067</cell><cell>2.758</cell><cell>0.068</cell><cell>2.750</cell><cell>0.069</cell></row><row><cell>RHZ</cell><cell>38.911</cell><cell>0.141</cell><cell>38.995</cell><cell>0.153</cell><cell>39.193</cell><cell>0.281</cell></row><row><cell>HH</cell><cell>3.700</cell><cell>0.049</cell><cell>3.710</cell><cell>0.050</cell><cell>3.701</cell><cell>0.054</cell></row><row><cell>ICAR</cell><cell>0.429</cell><cell>0.033</cell><cell>0.385</cell><cell>0.041</cell><cell>0.353</cell><cell>0.076</cell></row><row><cell>LM</cell><cell>0.131</cell><cell>0.002</cell><cell>0.134</cell><cell>0.002</cell><cell>0.131</cell><cell>0.013</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 4 ,</head><label>4</label><figDesc>SPOCK outperforms the other non-confounding methods algorithms in terms of running time.</figDesc><table><row><cell>Model</cell><cell>β</cell><cell cols="2">90% Credible Interval Time (sec)</cell></row><row><cell>SPOCK (R-INLA)</cell><cell>-0.1214</cell><cell>(-0.1674, -0.0752)</cell><cell>2.64</cell></row><row><cell cols="2">SPOCK (CARBayes) -0.1186</cell><cell>(-0.1706, -0.0672)</cell><cell>18.10</cell></row><row><cell>RHZ</cell><cell>-0.1216</cell><cell>(-0.1665, -0.0759)</cell><cell>249.49</cell></row><row><cell>HH-Half</cell><cell>-0.0798</cell><cell>(-0.1257, -0.0342)</cell><cell>24.45</cell></row><row><cell>HH-Max</cell><cell>-0.1157</cell><cell>(-0.1556, -0.0749)</cell><cell>25.05</cell></row><row><cell>ICAR</cell><cell>-0.0380</cell><cell>(-0.0999, 0.0259)</cell><cell>0.42</cell></row><row><cell>LM</cell><cell>-0.1358</cell><cell>(-0.1682, -0.1032)</cell><cell>0.22</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 5 :</head><label>5</label><figDesc>Posterior mean estimate and credible intervals of the coefficient associated with the prenatal variable for the five fitted models.</figDesc><table><row><cell>Model</cell><cell>β</cell><cell cols="2">90% Credible Interval Time (sec)</cell></row><row><cell>SPOCK (R-INLA)</cell><cell>-1.2719</cell><cell>(-2.3515, -0.1925)</cell><cell>0.99</cell></row><row><cell cols="2">SPOCK (CARBayes) -1.2479</cell><cell>(-2.3577, -0.0988)</cell><cell>11.51</cell></row><row><cell>RHZ</cell><cell>-1.5297</cell><cell>(-2.7348, -0.2748)</cell><cell>78.50</cell></row><row><cell>HH-Half</cell><cell>-0.7498</cell><cell>(-1.6825, 0.1836)</cell><cell>20.53</cell></row><row><cell>HH-Max</cell><cell>-0.9476</cell><cell>(-1.8125, -0.0678)</cell><cell>22.52</cell></row><row><cell>ICAR</cell><cell>-0.6244</cell><cell>(-1.9563, 0.7514)</cell><cell>1.04</cell></row><row><cell>LM</cell><cell>-1.1499</cell><cell>(-1.9668, -0.3167)</cell><cell>0.20</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 6 :</head><label>6</label><figDesc>Posterior mean estimates and credible intervals of the coefficient associated with the workforce variable for the five fitted models.</figDesc><table><row><cell>Model</cell><cell>β</cell><cell cols="2">90% Credible Interval Time (sec)</cell></row><row><cell>SPOCK (R-INLA)</cell><cell>0.0681</cell><cell>(0.0450, 0.0912)</cell><cell>0.86</cell></row><row><cell cols="2">SPOCK (CARBayes) 0.0574</cell><cell>(0.0326, 0.0823)</cell><cell>8.79</cell></row><row><cell>RHZ</cell><cell>0.0697</cell><cell>(0.0531, 0.0864)</cell><cell>37.66</cell></row><row><cell>HH-Half</cell><cell>0.0693</cell><cell>(0.0567, 0.0828)</cell><cell>18.82</cell></row><row><cell>HH-Max</cell><cell>0.0668</cell><cell>(0.0531, 0.0798)</cell><cell>19.38</cell></row><row><cell>ICAR</cell><cell>0.0625</cell><cell>(0.0431, 0.0815)</cell><cell>0.68</cell></row><row><cell>LM</cell><cell>0.0737</cell><cell>(0.0639, 0.0835)</cell><cell>0.23</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>We acknowledge support from <rs type="funder">CNPq</rs>, <rs type="funder">CAPES</rs>, and <rs type="funder">FAPEMIG, Brazilian</rs> scientific research funding agencies.</p></div>
+			</div>
+			<listOrg type="funding">
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Material</head><p>Alleviating spatial confounding for areal data problems by displacing the geographical centroids: Supplementary Material (DOI: <ref type="url" target="https://doi.org/10.1214/18-BA1123SUPP">10.1214/18-BA1123SUPP;</ref> .pdf). The supplementary material present some results for the simulation studies of the paper.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Spatial interaction and the statistical analysis of lattice data systems (with discussion)</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+		<idno>MR0373208. 624</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society, Series B</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page">628</biblScope>
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Bayesian image restoration with two application in spatial statistics (with discussion)</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>York</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mollie</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/BF00116466</idno>
+		<idno>MR1105822</idno>
+		<ptr target="https://doi.org/10.1007/BF00116466.623" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Institute Statistical Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page">628</biblScope>
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Approximate inference in generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">E</forename><surname>Breslow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Clayton</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2291379</idno>
+		<idno>MR1394064</idno>
+		<ptr target="https://doi.org/10.2307/2291379" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">421</biblScope>
+			<biblScope unit="page">642</biblScope>
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Spatial correlation in ecological analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Clayton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bernardinelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Montomoli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page">626</biblScope>
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Statistics for spatial data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<idno>MR1127423</idno>
+		<imprint>
+			<date type="published" when="1991">1991</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<biblScope unit="volume">625</biblScope>
+			<biblScope unit="page">642</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Type s error rates for classical and bayesian single and multiple comparison procedures</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Tuerlinckx</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="373" to="390" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression in practice: geostatistical models, confounding, and robustness under model misspecification</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/env.2331</idno>
+		<ptr target="https://doi.org/10.1002/env.2331.624" />
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">639</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+	<note>MR</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">The bayesian group lasso for confounded spatial data</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hefley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Russell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Walsh</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s13253-016-0274-1</idno>
+		<idno>13253-016-0274-1. 624</idno>
+		<ptr target="https://doi.org/10.1007/s" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">634</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Adding Spatially-Correlated Errors Can Mess Up the Fixed Effect You Love</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<idno type="DOI">10.1198/tast.2010.10052</idno>
+		<idno>MR2758564</idno>
+		<ptr target="https://doi.org/10.1198/tast.2010.10052" />
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">636</biblScope>
+			<date type="published" when="2011-01">2011. January</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">ngspatial: Fitting the Centered Autologistic and Sparse Spatial Generalized Linear Mixed Models for Areal Data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Cui</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<pubPlace>Denver, CO</pubPlace>
+		</imprint>
+	</monogr>
+	<note>R package version 1.2. 635</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Dimension reduction and alleviation of confounding for spatial generalized linear mixed models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hughes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Haran</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-9868.2012.01041.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1467-9868.2012.01041.x.624" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society, Series B</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page">636</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+	<note>MR</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">CARBayes: An R package for Bayesian spatial modeling with conditional autoregressive priors</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">13</biblScope>
+			<biblScope unit="page">625</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Estimation of disease rates in small areas: A new mixed model for spatial dependence</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">G</forename><surname>Leroux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Breslow</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-1-4612-1284-3_4</idno>
+		<idno>MR1731684</idno>
+		<ptr target="https://doi.org/10.1007/978-1-4612-1284-34.624" />
+	</analytic>
+	<monogr>
+		<title level="m">Statistical Models in Epidemiology; the Environment and Clinical Trials</title>
+		<editor>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Halloran</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><surname>Berry</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="1999">1999</date>
+			<biblScope unit="volume">627</biblScope>
+			<biblScope unit="page">628</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">WinBUGS -a Bayesian modelling framework: Concepts, structure, and extensibility</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Lunn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Best</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Spiegelhalter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Computing</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="325" to="337" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">CCP: Significance Tests for Canonical Correlation Analysis (CCA). R package version 1</title>
+		<author>
+			<persName><forename type="first">U</forename><surname>Menzel</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="page">641</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Random effects specifications in eigenvector spatial filtering: a simulation study</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="311" to="331" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">The importance of scale for spatial-confounding bias and precision of spatial regression estimators</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/10-STS326</idno>
+		<idno>MR2741817</idno>
+		<ptr target="https://doi.org/10.1214/10-STS326" />
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page">644</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Alleviating spatial confounding for areal data problems by displacing the geographical centroids: Supplementary Material</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Prates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Assunção</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Rodrigues</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/18-BA1123SUPP</idno>
+		<ptr target="https://doi.org/10.1214/18-BA1123SUPP" />
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Analysis</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<author>
+			<orgName type="collaboration">R Development Core Team</orgName>
+		</author>
+		<title level="m">R: A Language and Environment for Statistical Computing</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<title level="m">R Foundation for Statistical Computing</title>
+		<meeting><address><addrLine>Vienna, Austria</addrLine></address></meeting>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Effects of residual smoothing on the posterior of the fixed effects in disease-mapping models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Zadnik</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1541-0420.2006.00617.x</idno>
+		<idno>MR2307445</idno>
+		<ptr target="https://doi.org/10.1111/j.1541-0420.2006.00617.x.624" />
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page">641</biblScope>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Bayesian spatial models with a mixture neighborhood structure</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Rodrigues</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Assunção</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jmva.2012.02.017</idno>
+		<idno>MR2922856</idno>
+		<ptr target="https://doi.org/10.1016/j.jmva.2012.02.017.624" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="issue">0</biblScope>
+			<biblScope unit="page">642</biblScope>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Gaussian Markov random fields: Theory and applications</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Held</surname></persName>
+		</author>
+		<idno type="DOI">10.1201/9780203492024</idno>
+		<idno>MR2130347</idno>
+		<ptr target="https://doi.org/10.1201/9780203492024" />
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>Chapman &amp; Hall</publisher>
+			<biblScope unit="volume">623</biblScope>
+			<biblScope unit="page">628</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Approximate bayesian inference for latent gaussian models using integrated nested laplace approximations (with discussion)</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Martino</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Chopin</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-9868.2008.00700.x</idno>
+		<idno>MR2649602</idno>
+		<ptr target="https://doi.org/10.1111/j.1467-9868.2008.00700.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society, Series B</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page">632</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation of nonstationary spatial covariance structure</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Sampson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Guttorp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="issue">417</biblScope>
+			<biblScope unit="page">644</biblScope>
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">On the independence of k sets of normally distributed statistical variables</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wilks</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Econometric Society</title>
+		<imprint>
+			<biblScope unit="volume">634</biblScope>
+			<biblScope unit="page" from="309" to="326" />
+			<date type="published" when="1935">1935</date>
+		</imprint>
+	</monogr>
+	<note>Econometrica</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Analysis of the relationship between socioeconomic factors and stomach cancer incidence in Slovenia</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Zadnik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Neoplasma</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="103" to="110" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

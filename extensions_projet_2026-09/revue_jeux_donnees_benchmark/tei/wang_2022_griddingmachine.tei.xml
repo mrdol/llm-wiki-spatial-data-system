@@ -1,0 +1,1116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">GriddingMachine, a database and software for Earth system modeling at global and regional scales</title>
+				<funder>
+					<orgName type="full">Heising-Simons Foundation</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Eric and Wendy Schmidt</orgName>
+				</funder>
+				<funder ref="#_Wkch9NQ #_5TNrwV2">
+					<orgName type="full">NASA</orgName>
+				</funder>
+				<funder ref="#_DzyVeXp">
+					<orgName type="full">Carbon Cycle Science</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Universities Space Research Association</orgName>
+				</funder>
+				<funder ref="#_DaQYV3m">
+					<orgName type="full">National Aeronautics and Space Administration</orgName>
+					<orgName type="abbreviated">NASA</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">European Commission</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">European Centre for Medium-Range Weather Forecasts</orgName>
+					<orgName type="abbreviated">ECMWF</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Yujie</forename><surname>Wang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Division of Geological and Planetary Sciences</orgName>
+								<orgName type="institution">California Institute of Technology</orgName>
+								<address>
+									<addrLine>1200 E California Blvd</addrLine>
+									<postCode>91125</postCode>
+									<settlement>Pasadena</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Philipp</forename><surname>Köhler</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Division of Geological and Planetary Sciences</orgName>
+								<orgName type="institution">California Institute of Technology</orgName>
+								<address>
+									<addrLine>1200 E California Blvd</addrLine>
+									<postCode>91125</postCode>
+									<settlement>Pasadena</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Renato</forename><forename type="middle">K</forename><surname>Braghiere</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="laboratory">Jet Propulsion Laboratory</orgName>
+								<orgName type="institution">California Institute of Technology</orgName>
+								<address>
+									<addrLine>4800 Oak Grove Dr</addrLine>
+									<postCode>91109</postCode>
+									<settlement>Pasadena</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution" key="instit1">Joint Institute for Regional Earth System Science and Engineering</orgName>
+								<orgName type="institution" key="instit2">University of California</orgName>
+								<address>
+									<addrLine>405 Hilgard Avenue</addrLine>
+									<postCode>90095</postCode>
+									<settlement>Los Angeles Los Angeles</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Marcos</forename><surname>Longo</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="laboratory">Jet Propulsion Laboratory</orgName>
+								<orgName type="institution">California Institute of Technology</orgName>
+								<address>
+									<addrLine>4800 Oak Grove Dr</addrLine>
+									<postCode>91109</postCode>
+									<settlement>Pasadena</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff3">
+								<orgName type="department">climate and ecosystem Sciences Division</orgName>
+								<orgName type="institution">Lawrence Berkeley National Laboratory</orgName>
+								<address>
+									<addrLine>1 Cyclotron Rd</addrLine>
+									<postCode>94720</postCode>
+									<settlement>Berkeley</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Russell</forename><surname>Doughty</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Division of Geological and Planetary Sciences</orgName>
+								<orgName type="institution">California Institute of Technology</orgName>
+								<address>
+									<addrLine>1200 E California Blvd</addrLine>
+									<postCode>91125</postCode>
+									<settlement>Pasadena</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff4">
+								<orgName type="department">College of Atmospheric &amp; Geographic Sciences</orgName>
+								<orgName type="institution">University of Oklahoma</orgName>
+								<address>
+									<addrLine>660 Parrington Oval</addrLine>
+									<postCode>73019</postCode>
+									<settlement>Norman</settlement>
+									<region>Oklahoma</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><surname>Anthony Bloom</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="laboratory">Jet Propulsion Laboratory</orgName>
+								<orgName type="institution">California Institute of Technology</orgName>
+								<address>
+									<addrLine>4800 Oak Grove Dr</addrLine>
+									<postCode>91109</postCode>
+									<settlement>Pasadena</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Christian</forename><surname>Frankenberg</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Division of Geological and Planetary Sciences</orgName>
+								<orgName type="institution">California Institute of Technology</orgName>
+								<address>
+									<addrLine>1200 E California Blvd</addrLine>
+									<postCode>91125</postCode>
+									<settlement>Pasadena</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="laboratory">Jet Propulsion Laboratory</orgName>
+								<orgName type="institution">California Institute of Technology</orgName>
+								<address>
+									<addrLine>4800 Oak Grove Dr</addrLine>
+									<postCode>91109</postCode>
+									<settlement>Pasadena</settlement>
+									<region>California</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">GriddingMachine, a database and software for Earth system modeling at global and regional scales</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">73271893F8499A2C1398CF1B4B6CDC3E</idno>
+					<idno type="DOI">10.1038/s41597-022-01346-x</idno>
+					<note type="submission">Received: 9 March 2022; Accepted: 4 May 2022;</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Land and Earth system modeling is moving towards more explicit biophysical representations, requiring increasing variety of datasets for initialization and benchmarking. However, researchers often have difficulties in identifying and integrating non-standardized datasets from various sources. We aim towards a standardized database and one-stop distribution method of global datasets. Here, we present the GriddingMachine as (1) a database of global-scale datasets commonly used to parameterize or benchmark the models, from plant traits to vegetation indices and geophysical information and (2) a cross-platform open source software to download and request a subset of datasets with only a few lines of code. the GriddingMachine datasets can be accessed either manually through traditional HttP, or automatically using modern programming languages including Julia, Matlab, Octave, Python, and R. the GriddingMachine collections can be used for any land and Earth modeling framework and ecological research at the regional and global scales, and the number of datasets will continue to grow to meet the increasing needs of research communities.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Land components in Earth system models (ESMs) are moving towards more explicit biophysical representation. For example, in the modeling of the soil-plant-air continuum, vegetation canopy complexity has increased from a single big-leaf to a multi-layered modeling approach including leaf angular distributions <ref type="bibr" target="#b0">1</ref> , thus allowing for more realistic and predictive simulations, bridging Earth surface processes with remote sensing <ref type="bibr" target="#b1">2</ref> . Further, the use of plant trait-and process-based stomatal models are also drawing more attention given the improved predictive skills compared to empirical representations <ref type="bibr" target="#b2">[3]</ref><ref type="bibr" target="#b3">[4]</ref><ref type="bibr" target="#b4">[5]</ref> and more direct link to plant physiological status <ref type="bibr" target="#b5">6</ref> . However, implementing these biophysical representations globally has been challenging due to the lack of a complete suite of global soil and plant traits and the difficulties to assess model simulations.</p><p>The capability of recently developed terrestrial biosphere models in simulating plant physiological processes and canopy optical properties and bridging them to remote sensing makes it possible to constrain Earth surface processes using remote sensing data <ref type="bibr" target="#b6">[7]</ref><ref type="bibr" target="#b7">[8]</ref><ref type="bibr" target="#b8">[9]</ref><ref type="bibr" target="#b9">[10]</ref> . Notably, increasing volume and types of global scale ecological datasets, products, and databases are largely being made publicly available in recent years, such as multiple decades of satellite-based maps of vegetation indices from Moderate Resolution Imaging Spectroradiometer (MODIS) instruments. These global scale datasets may serve as initial or boundary conditions or as benchmark standards for the ESMs <ref type="bibr" target="#b10">11,</ref><ref type="bibr" target="#b11">12</ref> .</p><p>However, in parallel to the great promise of the ever-increasing volume of data, harnessing these datasets is becoming a considerable challenge for the research communities. Typical day-to-day challenges for researchers emerge because the datasets (1) are posted and stored at different websites; (2) have different formats (e.g., GeoTIFF and NetCDF files); (3) may not be usable directly out of the box (e.g., data is converted to Bytes for smaller size, and thus re-scaling is required); (4) have different orientations (e.g., some from Southern to Northern Hemisphere, and vice versa); (5) have different latitude and longitude setups (e.g., some exclude high latitude regions); (6) have different projections (e.g., cylindrical and pseudo-cylindrical); and (7) may have different and non-standard units. These limitations pose substantial barriers even for experienced programmers, given the time required to find and reformat the data. Particularly, it is very inconvenient for both beginners and experienced researchers who may just require a tailored subset of these broadly available scientific datasets. For instance, one may need to download the entire global dataset to obtain information for a few sites or a small region.</p><p>The emergence of the Google Earth Engine (GEE) <ref type="bibr" target="#b12">13</ref> has largely advanced data sharing and reuse, and the cloud computing platform provided further relaxes the need for extensive local storage and computation resource. However, GEE is not always the best solution for researchers given that users do not have direct control over the datasets for easier offline analysis and debugging. Most importantly, many public datasets circulate within the research communities but are not converted to GEE images. In comparison, the Application for Extracting and Exploring Analysis Ready Samples (AppEEARS) and European Centre for Medium-Range Weather Forecasts (ECMWF) offer users simple and efficient ways to request raw data subsets (limited to their own datasets; need to register, and download and manage the subsets manually). Therefore, it remains a question how to more effectively share, manage, and reuse these community-based datasets stored on local hard drives. One way to circumvent this issue is to build a database for these community datasets and label each with a unique easy-to-read tag. Using tags to automatically download and manage the datasets would largely simplify the user end operations and facilitate the data reuse.</p><p>Our aim is to create and maintain such a standardized collection of globally spanning datasets for biophysical representations in ESMs. Therefore, we need to resolve the problems listed above and distribute standardized datasets using tags. Our solution, GriddingMachine, is a one-stop shop for downloading, storing, exploring, and jointly extracting multiple datasets we have collected and reprocessed. GriddingMachine was initially developed in the Julia programming language <ref type="bibr" target="#b13">14</ref> to parameterize a new-generation ESM developed by the Climate Modeling Alliance (CliMA), particularly the land component-CliMA Land <ref type="bibr" target="#b8">9,</ref><ref type="bibr" target="#b14">15,</ref><ref type="bibr" target="#b15">16</ref> . We have further generalized the model for the purpose of processing and distributing datasets by adding more global scale datasets other than the land parameters (such as remote sensing based products), and providing more user interfaces through HTTP, Matlab, Octave, Python, and R in addition to Julia (Fig. <ref type="figure" target="#fig_0">1</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>Each dataset in GriddingMachine database is labeled with a unique tag following a general naming pattern: LABEL_(EXTRALABEL_)IX_JT_(YEAR_)VK, where EXTRALABEL and YEAR are optional (Table <ref type="table" target="#tab_0">1</ref>). Here, LABEL is the major data identifier (e.g., GPP for gross primary productivity), EXTRALABEL is the secondary data identifier to distinguish datasets within a collection (for example, GPP from different models), IX indicates the spatial resolution is 1/I°, JT represents the temporal resolution (H for hour, D for day, M for month, and Y for year), and VK means the dataset version within our collection (V1 for data from publication 1, and VN for data from publication N). For example, LAI_MODIS_20X_1 M_2008_V1 stands for leaf area index (LAI) from MODIS at 1/20° spatial resolution and 1 month temporal resolution for the year 2008, and V1 indicates that the dataset is the first LAI collection; VCMAX_2X_1Y_V2 stands for maximum carboxylation rate (V cmax ) at 1/2° spatial resolution and 1-year temporal resolution, and V2 indicates that the dataset is the second V cmax collection.</p><p>Although we aim for automatic and convenient data access within diverse programming languages, we still provide traditional data access from HTTP servers. The compressed datasets can be manually downloaded from an open data archive hosted on CaltechDATA <ref type="bibr" target="#b16">17</ref> . </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Julia support.</head><p>We provide Julia language support using GriddingMachine.jl (v0.2, requires Julia 1.6+), which include three tested sub-modules: Collector, Indexer, and Requestor (Fig. <ref type="figure">2</ref>). Collector is responsible for downloading and managing datasets; Indexer is responsible for reading downloaded datasets; and Requestor is responsible for requesting a subset of data directly from our server without downloading the datasets. To install GriddingMachine.jl, one may simply type the following in Julia REPL (read-eval-print loop): Below, we introduce only the fundamental features of GriddingMachine.jl, and refer the readers to our online documentation for more details about GriddingMachine.jl at <ref type="url" target="https://clima.github.io/GriddingMachine.jl/stable/">https://clima.github.io/GriddingMachine.  jl/stable/</ref>. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Download data.</head><p>We classify the datasets into different collections using the GriddedCollection structure, which includes the following fields:</p><p>• LABEL: a string that appears in file names, such as LAI;</p><p>• SUPPORTED_COMBOS: an array of string for supported combinations, such as [MODIS_2X_8D_2018_V1, MODIS_2X_8D_2019_V1, MODIS_2X_8D_2020_V1]; • DEFAULT_COMBO: a string of the default combination, such as MODIS_2X_8D_2020_V1.</p><p>Currently, we have a total of 19 categories of dataset (column Dataset type in Table <ref type="table" target="#tab_0">1</ref>), and 19 functions to construct these GriddedCollection structures accordingly:</p><formula xml:id="formula_0">• biomass_collection • canopy_height_collection • clumping_index_collection • elevation_collection • gpp_collection • lai_collection • land_mask_collection • leaf_nitrogen_collection • leaf_phosphorus_collection • pft_collection • sif_collection • sil_collection • sla_collection • soil_color_collection • soil_hydraulics_collection • surface_area_collection • tree_density_collection • vcmax_collection • wood_density_collection</formula><p>For example, one can define a LAI collection and check supported combinations using the following commands:</p><p>Function query_collection returns the path to the dataset (Julia will download the file automatically to folder ~/.julia/artifacts if the dataset does not exist):</p><p>Fig. <ref type="figure">2</ref> Framework of GriddingMachine.jl package (v0.2). GriddingMachine.jl contains three sub-modules: Collector, Indexer, and Requestor. Collector downloads and manages the datasets; Indexer reads the downloaded datasets; and Requestor requests a subset of data directly from the server without downloading the datasets.</p><p>The first method returns the path to default combination; and the second and third methods return the path to target dataset.</p><p>Function clean_collection! cleans up the downloaded datasets:</p><p>The first and second methods clean up all outdated datasets that were not in Artifacts.toml; the third method cleans up all GriddingMachine datasets; the fourth method cleans up all selected datasets; and the last method cleans up all datasets in a collection.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Read downloaded data.</head><p>With the dataset path from query_collection, we are able to load the data using function read_LUT (meaning read look-up-table) in Indexer. The supported methods are The first method loads the entire dataset (3D array in the example above); the second method loads the 8th layer of the dataset (only applicable for 3D datasets); the third method returns all the data at a given latitude (30.1°) and longitude (116.1°); and the last method returns only data on the given latitude (30.1°), longitude (116.1°), and cycle index (8). For the third and last methods, option interpolation is false by default and the function returns data that falls into the grid (latitude from 30 to 30.5° and longitude from 116 to 116.5° in this example). If option interpolation is true, we use the bi-linear interpolation method, and the function returns linearly interpolated results from its four nearest neighbours.</p><p>Request partial data. Note that functions query_collection and read_LUT are meant for downloading (if not exist) and reading the local dataset, which may hamper the data reusing. For example, if one only needs the data for a few sites, downloading gigabytes of data for these few sites would (1) be time consuming, (2) waste local storage, and (3) increase unnecessary load for data servers. Therefore, we provide a way to request data for specific sites in Requestor through function request_LUT:</p><p>The first method takes the tag name (full name), latitude (30.1°), and longitude (116.1°) as input, and returns the time series of LAI and its error; the second method take an extra cycle index as input, and returns only the data and error for the target cycle (day 57 to 64 in this example). Similar to function read_LUT, one may choose to interpolate the data by setting the interpolation option to false or true. What request_LUT does are (i) user end passes the input information to the server, (2) server end reads the data using query_collection and read_LUT, (3) server end returns a structured JSON file back to the user end, and (4) user end translates the structured JSON back to data (numbers or arrays).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Other language supports.</head><p>Besides Julia, we also provide simple user interfaces for Matlab, Octave, Python and R to aid dataset distribution and reuse. We provide three functions for Matlab, Octave, Python and R, and they are (1) update_GM that downloads the latest Artifacts.toml from Github, (2) query_collection that downloads and returns the path of the dataset (same as that in Julia), and (3) request_LUT that requests partial data from the server (same as that in Julia). Different from Julia, update_GM and query_collection download the data to ~/GMCollections rather than ~/.julia/artifacts. Artifacts.toml is stored at ~/GMCollections/Artifacts. toml; the compressed tar.gz files are stored in ~/GMCollections/archives; and the datasets are extracted to ~/ GMCollections/artifacts. With the dataset path, users can choose the packages they prefer to read the dataset. In comparison, GriddingMachine.jl updates Artifacts.toml through package releasing, and one needs to update GriddingMachine.jl to use the latest datasets.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Matlab.</head><p>We provide Matlab language support via Matlab Toolbox (source code available at <ref type="url" target="https://github.com/Yujie-W/octave-griddingmachine">https://github.   com/Yujie-W/octave-griddingmachine</ref>). Matlab users may install and use the toolbox using Octave. Octave language support is also provided via https://github.com/Yujie-W/octave-griddingmachine, which is Matlab and Octave compatible. Octave users may install and use the package using Python. We provide Python language support via a registered Python package through PyPI (source code available at <ref type="url" target="https://github.com/Yujie-W/python-griddingmachine">https://github.com/Yujie-W/python-griddingmachine</ref>), and Python users can install the package using pip:</p><p>To query the path to downloaded dataset or subset data directly from the server, one may use R. We provide R language support via a package hosted on Github, and R users can install and use the package using As R does not allow for returning multiple variables, data and error of the request are stored as fields of a list, and one can read them out using results$data and results$std.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Discussion</head><p>We recommend GriddingMachine users to use provided interfaces through Julia, Matlab, Octave, Python, and R to access the data. In particular, if the research is designed to run at global or large regional scales, we recommend using query_collection to download the datasets, which allows the users to use the latest datasets and perform offline analysis more efficiently. If the research is meant to run at smaller scales such as a few sites, we recommend using request_LUT for convenience. For example, Julia code below shows the simple steps of comparing datasets at the site level. We compared two gross primary productivity products vs. one solar-induced chlorophyll fluorescence for a flux tower site in North America (US-NR1; latitude and longitude are 40.0329° and -105.5464°, respectively; data from the year 2019), and the result is shown in Fig. <ref type="figure">3</ref>. In the example presented, requesting the data directly from the server avoids downloading approximately 600 MB reprocessed data (original datasets from three different sources are 2.6 GB):</p><p>We note here that the data management of GriddingMachine is subject to future changes and users can follow on the GitHub page at <ref type="url" target="https://github.com/CliMA/GriddingMachine.jl">https://github.com/CliMA/GriddingMachine.jl</ref>. Users can find tutorials and examples about how to contribute data at <ref type="url" target="https://github.com/CliMA/GriddingMachine.jl#data-contribution">https://github.com/CliMA/GriddingMachine.jl#data-contribution</ref>.</p><p>In conclusion, we present GriddingMachine, a generalized database and software to distribute standardized globally spanning datasets in a user-friendly way. We provide examples that can serve as templates to load different types of datasets we have collected as well an easy way to request partial data from our server in five programming languages: Julia, Matlab, Octave, Python, and R. Given the aims of GriddingMachine, we welcome the contribution of globally gridded data to our collection through <ref type="url" target="https://github.com/CliMA/GriddingMachine.jl/issues/62">https://github.com/CliMA/GriddingMachine.  jl/issues/62</ref>, and believe that GriddingMachine will be a useful tool for Earth system modeling and ecology communities.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods</head><p>To maximally simplify and facilitate the data reuse, we first reprocessed the collected data to standardized NetCDF formatted datasets (Fig. <ref type="figure" target="#fig_0">1</ref>). We used NetCDF format because the datasets can be 3D arrays, and the file can be read using non-proprietary software. Then, we compressed each dataset as a tar.gz file, and stored the compressed datasets on public HTTP servers. Last, we stored the meta information in an Artifacts.toml file, and provided user friendly functions to automatically retrieve the datasets for multiple programming languages such as Julia, Matlab, Octave, Python, and R. Note here that Artifacts.toml file is often used in Julia to host meta information of data containers named artifacts. The containers may contain any other kind of data that would be convenient to place within an immutable, life-cycled data store. These containers, (called artifacts) can be created locally, hosted anywhere, and automatically downloaded and unpacked upon request. In GriddingMachine. jl, we used this artifact feature to redistribute the reprocessed datasets, which are not supposed to change with time. Alternatively, users may also download the datasets manually from the HTTP servers.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data reprocessing.</head><p>The raw datasets we collected were in various formats and not standardized (for example, some datasets were scaled but the scaling factors were not noted within the dataset itself). Thus, we reprocessed each dataset before distributing it to the public, and the standards are   <ref type="figure">3</ref> Example of simple dataset requests using GriddingMachine. The requested data are gross primary productivity (GPP) from <ref type="bibr" target="#b26">27</ref> (MPI GPP, olive symbols) and <ref type="bibr" target="#b27">28</ref> (VPM GPP, cyan symbols) and day length corrected solar-induced chlorophyll fluorescence (dcSIF) from <ref type="bibr" target="#b17">18</ref> (TROPOMI SIF, red symbols).</p><formula xml:id="formula_1">•</formula><p>Each reprocessed NetCDF file contains four (2D dataset) or five (3D dataset) fields (see Table <ref type="table">2</ref> for the details of the fields and attributes of the reprocessed datasets). We note that there could be infinite number of fields in a NetCDF file; but for the ease of automatically reading the datasets, we only included data and std fields in one reprocessed datasets. For example, the original TROPOMI solar-induced chlorophyll fluorescence (SIF) datasets contain both uncorrected SIF and day length corrected SIF <ref type="bibr" target="#b17">18,</ref><ref type="bibr" target="#b18">19</ref> , and we partitioned the file to separate files to allow for more automated data requests.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data packaging.</head><p>After data reprocessing, we compressed each dataset along with an empty GRIDDINGMACHINE file as a tar.gz file (contains 2 files). The empty GRIDDINGMACHINE file labels the NetCDF file as a GriddingMachine dataset (used to clean up outdated datasets). For example, any folder with the empty file GRIDDINGMACHINE will be treated as a GriddingMachine artifact, and the hashtag for this artifact is the same as the folder name. If this hashtag does not exist in Artifacts.toml, then this GriddingMachine artifact will be marked as outdated. Users can delete the outdated GriddingMachine using clean_collections!. The NetCDF dataset file name and the tag name are the same and follow a general naming pattern: LABEL_ (EXTRALABEL_)IX_JT_(YEAR_)VK. See Table <ref type="table" target="#tab_0">1</ref> for current collections and <ref type="url" target="https://github.com/CliMA/GriddingMachine.jl/issues/62">https://github.com/CliMA/  GriddingMachine.jl/issues/62</ref> for the growing collection list and detailed change logs for each dataset.</p><p>Meta information of all the datasets is stored in Artifacts.toml, and each item of the toml file includes the following: tag name, SHA1 hash value, SHA256 hash value, and downloading URLs. Here SHA stands for Secure Hash Algorithm, and it was used to compute a unique hashtag for each dataset, thus aiding data verification when users use the data. Through Artifacts.toml, we provided functions to automatically download and load the datasets in multiple programming languages.</p><p>Field Dimension Description Attributes lon 1D array Longitude in the center of a grid unit°d escription: Latitude lat 1D array Latitude in the center of a grid unit°d escription: Longitude ind 1D array Cycle index (only available in 3D datasets) unit:description: Cycle index data 2D/3D array Data in the center of a grid longname: long name of the data unit: unit of the data about: general information authors: authors of the dataset source publication year: year of the data source publication title: title of of the data source publication journal: journal of the data source publication doi: DOI tag of the data source publication changeN: Change log of the N th change we made std 2D/3D array Error of data in the center of a grid same as "data" field</p><p>Table 2. Fields and attributes of the reprocessed NetCDF datasets.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Pathway used to assemble and distribute the GriddingMachine database. Each dataset is (a) reprocessed to meet our standards for distribution, (b) compressed as a tar.gz file along with an empty label file GRIDDINGMACHINE, and (c) stored on publicly available HTTP servers. Then the meta information for each dataset is stored in Artifacts.toml, which includes the tag name, sha1 hashtag, sha256 hashtag, and downloading URLs. Users are able to access the datasets manually via HTTP protocols or automatically through Julia, Matlab, Octave, Python, and R functions aided by Artifacts.toml.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>The dataset is stored in a NetCDF file • The dataset is either a 2D or 3D array • The dataset is cylindrically projected (WGS84 projection) • The first dimension of the dataset is longitude • The second dimension of the dataset is latitude • The third dimension (if available) is the cycle index, e.g., time • The longitude is oriented from west to east hemisphere (-180° to 180°) • The latitude is oriented from south to north hemisphere (-90° to 90°) • The dataset covers the entire globe (missing data allowed) • Missing data is labeled as NaN (not a number) rather than an unrealistic fill value • The dataset is not scaled (linearly, exponentially, or logarithmically) • The dataset has common units, such as μ mol m -2 s -1 for maximum carboxylation rate • The spatial resolution is uniform longitudinally and latitudinally, e.g., both at 1/2°• The spatial resolution is an integer division of 1°, such as 1/2°, 1/12°, 1/240°• Each grid cell represents the average value of everything inside the grid cell area (as opposing to a single point in the middle of the cell) • The label for the data is "data" (for conveniently loading the data) • The label for the error is "std" (for conveniently loading the error) • The dataset must contain one data array and one error array besides the dimensions • The dataset contains citation information in the attributes • The dataset contains a log summarizing changes if different from original source</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig.</head><figDesc>Fig.3Example of simple dataset requests using GriddingMachine. The requested data are gross primary productivity (GPP) from<ref type="bibr" target="#b26">27</ref> (MPI GPP, olive symbols) and<ref type="bibr" target="#b27">28</ref> (VPM GPP, cyan symbols) and day length corrected solar-induced chlorophyll fluorescence (dcSIF) from<ref type="bibr" target="#b17">18</ref> (TROPOMI SIF, red symbols).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Datasets within GriddingMachine collections.</figDesc><table><row><cell>Dataset type</cell><cell>LABEL</cell><cell>EXTRALABEL</cell><cell>IX</cell><cell>JT</cell><cell>YEAR</cell><cell>VK</cell><cell>Reference</cell></row><row><cell>Biomass</cell><cell>BIOMASS BIOMASS</cell><cell>ROOT SHOOT</cell><cell>120X 120X</cell><cell>1Y 1Y</cell><cell>--</cell><cell>V1 V2</cell><cell>20 21</cell></row><row><cell>Canopy height</cell><cell>CH CH</cell><cell>--</cell><cell>20X 2X</cell><cell>1Y 1Y</cell><cell>--</cell><cell>V1 V2</cell><cell>22 23</cell></row><row><cell>Clumping index</cell><cell>CI CI</cell><cell>--</cell><cell>2X, 240X 2X</cell><cell>1Y 1Y</cell><cell>--</cell><cell>V1 V2</cell><cell>24 25</cell></row><row><cell>Elevation</cell><cell>ELEV</cell><cell>-</cell><cell>4X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>26</cell></row><row><cell>Gross primary productivity</cell><cell>GPP</cell><cell>MPI_RS</cell><cell>2X</cell><cell>1 M, 8D</cell><cell>2001-2019</cell><cell>V1</cell><cell>27</cell></row><row><cell></cell><cell>GPP</cell><cell>VPM</cell><cell>5X, 12X</cell><cell>8D</cell><cell>2000-2019</cell><cell>V2</cell><cell>28</cell></row><row><cell>Leaf area index</cell><cell>LAI</cell><cell>MODIS</cell><cell>2X, 10X, 20X</cell><cell>1 M, 8D</cell><cell>2000-2020</cell><cell>V1</cell><cell>29</cell></row><row><cell>Land mask</cell><cell>LM</cell><cell>-</cell><cell>4X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>ERA5</cell></row><row><cell>Leaf nitrogen content</cell><cell>LNC LNC</cell><cell>--</cell><cell>2X 2X</cell><cell>1Y 1Y</cell><cell>--</cell><cell>V1 V2</cell><cell>30 23</cell></row><row><cell>Leaf phosphorus content</cell><cell>LPC</cell><cell>-</cell><cell>2X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>30</cell></row><row><cell>Plant functional type</cell><cell>PFT</cell><cell>-</cell><cell>2X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>31</cell></row><row><cell>Surface area</cell><cell>SA</cell><cell>-</cell><cell>1X, 2X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>31</cell></row><row><cell>Soil color class</cell><cell>SC</cell><cell>-</cell><cell>2X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>31</cell></row><row><cell></cell><cell>SIF</cell><cell>TROPOMI_740</cell><cell>1X, 2X, 4X, 5X, 12X</cell><cell>1 M, 8D</cell><cell>2018-2020</cell><cell>V1</cell><cell>18</cell></row><row><cell></cell><cell>SIF</cell><cell>TROPOMI_740DC</cell><cell>1X, 2X, 4X, 5X, 12X</cell><cell>1 M, 8D</cell><cell>2018-2020</cell><cell>V1</cell><cell>18</cell></row><row><cell>Solar-induced chlorophyll fluorescence</cell><cell>SIF SIF</cell><cell>TROPOMI_683 TROPOMI_683DC</cell><cell>1X, 2X, 4X, 5X, 12X 1X, 2X, 4X, 5X, 12X</cell><cell>1 M, 8D 1 M, 8D</cell><cell>2018-2020 2018-2020</cell><cell>V2 V2</cell><cell>19 19</cell></row><row><cell></cell><cell>SIF</cell><cell>OCO2_757</cell><cell>5X</cell><cell>1 M</cell><cell>2014-2020</cell><cell>V3</cell><cell>32</cell></row><row><cell></cell><cell>SIF</cell><cell>OCO2_757DC</cell><cell>5X</cell><cell>1 M</cell><cell>2014-2020</cell><cell>V3</cell><cell>32</cell></row><row><cell></cell><cell>SIF</cell><cell>OCO2_771</cell><cell>5X</cell><cell>1 M</cell><cell>2014-2020</cell><cell>V3</cell><cell>32</cell></row><row><cell></cell><cell>SIF</cell><cell>OCO2_771DC</cell><cell>5X</cell><cell>1M</cell><cell>2014-2020</cell><cell>V3</cell><cell>32</cell></row><row><cell>Solar-induced luminescence</cell><cell>SIL</cell><cell>-</cell><cell>20X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>33</cell></row><row><cell>Specific leaf area</cell><cell>SLA SLA</cell><cell>--</cell><cell>2X 2X</cell><cell>1Y 1Y</cell><cell>--</cell><cell>V1 V2</cell><cell>30 23</cell></row><row><cell></cell><cell>SOIL</cell><cell>SWCR</cell><cell>12X, 120X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>34</cell></row><row><cell></cell><cell>SOIL</cell><cell>SWCS</cell><cell>12X, 120X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>34</cell></row><row><cell>Soil hydraulics</cell><cell>SOIL</cell><cell>VGA</cell><cell>12X, 120X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>34</cell></row><row><cell></cell><cell>SOIL</cell><cell>VGN</cell><cell>12X, 120X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>34</cell></row><row><cell></cell><cell>SOIL</cell><cell>KSAT</cell><cell>100X</cell><cell>1Y</cell><cell>-</cell><cell>V2</cell><cell>35</cell></row><row><cell>Tree density</cell><cell>TD</cell><cell>-</cell><cell>2X, 120X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>36</cell></row><row><cell>Maximum carboxylation rate</cell><cell>VCMAX VCMAX</cell><cell>--</cell><cell>2X 2X</cell><cell>1Y 1Y</cell><cell>--</cell><cell>V1 V2</cell><cell>37 38</cell></row><row><cell>Wood density</cell><cell>WD</cell><cell>-</cell><cell>2X</cell><cell>1Y</cell><cell>-</cell><cell>V1</cell><cell>23</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Scientific Data | (2022) 9:258 | https://doi.org/10.1038/s41597-022-01346-x</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>Scientific Data | (2022) 9:258 | https://doi.org/10.1038/s41597-022-01346-x</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>acknowledgements</head><p>We gratefully acknowledge the generous support of <rs type="funder">Eric and Wendy Schmidt</rs> (by recommendation of the Schmidt Futures) and the <rs type="funder">Heising-Simons Foundation</rs>. This research has been supported by the <rs type="funder">National Aeronautics and Space Administration (NASA) Earth Sciences Division</rs> grant <rs type="grantNumber">NNX15AH95G</rs> and <rs type="funder">Carbon Cycle Science</rs> grant <rs type="grantNumber">80NSSC21K1712</rs> awarded to <rs type="person">Christian Frankenberg</rs>. <rs type="person">Marcos Longo</rs> was supported by the <rs type="funder">NASA</rs> <rs type="programName">Postdoctoral Program</rs>, administered by <rs type="funder">Universities Space Research Association</rs> under contract with <rs type="funder">NASA</rs>. We acknowledge <rs type="institution">NASA</rs> for the publicly available datasets. The distributed datasets include modified <rs type="projectName">Copernicus Climate Change Service Information [2020</rs>]. Neither the <rs type="funder">European Commission</rs> nor the <rs type="funder">European Centre for Medium-Range Weather Forecasts (ECMWF)</rs> are responsible for any use that may be made of the Copernicus information or data in this publication. We thank the data owners for generously sharing the datasets. Part of this research was carried out at the <rs type="institution">Jet Propulsion Laboratory, California Institute of Technology</rs>, under a contract with <rs type="funder">NASA</rs>. <rs type="institution">California Institute of Technology</rs>. Government sponsorship acknowledged.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_DaQYV3m">
+					<idno type="grant-number">NNX15AH95G</idno>
+				</org>
+				<org type="funding" xml:id="_DzyVeXp">
+					<idno type="grant-number">80NSSC21K1712</idno>
+				</org>
+				<org type="funding" xml:id="_Wkch9NQ">
+					<orgName type="program" subtype="full">Postdoctoral Program</orgName>
+				</org>
+				<org type="funded-project" xml:id="_5TNrwV2">
+					<orgName type="project" subtype="full">Copernicus Climate Change Service Information [2020</orgName>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data availability</head><p>The compressed datasets can be downloaded from CaltechDATA <ref type="bibr" target="#b16">17</ref> .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Code availability</head><p>The code can be found at <ref type="url" target="https://github.com/CliMA/GriddingMachine.jl">https://github.com/CliMA/GriddingMachine.jl</ref> under the Apache 2.0 License. The exact version of the package used to produce the results presented in this paper is also archived on CaltechDATA along with the datasets <ref type="bibr" target="#b16">17</ref> .</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Competing interests</head><p>The authors declare no competing interests.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>author contributions</head><p>Y.W. designed the code structure, wrote the code, and led the writing. All authors identified suitable datasets and contributed to the writing.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Moving beyond the incorrect but useful paradigm: reevaluating big-leaf and multilayer plant canopies to model biosphere-atmosphere fluxes-a review</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">B</forename><surname>Bonan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">G</forename><surname>Patton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Finnigan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">D</forename><surname>Baldocchi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">N</forename><surname>Harman</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.agrformet.2021.108435</idno>
+		<ptr target="https://doi.org/10.1016/j.agrformet.2021.108435" />
+	</analytic>
+	<monogr>
+		<title level="j">Agricultural and Forest Meteorology</title>
+		<imprint>
+			<biblScope unit="volume">306</biblScope>
+			<biblScope unit="page">108435</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Sun-induced chl fluorescence and its importance for biophysical modeling of photosynthesis based on light reactions</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Y</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">-Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">New Phytologist</title>
+		<imprint>
+			<biblScope unit="volume">223</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1179" to="1191" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Modelling water fluxes in plants: From tissues to biosphere</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Mencuccini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Manzoni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Christoffersen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">New Phytologist</title>
+		<imprint>
+			<biblScope unit="volume">222</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1207" to="1222" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A theoretical and empirical assessment of stomatal optimization modeling</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Sperry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R L</forename><surname>Anderegg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Venturas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">T</forename><surname>Trugman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">New Phytologist</title>
+		<imprint>
+			<biblScope unit="volume">227</biblScope>
+			<biblScope unit="page" from="311" to="325" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Optimization theory explains nighttime stomatal responses</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">New Phytologist</title>
+		<imprint>
+			<biblScope unit="volume">230</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1550" to="1561" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The impact of rising CO 2 and acclimation on the response of US forests to global warming</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Sperry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the National Academy of Sciences</title>
+		<imprint>
+			<biblScope unit="volume">116</biblScope>
+			<biblScope unit="issue">51</biblScope>
+			<biblScope unit="page" from="25734" to="25744" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The mscope model: A simple adaptation to the scope model to describe reflectance, fluorescence and photosynthesis of vertically heterogeneous canopies</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Verhoef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Van Der Tol</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote sensing of environment</title>
+		<imprint>
+			<biblScope unit="volume">201</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Accounting for canopy structure improves hyperspectral radiative transfer and sun-induced chlorophyll fluorescence representations in a new generation earth system model</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Braghiere</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.rse.2021.112497</idno>
+		<ptr target="https://doi.org/10.1016/j.rse.2021.112497" />
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing of Environment</title>
+		<imprint>
+			<biblScope unit="volume">261</biblScope>
+			<biblScope unit="page">112497</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Testing stomatal models at the stand level in deciduous angiosperm and evergreen gymnosperm forests using clima land (v0.1)</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geoscientific Model Development</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="6741" to="6763" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Scope 2.0: a model to simulate vegetated land surface fluxes and satellite signals</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Prikaziuk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Verhoef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Van Der Tol</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geoscientific Model Development</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="4697" to="4712" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">ISS observations offer insights into plant function</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">N</forename><surname>Stavros</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/s41559-017-0194</idno>
+		<idno>41559-017-0194</idno>
+		<ptr target="https://doi.org/10.1038/s" />
+	</analytic>
+	<monogr>
+		<title level="j">Nature Ecology &amp; Evolution</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page">194</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Flux towers in the sky: global ecology from space</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Schimel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">D</forename><surname>Schneider</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Carbon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Participants</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">New Phytologist</title>
+		<imprint>
+			<biblScope unit="volume">224</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="570" to="584" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Google earth engine: Planetary-scale geospatial analysis for everyone</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Gorelick</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote sensing of Environment</title>
+		<imprint>
+			<biblScope unit="volume">202</biblScope>
+			<biblScope unit="page" from="18" to="27" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A fresh approach to numerical computing</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bezanson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Edelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Karpinski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">B</forename><surname>Shah</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Julia</surname></persName>
+		</author>
+		<idno type="DOI">10.1137/141000671</idno>
+		<ptr target="https://doi.org/10.1137/141000671" />
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Review</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="65" to="98" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">On the impact of canopy model complexity on simulated carbon, water, and solar-induced chlorophyll fluorescence fluxes</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Frankenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biogeosciences</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="29" to="45" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Modeling global carbon and water fluxes and hyperspectral canopy radiative transfer simultaneously using a next generation land surface model-clima land</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/essoar.10509956.1</idno>
+		<ptr target="https://doi.org/10.1002/essoar.10509956.1" />
+	</analytic>
+	<monogr>
+		<title level="j">Earth and Space Science Open Archive</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Artifacts of griddingmachine.jl (v0.2) for land modeling</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.22002/D1.2129</idno>
+		<ptr target="https://doi.org/10.22002/D1.2129" />
+	</analytic>
+	<monogr>
+		<title level="j">CaltechDATA</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Global retrievals of solar-induced chlorophyll fluorescence with TROPOMI: First results and intersensor comparison to OCO-2</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Köhler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geophysical Research Letters</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">19</biblScope>
+			<biblScope unit="page">463</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Global retrievals of solar-induced chlorophyll fluorescence at red wavelengths with TROPOMI</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Köhler</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2020GL087541</idno>
+		<ptr target="https://doi.org/10.1029/2020GL087541" />
+	</analytic>
+	<monogr>
+		<title level="j">Geophysical Research Letters</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">15</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note>e2020GL087541</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A global map of root biomass across the world&apos;s forests</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="4263" to="4274" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">The global forest above-ground biomass pool for 2010 estimated from high-resolution satellite observations</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Santoro</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Earth System Science Data</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="3927" to="3950" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Mapping forest canopy height globally with spaceborne lidar</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Simard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Pinto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Fisher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Baccini</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2011JG001708</idno>
+		<ptr target="https://doi.org/10.1029/2011JG001708" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geophysical Research: Biogeosciences</title>
+		<imprint>
+			<biblScope unit="volume">116</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Assessing the reliability of predicted plant trait distributions at the global scale</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">C</forename><surname>Boonman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Ecology and Biogeography</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1034" to="1051" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Global clumping index map derived from the modis brdf product</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pisek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">B</forename><surname>Schaaf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Strahler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing of Environment</title>
+		<imprint>
+			<biblScope unit="volume">119</biblScope>
+			<biblScope unit="page" from="118" to="130" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Underestimation of global photosynthesis in earth system models due to representation of vegetation structure</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Braghiere</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Quaife</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Black</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Global Biogeochemical Cycles</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1358" to="1369" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A high-accuracy map of global terrain elevations</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Yamazaki</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geophysical Research Letters</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="5844" to="5853" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Predicting carbon dioxide and energy fluxes across global fluxnet sites with regression algorithms</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Tramontana</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biogeosciences</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">14</biblScope>
+			<biblScope unit="page" from="4291" to="4313" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A global moderate resolution dataset of gross primary production of vegetation for 2000-2016</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/sdata.2017.165</idno>
+		<ptr target="https://doi.org/10.1038/sdata.2017.165" />
+	</analytic>
+	<monogr>
+		<title level="j">Scientific data</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page">170165</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Reprocessing the modis leaf area index products for land surface and climate modelling</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Xiao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ji</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Shangguan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing of Environment</title>
+		<imprint>
+			<biblScope unit="volume">115</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1171" to="1187" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Mapping local and global variability in plant trait distributions</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">E</forename><surname>Butler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the National Academy of Sciences</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="issue">51</biblScope>
+			<biblScope unit="page" from="10937" to="E10946" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Representing a new MODIS consistent land surface in the community land model (CLM 3.0)</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Lawrence</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">N</forename><surname>Chase</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2006JG000168</idno>
+		<ptr target="https://doi.org/10.1029/2006JG000168" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geophysical Research: Biogeosciences</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="page">1023</biblScope>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">OCO-2 advances photosynthesis observation from space via solar-induced chlorophyll fluorescence</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<idno type="DOI">10.1126/science.aam5747</idno>
+		<ptr target="https://doi.org/10.1126/science.aam5747" />
+	</analytic>
+	<monogr>
+		<title level="j">Science</title>
+		<imprint>
+			<biblScope unit="volume">358</biblScope>
+			<biblScope unit="issue">6360</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Mineral luminescence observed from space</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Köhler</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2021GL095227</idno>
+		<idno>2021GL095227</idno>
+		<ptr target="https://doi.org/10.1029/2021GL095227" />
+	</analytic>
+	<monogr>
+		<title level="j">Geophysical Research Letters</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">19</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A global high-resolution data set of soil hydraulic and thermal properties for land surface modeling</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Dai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Advances in Modeling Earth Systems</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="2996" to="3023" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Global prediction of soil saturated hydraulic conductivity using random forest in a covariate-based geotransfer function (cogtf ) framework</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gupta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Lehmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bonetti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Papritz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Or</surname></persName>
+		</author>
+		<idno type="DOI">10.1029/2020MS002242</idno>
+		<idno>MS002242</idno>
+		<ptr target="https://doi.org/10.1029/2020MS002242" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Advances in Modeling Earth Systems</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<date type="published" when="2020">2020. 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Mapping tree density at a global scale</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">W</forename><surname>Crowther</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">525</biblScope>
+			<biblScope unit="issue">7568</biblScope>
+			<biblScope unit="page" from="201" to="205" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Global photosynthetic capacity is optimized to the environment</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">G</forename><surname>Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology Letters</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="506" to="517" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Global variation in the fraction of leaf nitrogen allocated to photosynthesis</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Luo</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/s41467-021-25163-9</idno>
+		<ptr target="https://doi.org/10.1038/s41467-021-25163-9" />
+	</analytic>
+	<monogr>
+		<title level="j">Nature Communications</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

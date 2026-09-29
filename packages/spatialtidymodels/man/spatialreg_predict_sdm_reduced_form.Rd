@@ -9,7 +9,8 @@ spatialreg_predict_sdm_reduced_form(
   test_data,
   x_vars,
   coords,
-  k_neighbors
+  k_neighbors,
+  durbin_vars = x_vars
 )
 }
 \description{
@@ -25,5 +26,16 @@ W_test \%\emph{\% X_test, puis y_hat = (I - rho}W_test)^-1 \%\emph{\% (design \%
 C'est une approximation (le systeme "vrai" inclurait aussi les voisins
 d'entrainement), mais elle produit un resultat defendable plutot qu'un
 plantage ou -- pire -- un nombre faux silencieux.
+}
+\details{
+NE PAS remplacer par un appel standard \code{stats::predict.Sarlm()} sans
+revalider empiriquement: deux alternatives ont deja ete testees et ecartees
+(2026-08/09). \verb{pred.type="TS", power=TRUE} ne plante plus (le bug de
+dimension d'origine semble specifique a \code{power=FALSE}), mais reste
+clairement moins precis que cette forme reduite maison -- RMSE 1,5 a 3x
+pire, sur les 4 jeux testes (\code{ewhp}, \code{boston_housing}, \code{london_hp},
+\code{georgia}), a chaque pli sans exception. \code{pred.type="KP2"} n'a pas ete
+teste directement pour SDM mais herite du meme constat de principe. Garder
+cette implementation tant qu'aucune alternative testee ne fait mieux.
 }
 \keyword{internal}

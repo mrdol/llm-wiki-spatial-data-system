@@ -1,0 +1,1147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation and inference in functional-coefficient spatial autoregressive panel data models with fixed effects</title>
+				<funder ref="#_TMNfa44">
+					<orgName type="full">Social Science and Humanities Research Council of Canada Insightful</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-12-31">December 31, 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><roleName>Emir</roleName><forename type="first">Yiguo</forename><surname>Sun</surname></persName>
+							<email>yisun@uoguelph.ca</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics and Finance</orgName>
+								<orgName type="institution">University of Guelph</orgName>
+								<address>
+									<postCode>N1G2W1</postCode>
+									<settlement>Guelph</settlement>
+									<region>ON</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Emir</forename><surname>Malikov</surname></persName>
+							<email>emalikov@auburn.edu</email>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Agricultural Economics</orgName>
+								<orgName type="institution">Auburn University</orgName>
+								<address>
+									<postCode>36849</postCode>
+									<settlement>Auburn</settlement>
+									<region>AL</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation and inference in functional-coefficient spatial autoregressive panel data models with fixed effects</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2017-12-31">December 31, 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">9631185AC9DC1AEFBF24FBD8F0798542</idno>
+					<idno type="DOI">10.1016/j.jeconom.2017.12.006</idno>
+					<note type="submission">Received date : 1 January 2016 Revised date : 18 July 2017 Accepted date : 29 December 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>First Di¤erence</term>
+					<term>Fixed E¤ects</term>
+					<term>Hypothesis Testing</term>
+					<term>Local Linear Regression</term>
+					<term>Nonparametric GMM</term>
+					<term>Sieve Estimator</term>
+					<term>Spatial Autoregressive</term>
+					<term>Varying Coe¢ cient JEL Classi…cation: C12</term>
+					<term>C13</term>
+					<term>C14</term>
+					<term>C23</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper develops an innovative way of estimating a functional-coe¢ cient spatial autoregressive panel data model with unobserved individual e¤ects which can accommodate (multiple) time-invariant regressors with a large number of cross-sectional units and a …nite time periods. Our proposed methodology removes unobserved …xed e¤ects from the model by transforming the latter into a semiparametric additive model, however avoids using back…tting technique. We derive the limiting results for the proposed estimators and construct a consistent nonparametric test to test for spatial endogeneity. A small Monte Carlo study shows that our proposed estimators and test statistic exhibit good …nite-sample performance.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>1 Introduction <ref type="bibr" target="#b42">Sun, Carroll &amp; Li (2009)</ref> and <ref type="bibr" target="#b25">Lin, Li &amp; Sun (2014)</ref> study the following semiparametric functional-coe¢ cient …xed-e¤ects panel data model:</p><formula xml:id="formula_0">y it = g 0 i (z it ) + x 0</formula><p>it (z it ) + i + u it ; i = 1; : : : ; n; t = 1; : : : ; T;</p><p>(1.1)</p><p>where y it is the (scalar) outcome variable of interest; g i and x it are the time-invariant and timevarying explanatory variables of dimensions d g and d x , respectively; z it is a continuously distributed univariate random variable; and ( ) and ( ) are the d g 1 and d x 1 vectors of unknown functions to be estimated. The unobserved …xed e¤ects i are allowed to correlate with the strictly exogenous covariates g i , x it and z it , but are assumed to be uncorrelated with the idiosyncratic error u it , which is i.i.d. with zero mean and …nite variance<ref type="foot" target="#foot_1">foot_1</ref> u . Both <ref type="bibr" target="#b42">Sun et al. (2009)</ref> and <ref type="bibr" target="#b25">Lin et al. (2014)</ref> restrict their models to the case of d g 1.</p><p>The above semiparametric model has proven to be a popular speci…cation among practitioners. Not only can the model in (1.1) be conveniently applied to reduce the "curse-of-dimensionality" problem, but it also nests purely nonparametric …xed-e¤ects panel data models as well as partially linear …xed-e¤ects panel data models studied by <ref type="bibr" target="#b11">Henderson, Carroll &amp; Li (2008)</ref>, <ref type="bibr" target="#b34">Qian &amp; Wang (2012)</ref> and <ref type="bibr" target="#b22">Li &amp; Liang (2015)</ref>, who all however focus on a rather restrictive case of d g = 0.</p><p>In this paper, we seek to generalize model (1.1) further to the case with spatial dependence in the data. We do so by including the spatial lag of the outcome variable as an additional explanatory variable and allowing the corresponding spatial multiplier to vary with respect to the contextual covariate z it . That is, we consider the following functional-coe¢ cient spatial autoregressive (SAR) …xed-e¤ects panel data model:</p><formula xml:id="formula_1">y it = (z it ) X j6 =i w ij y jt + g 0 i (z it ) + x 0</formula><p>it (z it ) + i + u it ; i = 1; : : : ; n; t = 1; : : : ; T;</p><p>(1.2) where P j6 =i w ij y jt is called the "spatial lag" term; w ij is the (i; j)-th element of an n n predetermined non-stochastic time-invariant spatial weighting matrix W 0 such that w ii = 0 for all i = 1; : : : ; n; and y it is spatially stationary. <ref type="foot" target="#foot_0">1</ref> Further, ( ) is usually referred to as the "spatial multiplier" or "spatial lag parameter", which is an unknown function to be estimated. For instance, when the SAR model is game-theoretically rationalized as a "reaction function" (e.g., <ref type="bibr" target="#b3">Brueckner, 2003)</ref>, the spatial multiplier ( ) can be conveniently interpreted as the "reaction"parameter, which our model permits to meaningfully vary with some contextual factor z it . Since the spatial multiplier captures the direct impact of other units'actions/outcomes on the ith unit's action/outcome, extending (1.1) to model (1.2) enables us to test whether there is spatial/economic externality across individual units. Also note that, when (z) 0 , (z) 0 dg and (z) 0 , our semiparametric model (1.2) collapses to <ref type="bibr">Lee &amp; Yu's (2010a)</ref> fully parametric SAR …xed-e¤ects panel data model.</p><p>Some potential applications of our model, for instance, include the estimation of growth models that explicitly account for technological interdependence between countries in the presence of spillover e¤ects. Such a technological interdependence is usually formulated in the form of spatial externalities (e.g., see <ref type="bibr" target="#b6">Ertur &amp; Koch, 2007)</ref>. However, the intensity of knowledge spillovers is naturally expected to greatly depend on institutional and cultural compatibility of neighboring countries <ref type="bibr" target="#b13">(Kelejian, Murrell &amp; Shepotylo, 2013)</ref>. Our functional-coe¢ cient model presents a practical method to allow for such indirect e¤ects of institutions on the degree of spatial dependence in the cross-country conditional convergence regressions via a contextual variable z it . The estimation of hedonic house price functions is another application, where it is imperative to allow for potential spatial dependence in the data. House prices are widely believed to be spatially autoregressive because residential property values tend to re ‡ect shared local amenities as well as observed and unobserved neighborhood characteristics. While these characteristics can be partly controlled for using locality …xed e¤ects, such an approach may be unsatisfactory since it does not let characteristics of neighboring houses a¤ect the price of a given house <ref type="bibr" target="#b1">(Anselin &amp; Lozano-Gracia, 2009)</ref>. However, by including the spatial lag in a house pricing function, one is able to accommodate such cross-neighbor e¤ects.</p><p>In recent decades, the econometric literature has seen a rapid development in the theory of nonparametric estimation and testing of …xed-e¤ects panel data models. For instance, see <ref type="bibr" target="#b45">Sun, Zhang &amp; Li (2015)</ref> for an excellent survey on the nonparametric panel data analysis. However, the introduction of nonparametric structure to models with spatial dependence (and spatial autoregressive models, in particular) in the panel data setup still lacks enough attention and progress, although signi…cantly more visible advances have been made in the development of parametric spatial models (e.g., <ref type="bibr">Lee &amp; Yu, 2010a</ref><ref type="bibr" target="#b46">,b, 2012</ref><ref type="bibr">, 2014;</ref><ref type="bibr" target="#b47">Yu, de Jong &amp; Lee, 2012)</ref>. Our work therefore aims to …ll this research gap in the literature.</p><p>Few existing nonparametric studies, all of which focus on a purely cross-sectional setup, include the works of <ref type="bibr" target="#b37">Su &amp; Jin (2010)</ref>, <ref type="bibr" target="#b36">Su (2012)</ref> and <ref type="bibr" target="#b48">Zhang (2013)</ref>, who consider a Robinson-type partially linear semiparametric SAR model, whereas <ref type="bibr" target="#b44">Sun, Yan, Zhang &amp; Lu (2014)</ref> and <ref type="bibr" target="#b28">Malikov &amp; Sun (2017)</ref> study fully and/or partially linear functional-coe¢ cient SAR models. The spatial autoregressive models in which spatial weights are speci…ed in the form of unknown nonparametric functions of some geographic or economic distance are examined by <ref type="bibr" target="#b33">Pinkse, Slade &amp; Brett (2002)</ref> and <ref type="bibr" target="#b40">Sun (2016)</ref>.</p><p>For a large n and …xed T , we develop an innovative way of estimating model (1.2). We …rst propose a two-stage kernel estimation method to estimate ( ) and ( ), after removing the unobserved …xed e¤ects from the model via …rst di¤erencing. Our approach transforms the model into a semiparametric additive panel data model from which a consistent estimator is usually constructed using either the back…tting <ref type="bibr" target="#b11">(Henderson et al., 2008;</ref><ref type="bibr" target="#b29">Mammen, Støve &amp; Tjøstheim, 2009;</ref><ref type="bibr" target="#b22">Li &amp; Liang, 2015)</ref> or marginal integration techniques <ref type="bibr" target="#b34">(Qian &amp; Wang, 2012)</ref>. <ref type="foot" target="#foot_2">2</ref> Unlike a more conventional model (1.1), our model of interest in (1.2) naturally su¤ers from the endogeneity problem due to the presence of the spatial lag term in the equation. We therefore resort to a nonparametric instrumental variable approach in order to construct consistent estimators of the unknown coe¢cient curves ( ) and ( ). However, when based on both localized linear and quadratic moments, the nonparametric GMM estimator has no analytic expression. Consequently, both the back…tting and marginal integration techniques can be computationally challenging in the calculation of such an estimator for model (1.2). Therefore, we propose a new estimator that is signi…cantly simpler to implement than the back…tting and marginal integration estimators.</p><p>Having consistently estimated ( ) and ( ) at the conventional nonparametric convergence rate in the second stage, we next propose a third-stage sieve estimator to consistently estimate unknown functional curves ( ) for time-invariant regressors g i . Importantly, the estimator we propose in this paper can be used to estimate functional coe¢ cients ( ) even when the number of time-invariant regressors is greater than one, i.e., d g &gt; 1. The methodology that we develop can also be used to estimate the traditional functional-coe¢ cient …xed-e¤ects panel data models with time-invariant covariates like the one in (1.1). This makes a signi…cant improvement over the existing estimation methods that are applicable to the case of d g 1 only (as in <ref type="bibr" target="#b42">Sun et al., 2009)</ref>.</p><p>Given that our semiparametric spatial autoregressive model (1.2) nests a more traditional functional-coe¢ cient …xed-e¤ects model in (1.1) as a special case, one may naturally wish to formally discriminate between the two models. Therefore, we also propose a consistent residual-based L 2 -type test statistic to test for relevance of the spatial lag term in the model. The proposed is, essentially, the test for spatial endogeneity. Our speci…cation test belongs to the family of similar nonparametric residual-based tests considered for independent data (e.g., <ref type="bibr" target="#b49">Zheng, 1996;</ref><ref type="bibr" target="#b24">Li &amp; Wang, 1998)</ref>, weakly dependent time series data (e.g., <ref type="bibr" target="#b7">Fan &amp; Li, 1999;</ref><ref type="bibr" target="#b23">Li, 1999)</ref>, integrated time series data (e.g., <ref type="bibr" target="#b46">Wang &amp; Phillips, 2012;</ref><ref type="bibr" target="#b41">Sun, Cai &amp; Li, 2015)</ref> and, more recently, for spatial data (e.g., <ref type="bibr" target="#b38">Su &amp; Qu, 2017;</ref><ref type="bibr" target="#b28">Malikov &amp; Sun, 2017)</ref>.</p><p>The rest of the paper is organized as follows. Section 2 explains the model of interest along with the spatial stationarity condition. We derive the consistency and asymptotic normality results for the …rst-di¤erence kernel estimator of ( ) and ( ) in Section 3, whereas the limiting results for a sieve estimator of ( ) are discussed in Section 4. Section 5 contains a further discussion of the estimation issues. Section 6 presents a consistent nonparametric test statistic to test for the presence of spatial endogeneity in the model. Section 7 reports a small Monte Carlo simulation study to asses the small sample performance of our proposed estimators and the test statistic. We conclude in Section 8. All mathematical proofs are relegated to the Appendix.</p><p>Before anything else, we summarize our notation. Boldface letters are reserved for vectors and matrices. (i) Throughout this paper, we denote an [n(T 1)] d ! matrix ! = [! 0 2 ; : : : ; ! 0 T ] 0 with an n d ! vector ! t = [! 1t ; : : : ; ! nt ] 0 for any t = 2; : : : ; T , where ! it is a d ! 1 vector. (ii) Let i T be a T 1 vector of ones, 0 q be a q 1 vector of zeros, I m be an m m identity matrix and 0 q p be a q p zero matrix. (iii) k k refers to the Euclidian norm, and kAk 1 = max 1 j n P n i=1 ja ij j and kAk 1 = max 1 i n P n j=1 ja ij j are the column and row sum matrix norms, respectively. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">The Model</head><p>We rewrite model (1.2) in matrix form:</p><formula xml:id="formula_2">y t = (z t ) W 0 y t + g 0 (z t ) + 0 t (z t ) + + u t ; t = 1; : : : ; T; (2.1)</formula><p>where (z t ) = diag f (z 1t ) ; : : : ; (z nt )g is an n n diagonal matrix of spatial autoregressive parameter functions; (z t ) = (z 1t ) 0 ; : : : ; (z nt ) 0 0 and (z t ) = (z 1t ) 0 ; : : : ; (z nt ) 0 0 are (nd x ) 1 and (nd g ) 1 vectors of functional coe¢ cients, respectively; t = diag fx 1t ; : : : ; x nt g is a (nd x ) n matrix; g = diag fg 1 ; : : : ; g n g is a (nd g ) n matrix; and = [ 1 ; : : : ; n ] 0 is an n 1 vector of unobserved individual-speci…c …xed e¤ects. The reduced form of model (2.1) is given by</p><formula xml:id="formula_3">y t = S n (z t ) g 0 (z t ) + 0 t (z t ) + + u t ; t = 1; : : : ; T (2.2) provided that S n (z t ) = [I n (z t ) W 0 ] 1 exists. 3 This means that, if max 1 j n;1 t T j j fI n (z t )W 0 gj &lt; 1 (2.</formula><p>3)</p><p>3 By Property 19.15 in <ref type="bibr">Seber (2008, p.421)</ref>,</p><formula xml:id="formula_4">P 1 i=0 A i n converges to (In An) 1 if lim k!1 A k n = 0 or max 1 j n j j (An)j &lt; 1,</formula><p>where An is an n n matrix.</p><p>holds almost surely, model (2.2) can be rewritten as</p><formula xml:id="formula_5">y t = 1 X k=0 [ (z t ) W 0 ] k g 0 (z t ) + 0</formula><p>t (z t ) + + u t ; t = 1; : : : ; T:</p><p>(2.4) For any given t, condition (2.3) implies that the spatial weight [ (z t ) W 0 ] k becomes smaller in magnitude and less important as k increases. This is analogous to the time-series case of an AR(1) process, e.g., s t = s t 1 +v t , becomes stationary if j j &lt; 1, under which condition s t = P 1 k=0 k v t k . Hence, we say that fy it g is spatially stationary if (2.3) holds true. Throughout this paper, we assume (2.3) holds. Further discussion of this condition is delayed until Section 5.2.</p><p>Next, we note that, in the presence of unobserved …xed e¤ects , the functional coe¢ cients (z it ) of time-invariant regressors g i are not identi…able from 0 + 1 (z it ), where 0 is a vector of constants. Therefore, we normalize these coe¢ cients such that (0) = 0 dg holds true. This is a reasonable normalization, since g 0 i 0 can always be attributed to time-invariant …xed e¤ects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">The First-Di¤erence Kernel Estimator of (z) and (z)</head><p>We propose a two-stage kernel estimation method to estimate model (1.2), removing unobserved …xed e¤ects from the model via the …rst-di¤erence transformation. We opt to cancel …xed e¤ects out by transforming the model as opposed to "concentrate" them out by employing <ref type="bibr">Sun et al.'s (2009)</ref> smoothed dummy variable approach due to infeasibility of the latter in the GMM setup. <ref type="foot" target="#foot_3">4</ref>De…ne two (d x + 1) 1 vectors:</p><formula xml:id="formula_6">m it = h P j6 =i w ij y jt ; x 0 it i 0 and (z it ) = [ (z it ); (z it ) 0 ] 0 .</formula><p>Then, applying the …rst-di¤erence transformation to model (1.2) gives</p><formula xml:id="formula_7">y it = g 0 i [ (z it ) (z i;t 1 )]+m 0 it (z it ) m 0 i;</formula><p>t 1 (z i;t 1 )+ u it ; i = 1; : : : ; n; t = 2; : : : ; T (3.1) where y it = y it y i;t 1 and u it = u it u i;t 1 . Further, since the spatial lag term in (1.2) is endogenous, we assume there exist d q 1 valid instruments for P j6 =i w ij y jt denoted by q it such that E [q it u is jx i ; z i ; g i ] = 0 dq 8 i; s; t almost surely, (3.2)</p><p>where x i = [x 0 i1 ; : : : ; x 0 iT ] 0 and z i = [z i1 ; : : : ; z iT ] 0 , which implies that q it is strictly exogenous. Applying the Taylor expansion to (z it ) and (z it ) at an interior point z 1 and to (z i;t 1 ) and (z i;t 1 ) at an interior point z 2 6 = z 1 , we approximate (3.1) by</p><formula xml:id="formula_8">y it g 0 i [ (z 1 ) (z 2 )] + m 0 it (z 1 ) m 0 i;t 1 (z 2 ) + u it = g 0 i _ (z) + 0 m 0 it (z) + u it (3.3)</formula><p>for a given (i; t) such that jz it z 1 j = o (1) and jz i;t 1 z 2 j = o (1), where</p><formula xml:id="formula_9">z = [z 1 ; z 2 ] 0 , = [1; 1] 0 , m it = diag fm it ; m i;t 1 g, _ (z) = (z 1 ) (z 2</formula><p>) and (z) = (z 1 ) 0 ; (z 2 ) 0 0 . Note that, due to the time invariance of g i , we can only identify _ (z) and not (z 1 ) and (z 2 ) individually.</p><p>Equations (3.2) and (3.3) imply the following localized orthogonal moment conditions:</p><formula xml:id="formula_10">E h Q it y it g 0 i _ (z) 0 m 0 it (z) k it (h; z) i 0 d</formula><p>(3.4) for i = 1; : : : ; n, t = 2; : : : ; T , where</p><formula xml:id="formula_11">d = d g +2 (d q + d x ), Q it = g 0 i ; 0 m 0 it 0 , m it = diag f m it ; m i;t 1 g, m it = [q 0 it ; x 0 it ] 0 , k it (h; z) = k((z it z 1 ) =h)k((z i;t 1 z 2 ) =h)</formula><p>with k ( ) being a kernel function and h being the bandwidth. Note that we use a bivariate product kernel function because (3.3) involves a two-dimensional approximation, which we employ in order to avoid estimating ( ) and ( ) via the back…tting (iterative) technique that would explicitly accommodate the additive structure of the …rst-di¤erenced model. Thus, our methodology involves a two-dimensional semiparametric estimation which, expectedly, will be less e¢ cient than iterative calculation methods. To improve the estimation accuracy, we therefore provide a second-stage estimator in Section 3.1.</p><p>If x it , g i and z it are all relevant in predicting y it , a selection of linearly independent variables from</p><formula xml:id="formula_12">W 0 x t , W 0 z t ; W 0 [g 1 ; : : : ; g n ] 0 , W 2 0 x t , W 2 0 z t , W 2 0 [g 1 ; : : : ; g n ] 0</formula><p>; : : : will serve as a set of good instruments for the spatially endogenous variable W 0 y t appearing in (2.1). Since we only seek to obtain a consistent nonparametric GMM estimator without pursuing the optimal estimator, we can use q it = P j6 =i w ij [x 0 jt ; z jt ; g 0 j ] 0 as our instrument, having removed any redundant terms. However, if x it , g i and z it are all irrelevant or weak in predicting y it , q it is not going to be a good instrument. Without pre-testing the relevance of exogenous covariates in a purely cross-sectional version of model (1.2), <ref type="bibr" target="#b28">Malikov &amp; Sun (2017)</ref> show that combining both linear and quadratic moments can be used to consistently estimate unknown coe¢ cient curves regardless of whether the exogenous covariates are relevant in predicting the dependent variable. We expect similar results to hold in our panel data setup. <ref type="foot" target="#foot_5">5</ref>Di¤erent from parametric spatial panel data models with …xed e¤ects, the …rst-di¤erenced model in (3.1) and its local approximation in (3.3) are no longer SAR models. However, we are still able to construct quadratic moment conditions using P n;l = I T 1 W l 0 n 1 tr W l 0 I n for l = 1; 2; : : : L, where L is a …nite integer. For an [n(T 1)] 1 vector of transformed errors u = [ u 0 2 ; : : : ;</p><formula xml:id="formula_13">u 0 T ] 0 , it is readily seen that E [ u 0 P n;l u] = tr fP n;l E [ u u 0 ]g = 0 because E [ u u 0 ] = 2 u I n , where = 2I T 1 J T 1 (0) J T 1 (<label>0</label></formula><p>) 0 is a (T 1) (T 1) matrix, and J T 1 (0) de…nes a Jordan block matrix with zeros along the main diagonal and ones along the superdiagonal. Therefore, we obtain the following local quadratic moments:</p><formula xml:id="formula_14">E y M (z) 0 K h (z)P n;l K h (z) y M (z)) 0;</formula><p>(3.5)</p><p>where y = [ y 0 2 ; : : : ; y 0 T ] 0 is an [n (T 1)] 1 vector; M = [M 0 2 ; : : : ; M 0 T ] 0 is a [n (T 1)] [2 (d x + 1) + d g ] data matrix with M t = [M 1t ; : : : ; M nt ] 0 and</p><formula xml:id="formula_15">M it = g 0 i ; 0 m 0 it 0 ; (z) = h _ (z) 0 ; (z) 0 i 0 is of dimension 2 (d x + 1) + d g ;</formula><p>and K h (z) = diag fK 2 (z); : : : ; K T (z)g is an [n(T 1)] [n(T 1)] diagonal matrix of kernel weights with K t (z) = diag fk 1t (h; z); : : : ; k nt (h; z)g. Then, denoting</p><formula xml:id="formula_16">g n (#) = 2 6 6 6 6 6 6 4 y M# 0 K h (z)P n;1 K h (z) y M# . . . y M# 0 K h (z)P n;L K h (z) y M# Q 0 K h (z) y M#<label>3</label></formula><p>7 7 7 7 7 7 5 (3.6) for a [2 (d x + 1) + d g ] 1 vector #, where Q = [Q 0 2 ; : : : ; Q 0 T ] 0 is an [n(T 1)] d instrument matrix with Q t = [Q 1t ; : : : ; Q nt ] 0 , we construct our initial nonparametric GMM estimator, i.e., b (z) = arg min (z)</p><p>g n ( (z)) 0 g n ( (z)) :</p><p>(3.7) Below, we list assumptions used to derive the limiting distribution of our proposed estimator.</p><formula xml:id="formula_17">Assumption 1 f(g i ; x it ; z it ; u it )g is i.i.d. across index i, y it is generated from model (1.</formula><p>2) with g i , x it and z it being strictly exogenous and all these variables have …nite second moments. Also,</p><formula xml:id="formula_18">(i) E [u it jx i = x; z i = z; g i = g] = 0, E u 2 it jx i = x; z i = z; g i = g = 2 u &gt; 0 for any x 2 S x R dx , z 2 S z R and g 2 S g R dg and sup x2Sx;z2Sz;g2Sg E u 4 it jx i = x; z i = z; g i = g C &lt; 1, where S z is a compact subset of R;</formula><p>(ii) For all i, (z it ; z i;t 1 ) and (z it ; z i;t 1 ; z i;t 2 ) have a common joint pdf f t;t 1 (z 1 ; z 2 ) and f t;t 1;t 2 (z 1 ; z 2 ; z 3 ) with respect to the Lebesgue measure over their domains, respectively;</p><p>(iii) For any t, there exist a positive integer N and a constant c w 2 (0; 1) such that for all n &gt; N , max 1 j n j j f (z t )W 0 gj c w almost surely, kW 0 k j C and [I n (z t ) W 0 ] 1 j C for j = 1 and 1;</p><p>(iv) P n;l = I T 1 P n;l with P n;l being an n n matrix with …nite row-and column-sum matrix norm and trfP n;l g = 0 for all l = 1; : : : ; L, where L 1 is a …nite positive integer. Also, diag fP n;l g 6 = 0 for at least one l.</p><p>Assumption 2 (i) In the neighborhood of an interior point z = [z 1 ; z 2 ] 0 with z 1 6 = z 2 , (z), (z),</p><formula xml:id="formula_19">f t;t 1 (z), E (g 0 i g i ) j jz for j = 1; 2, E [g i m 0 it jz], E [g 0 i g i m 0 it m it jz], E [m is m 0 it jz], E [ m is m 0 it jz], E [m 0 is m is m 0 it m it jz] and E [ m 0 is m is m 0 it m it jz]</formula><p>are all twice continuously di¤ erentiable for all t and s satisfying 0 js tj 1, and E kx it k (2+ 1 ) jz &lt; C and E kg i k (2+ 1 ) jz &lt; C for some 1 2, where</p><formula xml:id="formula_20">E [ jz] = E [ jz it = z 1 ;z i;t 1 = z 2 ]; (ii) In the neighborhood of an interior point _ z = [z 1 ; z 2 ; z 2 ] 0 , f t;t 1;t 2 (_ z), E (g 0 i g i ) j j_ z for j = 1; 2, E [g i m 0 is j_ z], E [ m is m 0 it j_ z] and E [ m 0 is m is m 0 it m it j_ z]</formula><p>are all twice continuously di¤ erentiable for all t and s satisfying 0 js tj 1, where</p><formula xml:id="formula_21">E [ j_ z] = E [ jz it = z 1 ;z i;t 1 = z 2 ;z i;t 2 = z 2 ];</formula><p>(iii) { B (h; z) is a non-singular matrix, where { B (h; z) is de…ned in Lemma 2 in the Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 3</head><p>The kernel function k (u) is a symmetric probability density function with a compact support [ 1; 1]. Also, we denote i;j (k) = R k i (u) u j du.</p><p>Assumption 4 As n ! 1, h ! 0, and lim n!1 nh 6 = c &gt; 0.</p><p>Assumptions 1-4 contain regularity conditions, where the assumption of compactness of S z in Assumption 1(i) and the bounded support of the kernel function in Assumption 3 are not essential and are imposed to simplify our assumptions and mathematical proofs. Assumption 1(iii) and the boundedness of (z) in Assumption 2(i) parallel Assumption 1(iii)-(iv) in <ref type="bibr" target="#b36">Su (2012)</ref>. These assumptions ensure spatial stationarity of the dependent variable and facilitate the limit result of our estimator.</p><p>The compactness of S z and Assumption 2 ensure that the functions listed in Assumption 2 are all uniformly bounded for all t and s in the domain of z. Relaxing the i.i.d. over i assumption about f(g i ; x it ; z it ; u it )g to independence with heteroskedasticity in Assumption 1 does not shed extra light on our theory, so we maintain the current assumption to keep our formulae simple. In addition, since our paper considers the case when T is a …nite number, we do not impose serial correlation assumptions on the panel data across time. Assumption 4 limits the speed at which the bandwidth h approaches to zero as the sample size n increases in order to balance the squared asymptotic bias and asymptotic variance of our estimator.</p><p>Theorem 1 Under Assumptions 1-4, at an interior point z = [z 1 ; z 2 ] 0 , we have</p><formula xml:id="formula_22">p nh 2 b (z) (z) { B (h; z) 1 { A (h; z) 0 d ! N 0 2(dx+1)+dg ; 2 u 2;0 (k) { B (h; z) 1 (z) { B (h; z) 1 ;</formula><p>where { A (h; z) = O p h 2 , { B (h; z), (z) is a …nite p.d.f. matrix, and all are de…ned in Lemmas 1-3 in the Appendix.</p><p>As noted earlier, q it may be an invalid instrument when x it , z it and g i are irrelevant in predicting y it . Under such circumstances, the use of local quadratic moments in (3.5) will ensure the non-</p><formula xml:id="formula_23">singularity of { B (h; z) if E s;l (h; z) = 2 nh 2 1 P n i=1 P T t=2 p l;ii E a ii (z t s ) k 2 it<label>(</label></formula><p>z) u it u i;t s converges to a non-zero constant for s = 0; 1, where a ij (z t ) and p l;ij are the (i; j)th elements of W 0 S n (z t ) and P n;l , respectively. Clearly, if one de…nes fP n;l g such that diag fP n;l g = 0 for all l, then s;l (h; z) = 0 for s = 0; 1 implying that, in such a case, { B (h; z) will not be nonsingular in large samples as shown in the remark below Lemma 2 in the Appendix.</p><formula xml:id="formula_24">Theorem 1 indicates that b (z) (z) = O p h 2 + nh 2 1=2</formula><p>which is in line with the conventional kernel estimation theory keeping in mind that …rst di¤erencing transforms the onedimensional estimation problem in (1.2) into a two-dimensional problem in (3.1). Evidently, the asymptotic variance term is too large. Using b (z) as the initial consistent estimator of (z), we therefore construct the second-stage estimator of (z) in Section 3.1. We show that this estimator of (z) is more e¢ cient than the …rst-stage estimator and reaches the conventional convergence rate of O p h 2 0 + (nh 0 ) 1=2 , where h 0 is the bandwidth used in the second-stage estimation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Second-Stage Estimator of (z)</head><p>To derive the second-stage estimator of (z), we rewrite the model in (3.1) as follows:</p><formula xml:id="formula_25">y y it = m 0 it (z it ) + u it ; i =</formula><p>1; : : : ; n; t = 2; : : : ; T; (3.8) where y y it y it g 0 i _ (z it ) + m 0 i;t 1 (z i;t 1 ). The matrix form of model (3.8) is given by y y t = (z t ) W 0 y t + 0 t (z t ) + u t ; t = 2; : : : ; T . (3.9) From (2.2) and (3.9), it is also easy to see that the endogeneity in the above model arises from</p><formula xml:id="formula_26">E u 0 t W 0 y t = 2 u tr fW 0 S n (z t )g 6 = 0 (3.10)</formula><p>in general for t = 2; : : : ; T . We …rst note that the error term u t in (3.9) is not homoskedastic because E [ u u 0 ] = 2 u I n . We can estimate (3.9) via a pooled local linear estimator without taking the serial correlation in f u t g into consideration, or assuming "working independence". However, in the nonparametric literature on random-e¤ects panel data models without the spatial lag term, it is well-known that the pooled local linear estimator is not asymptotically e¢ cient in the presence of cross-sectionally and/or serially correlated errors (e.g., <ref type="bibr" target="#b30">Martins-Filho &amp; Yao, 2009;</ref><ref type="bibr" target="#b39">Su, Ullah &amp; Wang, 2013)</ref>. It then remains an open question whether we can improve the estimation e¢ ciency by modifying our model so that its new error term is rid of dependence. More concretely, de…ne this new error term as e u = 1=2 I n u. Then, f e u it g is i.i.d. in index i and serially uncorrelated in index t with zero mean and variance 2 u , where e u it = P T s=2 ' ts u is and ' ts is the (t 1; s 1)th element of 1=2 for t; s = 2; : : : ; T . Motivated by <ref type="bibr" target="#b39">Su et al. (2013)</ref>, we modify model (3.8) as follows:</p><formula xml:id="formula_27">Y t T X s=2 ' ts y y s + T X s=2;s6 =t ' ts (z s )W 0 y s + 0 s (z s ) = ' tt (z t )W 0 y t + 0 t (z t</formula><p>) + e u t ; t = 2; : : : ; T;</p><p>(3.11)</p><p>where we move the regressors weighted by the o¤-diagonal elements of 1=2 to the left-hand side of (3.11). Clearly, model (3.11) has a homoskedastic error. In addition, we can see that the modi…ed model in (3.11) becomes model (3.9) when we set ' tt = 1 and ' ts = 0 for all t 6 = s.</p><p>Applying the Taylor expansion for (z it ) at an interior point z, we approximate (3.11) by</p><formula xml:id="formula_28">Y it ' tt m 0 it [ (z) + 5 (z) (z it z)] + e u it = ' tt m 0 it (z)Z it (z) + e u it (3.12)</formula><p>for a given (i; t) such that jz it zj = o (1), where</p><formula xml:id="formula_29">Z it (z) = [1; (z it z) =h 0 ] 0 , (z) = [ (z); h 0 r (z)]</formula><p>, and r j (z) = @ j (z)=@z j denotes the jth partial derivative of (z) with respect to z. We then have the following local linear orthogonal moment conditions:</p><formula xml:id="formula_30">E Q t (z) 0 K t (h 0 ; z) (Y t M t (z) vec f (z)g) 0 2(dx+1)</formula><p>(3.13) for t = 2; : : : ; T , where M t (z) = ' tt [Z 1t (z) m 1t ; : : : ; Z nt (z) m nt ] 0 is an n [2 (d x + 1)] data matrix, Q t (z) = [Z 1t (z) q 1t ; : : : ; Z nt (z) q nt ] 0 is an n [2 (d x + d q + 1)] instrument matrix with</p><formula xml:id="formula_31">q t = W 0 S n (z t ) 2 6 4 g 0 1 x 0 1t z 1t . . . . . . . . . g 0 n x 0 nt z nt 3 7 5 2 6 4 q 0 1t . . . q 0 nt 3 7 5 ; and K t (h 0 ; z) = diag fk 1t (h 0 ; z); : : : ; k nt (h 0 ; z)g with kernel weights now rede…ned as k it (h 0 ; z) = k ((z it z) =h 0 ).</formula><p>Next, motivated by the endogeneity relation in (3.10), we see that setting P n = diag fP 2 ; : : : ; P T g with P</p><formula xml:id="formula_32">t = W 0 S n (z t ) n 1 tr fW 0 S n (z t )g I n implies that E [ e u 0 P n e u] = 0 because tr fP n g = 0.</formula><p>With this, we construct the following local quadratic orthogonal moment condition:</p><formula xml:id="formula_33">E (Y t M t (z) vec f (z)g) 0 K t (h 0 ; z)P t K t (h 0 ; z) (Y t M t (z) vec f (z)g) 0 (3.14)</formula><p>for t = 2; : : : ; T .</p><p>Since y y it is unknown, we replace it with b</p><formula xml:id="formula_34">y y it = y it g 0 i b _ (z it ) + m 0 i;t 1 b (z i;t 1</formula><p>), where b _ (z it ) and b (z i;t 1 ) are calculated in the …rst stage via (3.7). Next, let b S n (z t ) equal S n (z t ) with (z it ) being replaced with its …rst-stage estimate b (z it ) and b q it , b q t and b P t respectively equal q it , q t and P t with S n (z t ) being replaced with b S n (z t ). Also, b</p><formula xml:id="formula_35">Y it P s ' ts b y y is P s6 =t ' ts m 0 is b (z is ).</formula><p>Lastly, we de…ne b</p><formula xml:id="formula_36">P n = diag n b P 2 ; : : : ; b P T o , b Y = h b Y 0 2 ; : : : ; b Y T i 0 , M(z) = M 2 (z) 0 ; : : : ; M T (z) 0 0 , b Q(z) = h b Q 2 (z) 0 ; : : : ; b Q T (z) 0 i 0</formula><p>and K h 0 (z) = diag fK 2 (h 0 ; z); : : : ; K T (h 0 ; z)g. We then construct our second-stage nonparametric GMM estimator as follows:</p><formula xml:id="formula_37">e (z) = arg min (z) g n ( (z)) 0 g n ( (z)) ;</formula><p>(3.15)</p><p>where we de…ne</p><formula xml:id="formula_38">g n (#) = 2 4 b Y M(z)vecf#g 0 K h 0 (z) b P n K h 0 (z) b Y M(z)vecf#g b Q(z) 0 K h 0 (z) b Y M(z)vecf#g 3 5 .</formula><p>(3.16)</p><p>The limiting results for the second-stage estimator require the following additional assumptions.</p><formula xml:id="formula_39">Assumption 5 max z2Sz Sz b (z) (z) = O p h 2 + p ln n= (nh 2 ) .</formula><p>Assumption 6 (i) z it has a common pdf f t (z) with respect to the Lebesgue measure over S z ;</p><p>(z it ; z is ) has a common pdf f t;s (z 1 ; z 2 ) with respect to the Lebesgue measure over S z S z for all t and s;</p><formula xml:id="formula_40">(ii) in the neighborhood of an interior point z, (z), (z), f t (z), E [g i m 0 it jz it = z], E [g 0 i g i m 0 it m it jz it = z], E [m it m 0 it jz it = z], E [m 0 it m it m 0 it m it jz it = z], E [ m it m 0 it jz it = z] and E [ m 0 it m it m 0 it m it jz it = z] are all twice continuously di¤ erentiable for all t; (iii) f t;s (z; z), E [ m it m 0 is jz; z], and E [ m 0 it m it m 0 is m is jz; z]</formula><p>are all twice continuously di¤ erentiable for all s and t, where</p><formula xml:id="formula_41">E [ jz; z] = E [ jz it = z; z is = z]; (iv) { B (h 0 ; z) is a non-singular de…ned in Lemma 6 in the Appendix. Assumption 7 As n ! 1: (i) h 0 ! 0 and lim n!1 nh 5 0 = c 0 &gt; 0; (ii) h ! 0, nh 4 ! 1; (iii) h=h 0 ! 0 and nh 2 h 2 0 = ln n ! 1.</formula><p>Assumption 5 strengthens the pointwise convergence of b (z) to a uniform convergence, which can be shown along the lines of <ref type="bibr" target="#b31">Masry (1996)</ref>. Assumption 6(i)-(iii) are regularity conditions imposed in the local linear estimation, while Assumption 6(iv) ensures the existence of the proposed estimator. Assumption 7(i) implies that the second-step bandwidth h 0 is of order n 1=5 , Assumption 7(ii) is required for the derivation of Assumption 5, where the …rst-stage estimation has an asymptotically ignorable impact on the second-stage estimator under Assumption 7(iii), which implies that h = cn with 1=5 &lt; &lt; 1=4 if we set h 0 = c 0 n 1=5 .</p><p>Theorem 2 Under Assumptions 1-3 and 5-7, at an interior point z, we have</p><formula xml:id="formula_42">p nh 0 h e (z) (z) { B (h 0 ; z) 1 { A (h 0 ; z) 0 i d ! N 0 dx+1 ; 2 u 2;0 (k) { B (h 0 ; z) 1 (z) { B (h 0 ; z) 1 ;</formula><p>where { A (h 0 ; z) = O p h 2 , { B (h 0 ; z) and (z) are respectively de…ned in Lemmas 5-7 in the Appendix.</p><p>By the proof of Theorem 2, we have e (z) (z) = O p h 2 0 + (nh 0 ) 1=2 . The impact of the initial …rst-stage estimator on the second-stage estimator vanishes asymptotically as h=h 0 ! 0 and nh 2 h 2 0 = ln n ! 1 hold. Importantly, Theorem 2 holds true for d g 0. Again, the localized quadratic moments have asymptotically non-ignorable contribution to { B (h 0 ; z) if diagfP n g 6 = 0.</p><p>By the proofs given in Lemmas 5-7, { A (h 0 ; z), { B (h 0 ; z) and (z) all depend on f' tt g, which means that the derived estimator has the asymptotic bias and variance di¤erent from those of the pooled local linear estimator. Unfortunately, it is di¢ cult to conclude which estimator is better due to the complexity of our formulas. This result di¤ers from <ref type="bibr">Su et al.'s (2013)</ref> …ndings where, excluding the spatial lag term from models (3.9) and (3.11), they show that the local linear estimator from the modi…ed model (3.11) has the same asymptotic bias but smaller asymptotic variance than the pooled local linear estimator. So far, our results indicate that, for the spatial autoregressive panel data model with …xed e¤ects, <ref type="bibr">Su et al.'s (2013)</ref> method may or may not be able to improve estimation e¢ ciency over the pooled estimation under the "working independence" assumption when the nonparametric IV-based GMM estimation method is concerned.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Sieve Estimator of (z)</head><p>Having estimated ( ) and ( ) consistently at the conventional convergence rate in the second stage, we next discuss how to consistently estimate the unknown functional curves ( ) in front of the time-invariant regressors g i . Speci…cally, we consider the following regression model:</p><formula xml:id="formula_43">_ y it = g 0 i (z it ) + i + u it ; i =</formula><p>1; : : : ; n; t = 1; : : : ; T; where _ y it y it m 0 it (z it ). Since _ y it is unknown, we replace it with e _ y it = y it m 0 it e (z it ), where e (z it ) is the second-stage GMM estimator. Hence, we suggest estimating (z) from e _ y it g 0 i (z it ) + i + u it ; i = 1; : : : ; n; t = 1; : : : ; T: (4.1)</p><p>We …rst note that applying the nonparametric smoothed least-squares dummy variable approach developed by <ref type="bibr" target="#b42">Sun et al. (2009)</ref> is infeasible for the estimation of (z); see the detailed discussion in Section 5.3. We therefore choose to employ a series approximation method. Speci…cally, letting f 1 ( ) ; 2 ( ) ; : : :g be a sequence of B-spline series, we approximate l (z) by l (z) = 0 l Ln (z) for l = 1; : : : ; d g , where l is of dimension L n and, for any integer &gt; 0, we denote (v) = [ 1 (v) ; : : : ; (v)] 0 . Then, g 0 i (z it ) can be approximated by</p><formula xml:id="formula_44">g 0 i (z it ) = g i Ln (z it ) 0 X 0 it ; where = h 0 1 ; : : : ; 0 dg i 0 and X it g i Ln (z it ) are both (d g L n ) 1 vectors.</formula><p>Stacking up fX 0 it g in the ascending order of index i …rst then index t gives an (nT ) (d g L n ) data matrix X . The series-based least-squares objective function is then given by</p><formula xml:id="formula_45">min ( ; ) e _ y X D 0 e _ y X D ; (4.2)</formula><p>where D = I n i T is an (nT ) n matrix, is as de…ned in Section 2, and e _ y is an (nT ) 1 vector that stacks up e _ y it in the ascending order of index i …rst then index t. Applying the partitioned OLS yields</p><formula xml:id="formula_46">e = X 0 M D X 1 X 0 M D e _ y; (4.3)</formula><p>where</p><formula xml:id="formula_47">M D = I nT D (D 0 D) 1 D 0 = I nT T 1 I n (i T i 0 T ).</formula><p>Hence, our (third-stage) series estimator of (z) is given by e (z) = h e 0 1 Ln (z) ; : : : ; e 0 dg Ln (z) i 0 :</p><p>(4.4) Below are some regularity assumptions required for our limiting results.</p><p>Assumption 8 For every L n , there exist constants c and c such that 0 &lt; c min ( ) max ( ) c &lt; 1 , where</p><formula xml:id="formula_48">P T t=1 E (g i g 0 i ) Ln (z it ) Ln (z it ) 0 and Ln (z it ) = Ln (z it ) T 1 P T s=1 Ln (z is ).</formula><p>Assumption 9 For any l = 1; : : : ; d g , there exists l such that</p><formula xml:id="formula_49">max 1 l dg;z2Sz l (z) 0 l Ln (z) CL n (4.5)</formula><p>for a su¢ ciently large L n and &gt; 2.</p><formula xml:id="formula_50">Assumption 10 As n ! 1, L n ! 1, L n (log L n ) =n ! 0 and nL 1 2 n ! 0.</formula><p>Assumption 8 ensures that X 0 M D X =n converges to a non-singular matrix for a su¢ ciently large n. Assumption 9 is similar to Assumption 3 in <ref type="bibr" target="#b32">Newey (1997)</ref>. In fact, if l ( )'s and l ( )'s are all -smooth,<ref type="foot" target="#foot_6">foot_6</ref> condition (4.5) holds over any compact support S z by Theorem 1.1 in <ref type="bibr">Dzyadyk &amp; Shevchuk (2008, p. 381)</ref>. If we set L n = cn r , Assumption 10 requires r 2 (1= (1 + 2 ) ; 1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 3 Under Assumptions 1-10, and if max</head><formula xml:id="formula_51">1 t T E h jg 0 i g i j 2+ ju it j 2+ i C for some &gt; 0, we have p n 1=2 n (z) h e (z) (z) i d ! N 0 dg ; 2 u I dg ; (4.6)</formula><p>where n (z) = I dg Ln (z)</p><formula xml:id="formula_52">0 1 I dg Ln (z) .</formula><p>Theorem 3 indicates that the sieve estimator e (z) is a consistent estimator of (z) and that the …rst two stages of the estimation procedure have asymptotically negligible e¤ects on the estimation of (z). For any constant 6 = 0 dg , we have j 0 n (z) j 1 max ( ) I dg Ln (z) CL n .</p><p>Therefore, e (z) (z) = O p p L n =n under Assumption 10.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Other Estimation Issues</head><p>This section provides brief arguments about an alternative estimator based on the within-groups transformation in Section 5.1, the spatial stationarity condition in Section 5.2 and the infeasibility of a nonparametric smoothed dummy variable approach in Section 5.3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">The Within-Groups Estimator of (z) and (z)</head><p>As an alternative to …rst-di¤erencing transformation, one can remove the unobserved …xed e¤ects from model (1.2) by applying the within-groups transformation which yields</p><formula xml:id="formula_53">y it = g 0 i T X s=1 st (z is ) + T X s=1 st m 0 is (z is ) + u it ; i = 1;</formula><p>: : : ; n; t = 1; : : : ; T;</p><p>(5.1)</p><p>where we denote a it = a it T 1 P T s=1 a is for a = fy; ug, and st = 1 T 1 if s = t and T 1 otherwise. Following our …rst-di¤erencing method, we notice that the …rst-stage estimation of model (5.1) su¤ers from a more severe "curse-of-dimensionality" problem than the …rst-di¤erencing method when T &gt; 2 as we need to approximate _ (z i ) = P T s=1 st (z is ) and (z i ) = (z i1 ) 0 ; : : : ; (z iT ) 0 0 in (5.1) by _ (z) = P T s=1 st (z s ) and (z) = (z 1 ) 0 ; : : : ; (z T ) 0 0 for i such that kz i zk = o (1), where z = [z 1 ; : : : ; z T ] 0 be an interior point with z s 6 = z s 0 for s 6 = s 0 . By the conventional nonparametric kernel estimation theory, we expect that the …rst-stage estimator based on the within-group transformation satis…es M SE h b (z) i O p h 2 + nh T 1=2 , where the asymptotic variance is of order nh T 1 because the unknown curves to be estimated are functions of T arguments in the transformed model (5.1). In fact, as we show in <ref type="bibr" target="#b43">Sun &amp; Malikov (2015)</ref>, the within-groups transformation method provides a consistent estimator only if T &lt; 3 and T &lt; 5 when the local constant and the local linear estimators are respectively applied in the …rst-stage estimation. Given …nite samples, the less accurate …rst-stage estimator may reduce the estimation accuracy of the second-stage estimator. Therefore, this paper focuses on the limit results from the …rst-di¤erencing method.<ref type="foot" target="#foot_7">foot_7</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Spatial Stationarity</head><p>The spatial stationarity of fy it g requires that max 1 j n;1 t T j j f (z t )W 0 gj &lt; 1 almost surely.</p><p>Following <ref type="bibr" target="#b15">Kelejian &amp; Prucha (2010)</ref>, one can normalize the spatial weighting matrix W 0 such that its largest eigenvalue in absolute value is no greater than one, so that the spatial stationarity condition holds if j (z)j &lt; 1 for any z 2 S z . To impose this restriction on the spatial lag parameter function, we apply Hall &amp; Huang's (2001) "tilting" procedure. The procedure essentially mutes or magni…es the impact of any given data point used in the estimation. This allows us to impose the spatial stationarity condition post-estimation via a quadratic programming technique. The idea is to slightly reweigh observations used in the estimation so that the spatial stationarity condition is satis…ed in the local neighborhood of z. Since the estimator derived using both linear and quadratic orthogonality conditions does not have an analytical solution, the "tilting" procedure proposed by <ref type="bibr" target="#b10">Hall &amp; Huang (2001)</ref> does not apply. Here, we therefore limit our attention to a simpler estimator which makes use of linear moments only and hence is valid when (z) 6 = 0 dx and (z) 6 = 0 dg over at least one non-empty subset. It is noteworthy however that, when one does incorporate quadratic conditions during the estimation, the non-singularity condition can be imposed even more easily via box constraints on (z) during the numerical optimization. Speci…cally, when using only linear moment conditions in (3.13), the second-stage estimator of (z) derived in Section 3.1 can be abbreviated as e (z) = P n i=1</p><formula xml:id="formula_54">P T t=2 ! it (G; X; z; h 0 ) b Y it , where ! it (G; X; z; h 0 ) is a local weight assigned to b Y it and is the (it)th (column) element in the …rst row of h M(z) 0 K h 0 (z) 0 b Q(z) b Q(z) 0 K h 0 (z)M(z) i 1 M(z) 0 K h 0 (z) 0 b Q(z) b Q(z) 0 K h 0 (z). We then construct e (zjp) = n (T 1) n X i=1 T X t=2 p it ! it (G; X; z; h 0 ) b Y it ; (5.2)</formula><p>where p = (p 12 ; : : : ; p 1T ; : : : p n2 ; : : : p nT ) 0 is the sequence of additional weights such that P n i=1 P T t=2 p it = 1. Note that p it equals 1= [n (T 1)] (i.e., uniform weights) when the restriction is not imposed.</p><p>If necessary, we can impose the non-singularity condition by selecting weights p that minimize the following L 2 -metric: D(p) = [n (T 1)] 1 i n(T 1) p 0 [n (T 1)] 1 i n(T 1) p subject to i 0 n(T 1) p = 1 and 1 &lt; e (z it jp) &lt; 1 for any (i; t). Here, D(p) is the sum of squared deviations of p j from the unrestricted value of [n (T 1)] 1 . In our choice of the distance metric, we follow <ref type="bibr" target="#b4">Du, Parmeter &amp; Racine (2013)</ref>, which allows p to be both positive and negative. <ref type="foot" target="#foot_8">8</ref> The minimization problem is solved via a standard quadratic programming technique. Let b p be the solution to this optimization problem. We then use e (zjb p) as the …nal estimator for (z). Since the proofs of consistency and asymptotic normality of the "tilted"estimator are tedious and closely follow those given in <ref type="bibr" target="#b28">Malikov &amp; Sun (2017)</ref>, we omit the details here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Infeasibility of a Smoothed Dummy Variable Approach</head><p>As brie ‡y mentioned earlier, an alternative approach to removing …xed e¤ects from functional-coe¢ cient models put forward in the literature is a nonparametric generalization of the so-called "dummy variables" approach by <ref type="bibr" target="#b42">Sun et al. (2009)</ref>. In the instance of a kernel-based least-squares estimator, <ref type="bibr">Sun et al.'s (2009)</ref> method closely resembles a traditional least-squares dummy variables (LSDV) estimator of parametric …xed-e¤ects panel data models. While this method can successfully be applied to functional-coe¢ cient models with …xed e¤ects that su¤er from endogeneity due to selectivity (see <ref type="bibr" target="#b27">Malikov, Kumbhakar &amp; Sun, 2016)</ref>, it however cannot be extended to varying coe¢cient panel data models subject to the general form of endogeneity stemming from the simultaneity of regressors. The latter is due to singularity in the …rst-order condition of the nonparametric GMM objective function, which we demonstrate below for the case when d g = 0 (i.e., no time-invariant regressors) and for the local constant estimator, without loss of generality.</p><p>Approximating our model in (1.2) around z yields y it m 0 it (z) + i + u it (5.3) for the (i; t)th observation with jz it zj = o (1). The corresponding local moment condition is</p><formula xml:id="formula_55">E Q 0 K h (z) (y M (z) D ) 0 d ; (5.4)</formula><p>where M, Q and y stack up m 0 it , m 0 it and y it in the ascending order of index i …rst then index t, and a typical element of the diagonal matrix K h (z) is k ((z it z) =h).</p><p>The kernel-weighted nonparametric GMM problem corresponding to the orthogonality condition in (5.4) is given by</p><formula xml:id="formula_56">min (z) Q 0 K h (z) (y M (z) D ) 0 Q 0 K h (z) (y M (z) D ) .</formula><p>(5.5)</p><p>The core idea of the "dummy variables" approach is to concentrate out the unknown …xed e¤ects from the objective function. To do so, one needs to substitute the …rst-order condition for the optimization problem in (5.5) with respect to back into the objective function. This …rst-order condition with respect to is</p><formula xml:id="formula_57">D 0 K h (z)QQ 0 K h (z) (y M (z) D ) = 0 n ;</formula><p>(5.6) which can be manipulated to obtain</p><formula xml:id="formula_58">b = D 0 K h (z)QQ 0 K h (z)D 1 D 0 K h (z)QQ 0 K h (z) [y M (z)] :</formula><p>(5.7) However, note that the above …rst-order condition su¤ers from singularity. To see this, let</p><formula xml:id="formula_59">A = Q 0 K h (z) D. Then, D 0 K h (z)QQ 0 K h (z) D = A 0 A.</formula><p>Since A is a d n matrix, A 0 A is a square matrix of dimension n. Given that n &gt; d, we know that the rank of A 0 A is no greater than d, rendering matrix D 0 K h (z) QQ 0 K h (z) D to be singular. Thus, b cannot be solved for and cannot be concentrated out of the GMM objective function (5.5). The "dummy variables" approach is infeasible. The above argument continues to hold if d g &gt; 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Test for Spatial Endogeneity</head><p>Given that our semiparametric spatial autoregressive model (1.2) nests the traditional functional-coe¢ cient …xed-e¤ects model in (1.1) as a special case, one may wish to formally discriminate between the two models. In this section, we are interested in testing for relevance of the spatial lag term in model (1.2), and the proposed is, essentially, a test for spatial endogeneity. Speci…cally, we consider the following null and alternative hypotheses:</p><formula xml:id="formula_60">H 0 : Pr f (z) = 0g = 1 vs. H 1 : Pr f (z) = 0g &lt; 1.</formula><p>That is, under H 0 , our model (1.2) becomes model (1.1). Our proposed test statistic is based on a weighted squared distance between e 0 (z) and e 1 (z), which are the second-stage local-constant estimators of (z) under the null and alternative hypotheses, respectively. Since the estimation of (z) involves a three-step procedure, for the sake of simplicity and feasibility, we propose to construct our test statistic only from the estimators for (z) under both hypotheses.</p><p>We start by de…ning X j = h X 0 j;1 ; : : : ; X 0 j;n i 0 for j = 1; 2, where X 1;i = [x i2 ; : : : ; x iT ] 0 and</p><formula xml:id="formula_61">X 2;i = P j6 =i w ij [y j2 ; : : : ; y jT ] 0 , and b h 0 (z) K h 0 (z) 0 b Q b Q 0 K h 0 (z), where b Q = h b Q 0 2 ; : : : ; b Q 0 T i 0 with b Q t = [b q 1t ; : : : ; b q nt ] 0 . Next, we de…ne M 2 (z) = I n(T 1) X 2 h X 2 0 b h 0 (z)X 2 i 1 X 2 0 b h 0 (z)<label>and</label></formula><formula xml:id="formula_62">S h 0 (z) = M 2 (z) 0 b h 0 (z)M 2 (z), where we can show that S h 0 (z) = M 2 (z) 0 b h 0 (z) = b h 0 (z)M 2 (z).</formula><p>Then, the local constant estimator of (z) for model (3.</p><formula xml:id="formula_63">8) under H 1 is calculated as e 1 (z) = [X 1 0 S h 0 (z)X 1 ] 1 X 1 0 S h 0 (z) b y y</formula><p>, which is based on the local linear orthogonal moment condition only and is used to simply the formula of our test statistic. Given the above, we construct our test statistic as follows:</p><formula xml:id="formula_64">T n = Z h e 1 (z) e 0 (z) i 0 X 0 1 S h 0 (z)X 1 2 h e 1 (z) e 0 (z) i dz = Z h b y y X 1 e 0 (z) i 0 S h 0 (z) 0 X 1 X 0 1 S h 0 (z) h b y y X 1 e 0 (z) i dz = Z h b y y X 1 e 0 (z) i 0 b h 0 (z)M 2 (z) X 1 X 0 1 M 2 (z) 0 b h 0 (z) h b y y X 1 e 0 (z) i dz 0;</formula><p>where the typical element of b y y X 1 e 0 (z) is given by i +o p (1). Hence, intuitively, we expect T n to go explosive at a faster speed under H 1 than under H 0 .</p><formula xml:id="formula_65">e " it (z) b y y it x 0 it e 0 (z) = y it g 0 i b _ 1 (z it ) + m 0 i;t 1 b 1 (z i;t 1 ) x 0 it e 0 (z) b it + (z it ) X j6 =i w ij y jt + x 0 it h (z it )</formula><p>We next describe how to calculate e 0 (z) under H 0 . Since, when (z) = 0, (3.3) becomes y it g 0 i _ (z) + 0 x 0 it (z) + u it , we consider the following kernel-weighted least-squares objective function:</p><formula xml:id="formula_66">min 0 (z) [ y M 0 (z)] 0 K e h (z) [ y M 0 (z)] ; (6.1)</formula><p>where M = [M 0 1 ; : : : ; M 0 n ] 0 is an [n (T 1)] ( <ref type="formula">2d</ref>x + d g ) data matrix with M i = [M i2 ; : : : ; M iT ] 0 and</p><formula xml:id="formula_67">M it = g 0 i ; 0 x 0 it 0 , x it = diag fx it ; x i;t 1 g, and 0 (z) = h _ 0 (z) 0 ; 0 (z) 0 i 0 is of dimension (2d x + d g ). The solution to (6.1) yields b 0 (z) = M 0 K e h (z)M 1 M 0 K e h (z) y, which is the …rst- stage estimator of (z). The second-stage estimator e 0 (z) is obtained from b y y it x 0 it (z it )+ u it via local constant estimator, where b y y it = y it g 0 i b _ 0 (z it ) + x 0 i;t 1 b 0 (z i;t 1</formula><p>). Similar to the proof provided in Section 3, we can show that, under some regularity conditions, e 0 (z) (z) = O p e h 2 0 + n e h 0 1=2 .</p><p>To simplify the test statistic, we replace e " it (z) with b</p><formula xml:id="formula_68">" it = b y y it x 0 it e 0 (z it ), where b y y it = y it g 0 i b _ 1 (z it ) +x 0 i;t 1 b 1 (z i;t 1</formula><p>) is calculated under the alternative hypothesis, and replace b h 0 (z) with K h 0 (z) since b h 0 (z) essentially serves as a local weight. In addition, since M 2 (z) X 1 gives the estimated "residuals"from regressing X 1 on X 2 and because X 1 is a strictly exogenous variable by Assumption 1, it is reasonable to replace M 2 (z) X 1 with X 1 . This replacement signi…cantly simpli…es our proof under H 0 . Then, removing the center i = j terms in T n , we obtain our modi…ed test statistic, i.e.,</p><formula xml:id="formula_69">T n = 1 n 2 h 0 n X i=1 n X j6 =i b " 0 i Z K i (z) X 1;i X 0 1;j K j (z) dz b " j ; (6.2)</formula><p>where b " i = [b " i2 ; : : : ; b " iT ] 0 . Applying simple algebra, we obtain and <ref type="figure">(j; s</ref>) such that jz it z js j = o p (1). Therefore, without the loss of essence, we propose our …nal test statistic:</p><formula xml:id="formula_70">h 1 0 Z K i (z) X 1;i X 0 1;j K j (z) dz = 2 6 4 k h 0 (z i2 ; z j2 ) x 0 i2 x j2 : : : k h 0 (z i2 ; z jT ) x 0 i2 x jT . . . . . . . . . k h 0 (z iT ; z j2 ) x 0 iT x j2 : : : k h 0 (z iT ; z jT ) x 0 iT x jT 3 7 5 ; (6.3) where k h 0 (z it ; z js ) = h 1 0 R k it (z) k js (z) dz = R k ((z it z js ) =h 0 + !) d! e¤ectively selects (i; t)</formula><formula xml:id="formula_71">b T n = 1 n 2 h 0 n X i=1 n X j6 =i b " 0 i A ij b " j ; (6.4)</formula><p>where A ij equals (6.3) with k h 0 (z it ; z js ) replaced with k h 0 (z it ; z js ) = k ((z it z js ) =h 0 ).</p><p>Let e h and h be the bandwidths for the …rst-stage estimation and e h 0 and h 0 be the the bandwidths for the second-stage estimation under H 0 and H 1 , respectively. To obtain consistent test statistic, we need the following restrictions on these bandwidths.</p><p>Assumption 11 (i) As n ! 1, e h, h, e h 0 and h 0 all converge to zero;</p><formula xml:id="formula_72">(ii) n e h 2 = ln n ! 1, n e h 0 ! 1, e h= e h 0 ! 0; (iii) nh 4 p h 0 ! 0, p h 0 =h 2 ! 0; (iv) n p h 0 e h 4 0 ! 0, p h 0 = e h 0 ! 0, q nh 0 = e h 0 h 2 ! 0, p nh 0 e h 2 0 =h ! 0, q h 0 = e h 0 =h ! 0; (v) nh 0 ! 1.</formula><p>Assumption 11(i) is a regularity condition. Assumption 11(ii) ensures that the second-stage estimator of (z) has an asymptotic bias term of order O p e h 2 0 and an asymptotic variance term of order O p n e h 0 1 under H 0 . Assumption 11(iii) removes the asymptotic impact of the …rst-stage estimator (calculated under the alternative hypothesis) on the test statistic under both hypotheses. Assumption 11(iv) makes asymptotically negligible the impact of the second-stage estimator (calculated under the null hypothesis) on the test statistic under H 0 , while our test statistic explodes under Assumption 11(v). The following theorem gives the limit result for the proposed test statistic b T n .</p><p>Theorem 4 Under Assumptions 1-3 and 11, we have under H 0 that</p><formula xml:id="formula_73">J n n p h 0 b T n =b 0 d ! N(0; 1), where b 2 0 = n 2 h 0 1 P n i=1 P n j6 =i (b " 0 i A ij b " j ) 2 is a consistent estimator of 2 0 = 2 4 u 2;0 (k) T X t=2 X 0 js tj 1 c ts E (z 2s ) vec x 2s x 0 2s f (z 2s ) &gt; 0, (z) = E [x 0 1t</formula><p>x 0 1t jz 1t = z], c ts = 4 for t = s and 1 otherwise. Under H 1 , Pr [J n &gt; C n ] ! 1 as n ! 1, where C n is some non-stochastic sequence such that C n = o n p h 0 .</p><p>Theorem 4 states that the test statistic J n = n p h 0 b T n =b 0 provides a consistent test for testing H 0 against H 1 . It is a one-sided test since, as we show in the Appendix, both b T n and b 2 0 converge to positive constants under H 1 . If J n is greater than the critical value from the standard normal distribution, we reject the null hypothesis at the corresponding signi…cance level. If we set h n r , h 0 n , e h n e r and e h 0 n e , and e = 1=5, Assumption 11 implies the following: e &lt; e r &lt; 1=2, 2=3 &lt; &lt; 1 and (1 =2) =4 &lt; r &lt; =4. Note that the test loses its power if e 0 (z) converges to 0 (z) in probability under the alternative hypothesis and the elements of the spatial weighting matrix are at most of order O n p h 0 1=2 .</p><p>The estimator e 0 (z) is also consistent under the alternative hypothesis if the spatial lag term becomes less endogenous as the sample size increases.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Monte Carlo Simulations</head><p>In this section, we evaluate the …nite-sample performance of our proposed estimators and the test statistic via Monte Carlo simulations. Section 7.1 reports the results for our proposed estimators, whereas the performance of our proposed test statistic is reported in Section 7.2.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.1">Estimators</head><p>We study the …nite sample performance of our proposed estimators in a small set of Monte Carlo experiments. Speci…cally, we consider the following data generating process with one time-invariant </p><formula xml:id="formula_74">y it = (z it ) X j6 =i w ij y jt + g i (z it ) +</formula><p>x it (z it ) + i + u it ; i = 1; : : : ; n; t = 1; : : : ; T: (7.1) As in <ref type="bibr" target="#b16">Lee (2007)</ref> and <ref type="bibr" target="#b26">Liu, Lee &amp; Bollinger (2010)</ref>, rather than generating fw ij g, we instead use the spatial weighting matrix from the crime study for 49 districts in Columbus, OH from <ref type="bibr" target="#b0">Anselin (1988)</ref>. The spatial weighting matrix is contiguity-based and uses the (…rst-order) queen de…nition for Columbus and corresponds to a sample of n = 49. To increase the sample size, we generate a block-diagonal spatial matrix with the original 49 49 Columbus matrix used as a diagonal block.</p><p>The data are generated as follows: z it i:i:d: U(0; =2), g i i:i:d: N(0; 1), u it i:i:d: N(0; 0:5), and x it = 0:5x i;t 1 + it with it i:i:d: N(0; 1). The …xed e¤ects are constructed as i = (z i + x i + g i )=3 + ! i , where ! i i:i:d: N(0; 0:5). The coe¢ cient functions are speci…ed as follows:</p><p>(z it ) = 0:5 exp( 2z it ), (z it ) = 0:5 sin( z it =3), and (z it ) = (z it 0:75) 2 1. <ref type="foot" target="#foot_9">9</ref>We …x the length of panel at T = 2; 3 for each of which we let the sample size grow with the number of cross-sections n = 98; 147; 196. In the second-stage estimation, we use the rule-of-thumb bandwidth for the smoothing variable z it , i.e., h 0 = 1:06b z (n(T 1)) 1=5 , where b z is the (pooled) sample standard deviation of z it . We need to undersmooth in the …rst stage and, by Assumption 7, the …rst-stage bandwidth h _ n with 2 (1=5; 1=4) given our choice of the second-stage bandwidth h 0 _ n 1=5 . We set h = n 1=21 h 0 _ n 26=105 implying that 0:248. Further, we use the following feasible instruments for when constructing the matrix of linear instruments Q, and P n;l = I T 1 W l 0 n 1 tr W l 0 I n for l = 1; 2 for quadratic moments. For the second-stage estimation, b Q(z) and b P n are constructed using …rst-stage estimates of (z it ) and (z it ) as described in Section 3.1.</p><formula xml:id="formula_75">P j6 =i w ij y jt in the …rst stage: q it = P j6 =i w ij [x 0 jt ; z jt ; g 0 j ] 0</formula><p>For each sample size, we simulate the model 500 times. For each simulation, we compute the mean absolute error (MAE) and the root mean squared error (RMSE) for each functional coe¢ cient. Reported are their averages computed over 500 simulations. We report the results for both the …rstand second-stage nonparametric GMM estimators …tted using two sets of orthogonality conditions: (i) linear and quadratic moments (Table <ref type="table" target="#tab_0">1</ref>) and (ii) linear moments only (Table <ref type="table" target="#tab_1">2</ref>). Also, for T = 3, we estimate the second-stage model twice: (i) accounting for "random e¤ects" in u it induced by …rst-di¤erencing as outlined in Section 3.1 and (ii) ignoring them by applying the local Taylor approximation directly to (3.8) [as opposed to (3.11)]. In the second columns in both tables, "Yes" corresponds to case (ii ) with the "working independence" assumption imposed, while "No" corresponds to case (i ).</p><p>The two tables indicate that estimation of both ( ) and ( ) functional coe¢ cients become more stable as the number of cross-sections increases. Both the MAE and RMSE decline significantly as n increases. Regardless of the instrument set, as expected, the second-stage estimator delivers a sizable improvement over its …rst-stage counterpart. This improvement is however far more signi…cant when pooling the data by ignoring random e¤ects in the second-stage estimation. We also observe that adding quadratic orthogonality conditions leads to a sizable increase in the estimation accuracy. In addition, our results indicate that the performance of our estimator improves signi…cantly when working with longer panels. Comparing our second-stage estimator which accounts for random e¤ects with its pooled local linear alternative, we observe that the estimation of ( ) bene…ts signi…cantly from the "working independence" assumption, at least in our current data generating design. Tables <ref type="table" target="#tab_0">1</ref> and <ref type="table" target="#tab_1">2</ref> also report the results for the third-stage sieve estimator of ( ). We use cubic B-splines to approximate the unknown functional coe¢ cient. For simplicity, we set L n = 3 in our experiments for all three di¤erent n's since the range of the sample size is not that large. Consistent with our theory, the sieve estimator of ( ) becomes more stable as the sample size grows.</p><p>Overall, simulation experiments lend support to asymptotic results for our proposed estimators.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.2">Spatial Endogeneity Test</head><p>We next examine the small sample performance of our proposed residual-based test statistic for spatial endogeneity. To assess the size and power of our test statistic J n , we consider the following two experimental designs for the data-generating process given in (7.1), where z it , x it , g i , u it , i and the functional coe¢ cients ( ) and ( ) are generated exactly as in Section 7.1. Following <ref type="bibr" target="#b14">Kelejian &amp; Prucha (1999)</ref> and <ref type="bibr" target="#b12">Jin &amp; Lee (2015)</ref>, we choose a circular "1 ahead and 1 behind" structure of W 0 = fw ij g n i;j=1 , where a given spatial unit is related to one neighbor immediately ahead and one neighbor immediately behind it in a row. Each of these two neighbors are assigned an equal non-zero weight of 0:5. We then specify the spatial lag functional parameter ( ) as follows:</p><p>(i) No spatial dependence: (z it ) = 0 for all z it ;</p><p>(ii) Spatial autoregression: (z it ) = 0:5 + 0:4 exp( 2z it ).</p><p>We consider samples with n = f100; 400; 600; 1; 000g and T = 3. For each n, we simulate the model 500 times. We set e h 0 = 1:06b z (n(T 1)) 0:20 , e h = 1:06b z (n(T 1)) 0:45 , h 0 = 1:06b z (n(T 1))</p><p>and h = 1:06b z (n(T 1)) r with 2=3 &lt; &lt; 1 and (1 =2) =4 &lt; r &lt; =4. To assess the sensitive of the results to the choice of bandwidths, we try di¤erent combinations of h and h 0 . Speci…cally, in line with our assumptions, we set ( ; r) = f(0:70; 0:168); (0:80; 0:175); (0:90; 0:181)g.</p><p>Table <ref type="table" target="#tab_2">3</ref> reports the estimated size under design (i) and power under design (ii) of our test statistic which are computed as rejection frequencies out of 500 simulations. Here, we use (asymptotic) standard normal critical values. We …nd that out test statistic J n exhibits good power which increases with the sample size as anticipated, regardless of the choice of bandwidths. Also, the power is signi…cantly better when we under-smooth in both stages under H 1 . The size of the test also seems to be sensitive to the degree of smoothing under the alternative with the better results reported for the case when = 0:70 and r = 0:168, which imply stronger under-smoothing under H 1 . Overall, the estimated size tends to be greater than the nominal level, which is quite expected given that we use asymptotic critical values and kernel-based nonparametric tests are known to be prone to …nite-sample size distortions. In empirical applications, we certainly recommend using the bootstrap method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="8">Conclusion</head><p>This paper proposes an innovative way of estimating a functional-coe¢ cient spatial autoregressive panel data model with unobserved individual …xed e¤ects which can accommodate (multiple) timeinvariant regressors in the model. The methodology we propose removes unobserved …xed e¤ects from the model via the …rst-di¤erence transformation. The estimation of the transformed nonparametric additive model however does not require the use of back…tting or marginal integration techniques. We derive the consistency and asymptotic normality results for the proposed kernel and sieve estimators. We also construct a consistent nonparametric test statistic to test for spatial endogeneity in the data. A small Monte Carlo study shows that both our proposed estimators and the test statistic exhibit good …nite-sample performance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix. Brief Mathematical Proofs</head><p>Proof of Theorem 1.</p><p>Denote</p><formula xml:id="formula_76"># n = n h b _ (z) 0 _ (z) 0 b (z) 0 (z) 0 i 0 , 4y it = 4y it g 0 i _ (z) 0 m 0 it (z) and " it (#) = 4y it 1 n g 0 i ; 0 m 0 it #,</formula><p>where f n g is a sequence of positive constants such that 0 &lt; C 1 &lt; k# n k &lt; C 2 &lt; 1 for all n and T . We then rewrite (3.6) as</p><formula xml:id="formula_77">g n (#) = 2 6 6 6 4 " (#) 0 K h (z)P n;1 K h (z)" (#) . . . " (#) 0 K h (z)P n;L K h (z)" (#) Q 0 K h (z)" (#) 3 7 7 7 5 , (A.1)</formula><p>where " (#) is an [n (T 1)] 1 vector stacking up f" it (#)g in the ascending order of index t …rst then index i, and obtain the following:</p><formula xml:id="formula_78">@g n (#) @# 0 = 1 n 2 6 6 6 4 " (#) 0 K h (z)P s n;1 K h (z)M . . . " (#) 0 K h (z)P s n;L K h (z)M Q 0 K h (z)M 3 7 7 7 5</formula><p>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Minimizing the objective function in (3.7) is equivalent to minimizing</head><formula xml:id="formula_79">n (#) = g n (#) 0 g n (#) in # 2 S, a compact subset of R 2(dx+1)+dg . Since # n minimizes n (#) = g n (#) 0 g n (#), we have 0 2(dx+1)+dg = @g n (# n ) 0 @# g n (# n ) = @g n (# n ) 0 @# 2 4 g n (0) + @g n e # n @# 0 # n 3 5 ;</formula><p>where e # n lies between # n and 0 2(dx+1)+dg , and hence:</p><formula xml:id="formula_80"># n = 2 4 @g n (# n ) 0 @# @g n e # n @# 0 3 5 1 @g n (# n ) 0 @# g n (0) . Speci…cally, denoting h (z) K h (z)QQ 0 K h (z), we have A n (z) = @g n (# n ) 0 @# g n (0) = 1 2 n L X l=1 M 0 K h (z)P s n;l K h (z)" (# n ) y 0 K h (z)P s n;l K h (z) y + 1 n M 0 h (z) y<label>and</label></formula><formula xml:id="formula_81">B n (z) = @g n (# n ) 0 @# @g n e # n @# 0 = 1 2 n L X l=1 " (# n ) 0 K h (z)P s n;l K h (z)M 0 " e # n 0 K h (z)P s n;l K h (z)M + 1 2 n M 0 h (z)M.</formula><p>For each (i; t), we have 4y it = 4u it +c it (z), where</p><formula xml:id="formula_82">c it (z) = g 0 i [ (z it ) (z 1 )] g 0 i [ (z i;t 1 ) (z 2 )] +m 0 it [ (z it ) (z 1 )] m 0 i;t 1 [ (z i;t 1 ) (z 2 )].</formula><p>Stacking up fc it (z)g in the ascending order of index t …rst then index i gives an [n (T 1)] 1 vector C (z). We also denote</p><formula xml:id="formula_83">1;l = 4u 0 K h (z)P s n;l K h (z)C(z), 2;l = C (z) 0 K h (z)P s n;l K h (z)C(z), 3;l = 4u 0 K h (z)P s n;l K h (z) u, 1;l = 4u 0 K h (z)P s n;l K h (z)M, 2;l = C (z) 0 K h (z)P s n;l K h (z)M and 3;l = M 0 K h (z)P s n;l K h (z)M for l = 1; : : : ; L. Then, we have A n (z) = A n1 (z) + A n2 (z) A n3 (z) with A n1 (z) = 1 2 n L X l=1 (2 1;l + 2;l + 3;l ) ( 1;l + 2;l ) 0 + 1 n M 0 h (z)C(z); A n2 (z) = 1 n M 0 h (z) u; A n3 (z) = 1 2 2 n L X l=1 (2 1;l + 2;l + 3;l ) 3;l # n and B n (z) = 1 2 n L X l=1 1;l + 2;l 1 n # 0 n 3;l 0 1;l + 2;l 1 n e 0 n 3;l + 1 2 n M 0 h (z)M.</formula><p>By Lemmas 1-3 below, we have</p><formula xml:id="formula_84">nh 2 2 n A n1 (z) = { A (h; z) + o p h 2 ; (A.2) nh 2 3=2 n A n2 (z) d ! N 0 2(dx+1)+dg ; 2 u 2;0 (k) (z) ; nh 2 2 2 n A n3 (z) = O p h 2 + n 1=2 ; nh 2 2 2 n B n (z) = { B (h; z) + O p 1 n + 2 n + o p (1) ;</formula><p>where the last equation holds uniformly over all e n 2 S and { A (h; z) = O p h 2 and { B (h; z) = O (1). In addition, we have</p><formula xml:id="formula_85">n h b _ (z) 0 _ (z) 0 b (z) 0 (z) 0 i 0 h nh 2 2 2 n B n (z) i 1 nh 2 2 n A n1 (z) = n p nh 2 2 n B n (z) (nh 2 ) 2 1 n A n2 (z) (nh 2 ) 3=2 + 2 n B n (z) (nh 2 ) 2 1 2 n A n3 (z) (nh 2 ) 2 . (A.3) Combining (A.2)-(A.</formula><p>3) with the fact that 0 &lt; C 1 &lt; k# n k &lt; C 2 &lt; 1 for all n, we can deduce that n must be of order p nh 2 . The logic is explained below.</p><formula xml:id="formula_86">(i) If n = p nh 2 ! 1, it implies that p nh 2 h b _ (z) 0 _ (z) 0 b (z) 0 (z) 0 i 0 ! 0 as n ! 1. By (A.2)-(A.3) and Assumption 4, we obtain p nh 2 h b _ (z) 0 _ (z) 0 b (z) 0 (z) 0 i 0 { B (h; z) 1 { A (h; z) d = N 0 2(dx+1)+dg ; 2 u 2;0 (k) { B (h; z) 1 (z) { B (h; z) 1 + O p h 2 + n 1=2 .</formula><p>Since the …rst term is of order O e (1), a contradiction occurs.</p><p>(ii) Now, suppose that n = p nh 2 ! 0 holds true. By (A.2)-(A.3) and Assumption 4, we have # n = o p (1) which contradicts the fact that k# n k is uniformly bounded and positive.</p><p>Therefore, applying the exclusion method, we have shown that n must be of order p nh 2 exactly, which gives</p><formula xml:id="formula_87">p nh 2 h b _ (z) 0 _ (z) 0 b (z) 0 (z) 0 i 0 { B (h; z) 1 { A (h; z) d = N 0 2(dx+1)+dg ; 2 u 2;0 (k) { B (h; z) 1 (z) { B (h; z) 1 .</formula><p>This completes the proof of this theorem.</p><p>In the following three lemmas, we de…ne { j (h; z) = { j;Q (z) + { j;P (h; z) for j = A, B, where subscripts Q and P mean that the variable results from the use of Q and fP n;l ug as the instrument, respectively.</p><formula xml:id="formula_88">Lemma 1 Under Assumptions 1-4, we obtain nh 2 2 n A n1 (z) ={ A (h; z) + o p h 2 , where { A;Q (z) = h 2 1;2 (k) E 1 (z) E 2 (z) ; { A;P (h; z) = L X l=1 F 1;l (h; z) + 1 2 F 2;l (h; z) E [ l (h; z)] 0 = O p h 2 + n 1=2</formula><p>and E 1 (z), E 2 (z), l (h; z) and F j;l (j = 1; 2; 3) are de…ned in the proof below.</p><p>Proof. Under Assumptions 1-4 and denoting</p><formula xml:id="formula_89">E [ jz] = E [ jz it = z 1 ; z i;t 1 = z 2 ], we obtain 1 nh 2 M 0 K h (z)Q = 1 nh 2 n X i=1 T X t=2 k it (z) g i g 0 i g i 0 m 0 it m it g 0 i m it 0 m 0 it = E 1 (z) + O p h 2 + nh 2 1=2</formula><p>(A.4) and</p><formula xml:id="formula_90">1 nh 2 Q 0 K h (z)C(z) = 1 nh 2 n X i=1 T X t=2 k it (z) g i m it c it (z) = h 2 1;2 (k) E 2 (z) + O p h 4 + n 1=2 , (A.5) where E 1 (z) = T X t=2 f t;t 1 (z) E [g i g 0 i jz] E g i 0 m 0 it jz E [m it g 0 i jz] E m it 0 m 0 it jz ; E 2 (z) = T X t=2 2 X s=1 s 8 &lt; : 2 4 @(E[g i g 0 i jz]f t;t 1 (z)) @zs @(E[g i m 0 i;t+1 s jz]f t;t 1 (z)) @zs @(E[ m it g 0 i jz]f t;t 1 (z)) @zs @(E[ m it m 0 i;t+1 s jz]f t;t 1 (z)) @zs 3 5 5 (z s ) 5 (z s ) + f t;t 1 (z) 2 2 4 E [g i g 0 i jz] E h g i m 0 i;t+1 s jz i E [ m it g 0 i jz] E h m it m 0 i;t+1 s jz i 3 5 5 2 (z s ) 5 2 (z s ) 9 = ; . This gives { A;Q (z) = h 2 1;2 (k) E 1 (z) E 2 (z).</formula><p>Next, let a ij (z t ) be the (i; j)th element of the n n matrix W 0 S n (z t ) and, by (2.2), we have W 0 y t = y t + u t , where the typical element of y t and u t are</p><formula xml:id="formula_91">y it = P n j=1 a ij (z t ) h g 0 j (z jt ) + x 0 jt (z jt ) + j i and u it = P n j=1 a ij (z t ) u jt , respectively. Correspondingly, we also denote m it = m it + e m it with m it = [ y it ; x 0 it ] 0 and e m it = u it ; 0 0 dx 0 , c it (z) = c it (z) + e c it (z) with c it (z) = g 0 i [ (z it ) (z 1 )] g 0 i [ (z i;t 1 ) (z 2 )]+ m 0 it [ (z it ) (z 1 )] m 0 i;t 1 [ (z i;t 1 ) (z 2 )] and e c it (z) = u it [ (z it ) (z 1 )] u i;t 1 [ (z i;t 1 ) (z 2 )], and M it = M it + f M it with M it = g 0 i ; 0 m 0 it 0 and f M it = h 0 0 dg ; 0 f m 0 it i 0 = h 0 0 dg ; e m 0 it ; e m i;t 1 i 0 . Under Assumption 1(iii), we have kW 0 S n (z t )k j &lt; C &lt; 1 for j = 1, 1. Applying straightforward calculations gives 1;l nh 2 = 1 nh 2 n X i=1 n X j=1 T X t=2 p s l;ij k it (z) k jt (z) u it M 0 jt = 2 nh 2 n X i=1 T X t=2 p l;ii k 2 it (z) u it f M 0 it + O p h 2 + 1 p nh l (h; z) + O p h 2 + p nh 1 = l (h; z) + o p (1) , (A.6) where p s l;ij = p l;ij + p l;ji , l (h; z) = h 0 0 dg ; 0;l (h; z) ; 0 0 dx ; 1;l (h; z) ; 0 0 dx i with s;l (h; z) = 2 nh 2 1 P n i=1 P T t=2 p l;ii a ii (z t s ) k 2 it (z) u it u i;t s and l (h; z) = h 0 0 dg ; 0;l (h; z) ; 0 0 dx ; 1;l (h; z) ; 0 0 dx i with s;l (h; z) = 2 2 u 2;0 (k) lim n!1 n 1 P n i=1 p l;ii P T t=2 ( 1) s E [a ii (z t s ) jz] f t;t 1 (z) for s = 0; 1. As sup i E " h 1 T X t=2 p l;ii a ii (z t s ) k 2 it (z) u it u i;t s # 2 C &lt; 1, applying the Chebyshev inequality we can show that s;l (h; z) = E [ s;l (h; z)]+o p (1) = s;l (h; z) = O p (1).</formula><p>Similarly, we obtain</p><formula xml:id="formula_92">2;l nh 2 = 1 nh 2 n X i=1 n X j=1 T X t=2 p s l;ij k it (z) k jt (z) c it (z) M 0 jt = O p h 2 + n 1=2 , (A.7) 1;l nh 2 = 1 nh 2 n X i=1 n X j=1 T X t=2 p s l;ij k it (z) k jt (z) u it c jt (z) = 2 nh 2 n X i=1 T X t=2 p l;ii k 2 it (z) u it e c it (z) + O p h 4 + 1 p n F 1;l (h; z) + O p h 4 + 1 p n = O p h 2 + 1 p n ; (A.8) 2;l nh 2 = 1 nh 2 n X i=1 n X j=1 T X t=2 p s l;ij k it (z) k jt (z) c it (z) c jt (z) = 2 nh 2 n X i=1 T X t=2 p l;ii k 2 it (z) c 2 it (z) + O p h 4 F 2;l (h; z) + O p h 4 = O p h 2 + hn 1=2 , (A.9)</formula><p>and</p><formula xml:id="formula_93">3;l nh 2 = 1 nh 2 n X i=1 n X j=1 T X t=2 p s l;ij k it (z) k jt (z) u it u jt = 2 nh 2 n X i=1 T X t=2 p l;ii k 2 it (z) ( u it ) 2 + O p n 1=2 = O p h 2 + 1 p n since tr fP n;l g = 0 for all l. It then follows that 3;l nh 2 2;l nh 2 = O p h 2 + 1 p n O p h 2 + n 1=2 = O p h 4 + h 2 p n + 1 n .</formula><p>Also, we have</p><formula xml:id="formula_94">3;l nh 2 s;l (h; z) 4 n 2 h 4 n X i=1 T X t=2 p l;ii k 2 it (z) ( u it ) 2 n X i=1 T X t=2 p l;ii a ii (z t s ) k 2 it (z) u it u i;t s = O p 1 nh 2 + 1 n = O p 1 nh 2 ;</formula><p>so that we obtain</p><formula xml:id="formula_95">3;l nh 2 1;l nh 2 = O p 1 nh 2 + 1 p n .</formula><p>Combining all the above results gives</p><formula xml:id="formula_96">nh 2 2 n A n1 (z) = 1 2 (nh 2 ) 2 L X l=1 (2 1;l + 2;l ) 0 1;l + 1 (nh 2 ) 2 M 0 h (z)C(z) + O p h 4 + nh 2 1 + n 1=2 = L X l=1 F 1;l (h; z) + 1 2 F 2;l (h; z) l (h; z) 0 + h 2 1;2 (k) E 1 (z) E 2 (z) + O p h 4 + nh 2 1 + n 1=2 ;</formula><p>which completes the proof of this lemma.</p><p>Remark 1 If (z) and (z) are both constant, we have 1;l = 2;l = 0 and 2;</p><formula xml:id="formula_97">l = 0 0 2(dx+1)+dg , from which it follows that nh 2 2 n A n1 (z) = 2nh 2 2 P L l=1 3;l 0 1;l = O p n 1=2 under As- sumption 4. Lemma 2 Under Assumptions 1-4, we obtain nh 2 2 2 n B n (z) = { B (h; z) + O p n 1 + n 2 + o p (1) , (A.10) where { B;Q (z) = E 1 (z) E 1 (z) 0 and { B;P (h; z) = P L l=1 E [ l (h; z)] 0 E [ l (h; z)]. Proof. By (A.4), we obtain { B;Q (z) = E 1 (z) E 1 (z) 0 . In addition, we have 3;l nh 2 = 1 nh 2 n X i=1 n X j=1 T X t=2 p s l;ij k it (z) k jt (z) M it M 0 jt = 2 nh 2 n X i=1 T X t=2 p l;ii k it (z) M it M 0 it + O p h 2 = O p (1) . (A.11)</formula><p>Combining this result with (A.6) and (A.7) yields</p><formula xml:id="formula_98">nh 2 2 2 n B n (z) = 1 (nh 2 ) 2 L X l=1 0 1;l 1;l + 1 (nh 2 ) 2 M 0 h (z)M + O p 1 n + 2 n + h 2 + n 1=2 = { B;P (h; z) + { B;Q (z) + O p 1 n + 2 n + O p h 2 + nh 2 1=2 ;</formula><p>which completes the proof of this lemma.</p><p>Remark 2 When model (1.2) becomes a pure spatial autoregressive panel data model with random e¤ects, we have</p><formula xml:id="formula_99">E m it 0 m 0 it jz = 2 6 6 4 0 0 dq+dx 0 0 dq+dx E [x it m 0 it jz] E x it m 0 i;t 1 jz 0 0 dq+dx 0 0 dq+dx E x i;t 1 m 0 i;t jz E x i;t 1 m 0 i;t 1 jz 3 7 7 5 and E [m it g 0 i jz] = 2 6 6 4 0 0 dg E [x it g 0 i jz] 0 0 dg E [x i;t 1 g 0 i jz] 3 7 7 5</formula><p>for all t, which implies that { B;Q (z) = E 1 (z) E 1 (z) 0 becomes a singular matrix. Consequently, applying only the linear moments, (3.4), will not give a consistent estimator due to the singularity of { B;Q (z). However, { B (h; z) still can be a non-singular matrix if l (h; z) = O e (1) hold for some l. Therefore, the nonparametric GMM estimator using both linear and quadratic moments is recommended.</p><p>Lemma 3 Under Assumptions 1-4, we obtain</p><formula xml:id="formula_100">nh 2 3=2 n A n;2 (z) d ! N 0 2(dx+1)+dg ; 2 u 2;0 (k) (z) , (A.12) where (z) = E 1 (z) E 3 (z) E 1 (z) 0 and E 3 (z) = lim n!1 n 1 P n i=1 P T t=1 f t;t 1 (z) E [Q it Q 0 it jz]. Proof. By de…nition, nh 2 3=2 n A n;2 (z) = h nh 2 1 M 0 K h (z)Q i nh 2 1=2 Q 0 K h (z) u, where nh 2 1 M 0 K h (z)Q = E 1 (z) + O p h 2 + nh 2 1=2 by Lemma 1. Below, we show that n 1 p nh 2 Q 0 K h (z) u = 1 p nh 2 n X i=1 Q 0 i K i (z) u i</formula><p>converges to a normal distribution, where Q i = [Q i2 ; : : : ; Q iT ] 0 , u i = [ u i2 ; : : : ; u iT ] 0 and K i (z) = diag fk i2 (z) ; : : : ; k iT (z)g.</p><p>Let 6 = 0 be a [2 (d q + d x ) + d g ] 1 vector and we also denote n;i = nh 2 1=2 0 Q 0 i K i (z) u i . Next, we construct a scalar n; 0 n = 0 P n i=1 n;i . Let F n;i = u j ; x j 0 ; z j 0 ; g j 0 ; 1 j i; j 0 = 1; : : : ; n) be the smallest sigma …eld containing all the information on u j for 1 j i and x j 0 ; z j 0 ; g j 0 for j 0 = 1; : : : ; n. Under Assumption 1, n;i ; F n;i forms a martingale di¤erence sequence. In order to apply Hall &amp; Heyde's (1980, Corollary 3.1) martingale di¤erence central limit theorem, we need to verify that, for any small " &gt; 0:</p><formula xml:id="formula_101">n X i=1 E h 2 n;i I n;i &gt; " F n;i 1 i p ! 0 (A.13) and n X i=1 E 2 n;i F n;i 1 p ! 2 u 2;0 (k) 0 E 3 (z) &gt; 0, (A.14)</formula><p>where (A.14) holds true because</p><formula xml:id="formula_102">P n i=1 E h 2 n;i F n;i 1 i = nh 2 1 2 u P n i=1 0 Q 0 i K i (z) K i (z)Q i with = 2I T 1 J T 1 (0) J T 1 (0) 0 and 1 nh 2 n X i=1 Q 0 i K i (z) K i (z)Q i = 1 nh 2 n X i=1 T X t=1 k 2 it (z) Q it Q 0 it + O p h 2 = 2;0 (k) nh 2 n X i=1 T X t=1 f t;t 1 (z) E Q it Q 0 it jz + O p h 2 + p nh 1=2 .</formula><p>Next, we verify (A.13). Under Assumptions 1-6, we have</p><formula xml:id="formula_103">n X i=1 E h 2 n;i I n;i &gt; " F n;i 1 i " 2 n X i=1 E 4 n;i jF n;i 1 = 1 (nh 2 ) 2 " 2 n X i=1 E 2 4 T X t=2 k it (z) u it 0 Q it ! 4 F n;i 1 3 5 T 3 (nh 2 ) 2 " 2 n X i=1 T X t=2 E h k 4 it (z) ( u it ) 4 0 Q it 4 F n;i 1 i C (nh 2 ) 2 " 2 n X i=1 T X t=1 k 4 it (z) Q 0 it Q it 2 0 2 = O p 1 nh 2 " 2 = o p (1</formula><p>) as nh 2 ! 1 when n ! 1 for any small " &gt; 0; since P T t=2 a t 4 T 3 P T t=2 a 4 t , where E [Q 0 it Q it ] 2 is uniformly bounded over (i; t) under Assumption 1 and E kx it k 4 , E kg i k 4 and E jz it j 4 are all uniformly bounded over (i; t).</p><p>Therefore, applying Corollary 3.1 of <ref type="bibr" target="#b9">Hall &amp; Heyde (1980)</ref> and the Cramér's Wold device completes the proof of this lemma.</p><p>Proof of Theorem 2. De…ne a</p><formula xml:id="formula_104">(d x + 1) 2 matrix # n = n e (z) (z) h 0 [5e (z) 5 (z)] as well as b Y it = b Y it ' tt m 0 it (z) ' tt m 0 it r (z) (z it z) and " it (#) = b Y it 1 n ' tt m 0 it #Z it (z), where f n g is a sequence of positive constants such that 0 &lt; C 1 &lt; k# n k &lt; C 2 &lt; 1 for all n. Then, we can rewrite (3.16) as g n (#) = " " (#) 0 K h 0 (z) b P n K h 0 (z)" (#) b Q(z) 0 K h 0 (z)" (#) # , (A.15)</formula><p>where " (#) is an [n (T 1)] 1 vector stacking up f" it (#)g in the ascending order of index t …rst then index i. In addition, we have</p><formula xml:id="formula_105">@g n (#) @vec (#) 0 = 1 n " " (#) 0 K h 0 (z) b P s n K h 0 (z)M (z) b Q(z) 0 K h 0 (z)M (z) # . Minimizing the objective function in (3.15) is equivalent to minimizing n (#) = g n (#) 0 g n (#) in # 2 S, a compact subset of R (dx+1) R 2 . Since # n minimizes n (#) = g n (#) 0 g n (#), we have 0 2(dx+1) = @g n (# n ) 0 @vec (#) g n (# n ) = @g n (# n ) 0 @vec (#) 2 4 g n (0) + @g n e # n @vec (#) 0 vec (# n ) 3 5 ;</formula><p>where e # n lies between # n and 0 2(dx+1) , so that we have</p><formula xml:id="formula_106">vec (# n ) = 2 4 @g n (# n ) 0 @vec (#) @g n e # n @vec (#) 0 3 5 1 @g n (# n ) 0 @vec (#) g n (0) . Speci…cally, denoting b h 0 (z) K h 0 (z) b Q(z) b Q(z) 0 K h 0 (z), we have b A n (z) = @g n (# n ) 0 @vec (#) g n (0) = 1 2 n M(z) 0 K h 0 (z) b P s n K h 0 (z)" (# n ) b Y 0 K h 0 (z) b P s n K h 0 (z) b Y + 1 n M(z) 0 b h 0 (z) b Y and b B n (z) = @g n (# n ) 0 @vec (#) @g n e # n @vec (#) 0 = 1 2 n h " (# n ) 0 K h 0 (z) b P s n K h 0 (z)M(z) i 0 " e # n 0 K h 0 (z) b P s n K h 0 (z)M(z) + 1 2 n M(z) 0 b h 0 (z)M(z).</formula><p>For each (i; t), we de…ne a (d x + 1) 1 vector (z it ), whose lth element equals l (z it ) = r 2 l (z it )(z it z) 2 , and z it lies between z it and z for l = 1; : : : ; (d x + 1). Then, we have b</p><formula xml:id="formula_107">Y it = ' tt m 0 it (z it )=2 + b v it with b v it = b it + e u it , e u it = P T s=2 ' ts u is and b it = T X s=2 ' ts n g 0 i h _ (z is ; z i;s 1 ) b _ (z is ; z i;s 1 ) i + m 0 is [ (z is ) b (z is )] m 0 i;s 1 [ (z i;s 1 ) b (z i;s 1 )]</formula><p>o .</p><p>(A.16) Further, we de…ne an [n (T 1)] 1 vector C (z) whose typical term equals ' tt m 0 it (z it )=2. Note that max i;t jb it j = O p h 2 + p ln n= (nh 2 ) holds under Assumptions 1 and 5. Also, let b be an [n (T 1)] 1 vector stacking up b it in the ascending order of index t …rst.</p><p>Closely following the proof of Theorem 1, we denote</p><formula xml:id="formula_108">b A n1 (z) = 1 2 n 2 b 1 + b 2 + b 3 b 1 + b 2 0 + 1 n M (z) 0 b h 0 (z) h C(z) + b i , b A n2 (z) = 1 n M(z) 0 b h 0 (z) e u; b A n3 (z) = 1 2 2 n 2 b 1 + b 2 + b 3 b 3 vec (# n ) and b B n (z) = 1 2 n b 1 + b 2 1 n [vec (# n )] 0 b 3 b 1 + b 2 1 n h vec e # n i 0 b 3 1 2 n M(z) 0 b h 0 (z)M(z);</formula><p>where, denoting b</p><formula xml:id="formula_109">v = [b v 0 2 ; : : : ; b v 0 T ] 0 with b v t = [b v 1t ; : : : ; b v nt ] 0 , b 1 = b v 0 K h 0 (z) b P s n K h 0 (z)C(z), b 2 = C(z) 0 K h 0 (z) b P s n K h 0 (z)C(z), b 3 = b v 0 K h 0 (z) b P s n K h 0 (z)b v, b 1 = b v 0 K h 0 (z) b P s n K h 0 (z)M(z), b 2 = C(z) 0 K h 0 (z) b P s n K h 0 (z)M(z) and b 3 = M(z) 0 K h 0 (z) b P s n K h 0 (z)M(z)</formula><p>. By Lemmas 5-7 given below, we have</p><formula xml:id="formula_110">(nh 0 ) 2 n b A n1 (z) = { A (h 0 ; z) + o p h 2 0 ; (A.17) (nh 0 ) 3=2 n b A n2 (z) d ! N 0 2(dx+1) ; 2 u 2;0 (k) 0 0 2;2 (k) 2 1;2 (k) (z) ; (nh 0 ) 2 2 n b A n3 (z) = O p h 2 0 ; (nh 0 ) 2 2 n b B n (z) = { B (h 0 ;z) + O p 1 n + 2 n + o p (1) ; (A.18)</formula><p>where the last line holds uniformly over all e # n 2 S. Following exactly the same argument as in the proof of Theorem 1, we obtain n = p nh 0 , which completes the proof of this theorem. In the following three lemmas, we de…ne { j (h 0 ;z) = { j;Q (h 0 ;z)+{ j;P (h 0 ;z) for j = A, B, where subscripts Q and P mean that the variable results from the use of localized linear and quadratic moments, respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 4 Under Assumptions 1-5, we obtain b S</head><formula xml:id="formula_111">n (z t ) S n (z t ) sp = O p h 2 + p (ln n) = (nh 2 )</formula><p>and n 1 tr</p><formula xml:id="formula_112">n W 0 h b S n (z t ) S n (z t ) io = O p h 2 + p (ln n) = (nh 2 ) . Proof. First, we have b S n (z t ) S n (z t ) sp = [I n b (z t ) W 0 ] 1 [I n (z t ) W 0 ] 1 sp [I n b (z t ) W 0 ] 1 sp k[b (z t ) (z t )] W 0 k sp [I n (z t ) W 0 ] 1 sp , where k[b (z t ) (z t )] W 0 k sp kb (z t ) (z t )k sp kW 0 k sp = O p h 2 + q (nh 2 ) 1 ln n under As- sumptions 1 and 5. Next, Letting A = [I n b (z t ) W 0 ] [I n b (z t ) W 0 ] 0 and B = [I n (z t ) W 0 ] [I n (z t ) W 0 ] 0 , we have A B = [ (z t ) b (z t )] W 0 + W 0 0 [ (z t ) b (z t )] +W 0 h b 2 (z t ) 2 (z t ) i W 0 0 . Applying Weyl'</formula><p>s theorem and Property 4.67 (e) in Seber (2008) gives j min (A) min (B)j (kA Bk 1 kA Bk 1 ) 1=2 = O p h 2 + p (ln n) = (nh 2 ) under Assumptions 1 and 5. In addition, we have [I n (z t ) W 0 ] 1 sp C under Assumption 1(iii). We therefore obtain</p><formula xml:id="formula_113">[I n b (z t ) W 0 ] 1 2 sp = 1 min [I n (z t ) W 0 ] [I n (z t ) W 0 ] 0 + o p (1) , from which it follows b S n (z t ) S n (z t ) sp = O p h 2 + r ln n nh 2 ! . (A.19) Now, by (A.19), we obtain max i;j jb a ij (z t ) a ij (z t )j kW 0 k sp b S n (z t ) S n (z t ) sp = O p h 2 + r ln n nh 2 ! ; (A.20)</formula><p>where b a ij (z t ) and a ij (z t ) are the (i; j)th element of W 0 b S n (z t ) and W 0 S n (z t ), respectively. Consequently, we have</p><formula xml:id="formula_114">n 1 tr n W 0 h b S n (z nt ) S n (z nt ) io n 1 n X i=1 X j6 =i jw ij j jb a ij (z t ) a ij (z t )j = O p h 2 + r ln n nh 2 ! ;</formula><p>(A.21) which completes the proof of this lemma.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 5 Under Assumptions</head><formula xml:id="formula_115">1-7, we obtain (nh 0 ) 2 n b A n1 (z) = { A (h 0 ; z) + o p h 2 0 ,</formula><p>where</p><formula xml:id="formula_116">{ A;Q (h 0 ; z) = 1 2 1;2 (k)h 2 0 1 0 0 E 1 (z) 0 E 1 (z) r 2 (z) ; { A;P (h 0 ; z) = 1 0 F 1 (h 0 ; z) 1 (h 0 ; z) 0 dx = O p h 2 0 ;</formula><p>where</p><formula xml:id="formula_117">E 1 (z) lim n!1 n 1 P n i=1 P T t=2 ' tt f t (z) E (q it m 0 it jz it = z),</formula><p>and F 1 (h 0 ; z) and 1 (h 0 ; z) are de…ned in the proof below.</p><p>Proof. First, we have</p><formula xml:id="formula_118">1 nh 0 b Q(z) 0 K h 0 (z)M(z) = 1 nh 0 n X i=1 T X t=2 ' tt k it (h 0 ; z) Z it (z)Z it (z) 0 q it m 0 it + O p h 2 + r ln n nh 2 ! = 1 0 0 1;2 (k) E 1 (z) + O p h 2 0 + h 2 + 1 p nh 0 + r ln n nh 2 ! , (A.22) 1 nh 0 C(z) 0 K h 0 (z) b Q(z) = 1 2nh 0 n X i=1 T X t=2 ' tt k it (h 0 ; z) m 0 it (z it ) Z it (z) 0 q 0 it + O p h 2 + r ln n nh 2 ! h 2 0 ! = 1 2 1;2 (k)h 2 0 1 0 E 1 (z) r 2 (z) [1 + o p (1)] ,<label>and</label></formula><formula xml:id="formula_119">1 nh 0 b 0 K h 0 (z) b Q(z) = 1 nh 0 n X i=1 n X j=1 T X t=2 k it (h 0 ; z) b it Z it (z) 0 q 0 it + O p h 4 + ln n nh 2 = O p h 2 + ln n nh 2 . (A.23)</formula><p>Second, letting p t;ij be the (i; j)th element of P t = W 0 S n (z t ) n 1 trfW 0 S n (z t )g I n and by Lemma 4, we obtain</p><formula xml:id="formula_120">b 1 nh 0 = 1 nh 0 b v 0 K h 0 (z) b P s n K h 0 (z)M(z) = 1 nh 0 e u 0 K h 0 (z)P s n K h 0 (z)M(z) + 1 nh 0 b 0 K h 0 (z)P s n K h 0 (z)M(z) + 1 nh 0 b v 0 K h 0 (z) b P n P n s K h 0 (z)M(z) = 2 nh 0 n X i=1 T X t=2 ' tt p t;ii k 2 it (h 0 ; z) e u it Z it (z) u it ; 0 0 dx 0 + O p h 0 + h 2 + 1 p nh 0 + r ln n nh 2 ! 1 0 1 (h 0 ; z) 0 dx + o p (1) , (A.24) where 1 (h 0 ; z) = lim n!1 2 (nh 0 ) 1 P n i=1 P T t=2 ' tt E p t;ii k 2 it (h 0 ; z) e u it u it = O (1). Similarly, we can show that b 2 nh 0 = 1 nh 0 C (z) 0 K h 0 (z) b P s n K h 0 (z)M(z) = 1 nh 0 C (z) 0 K h 0 (z)P s n K h 0 (z)M(z) + 1 nh 0 C (z) 0 K h 0 (z) b P n P n s K h 0 (z)M(z) = O p h 2 0 + (nh 0 ) 1=2 ; (A.25) b 1 nh 0 = 1 nh 0 b v 0 K h 0 (z) b P s n K h 0 (z)C(z) = 2 nh 0 n X i=1 T X t=2 ' tt p t;ii k 2 it (h 0 ; z) e u it e c it (z) + O p h 3 0 + h 0 h 2 + r ln n nh 2 !! F 1 (h 0 ; z) + O p h 3 0 + h 2 0 h 2 + r ln n nh 2 !! = O p h 2 0 , (A.26) b 2 nh 0 = 1 nh 0 C (z) 0 K h 0 (z) b P s n K h 0 (z)C(z) = 2 nh 0 n X i=1 T X t=2 ' 2 tt p t;ii k 2 it (h 0 ; z) c 2 it (z) + O p h 4 0 h 2 + r ln n nh 2 !! = O p h 4 0 , (A.27) b 3 nh 0 = 1 nh 0 b v 0 K h 0 (z) b P s n K h 0 (z)b v = 2 nh 0 n X i=1 T X t=2 p t;ii k 2 it (h 0 ; z) ( e u it ) 2 + O p h 2 + r ln n nh 2 ! h 0 + h 2 + 1 p nh 0 + r ln n nh 2 !! = O p h 2 0 + 1 p nh 0 + O p h 2 + r ln n nh 2 ! h 2 + h 0 + r ln n nh 2 + 1 p nh 0 !! ; (A.28) since trfP t g = 0 for all t. It then follows that (nh 0 ) 2 b 3 b 2 = o p h 2 0 . In addition, we obtain 2 nh 0 n X i=1 T X t=2 p t;ii k 2 it (h 0 ; z) ( e u it ) 2 1 (h 0 ; z) = O p 1 nh 0 + 1 n ; so that (nh 0 ) 2 b 3 b 1 = o p h 2 0 under Assumption 7.</formula><p>This completes the proof of this lemma.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 6</head><p>Under Assumptions 1-7, we obtain</p><formula xml:id="formula_121">(nh 0 ) 2 2 n b B n (z) = { B (h 0 ; z) + O 1 n + 2 n + o p (1) , (A.29)</formula><p>where</p><formula xml:id="formula_122">{ B;Q (z) = 1 0 0 2 1;2 (k) E 1 (z) 0 E 1 (z) and { B;P (h 0 ; z) = 1 0 0 0 2 1 (h 0 ; z) 0 0 dx 0 dx 0 dx dx .</formula><p>Proof. By (A.22), we have</p><formula xml:id="formula_123">1 (nh 0 ) 2 M(z) 0 b h 0 (z)M(z) = { B;Q (z) (1 + o p (1)) .</formula><p>In addition, following the proof of Lemma 5, we have</p><formula xml:id="formula_124">b 3;l nh 0 = 1 nh 0 M (z) 0 K h 0 (z) b P s n K h 0 (z)M(z) = 2 nh 0 n X i=1 T X t=2 ' 2 tt p t;ii k 2 it (z) Z it (z)Z it (z) 0 m it m 0 it + O p h 2 + r ln n nh 2 ! = O p (1) ;</formula><p>which, when combined with (A.24) and (A.25), gives</p><formula xml:id="formula_125">(nh 0 ) 2 2 n b B n (z) = 1 (nh 0 ) 2 b 0 1 b 1 + 1 (nh 0 ) 2 M (z) 0 b h 0 (z)M (z) + O p 1 n + 2 n + h 2 0 + (nh 0 ) 1=2 = { B;P (h 0 ; z) + { B;Q (z) + o p (1) + O p 1 n + 2 n .</formula><p>This completes the proof of this lemma.</p><p>Remark 3 If model (1.2) becomes a parametric spatial autoregressive panel data model with random e¤ects, E 1 (z) h 0 dq ; n 1 P n i=1 P T t=2 ' tt f t (z) E (q it x 0 it jz it = z)</p><p>i causing { B;Q (z) to be singular. However, { B (h 0 ; z) can still be a nonsingular matrix so long as 1 (h 0 ; z) = O e (1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 7</head><p>Under Assumptions 1-7, we obtain</p><formula xml:id="formula_126">(nh 0 ) 3=2 n b A n;2 (z) d ! N 0; 2 u 2;0 (k) 0 0 2;2 (k) 2 1;2 (k) (z) , (A.30) where (z) = E 1 (z) 0 E 3 (z) E 1 (z) with E 3 (z) = lim n!1 n 1 P n i=1 P T t=1 f t (z) E [q it q 0 it jz]. Proof. By de…nition, (nh 0 ) 3=2 n b A n;2 (z) = h (nh 0 ) 1 M (z) 0 K h 0 (z) b Q (z) i (nh 0 ) 1=2 b Q (z) 0 K h 0 (z) e u. We need to show that 1 p nh 0 b Q (z) 0 K h 0 (z) e u = 1 p nh 0 n X i=1 Q i (z) K i (z) e u i + o p (1)</formula><p>converges to a normal distribution, where Q i = [Q i2 ; : : : ; Q iT ] 0 , e u i = [ e u i2 ; : : : ; e u iT ] 0 and K i (z) = diag fk i2 (h 0 ; z) ; : : : ; k iT (h 0 ; z)g.</p><p>Since the proof of this result closely follows that of Lemma 3, we only show the following:</p><formula xml:id="formula_127">1 nh 0 n X i=1 Q i (z) K 2 i (z) Q i (z) = 1 nh 0 n X i=1 T X t=1 k 2 it (h 0 ; z) Z it (z) Z it (z) 0 q it q 0 it = 2;0 (k) 0 0 2;2 (k) 1 n n X i=1 T X t=1 f t (z) E q it q 0 it jz + O p h 2 0 + 1 p nh 0 .</formula><p>Combing above results with (A.22) completes the proof of this lemma.</p><p>Proof of Theorem 3. Under Assumption 8, we have</p><formula xml:id="formula_128">e (z) (z) = e (z) (z) + (z) (z) = I dg Ln (z) 0 e + O L n . By (4.4), we have e = (X 0 M D X ) 1 X 0 M D e _ y = + n1 + n2 since M D D = 0 nT , where n1 (X 0 M D X ) 1 X 0 M D , n2 (X 0 M D X ) 1 X 0 M D u, and = [ 0 1 ; : : : ; 0 n ] 0 is of dimension nT with i = [ i1 ; : : : ; iT ] 0 and it = m 0 it [ (z it ) e (z it )] + g 0 i [ (z it ) (z it )].</formula><p>First, we show that I dg Ln (z) 0 n2 = O p p L n =n has an asymptotic normal distribution.</p><p>Letting 6 = 0 be any …nite vector of dimension d g , we have n 0 I dg Ln (z)</p><formula xml:id="formula_129">0 n2 n;1 + n;2 , where n;1 0 I dg Ln (z) 0 1 X 0 M D u=n and n;2 0 I dg Ln (z) 0 1 n; 1 X 0 M D u=n with n; n 1 X 0 M D X . Since n;2 is a vector, we have k n;2 k = n 1 0 I dg Ln (z) 0 1 n; 1 X 0 M D u sp n 1 0 I dg Ln (z) 0 sp 1 n; 1 sp X 0 M D u sp = O p p L n n r L n log L n n p L n ! = o p L n n if max 1 t T E h jg 0 i g i j 2+ ju it j 2+ i C &lt; 1, since max z2Sz P Ln j=1 2 j (z)</formula><p>M L n for B-spline basis functions and g i Ln (z it ) = q g 0 i g i Ln (z it ) 0 Ln (z it ). Applying Liapounonv's central limit theorem we obtain that p n n;1 = n d ! N (0; 1), which implies that I dg Ln (z)</p><formula xml:id="formula_130">0 n2 = O p p L n =n .</formula><p>Second, we consider I dg Ln (z) 0 n1 . Applying a method similar to the one used above, we obtain that n 0 I dg Ln (z)</p><formula xml:id="formula_131">0 n1 = 0 I dg Ln (z) 0 (X 0 M D X ) 1 X 0 M D = n;1 1 + o p (1) , where n;1 0 I dg Ln (z) 0 1 X 0 M D =n and k n;1 k = k n;1 k sp 0 I dg Ln (z) 0 sp 1 sp X 0 M D =n sp Cn 1=2 L 1=2 n 0 M D X X 0 M D =n 1=2 Cn 1=2 L 1=2 n 0 1=2 1=2 max ( n; ) = O p r L n n h 2 0 + r ln n nh 0 + L n !!</formula><p>under Assumptions 7 and 8. We extend the pointwise convergence result in Theorem 2 to the uniform convergence result max z2Sz ke (z) (z)k = O p h 2 0 + p (ln n) = (nh 0 ) , following the proof in <ref type="bibr" target="#b31">Masry (1996)</ref>. This completes the proof of this theorem. </p><formula xml:id="formula_132">b T n = 1 n 2 h 0 n X i=1 n X j6 =i b " 0 i A ij b " j = 1 n 2 h 0 n X i=1 n X j6 =i 0 i A ij j + 2 n 2 h 0 n X i=1 n X j6 =i 0 i A ij b j + 2 n 2 h 0 n X i=1 n X j6 =i 0 i A ij u j + 2 n 2 h 0 n X i=1 n X j6 =i b 0 i A ij u j + 1 n 2 h 0 n X i=1 n X j6 =i b 0 i A ij b j + 1 n 2 h 0 n X i=1 n X j6 =i u 0 i A ij u j b T n;1 + 2 b T n;2 + b T n;3 + b T n;4 + b T n;5 + b T n;6 ,</formula><p>where we denote each term appearing in the second equation as b T n;j (j = 1; : : : ; 6) in the order of their appearance. In what follows, we show that (i) n p h 0 b T n;6 converges to a normal distribution under both hypotheses, (ii) n p h 0 b T n;j = o p (1) under both hypotheses for j = 4 and 5, and (iii) n p h 0 b T n;j = o p (1) under H 0 and is explosive under H 1 for j = 1; 2; 3.</p><p>First, we consider n p h 0 b T n;6 = n 2 P n i=1 P n j6 =i H n i ; j , where we denote H n i ; j = h 1=2 0</p><formula xml:id="formula_133">u 0 i A ij u j and i = ( u i ; X i ).</formula><p>Evidently, under Assumption 1, H n i ; j is a symmetric matrix with E H n i ; j j i = 0 almost surely for all i 6 = j. It is readily seen that</p><formula xml:id="formula_134">E G 2 n ( 1 ; 2 ) + n 1 E H 4 n ( 1 ; 2 ) (E [H 2 n ( 1 ; 2 )]) 2 = O p h 2 0 + O p (nh 0 ) 1 O p (1) = o p (1) if h 0 ! 0 and nh 0 ! 1 as n ! 1, where G n ( 1 ; 2 ) = E i [H n ( 1 ; i ) H n ( 2 ; i )]. Speci…cally, we have E H 2 n ( 1 ; 2 ) = h 1 0 E u 0 1 A 12 u 2 u 0 2 A 12 u 1 = 2 u h 0 E u 0 1 A 12 A 12 u 1 = 4 u h 2 0 tr fE [A 12 A 12 ]g = 4 u h 0 T X t=2 X 0 js tj 1 c ts E k 2 z 1t z 2s h 0 x 0 1t x 2s 2 + O (h 0 ) = 4 u 2;0 (k) X X 0 js tj 1 c ts E (z 2s ) vec x 2s x 0 2s f (z 2s ) + O (h 0 ) 2 0 =2 + O (h 0 ) ;</formula><p>where is de…ned in Section 3, and (z 2s ) and c ts are de…ned in Theorem 4. Applying Hall's (1984) central limit theorem gives n p h 0 b T n;6 d ! N 0; 2 0 . Second, we verify n p h 0 b T n;5 = O p nh 4 p h 0 under both hypotheses, where</p><formula xml:id="formula_135">n p h 0 b T n;5 = 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 b it b js k z it z js h 0 x 0 it x js .</formula><p>Following the proof in <ref type="bibr" target="#b31">Masry (1996)</ref>, we obtain the uniform convergence result for the …rststage estimator such that</p><formula xml:id="formula_136">E 1 (z) E 1 (z) 0 1 E 1 (z) h h 2 1;2 (k) E 2 (z) + nh 2 1 Q 0 K h (z) u i is the leading term of b 1 (z) (z) over z 2S z S z</formula><p>, where E 1 (z), E 2 (z), Q and K h (z) are as de…ned in Theorem 1. Let S 1 be the …rst d g columns of the identity matrix I dg+2(dx+1) and S 2 contain the (d g + d x + 1)th to the [d g + 2 (d x + 1)]th columns of matrix I dg+2(dx+1) . Then, we have that</p><formula xml:id="formula_137">b it = g 0 i h _ (z it ) b _ 1 (z it ) i m 0 i;t 1 [ (z i;t 1 ) b 1 (z i;t 1 )] = g 0 i S 0 1 + m 0 i;t 1 S 0 2 (z i ) h h 2 1;2 (k) E 2 (z i ) + nh 2 1 Q 0 K h (z i ) u i [1 + o p (1)]</formula><p>holds uniformly over all i and t, where</p><formula xml:id="formula_138">(z i ) E 1 (z i ) E 1 (z i ) 0 1 E 1 (z i ). Thus, we have n p h 0 b T n;5 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 k z it z js h 0 x 0 it x js g 0 i S 0 1 + m 0 i;t 1 S 0 2 (z i ) h h 2 1;2 (k) E 2 (z i ) + nh 2 1 Q 0 K h (z i ) u i g 0 j S 0 1 + m 0 j;t 1 S 0 2 (z j ) h h 2 1;2 (k) E 2 (z j ) + nh 2 1 Q 0 K h (z j ) u i = O p nh 4 p h 0 + h 2 p nh 0 + p h 0 =h 2 . (A.32)</formula><p>Third, we verify that n p h 0 b T n;4 = O p h 2 p nh 0 + p h 0 =h under both hypotheses, where</p><formula xml:id="formula_139">n p h 0 b T n;4 = 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 b it k z it z js h 0 x 0 it x js u js 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 k z it z js h 0 x 0 it x js u js g 0 i S 0 1 + m 0 i;t 1 S 0 2 (z i ) h h 2 1;2 (k) E 2 (z i ) + nh 2 1 Q 0 K h (z i ) u i = O p h 2 p nh 0 + p h 0 =h + p h 0 . (A.33)</formula><p>Fourth, we consider n p h 0 b T n;3 . Similar to the proof for n p h 0 b T n;4 , we obtain that</p><formula xml:id="formula_140">n p h 0 b T n;3 = 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 k z it z js h 0 x 0 it x js u js x 0 it h (z it ) e 0 (z it ) i = O p e h 2 0 p nh 0 + q h 0 = e h 0 under H 0 , (A.34)</formula><p>and</p><formula xml:id="formula_141">n p h 0 b T n;3 = 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 k z it z js h 0 x 0 it x js u js x 0 it h (z it ) e 0 (z it ) i + (Wy) it (z it ) = O p p nh 0 under H 1 . (A.35) Fifth, we have n p h 0 b T n;2 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 k z it z js h 0 x 0 it x js x 0 it h (z it ) e 0 (z it ) i + (Wy) it (z it ) g 0 j S 0 1 + m 0 j;t 1 S 0 2 (z j ) h h 2 1;2 (k) E 2 (z j ) + nh 2 1 Q 0 K h (z j ) u i .</formula><p>Applying the method similar to that used above, we obtain</p><formula xml:id="formula_142">n p h 0 b T n;2 = O p n p h 0 h 2 + nh 2 1=2 e h 2 0 + n e h 0 1=2 under H 0 ; (A.36) n p h 0 b T n;2 = O p n p h 0 h 2 + h 1 p nh 0 under H 1 . (A.37) Lastly, we consider n p h 0 b T n;1 = 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 k z it z js h 0 x 0 it x js x 0 it h (z it ) e 0 (z it ) i + (Wy) it (z it ) x 0 js h (z js ) e 0 (z js ) i + (Wy) js (z js ) .</formula><p>Similar to the proof for n p h 0 b T n;5 , under H 0 , we obtain n p h 0 b T n;1 = O p n p h 0 e h 4 0 + n e h 0 1 , and under H 1 ,</p><formula xml:id="formula_143">n p h 0 b T n;1 1 n p h 0 n X i=1 n X j6 =i T X t=1 T X s=1 k z it z js h 0 x 0 it x js x 0 it [ (z it ) b (z it )] + (</formula><p>Wy) it (z it ) n x 0 js [ (z js ) b (z js )] + (Wy) js (z js ) o = O p n p h 0 , (A.38) where b (z it ) is the leading term of E h e 0 (z) jG; X; Z i at point z = z it , and denoting 2 (z) = E [x 0 it [ (z it ) b (z it )] x it jz it = z], we have</p><formula xml:id="formula_144">1 n 2 h 0 n X i=1 n X j6 =i T X t=1 T X s=1 k z it z js h 0 x 0 it x js x 0 it [ (z it ) b (z it )] x 0 js [ (z js ) b (z js )] = T X t=1 T X s=1 E f (z js ) 2 (z js ) 0 2 (z js ) (1 + o p (1)) &gt; 0.</formula><p>Under H 1 , we show that b T n;1 = n p h 0 converges to a positive constant.</p><p>Next, we consider b 2 0 = n 2 h</p><formula xml:id="formula_145">1 P n i=1 P n j6 =i (b " 0 i A ij b " j ) 2 . Under H 0 , we can show that b 2 0 1 n 2 h n X i=1 n X j6 =i ( u 0 i A ij u j ) 2 = 2E H 2 n ( 1 ; 2 ) (1 + o p (1)) p ! 2 0 , while, under H 1 , the leading term of b 2 0 is n 2 h 1 P n i=1 P n j6 =i ( 0 i A ij 0 j ) 2 = O p (1)</formula><p>which converges to a positive constant. Combining the above results completes the proof of this theorem.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>(iv) Let j (A), min (A) and max (A) respectively be the jth, smallest and largest eigenvalue of some m m matrix A = (a ij ) m i;j=1 , and kAk sp = max k!k=1;!6 =0 kA!k = 1=2 max (A 0 A) de…nes the spectral norm. For any vector a, we see kak = kak sp . (v) We denote A s = A + A 0 for any square matrix A. (vi) A n = O e (1) means that each and every element of a random matrix A n is of order O p (1) not o p (1). (vii) A n d = B n means that A n and B n have the same distribution asymptotically. (viii) We use C to denote a generic constant that can take di¤erent values at di¤erent places.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>e 0 (z) i + u it ; i = 1; : : : ; n; t = 2; : : : ; T; with b it g 0 i h _ (z it ) b _ 1 (z it ) i m 0 i;t 1 [ (z i;t 1 ) b 1 (z i;t 1 )], and b _ 1 ( ) and b 1 ( ) are estimators calculated under H 1 . Under H 0 , we have e " it (z) = u it + o p (1), whereas, under H 1 , e " it (z) = u it + (z it ) P j6 =i w ij y jt +x 0 it h (z it ) e 0 (z)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>Proof of Theorem 4. Begin by de…ning i = [ i2 ; : : : ; iT ] 0 , whereit = x 0 it h (z it ) e 0 (z it ) i + (Wy) it (z it ). Hence, b " it = b it + it + u it , where b it g 0 i h _ (z it ) b _ 1 (z it ) i m 0 i;t 1 [ (z i;t 1 ) b 1 (z i;t 1)] and b _ 1 ( ) and b 1 ( ) are the …rst-stage estimator under H 1 . Applying simple algebra, we obtain</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Simulation Results for the Estimator Using Linear and Quadratic Moments</figDesc><table><row><cell></cell><cell>Working</cell><cell></cell><cell>T = 2</cell><cell></cell><cell></cell><cell>T = 3</cell><cell></cell></row><row><cell></cell><cell cols="7">Independence n = 98 n = 147 n = 196 n = 98 n = 147 n = 196</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="2">Estimated MAE</cell><cell></cell><cell></cell><cell></cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1st Stage</cell><cell></cell><cell>0.4988</cell><cell>0.4661</cell><cell>0.4372</cell><cell>0.4227</cell><cell>0.3958</cell><cell>0.3638</cell></row><row><cell>2nd Stage</cell><cell>Yes</cell><cell>0.2971</cell><cell>0.2597</cell><cell>0.2259</cell><cell>0.2147</cell><cell>0.1833</cell><cell>0.1583</cell></row><row><cell>2nd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.2474</cell><cell>0.2127</cell><cell>0.1835</cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1st Stage</cell><cell></cell><cell>0.2582</cell><cell>0.2230</cell><cell>0.2005</cell><cell>0.1935</cell><cell>0.1685</cell><cell>0.1514</cell></row><row><cell>2nd Stage</cell><cell>Yes</cell><cell>0.1560</cell><cell>0.1251</cell><cell>0.1114</cell><cell>0.1056</cell><cell>0.0874</cell><cell>0.0758</cell></row><row><cell>2nd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.1475</cell><cell>0.1295</cell><cell>0.1218</cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>3rd Stage</cell><cell>Yes</cell><cell>0.2115</cell><cell>0.1605</cell><cell>0.1363</cell><cell>0.1326</cell><cell>0.1031</cell><cell>0.0887</cell></row><row><cell>3rd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.1461</cell><cell>0.1094</cell><cell>0.0998</cell></row><row><cell></cell><cell></cell><cell cols="3">Estimated RMSE</cell><cell></cell><cell></cell><cell></cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1st Stage</cell><cell></cell><cell>0.5973</cell><cell>0.5644</cell><cell>0.5351</cell><cell>0.5197</cell><cell>0.4904</cell><cell>0.4553</cell></row><row><cell>2nd Stage</cell><cell>Yes</cell><cell>0.3743</cell><cell>0.3284</cell><cell>0.2879</cell><cell>0.2728</cell><cell>0.2352</cell><cell>0.2059</cell></row><row><cell>2nd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.3194</cell><cell>0.2775</cell><cell>0.2418</cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1st Stage</cell><cell></cell><cell>0.3477</cell><cell>0.2964</cell><cell>0.2645</cell><cell>0.2548</cell><cell>0.2192</cell><cell>0.1968</cell></row><row><cell>2nd Stage</cell><cell>Yes</cell><cell>0.2103</cell><cell>0.1695</cell><cell>0.1527</cell><cell>0.1425</cell><cell>0.1200</cell><cell>0.1054</cell></row><row><cell>2nd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.2052</cell><cell>0.1804</cell><cell>0.1693</cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>3rd Stage</cell><cell>Yes</cell><cell>0.2336</cell><cell>0.1773</cell><cell>0.1503</cell><cell>0.1465</cell><cell>0.1141</cell><cell>0.0976</cell></row><row><cell>3rd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.1608</cell><cell>0.1216</cell><cell>0.1094</cell></row></table><note><p>regressor (i.e., d g = 1):</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Simulation Results for the Estimator Using Linear Moments Only</figDesc><table><row><cell></cell><cell>Working</cell><cell></cell><cell>T = 2</cell><cell></cell><cell></cell><cell>T = 3</cell><cell></cell></row><row><cell></cell><cell cols="7">Independence n = 98 n = 147 n = 196 n = 98 n = 147 n = 196</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="2">Estimated MAE</cell><cell></cell><cell></cell><cell></cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1st Stage</cell><cell></cell><cell>0.7196</cell><cell>0.6172</cell><cell>0.5555</cell><cell>0.5205</cell><cell>0.4662</cell><cell>0.4132</cell></row><row><cell>2nd Stage</cell><cell>Yes</cell><cell>0.5572</cell><cell>0.4498</cell><cell>0.3606</cell><cell>0.3302</cell><cell>0.2702</cell><cell>0.2217</cell></row><row><cell>2nd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.3883</cell><cell>0.3190</cell><cell>0.2592</cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1st Stage</cell><cell></cell><cell>0.2880</cell><cell>0.2408</cell><cell>0.2135</cell><cell>0.2043</cell><cell>0.1750</cell><cell>0.1554</cell></row><row><cell>2nd Stage</cell><cell>Yes</cell><cell>0.2069</cell><cell>0.1569</cell><cell>0.1350</cell><cell>0.1254</cell><cell>0.2217</cell><cell>0.0819</cell></row><row><cell>2nd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.1676</cell><cell>0.1392</cell><cell>0.1272</cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>3rd Stage</cell><cell>Yes</cell><cell>0.2910</cell><cell>0.2157</cell><cell>0.1746</cell><cell>0.1612</cell><cell>0.1251</cell><cell>0.1012</cell></row><row><cell>3rd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.1873</cell><cell>0.1402</cell><cell>0.1157</cell></row><row><cell></cell><cell></cell><cell cols="3">Estimated RMSE</cell><cell></cell><cell></cell><cell></cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1st Stage</cell><cell></cell><cell>1.0649</cell><cell>0.8753</cell><cell>0.7985</cell><cell>0.7288</cell><cell>0.6418</cell><cell>0.5677</cell></row><row><cell>2nd Stage</cell><cell>Yes</cell><cell>0.8416</cell><cell>0.6699</cell><cell>0.5494</cell><cell>0.4871</cell><cell>0.4103</cell><cell>0.3380</cell></row><row><cell>2nd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.6068</cell><cell>0.5125</cell><cell>0.4114</cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1st Stage</cell><cell></cell><cell>0.4157</cell><cell>0.3320</cell><cell>0.2930</cell><cell>0.2779</cell><cell>0.2330</cell><cell>0.2053</cell></row><row><cell>2nd Stage</cell><cell>Yes</cell><cell>0.3107</cell><cell>0.2304</cell><cell>0.2020</cell><cell>0.1811</cell><cell>0.1410</cell><cell>0.1201</cell></row><row><cell>2nd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.2453</cell><cell>0.2009</cell><cell>0.1817</cell></row><row><cell>(zit)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>3rd Stage</cell><cell>Yes</cell><cell>0.3214</cell><cell>0.2370</cell><cell>0.1913</cell><cell>0.1778</cell><cell>0.1381</cell><cell>0.1113</cell></row><row><cell>3rd Stage</cell><cell>No</cell><cell></cell><cell></cell><cell></cell><cell>0.2063</cell><cell>0.1544</cell><cell>0.1269</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Simulations Results for the Spatial Endogeneity TestSignif. Level n = 100 n = 400 n = 600 n = 1; 000 n = 1; 00 n = 400 n = 600 n = 1; 000</figDesc><table><row><cell></cell><cell></cell><cell cols="2">Estimated Size</cell><cell></cell><cell></cell><cell cols="2">Estimated Power</cell><cell></cell></row><row><cell cols="2">= 0:70; r = 0:168</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1%</cell><cell>0.020</cell><cell>0.020</cell><cell>0.043</cell><cell>0.040</cell><cell>0.247</cell><cell>0.304</cell><cell>0.352</cell><cell>0.358</cell></row><row><cell>5%</cell><cell>0.071</cell><cell>0.070</cell><cell>0.089</cell><cell>0.084</cell><cell>0.378</cell><cell>0.408</cell><cell>0.482</cell><cell>0.532</cell></row><row><cell>10%</cell><cell>0.105</cell><cell>0.114</cell><cell>0.128</cell><cell>0.123</cell><cell>0.442</cell><cell>0.498</cell><cell>0.576</cell><cell>0.626</cell></row><row><cell>20%</cell><cell>0.181</cell><cell>0.213</cell><cell>0.213</cell><cell>0.211</cell><cell>0.542</cell><cell>0.601</cell><cell>0.666</cell><cell>0.704</cell></row><row><cell cols="2">= 0:80; r = 0:175</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1%</cell><cell>0.032</cell><cell>0.040</cell><cell>0.035</cell><cell>0.035</cell><cell>0.196</cell><cell>0.202</cell><cell>0.254</cell><cell>0.256</cell></row><row><cell>5%</cell><cell>0.080</cell><cell>0.098</cell><cell>0.107</cell><cell>0.087</cell><cell>0.322</cell><cell>0.343</cell><cell>0.402</cell><cell>0.400</cell></row><row><cell>10%</cell><cell>0.121</cell><cell>0.155</cell><cell>0.158</cell><cell>0.141</cell><cell>0.384</cell><cell>0.438</cell><cell>0.478</cell><cell>0.502</cell></row><row><cell>20%</cell><cell>0.207</cell><cell>0.247</cell><cell>0.234</cell><cell>0.226</cell><cell>0.504</cell><cell>0.524</cell><cell>0.574</cell><cell>0.604</cell></row><row><cell cols="2">= 0:90; r = 0:181</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>1%</cell><cell>0.034</cell><cell>0.051</cell><cell>0.043</cell><cell>0.034</cell><cell>0.147</cell><cell>0.152</cell><cell>0.160</cell><cell>0.166</cell></row><row><cell>5%</cell><cell>0.098</cell><cell>0.117</cell><cell>0.107</cell><cell>0.096</cell><cell>0.274</cell><cell>0.272</cell><cell>0.282</cell><cell>0.294</cell></row><row><cell>10%</cell><cell>0.143</cell><cell>0.181</cell><cell>0.138</cell><cell>0.158</cell><cell>0.347</cell><cell>0.348</cell><cell>0.396</cell><cell>0.398</cell></row><row><cell>20%</cell><cell>0.213</cell><cell>0.258</cell><cell>0.235</cell><cell>0.258</cell><cell>0.479</cell><cell>0.470</cell><cell>0.502</cell><cell>0.506</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>We delay the discussion of the spatial stationarity condition to Section</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p></p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_2"><p>Where all these articles consider purely nonparametric …xed-e¤ects panel data models with exogenous covariates and no spatial dependence.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>See the discussion in Section</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_4"><p>5.3.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_5"><p>Motivated by the maximum likelihood method for the parametric SAR model,<ref type="bibr" target="#b16">Lee (2007)</ref> shows that combining both the linear and quadratic moments could improve the GMM estimation e¢ ciency. This idea is also applied in<ref type="bibr" target="#b14">Kelejian &amp; Prucha (1999)</ref> and<ref type="bibr" target="#b21">Lee &amp; Yu (2014)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_6"><p>A function h ( ) is called p-smooth for some real value p &gt; 0 if it is [p]-times continuously di¤erentiable and r[p]  h (!) r [p] h (! 0 ) M j! ! 0 j p [p]for any ! 2 R + and ! 0 2 R + , where [p] is the largest positive integer less than p and r[p]  h (!) is the [p]th order derivative of h ( ).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_7"><p>We refer readers to<ref type="bibr" target="#b43">Sun &amp; Malikov (2015)</ref> for the detailed limit results of the within-group estimation method. This paper is available upon request from the authors.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_8"><p><ref type="bibr" target="#b10">Hall &amp; Huang (2001)</ref> use a power divergence metric which has a rather complex form and is only valid for nonnegative weights.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_9"><p>Note that our choice of the (zit) functional coe¢ cient is such that the (0) = 0 normalization is satis…ed.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>We would like to thank the coeditor <rs type="person">Han Hong</rs> and two anonymous referees for their valuable suggestions. <rs type="person">Yiguo Sun</rs> thanks the …nancial support by the <rs type="funder">Social Science and Humanities Research Council of Canada Insightful</rs> Grant <rs type="grantNumber">435-2016-0340</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_TMNfa44">
+					<idno type="grant-number">435-2016-0340</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>under Assumptions 7 and 9, where also, under Assumption 1, we have <ref type="bibr" target="#b2">Belloni, Chernozhukov, Chetverikov &amp; Kato (2015)</ref>, and the B-spline basis functions are uniformly bounded over the compact domain of z.</p><formula xml:id="formula_146">E h X 0 M D u 2 i = E h u 0 M D X X 0 M D X 1 X 0 M D u i = 2 u E h tr M D X X 0 M D X 1 X 0 M D i = 2 u tr I dgLn = 2 u d g L n ; so that kX 0 M D uk sp = kX 0 M D uk = O p (L n ) by Markov's inequality. In addition, 1 n; 1 sp = 1 n; ( n; ) 1 sp 1 n; sp k n; k sp 1 sp = O p (1) 1 n; sp k n; k = O p r L n log L n n ! , (A.31) since 1 n; sp = 1 min ( n; ) = 1 min ( ) + O k n; k 1 by Weyl's theorem in Seber (2008, p.117), k n; k = O p p L n (log L n ) =n by Lemma 6.2 in</formula><p>Next, we consider</p><formula xml:id="formula_147">p n n;1 n 1=2 0 I dg Ln (z) 0 1 X 0 M D u = n 1=2 0 I dg Ln (z) 0 1 n X i=1 X 0 i I T T 1 i T i 0 T u i = n 1=2 0 I dg Ln (z) 0 1 n X i=1 T X t=1 g i Ln (z it ) u it ;</formula><p>where</p><formula xml:id="formula_148">Var p n n;1 jG; Z = 2 u 0 I dg Ln (z) 0 1 n; 1 I dg Ln (z) = 2 n 1 + o p (<label>1</label></formula><formula xml:id="formula_149">)</formula><formula xml:id="formula_150">and 2 n 2 u 0 I dg Ln (z) 0 1 I dg Ln (z) 2 u 1 max ( ) 0 I dg Ln (z) CL n . Under Assumption 1, E[ n;1 ] =</formula><p>0 and, by Minkowski's inequality, we have for some &gt; 0:</p><formula xml:id="formula_151">E 1 n 0 I dg Ln (z) 0 1 T X t=1 g i Ln (z it ) u it 2+ 1 2+ n ( T X t=1 E 0 I dg Ln (z) 0 1 g i Ln (z it ) 2+ ju it j 2+ 1=(2+ ) ) 2+ 1 2+ n (2+ ) min ( ) 0 I dg Ln (z) 0 2+ ( T X t=1 E h g i Ln (z it ) 2+ ju it j 2+ i 1=(2+ ) ) 2+ C L 2+ n 2+ n ( T X t=1 E h g 0 i g i 2+ ju it j 2+ i 1=(2+ ) ) 2+ C</formula></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Spatial hedonic models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Lozano-Gracia</surname></persName>
+		</author>
+		<editor>K. Patterson &amp; T. C. Mills</editor>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Palgrave Macmillan</publisher>
+			<biblScope unit="volume">2</biblScope>
+			<pubPlace>Basingstoke</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Some new asymptotic theory for least squares series: Pointwise and uniform results</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Belloni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Chernozhukov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Chetverikov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kato</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">186</biblScope>
+			<biblScope unit="page" from="345" to="366" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Strategic interaction among governments: An overview of empirical studies. International</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Brueckner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="175" to="188" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Nonparametric kernel regression with multiple predictors and multiple shape constraints</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Du</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Parmeter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Racine</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1347" to="1371" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Theory of Uniform Approximation of Functions by Polynomials</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">K</forename><surname>Dzyadyk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">A</forename><surname>Shevchuk</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<publisher>Walter de Gruyter &amp; GmbH Co</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Growth, technological interdependence and spatial externalities: Theory and evidence</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="1033" to="1062" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Central limit theorem for degenerate U-statistics of absolutely regular processes with applications to model speci…cation testing</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Nonparametric Statistics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="245" to="271" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Central limit theorem for integrated square error of multivariate nonparametric density estimators</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="1" to="16" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">C</forename><surname>Heyde</surname></persName>
+		</author>
+		<title level="m">Martingale Limit Theory and Its Applications</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Academic Press</publisher>
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Nonparametric kernel regression subject to monotonicity constraints</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-S</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="624" to="647" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Nonparametric estimation and testing of …xed e¤ects panel data models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Henderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">144</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="257" to="275" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">On the bootstrap for Moran&apos;s I test for spatial dependence</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page" from="295" to="314" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Spatial spillovers in the development of institutions</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Murrell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Shepotylo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Development Economics</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="page" from="297" to="315" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A generalized moment estimator for the autoregressive parameter in a spatial model</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="509" to="533" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Speci…cation and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">GMM and 2SLS estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial autoregressive panel data models with …xed e¤ects</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="page" from="165" to="185" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+	<note>a)</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Some recent developments in spatial panel data models</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="255" to="271" />
+			<date type="published" when="2010">2010b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Spatial panels: Random components versus …xed e¤ects</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="1369" to="1412" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">E¢ cient GMM estimation of spacial dynamic panel data models with …xed e¤ects</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">180</biblScope>
+			<biblScope unit="page" from="174" to="197" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Asymptotics for nonparametric and semiparametric …xed e¤ects panel models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">185</biblScope>
+			<biblScope unit="page" from="420" to="434" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Consistent model speci…cation tests for time series econometric models</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="page" from="101" to="147" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A simple consistent bootstrap test for a parametric regression functional form</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="page" from="145" to="165" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A consistent nonparametric test of parametric regression functional form in …xed e¤ects panel data models</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">178</biblScope>
+			<biblScope unit="page" from="167" to="179" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">An e¢ cient GMM estimator of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Bollinger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="303" to="319" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Varying coe¢ cient panel data model in the presence of endogenous selectivity and …xed e¤ects</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Malikov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kumbhakar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">190</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="233" to="251" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Semiparametric estimation and testing of smooth coe¢ cient spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Malikov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">199</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="13" to="34" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Nonparametric additive models for panels of time series</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Mammen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Støve</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tjøstheim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="442" to="481" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Nonparametric regression estimation with general parametric error covariance</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Martins-Filho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="page" from="309" to="333" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Multivariate local polynomial regression for time series: Uniform strong consistency and rates</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Masry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Time Series Analysis</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="571" to="599" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Convergence rates and asymptotic normality for series estimators</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">79</biblScope>
+			<biblScope unit="page" from="147" to="168" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Spatial price competition: A semiparametric approach</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Slade</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brett</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="1111" to="1153" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Estimating semiparametric panel data models by marginal integration</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Qian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="483" to="493" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">A Matrix Handbook for Statisticians</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">A F</forename><surname>Seber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley Series in Probability and Statistics</title>
+		<imprint>
+			<publisher>John Wiley &amp; Sons, Inc</publisher>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Semiparametric GMM estimation of spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="543" to="560" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Pro…le quasi-maximum likelihood estimation of partially linear spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="18" to="33" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Speci…cation test for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business and Economic Statistics</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Nonparametric regression estimation with general parametric error covariance: A more e¢ cient two-step estimator</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="1009" to="1024" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Functional-coe¢ cient spatial autoregressive models with nonparametric spatial weights</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">195</biblScope>
+			<biblScope unit="page" from="134" to="153" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">A consistent nonparametric test on semiparametric smooth coe¢ cient models with integrated time series</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory. forthcoming</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Semiparametric estimation of …xed-e¤ects panel data varying coe¢ cient models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="101" to="129" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<title level="m" type="main">Estimation and inference in functional-coe¢ cient spatial autoregressive panel data models with …xed e¤ects</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Malikov</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+	<note>Manuscript</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">A semiparametric spatial dynamic model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="700" to="727" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Nonparametric panel data regression models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Oxford Handbook on Panel Data chapter 10</title>
+		<editor>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">A speci…cation test for nonlinear nonstationary models</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C B</forename><surname>Phillips</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="727" to="758" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Estimation for spatial dynamic panel data with …xed e¤ects: The case of spatial cointegration</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>De Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">167</biblScope>
+			<biblScope unit="page" from="16" to="37" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">A pairwise di¤erence estimator for partially linear spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="176" to="194" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">A consistent test of function form via nonparametric estimation techniques</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">X</forename><surname>Zheng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="263" to="289" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

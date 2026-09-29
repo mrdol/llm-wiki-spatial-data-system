@@ -1,0 +1,659 @@
+# Tests for the INLA SPDE estimator (inla_spde_reg(), inlabru::bru()), added
+# alongside the plan in .claude/plans (INLA as a new spatial estimator).
+# INLA is not on CRAN and not universally installable -- every test here is
+# guarded with skip_if_not_installed(), same convention as the ProbitSpatial
+# tests in test-classification-count.R. Kept fast (tiny synthetic dataset,
+# coarse mesh), same convention as the rest of the suite.
+
+inla_spde_grid_coords <- function(n) {
+  side <- ceiling(sqrt(n))
+  cbind(
+    x_coord = rep(seq_len(side), each = side)[seq_len(n)],
+    y_coord = rep(seq_len(side), times = side)[seq_len(n)]
+  )
+}
+
+inla_spde_test_data <- function(n = 60L, seed = 1L) {
+  set.seed(seed)
+  coords <- inla_spde_grid_coords(n)
+  x1 <- stats::rnorm(n)
+  # Champ spatial lisse simple (fonction sinusoidale des coordonnees) + bruit,
+  # pour que le champ SPDE ait effectivement quelque chose a capturer.
+  spatial_signal <- sin(coords[, 1] / 2) + cos(coords[, 2] / 2)
+  y <- 1 + 0.8 * x1 + spatial_signal + stats::rnorm(n, sd = 0.3)
+  data.frame(y = y, x1 = x1, x_coord = coords[, 1], y_coord = coords[, 2])
+}
+
+test_that("inla_spde_reg()/update() build a parsnip spec without evaluating args", {
+  spec <- inla_spde_reg(coords = c("x_coord", "y_coord"))
+  expect_s3_class(spec, "model_spec")
+  expect_equal(spec$mode, "regression")
+
+  updated <- update(spec, mesh_max_edge = c(1, 2))
+  expect_s3_class(updated, "model_spec")
+})
+
+test_that("inla_spde_default_priors()/inla_spde_default_mesh() are deterministic and overridable", {
+  skip_if_not_installed("fmesher")
+  set.seed(2)
+  coords <- inla_spde_grid_coords(40L)
+  y <- stats::rnorm(40L, sd = 2)
+
+  priors_a <- inla_spde_default_priors(coords, y)
+  priors_b <- inla_spde_default_priors(coords, y)
+  expect_equal(priors_a, priors_b)
+  expect_length(priors_a$prior_range, 2L)
+  expect_length(priors_a$prior_sigma, 2L)
+  expect_equal(priors_a$prior_sigma[1], stats::sd(y))
+
+  overridden <- inla_spde_default_priors(coords, y, prior_range = c(5, 0.5))
+  expect_equal(overridden$prior_range, c(5, 0.5))
+  expect_equal(overridden$prior_sigma, priors_a$prior_sigma)
+
+  mesh_a <- inla_spde_default_mesh(coords)
+  mesh_b <- inla_spde_default_mesh(coords)
+  expect_equal(mesh_a$n, mesh_b$n)
+
+  mesh_override <- inla_spde_default_mesh(coords, cutoff = 0.5)
+  expect_true(!is.null(mesh_override$n))
+})
+
+test_that("inlaspde_fit_impl()/inlaspde_pred_impl() fit and predict end-to-end on synthetic data", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_test_data(n = 60L)
+  train <- dat[1:50, ]
+  test <- dat[51:60, ]
+
+  fit_obj <- inlaspde_fit_impl(y ~ x1, train, coords = c("x_coord", "y_coord"))
+  expect_true(!is.null(attr(fit_obj, "inlaspde_mesh")))
+  expect_true(!is.null(attr(fit_obj, "inlaspde_spde")))
+
+  # parsnip::extract_fit_engine.model_fit() ne fait que renvoyer x$fit --
+  # un objet model_fit minimal suffit donc pour appeler pred_impl() isolement,
+  # sans passer par workflows::fit() (couvert separement ci-dessous).
+  model_fit_stub <- structure(list(fit = fit_obj), class = "model_fit")
+  preds <- inlaspde_pred_impl(model_fit_stub, test)
+  expect_length(preds, nrow(test))
+  expect_true(all(is.finite(preds)))
+})
+
+test_that("inla_spde_reg() fits and predicts end-to-end through the parsnip/workflows path", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+  skip_if_not_installed("workflows")
+
+  dat <- inla_spde_test_data(n = 60L)
+  train <- dat[1:50, ]
+  test <- dat[51:60, ]
+
+  wf <- make_benchmark_workflow(
+    inla_spde_reg(coords = c("x_coord", "y_coord")) |> parsnip::set_engine("inlabru"),
+    y ~ x1, c("x_coord", "y_coord"), train
+  ) |>
+    workflows::fit(data = train)
+
+  preds <- predict(wf, new_data = test)
+  expect_equal(nrow(preds), nrow(test))
+  expect_true(all(is.finite(preds$.pred)))
+})
+
+test_that("fit_one_benchmark_estimator() routes 'inla_spde' end-to-end", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_test_data(n = 60L)
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde", y ~ x1, dat, coords = c("x_coord", "y_coord")
+  )
+  expect_true(!is.null(fit))
+})
+
+# --- Phase 2 (2026-09-15): familles non-gaussiennes, motivees par 3 papiers
+# du corpus qui utilisent reellement INLA en binomial/poisson --
+# paper_flapper_skate_presence (binomial+cloglog), paper_mistletoe_bird_abundance
+# et paper_goa_trawl_demersal (binomial+poisson/gamma). Meme convention de
+# grille/DGP que test-classification-count.R.
+
+inla_spde_binary_test_data <- function(n = 80L, seed = 1L, link = "logit") {
+  set.seed(seed)
+  coords <- inla_spde_grid_coords(n)
+  x1 <- stats::rnorm(n)
+  eta <- -0.5 + 1.1 * x1 + sin(coords[, 1] / 2)
+  p <- if (identical(link, "cloglog")) 1 - exp(-exp(eta)) else stats::plogis(eta)
+  y <- stats::rbinom(n, 1, p)
+  data.frame(y = y, x1 = x1, x_coord = coords[, 1], y_coord = coords[, 2])
+}
+
+inla_spde_count_test_data <- function(n = 80L, seed = 1L) {
+  set.seed(seed)
+  coords <- inla_spde_grid_coords(n)
+  x1 <- stats::rnorm(n)
+  lambda <- exp(1 + 0.3 * x1 + 0.1 * sin(coords[, 1] / 2))
+  y <- stats::rpois(n, lambda)
+  data.frame(y = y, x1 = x1, x_coord = coords[, 1], y_coord = coords[, 2])
+}
+
+test_that("fit_one_benchmark_estimator() routes 'inla_spde' to binomial (logit) for a binary task", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_binary_test_data(link = "logit")
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde", y ~ x1, dat, coords = c("x_coord", "y_coord"),
+    response_typology = "binary"
+  )
+  preds <- predict(fit, new_data = dat[1:10, ])$.pred
+  expect_length(preds, 10L)
+  expect_true(all(is.finite(preds)))
+  expect_true(all(preds >= 0 & preds <= 1))
+})
+
+test_that("fit_one_benchmark_estimator() routes 'inla_spde' to binomial+cloglog when glm_link='cloglog'", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_binary_test_data(link = "cloglog")
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde", y ~ x1, dat, coords = c("x_coord", "y_coord"),
+    response_typology = "binary", glm_link = "cloglog"
+  )
+  preds <- predict(fit, new_data = dat[1:10, ])$.pred
+  expect_length(preds, 10L)
+  expect_true(all(is.finite(preds)))
+  expect_true(all(preds >= 0 & preds <= 1))
+  expect_equal(attr(parsnip::extract_fit_engine(fit), "inlaspde_link"), "cloglog")
+})
+
+test_that("fit_one_benchmark_estimator() routes 'inla_spde' to poisson for a count task", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_count_test_data()
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde", y ~ x1, dat, coords = c("x_coord", "y_coord"),
+    response_typology = "count"
+  )
+  preds <- predict(fit, new_data = dat[1:10, ])$.pred
+  expect_length(preds, 10L)
+  expect_true(all(is.finite(preds)))
+  expect_true(all(preds > 0))
+  expect_equal(attr(parsnip::extract_fit_engine(fit), "inlaspde_family"), "poisson")
+})
+
+test_that("inla_spde_reg() stays mode='regression' for binary tasks (numeric probability, not a class)", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_binary_test_data()
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde", y ~ x1, dat, coords = c("x_coord", "y_coord"),
+    response_typology = "binary"
+  )
+  expect_s3_class(fit, "workflow")
+  expect_equal(workflows::extract_spec_parsnip(fit)$mode, "regression")
+})
+
+test_that("inlaspde_normalize_binomial_y() accepts a 2-level factor or 0/1 numeric, rejects other values", {
+  expect_equal(inlaspde_normalize_binomial_y(factor(c("0", "1", "0"), levels = c("0", "1"))), c(0L, 1L, 0L))
+  expect_equal(inlaspde_normalize_binomial_y(c(0, 1, 0, 1)), c(0L, 1L, 0L, 1L))
+  expect_error(inlaspde_normalize_binomial_y(c(0, 1, 2)), "binaire")
+  expect_error(inlaspde_normalize_binomial_y(factor(c("a", "b", "c"))), "2 niveaux")
+})
+
+test_that("inlaspde_fit_impl() rejects unsupported family/link combinations with a clear error", {
+  dat <- inla_spde_test_data(n = 30L)
+  expect_error(
+    inlaspde_fit_impl(y ~ x1, dat, coords = c("x_coord", "y_coord"), family = "gamma"),
+    "family"
+  )
+  expect_error(
+    inlaspde_fit_impl(y ~ x1, dat, coords = c("x_coord", "y_coord"), family = "gaussian", link = "log"),
+    "gaussian"
+  )
+  expect_error(
+    inlaspde_fit_impl(y ~ x1, dat, coords = c("x_coord", "y_coord"), family = "binomial", link = "probit"),
+    "binomial"
+  )
+})
+
+# --- Phase 3 (2026-09-18): variante effets aleatoires de groupe
+# (`inla_spde_group`) et variante spatio-temporelle (`inla_spde_st`) --
+# motivees par paper_banff_stream_temperature/paper_mistletoe_bird_abundance
+# (groupe) et paper_crane/paper_mistletoe_bird_abundance/
+# paper_goa_trawl_demersal (espace-temps). Voir le plan
+# "Etendre inla_spde : variante spatio-temporelle + effets aleatoires de
+# groupe" pour le contexte complet.
+
+inla_spde_group_test_data <- function(n = 80L, seed = 1L, n_groups = 4L) {
+  set.seed(seed)
+  coords <- inla_spde_grid_coords(n)
+  x1 <- stats::rnorm(n)
+  groupe <- factor(sample(seq_len(n_groups), n, replace = TRUE))
+  group_effect <- stats::rnorm(n_groups, sd = 1.5)[as.integer(groupe)]
+  spatial_signal <- sin(coords[, 1] / 2) + cos(coords[, 2] / 2)
+  y <- 1 + 0.8 * x1 + spatial_signal + group_effect + stats::rnorm(n, sd = 0.3)
+  data.frame(y = y, x1 = x1, x_coord = coords[, 1], y_coord = coords[, 2], groupe = groupe)
+}
+
+test_that("inlaspde_fit_impl() translates (1 | groupe) into an iid component and fits/predicts", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_group_test_data(n = 80L)
+  train <- dat[1:70, ]
+  test <- dat[71:80, ]
+
+  fit_obj <- inlaspde_fit_impl(y ~ x1 + (1 | groupe), train, coords = c("x_coord", "y_coord"))
+  expect_equal(attr(fit_obj, "inlaspde_group_cols"), "groupe")
+  expect_true(is.character(attr(fit_obj, "inlaspde_group_levels")$groupe))
+
+  model_fit_stub <- structure(list(fit = fit_obj), class = "model_fit")
+  preds <- inlaspde_pred_impl(model_fit_stub, test)
+  expect_length(preds, nrow(test))
+  expect_true(all(is.finite(preds)))
+})
+
+test_that("inlaspde_pred_impl() handles an unseen group level gracefully via the iid prior (no NA, no error)", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  # Verifie empiriquement (2026-09-18) : predict.bru() ne plante pas et ne
+  # renvoie pas NA pour un niveau de groupe absent de l'entrainement -- il
+  # marginalise sur le prior bayesien de l'effet iid, un comportement correct
+  # et attendu pour ce type de modele (contrairement a mgcv::predict.gam()
+  # sur un s(x, bs="re"), sans notion de prior). Ce test fige ce comportement
+  # observe, il ne l'invente pas.
+  dat <- inla_spde_group_test_data(n = 60L)
+  fit_obj <- inlaspde_fit_impl(y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord"))
+  new_row <- dat[1, ]
+  new_row$groupe <- factor("99", levels = "99")
+  model_fit_stub <- structure(list(fit = fit_obj), class = "model_fit")
+  preds <- inlaspde_pred_impl(model_fit_stub, new_row)
+  expect_length(preds, 1L)
+  expect_true(is.finite(preds))
+})
+
+test_that("fit_one_benchmark_estimator() routes 'inla_spde_group' end-to-end and rejects a formula without a group term", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_group_test_data(n = 80L)
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde_group", y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord")
+  )
+  expect_true(!is.null(fit))
+  expect_s3_class(fit, "inla_spde_group_fit")
+
+  expect_error(
+    fit_one_benchmark_estimator("inla_spde_group", y ~ x1, dat, coords = c("x_coord", "y_coord")),
+    "aucun terme"
+  )
+})
+
+test_that("predict_vector_for_benchmark() bypasses generic predict() dispatch for inla_spde_group_fit", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  # isGeneric("predict") devient TRUE une fois INLA charge (confirme
+  # empiriquement, 2026-09-18) -- le predict() generique standard route alors
+  # vers predict.bru() (sortie brute inlabru), pas vers notre
+  # predict.inla_spde_group_fit(), meme si la methode existe et est trouvee
+  # par getS3method(). predict_vector_for_benchmark() doit donc contourner
+  # le dispatch generique explicitement -- ce test protege ce contournement.
+  dat <- inla_spde_group_test_data(n = 80L)
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde_group", y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord")
+  )
+  preds <- predict_vector_for_benchmark(fit, dat[1:5, ])
+  expect_true(is.numeric(preds))
+  expect_length(preds, 5L)
+  expect_true(all(is.finite(preds)))
+})
+
+inla_spde_st_test_data <- function(n_per_period = 25L, n_period = 4L, seed = 1L) {
+  set.seed(seed)
+  coords <- inla_spde_grid_coords(n_per_period)
+  coords_rep <- coords[rep(seq_len(n_per_period), n_period), ]
+  period <- rep(seq_len(n_period), each = n_per_period)
+  x1 <- stats::rnorm(n_per_period * n_period)
+  spatial_signal <- sin(coords_rep[, 1] / 2) + cos(coords_rep[, 2] / 2)
+  # Derive persistant plausible d'un AR1 (pas simule comme un AR1 exact --
+  # suffisant pour verifier que le harnais ajuste et utilise le parametre,
+  # pas pour une verification statistique fine).
+  period_shift <- c(0, 0.5, 0.9, 1.1)[period]
+  y <- 1 + 0.8 * x1 + spatial_signal + period_shift + stats::rnorm(length(period), sd = 0.3)
+  data.frame(y = y, x1 = x1, x_coord = coords_rep[, 1], y_coord = coords_rep[, 2], period = period)
+}
+
+test_that("inlaspde_fit_impl() fits a space-time field via time= and actually estimates an AR1 group correlation", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_test_data()
+  fit_obj <- inlaspde_fit_impl(y ~ x1, dat, coords = c("x_coord", "y_coord"), time = "period")
+  expect_equal(attr(fit_obj, "inlaspde_time_col"), "period")
+  expect_equal(attr(fit_obj, "inlaspde_time_levels"), c("1", "2", "3", "4"))
+  # Un champ purement spatial (sans group=/control.group=) n'a pas de
+  # hyperparametre de correlation de groupe -- sa presence prouve que la
+  # structure spatio-temporelle a reellement ete ajustee, pas juste poolee.
+  expect_true(any(grepl("Rho", rownames(fit_obj$summary.hyperpar))))
+
+  model_fit_stub <- structure(list(fit = fit_obj), class = "model_fit")
+  seen_period_row <- dat[dat$period == 2, ][1, ]
+  preds <- inlaspde_pred_impl(model_fit_stub, seen_period_row)
+  expect_length(preds, 1L)
+  expect_true(is.finite(preds))
+})
+
+test_that("inlaspde_pred_impl() refuses to extrapolate to an unseen period", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_test_data()
+  fit_obj <- inlaspde_fit_impl(y ~ x1, dat, coords = c("x_coord", "y_coord"), time = "period")
+  new_row <- dat[1, ]
+  new_row$period <- 99
+  model_fit_stub <- structure(list(fit = fit_obj), class = "model_fit")
+  expect_error(inlaspde_pred_impl(model_fit_stub, new_row), "periode")
+})
+
+test_that("fit_one_benchmark_estimator() routes 'inla_spde_st' end-to-end and requires inla_time", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_test_data()
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde_st", y ~ x1, dat, coords = c("x_coord", "y_coord"), inla_time = "period"
+  )
+  expect_true(!is.null(fit))
+
+  # Non-regression (2026-09-19, verifie sur goa) : make_benchmark_workflow()
+  # ajoute la colonne temporelle a la formule pour qu'elle survive a hardhat;
+  # elle ne doit pas devenir une covariable fixe en plus de l'index AR1.
+  eng <- parsnip::extract_fit_engine(fit)
+  expect_false("period" %in% all.vars(attr(eng, "inlaspde_pred_formula")))
+  expect_false("period" %in% rownames(eng$summary.fixed))
+
+  expect_error(
+    fit_one_benchmark_estimator("inla_spde_st", y ~ x1, dat, coords = c("x_coord", "y_coord")),
+    "inla_time"
+  )
+})
+
+# Un panel repete les memes coordonnees a chaque periode: le diagnostic de
+# Moran (spdep::knearneigh) le signale a chaque fold. Bruit attendu ici, on ne
+# filtre que ce message pour ne pas masquer d'autres avertissements.
+quiet_identical_points <- function(expr) {
+  withCallingHandlers(expr, warning = function(w) {
+    if (grepl("identical points", conditionMessage(w), fixed = TRUE)) invokeRestart("muffleWarning")
+  })
+}
+
+test_that("benchmark_spatial() threads inla_time to 'inla_spde_st' in the CV folds and the final fit", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_test_data()
+  coords <- c("x_coord", "y_coord")
+
+  bench <- quiet_identical_points(benchmark_spatial(
+    y ~ x1, dat, coords,
+    estimators = c("ols", "inla_spde_st"),
+    cv_scheme = "vfold_cv", eval_folds = 3L, inla_time = "period"
+  ))
+  rr <- bench$resample_results
+  st_rows <- rr[rr$estimator == "inla_spde_st", ]
+  expect_equal(nrow(st_rows), 3L)
+  expect_true(all(is.na(st_rows$fit_error)))
+  expect_true(all(is.finite(st_rows$rmse)))
+  # Ajustement final (bench$fits) : le meme inla_time doit y arriver aussi.
+  expect_true("inla_spde_st" %in% names(bench$fits))
+
+  # Sans inla_time, seul inla_spde_st echoue (message explicite), pas ols.
+  bench_no_time <- quiet_identical_points(benchmark_spatial(
+    y ~ x1, dat, coords,
+    estimators = c("ols", "inla_spde_st"),
+    cv_scheme = "vfold_cv", eval_folds = 3L
+  ))
+  rr2 <- bench_no_time$resample_results
+  expect_true(all(is.na(rr2$fit_error[rr2$estimator == "ols"])))
+  expect_true(all(grepl("inla_time", rr2$fit_error[rr2$estimator == "inla_spde_st"])))
+
+  expect_error(
+    benchmark_spatial(y ~ x1, dat, coords, estimators = "ols", inla_time = "pas_une_colonne"),
+    "introuvable"
+  )
+})
+
+test_that("spatial_dataset_spec(inla_time=) reaches 'inla_spde_st' through benchmark_spatial_suite()", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_test_data()
+  spec <- spatial_dataset_spec(
+    "panel_synth", dat, y ~ x1, c("x_coord", "y_coord"), inla_time = "period"
+  )
+  expect_equal(spec$inla_time, "period")
+
+  suite <- quiet_identical_points(benchmark_spatial_suite(
+    spec, estimators = c("ols", "inla_spde_st"),
+    cv_schemes = "vfold_cv", eval_folds = 3L
+  ))
+  rr <- suite$resample_results
+  st_rows <- rr[rr$estimator == "inla_spde_st", ]
+  expect_equal(nrow(st_rows), 3L)
+  expect_true(all(is.na(st_rows$fit_error)))
+  expect_true(all(is.finite(st_rows$rmse)))
+})
+
+# --- Phase 4 (2026-09-23): variante combinee `inla_spde_st_group` (espace x
+# AR1 ET effet(s) de groupe simultanement). Motivee par
+# paper_mistletoe_bird_abundance, seul jeu du corpus dont le modele publie
+# combine reellement les deux structures. Le moteur (inlaspde_fit_impl())
+# n'a pas change (il empilait deja time/group_re sans condition) -- ces
+# tests protegent le nouveau nom d'estimateur/garde-fou cote harnais.
+
+inla_spde_st_group_test_data <- function(n_per_period = 25L, n_period = 4L, seed = 1L, n_groups = 3L) {
+  set.seed(seed)
+  coords <- inla_spde_grid_coords(n_per_period)
+  coords_rep <- coords[rep(seq_len(n_per_period), n_period), ]
+  period <- rep(seq_len(n_period), each = n_per_period)
+  n <- n_per_period * n_period
+  x1 <- stats::rnorm(n)
+  groupe <- factor(sample(seq_len(n_groups), n, replace = TRUE))
+  group_effect <- stats::rnorm(n_groups, sd = 1.5)[as.integer(groupe)]
+  spatial_signal <- sin(coords_rep[, 1] / 2) + cos(coords_rep[, 2] / 2)
+  period_shift <- c(0, 0.5, 0.9, 1.1)[period]
+  y <- 1 + 0.8 * x1 + spatial_signal + period_shift + group_effect + stats::rnorm(n, sd = 0.3)
+  data.frame(
+    y = y, x1 = x1, x_coord = coords_rep[, 1], y_coord = coords_rep[, 2],
+    period = period, groupe = groupe
+  )
+}
+
+test_that("inlaspde_fit_impl() fits time= and (1 | groupe) simultaneously", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_group_test_data()
+  fit_obj <- inlaspde_fit_impl(
+    y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord"), time = "period"
+  )
+  expect_equal(attr(fit_obj, "inlaspde_time_col"), "period")
+  expect_equal(attr(fit_obj, "inlaspde_time_levels"), c("1", "2", "3", "4"))
+  expect_equal(attr(fit_obj, "inlaspde_group_cols"), "groupe")
+  expect_true(is.character(attr(fit_obj, "inlaspde_group_levels")$groupe))
+  # Meme garde que le test inla_spde_st seul: un hyperparametre de
+  # correlation de groupe (Rho) ne peut exister que si le champ AR1 a
+  # reellement ete ajuste, pas juste poole.
+  expect_true(any(grepl("Rho", rownames(fit_obj$summary.hyperpar))))
+
+  model_fit_stub <- structure(list(fit = fit_obj), class = "model_fit")
+  seen_row <- dat[dat$period == 2, ][1, ]
+  preds <- inlaspde_pred_impl(model_fit_stub, seen_row)
+  expect_length(preds, 1L)
+  expect_true(is.finite(preds))
+})
+
+test_that("fit_one_benchmark_estimator() routes 'inla_spde_st_group' end-to-end and requires both time and a group term", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_st_group_test_data()
+  fit <- fit_one_benchmark_estimator(
+    "inla_spde_st_group", y ~ x1 + (1 | groupe), dat,
+    coords = c("x_coord", "y_coord"), inla_time = "period"
+  )
+  expect_true(!is.null(fit))
+  expect_s3_class(fit, "inla_spde_group_fit")
+
+  preds <- predict_vector_for_benchmark(fit, dat[dat$period == 1, ][1:5, ])
+  expect_true(is.numeric(preds))
+  expect_length(preds, 5L)
+  expect_true(all(is.finite(preds)))
+
+  # Sans inla_time: erreur explicite, pas un pooling silencieux.
+  expect_error(
+    fit_one_benchmark_estimator(
+      "inla_spde_st_group", y ~ x1 + (1 | groupe), dat, coords = c("x_coord", "y_coord")
+    ),
+    "inla_time"
+  )
+  # Sans terme de groupe dans la formule: erreur explicite aussi.
+  expect_error(
+    fit_one_benchmark_estimator(
+      "inla_spde_st_group", y ~ x1, dat, coords = c("x_coord", "y_coord"), inla_time = "period"
+    ),
+    "aucun terme"
+  )
+})
+
+test_that("inla_spde prediction is deterministic whatever the R RNG state, and leaves global state untouched", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_test_data(n = 60L)
+  train <- dat[1:50, ]
+  test <- dat[51:60, ]
+  coords <- c("x_coord", "y_coord")
+
+  mode_before <- INLA::inla.getOption("inla.mode")
+  threads_before <- INLA::inla.getOption("num.threads")
+
+  set.seed(101)
+  fit_a <- inlaspde_fit_impl(y ~ x1, train, coords = coords)
+  pred_a <- inlaspde_pred_impl(fit_a, test)
+  set.seed(202) # autre etat du generateur de R: ne doit rien changer
+  pred_b <- inlaspde_pred_impl(fit_a, test)
+
+  expect_equal(pred_a, pred_b, tolerance = 1e-8)
+  expect_true(all(is.finite(pred_a)))
+
+  # Les options globales d'INLA sont restaurees apres fit et prediction.
+  expect_identical(INLA::inla.getOption("inla.mode"), mode_before)
+  expect_identical(INLA::inla.getOption("num.threads"), threads_before)
+
+  # La prediction ne consomme ni ne modifie le generateur de R de l'appelant.
+  set.seed(123)
+  seed_before <- get(".Random.seed", envir = globalenv())
+  inlaspde_pred_impl(fit_a, test)
+  expect_identical(get(".Random.seed", envir = globalenv()), seed_before)
+})
+
+test_that("option spatialtidymodels.inla_mode = 'classic' makes two independent fits identical", {
+  skip_if_not_installed("INLA")
+  skip_if_not_installed("inlabru")
+  skip_if_not_installed("fmesher")
+
+  dat <- inla_spde_test_data(n = 60L)
+  train <- dat[1:50, ]
+  test <- dat[51:60, ]
+  coords <- c("x_coord", "y_coord")
+
+  old <- options(spatialtidymodels.inla_mode = "classic")
+  on.exit(options(old), add = TRUE)
+  set.seed(1)
+  fit_a <- inlaspde_fit_impl(y ~ x1, train, coords = coords)
+  pred_a <- inlaspde_pred_impl(fit_a, test)
+  set.seed(2)
+  fit_b <- inlaspde_fit_impl(y ~ x1, train, coords = coords)
+  pred_b <- inlaspde_pred_impl(fit_b, test)
+
+  expect_equal(fit_a$mlik[1], fit_b$mlik[1], tolerance = 1e-8)
+  expect_equal(fit_a$summary.hyperpar$mean, fit_b$summary.hyperpar$mean, tolerance = 1e-8)
+  expect_equal(pred_a, pred_b, tolerance = 1e-8)
+})
+
+test_that("with_inla_reproducible_options() sets 1:1 (mode unchanged unless inla_mode is set), restores, and can be switched off", {
+  skip_if_not_installed("INLA")
+
+  mode_before <- INLA::inla.getOption("inla.mode")
+  threads_before <- INLA::inla.getOption("num.threads")
+
+  inside <- with_inla_reproducible_options(list(
+    mode = INLA::inla.getOption("inla.mode"), threads = INLA::inla.getOption("num.threads")
+  ))
+  expect_identical(inside$mode, mode_before) # le mode n'est PAS force par defaut
+  expect_identical(inside$threads, "1:1")
+  expect_identical(INLA::inla.getOption("inla.mode"), mode_before)
+  expect_identical(INLA::inla.getOption("num.threads"), threads_before)
+
+  # Option explicite: mode "classic" applique puis restaure; valeur invalide refusee.
+  old_mode <- options(spatialtidymodels.inla_mode = "classic")
+  in_classic <- with_inla_reproducible_options(INLA::inla.getOption("inla.mode"))
+  expect_identical(in_classic, "classic")
+  expect_identical(INLA::inla.getOption("inla.mode"), mode_before)
+  options(spatialtidymodels.inla_mode = "fast")
+  expect_error(inlaspde_inla_mode(), "compact")
+  options(old_mode)
+
+  # Restauration aussi quand l'expression echoue.
+  expect_error(with_inla_reproducible_options(stop("boom")), "boom")
+  expect_identical(INLA::inla.getOption("inla.mode"), mode_before)
+  expect_identical(INLA::inla.getOption("num.threads"), threads_before)
+
+  old <- options(spatialtidymodels.inla_reproducible = FALSE)
+  on.exit(options(old), add = TRUE)
+  off <- with_inla_reproducible_options(INLA::inla.getOption("inla.mode"))
+  expect_identical(off, mode_before)
+})
+
+test_that("with_local_seed() restores the caller's RNG state, and the seed/samples options are validated", {
+  set.seed(7)
+  before <- get(".Random.seed", envir = globalenv())
+  a <- with_local_seed(11L, stats::runif(3))
+  b <- with_local_seed(11L, stats::runif(3))
+  expect_identical(a, b)
+  expect_identical(get(".Random.seed", envir = globalenv()), before)
+
+  old <- options(spatialtidymodels.inla_pred_seed = 0L)
+  on.exit(options(old), add = TRUE)
+  expect_error(inlaspde_pred_seed(), "non nul")
+  options(spatialtidymodels.inla_pred_seed = 5L, spatialtidymodels.inla_pred_samples = 0L)
+  expect_identical(inlaspde_pred_seed(), 5L)
+  expect_error(inlaspde_pred_samples(), ">= 1")
+  options(spatialtidymodels.inla_pred_samples = NULL, spatialtidymodels.inla_pred_seed = NULL)
+  expect_identical(inlaspde_pred_samples(), 1000L)
+  expect_identical(inlaspde_pred_seed(), 1L)
+})

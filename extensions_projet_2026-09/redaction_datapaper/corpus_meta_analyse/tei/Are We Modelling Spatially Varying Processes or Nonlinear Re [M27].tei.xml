@@ -1,0 +1,1008 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Are We Modelling Spatially Varying Processes or Non-linear Relationships?</title>
+				<funder ref="#_FxJkgTf">
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Geography and Spatial Sciences Program</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Mehak</forename><surname>Sachdeva</surname></persName>
+							<email>mehak.sachdeva@asu.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences an Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">A</forename><forename type="middle">Stewart</forename><surname>Fotheringham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences an Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ziqi</forename><surname>Li</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Geography and Geographic Information Science</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution" key="instit1">University of Illinois</orgName>
+								<orgName type="institution" key="instit2">Urbana-Champaign</orgName>
+								<address>
+									<settlement>Urbana</settlement>
+									<region>IL</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Hanchen</forename><surname>Yu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences an Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<address>
+									<addrLine>975 S. Myrtle Ave.</addrLine>
+									<postCode>5643-A 85287-5302</postCode>
+									<settlement>COOR Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Are We Modelling Spatially Varying Processes or Non-linear Relationships?</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">9E31C0CFA047D7B1AF53DF775CE699B1</idno>
+					<idno type="DOI">10.1111/gean.12297</idno>
+					<note type="submission">Submitted: 4 November 2020; Revised version accepted: 14 May 2021</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Studies of spatially varying parameter estimates obtained in the calibration of various types of local statistical models are commonplace. The variation in such estimates is typically explained in terms of spatially varying processes. This paper highlights that an alternative explanation for spatially varying parameter estimates, in terms of non-linearity, should be examined prior to relating such variation to spatially varying processes. This can be achieved by a simple screening procedure which is described and demonstrated and which can easily be applied to the results of any local model. The problem is highlighted, and the solution demonstrated, with a set of simulated data and then with a real-world data set. The paper also highlights the obverse situation whereby the inappropriate application of a GAM produces spurious nonlinear results when the real relationships are linear but spatially varying.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Regression models are often used to explain the variation of an observed data pattern (dependent variable) using data on other variables (independent variables or covariates) which are theorized or hypothesized to have some influence on the value of the dependent variable. Different techniques within the umbrella of regression can be used to model the relationships between the dependent (y) and independent variables (x), but a primary distinction is between models which allow spatial heterogeneity in relationships and those which do not. Ordinary Least Squares Regression (OLS), for example, assumes that the conditioned relationship between y and every x is constant over space so that data from every location in a study area are used with equal weighting in the calibration of the model and a single parameter estimate is obtained for each relationship in the model. Such models are referred to as "global." Local spatial regression techniques such as Multiscale Geographically Weighted Regression (MGWR), on the other hand, allow spatial non-stationarity in relationships by calibrating separate models for each location. This is achieved by weighting data according to how close they are to each local regression point.</p><p>There is abundant empirical evidence to suggest that local models outperform traditional global models in many situations even when differences in model complexity are accounted for <ref type="bibr" target="#b30">(Zhang et al. 2004;</ref><ref type="bibr" target="#b17">Malczewski and Poetz 2005;</ref><ref type="bibr" target="#b18">Maroko et al. 2009;</ref><ref type="bibr" target="#b2">Cardozo et al. 2012;</ref><ref type="bibr" target="#b15">Li et al. 2012;</ref><ref type="bibr" target="#b24">Wang et al. 2018;</ref><ref type="bibr" target="#b31">Zhu et al. 2020)</ref>.</p><p>A third type of regression model exists which is focused not on the spatial heterogeneity of relationships but on variation in relationships over the domain of a covariate. Such models are referred to as Generalized Additive Models (GAM), and they are often employed to model nonlinear relationships between dependent and independent variables. An important, and until now, overlooked, research question is then: Suppose that parameter estimates vary in covariate space (i.e., the relationships are non-linear), and the covariate is distributed over space with some degree of spatial dependency, might this account for the observed superiority of local models such as MGWR? That is, observed spatial variations in local parameter estimates might simply reflect a non-linear conditional relationship between y and x with x having a distinct spatial pattern. For example if the parameter estimates are positive when x is large and negative when x is small (representing a U-shaped non-linear relationship between y and x) and x is distributed across space such that large values are in the east and small values are in the west, the resulting local parameters estimated in a model such as MGWR would have a distinctive spatial pattern being positive in the east and negative in the west. Consequently, it could be argued that local variations in parameter estimates reported in the calibration of models such as MGWR and Bayesian spatially varying coefficients models (SVCM) might not be representative of intrinsically spatially varying relationships, as claimed, but merely reflect non-linear conditioned relationships between y and x. This paper examines this argument and advances a simple procedure to assess its veracity in any empirical application. As such it provides a valuable addition to the armory of local modeling and spatial analysis in general.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Regression models</head><p>Regression models form an important component of statistical analysis. They are often used to answer the why and what questions pertaining to data we observe in the world around us. For example, questions such as "Why do some people vote Democrat and some vote Republican in the United States,"? "What attributes of a house affect its price"? and "What socioeconomic and infrastructural variables are associated with high levels of crime"? have all been answered using regression analysis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Linear regression models (OLS)</head><p>A "linear-in-parameters" regression model estimates the conditional relationships between a dependent variable y and one or more independent variables x 1 , x 2 , x 3 , …, x n and in multivariate form is denoted as:</p><p>where β 0 is the intercept and 1 , 2 , 3 , …, n are parameters which are assumed to be constant across all observations, and ε is a random error term. In this form of regression model, it is assumed that the conditioned relationship between each of the independent variables and the dependent variable is linear and that the residuals from the model are normally distributed with near-constant variance. In the case where either of these assumptions is violated, the parameter estimates and their confidence intervals are likely to be misleading. Note that simple forms of (1)</p><formula xml:id="formula_0">y = 0 + 1 x 1 + 2 x 2 + 3 x 3 + ⋯ + n x n +</formula><p>nonlinear relationships between y and x can be accommodated in the above model form by replacing x with, for example, the logarithm of x or with a quadratic expression in x.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Generalized additive models (GAMs)</head><p>In linear regression models, the conditioned relationship between each of the independent variables and the dependent variable is assumed to be linear as discussed above. As the exact nature of this relationship may not be known, such an assumption may lead to misspecification errors. To combat this, Generalized Additive Models (GAMs) have been developed whereby the probability distribution of the response variable is parameterized, but the predictors are modeled non-parametrically <ref type="bibr" target="#b12">(Hastie and Tibshirani 1990)</ref>. The structure for a GAM can be expressed as follows:</p><p>where f j represents unknown smooth functions which can take many forms to model the conditioned relationships between the xs and the y <ref type="bibr" target="#b12">(Hastie and Tibshirani 1990)</ref>. As such, GAMs can model highly non-linear and non-monotonic functional relationships between the dependent variable and each independent variable which cannot be accommodated by the simple transformation of a variable in equation ( <ref type="formula">1</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Local regression models</head><p>In applications to spatial data, traditional linear regression models assume that the modeled relationships between independent and dependent variables are constant across the geographic area from which the data are gathered. This assumption suggests that the same stimulus (change in independent variables) would result in the same conditional response in the dependent variable irrespective of the location in the study area. If there is a spatial variation in the relationships being modeled, the single parameter estimates derived in the calibration of the least squares linear model would represent the average response over space and the model would be misspecified <ref type="bibr" target="#b7">(Fotheringham and Rogerson 2009)</ref>. This problem can be detected by inspecting the residuals from the least squares model for presence of significant spatial dependency in the values. If significant spatial dependency exists in the model residuals, it is an indication of unexplained spatial variation in the modeled relationships. Local statistical modeling frameworks such as Geographically Weighted Regression (GWR) and MGWR have been developed to relax the assumption of spatially stationary relationships established in traditional linear regression models <ref type="bibr" target="#b1">(Brunsdon et al. 1996;</ref><ref type="bibr" target="#b5">Fotheringham et al. 2002</ref><ref type="bibr" target="#b8">Fotheringham et al. , 2017;;</ref><ref type="bibr" target="#b29">Yu et al. 2020</ref>). 1  Models within the GWR framework estimate a unique local parameter for each predictorresponse relationship by calibrating a model at each individual location. This is achieved by borrowing data from surrounding locations and weighting these data according to distance from the regression focus. The GWR model specification is denoted as: where β j is a vector of the jth covariate-specific parameters indexed for each location u i , v i , y i is the dependent variable, x ji represents the jth independent variable, and ε i is a random error term. The location-specific parameters are estimated by running an ensemble of simple (2)</p><formula xml:id="formula_1">y i = p ∑ j = 1 f j x ij ,<label>(3)</label></formula><formula xml:id="formula_2">y i = ∑ j j u i , v i x ji + i</formula><p>linear regression models at each location using weighted data from nearby locations following Tobler's law of spatial dependence <ref type="bibr" target="#b23">(Tobler 1970)</ref>. A spatial kernel translates distances into weights that vary from 1 to 0 with 1 being the weight assigned to data at the regression location.</p><p>The spatial kernels can be "adaptive" or "fixed" referring to whether the rate of distance-decay varies or not with respect to the density of data points around the local regression point. The amount of data used in each local regression, measured by either distance or number of nearest neighbors, is controlled by a bandwidth parameter which gives information on the spatial scale over which relationships vary. The GWR model specification contains the assumption that the bandwidth parameter for each covariate is constant which is unduly restrictive, and a recent advancement is that of MGWR in which this assumption is relaxed so that covariate-specific bandwidths are estimated in the calibration of the model. The MGWR model specification is denoted as:</p><p>where the bwj subscript in β bwj represents the jth covariate-specific bandwidth estimated in the calibration of the model <ref type="bibr" target="#b8">(Fotheringham et al. 2017)</ref>. More details on the interpretation of the bandwidth and on inference in MGWR can be found in <ref type="bibr">Fotheringham et al. (forthcoming)</ref> and <ref type="bibr" target="#b29">(Yu et al. 2020)</ref>, respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The issue of non-linearity in models producing location-specific parameter estimates</head><p>When a local model, such as MGWR or a Bayesian SVCM, is calibrated, the values of the local parameter estimates are often mapped to display a spatial distribution which is assumed to represent the nature of spatially varying conditional relationships between each covariate and the dependent variable. However, the GAM framework provides an alternative interpretation of the spatially varying nature of the local parameter estimates. If the relationships being modeled are nonlinear and the covariates vary over space with a distinct spatial pattern, then this would also result in spatially varying parameter estimates being obtained in the calibration of a local model. Consequently, there is a problem in determining the provenance of the spatially varying parameter estimates obtained in local modeling-do they result from non-linear relationships being modeled incorrectly or from truly spatially varying processes? It is therefore essential to check to see if the underlying cause of spatially varying parameter estimates might be misspecification of the correct functional forms in the model rather than spatially varying processes. The objective of this paper, as well to highlight a problem which appears to have gone unnoticed in the literature, is to describe a simple test to support the claim that the parameter estimates generated by local models are manifestations of spatially varying processes and not the result of misspecified linear functional forms of covariates in the models. The test is demonstrated first through a simulated data set which provides control over the relative degrees of spatial nonstationarity and non-linearity in the relationships being modeled, and is then applied to a real-world dataset on voting behavior.</p><p>(4)</p><formula xml:id="formula_3">y i = ∑ j bwj u i , v i x ji + i</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A simple test to indicate the cause of spatially varying parameter estimates</head><p>A simple but effective diagnostic test is described and then applied to identify situations in which spatially varying parameter estimates may be masking nonlinearity. To see how such a situation may arise, consider a univariate case where y is a function of one covariate, x. If the relationship between y and x is nonlinear but is modeled by a linear function, the parameter estimates obtained in the calibration of a local model will be a function of x. If the covariate x exhibits positive spatial dependency, the local parameter estimates would also exhibit some degree of positive spatial dependency. This would then lead to confusion over the interpretation of the local parameter estimates as indicators of process nonstationarity or nonlinearity. It would therefore be very useful to have a test of whether local parameter estimates vary because of intrinsically varying relationships over space or because they are a function of the covariates which themselves vary over space. Such a test is now presented which can easily be applied to the results of any model producing local parameter estimates. The obvious way to establish the provenance of spatially varying local parameter estimates is to plot the local estimates ̂ j against the respective value of the covariate, x j . If nonlinearity between a covariate x and the response variable y is the source of the spatially varying parameter estimates, there would be a clear structure to this plot. Conversely, if the resulting plot exhibits no discernable structure, it can be assumed that the processes being modeled vary over space. As a follow-up to any suspected nonlinear influence on locally varying parameter estimates, a vector from the estimated parameter values equal to ( j * x j ) for each covariate j, can be plotted on the y-axis against the covariate x j on the x-axis. Again, if there is nonlinearity in the conditional relationship between y and x, some structure would be evident in this plot which would suggest the nature of the nonlinearity to be modeled in a reformation of the local model. The constructed vector is equivalent to the smooth terms signified by s x j , edf resulting from GAMs, where edf is the effective degrees of freedom of the smooth. These partial dependence plots then represent the estimated conditioned relationship between a covariate x and y. If a structure is observed in such plots, it would indicate the nature of the nonlinear relationships being incorrectly modeled; the absence of structure would again support the claim that the relationships being modeled are spatially varying.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>An example</head><p>The application and effectiveness of the diagnostic test can be illustrated in a univariate example. Consider a covariate x with some spatial dependency as shown in Fig. <ref type="figure" target="#fig_0">1(a)</ref>. The response variable y is constructed as y = x 2 + error so that there is a global nonlinear relationship between y and x. The parameter estimate surface resulting from calibrating an MGWR model erroneously resembles the spatial dependency in covariate x as expected (Fig. <ref type="figure" target="#fig_0">1(c)</ref>). Without examining for the possibility of nonlinearity, the spatial variation in this surface would then be incorrectly interpreted to represent process spatial nonstationarity.</p><p>To prevent such a false interpretation, we can employ the diagnostic test described above and plot the local parameter estimates on the y-axis and the covariate x on the x-axis as shown in Fig. <ref type="figure" target="#fig_1">2(a)</ref>. In this and subsequent examples, we use MGWR as the source of the local parameter estimates, but the source could equally have been a Bayesian SVCM or ESF-all three models have been shown to produce similar results <ref type="bibr" target="#b21">(Oshan and Fotheringham 2018;</ref><ref type="bibr" target="#b25">Wolf et al. 2018;</ref><ref type="bibr" target="#b19">Murakami et al. 2019)</ref>. The structure in this plot clearly indicates that the parameter estimates resulting from the MGWR model are linearly related to the dependent variable and are therefore not a result of process spatial nonstationarity. To further understand the conditioned relationship between the covariate x and the response variable y, we can plot the term beta *x against x as shown in Fig <ref type="figure" target="#fig_1">2(b</ref>). This curve closely resembles the smooth term that would result from calibrating a GAM model on these data.</p><p>To demonstrate the efficacy of the diagnostic test described above, we now apply it in a controlled simulation experiment and subsequently in an empirical example using real data.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Testing for spatial process nonstationarity versus nonlinearity in a controlled simulation experiment</head><p>In order to examine the efficacy of the diagnostic test described above, we now explore the calibration of both MGWR and GAM models in two scenarios:</p><p>Scenario 1: The processes being examined are nonstationarity and the dependent variable is related to the independent variables through a set of linear relationships;</p><p>Scenario 2: The processes being examined are stationary over space but the independent variables have some pre-defined spatial dependency and the dependent variable is related to the independent variables non-linearly.</p><p>Obviously, in the first instance, the MGWR model is more appropriate and in the second instance, the GAM model should be superior. However, it is interesting to examine what happens if the inappropriate model form is applied in each scenario-in particular, what happens when MGWR is applied in the second scenario? Does it identify spurious spatial non-stationarity and, if so, how well can this be detected by application of the diagnostic plot described above?</p><p>To examine both these questions, we construct a data set with 2,500 locations arranged on a 50×50 grid and then calibrate a model of the following form:</p><p>For the calibration of the MGWR model, the mgwr Python package <ref type="bibr" target="#b22">(Oshan et al. 2019</ref>) with computation improvements from <ref type="bibr" target="#b16">Li and Fotheringham (2020)</ref> is employed; for the calibration of the GAM, the gam function within the "mgcv" package for R is used <ref type="bibr" target="#b27">(Wood 2011)</ref>. In the calibration of the GAM, an explicit smooth term of the geographical locations is included to accommodate any location-based error dependency in the model <ref type="bibr" target="#b14">(Kammann and Wand 2003)</ref>. In the MGWR calibrations, an adaptive bisquare kernel is employed and GWR bandwidth initialization is used.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Scenario 1: Process nonstationarity exists and the linear model is correct</head><p>Local surfaces for β 1 , β 2 , x 1 , and x 2 are simulated using Gaussian random fields GRF (0, Ω)  where Ω is the covariance of each surface constructed using a squared exponential spatial covariance function denoted by:</p><p>where h controls the degree of spatial dependency in the surfaces with increasing values of h denoting increasing spatial dependency. Here we set h = 2 for β 1 and h = 5 for β 2 to obtain two parameter surfaces with differing degrees of spatial dependency. To simulate the surfaces for x 1 and x 2 , h was set to 1. The dependent variable y is then generated using equation (4) where both x 1 and β 1 and x 2 and β 2 are independent of each other and ε is a randomly generated value with mean 0 and a standard deviation of 0.3. Hence in this situation, there is no dependency between the parameter values and the covariate levels implying that any observed spatial variation in the parameter estimates can be attributed solely to spatially varying processes. The simulated surfaces for the parameters and the independent and dependent variables are shown in Fig. <ref type="figure" target="#fig_2">3</ref>.</p><p>Using these data, equation ( <ref type="formula">4</ref>) is calibrated locally by MGWR and globally via GAM. It is expected that the diagnostic plots constructed from the MGWR parameter estimates would (5)</p><formula xml:id="formula_4">y = 1 x 1 + 2 x 2 + (6) Ω (h) = exp -0.5 * d 2 ij h 2</formula><p>exhibit no clear structure since any local parameter estimate heterogeneity would not be caused by nonlinear relationships being modeled incorrectly. This result is clearly shown in Fig. <ref type="figure" target="#fig_3">4</ref> where there is no relationship between either of the sets of estimated local parameters and the values of their corresponding covariates.</p><p>The R 2 for the MGWR model is 0.94 indicating a good model fit to the data (Fig. <ref type="figure" target="#fig_4">5</ref>) whereas the global GAM model fit is unsurprisingly much lower with an explained deviance of only 29.5%. Clearly in this scenario where parameter variance is the result of process nonstationarity, the stationary GAM, even with a spatial smoother, is unable to model the relationships correctly and results in a poor model fit.</p><p>The recovered parameter estimates from the MGWR model are shown in Fig. <ref type="figure" target="#fig_5">6</ref> and are very similar to the known values confirming an accurate model estimation.</p><p>Further evidence of the superiority of MGWR over the global GAM in this situation is provided by mapping the residuals from the two models as shown in Fig. <ref type="figure" target="#fig_6">7</ref>. The residuals from MGWR show no significant spatial autocorrelation and are very close to zero whereas the residuals from the GAM are much larger and exhibit strong positive significant spatial autocorrelation  with a Moran's I value of +0.73 and a P-value of 0.001. This suggests that when the processes vary spatially, adding the spatial smoother in a GAM does not adequately remove the spatial dependence in the model residuals.  Although the focus of this paper is on the potential to mistakenly attribute spatially varying parameter estimates to spatially varying processes instead of to nonlinear relationships, this experiment also provides an example of the obverse situation wherein spurious nonlinear relationships are incorrectly reported instead of spatially varying relationships. To see this, recall that in this experiment the relationships being modeled are linear and are described by equation ( <ref type="formula">4</ref>). However, the significant and high edf values in the global GAM results shown in Fig. <ref type="figure" target="#fig_4">5</ref> suggest that the relationships between y and x 1 and y and x 2 are strongly nonlinear. The edf values from the GAM results reflect the degree of non-linearity of a curve <ref type="bibr" target="#b26">(Wood, 2006)</ref> with values equivalent to 1 indicating a linear relationship and those greater than 2 implying highly nonlinear relationships <ref type="bibr" target="#b13">(Hunsicker et al. 2016;</ref><ref type="bibr" target="#b32">Zuur et al. 2009</ref>). To see this more clearly, we can plot the GAM parameter estimates against their respective covariates as shown in Fig. <ref type="figure" target="#fig_7">8</ref> where the modeled relationships are clearly nonlinear. Such relationships are entirely spurious and caused by incorrectly applying a global GAM to a set of processes that vary spatially.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Scenario 2: Process nonstationarity does not exist but non-linear relationships exist between x and y</head><p>Using the same 2,500 location points as above, the independent variables x 1 and x 2 are simulated using a Gaussian random field, GRF (0, Ω) with h = 2 for x 1 and h = 5 for x 2 in equation ( <ref type="formula">5</ref>). The betas representing the parameter estimates are then simulated using: which means the relationships being modeled are non-linear and the local parameter estimates will reflect spatially varying values of the two independent variables rather than spatially varying processes. The dependent variable y is calculated from equation (4) with ε being a randomly generated value with mean 0 and a standard deviation of 0.3, similar to scenario 1. Combining equations ( <ref type="formula">4</ref>), (7), and (8) results in the response variable being defined as: thus establishing y as a function of x 2 1 and x 2 2 and embedding non-linearity in the relationships. The simulated parameter surfaces and the surfaces of the independent and dependent variables for this second scenario are given in Fig. <ref type="figure" target="#fig_8">9</ref>. In order to examine whether the estimated parameters from MGWR can be interpreted as indicators of spatial process nonstationarity, both sets of local parameter estimates are plotted against their respective covariate values in Fig. <ref type="figure" target="#fig_9">10</ref>. The relationship in both cases is clearly linear indicating that the local parameter estimates should not be interpreted as indicators of spatially varying processes. The same conclusion is drawn from Fig. <ref type="figure" target="#fig_10">11</ref> where the smooth term equivalents from MGWR ( * x) are plotted against the local parameter estimates showing the nature of the nonlinearity that should be modeled.</p><p>The recovered parameter estimates from MGWR are shown in Fig. <ref type="figure" target="#fig_11">12</ref> where they can be seen to be consistent with the known values, and the R 2 for the MGWR model is 0.97. Consequently, despite the fact that there is no inherent process nonstationarity, MGWR recovers the spatially varying parameters accurately by using small bandwidths to model nonlinearity with local linear approximations. The problem in this case is that the spatially varying nature of the parameters is not caused by process nonstationarity but by a misspecification of the model form-the covariates in the model should have a non-linear form instead of being linear. This highlights the need to apply the simple diagnostic test described here because the standard results give no indication of the problem of misinterpreting the cause of a set of observed spatially varying local parameter estimates derived from local models such as MGWR.</p><p>To confirm that the spatially varying parameter estimates result from incorrectly modeled non-linear relationships, we calibrate a GAM model with the same spatial smoother as in the previous experiment to the data and the results are given below (Fig. <ref type="figure" target="#fig_12">13</ref>). The explained deviance for the model is 96.9% and the estimated effective degrees of freedom for the covariates are 7.1 and 7.9, and are both significant at the 0.001 level. Unsurprisingly, the spatial smooth term added as an interaction between the x and y coordinates is observed to be insignificant at the 0.05 level-the explanatory power of the GAM is derived entirely from the modeled nonlinear relationships between y and both of the covariates. The AIC from the GAM is -1,577.4 and that from the MGWR model is -1,050.8, indicating that the former is more appropriate for these data.   The residuals from both models are again examined for spatial dependency using the Moran's I test for spatial autocorrelation: in this case, neither set of residuals exhibits any significant spatial autocorrelation.</p><p>To check whether the spurious spatially varying parameter estimates from the MGWR calibration disappear if higher orders of the covariates are introduced into the model, an MGWR model with x 2 1 and x 2 2 as covariates is calibrated and the results are shown in Fig. <ref type="figure" target="#fig_13">14</ref>. The explained variation for the nonlinear MGWR model is 96.9% and the AIC is -1,350.6, indicating a better model fit than the MGWR model with linear predictors but still not as accurate as the GAM model which is to be expected because there is no process spatial nonstationarity in this case and the global GAM is appropriate. The estimated parameter surfaces from MGWR with squared values of the covariate show near constant parameter values close to 0.5 for x 2 1 and -0.8 for x 2 2 as expected from equation ( <ref type="formula">9</ref>) (Fig. <ref type="figure" target="#fig_14">15</ref>).  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Testing for spatial process nonstationarity versus nonlinearity in US voting patterns</head><p>To this point, we have established that a spatially varying set of local parameter estimates obtained in the calibration of an MGWR model could result from either a spatially nonstationary process or the misapplication of a linear model to nonlinear relationships. We have further established that in a carefully controlled simulated experiment, the diagnostic testing procedure described above can be used to identify this confusion and highlight the cause of the local parameter variation. However, we need to establish the efficacy of the procedure when applied to noisy, real-world data, and to do this we examine a model of the determinants of voter preferences in the 2016 US Presidential election. A model of the county-level percentage of Democratic vote share shown in equation ( <ref type="formula" target="#formula_5">10</ref>) was calibrated by MGWR.</p><p>In this case, the relationships are assumed to be linear except that between vote share and population density. The local parameter estimates and further details of the model calibration are provided in <ref type="bibr" target="#b6">Fotheringham et al. (2021)</ref>. Consequently, we show only one surface of local parameter estimates, those for the percentage of Hispanics in each county, as an example of the spatially varying nature of some of the local parameter estimates, in Fig. <ref type="figure" target="#fig_15">16</ref>. In this case, although the relationship is positive for all counties, there appears to be a broad regional variation in the impact of the percentage of Hispanic population in each county on the percentage of votes received in each county for the Democratic Party. The impact is less, for example, across some midwest states than it is for western states and those in New England. The question is: "can such spatially varying parameter estimate surfaces be attributed to locally varying processes or might they</p><formula xml:id="formula_5">pct dem = 0 + 1 sex ratio + 2 pct black + 3 pct hispanic + 4 pct<label>(10)</label></formula><p>bachelors + 5 median household income + 6 pct elderly + 7 pct age 18 -29 + 8 Gini + 9 pct manufacturing employed + 10 ln pop density + 11 pct3 rd party vote + 12 turnout + 13 pct foreign born + 14 pct insured result from applying a linear model to nonlinear relationships"? To answer this, we apply the diagnostic procedure described above.</p><p>The plots of the local parameter estimates against the corresponding covariate levels are shown in Fig. <ref type="figure" target="#fig_16">17</ref> for all 14 sets of local parameter estimates emanating from the model in equation ( <ref type="formula" target="#formula_5">10</ref>). For the majority of the covariates, there is no evident trend in the diagnostic plot indicating the variable form in the model is reasonable and that the spatial variation in the local parameter estimates can be attributed to spatially varying processes. In the case of two covariates, however, the percentage of Hispanic population in a county and the percentage of third party vote share, there is evidence of non-linear relationships with the r-squared values being 0.33 and 0.35, respectively. For the third party vote share in each county, the local parameter estimates tend to be more negative when the percentage voting for a third-party candidate increases. However, in this case, there is an explanation for the trend which is nothing to do with nonlinearity but is caused by spatial variation in what is being measured. The dominant third-party candidates across the country during the 2016 election were not uniform which led to spatial variations in what a vote for a third-party candidate meant. In some locations, the dominant third-party candidate attracted votes from mainly Democrat voters and in others the dominant third-party candidate appealed more to Republican voters. In addition, the appeal of a third-party candidate varied considerably across the country with the percentage of votes going to a third-party candidate ranging from zero to over 40% in some counties. The combination of these two effects, which is captured nicely by the local model, is very likely the cause of the apparent nonlinear relationship seen in Fig. <ref type="figure" target="#fig_16">17</ref>.</p><p>However, no such explanation exists for the presence of nonlinearity in the conditioned relationship between vote share for the Democratic Party and percentage of Hispanic population in a county. Further evidence relating to the provenance of the spatially varying nature of the local parameter estimates for the Hispanic covariate can be seen by plotting the smooth beta*covariate against the covariate as shown in Fig. <ref type="figure" target="#fig_17">18</ref>. The scatterplot suggests a slight concave-upward relationship suggesting a squared value of the Hispanic population might be more appropriate in the model. One explanation for this is that Hispanic voters might be more likely to turn out to vote in counties with high proportions of Hispanics. On replacing the proportion of Hispanic population by the square of this value in the model, the AICc is 970 compared with 1,045 for the original model indicating that the nonlinear form of the Hispanic variable is more appropriate. The resulting diagnostic plots shown in Fig. <ref type="figure" target="#fig_18">19</ref> also indicate that the squared term is appropriate. The local parameter estimates plotted against their respective covariate level have no structure, and the value of beta*covariate against the covariate indicates a near-perfect linear trend.</p><p>Finally, we can map the distribution of the local parameter estimates of the squared Hispanic variable as shown in Fig. <ref type="figure" target="#fig_19">20</ref>. The distribution of the parameter estimates is now more consistent across the country with most estimates being between 0.3 and 0.4 and only counties in Florida bucking this trend with lower values, possibly reflecting that the Cuban-American population in Florida is typically less supportive of the Democratic Party than are other Hispanic communities.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Discussion and conclusions</head><p>Applications of statistical models in which location-specific parameter estimates are typically mapped are increasingly common and include the calibration of Bayesian spatially varying coefficients models, eigenvector spatial filtering methods, and various types of local regression models such as GWR and MGWR <ref type="bibr" target="#b5">(Fotheringham et al. 2002;</ref><ref type="bibr" target="#b0">Banerjee et al. 2003;</ref><ref type="bibr" target="#b10">Gelfand et al</ref>.  <ref type="bibr">2003;</ref><ref type="bibr" target="#b11">Griffith 2008;</ref><ref type="bibr" target="#b8">Fotheringham et al. 2017;</ref><ref type="bibr" target="#b20">Murakami et al. 2017;</ref><ref type="bibr" target="#b28">Yu et al. 2019)</ref>. Typically, the spatial variation of local parameter estimates is subjected to statistical testing to distinguish significant variation from that which would be expected from sampling variation. Any variation passing this test is then commonly ascribed to variations in the processes (or conditioned associations) which have resulted in the observed data. That processes may vary over space is a significant finding because traditional models applied to spatial data assume that the processes are constant over space and that a single, global estimate of each parameter in a model is therefore sufficient. A very large number of empirical applications suggest that obtaining a single estimate of each parameter in a model of spatial data is often not sufficient and may hide a great deal of interesting spatial variation in the conditioned relationship between y and x.</p><p>However, this paper demonstrates that an alternative cause of spatially varying parameter estimates is the incorrect calibration of a local linear model when the relationships being modeled are nonlinear. This is shown via two experiments using simulated data and one application   to real-world data. Given the number of empirical applications of local models and the almost universal lack of any check for nonlinearity undertaken, the importance of highlighting this issue is critical. The paper further describes and demonstrates a simple, yet effective, post-modeling check for nonlinearity. This test, which involves plotting the local parameter estimates against the level of the respective covariate, should form an essential part of any local modeling application. Without checking for nonlinearity, there is a risk of incorrectly attributing locally varying parameter estimates to spatially varying processes. This is not to say that all past interpretations of locally varying parameter estimates have been incorrect. However, without conducting the simple test described here, we cannot be sure of the provenance of locally varying parameter estimates and therefore this diagnostic should be included as part of the overall testing procedure in any form of local modeling.</p><p>Although not a primary focus, this paper also demonstrates the obverse situation where a GAM incorrectly reports global nonlinear relationships when the relationships are linear but spatially varying. Consequently, four situations can be envisioned:</p><p>1. The relationships being examined are linear and spatially stationary. In this case, both a linear MGWR and a global GAM would provide a good fit to the data-MGWR would reflect the global nature of the relationships being modeled through covariate-specific bandwidths that tend to infinity and a global GAM would yield linear relationships between y and each covariate; 2. The relationships are nonlinear and spatially stationary. In this case, a global GAM is correctly specified and a linear MGWR is misspecified. However, the linear MGWR will still account for the nonlinearity in the relationships by yielding locally varying linear estimates. In essence, MGWR, and other models yielding spatially varying parameter estimates, represent the nonlinearities with locally linear splines. Hence, application of the diagnostic test described above is important and if it suggests the nonlinearity is relatively straightforward, this can then be accounted for in MGWR by substituting the appropriate nonlinear expression (e.g., logarithmic or polynomial) for the incorrect linear expression. 3. The relationships are linear and spatially nonstationary. Here, MGWR is correctly specified and the global GAM is misspecified. However, the GAM might incorrectly report nonlinear relationships due to this misspecification. It is not clear whether a simple diagnostic test, as described above for the case where MGWR incorrectly represents nonlinear relationships as locally varying linear relationships exists. However, the GAM can be made local to account for spatially nonstationary relationships through the addition of a spatial smoother, as is done for example in the mgcv package <ref type="bibr" target="#b27">(Wood 2011)</ref>, and it would be prudent to calibrate such a model to check the appropriateness of the global GAM. 4. The relationships are nonlinear and spatially nonstationary. In this case, both the linear MGWR and the global GAM would be misspecified and would need to be adjusted. One could use a tensor product of a spatial coordinate smoother and the covariate in a GAM package such as mgcv or one could combine weights from attribute space (e.g., loess) with spatial weights in an MGWR framework to account for both spatial and non-linear effects. Both routes are very complex and may bring challenges in both model convergence and in the interpretation and visualization of results.</p><p>In summary, this paper raises the question of whether spatially varying parameter models might be capturing nonlinear but spatially homogeneous relationships and whether nonlinear models might be capturing linear but spatially heterogeneous relationships. For the former situation, which is the focus of this paper, a simple, yet effective, diagnostic test is presented which should remove any confusion and this should be applied to the output of any spatially varying model calibration. There may be an equally simple diagnostic for the latter situation but until this is developed, it would be prudent to check whether a local modeling framework, incorporating the diagnostic test for nonlinearity described above, might be more appropriate than the application of a nonlinear model.</p><p>Finally, this paper examines the potential confusion caused by one type of model misspecification-that of incorrectly representing relationships as either linear and spatially nonstationary when they are nonlinear and spatially stationary, or as nonlinear and spatially stationary when they are linear and spatially nonstationary. Other types of misspecification can also occur, an obvious one being that resulting from omitted variables. While the bias in local parameter estimates resulting from an omitted variable has been identified and described in the context of origin-specific spatial interaction models <ref type="bibr" target="#b3">(Fotheringham 1983</ref><ref type="bibr" target="#b4">(Fotheringham , 1984))</ref>, further work remains to be undertaken on the effect of omitted variables in the context of the local regression models described here.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Constructed x, y = x 2 and estimated β surfaces.</figDesc><graphic coords="6,101.38,53.79,283.37,218.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Diagnostic plots to identify nonlinearity in local estimates.</figDesc><graphic coords="6,54.55,328.27,377.04,189.87" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Simulated surfaces for parameters and the dependent and independent variables (scenario 1).</figDesc><graphic coords="8,54.55,53.79,377.04,471.12" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Modeled relationships between β and x (scenario 1).</figDesc><graphic coords="9,54.27,53.79,377.04,205.49" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. GAM and MGWR results for Scenario 1.</figDesc><graphic coords="9,54.32,314.11,376.93,160.75" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Simulated versus recovered parameter estimated from the MGWR model (scenario 1).</figDesc><graphic coords="10,54.67,53.79,376.80,296.40" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Residuals from GAM and MGWR for scenario 1.</figDesc><graphic coords="10,54.28,398.79,377.02,164.22" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Parameter estimates obtained from the GAM output plotted against their respective covariate levels.</figDesc><graphic coords="11,54.33,53.79,376.92,107.83" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Simulated surfaces for the parameters and the dependent and independent variables (scenario 2).</figDesc><graphic coords="12,54.31,53.79,376.95,478.93" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. Modeled relationships between β and x (scenario 2).</figDesc><graphic coords="13,54.28,53.79,377.01,198.19" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 11 .</head><label>11</label><figDesc>Figure 11. Plots relating MGWR smooth terms and covariates (scenario 2).</figDesc><graphic coords="14,54.26,53.79,377.05,185.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 12 .</head><label>12</label><figDesc>Figure 12. Simulated versus recovered parameter estimated from the MGWR model (scenario 2).</figDesc><graphic coords="14,54.31,297.91,376.95,292.04" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 13 .</head><label>13</label><figDesc>Figure 13. GAM and MGWR results for scenario 2.</figDesc><graphic coords="15,54.32,53.79,376.93,154.74" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 14 .</head><label>14</label><figDesc>Figure 14. MGWR results for Scenario 2 with squared predictors.</figDesc><graphic coords="15,54.24,263.95,377.10,155.29" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Figure 15 .</head><label>15</label><figDesc>Figure 15. Modeled and recovered parameter estimates in MGWR using squared predictors.</figDesc><graphic coords="16,54.39,53.79,376.80,160.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Figure 16 .</head><label>16</label><figDesc>Figure 16. Maps of county level percentage of Hispanic population and MGWR local parameter estimates for percentage of Hispanic.</figDesc><graphic coords="17,54.27,53.79,377.04,145.44" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Figure 17 .</head><label>17</label><figDesc>Figure 17. MGWR parameter estimates plotted against covariate levels.</figDesc><graphic coords="18,54.27,53.81,377.04,313.56" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 18 .</head><label>18</label><figDesc>Figure 18. Plot of β* covariate against the covariate level for the Hispanic variable.</figDesc><graphic coords="19,54.27,53.79,377.04,374.40" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>Figure 19 .</head><label>19</label><figDesc>Figure 19. Diagnostic plots for the squared Hispanic parameter estimates.</figDesc><graphic coords="20,54.30,53.79,376.97,183.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head>Figure 20 .</head><label>20</label><figDesc>Figure 20. Map of MGWR local parameter estimates for the squared percentage of Hispanic population.</figDesc><graphic coords="20,54.32,289.43,376.94,296.80" type="bitmap" /></figure>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><head>Funding information</head><p><rs type="funder">National Science Foundation</rs> under Award <rs type="grantNumber">1758786</rs> from the <rs type="funder">Geography and Spatial Sciences Program</rs> to <rs type="person">A. S. Fotheringham</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_FxJkgTf">
+					<idno type="grant-number">1758786</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Note</head><p>1 Other modeling frameworks have been developed, which produce local parameter estimates in linear models such as Bayesian Spatially Varying Coefficients Models <ref type="bibr" target="#b10">(Gelfand et al. 2003)</ref> and eigenvector spatial filtering <ref type="bibr" target="#b11">(Griffith 2008)</ref>. However these are not truly local models as they fit smooth functions using the whole data set.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Carlin</surname></persName>
+		</author>
+		<idno type="DOI">10.1201/9780203487808</idno>
+		<ptr target="https://doi.org/10.1201/9780203487808" />
+		<title level="m">Hierarchical Modeling and Analysis for Spatial Data</title>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="volume">101</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression: A Method for Exploring Spatial Nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.1996.tb00936</idno>
+		<ptr target="https://doi.org/10.1111/j.1538-4632.1996.tb00936" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Application of Geographically Weighted Regression to the Direct Forecasting of Transit Ridership at Station-Level</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">D</forename><surname>Cardozo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>García-Palomares</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gutiérrez</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.apgeog.2012.01.005</idno>
+		<ptr target="https://doi.org/10.1016/j.apgeog.2012.01.005" />
+	</analytic>
+	<monogr>
+		<title level="j">Applied Geography</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="548" to="558" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Some Theoretical Aspects of Destination Choice and Their Relevance to Production-Constrained Gravity Models</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1121" to="1132" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Spatial Flows and Spatial Patterns</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="529" to="543" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Chichester, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Scale, Context, and Heterogeneity: A Spatial Analytical Perspective on the 2016 US Presidential Election</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2020.1835459</idno>
+		<ptr target="https://doi.org/10.1080/24694452.2020.1835459" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="20" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">The SAGE Handbook of Spatial Analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Rogerson</surname></persName>
+		</author>
+		<ptr target="https://uk.sagepub.com/en-gb/eur/the-sage-handbook-of-spatial-analysis/book" />
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>SAGE Publications</publisher>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">27940</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Multiscale Geographically Weighted Regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2017.1352480</idno>
+		<ptr target="https://doi.org/" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">On the Notion of &apos;Bandwidth&apos; in Local Models</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Spatial Modeling With Spatially Varying Coefficient Processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<idno type="DOI">10.1198/016214503000170</idno>
+		<ptr target="https://doi.org/" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Spatial-Filtering-Based Contributions to a Critique of Geographically Weighted Regression (GWR)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a38218</idno>
+		<ptr target="https://doi.org/10.1068/a38218" />
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A: Economy and Space</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2751" to="2769" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Generalized Additive Models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1990">1990</date>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+			<pubPlace>New York/Boca Raton</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Characterizing driver-response relationships in marine pelagic ecosystems for improved ocean management</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hunsicker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Kappel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Selkoe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Halpern</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Scarborough</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Mease</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Amrhein</surname></persName>
+		</author>
+		<idno type="DOI">10.1890/14-2200/suppinfo</idno>
+		<ptr target="https://doi.org/10.1890/14-2200/suppinfo" />
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Applications</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="651" to="663" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Geoadditive Models</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">E</forename><surname>Kammann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Wand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series C (Applied Statistics)</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Use of Generalized Additive Models and Cokriging of Spatial Residuals to Improve Land-Use Regression Estimates of Nitrogen Oxides in Southern California</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wilhelm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Ritz</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.atmosenv.2012.03.035</idno>
+		<ptr target="https://doi.org/10.1016/j.atmosenv.2012.03.035" />
+	</analytic>
+	<monogr>
+		<title level="j">Atmospheric Environment</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="220" to="228" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Computational Improvements to Multi-Scale Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1378" to="1397" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Residential Burglaries and Neighborhood Socioeconomic Context in London, Ontario: Global and Local Regression Analysis*</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Malczewski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Poetz</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-9272.2005.00496.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1467-9272.2005.00496.x" />
+	</analytic>
+	<monogr>
+		<title level="j">The Professional Geographer</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="516" to="529" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The Complexities of Measuring Access to Parks and Physical Activity Sites in New York City: A Quantitative and Qualitative Approach</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Maroko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Maantay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">L</forename><surname>Sohler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Grady</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">S</forename><surname>Arno</surname></persName>
+		</author>
+		<idno type="DOI">10.1186/1476-072X-8-34</idno>
+		<ptr target="https://doi.org/10.1186/1476-072X-8-34" />
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Health Geographics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="23" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The Importance of Scale in Spatially Varying Coefficient Modeling</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="50" to="70" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A Moran Coefficient-Based Mixed Effects Approach to Investigate Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yoshida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Seya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yamagata</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.spasta.2016.12.001</idno>
+		<ptr target="https://doi.org/10.1016/j.spasta.2016.12.001" />
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="68" to="89" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A Comparison of Spatially Varying Regression Coefficient Estimates using Geographically Weighted and Spatial-Filter-Based Techniques</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="53" to="75" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">MGWR: A Python Implementation of Multiscale Geographically Weighted Regression for Investigating Process Spatial Heterogeneity and Scale</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Stewart Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/ijgi8060269</idno>
+		<ptr target="https://doi.org/10.3390/ijgi8060269" />
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">A Computer Movie Simulating Urban Growth in the Detroit Region</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Tobler</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/143141</idno>
+		<ptr target="https://doi.org/10.2307/143141" />
+	</analytic>
+	<monogr>
+		<title level="j">Economic Geography</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page">234</biblScope>
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Spatial Variations of PM2.5 in Chinese Cities for the Joint Impacts of Human Activities and Natural Conditions: A Global and Local Regression Perspective</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Zou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jclepro.2018.08.249</idno>
+		<ptr target="https://doi.org/10.1016/j.jclepro.2018.08.249" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Cleaner Production</title>
+		<imprint>
+			<biblScope unit="volume">203</biblScope>
+			<biblScope unit="page" from="143" to="152" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Single and Multiscale Models of Process Spatial Heterogeneity</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="223" to="246" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<title level="m" type="main">Generalized Additive Models: An Introduction with R</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wood</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>Chapman and Hall/ CRC</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Fast Stable Restricted Maximum Likelihood and Marginal Likelihood Estimation of Semiparametric Generalized Linear Models</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-9868.2010.00749.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1467-9868.2010.00749.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society. Series B: Statistical Methodology</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="3" to="36" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Inference in Multiscale Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12189</idno>
+		<ptr target="https://doi.org/10.1111/gean.12189" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="87" to="106" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">On the Measurement of BIAS in Geographically Weighted Regression Models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page">100453</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Modeling Spatial Variation in Tree Diameter-Height Relationships</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Davis</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.foreco.2003.09.004</idno>
+		<ptr target="https://doi.org/10.1016/j.foreco.2003.09.004" />
+	</analytic>
+	<monogr>
+		<title level="j">Forest Ecology and Management</title>
+		<imprint>
+			<biblScope unit="volume">189</biblScope>
+			<biblScope unit="issue">1-3</biblScope>
+			<biblScope unit="page" from="317" to="329" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Impacts of Urbanization and Landscape Pattern on Habitat Quality Using OLS and GWR Models in Hangzhou</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Zhou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ecolind.2020.106654</idno>
+		<ptr target="https://doi.org/10.1016/j.ecolind.2020.106654" />
+	</analytic>
+	<monogr>
+		<title level="j">China. Ecological Indicators</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page">106654</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F</forename><surname>Zuur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">N</forename><surname>Ieno</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Walker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Saveliev</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Smith</surname></persName>
+		</author>
+		<title level="m">Mixed Effects Models and Extensions in Ecology with R</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

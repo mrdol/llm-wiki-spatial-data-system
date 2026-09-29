@@ -1,0 +1,1297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">An alternative semiparametric model for spatial panel data</title>
+				<funder ref="#_sNHydz8">
+					<orgName type="full">Ministerio de Economía, Industria y Competitividad, Gobierno de España</orgName>
+				</funder>
+				<funder ref="#_5qtQVhw">
+					<orgName type="full">University of Castilla-La Mancha</orgName>
+				</funder>
+				<funder ref="#_fdKt2aB">
+					<orgName type="full">European Fund for Regional Development</orgName>
+					<orgName type="abbreviated">EFRD</orgName>
+				</funder>
+				<funder ref="#_cwMYWGG">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Román</forename><surname>Mínguez</surname></persName>
+							<email>roman.minguez@uclm.es</email>
+							<idno type="ORCID">0000-0002-0490-3181</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">University of Castilla-La Mancha</orgName>
+								<address>
+									<addrLine>Avenida de los Alfares 44</addrLine>
+									<postCode>16002</postCode>
+									<settlement>Cuenca</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Roberto</forename><surname>Basile</surname></persName>
+							<idno type="ORCID">0000-0002-4531-2820</idno>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Industrial and Information Engineering and Economics</orgName>
+								<orgName type="institution">University of L&apos;Aquila</orgName>
+								<address>
+									<addrLine>Via Giuseppe Mezzanotte</addrLine>
+									<postCode>67100</postCode>
+									<settlement>Localitá Acquasanta</settlement>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">María</forename><surname>Durbán</surname></persName>
+							<idno type="ORCID">0000-0002-4272-7895</idno>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">University Carlos III of Madrid</orgName>
+								<address>
+									<addrLine>Avda Universidad 30</addrLine>
+									<postCode>28911</postCode>
+									<settlement>Leganés Madrid</settlement>
+									<country key="ES">Spain</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">B</forename><surname>Román Mínguez</surname></persName>
+						</author>
+						<title level="a" type="main">An alternative semiparametric model for spatial panel data</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">7E0ABED5A861EC2C44259C403850E37B</idno>
+					<idno type="DOI">10.1007/s10260-019-00492-8</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:57+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial panel</term>
+					<term>Spatio-temporal trend</term>
+					<term>Mixed models</term>
+					<term>P-splines</term>
+					<term>PS-ANOVA JEL Classification C33</term>
+					<term>C14</term>
+					<term>C63</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We propose a semiparametric P-Spline model to deal with spatial panel data. This model includes a non-parametric spatio-temporal trend, a spatial lag of the dependent variable, and a time series autoregressive noise. Specifically, we consider a spatiotemporal ANOVA model, disaggregating the trend into spatial and temporal main effects, as well as second-and third-order interactions between them. Algorithms based on spatial anisotropic penalties are used to estimate all the parameters in a closed form without the need for multidimensional optimization. Monte Carlo simulations and an empirical analysis of regional unemployment in Italy show that our model represents a valid alternative to parametric methods aimed at disentangling strong and weak cross-sectional dependence when both spatial and temporal heterogeneity are smoothly distributed.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>A recent strand of the spatial econometric literature has proposed Spatial Autoregressive Semiparametric Geoadditive Models as a means of simultaneously dealing with different critical issues typically encountered when using spatial economic data; namely, spatial dependence, spatial heterogeneity and unknown functional form <ref type="bibr" target="#b31">(Montero et al. 2012;</ref><ref type="bibr" target="#b4">Basile et al. 2014;</ref><ref type="bibr" target="#b22">Hoshino 2018)</ref>. This approach combines penalized effects (CCE) estimator to a semiparametric framework. Nevertheless, they do not take spatial contagion effects into account. By using on the PS-SAR model with spatiotemporal trends, we simultaneously handle four main econometric issues which are relevant when modeling spatio-temporal data; namely, functional form bias, spatial dependence bias, spatial heterogeneity bias, and omitted time-related factors bias.</p><p>The econometric model proposed here might appear complicated and computationally demanding, mainly because of the use of a three-dimensional smooth function for the spatio-temporal trend. Nevertheless, we employ an ANOVA decomposition of the spatio-temporal trend into several components (spatial and temporal main effects, and second-and third-order interactions between them), which gives further insights into the dynamics of the data. Thus, we use the acronym PS-ANOVA-SAR for the new data generating process (DGP) proposed here. Furthermore, we use a mixed model representation that allows us to apply the methods already developed in this area for estimation and inference, and to implement the necessary identifiability constraints in a straightforward manner. We also present an extension of the algorithm derived by <ref type="bibr" target="#b42">Rodriguez-Alvarez et al. (2015)</ref> (for variance components estimation) to the PS-ANOVA-SAR model, which dramatically reduces the computational time needed to estimate the parameters in the model. Also, the use of nested B-spline bases <ref type="bibr" target="#b26">(Lee et al. 2013)</ref> for the interaction components of the spatio-temporal trend contributes to the efficiency of the fitting procedure without compromising the goodness of fit of the model. Finally, we also consider an extension of the PS-ANOVA-SAR including a first-order time series autoregressive process (AR1) in the noise to accommodate residual serial correlation. All these models can be estimated, in a transparent and easy way for the potential user, using a new R package named sptpsar. This package is available in GitHub (<ref type="url" target="https://github.com/rominsal/sptpsar">https://github.com/rominsal/sptpsar</ref>) and can be installed in the usual way. <ref type="foot" target="#foot_0">3</ref>We apply the PS-ANOVA-SAR(AR1) to regional unemployment data in Italy. As is well known, these data are characterized by spatial dependence, unobserved spatial heterogeneity, unobserved common effects, and time persistence. Substantive spatial dependence occurs due to interregional trade, labor migration and commuting, and knowledge spillovers; this spatial dependence can be captured by including spatial interaction effects in the model <ref type="bibr" target="#b6">(Burridge and Gordon 1981;</ref><ref type="bibr">Molho 1995;</ref><ref type="bibr" target="#b32">Overman and Puga 2002;</ref><ref type="bibr" target="#b34">Patacchini and Zenou 2007)</ref>. Unobserved spatial heterogeneity is mainly due to a strong North-South spatial trend which is largely uncaptured by the explanatory variables: regional unemployment rates register a substantial increase moving from North to South, reflecting the well-known regional development division within the country. A time-invariant smooth spatial trend could be used to filter out unobserved heterogeneity; thus, the spatial trend assumes the same role as the fixed regional effects used in parametric panel data models. Several unobserved common factors (e.g. aggregate demand shocks, aggregate technological shocks, and global labor market policies) may also affect the level of regional unemployment. The spatially heterogeneous effects of these factors may be the result, for instance, of region-specific technological or institutional constraints. These heterogeneous effects can be con-trolled for either by using a model with a multifactor error structure (i.e. by adopting the CCEP approach developed by <ref type="bibr" target="#b38">Pesaran 2006;</ref><ref type="bibr" target="#b8">Chudik et al. 2011;</ref><ref type="bibr" target="#b41">Pesaran and Tosetti 2011)</ref> or by including smooth interactions between the time trend and the spatial coordinates (i.e. by adopting a PS-ANOVA specification). Finally, time persistence in regional unemployment is usually (and properly) captured by using a dynamic formulation of the panel data model. In this paper, however, for the sake of simplicity, we adopt a static formulation of the PS-ANOVA-SAR model, and we control for residual serial autocorrelation by including an autoregressive (AR1) noise term. A dynamic development of PS-ANOVA-SAR model is in our future research agenda.</p><p>The plan of the paper is as follows. Section 2 provides a brief discussion of the main parametric spatial panel approaches used in the literature to capture strong and weak cross-sectional dependence. Section 3 sets out the PS-ANOVA-SAR(AR1) and discusses various technical aspects related to its identification and estimation. Section 4 reports the results of Monte Carlo experiments, while Sect. 5 discusses the results of the application of the model to regional unemployment data. Section 6 concludes by identifying important areas for extensions and further developments.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Parametric spatial panel approaches</head><p>Spatial spillover effects and common factors are of increasing empirical importance. Spatial spillovers are due to unobserved idiosyncratic shocks which propagate to all other regions with a distance-decay mechanism driven by network relationships. Common factors are unobserved time-related factors which influence all regions (probably heterogeneously). Both determine cross-sectional correlation in the residuals and make it difficult to get unbiased and efficient estimates. There is a growing literature dedicated to the separate analysis of the two types of effect.</p><p>On the one hand, spatial spillover effects (weak cross-section dependence) can be analyzed by using, for example, the spatial autoregressive model with fixed effects (SAR-FE):</p><formula xml:id="formula_0">y it = α i + ν t + ρ N j=1 w i j,N y jt + x it β + ε it (<label>1</label></formula><formula xml:id="formula_1">) N</formula><p>where y it is a continuous response variable observed on the ith cross-sectional unit at time t for i = 1, 2,..., N and t = 1, 2,..., T ; x it is a k × 1 vector of explanatory variables, and β the associated set of coefficients; the nuisance parameters α i capture unobserved time-invariant spatial heterogeneity (spatial fixed effects), while ν t capture unobserved temporal heterogeneity, that is the effect of the omitted variables that are specific to each time period. α i and ν t are allowed to be correlated with x it , while the idiosyncratic errors, ε it , are assumed to be independently distributed over x it . W N = (w ij,N ) N×N is a spatial weights matrix whose diagonal elements w ii,N are 0.</p><p>Thus, j=1 w ij,N y jt is the spatial lag of the dependent variable, and ρ the associated parameter. This model can be estimated using a quasi-maximum likelihood estimator (QMLE) <ref type="bibr" target="#b19">(Elhorst 2014;</ref><ref type="bibr" target="#b25">Lee and Yu 2010)</ref>. Model (1) allows for interdependence among spatial units and corresponds to a longrun equilibrium relation between the response variable and its covariates. The spatial multiplier matrix,<ref type="foot" target="#foot_1">foot_1</ref> A N ≡ (I N -ρW N ) -1 ≡ I N +ρW N +ρ 2 W 2 N +• • • , in the reduced form of any SAR model pre-multiplies both observed and unobserved factors: the outcome in a location i will not only be affected by the exogenous characteristics of i, but also by those in any other location j through the inverse spatial transformation. The impact, therefore, is global. The powers of ρ matching the powers of W N (higher orders of neighbors) ensure that a distance-decay effect is present. Thus, it is customary to distinguish between direct, indirect and total marginal effects. Direct effects measure the impact of a change in regressor x k in region i on the outcome of said region: ∂ y i ∂ x ki . Conversely, indirect (or spatial spillover) effects measure the impact of a change in regressor x k in region j on the outcome of region i: ∂ y i ∂ x k j . Total marginal effects are simply the sum of direct and indirect effects.</p><p>The problem with these effects is that, conditional on the model, both direct and indirect effects are specific to the pair of regions involved (i, j). Thus, average measures are typically used to summarize the results. In the SAR model, the average total marginal effect is computed as</p><formula xml:id="formula_2">M k tot = (1 -ρ) -1 β k . The average direct impact is M k dir =N -1 tr (I N -ρW N ) -1 I N β k , while the average indirect impact is M k ind =M k tot -M k dir .</formula><p>In order to draw inference regarding the statistical significance of the average direct and indirect effects, <ref type="bibr">LeSage and Pace (2009, p. 39)</ref> suggest simulating the distribution of the direct and indirect effects using the variancecovariance matrix implied by the maximum likelihood (ML) estimates. Efficient simulation approaches can be used to produce an empirical distribution of the parameters β, θ , ρ, σ 2 , which are needed to calculate the scalar summary measures. This distribution can be constructed using a large number of simulated parameters drawn from the multivariate distribution of the parameters implied by the ML estimates.</p><p>On the other hand, strong cross-sectional dependence can be accommodated by the Common Correlated Effects Pooled (CCEP) estimator proposed by <ref type="bibr" target="#b38">Pesaran (2006)</ref>. Suppose that y it is generated by the following DGP with a multifactor error structure:</p><formula xml:id="formula_3">y it = α i + x it β + γ i f t + ε it (2) x it = i f t + v it</formula><p>where f t is a m × 1 vector of unobserved common factors (introduced to allow for cross-sectional dependence), and γ i the corresponding heterogeneous response. f t are allowed to be correlated with x it ( i is a m × k factor loading matrix), while the idiosyncratic errors, ε it , are assumed to be independently distributed over x it . <ref type="bibr" target="#b38">Pesaran (2006)</ref> shows that, for sufficiently large N , it is valid to use cross-sectional averages of y it and x it as observable proxies for f t . Thus, consistent β parameters can be estimated using the so-called CCEP estimator, which can be viewed as a generalized fixed effects estimator. <ref type="foot" target="#foot_2">5</ref> The CCEP approach has been proved to be valid in the presence of both strong and weak (or semi-strong and semi-weak) cross dependence <ref type="bibr" target="#b8">(Chudik et al. 2011;</ref><ref type="bibr" target="#b41">Pesaran and Tosetti 2011)</ref>. Thus, it can easily collect even the pure spatial spillover effects. However, economic analyses often require the assessment of the different forms of cross dependence, or better still, the assessment of spatial network effects, net of the effects of common factors. A natural way to deal with this problem is to combine the two approaches.</p><p>Using slightly different frameworks, <ref type="bibr" target="#b2">Bai and Li (2013)</ref> and Shi and Lee (2018) consider a joint modeling of spatial interaction effects and common-shocks effects:</p><formula xml:id="formula_4">y it = α i + ρ N j=1 w i j,N y jt + x it β + γ i f t + ε it (<label>3</label></formula><formula xml:id="formula_5">)</formula><p>This model allows one to test which type of effects (common shocks and/or spatial spillovers) is responsible for the cross-sectional dependence. <ref type="bibr" target="#b2">Bai and Li (2013)</ref> and Shi and <ref type="bibr" target="#b44">Lee (2018)</ref> use principle components to estimate common factors, while here we follow <ref type="bibr" target="#b38">Pesaran (2006)</ref> in using cross-sectional averages of y it and x it as observable proxies for f t . Thus, we call it the SAR-CCEP model and use the QMLE to estimate it. A drawback of this approach is worth noting. Specifically, there is a large number of incidental parameters involved in the estimation of the CCEP model, and thus also in the estimation of the SAR-CCEP, especially when the number of regressors is high and/or T is short. This is also documented in many empirical papers adopting the CCE approach, where estimates lack precision. In the following section, we propose an alternative semiparametric approach to disentangle common factor effects and spatial dependence effects which adequately addresses this problem.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Spatio-temporal semiparametric autoregressive models</head><p>In this section we propose a class of spatio-temporal models for large spatial panel data. They are a flexible alternative to the parametric models presented in Sect. 2 for modeling spatial economic data, as long as the spatio-temporal heterogeneity is smoothly distributed (as is commonly the case, we would argue, in empirical economic analyses), so that we can approximate it with smooth nonparametric functions. The models represent a generalization of the Spatial Autoregressive Semiparametric Geoadditive Models introduced by <ref type="bibr" target="#b4">Basile et al. (2014)</ref> and <ref type="bibr" target="#b31">Montero et al. (2012)</ref>. We focus in this paper in the case of Gaussian response variables, however, the results here can be extended to variables with the exponential family of distributions in the context of Generalized Linear Mixed Models.</p><p>Let y it be a sample of spatial panel data, where i is an index for the cross-sectional dimension (spatial units), with i = 1, . . . , N , and t is an index for the time dimension (time periods), with t = 1, . . . , T . The general model proposed is written as:</p><formula xml:id="formula_6">y it = ρ N j=1 w i j,N y jt + f (s 1i , s 2i , τ t ) + k δ=1 g δ (x δ it ) + it</formula><p>where (s 1i , s 2i ) are the spatial coordinates (latitude and longitude) of individual i (when i refers to areal units: municipality, provinces, etc., the standard convention here is to identify representative points for areal units, the most typical being areal centroids), τ t is the time period, and x δ it are independent variables; W i j are the spatial weights, and ρ the spatial autoregressive parameter. The functions g δ (.) are parametric or nonparametric smooth functions of the covariates x δ it (they can be linear, or can accommodate varying coefficient terms, smooth interaction between covariates, byfactor smooth curves, and so on), and f (s 1i , s 2i , τ t ) is an unknown nonparametric spatio-temporal trend. The idiosyncratic error term is assumed to follow an AR(1) process, i.e. it = φ it-1 +u it with u it ∼ N (0, σ 2 ). Then, the model can be expressed in vector form as:</p><formula xml:id="formula_7">y = ρ(W N ⊗ I T )y + f (s 1 , s 2 , τ ) + k δ=1 g δ (x δ ) + .</formula><p>(4)</p><p>In many situations the spatio-temporal trend to be estimated by f can be complex, and the use of a single multidimensional smooth function may not be flexible enough to capture the structure in the data. To solve this problem, <ref type="bibr" target="#b24">Lee and Durbán (2011)</ref> proposed an ANOVA-type decomposition of f (s 1 , s 2 , τ ) where spatial and temporal main effects, and second-and third-order interactions between them can be identified:</p><formula xml:id="formula_8">f (s 1 , s 2 , τ ) = f 1 (s 1 ) + f 2 (s 2 ) + f t (τ ) + f 1,2 (s 1 , s 2 ) + f 1,t (s 1 , τ ) + f 2,t (s 2 , τ ) + f 1,2,t (s 1 , s 2 , τ ).</formula><p>Thus, model (4) can be written as:</p><formula xml:id="formula_9">y = ρ(W N ⊗ I T )y + f 1 (s 1 ) + f 2 (s 2 ) + f t (τ ) + f 1,2 (s 1 , s 2 ) + f 1,t (s 1 , τ ) + f 2,t (s 2 , τ ) + f 1,2,t (s 1 , s 2 , τ ) + k δ=1 g δ (x δ ) + .<label>(5)</label></formula><p>We will refer to it as the PS-ANOVA-SAR(AR1) model. It is flexible enough to simultaneously control for different sources of bias: spatial heterogeneity bias, spatial dependence bias, omitted time-related factors bias, and functional form bias. First, as already pointed out in <ref type="bibr" target="#b4">Basile et al. (2014)</ref>, the geoadditive terms given by f 1 (s 1 ), f 2 (s 2 ) and f 1,2 (s 1 , s 2 ) (two 1d smooth functions of latitude and longitude and a 2d smooth function to account for any spatial effect not accounted for by the main effects) work as control functions to filter the spatial trend out of the residuals, and transfer it to the mean response in a model specification. Thus, they make it possible to capture the shape of the spatial distribution of y, eventually conditional on the determinants included in the model. These control functions also isolate stochastic spatial dependence in the residuals, that is spatially autocorrelated unobserved heterogeneity. Thus, they can be regarded as an alternative to the use of individual regional dummies to capture unobserved heterogeneity, as long as such heterogeneity is smoothly distributed over space. Regional dummies peak at significantly higher and lower levels of the mean response variable. If these peaks are smoothly distributed over a twodimensional surface (i.e. if unobserved heterogeneity is spatially autocorrelated), the smooth spatial trend is able to capture them.</p><p>Second, the smooth time trend, f t (τ ), and the smooth interactions between space and timef 1,t (s 1 , τ ), f 2,t (s 2 , τ ), and f 1,2,t (s 1 , s 2 , τ )-work as control functions to capture the heterogeneous effect of common shocks. Thus, conditional on a smooth distribution of the spatio-temporal heterogeneity, the PS-ANOVA-SAR model works as an alternative to the models proposed by <ref type="bibr">Bai and</ref>  <ref type="formula">Li (2013), Shi and Lee (2018),  Pesaran and Tosetti (2011), Bailey et al. (2016) and Vega and Elhorst (2016)</ref>based on extensions of common factor models to accommodate both strong cross-sectional dependence (through the estimation of the spatio-temporal trend) and weak crosssectional dependence (through the estimation of the ρ parameter). The advantage of the PS-ANOVA-SAR model lies in the fact that, contrary to the CCEP approach, its estimation does not involve a large number of incidental parameter.</p><p>Furthermore, our framework is also flexible enough to control for the linear and nonlinear functional relationships between the dependent variable and the covariates as well as the heterogeneous effects of these regressors across space (extending, in some sense, the work by Hoshino 2018, to the spatial panel case). The model inherits all the good properties of penalized regression splines, such as, coping with missing observations by appropriately weighting them, and straightforward interpolation of the smooth functions.</p><p>The smooth functions in the model above can be estimated using a number of different methods: splines, kernels, wavelets, and so on. However, most methods do not provide a unified approach whereby all terms and parameters in the model can be estimated simultaneously. We use the penalized spline approach introduced by <ref type="bibr" target="#b15">Eilers and Marx (1996)</ref>, which provides a general framework and can deal with the identifiability problems that appear in ANOVA decompositions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Penalized splines methodology</head><p>The penalized regression approach is based on a basis representation of the unknown functions, which is combined with a penalty on the likelihood to control the wiggliness of the curve/surface. In particular, we use the approach introduced by <ref type="bibr" target="#b15">Eilers and Marx (1996)</ref> which uses cubic B-splines (De Boor 1977) as basis functions, and second-order differences of adjacent coefficients as penalties. However, the methodology presented here can be applied to any basis and quadratic penalty. For the purpose of illustration, we will assume a simple case here, in which the mean of the response variable is an unknown function of a single covariate and the errors are independent:</p><formula xml:id="formula_10">y i = f (x i ) + ε i ε i ∼ N (0, σ 2 ).</formula><p>Then, the smooth function is represented by:</p><formula xml:id="formula_11">f (x) = c j=1 B j (x)θ j , j = 1, . . . , c,<label>(6)</label></formula><p>with B j a B-spline basis function, and θ j is a component of a vector of regression coefficients of length c (the number of knots used to construct the basis). The size of the basis should be large enough (in general, between 4 and 40) to identify nonlinearities. The smoothness of the curve is controlled by a quadratic penalty term. Typically, this term is equivalent to an integral of squared second derivatives of the function, but sometimes (especially in the case of interactions) its calculation is not straightforward. Thus, following <ref type="bibr" target="#b15">Eilers and Marx (1996)</ref>, we use second-order differences among adjacent coefficients, yielding the following penalized regression problem:</p><formula xml:id="formula_12">y -Bθ 2 + λ j ( 2 θ j ) 2 (<label>7</label></formula><formula xml:id="formula_13">)</formula><p>where B is a matrix including B j B-spline basis by columns and 2 is the difference operator of order 2. In matrix form the penalty term becomes θ Pθ, with P = λD D, D is the matrix of second-order differences and λ is the smoothing parameter which controls the amount of smoothing. The beauty of the P-spline methodology is that the penalty relaxes the dependence of the fit on the size of the basis or the degree of the polynomial. From ( <ref type="formula" target="#formula_12">7</ref>) it is immediate to see that the estimated smooth function is given by:</p><formula xml:id="formula_14">f (x) = B(B B + λD D) -1 By.</formula><p>Asymptotic properties of penalized spline estimators can be found in <ref type="bibr" target="#b9">Claeskens et al. (2007)</ref> and <ref type="bibr" target="#b49">Wood (2006)</ref>.</p><p>When the response is an unknown function of two (or more) covariates, the representation of an interaction term is given by:</p><formula xml:id="formula_15">f 1,2 (x 1 , x 2 ) = c i j=1 c k l=1 B j (x i )B l (x k )θ jl , with j = 1, . . . , c 1 and l = 1, . . . , c 2 , (8) where B j (x i )B l (x k )</formula><p>is the tensor product of two marginal B-spline bases, and θ jl is a vector of coefficients of length c 1 c 2 × 1. In this case the penalty is given by:</p><formula xml:id="formula_16">P = λ 1 D 1 D 1 ⊗ I + λ 2 I ⊗ D 2 D 2 .</formula><p>See <ref type="bibr" target="#b12">Currie et al. (2006)</ref> and <ref type="bibr" target="#b16">Eilers et al. (2006)</ref> for further details on multidimensional smoothing with penalized splines. A property of this penalty is the fact that it allows for a separate amount of smoothing per covariate (anisotropy), which is an important issue when smoothing over space and time.</p><p>It is worth noting that the dimension of the matrices involved in interaction terms can increase very quickly if the size of the marginal bases is large, and so the estimation of the model can become very slow or even intractable. In order to reduce the computational burden without compromising the fit of the model, we follow <ref type="bibr" target="#b26">Lee et al. (2013)</ref> in using nested B-spline bases for the interactions terms. The idea is to use a matrix B in the interaction, such that the space spanned by this matrix is a subset of the space spanned by B. The use of this simpler matrix for the construction of the interaction terms will not be a problem since the information about the interaction is generally sparse. In the ANOVA context, the main effects are more important than the interactions, so this would be reasonable in most situations. In order to ensure that the new basis is nested relative to the original basis, we assume that the number of knots (ndx * ) in B is a divisor of the number of knots used to construct the original basis (ndx):</p><formula xml:id="formula_17">ndx * of B = ndx of B div ⇒ span( B) ⊂ span(B).</formula><p>Then, the number of parameters is dramatically reduced but the model is still flexible enough to capture the complex space-time structure in the data. <ref type="bibr" target="#b26">Lee et al. (2013)</ref> and <ref type="bibr" target="#b43">Rodrìguez-Álvarez et al. (2018)</ref>, among others, have carried out several simulation studies under different scenarios to test the impact of the use of reduced-rank basis to represent interaction terms. They showed that a moderate reduction of the number of knots (half for a two-way interaction, etc.) has no significant loss in terms of the fit to the data, and produces remarkable results in computing time that would be unbearable otherwise.</p><p>Earlier in this section we could see that the estimate of the unknown function depends on the smoothing parameter λ, thus optimal selection of this parameter is needed. Leave-one-out cross-validation (CV or GCV) provides a mechanism to choose this parameter. However, this approach has a tendency to under-smooth the data, specially if errors are correlated. An alternative way to select the optimal smoothing parameter is through reparameterization of the penalized spline model as a mixed model <ref type="bibr" target="#b11">(Currie and Durbán 2002)</ref>. This idea comes from the fact that the minimization problem in (7) is the minimization criterion in a random effects model of the form:</p><formula xml:id="formula_18">y = Bθ, θ ∼ N (0, σ 2 θ P -1 ) ∼ N (0, σ 2 I),</formula><p>but the penalty matrix P is singular (2 eigenvalues are zero), and so it has a degenerate distribution. One possible solution is to rewrite the model as Bθ = Xβ + Zα, such that the 2 columns of X span the polynomial null space of P and the columns of Z span its complement:</p><formula xml:id="formula_19">y = Xβ + Zα + , ∼ N(0, Iσ 2 ), α ∼ N (0, G),</formula><p>where matrices X, Z and G are computed using an appropriate decomposition on the penalty term (see "Appendix A" for details). This approach will allow us the simultaneous estimation of all parameters in the model, and the use of existing algorithms in the mixed model framework. Model (5) is non-identifiable since, for example, f 1 (s 1 ) and f 2 (s 2 ) are confounded with f 1,2 (s 1 , s 2 ) (as in a three-way ANOVA, lower order effect are confounded with higher order interactions). An elegant way to construct an identifiable model is to impose the constraints used in a factorial design to the coefficients of the B-splines basis, i.e. j θ j = 0 for 1d smooth functions (see ( <ref type="formula" target="#formula_12">7</ref>)) and j θ jl = l θ jl =0inthe case of 2d smooth functions (see 8). It is easy to show that this is equivalent to removing from the matrices of fixed effects (given in the mixed model reparametrization above) the columns that are repeated. Furthermore, the mixed model reparametrization will also provide an automatic selection of the smoothing parameter, since the latter becomes a ratio of variances, meaning that it is no longer necessary to estimate λ via a cross-validation method or an information criterion.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">PS-ANOVA-SAR(AR1) model as a mixed model</head><p>We propose the estimation of the PS-SAR-ANOVA model (with temporal autoregressive dependence in the noise) by means of its representation as a mixed model. This allows us to use the standard mixed model methodology, which is well known and tested, and is implemented in most statistical software. For the sake of simplicity we assume that there are no covariates in the model (the inclusion of covariates is an immediate step); then model ( <ref type="formula" target="#formula_9">5</ref>), including time autoregressive errors, becomes:</p><formula xml:id="formula_20">(A N ⊗ I T )y = f 1 (s 1 ) + f 2 (s 2 ) + f t (τ ) + f 1,2 (s 1 , s 2 ) + f 1,t (s 1 , τ ) + f 2,t (s 2 , τ ) + f 1,2,t (s 1 , s 2 , τ ) + (<label>9</label></formula><formula xml:id="formula_21">)</formula><p>where</p><formula xml:id="formula_22">∼ N (0, R), A N = I N -ρW N , R = σ 2 1 -φ 2 (I N ⊗ Ω) and Ω = ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ 1 φ φ 2 • • • φ T -1 φ 1 φ • • • φ T -2 φ 2 φ 1 • • • φ T -3 . . . . . . . . . . . . . . . φ T -1 φ T -2 φ T -3 • • • 1 ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠</formula><p>Again, we can use the reparameterization of this type of model into a mixed model (see "Appendix B" for details) to obtain:</p><formula xml:id="formula_23">(A N ⊗ I T )y = Xβ + Zα + , ∼ N (0, R) , α ∼ N (0, G)</formula><p>where G is a diagonal matrix which depends on several variance components σ 2 ν j (one per univariate smooth function, two per bivariate function, and so on). This implies that each function is estimated with a separate amount of smoothing.</p><p>Conditional on the correlation parameters and variance components, the estimates of the coefficients β and of the random effects α follow from the standard mixed model theory <ref type="bibr" target="#b44">(Searle et al. 1992)</ref>, and are the solution of the system of equations:</p><formula xml:id="formula_24">X R -1 X X R -1 Z Z R -1 X Z R -1 Z + G -1 β α = X R -1 (A N ⊗ I T )y Z R -1 (A N ⊗ I T )y . (<label>10</label></formula><formula xml:id="formula_25">)</formula><p>Variance components (and, therefore, smoothing parameters), and correlation parameters may be estimated by maximizing the residual log-likelihood (REML), as in <ref type="bibr" target="#b35">Patterson and Thompson (1971)</ref>:</p><formula xml:id="formula_26">ℓ(σ 2 τ i , σ 2 , ρ, φ) = - 1 2 log |V| - 1 2 log |X V -1 X| - 1 2 (A N ⊗ I T )y (V -1 -V -1 X(X V -1 X) -1 X V -1 ) × (A N ⊗ I T )y + log |A N ⊗ I T |<label>(11)</label></formula><p>where</p><formula xml:id="formula_27">V = R + ZGZ .</formula><p>The numerous variance components (3 for the main effects of latitude, longitude and time, 6 for the 3 two-way interactions, and 3 for the three-way interaction) and correlation parameters (ρ and φ in our case) make the maximization of this function using numerical methods very time consuming. <ref type="bibr" target="#b42">Rodriguez-Alvarez et al. (2015)</ref> recently developed an algorithm named SAP (Separation of Anisotropic Penalties) that maximizes REML much faster than numerical optimization procedures can. This algorithm can be applied to any mixed model (or models in which mixed model based inference is used) in which the precision matrix of random effects can be expressed as a linear combination over the variance components. SAP is computationally very efficient and the estimates produced match those obtained using REML. In "Appendix B", we show how the SAP algorithm can also be adapted to estimate the correlation parameters in the PS-ANOVA-SAR(AR1) model.</p><p>Estimated curves or interaction surfaces in the model can be easily obtained from Eq. (10). For example, the estimated effect of the spatial term f 1,2 (s 1 , s 2 ) is:</p><formula xml:id="formula_28">f1,2 (s 1 , s 2 ) = E 1,2 C -1 [X : Z] (A N ⊗ I T )y,</formula><p>where C is the matrix on the left-hand side of ( <ref type="formula" target="#formula_24">10</ref>) and E 1,2 is a diagonal matrix with ones in the diagonal positions corresponding to the interaction smooth term.</p><p>The mixed model approach to penalized splines smoothing can also be interpreted from an empirical Bayes viewpoint in which fixed effects have (constant) non-informative prior, and we use this approach for variance estimation. In this framework it is easy to show (see <ref type="bibr">Lin and Zhang (1999)</ref>) that the covariance matrix of the regression parameters β and α is given by Cov(β, α) = C -1 , and so, again in the case of the space interaction term:</p><formula xml:id="formula_29">Var( f1,2 ) = H 1,2 = E 1,2 [X : Z] C -1 [X : Z] E 1,2</formula><p>Also, the trace of H 1,2 can be used as a measure of the complexity of the smooth surface (as in the linear model) by defining the effective dimension of the smooth term as:</p><formula xml:id="formula_30">e.d.( f1,2 ) = trace(H 1,2 ).</formula><p>We propose a Monte Carlo experiment in order to compare the small sample properties of different parametric and semiparametric estimators (namely CCEP, SAR-CCEP, PS-ANOVA, PS-ANOVA-SAR, and PS-ANOVA-SAR-AR1) in the presence of weak and strong cross-sectional dependence. The aim of this study is to assess whether the PS-ANOVA-SAR-AR1 represents a valid alternative to the SAR-CCEP estimator in the presence of spatial dependence, spatial heterogeneity and unobserved common factors. To fulfill this aim, we set two different data generating processes (DGPs).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">DGP 1: SAR-CCEP</head><p>The first DGP is a modified version of the one proposed by <ref type="bibr" target="#b38">Pesaran (2006)</ref> and <ref type="bibr" target="#b41">Pesaran and Tosetti (2011)</ref>, where the dependent variable and the individual-specific regressors are assumed to depend on a linear combination of unobserved common factors. We extend this DGP by including a spatial lag of the dependent variable to combine the two sources of cross-sectional dependence, i.e. common factors and spatial dependence as in <ref type="bibr" target="#b1">Bailey et al. (2016)</ref> and <ref type="bibr" target="#b48">Vega and Elhorst (2016)</ref>:</p><formula xml:id="formula_31">[DG P1] y it = α i + β 1 x 1it + β 2 x 2it + γ i1 f 1t + γ i2 f 2t + ρ N j=1 w i j,N y jt + u it u it = φu i,t-1 + ε it x jit = a ji + γ ji1 f 1t + γ ji3 f 3t + v jit j = 1, 2</formula><p>for i = 1, . . . , N and t = 1, . . . , T . <ref type="foot" target="#foot_3">6</ref>We always assume homogeneous slopes, i.e. β = (1, 1) for x 1it and x 2it , and serially correlated errors, i.e. u it are generated as stationary AR(1) processes with φ = 0.75, ε it ∼ iidN (0, σ 2 ) and σ 2 ∼ iidU [0.5, 1.5].</p><p>In [DGP 1], f 1t , f 2t and f 3t are unobserved common effects following first-order temporal autoregressive processes,</p><formula xml:id="formula_32">f jt = 0.5 f j,t-1 + v f jt j = 1, 2, 3 v f jt ∼ iidN (0, 0.75) f j0 = 0</formula><p>and the idiosyncratic noises for the individual-specific regressors are generated as</p><formula xml:id="formula_33">v jit = φ ji v ji,t-1 + ς jit ς jit ∼ N (0, 1 -φ 2 ji ) φ ji ∼ iidU [0.05, 0.95]</formula><p>For all serially correlated errors, the first 50 observations are discarded.</p><p>The heterogeneous intercepts are generated as</p><formula xml:id="formula_34">α i ∼ iidN (1, 1) (a 1i , a 2i ) ∼ iidN (0.5τ 2 , 0.5I 2 )</formula><p>where τ 2 = (1, 1) and I 2 is a 2 × 2 identity matrix.</p><p>The factor loadings associated with the unobserved common effects in the x jit and y it equations are simulated from</p><formula xml:id="formula_35">γ 1i1 0 γ 1i3 γ 2i1 0 γ 2i3</formula><p>∼ iid N (0.5, 0.5) 0 N (0, 0.5) N (0, 0.5) 0 N (0.5, 0.5)</p><p>and</p><formula xml:id="formula_36">γ i1 ∼ iidN(1, 0.2) γ i2 ∼ iidN(1, 0.2)</formula><p>Finally, ρ is the spatial autoregressive coefficient associated to the spatial lag of the dependent variable, and w ij ,fori, j = 1,..., N, are elements of a spatial weight matrix W, assumed to be time-invariant. To construct this matrix, we have simulated random spatial coordinates, s 1i , s 2i , following iidU[0, 1] distributions. The neighborhood criterion corresponds to the five closest observations and the matrix W is row-normalized. Prior to this, we set up two values of the spatial coefficient, ρ = (0, 0.5), in order to consider both independence and sizeable spatial dependence.</p><p>The reader may note that, in line with <ref type="bibr" target="#b38">Pesaran (2006)</ref> and <ref type="bibr" target="#b41">Pesaran and Tosetti (2011)</ref>, we always consider an autoregressive, but stationary, process for the generation of common factors ( f jt = 0.5 f j,t-1 + v f jt ). Thus, we exclude both the case of a pure random distribution of common factors (e.g. f jt ∼ iidN(1, 1)) and the case of a nonstationary process (i.e. f jt = f j,t-1 + v f jt ). Under the assumption of totally random common shocks (e.g. a random perturbation of world demand), the CCEP estimator would certainly remain strongly consistent. The PS-ANOVA-SAR approach (Eq. 4) can also be adapted to this situation by introducing random time effects (as in <ref type="bibr" target="#b36">Perperoglou and Eilers 2009)</ref>, or interactions between a smooth spatial trend and time fixed effects (i.e. f (s 1i , s 2i )×τ t ). Nevertheless, since in many situations the common shocks are persistent over time, we prefer to allow for an autoregressive process. Moreover, for the sake of simplicity, we do not extend the analysis to the nonstationarity case. Indeed, all variables involved, both observable and latent (including common factors), are stationary in the simulations. The Pesaran's multifactor error structure approach has already been extended to the cases where the unobservable common factors follow unit root processes. In particular, the Monte Carlo study conducted by <ref type="bibr" target="#b23">Kapetanios et al. (2011)</ref> show that the CCE estimator is robust to the case where unobserved common factors are integrated of order 1. The analysis of the statistical properties of the proposed PS-ANOVA-SAR estimator under the assumption of nonstationarity is a subject of current research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">DGP 2: PS-ANOVA-SAR(AR1)</head><p>The second DGP includes smooth spatio-temporal trends in place of heterogeneous intercepts and unobserved common factors. In other words, time-invariant spatial unobserved heterogeneity and time-varying unobserved heterogeneity (due to common factors) are assumed to be smoothly distributed (over time and space) and generated by a specific spatio-temporal trend for each variable (in this DGP, we only consider an individual-specific regressor), that is,</p><formula xml:id="formula_37">[DG P2] y it = α + βx it + ρ N j=1 w i j,N y jt + f spt + u it u it = φu i,t-1 + ε it x it = h spt + it for i = 1, . . . , N and t = 1, . . . , T .</formula><p>α is a constant intercept and both w i j,N and u it are generated as in [DGP 1].</p><p>The terms f spt and h spt represent spatio-temporal trends including main effects and interaction effects of second-and third-order between spatial and temporal coordinates. They have been generated by the following nonlinear terms:</p><formula xml:id="formula_38">f 1spt = f s 1i + f s 2i + f τ t + f s 1i ,s 2i + f s 1i ,τ t + f s 2i ,τ t + f s 1i ,s 2i ,τ t f s 1i = sin(2πs 1i ) f s 2i = cos(3πs 2i ) f τ t = sin(4πτ t ) f s 1i ,s 2i = sin(2πs 1i )(s 2 2i -1) f s 1i ,τ t = 2 sin(2πs 2 1i )cos(2τ t ) f s 2i ,τ t = cos(3π s 2i )sin(3τ 2 t ) f s 1i ,s 2i ,τ t = sin(2πs 1i )s 2 2i cos(3τ t ) h spt = h s 1i ,s 2i + h τ t h s 1i ,s 2i = 2 cos(3πs 2i )(2s 1i s 2i ) h τ t = 2 sin(3πτ 3 t )</formula><p>As in [DGP 1], the spatial coordinates, s 1i , s 2i , follow iidU [0, 1] distributions, while the temporal coordinate is generated as τ t = t/T , for t = 1, . . . , T . Finally, the noise term of x jit is generated by the following stochastic process:  </p><formula xml:id="formula_39">it = ν i i,t-1 + ς it ς it ∼ N (0, 1 -φ 2 i ) φ i ∼ iidU</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Monte Carlo results</head><p>For both DGPs, the generated sample panels have N = 100 and T = 30, and 300 simulations have been used for each value of ρ. For each simulated DGP, we assess the small sample properties of five parametric and semiparametric estimators (Table <ref type="table" target="#tab_0">1</ref>). In particular, we computed the parametric pooled common correlated estimator (CCEP) described in <ref type="bibr" target="#b38">Pesaran (2006)</ref> (Eq. 2 in Sect. 2), and its extension (SAR-CCEP) which includes a spatial lag of the dependent variable (Vega and Elhorst 2016) (Eq. 3 in Sect. 2); plus three versions of the semiparametric model described in Sect. 3 (Eq. 4)</p><p>with the ANOVA decomposition for the spatio-temporal trend (imposing linearity for the effect of the covariates), namely the PS-ANOVA (which excludes the spatial lag term Wy), the PS-ANOVA-SAR (which excludes serial correlation in the error term), and the PS-ANOVA-SAR-AR(1). For all PS-ANOVA specifications, B-spline bases have been included and we have chosen 16 knots for both time and spatial coordinates. Furthermore, we have nested the bases for second-and third-order interaction terms dividing the number of knots by 2 and 4, respectively (as explained in Sect. 3.1).</p><p>Finally, all the parameters of PS-ANOVA specifications have been estimated using REML applied to the PS-ANOVA models previously reparameterized as mixed models (details in Sect. 3.2).</p><p>Table <ref type="table" target="#tab_1">2</ref> provides estimates of the bias and of the root-mean-square error (RMSE) for parameters β 1 , β 2 , and ρ over the two DGPs.</p><p>The main conclusions can be synthesized as follows:</p><p>1. With respect to the estimates of the parameter β 1 , the five estimators perform quite differently, depending on the DGP and on the value of the ρ parameter. More specifically, for [DGP 1] and ρ = 0, the estimators of the parametric specifications (I and II) are substantially unbiased. Conversely, the estimators of the semiparametric specifications (III to V) are slightly positively biased, and their RMSE is approximately double that of specifications I and II.</p><p>With ρ = 0.5, the relative performance of the different estimators changes a great deal. The estimators of the spatial lag models (II, IV and V) are substantially unbiased, with comparatively similar values of RMSE. As expected, the estimators of the models without a spatial lag (I and III) show a positive and non-negligible bias in the estimation of the slope parameter. Semiparametric models (III, IV and V) prove their superiority in estimating the parameter β 1 when ρ = 0.5 in [DGP 2], which includes smooth spatio-temporal trends in place of unobserved common factors and spatial fixed effects. The esti- Fixed values of β 1 and β 2 are (1,1) and true values of ρ and φ are (0,0.5) and 0.75, respectively mator of model III is also unbiased when ρ = 0.5 although this model does not include a spatial lag (nevertheless, its RMSE is bigger than that computed for estimators of models IV and V). Not surprisingly, the best results are achieved by the estimator of model V, since it is the specification closest to [DGP 2]. Moreover, considering that in [DGP 2] the spatio-temporal trend is different for the dependent variable y it and the regressor x it , semiparametric models (III, IV and V) produce unbiased estimates for the parameters despite the existence of complex unobserved spatio-temporal trends with the only requirement of smoothness. 7</p><p>7 Following the suggestion of an anonymous referee, we have also simulated (only for DGP2) the CCEP and SAR-CCEP specifications including individual time trends. The results are similar to those reported in Table <ref type="table" target="#tab_1">2</ref> and are available upon request.</p><p>When examining the estimates for parameter β 2 , the conclusions for [DGP 1] are similar to those reported for β 1 except for the unexpectedly poor performance of the estimator of model V when ρ = 0.5. On the other hand, the assessment of model III is better for parameter β 2 than for β 1 . We believe that this behaviour could be explained by the difficulties of PS-ANOVA models to identify which part of the variability corresponds to spatio-temporal trends and which part to other regressors when the DGP is far from the assumptions made for these specifications. This lack of identifiability is aggravated when the specification includes more terms (like V) and tends to be more unstable and likely overparameterized for [DGP 1]. 2. As for the estimates of the ρ parameter, the results clearly show that, depending on the DGP considered, either the parametric or the semiparametric estimators are unbiased. Specifically, for [DGP 1] only model III (SAR-CCEP) produces unbiased estimates, while the estimators of models IV and V are positively biased. The size of the bias for the estimators of models IV and V decreases as the true value of ρ increases. This evidence attests to the fact that the smooth-based estimator "prefers" diffused spatial dependence, so that cross-sectional smoothness increases. This situation is reversed when the data are generated using [DGP 2]. In this case, the estimator of model III is positively biased with greater bias and RMSE than in models IV and V in [DGP 1]. When assessing semiparametric models IV and V for [DGP 2], the negative bias of the estimator of model IV is noteworthy. In fact, model V is the only unbiased estimator which is not surprising given that [DGP 2] includes a first-order temporal autoregressive term in the noise. Again, the bias for the estimators of models III and IV decreases as the value of ρ increases. Summing up, as also pointed out by one of the anonymous referees, the results of the simulations suggest that SAR-CCEP and PS-ANOVA-SAR remain different tools for different jobs. Nevertheless, they also suggest that, in the presence of spatial dependence, spatial unobserved heterogeneity, and time-related unobserved factors, the semiparametric estimator proposed in this paper represents a valid alternative to parametric estimators proposed in the literature (CCEP and SAR-CCEP) to estimate the slope parameters as long as both types of unobserved effects are smoothly distributed over time and space. In practical terms, we may say that the CCEP estimator can be a better choice in cross-country or cross-industry analyses to deal with strong cross-sectional dependence problems generated by any kind of common (international or inter-industry) shocks. The PS-ANOVA estimator can offer a good alternative in cross-regional analyses, especially when the spatial unit is relatively small (e.g. provinces, cities, metropolitan areas, and so on), to deal with strong cross-sectional dependence generated by any kind of common shocks (technological shock or demand shocks) propagating smoothly over space and time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Empirical case</head><p>Ever since <ref type="bibr" target="#b33">Partridge and Rickman (1997)</ref> and <ref type="bibr" target="#b46">Taylor and Bradley (1997)</ref>, regional unemployment differentials have been the subject of intensive research in the literature.</p><p>Recent contributions apply spatial econometric models both in a cross-sectional setting <ref type="bibr">(Molho 1995;</ref><ref type="bibr" target="#b0">Aragon et al. 2003;</ref><ref type="bibr" target="#b10">Cracolici et al. 2007</ref>) and in a spatial panel framework <ref type="bibr" target="#b28">(Lottmann 2012;</ref><ref type="bibr" target="#b3">Basile et al. 2012;</ref><ref type="bibr" target="#b42">Ríos 2014)</ref>. Here, we analyze the performance of the PS-ANOVA-SAR(AR1) model compared to different competing parametric and semiparametric models using panel data on regional unemployment in Italy. We first describe these data and their features in terms of spatial and temporal trends (Sect. 5.1). Then, we briefly discuss the theoretical background and the set of variables used to explain regional unemployment differentials (Sect. 5.2). Finally, we report the results of the econometric analysis (Sect. 5.3).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Regional unemployment data</head><p>The data on regional unemployment rates (unrate i,t ) for each Italian province i = 1, . . . , N (N=103) (corresponding to Italian NUTS-3 regions) and for each time period t = 1996, . . . , 2014 (T =19) used in this analysis are provided online by the Italian National Institute of Statistics (ISTAT). They are defined as unrate i,t = 100 × U i,t L F i,t ,</p><p>where U i,t is the number of unemployed people and L F i,t is the total labor force. Regional unemployment rates differ widely in Italy, especially between northern and southern provinces. The North-South division can be depicted by mapping the predicted values of a simple regression of provincial unemployment rates on the smooth interaction between longitude and latitude (Fig. <ref type="figure" target="#fig_1">1</ref>). A clear spatial trend emerges and is persistent over time. These findings suggest that the nature of regional unemployment disparities in Italy is the result of a long-run equilibrium rather than a short-term disequilibrium caused by temporary shocks. As such, as <ref type="bibr" target="#b29">Marston (1985)</ref> points out, "If unemployment is of equilibrium nature, any policy oriented to reduce regional disparities is useless since it cannot reduce unemployment anywhere for long". Nevertheless, we cannot exclude the possibility that the strong persistence of regional unemployment differentials is caused by both structural problems in the economy and the inability of Italian regions to absorb specific shocks (on either the demand or the supply side).</p><p>A nonlinear time trend also characterizes unemployment data. The national unemployment rate (red line in Fig. <ref type="figure" target="#fig_2">2</ref>) shows a fall from 1996 (11.2%) to 2007 (6.1%); however, with the outbreak of the financial crisis, and its subsequent impact on the productive economy, there was an upturn in the unemployment rate, reaching 12.7% in 2014. Both northern and southern provinces followed a similar time path, suggesting that common business cycle factors affect all the regions. However, there are relevant differences across provinces, indicating that regions may differ in their elasticity to common shocks. This feature is rather usual in regional unemployment studies. Thus, in order to obtain coefficients of the determinants that measure their impact on regional unemployment rates net of aggregate cyclical factors, these studies adopt one of two main approaches. The first is to include time-period fixed effects in the model <ref type="bibr" target="#b18">(Elhorst 1995;</ref><ref type="bibr" target="#b33">Partridge and Rickman 1997)</ref>. However, this is a homogeneous approach since it assumes that the impact of common factors is the same across regions, whereas it is often the case in applied settings that certain regions are found to be more sensitive  than others to aggregate fluctuations. The alternative approach is to take the difference between the regional and national unemployment rates as a way to appraise dispersion and factor out country-specific dynamics <ref type="bibr" target="#b47">(Thirlwall 1966;</ref><ref type="bibr" target="#b5">Blanchard et al. 1992;</ref><ref type="bibr" target="#b14">Decressin and Fatas 1995)</ref>. This 'factoring out' of aggregate cyclical factors also bears a clear resemblance to the common factor approach proposed in <ref type="bibr" target="#b39">Pesaran (2007)</ref>, where common factors are modeled by cross-sectional averages of the variables at each point in time.</p><p>The presence of common cyclical factors is expected to generate significant crosssectional correlation in the data. This hypothesis can be assessed using the CD test developed by <ref type="bibr" target="#b37">Pesaran (2004</ref><ref type="bibr" target="#b40">Pesaran ( , 2015))</ref>. This test uses the pair-wise correlation coefficients between the time-series for each panel unit. The CD statistics computed on our sample of regional unemployment rates is highly significant, confirming the existence of cross-sectional dependence (Table <ref type="table" target="#tab_2">3</ref>). Applying the same test on the residuals of an AR(2) model (to accommodate serial correlation), we obtain a CD value of 87.4, still highly significant. Moreover, the result of the estimation of the exponent of crosssection dependence (introduced by <ref type="bibr" target="#b1">Bailey et al. 2016)</ref> provides clear evidence of strong cross-sectional dependence (the parameter is equal to 1). This result has relevant implications in terms of econometric modeling, underlining the importance of using a proper approach to control for strong cross-sectional dependence (either the CCEP or the PS-ANOVA approach). Nevertheless, net of the effect of common factors (-'strong'-cross-sectional dependence), significant cross-sectional correlation in the data could also be generated by spatial autocorrelation (-'weak'-cross-sectional dependence). From a theoretical point of view, spatial autocorrelation in regional unemployment rates can be justified on the basis of a framework which builds on <ref type="bibr" target="#b5">Blanchard et al. (1992)</ref> regional labor market model, including neighboring effects due to interregional trade, migration, and knowledge spillovers <ref type="bibr" target="#b50">(Zeilstra and Elhorst 2014)</ref>. Starting from a steady-state pattern of regional unemployment, a region-specific shock not only affects the respective labor market, but also spills over to neighboring regions. Given this interdependence, the resulted changes in unemployment in neighboring areas may spill over again to adjacent labor markets, including the location where the shock originated. This implies that the unemployment rate of a particular region is affected not only by its own labor market characteristics, but also by the labor market performance of all other regions. Thus, in principle, we cannot exclude the possibility that potential sources of interaction between regions are both weak -due to, for example commuting flows-, and strong -due to common factors. A joint modeling of weak and strong cross-sectional dependence is, therefore, needed.</p><p>Finally, another important issue is the assessment of the stationarity of regional unemployment data. To this end, we use a panel unit root test proposed by <ref type="bibr" target="#b39">Pesaran (2007)</ref> which is robust against cross-sectional dependence. This test clearly rejects the hypothesis of a unit root at all reasonable significance levels (Table <ref type="table" target="#tab_3">4</ref>). Hence, these results give a strong indication regarding the stationarity of the data once crosssectional dependence is taken into account.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Observable and unobservable determinants</head><p>The unemployment rate can be considered as a reduced form function of a variety of factors affecting labor demand, labor supply and wages. <ref type="foot" target="#foot_4">8</ref> According to the pioneering work of <ref type="bibr" target="#b33">Partridge and Rickman (1997)</ref>, these factors can be broadly categorized as either disequilibrium factors (e.g. employment growth rates) or market equilibrium factors (e.g. industry and services shares, demographic variables and amenities). For the choice of the actual variables in these categories, we take into account the empirical regional unemployment literature. However, our set of variables is limited by data availability. Table <ref type="table" target="#tab_4">5</ref> reports simple descriptive statistics of these variables, while Tables <ref type="table" target="#tab_2">3</ref> and <ref type="table" target="#tab_3">4</ref> show that all of them are affected by significant cross-sectional dependence and, except for serv, they can be considered stationary variables.</p><p>In order to account for regional disequilibrium labor market dynamics, the employment growth rate (empgrowth i,t ) is included in the set of explanatory variables. Obviously, it is expected to have a negative effect on unemployment.</p><p>The other covariates are proxies of equilibrium variables. First of all, differences in the industrial mix should impact the geographical distribution of unemployment. Provinces specializing in a declining economic sector, such as agriculture or indus-try, might show higher structural unemployment rates than provinces specializing in services and construction. The share of employment in agriculture (agri i,t ), in industry (ind i,t ), in services (serv i,t ), and in construction (cons i,t ) over total provincial employment are proxies of the provincial economic structure. However, we excluded ind from our model due to multicollinearity problems.</p><p>The labor force participation rate ( partrate i,t ), i.e. the ratio between the total labor force and the working population (population aged between 16 and 65 years), is used as an indicator of labor supply. The expected sign of its coefficient is not unambiguous. On the one hand, factors determining low participation rates in a particular region also reflect relatively low investments in human capital and low commitment to working life, which make it more likely that people with these characteristics will become unemployed. On the other hand, a positive effect may occur if the growth of the labor force (i.e. young people) outpaces the growth of new jobs (or vacancies).</p><p>As stated above, spatial amenities are considered a compensating differential for the higher probability of unemployment. Variables used to proxy for producer and consumer amenities are largely conditioned by the availability of data, which are usually very scarce. <ref type="foot" target="#foot_5">9</ref> Thus, scholars often introduce spatial fixed effects in the model to control for time-invariant unobservable equilibrium effects (e.g. Ríos 2014). The alternative approach used in the present paper consists of including a spatial trend (i.e. the smooth interaction between latitude and longitude) in the model as a way to clean up the residuals. Specifically, the spatial trend can be regarded as an alternative to the use of individual regional dummies to capture unobserved spatial heterogeneity, as long as said heterogeneity is smoothly distributed over space. Regional dummies peak at significantly higher and lower levels of the mean response variable. If these peaks are smoothly distributed over a two-dimensional surface (i.e. if unobserved spatial heterogeneity is spatially autocorrelated), the smooth spatial trend is able to capture them. This is the case in our empirical application (and, we would argue, in most spatial economic analyses). Figure <ref type="figure">3</ref> shows the maps of the distribution of the spatial fixed effects estimated with different models (the one-way fixed effects model <ref type="bibr">[FE]</ref>, the two-way fixed effects model [FE/TE], the one-way fixed effects SAR model <ref type="bibr">[SAR-FE]</ref>, and the two-way fixed effects SAR model [SAR-FE/TE]). In all cases, the maps do indeed clearly show a smooth distribution of the fixed effects, very similar to the North-South spatial trend described above in Fig. <ref type="figure" target="#fig_1">1</ref>.</p><p>Unobserved common business cycle factors may also influence labor market dynamics with a heterogeneous effect across regions. Some authors include time fixed effects or measures of cyclical output fluctuations (e.g. Ríos 2014) to control for these effects, although the CCEP approach (or a combination of the CCE with a spatial model) is surely a better solution <ref type="bibr" target="#b48">(Vega and Elhorst 2016)</ref>. The PS-ANOVA model with a spatio-Fig. <ref type="figure">3</ref> Maps of spatial fixed effects estimated with models 1, 2, 3 and 4 temporal trend is used here as an alternative model to control for unobserved common factors.</p><p>Finally, we include the spatial lag of the regional unemployment rate ( jt w ij unrate jt ) on the right-hand side of the model. It is important to remark again that this endogenous variable should only capture substantive spatial dependence (i.e. externalities in regional labor markets), which implies that the unemployment rate of a particular region is affected by both its own labor market characteristics and the labor market performance of other regions, rather than spatially correlated unobserved heterogeneity or common time effects.</p><p>A distance-based spatial weights matrix (W ) is used to estimate spatial lag models. A general element of this matrix, w ij , represents a combination of a binary spatial weight based on the critical cut-off criterion and a decreasing function of pure geographical distance, namely the inverse distance function, d ij -1</p><p>:</p><formula xml:id="formula_40">ν i j = d -1 i j / j =i d -1 i j i f 0 &lt; d i j &lt; d * 0 i f i = j or i f d i j &gt; d *</formula><p>where d i j is the great-circle distance between the centroids of provinces i and j. The selected cut-off distance (d * ) corresponds to the minimum distance that allows all provinces to have at least one neighbor. The CD test is Pesaran's cross-sectional dependence test. ρ is the spatial spillover parameter, and φ is the time series correlation coefficient in the noise. The EDF values include the parametric (fixed part in mixed model) and non-parametric (random part in mixed model) for each additive covariate. Therefore, they correspond to the total value of estimated degrees of freedom for each variable. σ 2 is the model variance. BIC is the value of the Bayesian Information Criterion. LM-AR1 test is a Wooldridge-type Lagrange Multiplier test for AR(1) errors ***; **, and * statistical significance at 1%, 5%, and 10%, respectively evidence of cross-dependence disappears. These results strongly confirm the existing literature. However, with the CCEP method, we cannot disentangle strong and weak cross-dependence, that is we cannot assess the presence of spatial interaction (network) effects net of the effect of strong cross-sectional dependence.</p><p>On the other hand, with the spatial lag fixed effects models (SAR-FE and SAR-FE/TE; Models 3 and 4) widely used in the recent applied spatial panel data literature <ref type="bibr" target="#b19">(Elhorst 2014)</ref>, we are implicitly assuming that only weak cross-dependence (i.e. spatial dependence) exists. The CD test for the residuals of models 3 and 4 reveals that the null cannot be rejected, but the ρ parameter is quite high, suggesting that the spatial lag term has likely captured all cross-dependence (both strong and weak). Combining the SAR-FE specification and the CCEP model (Model 6), that is, estimating a linear spatial lag model with interactions between spatial fixed effects and the cross-sectional average of dependent and independent variables, in line with recent contributions <ref type="bibr" target="#b2">(Bai and Li 2013;</ref><ref type="bibr" target="#b44">Shi and Lee 2018;</ref><ref type="bibr" target="#b1">Bailey et al. 2016;</ref><ref type="bibr" target="#b48">Vega and Elhorst 2016)</ref>, we allow for both strong and weak cross-dependence. Indeed, the value of the ρ parameter (0.10) now appears much lower than before, while still remaining statistically significant. This value seems to be much more plausible than those estimated with SAR models, since we believe that most of the cross-sectional dependence in local labor market performance is due to unobserved time-related factors which influence all regions, rather than to unobserved idiosyncratic shocks which propagate to all regions with a distance decay mechanism driven by network relationships. Finally, Model 6 also proves to be more robust against residual serial correlation, as shown by the result of the Wooldridge-type Lagrange Multiplier test for AR(1) errors (LM-AR1) reported in the last column of Table <ref type="table" target="#tab_5">7</ref>, while all other parametric models show a strongly significant error correlation in the residuals. <ref type="foot" target="#foot_6">10</ref>The results of the CD test on the residuals confirm that the smooth spatio-temporal trend (Models 7-14) is able to capture the unobserved cross-sectional dependence and thus represents a valid alternative to the inclusion of cross-sectional averages in the model. <ref type="foot" target="#foot_7">11</ref> With respect to fixed effects models and to CCEP models, the PS-ANOVA models are less affected by the incidental (nuisance) parameter problem as a result of the effective penalizing estimation procedure described in Sect. 3. Indeed, the BIC values of PS-ANOVA models are lower than those computed for any parametric model. The PS-ANOVA model has been estimated by including either linear or nonlinear terms for the explanatory variables, and eventually adding a spatial autoregressive term (Wy) and a serially correlated (AR1) error term. It clearly emerges that the AR1 extension is needed to control for the strong persistence in the residuals. In absolute terms, Model 10 (the PS-ANOVA-SAR-Linear-AR1) shows the best performance with a BIC value of 965, and non-significant cross-sectional dependence and serial correlation in the residuals. Moreover, the ρ parameter estimated with Model 10 (0.08) is statistically significant and very close in magnitude to that estimated with Model 6, confirming the existence of some weak dependence net of the effect of common business cycle effects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.2">Estimation results</head><p>Table <ref type="table" target="#tab_6">8</ref> reports the estimated marginal effects of the linear terms included in models 1-10, along with the associated standard errors. Obviously, for non-SAR models (i.e. models 1, 2, 5, 7, and 8), only direct effects have been reported, with indirect (spatial spillover) effects being equal to zero by construction. For all the SAR specifications direct, indirect and total marginal effects,<ref type="foot" target="#foot_8">foot_8</ref> as well as their standard errors, have been computed using the algorithms discussed in Sect. 2.</p><p>We previously pointed out the evidence of a ρ parameter from SAR-FE (0.55) and SAR-FE/TE (0.28) that is rather high with respect to the values obtained with SAR-CCEP (0.10) and PS-ANOVA-SAR-AR1-Linear (0.08). It is also important to discuss here the consequences of these differences in terms of the magnitude of direct and indirect effects. In particular, in the SAR-FE model the indirect (spillover) effect of any variable is very close to the corresponding direct effect. This would imply that, if there is an idiosyncratic shock in a specific province (for example, an increase in the employment growth rate, i.e. an increase in labor demand), this shock would have the same impact on this province (direct effect) as it does in the rest of the country (spillover effect). Of course, this is implausible, since we would expect a spillover effect to be much lower than a direct effect. By including a time fixed effect in the model (SAR-FE/TE), the spillover effect turns out to be about one third of the direct effect, but it is still very high. Much more reasonable magnitudes of spillover effects (one tenth of the direct effect) emerge once we control for the common factor effects (strong cross-sectional correlation) either through the SAR-CCEP or through the PS-ANOVA-SAR-AR1-Linear model.</p><p>Focusing on Model 10 (PS-ANOVA-SAR-AR1-Linear model), that is, the bestperforming model, the results suggest that there is a clear explanation of unemployment differentials in terms of spatial equilibrium and disequilibrium factors. First, higher employment growth rates lower provincial unemployment rates, as suggested by the disequilibrium approach. Both average direct and indirect marginal effects of the variable empgrowth have a negative sign and are strongly significant, indicating that an increase in the employment growth rate in one region reduces the unemployment rate not only in that region, but also in other regions, with a distance decay effect. However, as observed above, spatial spillovers (indirect effects) appear much lower than direct effects. Second, regional unemployment rates are also positively influenced by labor force participation rates. Both direct and indirect marginal effects of the  variable partr have a positive sign, but again the indirect effects are much lower than the direct effects. The positive impact of the participation rate along with the negative effect of the employment growth rate suggests, in particular, that labor market conditions in the South have worsened as a result of a growth in the labor force (i.e. more young people) that has outpaced the growth of new jobs (or vacancies). It is worth noting that the coefficients of empgrowth and partrate in Model 10 are very close in magnitude to those in Model 6, confirming that the SAR-CCEP and the PS-ANOVA-SAR-AR1-Linear model behave very similarly. Third, the coefficients of the regressors related to the structure of the economy are not stable across the various model specifications. In particular, they lose statistical significance once we control for the effect of common factors. Finally, Figs. 4 and 5 report the yearly estimated spatial trend maps, and the regionspecific time trends, respectively, from Model 10. The maps clearly show that, even after controlling for the role of equilibrium and disequilibrium factors, the spatial distribution of expected regional unemployment rates remains persistently characterized by a strong North-South spatial trend; the estimated region-specific temporal trends also confirm the presence of common business cycles factors heterogeneously affecting all the regions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusions</head><p>Many large spatial panel data sets used in cross-regional and cross-country empirical analyses exhibit cross-sectional dependence which may arise from both spatial spillovers and common factors. Spatial spillovers are the results of local interactions and are thus classified as weak dependence effects. Common factors, on the other hand, represent latent economic-wide technological and/or demand shocks, heterogeneously affecting the dynamics in all the different regions and are thus classified as strong dependence effects.</p><p>In the present paper, we propose a wide class of models called spatio-temporal autoregressive semiparametric models (PS-SAR-ANOVA-AR1), including a nonparametric spatio-temporal trend, a spatial lag of the dependent variable, and a time series autoregressive noise. Using generated data, we have illustrated the relative small sample properties of the PS-ANOVA-SAR(AR1) model as compared to alternative DGPs such as spatial panel data models. Simulation results indicate that the PS-ANOVA-SAR(AR1) model represents a competitive alternative to parametric methods (such as the SAR-CCEP model) for estimating model parameters in the presence of time-invariant (i.e. spatial fixed effects) and time-varying unobserved heterogeneity (i.e. common factor effects) as long as both types of unobserved effects are smoothly distributed across time and space (which is quite commonly the case in regional economic analyses). More specifically, we show that the spatio-temporal trend can be interpreted as an alternative to the use of cross-sectional averages of the observations to capture the heterogeneous effect of unobserved common factors when the spatio-temporal heterogeneity is smoothly distributed.</p><p>The models proposed do not impose a predetermined structure to capture weak and strong dependence; the ANOVA decomposition of the spatio-temporal trend into a spatial trend, a time trend, and second-and third-order interactions works effectively to control for both unobserved spatial heterogeneity and unobserved common factors. Thus, the inclusion of the ANOVA decomposition of the spatio-temporal trend helps us to interpret the evidence of significant spatial spillovers as weak cross-dependence net of common effects (strong dependence). With respect to the fully parametric approaches (such as the CCEP and the SAR-CCEP models), our framework does not involve the estimation of a large number of incidental parameters. A further advantage of our approach is that it allows for non-linear relationships between the covariates and the response.</p><p>Although PS-ANOVA-SAR(AR1) models can be applied to any type of large spatial panels, we have focused on their performance in the analysis of regional economic data. In particular, we have implemented this new framework using real data on unemployment rates in Italy. The econometric results show that the PS-ANOVA-SAR-AR1 performs better than several competing parametric and nonparametric models both in terms of model fitting and diagnostics of the residuals. In particular, the spatio-temporal trend effectively captures the strong cross-sectional dependence (due to common factors), while the parameter associated with the spatial lag term reveals the existence of significant spatial spillovers net of the effect of the observed and unobserved common factors.</p><p>As a concluding remark, it is worth noting that regional unemployment rates, like many other regional and national economic variables, are typically characterized by strong persistence over time. Thus, in order to control for serial correlation, we have extended our model by including an auto-regressive (AR1) error term. In line with <ref type="bibr" target="#b7">Chudik and Pesaran (2015)</ref>, which have developed a CCEP estimator for dynamic panel data models, our future research includes the extension of the PS-ANOVA-SAR model to a dynamic specification. We believe that this dynamic setting would not imply an increase in the number of incidental parameters, and it could be a very promising alternative when dealing with spatio-temporal panels not very large in temporal dimension. </p><formula xml:id="formula_41">-1 N W N ) = 0 ∂l(.) ∂φ = - 1 2 trace P ∂V ∂φ -(A N ⊗ I T ) y -X β V -1 × ∂V ∂φ V -1 (A N ⊗ I T ) y -X β = 0</formula><p>where:</p><formula xml:id="formula_42">∂V ∂φ = ∂ ZGZ + σ 2 1-φ 2 (I N ⊗ Ω) ∂φ = ⎛ ⎝ I N ⊗ ∂ ( σ 2 1-φ 2 )Ω ∂φ ⎞ ⎠</formula><p>and 6. Set k = k + 1 and go to step (2) until convergence.</p><p>Once the convergence is obtained, the effective degrees of freedom of the model can be estimated as:</p><formula xml:id="formula_43">edf = i ed (k) i + rank(X) + 2</formula><p>This quantity is increased by two units with respect to spatio-temporal smooth models because of the need to estimate ρ and φ parameters.</p><p>To obtain the covariance matrix of the estimates, we need the hessian matrix of REML function with respect to ρ and φ parameters given by the expressions:</p><formula xml:id="formula_44">∂ 2 l(.) ∂ρ 2 = -y W N ⊗ I T P (W N ⊗ I T ) y -T trace (A -1 N W N ) 2 ∂ 2 l(.) ∂φ 2 = - 1 2 ⎧ ⎨ ⎩ ∂trace P ∂V ∂φ ∂φ -(A N ⊗ I T ) y -X β × ∂ V -1 ∂V ∂φ V -1 ∂φ (A N ⊗ I T ) y -X β ⎫ ⎬ ⎭ ∂ 2 l(.) ∂φ∂ρ = y W N ⊗ I T V -1 ∂V ∂φ V -1 (A N ⊗ I T ) y -X β</formula><p>where:</p><formula xml:id="formula_45">∂trace P ∂V ∂φ ∂φ = trace ∂(P ∂V ∂φ ) ∂φ = trace ∂P ∂φ ∂V ∂φ + P ∂ 2 V ∂φ 2 ∂V ∂φ = ⎛ ⎜ ⎝IN ⊗ ∂ ( σ 2 1-φ 2 )Ω ∂φ ⎞ ⎟ ⎠ ∂ 2 V ∂φ 2 = ⎛ ⎜ ⎝IN ⊗ ∂ 2 ( σ 2 1-φ 2 )Ω ∂φ 2 ⎞ ⎟ ⎠ ∂P ∂φ = -V -1 ∂V ∂φ V -1 --V -1 ∂V ∂φ V -1 X(X V -1 X) -1 X V -1 + V -1 X(X V -1 X) -1 X V -1 ∂V ∂φ V -1 X(X V -1 X) -1 X V -1 -V -1 X(X V -1 X) -1 X V -1 ∂V ∂φ V -1</formula><p>These expressions can be evaluated at maximum of REML function to obtain the negative of the hessian matrix. The inverse of this matrix provides the asymptotic covariance matrix in the usual way.</p><p>Eventually the covariance matrix of ρ and φ, jointly with the covariance matrix of the regression parameters β and α given by Cov(β, α) = C -1 (see Sect. 3), can be used to obtain the simulated distributions of total, direct and indirect effects as explained in Sect. 2. As usual, REML estimates are asymptotically unbiased and gaussian distributed.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>[0.05, 0.95]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Spatial trend of provincial unemployment rates. To simulate a continuous trend, shades of grey are assigned to each percentile. Darker regions are those with higher unemployment rates</figDesc><graphic coords="21,91.38,56.12,255.16,157.84" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 2</head><label>2</label><figDesc>Fig. 2 Time trend of provincial unemployment rates: 1996-2014</figDesc><graphic coords="21,53.40,253.19,331.72,172.24" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4</head><label>4</label><figDesc>Fig. 4 Spatial trends of unrate in 1996 and 2014 for the spatio-temporal ANOVA SAR Model with linear terms and AR(1) in the noise (Model 10)</figDesc><graphic coords="31,53.40,56.87,331.72,197.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 5</head><label>5</label><figDesc>Fig. 5 Regional time trends estimated by the Spatio-Temporal ANOVA SAR with linear terms and AR(1) in the noise (Model 10)</figDesc><graphic coords="32,105.90,56.12,226.84,199.84" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>5.</head><figDesc>Estimate the spatial parameter ρ(k+1) and serial correlation parameter φ(k+1) solving numerically the non-linear equations obtained by equating to zero the score of REML function with respect to ρ and φ respectively (this additional step is the only difference with respect to the usual SAP algorithm):((A N ⊗ I T )y) ∂(A N ⊗ I T ) ∂ρ y + trace (A N ⊗ I T ) -1 ∂(A N ⊗ I T ) ∂ρ = y (A N ⊗ I T ) P(k) (W N ⊗ I T )y -T trace(A</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><graphic coords="25,53.40,56.12,331.72,340.84" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Spatio-temporal competing models</figDesc><table><row><cell>Model I</cell><cell>Model with unobserved common effects (CCEP)</cell></row><row><cell>Model II</cell><cell>SAR model with unobserved common effects (SAR-CCEP)</cell></row><row><cell>Model III</cell><cell>Spatio-temporal model (PS-ANOVA)</cell></row><row><cell>Model IV</cell><cell>Spatio-temporal SAR model (PS-ANOVA-SAR)</cell></row><row><cell>Model V</cell><cell>Spatio-temporal SAR-AR(1) model (PS-ANOVA-SAR-AR1)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2</head><label>2</label><figDesc>Bias and root-mean-square-error (RMSE)</figDesc><table><row><cell></cell><cell>Model</cell><cell>I</cell><cell>II</cell><cell>III</cell><cell>IV</cell><cell>V</cell></row><row><cell>β 1</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>DGP 1</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>ρ = 0</cell><cell>Bias</cell><cell>0.0018</cell><cell>0.0015</cell><cell>0.0440</cell><cell>0.0387</cell><cell>0.0515</cell></row><row><cell></cell><cell>RMSE</cell><cell>0.0285</cell><cell>0.0284</cell><cell>0.0557</cell><cell>0.0500</cell><cell>0.0608</cell></row><row><cell>ρ = 0.5</cell><cell>Bias</cell><cell>0.0512</cell><cell>0.0026</cell><cell>0.1047</cell><cell>0.0144</cell><cell>0.0088</cell></row><row><cell></cell><cell>RMSE</cell><cell>0.0613</cell><cell>0.0287</cell><cell>0.1198</cell><cell>0.0333</cell><cell>0.0386</cell></row><row><cell>DGP 2</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>ρ = 0</cell><cell>Bias</cell><cell>0.0005</cell><cell>0.0062</cell><cell>0.0027</cell><cell>-0.0112</cell><cell>0.0029</cell></row><row><cell></cell><cell>RMSE</cell><cell>0.0395</cell><cell>0.0346</cell><cell>0.0274</cell><cell>0.0319</cell><cell>0.0160</cell></row><row><cell>ρ = 0.5</cell><cell>Bias</cell><cell>0.0485</cell><cell>-0.0256</cell><cell>0.0024</cell><cell>0.0063</cell><cell>0.0024</cell></row><row><cell></cell><cell>RMSE</cell><cell>0.0840</cell><cell>0.0435</cell><cell>0.0363</cell><cell>0.0280</cell><cell>0.0162</cell></row><row><cell>β 2</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>DGP 1</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>ρ = 0</cell><cell>Bias</cell><cell>-0.0006</cell><cell>-0.0010</cell><cell>-0.0034</cell><cell>-0.0011</cell><cell>-0.0200</cell></row><row><cell></cell><cell>RMSE</cell><cell>0.0262</cell><cell>0.0264</cell><cell>0.0327</cell><cell>0.0306</cell><cell>0.0396</cell></row><row><cell>ρ = 0.5</cell><cell>Bias</cell><cell>0.0497</cell><cell>0.0008</cell><cell>0.0310</cell><cell>-0.0120</cell><cell>-0.0505</cell></row><row><cell></cell><cell>RMSE</cell><cell>0.0632</cell><cell>0.0305</cell><cell>0.0630</cell><cell>0.0322</cell><cell>0.0627</cell></row><row><cell>ρ</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>DGP 1</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>ρ = 0</cell><cell>Bias</cell><cell></cell><cell>-0.0125</cell><cell></cell><cell>0.1903</cell><cell>0.3666</cell></row><row><cell></cell><cell>RMSE</cell><cell></cell><cell>0.0374</cell><cell></cell><cell>0.2053</cell><cell>0.3750</cell></row><row><cell>ρ = 0.5</cell><cell>Bias</cell><cell></cell><cell>-0.0137</cell><cell></cell><cell>0.1318</cell><cell>0.2220</cell></row><row><cell></cell><cell>RMSE</cell><cell></cell><cell>0.0286</cell><cell></cell><cell>0.1404</cell><cell>0.2320</cell></row><row><cell>DGP 2</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>ρ = 0</cell><cell>Bias</cell><cell></cell><cell>0.4311</cell><cell></cell><cell>-0.2074</cell><cell>0.0063</cell></row><row><cell></cell><cell>RMSE</cell><cell></cell><cell>0.4353</cell><cell></cell><cell>0.2150</cell><cell>0.0224</cell></row><row><cell>ρ = 0.5</cell><cell>Bias</cell><cell></cell><cell>0.2589</cell><cell></cell><cell>-0.1454</cell><cell>-0.0006</cell></row><row><cell></cell><cell>RMSE</cell><cell></cell><cell>0.2606</cell><cell></cell><cell>0.1512</cell><cell>0.0132</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3</head><label>3</label><figDesc>Cross-sectional dependence test</figDesc><table><row><cell></cell><cell>Without controlling for</cell><cell>Controlling for</cell></row><row><cell></cell><cell>serial correlation</cell><cell>serial correlation</cell></row><row><cell>Unemployment rate (unrate)</cell><cell>180.7***</cell><cell>87.4***</cell></row><row><cell>Employment growth rate (enpgrow)</cell><cell>54.1***</cell><cell>58.7***</cell></row><row><cell>Participation rate (partrate)</cell><cell>36.8***</cell><cell>25.9***</cell></row><row><cell>Agriculture (agri)</cell><cell>238.8***</cell><cell>106.9***</cell></row><row><cell>Industry (ind)</cell><cell>248.9***</cell><cell>262.0***</cell></row><row><cell>Construction (cons)</cell><cell>69.7***</cell><cell>28.6***</cell></row><row><cell>Services (serv)</cell><cell>185.8***</cell><cell>22.2***</cell></row><row><cell cols="2">***; ** and * significance at 1%, 5% and 10%, respectively</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4</head><label>4</label><figDesc>IPS panel unit root tests robust against cross-sectional dependence</figDesc><table><row><cell></cell><cell>None</cell><cell>Drift</cell><cell>Drift and trend</cell></row><row><cell>Unemployment rate (unrate)</cell><cell>-1.462*</cell><cell>-2.387***</cell><cell>-10.109***</cell></row><row><cell>Employment growth rate (enpgrow)</cell><cell>-1.871***</cell><cell>-2.581***</cell><cell>-2.700**</cell></row><row><cell>Participation rate (partrate)</cell><cell>-1.309</cell><cell>-1.905</cell><cell>-8.974***</cell></row><row><cell>Agriculture (agri)</cell><cell>-1.713***</cell><cell>-2.670***</cell><cell>-10.550***</cell></row><row><cell>Industry (ind)</cell><cell>-1.830***</cell><cell>-2.47***</cell><cell>-8.955***</cell></row><row><cell>Construction (cons)</cell><cell>-1.786***</cell><cell>-1.899</cell><cell>-5.274***</cell></row><row><cell>Services (serv)</cell><cell>-1.379</cell><cell>-1.408</cell><cell>-2.454</cell></row><row><cell cols="2">Deterministic components: none, drift, drift and trend</cell><cell></cell><cell></cell></row><row><cell cols="2">***; ** and * significance at 1%, 5% and 10%, respectively</cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5</head><label>5</label><figDesc>Summary statistics</figDesc><table><row><cell>Variable</cell><cell>Min</cell><cell>1st qu.</cell><cell>Median</cell><cell>Mean</cell><cell>3rd qu.</cell><cell>Max</cell><cell>SD</cell></row><row><cell>unrate</cell><cell>1.33</cell><cell>4.78</cell><cell>7.71</cell><cell>9.23</cell><cell>12.50</cell><cell>32.72</cell><cell>5.65</cell></row><row><cell>empgrowth</cell><cell>-14.68</cell><cell>-1.54</cell><cell>0.40</cell><cell>0.37</cell><cell>2.27</cell><cell>13.91</cell><cell>3.21</cell></row><row><cell>agri</cell><cell>0.05</cell><cell>3.52</cell><cell>6.80</cell><cell>7.77</cell><cell>10.99</cell><cell>30.57</cell><cell>5.30</cell></row><row><cell>ind</cell><cell>5.54</cell><cell>13.57</cell><cell>20.53</cell><cell>21.32</cell><cell>27.96</cell><cell>46.33</cell><cell>9.22</cell></row><row><cell>cons</cell><cell>3.59</cell><cell>6.71</cell><cell>7.75</cell><cell>7.83</cell><cell>8.77</cell><cell>14.68</cell><cell>1.64</cell></row><row><cell>serv</cell><cell>45.09</cell><cell>58.75</cell><cell>63.96</cell><cell>64.27</cell><cell>69.51</cell><cell>86.09</cell><cell>7.88</cell></row><row><cell>partrate</cell><cell>27.04</cell><cell>37.73</cell><cell>42.85</cell><cell>41.52</cell><cell>45.16</cell><cell>53.19</cell><cell>4.70</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 7</head><label>7</label><figDesc>Model selection and diagnostics</figDesc><table><row><cell>Model</cell><cell>CD test</cell><cell>rho</cell><cell>phi</cell><cell>EDF</cell><cell>σ 2</cell><cell>BIC</cell><cell>LM-AR1 test</cell></row><row><cell cols="3">Parametric models ( p values in parenthesis)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Model 1</cell><cell>139.57***</cell><cell></cell><cell></cell><cell>108.00</cell><cell>6.01</cell><cell>4225.60</cell><cell>4538.37***</cell></row><row><cell></cell><cell>(0.00)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 2</cell><cell>2.67***</cell><cell></cell><cell></cell><cell>126.00</cell><cell>3.29</cell><cell>3161.00</cell><cell>1746.82***</cell></row><row><cell></cell><cell>(0.01)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 3</cell><cell>-0.61</cell><cell>0.55***</cell><cell></cell><cell>109.00</cell><cell>3.53</cell><cell>3188.10</cell><cell>16.92***</cell></row><row><cell></cell><cell>(0.54)</cell><cell>(0.00)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 4</cell><cell>-0.09</cell><cell>0.28***</cell><cell></cell><cell>127.00</cell><cell>2.94</cell><cell>2951.30</cell><cell>12.02***</cell></row><row><cell></cell><cell>(0.92)</cell><cell>(0.00)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 5</cell><cell>-0.67</cell><cell></cell><cell></cell><cell>726.00</cell><cell>1.03</cell><cell>4666.00</cell><cell>18.53***</cell></row><row><cell></cell><cell>(0.50)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 6</cell><cell>-0.41</cell><cell>0.10***</cell><cell></cell><cell>727.00</cell><cell>1.02</cell><cell>4649.45</cell><cell>3.97**</cell></row><row><cell></cell><cell>(0.68)</cell><cell>(0.00)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.05)</cell></row><row><cell cols="4">Spatio-temporal models ( p values in parenthesis)</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Model 7</cell><cell>-0.31</cell><cell></cell><cell></cell><cell>143.15</cell><cell>2.43</cell><cell>2679.19</cell><cell>548.8***</cell></row><row><cell></cell><cell>(0.76)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 8</cell><cell>-1.59</cell><cell></cell><cell>0.901***</cell><cell>46.37</cell><cell>1.44</cell><cell>1031.89</cell><cell>1.09</cell></row><row><cell></cell><cell>(0.11)</cell><cell></cell><cell>(0.00)</cell><cell></cell><cell></cell><cell></cell><cell>(0.30)</cell></row><row><cell>Model 9</cell><cell>-0.32</cell><cell>-0.021</cell><cell></cell><cell>145.25</cell><cell>2.42</cell><cell>2688.94</cell><cell>541.12***</cell></row><row><cell></cell><cell>(0.75)</cell><cell>(0.51)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 10</cell><cell>-1.64</cell><cell>0.084***</cell><cell>0.897***</cell><cell>46.36</cell><cell>1.44</cell><cell>1026.83</cell><cell>1.196</cell></row><row><cell></cell><cell>(0.10)</cell><cell>(0.00)</cell><cell>(0.00)</cell><cell></cell><cell></cell><cell></cell><cell>(0.27)</cell></row><row><cell>Model 11</cell><cell>0.07</cell><cell></cell><cell></cell><cell>171.95</cell><cell>2.10</cell><cell>2578.75</cell><cell>458.02***</cell></row><row><cell></cell><cell>(0.94)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 12</cell><cell>-1.04</cell><cell></cell><cell>0.904***</cell><cell>72.19</cell><cell>1.36</cell><cell>1077.89</cell><cell>0.994</cell></row><row><cell></cell><cell>(0.30)</cell><cell></cell><cell>(0.00)</cell><cell></cell><cell></cell><cell></cell><cell>(0.32)</cell></row><row><cell>Model 13</cell><cell>0.07</cell><cell>-0.003</cell><cell></cell><cell>173.14</cell><cell>2.10</cell><cell>2586.66</cell><cell>457.1***</cell></row><row><cell></cell><cell>(0.94)</cell><cell>(0.92)</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>(0.00)</cell></row><row><cell>Model 14</cell><cell>-1.11</cell><cell>0.065**</cell><cell>0.903***</cell><cell>71.95</cell><cell>1.35</cell><cell>1071.30</cell><cell>1.01</cell></row><row><cell></cell><cell>(0.27)</cell><cell>(0.00)</cell><cell>(0.00)</cell><cell></cell><cell></cell><cell></cell><cell>(0.31)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 8</head><label>8</label><figDesc>Direct, indirect and total marginal effects</figDesc><table><row><cell>Model</cell><cell></cell><cell>empgr.</cell><cell>partr.</cell><cell>agri</cell><cell>cons</cell><cell>serv</cell></row><row><cell>Model 1</cell><cell>Direct</cell><cell>-0.241***</cell><cell>0.591***</cell><cell>-0.116***</cell><cell>-0.906***</cell><cell>-0.060*</cell></row><row><cell></cell><cell></cell><cell>(0.019)</cell><cell>(0.037)</cell><cell>(0.043)</cell><cell>(0.061)</cell><cell>(0.032)</cell></row><row><cell>Model 2</cell><cell>Direct</cell><cell>-0.168***</cell><cell>0.577***</cell><cell>0.051</cell><cell>-0.092*</cell><cell>0.137***</cell></row><row><cell></cell><cell></cell><cell>(0.015)</cell><cell>(0.029)</cell><cell>(0.036)</cell><cell>(0.053)</cell><cell>(0.029)</cell></row><row><cell>Model 3</cell><cell>Direct</cell><cell>-0.187***</cell><cell>0.473***</cell><cell>-0.080***</cell><cell>-0.646***</cell><cell>-0.059**</cell></row><row><cell></cell><cell></cell><cell>(0.015)</cell><cell>(0.033)</cell><cell>(0.033)</cell><cell>(0.055)</cell><cell>(0.027)</cell></row><row><cell></cell><cell>Indirect</cell><cell>-0.177***</cell><cell>0.447***</cell><cell>-0.075***</cell><cell>-0.611***</cell><cell>-0.056**</cell></row><row><cell></cell><cell></cell><cell>(0.017)</cell><cell>(0.044)</cell><cell>(0.032)</cell><cell>(0.067)</cell><cell>(0.026)</cell></row><row><cell></cell><cell>Total</cell><cell>-0.365***</cell><cell>0.920***</cell><cell>-0.155***</cell><cell>-1.256***</cell><cell>-0.115***</cell></row><row><cell></cell><cell></cell><cell>(0.030)</cell><cell>(0.073)</cell><cell>(0.065)</cell><cell>(0.118)</cell><cell>(0.054)</cell></row><row><cell>Model 4</cell><cell>Direct</cell><cell>-0.161***</cell><cell>0.520***</cell><cell>0.003</cell><cell>-0.139***</cell><cell>0.104***</cell></row><row><cell></cell><cell></cell><cell>(0.014)</cell><cell>(0.029)</cell><cell>(0.036)</cell><cell>(0.052)</cell><cell>(0.027)</cell></row><row><cell></cell><cell>Indirect</cell><cell>-0.055***</cell><cell>0.179***</cell><cell>0.001</cell><cell>-0.048***</cell><cell>0.036***</cell></row><row><cell></cell><cell></cell><cell>(0.008)</cell><cell>(0.021)</cell><cell>(0.013)</cell><cell>(0.018)</cell><cell>(0.010)</cell></row><row><cell></cell><cell>Total</cell><cell>-0.217***</cell><cell>0.699***</cell><cell>0.004</cell><cell>-0.187***</cell><cell>0.140***</cell></row><row><cell></cell><cell></cell><cell>(0.020)</cell><cell>(0.045)</cell><cell>(0.049)</cell><cell>(0.070)</cell><cell>(0.036)</cell></row><row><cell>Model 5</cell><cell>Direct</cell><cell>-0.184***</cell><cell>0.570***</cell><cell>0.054</cell><cell>0.048</cell><cell>-0.013</cell></row><row><cell></cell><cell></cell><cell>(0.011)</cell><cell>(0.036)</cell><cell>(0.057)</cell><cell>(0.071)</cell><cell>(0.043)</cell></row><row><cell>Model 6</cell><cell>Direct</cell><cell>-0.181***</cell><cell>0.570***</cell><cell>0.047</cell><cell>0.038</cell><cell>-0.016</cell></row><row><cell></cell><cell></cell><cell>(0.008)</cell><cell>(0.028)</cell><cell>(0.042)</cell><cell>(0.057)</cell><cell>(0.036)</cell></row><row><cell></cell><cell>Indirect</cell><cell>-0.018***</cell><cell>0.058***</cell><cell>0.005</cell><cell>0.004</cell><cell>-0.002</cell></row><row><cell></cell><cell></cell><cell>(0.005)</cell><cell>(0.017)</cell><cell>(0.004)</cell><cell>(0.006)</cell><cell>(0.004)</cell></row><row><cell></cell><cell>Total</cell><cell>-0.200***</cell><cell>0.628***</cell><cell>0.052</cell><cell>0.042</cell><cell>-0.018</cell></row><row><cell></cell><cell></cell><cell>(0.011)</cell><cell>(0.036)</cell><cell>(0.046)</cell><cell>(0.063)</cell><cell>(0.040)</cell></row><row><cell>Model 7</cell><cell>Direct</cell><cell>-0.116***</cell><cell>0.213***</cell><cell>0.044**</cell><cell>-0.024</cell><cell>0.060***</cell></row><row><cell></cell><cell></cell><cell>(0.013)</cell><cell>(0.027)</cell><cell>(0.018)</cell><cell>(0.042)</cell><cell>(0.012)</cell></row><row><cell>Model 8</cell><cell>Direct</cell><cell>-0.194***</cell><cell>0.636***</cell><cell>-0.026</cell><cell>0.022</cell><cell>0.051**</cell></row><row><cell></cell><cell></cell><cell>(0.008)</cell><cell>(0.030)</cell><cell>(0.030)</cell><cell>(0.045)</cell><cell>(0.022)</cell></row><row><cell>Model 9</cell><cell>Direct</cell><cell>-0.116***</cell><cell>0.213***</cell><cell>0.044**</cell><cell>-0.022</cell><cell>0.059***</cell></row><row><cell></cell><cell></cell><cell>(0.013)</cell><cell>(0.028)</cell><cell>(0.018)</cell><cell>(0.040)</cell><cell>(0.012)</cell></row><row><cell></cell><cell>Indirect</cell><cell>0.0022</cell><cell>-0.004</cell><cell>-0.0008</cell><cell>0.0004</cell><cell>-0.001</cell></row><row><cell></cell><cell></cell><cell>(0.004)</cell><cell>(0.007)</cell><cell>(0.0016)</cell><cell>(0.0016)</cell><cell>(0.002)</cell></row><row><cell></cell><cell>Total</cell><cell>-0.114***</cell><cell>0.209***</cell><cell>0.044**</cell><cell>-0.022</cell><cell>0.059***</cell></row><row><cell></cell><cell></cell><cell>(0.013)</cell><cell>(0.028)</cell><cell>(0.018)</cell><cell>(0.040)</cell><cell>(0.012)</cell></row><row><cell>Model 10</cell><cell>Direct</cell><cell>-0.194***</cell><cell>0.638***</cell><cell>-0.025</cell><cell>0.024</cell><cell>0.052**</cell></row><row><cell></cell><cell></cell><cell>(0.008)</cell><cell>(0.030)</cell><cell>(0.032)</cell><cell>(0.045)</cell><cell>(0.022)</cell></row><row><cell></cell><cell>Indirect</cell><cell>-0.018***</cell><cell>0.058***</cell><cell>-0.002</cell><cell>0.002</cell><cell>0.0047*</cell></row><row><cell></cell><cell></cell><cell>(0.006)</cell><cell>(0.020)</cell><cell>(0.003)</cell><cell>(0.004)</cell><cell>(0.0026)</cell></row><row><cell></cell><cell>Total</cell><cell>-0.212***</cell><cell>0.696***</cell><cell>-0.028</cell><cell>0.026</cell><cell>0.056**</cell></row><row><cell></cell><cell></cell><cell>(0.010)</cell><cell>(0.039)</cell><cell>(0.035)</cell><cell>(0.049)</cell><cell>(0.024)</cell></row></table><note><p>Standard errors (in parenthesis). For the SAR model, standard errors are computed using Monte Carlo simulations following the method discussed in Sect. 2 ***; **, and * statistical significance at 1%, 5%, and 10%, respectively</p></note></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_0"><p>To install any R package from GitHub you need to have previously installed devtools package from CRAN. Then execute the commands library(devtools), to load devtools, and install github("rominsal/sptpsar") to install sptpsar package.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>It is assumed than for W N row-standardized, |ρ| &lt; 1 so that this serial expansion holds.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>The assumption of fixed β parameters can be relaxed, and a random coefficient specification can be assumed: β i = β + u i , with u i ∼ i.i.d.(0, u ). In this case the estimator proposed by<ref type="bibr" target="#b38">Pesaran (2006)</ref> is the common correlated effects mean group (CCEMG) estimator. We do not employ this extension in our analysis.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_3"><p>All variables involved, both observable and latent, are stationary in the simulations. The analysis of the statistical properties of the proposed estimator under the assumption of nonstationarity is a subject of current research.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_4"><p>If some of these covariates were considered as endogeneous, the methodology outlined in Sect. 3 can be extended using the control function approach, as explained in<ref type="bibr" target="#b4">Basile et al. (2014)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="9" xml:id="foot_5"><p>In addition, there are many other equilibrium and disequilibrium variables affecting regional unemployment differentials. These include, for example, demographic factors (workers migration, commuting, age structure of the population and human capital variables), and institutional factors (unemployment benefits, tax wedge, employment protection legislation, collective bargaining labor relations, and so on). Valid measures for all these variables are often difficult to find at the adopted spatial unit level of the analysis. This means that there is a huge amount of spatial unobserved heterogeneity when modeling regional unemployment rates.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10" xml:id="foot_6"><p>Testing error persistence in the case of fixed effects models (like Models 1-6) is complicated by the 'artificial' serial correlation induced by time-demeaning. In fact, if the original errors are serially uncorrelated, the transformed ones are negatively serially correlated with coefficient -1/(T -1). Thus, following<ref type="bibr" target="#b30">Millo (2015)</ref>, the null hypothesis for the Wooldridge-type test of serial correlation in the case of Models 1-6 is H 0 : ψ = -1/(T -1), while in the case of Models 7-14 (which do not include fixed effects) is simply H 0 : ψ = 0.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="11" xml:id="foot_7"><p>All the computations for smooth spatio-temporal models have been made with the R package sptpsar available in github (https://github.com/rominsal/sptpsar).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="12" xml:id="foot_8"><p>It is worth noticing that the ratio between the indirect effect and the direct effect is the same for every explanatory variables in Table8. This is the consequence of the SAR specification, where we only consider a spatial lag in the dependent variable, and not in the independent variables. As well known<ref type="bibr" target="#b19">(Elhorst 2014)</ref>, a Spatial Durbin specification, including also WX terms, would allow for different ratios between direct and indirect effects across the different explanatory variables. First of all, we must observe that this generalization (i.e. the inclusion of WX terms) does not have any effect on the estimators (either SAR-CCEP or PS-ANOVA-SAR). Indeed, as it is well known, we might define a larger matrix including both X and WX terms, and transform the Durbin specification into a SAR model. Second, in our empirical case, we have tried to estimate a Spatial Durbin version of the regional unemployment model, but the WX terms did not enter significantly the model. However, this is not surprising since the WX terms mainly work to capture unobserved heterogeneity in cross-sectional settings. In panel data settings, when unobserved heterogeneity is properly captured through other tools (fixed effects or smooth trends), the spatial lags of the exogenous variables often lose their relevance.</p></note>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><p>Funding Funding was provided by <rs type="funder">Ministerio de Economía, Industria y Competitividad, Gobierno de España</rs> (Grant Nos. <rs type="grantNumber">MTM2014-52184</rs> and <rs type="grantNumber">ECO2015-65826-P</rs>) and Grant <rs type="grantNumber">2019-GRIN-26913</rs> provided by the <rs type="funder">University of Castilla-La Mancha</rs> (<rs type="affiliation">UCLM</rs>) and the <rs type="funder">European Fund for Regional Development (EFRD)</rs> to the <rs type="programName">Research Group "Applied Economics and Quantitative Methods</rs>".</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_sNHydz8">
+					<idno type="grant-number">MTM2014-52184</idno>
+				</org>
+				<org type="funding" xml:id="_cwMYWGG">
+					<idno type="grant-number">ECO2015-65826-P</idno>
+				</org>
+				<org type="funding" xml:id="_5qtQVhw">
+					<idno type="grant-number">2019-GRIN-26913</idno>
+				</org>
+				<org type="funding" xml:id="_fdKt2aB">
+					<orgName type="program" subtype="full">Research Group &quot;Applied Economics and Quantitative Methods</orgName>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Econometric results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3.1">Model selection and diagnostics</head><p>We use the data described above to compare the performance of PS-ANOVA-SAR(AR1) specifications with that of different competing parametric and semiparametric models in terms of: i) goodness of fit, by means of a BIC criterion defined as BIC=Residual sum of squares+ log(N × T ) × E DF, where E DF corresponds to the number of parameters fitted in the case of parametric models, and to the effective dimension of the model defined in "Appendix B" in the case of models with non-parametric smooth terms; and ii) residual diagnostics, focusing on the tests for cross-sectional dependence, and for serial correlation (see Table <ref type="table" target="#tab_7">6</ref> for the complete list of models).</p><p>The most restricted specifications are the parametric one-way (FE) and twoway (FE/TE) fixed effects models (Models 1 and 2), estimated using the standard within-group estimator. Clearly, they cannot capture the presence of cross-sectionally correlated error terms, either strong or weak, as indicated by the results of the CD test (Table <ref type="table">7</ref>). Using the CCEP estimator proposed by <ref type="bibr" target="#b38">Pesaran (2006)</ref> (Model 5), the </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A: Penalized splines as mixed models</head><p>Given the model:</p><formula xml:id="formula_46">y i = f (x i ) + ε i ε ∼ N(0,σ 2 I),</formula><p>using the penalized regression approach we have (in matrix form):</p><formula xml:id="formula_47">y = Bθ + , ∼ N(0,σ 2 I),</formula><p>where B is a matrix of B-spline bases, and θ a vector of regression parameters to be estimated via penalized sum of squares:</p><formula xml:id="formula_48">(y -Bθ) (y -Bθ) + θ Pθ.</formula><p>The reformulation of a P-spline into a mixed model can be viewed as a reparameterization of the original non-parametric model; B-spline bases are transformed into a new model basis, i.e. B → [X : Z], and coefficients θ → (β, α) . Hence, this representation decomposes the fitted values into the sum of a polynomial (unpenalized) part (Xβ) and a nonlinear (penalized) (Zα) smooth term. To carry out this transformation, we need to find an (orthogonal) transformation matrix T, so that BT = [X : Z] and T θ = (β, α) . There are several possibilities for this matrix; we choose one based on the singular value decomposition of the penalty matrix P = λD D, that is:</p><formula xml:id="formula_49">D D = U U ,</formula><p>where is a diagonal matrix that contains the eigenvalues of D D, with 2 zero eigenvalues, and U is the corresponding matrix of eigenvectors that can be decomposed into two parts: U n of dimension c × 2 containing the null-part eigenvectors and U s of dimension c × (c -2) (where c is the rank of the basis and 2 the order of the penalty) with non-null-part eigenvectors. Note that we can write as = blockdiag 0 2 , Σ , where Σ is a diagonal matrix that contains the non-zero eigenvalues of D D and 0 2 is a 2 × 2 matrix of zeroes. Therefore, we define the transformation matrix T as:</p><formula xml:id="formula_50">T = [U n : U s Σ-1/2 ],</formula><p>where the fixed and random effect matrices are X = BU n , and Z = BU s ˜ -1/2 , respectively. Also, given this transformation matrix, the new coefficients are β = U n θ and α = U s Σ-1/2 θ . The fixed effect matrix X may be replaced by any sub-matrix such that [X : Z] has full rank and X Z = 0 (that is, X and Z are orthogonal). So, for example, if we assume a second-order penalty (d = 2), the fixed effect matrix can be taken as X = [1 : x], where 1 is a vector of ones and x is the explanatory variable. Also, the penalty term θ Pθ becomes α Fα, where F = λI. This follows since T is orthogonal and (β, α) = T θ . Hence, given the new basis and the new penalty, the penalized sum of squares,</p><formula xml:id="formula_51">(y -Bθ ) (y -Bθ ) + θ Pθ, becomes: (y -Xβ -Zα) (y -Xβ -Zα) + λα I c-2 α,</formula><p>This corresponds to the joint log-likelihood of a linear mixed model:</p><formula xml:id="formula_52">y = Xβ + Zα + , ∼ N (0, σ 2 I), α ∼ N (0, G),</formula><p>with G = σ 2 ν I c-2 and λ = σ 2 /σ 2 ν . Therefore, the smoothing parameters is estimated via the estimation of the variance components in the mixed model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B: Mixed model representation of the semiparametric spatio-temporal autoregressive model and parameter estimation</head><p>For the sake of simplicity, we assume here that there are no covariates. The inclusion of covariates with a linear or non-linear functional relationship with the response is immediate by augmenting the matrices for fixed and random effects accordingly, as well as the corresponding covariance matrices. We therefore focus on the following model:</p><formula xml:id="formula_53">y = f 1 (s 1 ) + f 2 (s 2 ) + f t (τ ) + f 1,2 (s 1 , s 2 ) + f 1,t (s 1 , τ ) + f 2,t (s 2 , τ ) + f 1,2,t (s 1 , s 2 , τ ) + ρ(W N ⊗ I T )y +</formula><p>where the errors are assumed to follow a temporal AR(1) process, see ( <ref type="formula">9</ref>). In matrix form:</p><formula xml:id="formula_54">(A N ⊗ I T )y = Bθ + ∼ N 0, σ 2 1 -φ 2 (I N ⊗ Ω) A N = I N -ρW N</formula><p>The regression matrix of the model above will be the concatenation of B-spline bases for each of the smooth terms in the model:</p><formula xml:id="formula_55">B = [1|B s 1 |B s 2 |B s 2 |B s 1 B s 2 |B s 1 ⊗ B τ |B s 2 ⊗ B τ |(B s 1 B s 2 ) ⊗ B τ , ]</formula><p>where B s 1 , B s 2 and B τ correspond to the marginal B-spline basis for the spatial coordinates (s 1 , s 2 ) and time (τ ), and represents the row-wise tensor product defined as:</p><formula xml:id="formula_56">B i B j = (B i ⊗ 1 c i ) * (1 c j ⊗ B j ),</formula><p>and 1 is a column vector of ones, c i is the rank of B i , and ⊗ and * are the Kronecker and element-wise matrix products, respectively.</p><p>The penalty matrix is now block-diagonal with blocks corresponding to the different terms in the model:</p><formula xml:id="formula_57">λ i D i D i for main effects, λ i D i D i ⊗ I c k + λ k I c i ⊗ D k D k for the second-order interactions, and λ i D i D i ⊗ I c k ⊗ I c l + λ k I c i ⊗ D k D k ⊗ I c j + λ l ⊗ I c i ⊗ I c k ⊗ D l D l for the three-way interaction.</formula><p>In this case, several constraints need to be imposed, since the space spanned by any product B i ⊗ B j , contains the space spanned by the marginal bases B i and B j . The mixed model reparameterization of this model will automatically provide the necessary constraints. To find that parameterization, a new transformation matrix is needed (again based on the singular value decomposition of the penalty P) (see <ref type="bibr">Lee 2010, for details)</ref>. Then, the model is written as:</p><formula xml:id="formula_58">(A N ⊗ I T ) y = Xβ + Zα + (<label>12</label></formula><formula xml:id="formula_59">) α ∼ N (0, G) ∼ N 0, σ 2 1 -φ 2 (I N ⊗ Ω) with X = (X s 1 X s 2 ) ⊗ X τ Z = (Z s 1 X s 2 ) ⊗ X τ |(X s 1 Z s 2 ) ⊗ X τ |(X s 1 X s 2 ) ⊗ Z τ |(Z s 1 Z s 2 ) ⊗ X τ | (Z s 1 X s 2 ) ⊗ Z τ |(X s 1 Z s 2 ) ⊗ Z τ |(Z s 1 Z s 2 ) ⊗ Z τ</formula><p>where X k , Z k (k = s 1 , s 2 , τ ) are the mixed model matrices obtained for the reparameterization of the marginal basis described in "Appendix A". The covariance matrix of random effects, G, is such that:</p><formula xml:id="formula_60">G -1 = blockdiag 0, 1 σ 2 ν 1 Λ 1 , 1 σ 2 ν 2 Λ 2 , 1 σ 2 ν 3 Λ 3 , 1 σ 2 ν 4 Λ 4 + 1 σ 2 ν 5 Λ 5 , 1 σ 2 ν 6 Λ 6 + 1 σ 2 ν 7 Λ 7 , 1 σ 2 ν 8 Λ 8 = 1 σ 2 ν 9 Λ 9 , 1 σ 2 ν 10 Λ 10 + 1 σ 2 ν 11 Λ 11 + 1 σ 2 ν 12 Λ 12 (<label>13</label></formula><formula xml:id="formula_61">)</formula><p>where</p><formula xml:id="formula_62">Λ 1 = Σ s 1 , Λ 2 = Σ s 2 , Λ 3 = Σ τ Λ 4 = Σ s 1 ⊗ I c s 2 -2 , Λ 5 = I c s 1 -2 ⊗ Σ s 2 , Λ 6 = Σ s 1 ⊗ I 2 Λ 7 = I c s 1 -q s 1 ⊗ I 2 , Λ 8 = Σ s 2 ⊗ I c t -2 Λ 9 = I c s 2 -2 ⊗ Σ τ (<label>14</label></formula><formula xml:id="formula_63">)</formula><formula xml:id="formula_64">Λ 10 = Σ s 1 ⊗ I c s 2 -2 ⊗ I c τ -2 , Λ 11 = I c s 1 -2 ⊗ Σ s 2 ⊗ I c τ -2 , Λ 12 = I c s 1 -2 ⊗ I c s 2 -2 ⊗ Σ τ</formula><p>and Σ matrices correspond to the non-zero eigenvectors of the singular value decomposition of penalty matrices. It is important to be able to decompose the precision matrix of the random effects as a linear combination over the variance parameters, since this is a necessary condition to apply the SAP algorithm.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B.1: Estimation of the PS-ANOVA-SAR(AR1) model via the SAP algorithm</head><p>Fixed and random effects in model ( <ref type="formula" target="#formula_58">12</ref>) are estimated (conditional on the correlation parameters and variance components) using the standard mixed model theory (see <ref type="bibr" target="#b44">Searle et al. 1992)</ref>:</p><formula xml:id="formula_65">β = (X V -1 X) -1 X V -1 (A N ⊗ I T )y (<label>15</label></formula><formula xml:id="formula_66">) α = GZ V -1 ((A N ⊗ I T )y -X β),<label>(16)</label></formula><p>where V = σ 2 1-φ 2 (I N ⊗ Ω) + ZGZ .</p><p>Variance components (and, therefore, smoothing parameters), and correlation parameters may be estimated by maximizing the residual log-likelihood (REML) of <ref type="bibr" target="#b35">Patterson and Thompson (1971)</ref> (slightly modified by the Kronecker matrix product, A N ⊗ I T ):</p><formula xml:id="formula_67">ℓ(σ 2 ν i , σ 2 , ρ, φ) = - 1 2 log |V| - 1 2 log |X V -1 X| - 1 2 (A N ⊗ I T )y (V -1 -V -1 X(X V -1 X) -1 X V -1 ) (A N ⊗ I T )y + log |A N ⊗ I T | (<label>17</label></formula><formula xml:id="formula_68">)</formula><p>where the matrices V, X and Z are obtained as described above (if linear and non-linear covariates have been added, X and Z matrices are augmented in a suitable additive way). Maximization of this REML function is a very complex numerical problem, specially when the number of variance components/correlation parameters is large. <ref type="bibr" target="#b42">Rodriguez-Alvarez et al. (2015)</ref> recently developed an algorithm named SAP (Separation of Anisotropic Penalties), which is based on the fact that the inverse variance-covariance matrix of the random effects, G -1 , is a linear combination of precision matrices. This is the case for the PS-ANOVA-SAR(AR1) model, as we showed in (13). This expression allows us to get closed estimates for all the variance component parameters σ 2 ν i and σ 2 very efficiently. We have adapted this algorithm to also include the estimation of ρ and φ parameters. The steps for applying the SAP algorithm to optimize (17) can be summarized as follows:</p><formula xml:id="formula_69">1. Initialization. Set -Set k = 0 - β(k) = 0; α(k) = 0 -σ 2,(<label>k</label></formula><formula xml:id="formula_70">) ν i = 1 i = 1, 2, . . . , 12 -σ 2,(k) = var(y) -ρ(k) = 0 2. Compute Ĝ(k) , V(k) , P(k) , Â(k) N matrices using next expressions: Ĝ-1,(k) = 12 i=1 1 σ 2,(k) ν i Λ (k) i V(k) = σ 2,(k) I N T + Z Ĝ(k) Z P(k) = V-1,(k) - V-1,(k) X(X V-1,(k) X) -1 X V-1,(k) Â(k) N = I N -ρ(k) W N</formula><p>3. Compute the estimates:</p><formula xml:id="formula_71">β(k) = (X V-1,(k) X) -1 (X V-1,(k) Â(k) N y) α(k) = Ĝ(k) Z V-1,(k) ( Â(k) N y -X β(k) ) ed (k) i = trace(Z P(k) Z Ĝ(k) 1 σ 2,(k) ν i Λ i Ĝ(k) ) i = 1, 2, . . . , 12</formula><p>where Λ i i = 1, . . . , 12 is defined in (14). 4. Estimate the variance components:</p><formula xml:id="formula_72">σ 2,(k+1) ν i = α(k) Λ i α(k) ed (k) i i = 1, . . . , 12</formula><p>Estimate the variance of the noise as:</p><formula xml:id="formula_73">σ 2,(k+1) = ( Â(k) N y -X β(k) -Z α(k) ) ( Â(k) N y -X β(k) -Z α(k) ) N -i ed (k) i -rank(X) -2</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>Table 6</head><label>6</label><figDesc>List of models</figDesc><table><row><cell cols="2">Linear parametric panel data models</cell></row><row><cell>Model 1</cell><cell>Fixed spatial effects model (FE)</cell></row><row><cell>Model 2</cell><cell>Fixed spatial and time effects model (FE/TE)</cell></row><row><cell>Model 3</cell><cell>SAR model with fixed spatial effects (SAR-FE)</cell></row><row><cell>Model 4</cell><cell>SAR model with fixed spatial and time effects (SAR-FE/TE)</cell></row><row><cell>Model 5</cell><cell>Model with unobserved common effects (CCEP)</cell></row><row><cell>Model 6</cell><cell>SAR model with unobserved common effects (SAR-CCEP)</cell></row><row><cell cols="2">Spatio-temporal penalized spline (PS) ANOVA models</cell></row><row><cell>Model 7</cell><cell>Spatio-temporal model with linear terms (PS-ANOVA-Linear)</cell></row><row><cell>Model 8</cell><cell>PS-ANOVA-Linear-AR1</cell></row><row><cell>Model 9</cell><cell>Spatio-temporal SAR model with linear terms (PS-ANOVA-SAR-Linear)</cell></row><row><cell>Model 10</cell><cell>PS-ANOVA-SAR-Linear-AR1</cell></row><row><cell>Model 11</cell><cell>Spatio-temporal model with nonlinear terms (PS-ANOVA-Nonlinear)</cell></row><row><cell>Model 12</cell><cell>PS-ANOVA-Nonlinear-AR1</cell></row><row><cell>Model 13</cell><cell>Spatio-temporal SAR model with nonlinear terms (PS-ANOVA-SAR-Nonlinear)</cell></row><row><cell>Model 14</cell><cell>PS-ANOVA-SAR-Nonlinear-AR1</cell></row></table></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Explaining the pattern of regional unemployment: the case of the Midi-Pyrénées region</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Aragon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Haughton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Haughton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Leconte</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Malin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Ruiz-Gazen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Thomas-Agnan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pap Reg Sci</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="155" to="174" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">A two-stage approach to spatio-temporal analysis with strong and weak cross-sectional dependence</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Bailey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Holly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Appl Econom</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="249" to="280" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Spatial panel data models with common shocks</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Li</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<pubPlace>University of Munich, Germany</pubPlace>
+		</imprint>
+	</monogr>
+	<note>MPRA paper 52786</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Migration and regional unemployment in Italy</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Girardi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Mantuano</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Open Urb Stud J</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Modeling regional economic dynamics: spatial dependence, spatial heterogeneity and nonlinearities</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mínguez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Montero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econ Dyn Control</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="229" to="245" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Regional evolutions</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">J</forename><surname>Blanchard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Katz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Eichengreen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Brook Pap Econ Act</title>
+		<imprint>
+			<biblScope unit="volume">1992</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="75" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Unemployment in the British metropolitan labour areas</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burridge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Gordon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Oxf Econ Pap</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="274" to="297" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Common correlated effects estimation of heterogeneous dynamic panel data models with weakly exogenous regressors</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chudik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econom</title>
+		<imprint>
+			<biblScope unit="volume">188</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="393" to="420" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Weak and strong cross-section dependence and estimation of large panels</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Chudik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Tosetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econom J</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="45" to="C90" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Asymptotic properties of penalized spline estimators</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Claeskens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Krivobokova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Opsomer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="page" from="529" to="544" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Geographical distribution of unemployment: an analysis of provincial differences in italy</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Cracolici</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cuffaro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Nijkamp</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Growth Change</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="649" to="670" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Flexible smoothing with P-splines: a unified approach</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">D</forename><surname>Currie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Model</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="333" to="349" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Generalized linear array models with applications to multidimensional somoothing</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Currie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Eilers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc B</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Package for calculating with B-splines</title>
+		<author>
+			<persName><forename type="first">De</forename><surname>Boor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Numer Anal</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="441" to="472" />
+			<date type="published" when="1977">1977</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Regional labor market dynamics in Europe</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Decressin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fatas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Eur Econ Rev</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1627" to="1655" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Flexible smoothing with B-splines and penalties</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Eilers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Marx</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sci</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="89" to="121" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Fast and compact smoothing on large multidimensional grids</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Eilers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Currie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput Stat Data Anal</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="61" to="76" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Twenty years of p-splines</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">H</forename><surname>Eilers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Marx</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SORT</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="149" to="186" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Convergence and divergence among European Union</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<biblScope unit="page" from="190" to="200" />
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<title level="m" type="main">Spatial econometrics. From cross-sectional data to spatial panels. SpringerBriefs in regional science</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>Springer</publisher>
+			<pubPlace>Berlin</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Weak and strong cross-sectional dependence: a panel data analysis of international technology diffusion</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Musolesi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Appl Econom</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="477" to="503" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Bayesian analysis of spatial panel autoregressive models with time-varying endogenous spatial weight matrices, common factors, and random coefficients</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Bus Econ Stat</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="642" to="660" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Semiparametric spatial autoregressive models with endogenous regressors: with an application to crime data</title>
+		<author>
+			<persName><surname>Hoshino</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Bus Econ Stat</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="160" to="172" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Panels with non-stationary multifactor error structures</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Kapetanios</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yamagata</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econom</title>
+		<imprint>
+			<biblScope unit="volume">160</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="326" to="348" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">P-spline ANOVA type interaction models for spatio-temporal smoothing</title>
+		<author>
+			<persName><forename type="first">D ; Iii</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Model</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="49" to="69" />
+			<date type="published" when="2010">2010. 2011</date>
+		</imprint>
+		<respStmt>
+			<orgName>University Carlos-</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Ph.D. thesis</note>
+	<note>Smoothing mixed models for spatial and spatio-temporal data</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial autoregressive panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econom</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="165" to="185" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Efficient two-dimensional smoothing with P-spline ANOVA mixed models and nested bases</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durban</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Eilers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput Stat Data Anal</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="page" from="22" to="37" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Inference in generalized additive mixed models by using smoothing splines</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc B</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="page" from="381" to="400" />
+			<date type="published" when="1999">2009. 1999</date>
+			<publisher>CRC Press</publisher>
+			<pubPlace>Boca Raton Lin X, Zhang D</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Introduction to spatial econometrics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Spatial dependencies in German matching functions</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lottmann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Sci Urb Econ</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="41" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Two views of the geographic distribution of unemployment</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">T</forename><surname>Marston</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Q J Econ</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="57" to="79" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Testing for serial correlation in spatial panels. Mimeo Molho I (1995) Spatial autocorrelation in british unemployment</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Millo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Reg Sci</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="641" to="658" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">SAR models with nonparametric spatial trends. A P-spline approach</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Montero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mínguez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Estadística Española</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">177</biblScope>
+			<biblScope unit="page" from="89" to="111" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Unemployment clusters across Europe&apos;s regions and countries</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">G</forename><surname>Overman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Puga</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ policy</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">34</biblScope>
+			<biblScope unit="page" from="115" to="148" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">The dispersion of US state unemployment rates: the role of market and non-market equilibrium factors</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Partridge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Rickman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Stud</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="593" to="606" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in local unemployment rates</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Patacchini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zenou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econ Geogr</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="169" to="191" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Recovery of inter-block information when block sizes are unequal</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Patterson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Thompson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="545" to="554" />
+			<date type="published" when="1971">1971</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Penalized regression and individual deviance effects</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Perperoglou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Phc</forename><surname>Eilers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput Stat</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="341" to="361" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">General diagnostic tests for cross section dependence in panels</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">CESifo working paper series</title>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Estimation and inference in large heterogeneous panels with a multifactor error structure</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="967" to="1012" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">A simple panel unit root test in the presence of cross-section dependence</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Appl Econom</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="265" to="312" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Testing weak cross-sectional dependence in large panels</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econom Rev</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">6-10</biblScope>
+			<biblScope unit="page" from="1089" to="1117" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Large panels with common factors and spatial correlation</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Tosetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econom</title>
+		<imprint>
+			<biblScope unit="volume">161</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="182" to="202" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Fast smoothing parameter separation in multidimensional generalized P-splines: the SAP algorithm</title>
+		<author>
+			<persName><forename type="first">V ;</forename><surname>Ríos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">X</forename><surname>Rodriguez-Alvarez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durban</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Eilers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">ERSA conference papers Ersa14p924, European Regional Science Association</title>
+		<imprint>
+			<date type="published" when="2014">2014. 2015</date>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="941" to="957" />
+		</imprint>
+	</monogr>
+	<note>What drives regional unemployment convergence?</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Correcting for spatial heterogeneity in plant breeding experiments with P-splines</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">X</forename><surname>Rodrìguez-Álvarez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Boer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fav</forename><surname>Eeuwijk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">H</forename><surname>Eilers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Stat</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="52" to="71" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">A spatial panel data model with time varying endogenous weights matrices and common factors</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Searle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C ; York</forename><surname>Mcculloch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Sci Urb Econ</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="6" to="34" />
+			<date type="published" when="1992">1992. 2018</date>
+			<publisher>Wiley</publisher>
+		</imprint>
+	</monogr>
+	<note>Variance components</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Sieve estimation of panel data models with cross section dependence</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jin</forename><forename type="middle">S</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econom</title>
+		<imprint>
+			<biblScope unit="volume">169</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="34" to="47" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Unemployment in Europe: a comparative analysis of regional disparities in Germany, Italy and the UK</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bradley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Kyklos</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="221" to="245" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Regional unemployment as a cyclical phenomenon</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">P</forename><surname>Thirlwall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scott J Polit Econ</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="205" to="219" />
+			<date type="published" when="1966">1966</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">A regional unemployment model simultaneously accounting for serial dynamics, spatial dependence and common factors</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Sci Urb Econ</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="page" from="85" to="95" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">On confidence intervals for generalized additive models based on penalized regression splines</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wood</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Aust N Z J Stat</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="445" to="464" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Integrated analysis of regional and national unemployment differentials in the European Union</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Zeilstra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Reg Stud</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1739" to="1755" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

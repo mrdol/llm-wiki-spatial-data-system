@@ -1,0 +1,745 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Minimum distance quantile regression for spatial autoregressive panel data models with fixed effects</title>
+				<funder ref="#_53EjJV6">
+					<orgName type="full">Shanghai Natural Science Foundation</orgName>
+				</funder>
+				<funder ref="#_hb4eUSK">
+					<orgName type="full">National Natural Science Foundation of China</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2021-12-14">December 14, 2021</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Xiaowen</forename><surname>Dai</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Statistics and Mathematics</orgName>
+								<orgName type="institution">Shanghai Lixin University of Accounting and Finance</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="institution" key="instit1">Interdisciplinary Research Institute of Data Science</orgName>
+								<orgName type="institution" key="instit2">Shanghai Lixin University of Accounting and Finance</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Libin</forename><surname>Jin</surname></persName>
+							<idno type="ORCID">0000-0001-7113-6501</idno>
+							<affiliation key="aff0">
+								<orgName type="department">School of Statistics and Mathematics</orgName>
+								<orgName type="institution">Shanghai Lixin University of Accounting and Finance</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="institution" key="instit1">Interdisciplinary Research Institute of Data Science</orgName>
+								<orgName type="institution" key="instit2">Shanghai Lixin University of Accounting and Finance</orgName>
+								<address>
+									<settlement>Shanghai</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="institution">Yunnan University of Finance and Economics</orgName>
+								<address>
+									<country key="CN">CHINA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Minimum distance quantile regression for spatial autoregressive panel data models with fixed effects</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2021-12-14">December 14, 2021</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">3C05F7D56A209087CB4C8A67CC5F46DC</idno>
+					<idno type="DOI">10.1371/journal.pone.0261144</idno>
+					<note type="submission">Received: August 21, 2021 Accepted: November 24, 2021</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper considers the quantile regression model with individual fixed effects for spatial panel data. Efficient minimum distance quantile regression estimators based on instrumental variable (IV) method are proposed for parameter estimation. The proposed estimator is computational fast compared with the IV-FEQR estimator proposed by <ref type="bibr" target="#b8">Dai et al. (2020)</ref>. Asymptotic properties of the proposed estimators are also established. Simulations are conducted to study the performance of the proposed method. Finally, we illustrate our methodologies using a cigarettes demand data set.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>In the last few decades, spatial autoregressive (SAR) models have been studied and applied to many areas such as economics, demography, geography and other scientific areas. Panel data with spatial interaction is also of great interest, as it can control for both heterogeneity and spatial correlation and enable researchers to take into account the dynamics (see, <ref type="bibr" target="#b0">[1]</ref><ref type="bibr" target="#b1">[2]</ref><ref type="bibr" target="#b2">[3]</ref><ref type="bibr" target="#b3">[4]</ref><ref type="bibr" target="#b4">[5]</ref><ref type="bibr" target="#b5">[6]</ref><ref type="bibr" target="#b6">[7]</ref>).</p><p>Recently, there has been a growing literature on estimating and testing of spatial panel data models. For instance, <ref type="bibr" target="#b6">[7]</ref> proposed the maximum likelihood (ML) estimator for the spatial autoregressive (SAR) panel model with both spatial lag and spatial disturbances. Zhang and Shen <ref type="bibr" target="#b7">[8]</ref> studied estimation of a semi-parametric varying coefficient spatial panel data models. Dai et al. <ref type="bibr" target="#b8">[9]</ref> investigated fixed effects quantile regression for general spatial panel data models with both individual fixed effect and time period effects based on instrumental variable method. Xu and Yang <ref type="bibr" target="#b9">[10]</ref> proposed adjusted quasi score (AQS) tests for testing the existence of temporal heterogeneity in slope and spatial parameters in spatial panel data (SPD) models with fixed effects. Bai and Li <ref type="bibr" target="#b10">[11]</ref> studied quasi-maximum likelihood estimator of dynamic spatial panel data models with common shocks to deal with both weak and strong cross-sectional correlations. Li and Yang <ref type="bibr" target="#b11">[12]</ref> developed M-estimation and inference methods for spatial dynamic panel data models with correlated random effects based on short panels. Zhang et al. <ref type="bibr" target="#b12">[13]</ref> studied a penalized quantile regression for spatial panel model with fixed effects. Except the work of <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b12">13]</ref>, all these works were developed based on (conditional) mean regression methods. Compared with mean regression methods, the quantile regression (QR) method is more robust and can be adopted to deal with data characterized by different error distributions.</p><p>However, in contrast to mean regression, there is no general transformation that can suitably eliminate the individual effects in the quantile regression framework (see, <ref type="bibr" target="#b13">[14,</ref><ref type="bibr" target="#b14">15]</ref>). Thus the FEQR estimation (see, <ref type="bibr" target="#b15">[16]</ref>) is implemented by treating each individual effect also as a parameter to be estimated, which brings the computational difficulties. Hence, the IV-FEQR estimator (i.e., FEQR estimator based on instrumental variable method) used in <ref type="bibr" target="#b8">[9]</ref> is also computational cumbersome. To address computational difficulties, <ref type="bibr" target="#b14">[15]</ref> proposed the efficient minimum distance quantile regression (MDQR) method. Compared with the FEQR estimator, the MDQR estimator is computationally fast and is easy to implement in practice. The computing advantage is particularly obvious for large cross-sections.</p><p>In this paper, we employ the MDQR methodology for estimating the SAR panel data model with individual fixed effects. The instrumental variable (IV) method is employed to attenuate the estimation bias. The asymptotic properties of the IV-MDQR estimator are also developed. Monte Carlo simulations are conducted to assess the finite sample performance of the IV-MDQR, MDQR and IV-FEQR estimators. Computation speeds of IV-MDQR and IV-FEQR are also compared. Finally, We apply our theoretical results for the demand for cigarettes.</p><p>The rest of the paper is organized as follows. Section 2 introduces the SAR panel data model with individual fixed effects. Section 3 proposes the IV-MDQR estimation procedure. The asymptotic properties of the IV-MDQR estimators are also discussed. Proofs of the theorems in Sections 3 are given in the Appendix. Section 4 reports a simulation study for assessing the finite sample performance of the proposed estimators. An empirical illustration is considered in Section 5. Section 6 concludes the paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">The model with individual fixed effects</head><p>Consider the following spatial autoregressive panel data (SARP) model with individual fixed effects:</p><formula xml:id="formula_0">y it ¼ r X N j¼1 w ij y jt þ X &gt; it β þ Z i þ ε it ;<label>ð1Þ</label></formula><p>where y it is the dependent variable for subject i at time t, X it is a p × 1 vector of explanatory variables, w ij is the (i, j)th element of W, W is an N × N non-stochastic spatial weight matrix reflecting spatial dependence on y it among cross sectional units, and ε it is the random disturbance term. The parameters η i , i = 1, � � �, N are fixed effects for the regions. Interaction effects are reflected in the spatial lag variable P N j¼1 w ij y jt (and associated scalar parameter ρ). We consider the following conditional τ-quantile of response variable:</p><formula xml:id="formula_1">Q t ðy it jD it ; X it ; Z i Þ ¼ rðtÞD it þ X &gt; it βðtÞ þ Z &gt; i ηðtÞ;<label>ð2Þ</label></formula><p>where τ is a quantile in the interval (0, 1),</p><formula xml:id="formula_2">Q τ (ε it |D it , X it , Z i ) = 0, D it ¼ P N j¼1 w ij y jt , η ¼ ðZ 1 ; � � � ; Z N Þ &gt; , Z i = Z &gt; h i is an indicator variable for the individual effect η i , h i is an NT × 1</formula><p>vector with the ith element equal to 1 and the rest equal to 0, Z = 1 T � I N is an NT × N matrix, 1 T is the T × 1 vector with all the elements being 1.</p><p>And the FEQR estimator can then be obtained by minimizing the following objection function:</p><formula xml:id="formula_3">ðrðtÞ; βðtÞ; ηðtÞÞ ¼ argmin r;β;η X N i¼1 X T t¼1 r t ðy it À rðtÞD it À X &gt; it βðtÞ À Z &gt; i ηðtÞÞ;<label>ð3Þ</label></formula><p>where ρ τ (u) = u(τ -I(u � 0)) is the check function and I(�) is the indicator function (see, e.g., <ref type="bibr" target="#b16">[17]</ref>). Galvao and Wang <ref type="bibr" target="#b14">[15]</ref> argued that unlike mean regression, the individual effects cannot be suitably eliminated via transformation in the FEQR estimator. Thus the FEQR estimator is implemented by treating each individual effect η i as a parameter to be estimated. Therefore, if the number of the individuals is large, the FEQR estimator will involve optimization with large number of parameters to be estimated, which makes the problem computationally cumbersome. Inference using the FEQR estimator is difficult to conduct in practice. For this reason, we employ the minimum distance quantile regression (MDQR) estimator (see, <ref type="bibr" target="#b14">[15]</ref>) for estimation.</p><p>Denote θ = (ρ, β &gt; ) &gt; . The MDQR estimation of model (1) can be implemented via the following two steps:</p><p>Step 1:. Obtain the QR estimation θi and Ẑi using the time series data of each individual i.</p><p>Denote V i the associated variance-covariance matrix of θi for each individual, i.e.,</p><formula xml:id="formula_4">V i ¼ tð1 À tÞEðf i ð0j Xit Þ Xit X&gt; it Þ À 1 Eð Xit X&gt; it ÞEðf i ð0j Xit Þ Xit X&gt; it Þ À 1 ,</formula><p>where</p><formula xml:id="formula_5">Xit ¼ ½D it ; X &gt; it � &gt; , f i ð0j</formula><p>Xit Þ is the conditional density of ε it at the quantile of interest.</p><p>Step 2:. Then the MDQR estimator can be defined by</p><formula xml:id="formula_6">θ ¼ X N i¼1 V À 1 i ! À 1 X N i¼1 V À 1 i θi ;</formula><p>where V i is the estimator of V i .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">The IV-MDQR estimator</head><p>However, there exist an endogenous variable in model (2), i.e., the spatial lag D it , which can cause biased estimation. Thus the MDQR estimation of model (2) is biased especially for the spatial correlation coefficient ρ. The problem of bias for quantile regression for spatial autoregressive panel data model can be ameliorated through the use of instrumental variables. Therefore, we employ the instrumental variable method for bias reduction in this section. Suppose the endogenous variable D it is related to a vector of instruments ω it , and the instruments ω it are independent of ε it . Following <ref type="bibr" target="#b17">[18]</ref><ref type="bibr" target="#b18">[19]</ref><ref type="bibr" target="#b19">[20]</ref>, and assuming the availability of instrumental variables ω it , we can derive the IV-MDQR estimator via the following four steps:</p><p>Step 1:. For each individual i and a given quantile τ, define a suitable set of values {ρ j , j = 1, � � �, J;|ρ| &lt; 1}. One can obtain the ordinary QR estimation βi ; η i ; γi of each individual i using the time series data via minimizing the following objective function:</p><formula xml:id="formula_7">R IV i ðt; r; β; Z i ; gÞ ¼ X T t¼1 r t ðy it À rD it À X &gt; it β À Z i À ω &gt; it gÞ;<label>ð4Þ</label></formula><p>where γ is the coefficient of the instrumental variable ω it .</p><p>Step 2:. Choose rðtÞ among {ρ j , j = 1, � � �, J} which makes a weighted distance function defined on γ closest to 0:</p><formula xml:id="formula_8">ri ðtÞ ¼ argmin r2R jγ i ðr; tÞj;<label>ð5Þ</label></formula><p>where R is the parameter space of ρ.</p><p>Step 3:. The IVQR estimation of β; Z i can be obtained, which is respectively βi ðr i ðtÞ; tÞ, Ẑi ðr i ðtÞ; tÞ. Therefore, θi ¼ ðr i ðtÞ; βi ðr i ðtÞ; tÞ &gt; Þ &gt; .</p><p>Step 4:. Then the IV-MDQR estimator of SAR panel data model ( <ref type="formula" target="#formula_0">1</ref>) can be defined by</p><formula xml:id="formula_9">θ ¼ X N i¼1 V À 1 i ! À 1 X N i¼1 V À 1 i θi ;<label>ð6Þ</label></formula><p>where V i is the estimation of Ṽ i , Ṽ i the associated variance-covariance matrix of the IVQR estimator θi for each individual i, which takes the form:</p><formula xml:id="formula_10">Ṽ i ¼ J i ðtÞ À 1 S i ðtÞ½J i ðtÞ À 1 � &gt; ;</formula><p>where</p><formula xml:id="formula_11">J i ðtÞ ¼ Eðf i ð0jD it ; X it ; ω it ÞX � it X&gt; it Þ, S i ðtÞ ¼ tð1 À tÞEðX � it X �&gt; it Þ, X � it ¼ ½ω &gt; it ; X &gt; it � &gt; , Xit ¼ ½D it ; X &gt; it � &gt; , f i ð0jD it ; X it ; ω it Þ is the conditional density of ε it at the quantile of interest.</formula><p>Remark 3.1. For each individual i, we need instruments for the endogenous variables</p><formula xml:id="formula_12">D it ¼ w &gt; i y t ,</formula><p>where W i is the ith row of the spatial weight matrix W. The instruments need to satisfy the following two conditions: (i) instruments ω it can impact the endogenous variables D it ; (ii) instruments ω it are independent of the random error ε it . In practice, for spatial autoregressive panel data model (1), we can choose the time-lag of y it , i.e., y it-1 and the spatial lag of the explanatory variable, i.e., w &gt; i X t , as instrumental variable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Asymptotic theory</head><p>In this section, we investigate the asymptotic properties of the IV-MDQR estimator. We impose the following regularity conditions: A1 {(y it , X it )} is independent across individuals, and is independent and identically distributed (i.i.d.) within each i.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A2</head><p>For all t 2 T , ðrðtÞ; βðtÞ; ηðtÞÞ is in the interior of the set R � B � E, and R � B � E is compact and convex.</p><formula xml:id="formula_13">A3 maxky it k ¼ Oð ffi ffi ffi ffi ffi ffi ffi NT p Þ, maxkX it k ¼ Oð ffi ffi ffi ffi ffi ffi ffi NT p Þ<label>and</label></formula><formula xml:id="formula_14">maxkω it k ¼ Oð ffi ffi ffi ffi ffi ffi ffi NT p Þ.</formula><p>A4 W is non-stochastic spatial weights matrices with zero diagonals. W is uniformly bounded in both row and column sums in absolute value.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A5 For each individual i, for</head><p>Pðr; β;</p><formula xml:id="formula_15">Z i ; tÞ ¼ E½ðt À Iðy i &lt; rD i þ X i β þ Z i ÞÞÞΔ i �;<label>ð7Þ</label></formula><formula xml:id="formula_16">Pðr; β; Z i ; γ; tÞ ¼ E½ðt À Iðy i &lt; rD i þ X i β þ Z i þ ω i γÞÞΔ i �;<label>ð8Þ</label></formula><p>where</p><formula xml:id="formula_17">Δ i = [ω i , X i , 1 T ], X i = (X i1 , � � �, X iT ) &gt; , ω i = (ω i1 , � � �, ω iT ) &gt; .</formula><p>The Jacobian matrices @Pðr;β;Z i ;tÞ @ðr;β;Z i Þ and @Pðr;β;Z i ;γ;tÞ @ðβ;Z i ;γÞ are continuous and have full rank uniformly over B � E � G � T . The parameter space R � B � E is a connected set and the image of R � B � E under the map ðr; β; Z i Þ7 !Pðr; β; Z i ; tÞ is simply connected.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A6</head><p>The conditional density f i (ε|D, X) is continuously differentiable for each i. There exist 0 &lt; C L � C U &lt; 1 such that f i (ε|D, X)�C U uniformly over ðε; XÞ and i � 1, and f i (0|D, X)�C L uniformly over X and i � 1; and there exists C f &gt; 0 such that jf 0 i ðεjD; XÞj � C f . Here, X ¼ ½D; X�, f 0 i ðεjD; XÞ is the first-order derivative of the density f i (ε|D, X). A7 There exists δ S &gt; 0 such that min 1�i � N min eig(S i (τ)) � δ S , where</p><formula xml:id="formula_18">S i ðtÞ ¼ tð1 À tÞEðX � it X �&gt; it Þ, X � it ¼ ½ω &gt; it ; X &gt; it � &gt; .</formula><p>Assumptions A1-A3 and A6 are standard in the literature on quantile regression for panel data. Assumption A4 is originated by <ref type="bibr" target="#b20">[21,</ref><ref type="bibr" target="#b21">22]</ref> and is also used in <ref type="bibr" target="#b6">[7,</ref><ref type="bibr" target="#b8">9]</ref>. Assumption A5 is a standard assumption in the instrumental variable quantile regression literature. Assumption A7 assures that S À 1 i ðtÞ are bounded uniformly across i. Assumptions A3 and A7 guarantee that both</p><formula xml:id="formula_19">J i ðtÞ ¼ Eðf i ð0jD it ; X it ; ω it ÞX � it X&gt;</formula><p>it Þ and their inverses are bounded uniformly across i. In applications, the variance-covariance matrices are unknown and need to be estimated. Following <ref type="bibr" target="#b14">[15]</ref>, when T and N tend to infinity sequentially, we impose the following assumption:</p><formula xml:id="formula_20">A8 V i ¼ Ṽ i þ o p ð1Þ for each i as T ! 1. Assume that ðN À 1 P N i¼1 Ṽ À 1 i Þ À 1 ! Ṽ , where Ṽ ¼ lim N!1 1 N P N i¼1 Ṽ À 1 i À � À 1</formula><p>exists and is non-singular. When N and T tend to infinity simultaneously, we make the following assumption:</p><formula xml:id="formula_21">A8 0 V i ¼ Ṽ i þ O p ðT À 1=2 h À 1=2 N Þ for some h N ! 0 uniformly across i and lim N!1 N Th N ¼ 0 as N ! 1. Assume that ðN À 1 P N i¼1 Ṽ À 1 i Þ À 1 ! Ṽ , where Ṽ ¼ lim N!1 1 N P N i¼1 Ṽ À 1 i À � À 1</formula><p>exists and is non-singular.</p><p>We can now establish consistency and asymptotic normality of the IV-MDQR estimator. Proofs are given in the Appendix.</p><p>Theorem 3.1. 1. Under assumptions A1-A6 and A8, (ρ(τ), β(τ)) is consistently estimable as (T, N) seq ! 1. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Under assumptions A1-A6 and A8</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Monte Carlo simulations</head><p>In this section, we conduct Monte Carlo simulations to investigate the finite sample performance of the IV-MDQR estimator. We report results for average bias and root mean squared error (RMSE). We are mainly interested in comparing the performances of the IV-MDQR estimator and other two QR estimators, such as MDQR and IV-FEQR. The Monte Carlo simulations are repeated 1000 times. We consider several sample sizes and quantiles, where N 2 {50, 100, 200}, T 2 {50, 100}, and τ 2 {0.25, 0.5, 0.75}. For IV-MDQR and IV-FEQR, we search ρ from f0:05k : À 20 � k � 20; k 2 Zg.</p><p>The samples are generated as follows: Example 1. (homoscedastic case)</p><formula xml:id="formula_22">y it ¼ r X N i¼1 w ij y jt þ X it b þ Z i þ ε it : Example 2. (heteroscedastic case) y it ¼ r X N i¼1 w ij y jt þ X it b þ Z i þ ð1 þ 0:1X it Þε it :</formula><p>In the two cases, we set ρ = 0.5, β = 1. And X, η are drawn respectively from U(-2, 2) and N(0, 1) distribution. The spatial weights matrix W is generated based on the mechanism considered in Zhang and Shen (2015), i.e., W ¼ IðN=10Þ � 1 10 1 &gt; 10 À I 10 9</p><p>� � . ε it = e it -F -1 (τ), F is the common CDF of e it . Therefore, the random errors ε it are centered to have zero τth quantile.</p><p>For the disturbance errors, we consider the standard normal (i.e., N(0, 1)) distribution. Tables <ref type="table">1</ref> and <ref type="table">2</ref> respectively reports the bias and RMSE of the several QR estimators in the homoscedastic and heteroscedastic case. For IV-MDQR and IV-FEQR, we considered two</p><p>Table 1. Bias and RMSE (in parentheses) of various estimators in the homoscedastic case. T N Para. τ = 0.25 τ = 0.5 τ = 0.75 IVMD MD IVFE IVMD MD IVFE IVMD MD IVFE 50 50 ρ 0.013 0.108 -0.009 0.012 0.109 -0.008 0.016 0.110 -0.004 (0.029) (0.112) (0.061) (0.026) (0.112) (0.060) (0.029) (0.114) (0.063) β -0.003 -0.016 0.001 -0.002 -0.010 -0.000 -0.001 -0.015 0.001 (0.023) (0.031) (0.033) (0.022) (0.022) (0.033) (0.024) (0.028) (0.032) 100 ρ 0.012 0.108 -0.003 0.010 0.108 -0.003 0.014 0.111 -0.002 (0.023) (0.110) (0.040) (0.020) (0.110) (0.037) (0.024) (0.113) (0.040) β -0.001 -0.010 0.001 0.000 -0.011 -0.000 -0.002 -0.014 0.001 (0.018) (0.020) (0.024) (0.016) (0.020) (0.022) (0.018) (0.023) (0.022) 200 ρ 0.011 0.112 0.000 0.009 0.111 0.000 0.013 0.112 0.000 (0.019) (0.113) (0.029) (0.019) (0.112) (0.027) (0.020) (0.113) (0.030) β -0.001 -0.012 0.001 -0.001 -0.012 0.001 -0.000 -0.012 0.001 (0.012) (0.017) (0.018) (0.010) (0.016) (0.015) (0.013) (0.018) (0.016) 100 50 ρ 0.011 0.112 -0.004 0.011 0.111 -0.001 0.010 0.111 0.000 (0.022) (0.113) (0.041) (0.022) (0.112) (0.038) (0.021) (0.113) (0.048) β -0.002 -0.008 -0.001 -0.002 -0.012 -0.004 -0.001 -0.011 -0.001 (0.017) (0.019) (0.025) (0.016) (0.021) (0.023) (0.016) (0.020) (0.024) 100 ρ 0.010 0.112 -0.001 0.010 0.112 -0.002 0.010 0.110 -0.001 (0.018) (0.113) (0.029) (0.016) (0.113) (0.031) (0.018) (0.111) (0.029) β -0.000 -0.011 -0.002 -0.000 -0.011 0.000 -0.001 -0.012 0.000 (0.013) (0.015) (0.018) (0.011) (0.015) (0.015) (0.012) (0.017) (0.019) 200 ρ 0.010 0.112 -0.001 0.009 0.111 0.001 0.011 0.112 -0.001 (0.014) (0.112) (0.023) (0.014) (0.111) (0.020) (0.016) (0.112) (0.021) β -0.001 -0.010 -0.001 -0.001 -0.010 0.001 -0.001 -0.012 0.000 (0.009) (0.013) (0.011) (0.007) (0.013) (0.011) (0.009) (0.015) (0.011) <ref type="url" target="https://doi.org/10.1371/journal.pone.0261144.t001">https://doi.org/10.1371/journal.pone.0261144.t001</ref> </p><p>different instruments, y it-1 and the spatial lag of X it . The results are similar in both cases, and we simply present results for the y it-1 case. From Tables <ref type="table">1</ref> and <ref type="table">2</ref>, we see that the bias and RMSE of the estimators are obviously reduced as the sample size increase except the MDQR estimator. The IV-MDQR overwhelmingly performs better than the MDQR estimator, which shows that the instrumental variable method effectively reduces the estimation bias. For estimating the coefficient β, the IV-MDQR and the IV-FEQR estimator perform similarly. For estimating the spatial correlation coefficient ρ, the IV-MDQR estimator has larger bias but smaller RMSE than the IV-FEQR estimator. Following we compare the computing time of the IV-MDQR and IV-FEQR at one particular quantile τ = 0.5 in Example 1. We are interest in the elapsed time, i.e., the time required for one replication of simulation. The results are summarized in the following Table <ref type="table">3</ref>. Table <ref type="table">3</ref> Table 2. Bias and RMSE (in parentheses) of various estimators in the heteroscedastic case. T N Para. τ = 0.25 τ = 0.5 τ = 0.75 IVMD MD IVFE IVMD MD IVFE IVMD MD IVFE 50 50 ρ 0.012 0.100 0.002 0.014 0.107 -0.003 0.015 0.116 -0.006 (0.027) (0.104) (0.043) (0.027) (0.110) (0.040) (0.028) (0.120) (0.044) β 0.002 -0.010 -0.001 -0.003 -0.013 0.001 -0.004 -0.016 -0.003 (0.024) (0.025) (0.023) (0.021) (0.027) (0.023) (0.023) (0.029) (0.023) 100 ρ 0.011 0.102 -0.002 0.014 0.107 -0.002 0.014 0.118 0.001 (0.022) (0.104) (0.029) (0.021) (0.109) (0.028) (0.021) (0.120) (0.032) β 0.000 -0.008 -0.002 0.000 -0.008 0.000 -0.005 -0.015 -0.001 (0.018) (0.019) (0.016) (0.017) (0.019) (0.015) (0.018) (0.024) (0.017) 200 ρ 0.010 0.100 0.001 0.012 0.108 -0.002 0.013 0.116 -0.001 (0.019) (0.101) (0.018) (0.013) (0.108) (0.021) (0.020) (0.117) (0.020) β 0.001 -0.006 0.000 -0.002 -0.012 0.000 -0.006 -0.015 0.001 (0.012) (0.014) (0.016) (0.011) (0.016) (0.015) (0.014) (0.019) (0.016) 100 50 ρ 0.009 0.101 0.002 0.009 0.109 0.001 0.008 0.118 -0.002 (0.021) (0.103) (0.032) (0.021) (0.111) (0.028) (0.022) (0.120) (0.035) β 0.001 -0.008 0.000 -0.002 -0.011 0.000 -0.002 -0.015 -0.002 (0.017) (0.019) (0.018) (0.016) (0.019) (0.015) (0.016) (0.023) (0.016) 100 ρ 0.008 0.100 -0.001 0.008 0.109 0.000 0.007 0.118 0.001 (0.016) (0.101) (0.021) (0.016) (0.110) (0.017) (0.018) (0.119) (0.025) β 0.001 -0.007 0.000 -0.001 -0.011 -0.000 -0.002 -0.013 -0.000 (0.012) (0.013) (0.012) (0.012) (0.015) (0.010) (0.013) (0.017) (0.012) 200 ρ 0.007 0.102 -0.000 0.006 0.110 -0.000 0.007 0.118 -0.000 (0.013) (0.102) (0.013) (0.013) (0.110) (0.009) (0.015) (0.118) (0.013) β 0.000 -0.010 0.000 -0.001 -0.011 0.000 -0.002 -0.013 -0.000 (0.008) (0.013) (0.008) (0.008) (0.014) (0.008) (0.009) (0.016) (0.008) <ref type="url" target="https://doi.org/10.1371/journal.pone.0261144.t002">https://doi.org/10.1371/journal.pone.0261144.t002</ref> </p><p>Table 3. The computing time (in seconds) of IV-FEQR and IV-MDQR estimators required for one replication under different sample size. IV-MDQR IV-FEQR N = T = 10 0.200 0.292 N = T = 50 1.425 0.609 N = T = 100 3.463 10.395 N = T = 250 13.372 547.868 N = T = 500 39.590 30025.183 <ref type="url" target="https://doi.org/10.1371/journal.pone.0261144.t003">https://doi.org/10.1371/journal.pone.0261144.t003</ref> </p><p>shows that as the sample size increase, the computing times of both the IV-MDQR and the IV-FEQR estimators increase, but the increase rate of IV-FEQR estimator is much faster than the IV-MDQR estimator. Moreover, we are also interested in the question whether the computing time of the estimators is more sensitive to T and N. We consider the following two situations: (1) fix T = 100 and N varies in {10, 50, 100, 250, 500}; (2) fix N = 100 and T varies in {10, 50, 100, 250, 500}. The results are summarized in the following Table <ref type="table">4</ref>. From which, we can see that the computing time of the two estimators both are much more sensitive to the the size of N. But the sensitivity of IV-MDQR estimator is much lower than the IV-FEQR estimator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Illustration</head><p>In this section, we employ the cigarette demand data set (<ref type="url" target="https://spatial-panels.com/software/">https://spatial-panels.com/software/</ref>) to illustrate our methodologies. The cigarette demand data set has been analyzed by many authors (see, <ref type="bibr" target="#b8">[9,</ref><ref type="bibr" target="#b22">[23]</ref><ref type="bibr" target="#b23">[24]</ref><ref type="bibr" target="#b24">[25]</ref><ref type="bibr" target="#b25">[26]</ref><ref type="bibr" target="#b26">[27]</ref>). The data set is based on a panel of 46 states and covers 1963 to 1992. The spatial weight matrix W is also given in the data set. We take the following two variables as explanatory variables, such as the logarithm average retail price of a pack of cigarettes measured in real terms, (X 1 ), and the logarithm real per capita disposable income (X 2 ). The dependent variable y it is the logarithm real per capita sales of cigarettes by persons of smoking age (14 years and older).</p><p>Firstly, the Kolmogorov-Smirnov test is employed to test whether the standardized y follows the standard normal distribution. The result shows that the normality assumption is rejected at the 0.05 significance level. Fig <ref type="figure" target="#fig_1">1</ref> gives the p.d.f. plot of response y, which shows that the density of y has larger kurtosis than N(0, 1).</p><p>Following, we employ the spatial autoregressive panel data model for analysis. The fitted model takes the form:</p><formula xml:id="formula_23">Q t ðy it jD it ; X it Þ ¼ rðtÞD it þ X 1;it b 1 ðtÞ þ X 2;it b 2 ðtÞ þ Z &gt; 1i ηðtÞ;<label>ð9Þ</label></formula><p>where D it ¼ P N j¼1 w ij y jt . We estimate the parameters using the IV-MDQR, IV-FEQR, MLE, and OLS methods. The results are presented in Table <ref type="table">5</ref>. The first three columns are the IV-MDQR estimates for τ = 0.25, 0.5, 0.75, the middle three columns are the IV-FEQR estimates for τ = 0.25, 0.5, 0.75, and the last two columns correspond to the MLE and OLS estimates respectively. We can see that the IV-MDQR and IV-FEQR estimates both vary at different quantiles (i.e., τ = 0.25, 0.5, 0.75). Except β 2 , the signs of the estimates are the same among IV-MDQR, IV-FEQR, MLE and OLS methods. At quantiles 0.25, 0.5 and 0.75, the cigarettes sales between neighbour states has a positive effect to each other, the log average cigarettes retail price has a negative effect to the cigarettes sales, and the log disposable income generally has a positive effect to the cigarettes sales.</p><p>Table 4. The computing time (in seconds) of IV-FEQR and IV-MDQR estimators required for one replication under different sample size. N T = 100 T N = 100 IV-MDQR IV-FEQR IV-MDQR IV-FEQR 10 0.351 0.169 10 1.927 1.781 50 1.728 2.238 50 2.925 4.614 100 3.463 10.395 100 3.463 10.395 250 8.692 117.500 250 5.619 64.759 500 17.730 5469.055 500 8.099 381.982 <ref type="url" target="https://doi.org/10.1371/journal.pone.0261144.t004">https://doi.org/10.1371/journal.pone.0261144.t004</ref> </p><p>Fig 2 presents a complete analysis, which considers other quantiles of the conditional cigarettes demand distribution. The x-axis presents the quantiles and y-axis presents the IV-MDQR estimations of parameters (red lines) and their corresponding confidence intervals (blue lines). We find that the cigarettes retail price has negative effect to the capita sales of cigarettes and disposable income has positive effect to the capita sales of cigarettes at all quantiles levels. Besides, the effects of capita sales of cigarettes and disposable income are both larger at extreme quantiles.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusion</head><p>In this paper, we investigate minimum distance quantile regression (IV-MDQR) estimation of spatial autoregressive panel data models with fixed individual effects. The instrumental Table 5. Estimation results of cigarette demand based on spatial autoregressive panel data models. Para. IV-MDQR IV-MDQR MLE OLS τ = 0.25 τ = 0.50 τ = 0.75 τ = 0.25 τ = 0.50 τ = 0.75 ρ 0.431 0.345 0.402 0.610 0.490 0.410 0.286 0.424 β 1 -0.535 -0.565 -0.601 -0.343 -0.348 -0.350 -0.530 -0.451 β 2 0.104 0.029 0.075 0.114 0.035 -0.016 -0.003 0.002 <ref type="url" target="https://doi.org/10.1371/journal.pone.0261144.t005">https://doi.org/10.1371/journal.pone.0261144.t005</ref> </p><p>variable method is employed for bias reduction. The asymptotic properties are studied. Monte Carlo results are provided to show that the proposed methodology effectively reduces the estimation bias and is computationally advantageous.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Appendix: Proofs</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.1">Proof of Theorem 3.1</head><p>Proof</p><formula xml:id="formula_24">. Denote ϑ i0 ¼ ðθ &gt; 0 ; Z i0 Þ &gt; ¼ ðr 0 ; β &gt; 0 ; Z i0 Þ &gt; . Firstly, θi<label>ðtÞ</label></formula><p>is the IVQR estimator which is computed using the time series data. Following  2. To show the consistency of θ for joint asymptotics, we do the following computation: </p><formula xml:id="formula_25">θðtÞ ¼ X N i¼1 V À 1 i ! À 1 X N i¼1 V À 1 i θi ðtÞ! p X N i¼1 Ṽ À 1 i ! À 1 X N i¼1 Ṽ À 1 i θ 0</formula><formula xml:id="formula_26">θðtÞ À θ 0 ðtÞ ¼ X N i¼1 V À 1 i ! À 1 X N i¼1 V À 1 i ð θi ðtÞ À θ 0 ðtÞÞ ¼ X N i¼1 V À 1 i ! À 1 X N i¼1 V À 1 i o p<label>ð1Þ</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7.2">Proof of Theorem 3.2</head><p>Proof. We first derive the asymptotic normality of the IV-MDQR estimator under sequential asymptotics. Under Assumptions A1-A6, for each individual, the IVQR estimator θi ðtÞ converges to a Gaussian distribution: ffi ffi ffiffi T p ð θi ðtÞ À θ 0 ðtÞÞ! d Nð0; Ṽ i Þ;</p><p>where</p><formula xml:id="formula_27">Ṽ i ¼ J i ðtÞ À 1 S i ðtÞ½J i ðtÞ À 1 � &gt; , J i ðtÞ ¼ Eðf i ð0jD it ; X it ; ω it ÞX � it X&gt; it Þ, S i ðtÞ ¼ tð1 À tÞEðX � it X �&gt; it Þ, X � it ¼ ½ω &gt; it ; X &gt; it � &gt; , Xit ¼ ½D it ; X &gt; it � &gt; , f i ð0jD it ; X it ; ω it Þ is the condi-</formula><p>tional density of ε it at the quantile of interest (see, <ref type="bibr" target="#b17">[18,</ref><ref type="bibr" target="#b18">19]</ref>).</p><p>By assumption A8 and Slutsky's theorem, ffi ffi ffiffi T p ð θi ðtÞ À θ 0 ðtÞÞ! d Nð0; Ṽ i Þ as T ! 1. Fix N and let T tend to infinity, then we have</p><formula xml:id="formula_28">ffi ffi ffi ffi ffi ffi ffi NT p ð θðtÞ À θ 0 ðtÞÞ ¼ 1 N X N i¼1 V À 1 i ! À 1 1 ffi ffi ffi ffi N p X N i¼1 V À 1 i ffi ffi ffiffi T p ð θi ðtÞ À θ 0 ðtÞÞ ! d 1 N X N i¼1 Ṽ À 1 i ! À 1 1 ffi ffi ffi ffi N p X N i¼1 Ṽ À 1 i Nð0; Ṽ i Þ ¼ 1 N X N i¼1 Ṽ À 1 i ! À 1 1 ffi ffi ffi ffi N p X N i¼1 Nð0; Ṽ À 1 i Þ:</formula><p>Then let N tend to infinity, we can obtain</p><formula xml:id="formula_29">1 N P N i¼1 Ṽ À 1 i À � À 1 ! p Ṽ .</formula><p>Moreover, by Lyapunov Central Limit Theorem, it follows that 1 ffi ffi ffi N p P N i¼1 Nð0; Ṽ À 1 i Þ ! d Nð0; Ṽ À 1 Þ. Hence, by Slutsky's theorem, we can obtain the following result: ffi ffi ffi ffi ffi ffi ffi NT p ð θðtÞ À θ 0 ðtÞÞ ! d Nð0; Ṽ Þ: Following, we derive the asymptotic normality of the IV-MDQR estimator under joint asymptotics. Let X = [0|I p+1 ]. Under assumption A8 0 , we can do the following computation: ffi ffi ffi ffi ffi ffi ffi NT p ð θðtÞ À θ 0 ðtÞÞ</p><formula xml:id="formula_30">¼ 1 N X N i¼1 V À 1 i ! À 1 ffi ffi ffi ffi N p N X N i¼1 V À 1 i X ffi ffi ffiffi T p ð θi ðtÞ À θ 0 ðtÞÞ ¼ 1 N X N i¼1 Ṽ À 1 i ! À 1 þ O p T À 1=2 h À 1=2 N � � ! � ffi ffi ffi ffi N p N X N i¼1 Ṽ À 1 i X ffi ffi ffiffi T p ð θi ðtÞ À θ 0 ðtÞÞ þ O p ðN 1=2 T À 1=2 h À 1=2 N Þ � ¼ 1 N X N i¼1 Ṽ À 1 i ! À 1 ffi ffi ffi ffi N p N X N i¼1 Ṽ À 1 i X ffi ffi ffiffi T p ð θi ðtÞ À θ 0 ðtÞ þ O p ðN 1=2 T À 1=2 h À 1=2 N Þ</formula><p>Based on Lemmas 4 and 5 in <ref type="bibr" target="#b14">[15]</ref>, we can obtain that for each i,</p><formula xml:id="formula_31">θi ðtÞ À θ 0 ðtÞ ¼ À X ΓÀ 1 i S iT ðϑ i0 ðtÞÞ þ O p ðd N Þ þ O p 1 T � � þ X GÀ 1 i O p ðð θi ðtÞ À ϑ i0 ðtÞÞ 2 Þ ¼ À X ΓÀ 1 i S iT ðϑ i0 ðtÞÞ þ O p ðd N Þ;</formula><p>where</p><formula xml:id="formula_32">Γi ¼ @S i ðϑ i0 Þ @ϑ i , S iT ðϑÞ ¼ 1 T P T t¼1 c t ðy it À rD it À X &gt; it β À Z i Þ½D it ; X &gt; it ; 1� &gt; , S i ðϑÞ ¼ EðS iT<label>ðϑÞÞ</label></formula><formula xml:id="formula_33">,</formula><formula xml:id="formula_34">d N ¼ log d N T _ ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi ffi d N jlog d N j T q , d N ¼ ffi ffi ffi ffi ffi ffi ffi ffi log N T q . Then it follows that ffi ffi ffi ffi N p N X N i¼1 Ṽ À 1 i X ffi ffi ffiffi T p ð θi ðtÞ À θ 0 ðtÞÞ ¼ À ffi ffi ffi ffi N p N Ṽ À 1 i X ffi ffi ffiffi T p ΓÀ 1 i S iT ðϑ i0 ðtÞÞ þ O p ð ffi ffi ffi ffi ffi ffi ffi NT p d N Þ:</formula><p>As (T, N)!1 and N 2 log N T jlog ðlog NÞ 1=2 T 1=2 j 2 ! 0, the second term of the above equation is o p <ref type="bibr" target="#b0">(1)</ref>.</p><p>Moreover, by Lyapunov central limit theorem, the first term of the above equation converges in distribution to N 0; lim N!</p><formula xml:id="formula_35">1 N P N i¼1 Ṽ À 1 i À � .</formula><p>Hence, by Slutsky's theorem, we can obtain the following result: ffi ffi ffi ffi ffi ffi ffi NT p ð θðtÞ À θ 0 ðtÞÞ ! d Nð0; Ṽ Þ as (T, N)!1 and ffi ffi ffi ffi ffi ffi ffi NT p d N ! 0.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>0 , (ρ(τ), β(τ)) is consistently estimable as (T, N)!1 and logN/T ! 0. Theorem 3.2. 1. Under assumptions A1-A7 and A8, as (T, N) seq ! 1, ffi ffi ffi ffi ffi ffi ffi NT p ð θðtÞ À θðtÞÞ! d Nð0; Ṽ Þ: 2. Under assumptions A1-A7 and A8 0 , as (T, N) ! 1 and N 2 logN T jlog ðlogNÞ 1=2 T 1=2 j 2 ! 0, ffi ffi ffi ffi ffi ffi ffi NT p ð θðtÞ À θðtÞÞ! d Nð0; Ṽ Þ:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig 1 .</head><label>1</label><figDesc>Fig 1. Probability density plots of y in the cigarette demand data set (blue line) and N(0, 1) (orange line). https://doi.org/10.1371/journal.pone.0261144.g001</figDesc><graphic coords="9,200.01,78.01,299.96,325.42" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>1 .</head><label>1</label><figDesc>[18], under assumptions A1-A6, the IVQR estimation of ðr i ðtÞ; βi ðtÞ; Ẑi ðtÞÞ! p ðr 0 ðtÞ; β 0 ðtÞ; Z i0 ðtÞÞ as T ! 1 for each individual i. By assumption A8, V i ! p Ṽ i for each i, it follows that for fixed N, as T ! 1</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>ðtÞ ¼ θ 0 ðtÞ: Hence, it follows that ðrðtÞ; βÞ! p ðr 0 ðtÞ; β 0 ðtÞÞ as (T, N) seq ! 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>:</head><figDesc>Under assumptions A1-A5, based on Lemma 1 in<ref type="bibr" target="#b14">[15]</ref>, we have max 1�i�N k θi0 ðtÞ À θ 0 ðtÞk ¼ o p ð1Þ as (N, T)!1 and log N T ! 0. Hence, the last equation above is equal to o p<ref type="bibr" target="#b0">(1)</ref>.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig 2 .</head><label>2</label><figDesc>Fig 2. Quantile effects of the spatial correlation coefficient, the log average retail price of a pack of cigarettes and the log disposable income. The areas represent 95% point-wise confidence intervals. https://doi.org/10.1371/journal.pone.0261144.g002</figDesc><graphic coords="10,200.01,78.01,299.96,108.45" type="bitmap" /></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>PLOS ONE | https://doi.org/10.1371/journal.pone.0261144 December 14, 2021</p></note>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgments</head><p>We thank the editor, the associate editor and two referees for their helpful comments which led to a considerable improvement of the original article.</p></div>
+			</div>
+
+
+			<div type="funding">
+<div><p>This work was supported from the <rs type="funder">National Natural Science Foundation of China</rs> (grant no. <rs type="grantNumber">11801370</rs>) to LJ and <rs type="funder">Shanghai Natural Science Foundation</rs> (grant no. <rs type="grantNumber">18ZR1427200</rs>) to XD. The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_hb4eUSK">
+					<idno type="grant-number">11801370</idno>
+				</org>
+				<org type="funding" xml:id="_53EjJV6">
+					<idno type="grant-number">18ZR1427200</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>All relevant data are within the paper and its S1 and S2 Data files.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The authors have declared that no competing interests exist.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Author Contributions</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data curation: Xiaowen Dai.</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methodology: Libin Jin.</head><p>Writing -original draft: Xiaowen Dai, Libin Jin.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supporting information</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S1 Data. (XLS)</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S2 Data.</head><p>(XLS)</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>The Netherlands</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Testing panel data regression models with spatial error correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koh</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0304-4076(03)00120-9</idno>
+		<ptr target="https://doi.org/10.1016/S0304-4076(03)00120-9" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page" from="123" to="150" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A generalized spatial panel data model with random effects</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Egger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pfaffermayr</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/07474938.2012.742342</idno>
+		<ptr target="https://doi.org/10.1080/07474938.2012.742342" />
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="650" to="685" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial panel data models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0160017603253791</idno>
+		<ptr target="https://doi.org/10.1177/0160017603253791" />
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="244" to="268" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum likelihood estimators for spatial dynamic panel data with fixed effects when both n and T are large</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jong</forename><forename type="middle">R</forename><surname>De</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2008.08.002</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2008.08.002" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">146</biblScope>
+			<biblScope unit="page" from="118" to="134" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Estimation of unit root spatial dynamic panel data models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<idno type="DOI">10.1017/S0266466609990600</idno>
+		<ptr target="https://doi.org/10.1017/S0266466609990600" />
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="1332" to="1362" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial autoregressive panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2009.08.001</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2009.08.001" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="page" from="165" to="185" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Estimation of semi-parametric varying-coefficient spatial panel models with random-effects</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Shen</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jspi.2014.11.001</idno>
+		<ptr target="https://doi.org/10.1016/j.jspi.2014.11.001" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inferences</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="64" to="80" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Quantile regression for general spatial panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tang</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/02664763.2019.1628190</idno>
+		<ptr target="https://doi.org/10.1080/02664763.2019.1628190" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="45" to="60" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Specification Tests for Temporal Heterogeneity in Spatial Panel Data Models with Fixed Effects</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2019.103488</idno>
+		<ptr target="https://doi.org/10.1016/j.regsciurbeco" />
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="page">103488</biblScope>
+			<date type="published" when="2019">2020. 2019.103488</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Dynamic spatial panel data models with common shocks</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2020.12.002</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2020.12.002" />
+	</analytic>
+	<monogr>
+		<title level="j">JJournal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">224</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="134" to="160" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Spatial dynamic panel data models with correlated random effects</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2020.05.016</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2020.05.016" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">221</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="424" to="454" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Penalized quantile regression for spatial panel data with fixed effects</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Feng</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/03610926.2021.1934028</idno>
+		<ptr target="https://doi.org/10.1080/03610926.2021" />
+	</analytic>
+	<monogr>
+		<title level="j">Communications in Statistics-Theory and Methods</title>
+		<imprint>
+			<date type="published" when="2021">2021. 1934028</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Asymptotics for panel quantile regression models with individual effects</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kato</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Galvao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Montes-Rojas</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2012.02.007</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2012.02.007" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">170</biblScope>
+			<biblScope unit="page" from="76" to="91" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Efficient minimum distance estimator for quantile regression fixed effects panel data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F</forename><surname>Galvao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jmva.2014.08.007</idno>
+		<ptr target="https://doi.org/10.1016/j.jmva.2014.08.007" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">133</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Quantile regression for longitudinal data</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Koenker</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jmva.2004.05.006</idno>
+		<ptr target="https://doi.org/10.1016/j.jmva.2004.05.006" />
+	</analytic>
+	<monogr>
+		<title level="j">J. Multivariate Anal</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="page" from="74" to="89" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Quantile Regression</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Koenker</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Instrumental quantile regression inference for structural and treatment effect models</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Chernozhukov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hansen</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2005.02.009</idno>
+		<idno>02.009</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2005" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">132</biblScope>
+			<biblScope unit="page" from="491" to="525" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Instrumental variable quantile regression: A robust inference approach</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Chernozhukov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hansen</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2007.06.005</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2007.06.005" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">142</biblScope>
+			<biblScope unit="page" from="379" to="398" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Quantile regression for dynamic panel data with fixed effects</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F</forename><surname>Galvao</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2011.02.016</idno>
+		<ptr target="https://doi.org/10.1016/j.jeconom.2011.02.016" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">164</biblScope>
+			<biblScope unit="page" from="142" to="157" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="DOI">10.1023/A:1007707430416</idno>
+		<ptr target="https://doi.org/10.1023/A:1007707430416" />
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">On the asymptotic distribution of the Moran I test statistic with applications</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0304-4076(01)00064-1</idno>
+		<ptr target="https://doi.org/10.1016/S0304-4076(01)00064-1" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="page" from="219" to="257" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Econometric analysis of panel data</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2001">2001</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Prediction in the panel data model with spatial correlation</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/17421770601009817</idno>
+		<ptr target="https://doi.org/10.1080/17421770601009817" />
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="175" to="185" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum likelihood estimation for spatial panel data regressions</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Research Collection School of Economics</title>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Unconditional maximum likelihood estimation of linear and log-linear dynamic models for spatial panels</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.2005.00577.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1538-4632.2005.00577.x" />
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="85" to="106" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<title level="m" type="main">A j-test for panel models with fixed effects, spatial and time dependence</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+		<respStmt>
+			<orgName>Regional Research Institute Working Paper Series</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

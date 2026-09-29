@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Bayesian model averaging for spatial autoregressive models based on convex combinations of different types of connectivity matrices</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Nicolas</forename><surname>Debarsy</surname></persName>
+							<email>nicolas.debarsy@cnrs.fr</email>
+							<affiliation key="aff0">
+								<orgName type="laboratory">UMR 9221</orgName>
+								<orgName type="institution" key="instit1">CNRS-LEM</orgName>
+								<orgName type="institution" key="instit2">Université de Lille Campus Cité Scientifique Bat</orgName>
+								<address>
+									<postCode>SH2 F-59655</postCode>
+									<settlement>Villeneuve-d&apos;Ascq</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+							<email>james.lesage@txstate.edu</email>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Finance &amp; Economics</orgName>
+								<orgName type="institution">Texas State University</orgName>
+								<address>
+									<addrLine>601 University Drive San Marcos</addrLine>
+									<postCode>78666</postCode>
+									<region>TX</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Bayesian model averaging for spatial autoregressive models based on convex combinations of different types of connectivity matrices</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">96D363EA6F48B656C34B15564EEDADE6</idno>
+					<idno type="DOI">10.1080/07350015.2020.1840993</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Markov Chain Monte Carlo estimation</term>
+					<term>SAR</term>
+					<term>block sampling parameters for a convex combination</term>
+					<term>cross-sectional dependence</term>
+					<term>hedonic price model</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>There is a great deal of literature regarding use of non-geographically based connectivity matrices or combinations of geographic and non-geographic structures in spatial econometric models. We focus on convex combinations of weight matrices that result in a single weight matrix reflecting multiple types of connectivity, where coefficients from the convex combination can be used for inference regarding the relative importance of each type of connectivity in the global cross-sectional dependence scheme. We tackle the question of model uncertainty regarding selection of the best convex combination by Bayesian model averaging. We use Metropolis-Hastings guided Monte Carlo integration during MCMC estimation of the models to produce log-marginal likelihoods and associated posterior model probabilities. We focus on MCMC estimation, computation of posterior model probabilities, model averaged estimates of the parameters, scalar summary measures of the non-linear partial derivative impacts, and their associated empirical measures of dispersion.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatial regression models typically rely on spatial proximity to specify connectivity matrices, where the relative Euclidean distance between observations determines the strength of dependence between observations. One can generalize the notion of Euclidean distance to produce measures of dependence between observations based on other metrics. For example, <ref type="bibr" target="#b19">Pace et al. (2000)</ref> proposed a model for prices of homes sold that occur at irregular points in space and time, generalizing distance to include relative locations in time. Related work by <ref type="bibr">Pace et al. (2002)</ref> relied on generalized distances that considered the number of bedrooms and bathrooms (of nearby homes) to specify the structure of selling price dependence between homes, with the motivation that appraisers determine market price estimates based on homes comparable in these two metrics.</p><p>Once we open the door to non-spatial metrics as a way to specify dependence between cross-sectional observations, a host of issues arise, which are discussed in <ref type="bibr" target="#b16">LeSage and Pace (2011)</ref> and <ref type="bibr" target="#b4">Debarsy and LeSage (2018)</ref>. <ref type="bibr">Blankmeyer et al. (2011, p.94)</ref> point out that "a single weight matrix, based on a multivariate similarity criterion (generalized distance) requires a norm to prevent scale differences from influencing the weight placed on the various measures of similarity. (This is unlike the case of spatial proximity where Euclidian distance provides a natural scaling.)"</p><p>We avoid the scaling issue that arises in the case of generalized distance using an approach set forth in <ref type="bibr" target="#b4">Debarsy and LeSage (2018)</ref> that relies on convex combinations of different connectivity matrices to form a single weight matrix, first explored by <ref type="bibr" target="#b20">Pace and LeSage (2002)</ref> as well as <ref type="bibr" target="#b10">Hazır et al. (2018)</ref>. The convex combination approach uses a single n × n weight matrix that represents the global cross-sectional dependence scheme.</p><p>This combination is constructed from alternative underlying types of connectivity between n observations reflected by n × n matrices which capture different modeling strategies for cross-sectional dependence. The parameters associated with each matrix in the convex combination indicate the relative importance assigned to each type of dependence in the global cross-sectional dependence scheme. This approach avoids the issue of scaling for different metrics used in a generalized measure of distance as each connectivity matrix entering the convex combination is normalized beforehand.</p><p>In this contribution, we focus on the spatial autoregressive model with a convex combination of connectivity matrices and follow <ref type="bibr" target="#b4">Debarsy and LeSage (2018)</ref> in using Markov Chain Monte Carlo (MCMC) estimation of the model. However, in contrast to <ref type="bibr" target="#b4">Debarsy and LeSage (2018)</ref>, this paper explicitly addresses the estimation, inference and numerical challenges raised by SAR models with convex combination of connectivity matrices. <ref type="bibr" target="#b4">Debarsy and LeSage (2018)</ref> discuss issues pertaining to estimation and interpretation of models involving convex combinations of only two connectivity matrices, which do not require the approach developed here. We tackle the problem of model uncertainty inherent in models involving numerous connectivity matrices by relying on a Bayesian model averaging procedure. Further, the sampling procedure for the convex combination parameters requires specific treatment since they have to be jointly drawn and need to obey two sets of constraints. Also, we develop measures of dispersion for the effects of interest (direct; indirect and total) that account for uncertainty in estimation of the convex combination parameters. Lastly, the estimation procedure requires development of an approximation to the Jacobian of the transformation, since it cannot be precalculated as in traditional SAR models (or as in <ref type="bibr" target="#b4">Debarsy and LeSage, 2018)</ref>.</p><p>In Section 2, we set forth matrix expressions for the model and discuss MCMC estimation. We also provide specifics regarding a computationally efficient approach that relies on trace approximations and quadratic forms involving outer vectors of parameters and inner matrices of sample data. In addition, we present the joint posterior distribution of the spatial dependence parameters in the model; an efficient approach to calculate partial derivative estimates needed to interpret the model; a Metropolis-Hastings tuned Monte Carlo integration approach to calculating the log-marginal likelihood; and our approach to Bayesian model averaging which we compare to alternative estimation procedures.</p><p>An online appendix provides computational timing results as well as results from Monte Carlo experiments that explores bias, dispersion and coverage to validate our estimation procedure. An applied illustration of the method in a hedonic house price model is the subject of section 3. Finally, section 4 concludes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Computationally efficient expressions for the model</head><p>The spatial autoregressive (SAR) model we wish to estimate is shown in (1), where each W ℓ represents an n × n connectivity matrix whose main diagonal contains zero elements and row-sums of the off-diagonal elements equal one, with n being the number of observations.</p><p>Non-zero (off-diagonal) matrix elements i, j of each W ℓ reflect that observation i is linked to observation j, with different connectivity matrices describing different possible types of interaction (e.g., geographic, economic, and so on).</p><formula xml:id="formula_0">y = ρW c (Γ)y + Xβ + ε, ε ∼ N (0, σ 2 I n ),<label>(1)</label></formula><formula xml:id="formula_1">W c (Γ) = L ℓ=1 γ ℓ W ℓ , 0 ≤ γ ℓ ≤ 1, L ℓ=1 γ ℓ = 1, Γ = (γ 1 , . . . , γ L )</formula><p>The n × k matrix X in (1) contains exogenous explanatory variables, with β being the associated k × 1 vector of parameters. The n × 1 vector ε represents a constant variance normally distributed disturbance term.</p><p>The SAR model in (1) can be re-expressed as in (2), a computationally convenient expression that isolates the parameters ρ, γ ℓ , ℓ = 1, . . . , L in the (L + 1) × 1 vector ω.</p><formula xml:id="formula_2">ỹω = Xβ + ε<label>(2)</label></formula><p>ỹ = (y, W 1 y, W 2 y, . . . , W L y) ω = (1, -ρΓ ) .</p><p>The value of isolating the parameter vector ω is that we can pre-calculate the n × (L + 1) matrix ỹ prior to the beginning of the MCMC sampling loop, which only contains sample data.</p><p>The likelihood of the model in ( <ref type="formula" target="#formula_2">2</ref>) is shown in (3), where</p><formula xml:id="formula_3">W = W 1 , • • • , W L . f (y|X, W; ρ, Γ, σ 2 , β) = |R(ω)| 2πσ 2 -n/2 exp - e e 2σ 2<label>(3)</label></formula><formula xml:id="formula_4">e = ỹω -Xβ R(ω) = I n -ρW c (Γ)</formula><p>where |R(ω)| is the Jacobian of the transformation, which in this case depends on the parameters (ρ, Γ). We restrict ρ ∈ (-1, 1), so that R(ω) -1 = ∞ j=0 ρ j W j c (Γ) exhibits an underlying stationary process. Some authors use ρ ∈ (-λ -1 n , 1), where λ n is the smallest eigenvalue of W and the upper bound of 1 arises as the maximum eigenvalue of rownormalized matrices W . By considering (-1, 1) as parameter space for ρ, we avoid computing the minimum eigenvalue of W c (Γ). The parameter space for the set of parameters</p><formula xml:id="formula_5">(ρ, Γ, σ 2 , β) is: Ω := Ω ρ × Ω Γ × Ω σ × Ω β = (-1, 1) × [0, 1] L × (0, ∞) × R k .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Flat priors for the parameters</head><p>Mathematically, the flat or uniform priors for ρ, Γ, β can be represented as p(ρ) ∼ U (-1, 1), p(Γ) ∼ U (0, 1) and p(β) ∝ 1. The noise variance σ 2 , is restricted to positive values. It is customary to apply a flat prior to the log-transformed value, log(σ 2 ). By retransforming the flat prior for log(σ 2 ) in terms of the original noise variance, we get p(σ 2 ) ∝ 1/σ 2 (see <ref type="bibr">Dittrich et al., 2017, p.216)</ref>. Given this prior information, and prior independence, we can write: p(ρ) × p(Γ) × p(σ 2 ) × p(β) ∝ 1/σ 2 , where the uniform priors for the parameters ρ and Γ reflect proper (bounded) probability distributions, while the priors on σ 2 and β are unbounded and improper since the integral over their parameter space (Ω σ 2 and Ω β ) is not finite. In the context of alternative models involving different weight matrices, if we rely on the same uniform priors for ρ, Γ and integrate out the parameters β and σ 2 , Hepple <ref type="bibr">(1995a,b)</ref> has shown that the joint posterior distribution for the cross-sectional dependence parameters ρ and Γ are proper under relatively unrestrictive assumptions.</p><p>Combining the likelihood function in (3) with the flat priors (and ignoring the constant term 2π n/2 ) leads to the joint posterior p(ρ, Γ, β, σ 2 ) in (4), from which σ can be integrated out, leading to ( <ref type="formula" target="#formula_8">6</ref>).</p><formula xml:id="formula_6">p(ρ, Γ, σ 2 , β|y, X, W) ∝ |R(ω)|(σ 2 ) -(n+2) 2 exp - 1 2σ 2 e e<label>(4)</label></formula><formula xml:id="formula_7">e = ỹω -Xβ p(ρ, Γ, β|y, X, W) ∝ |R(ω)| ∞ 0 σ -(n+2) exp - 1 2σ 2 e e dσ (<label>5</label></formula><formula xml:id="formula_8">) ∝ |R(ω)| (e e) -n/2<label>(6)</label></formula><p>To integrate out the k different β parameters, properties of the multivariate t-distribution in conjunction with 'completing the square' are used (see <ref type="bibr" target="#b23">Zellner, 1971)</ref>. This leads to a joint distribution for the dependence parameters ω shown in (7), with the term |X X| -1/2</p><p>and the exponent -(n -k)/2 arising from this integration (see <ref type="bibr">Hepple, 1995a,b)</ref>. This expression must be numerically integrated with respect to ω to arrive at the log-marginal likelihood for these models. This is accomplished using Monte Carlo integration discussed later.</p><formula xml:id="formula_9">p(ω|ỹ, X, W) ∝ |R(ω)||X X| -1/2 (ω F ω) -(n-k)/2<label>(7)</label></formula><formula xml:id="formula_10">F = U U U = M ỹ, M = I n -X(X X) -1 X</formula><p>A question that has been explored in the literature is whether this conditional posterior distribution is proper and can be integrated over the parameter space for the case of the flat priors described here. <ref type="bibr" target="#b5">Dittrich et al. (2017)</ref> tackle the traditional SAR model (relying on a single weight matrix W ) and conclude that propriety of this distribution requires conditions that extend to our model since W c = γ 1 W 1 + . . . + γ L W L is equivalent to the single weight matrix W , given our restrictions on the parameters γ ℓ , ℓ = 1, . . . , L.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">The Markov Chain Monte Carlo (MCMC) estimation scheme</head><p>Successful estimation of parameters for the model in (1) requires a sufficiently large sample n of observations. To see this, note that the matrices W ℓ reflect important sample data in this type of model, as we wish to make distinctions between alternative specifications of W ℓ .</p><p>Highly correlated connectivity matrices will lead to problems identifying the parameters Γ.</p><p>Distinguishing between alternative interaction structures also requires that the dependence reflected by the parameter ρ is different from zero, which should be clear when considering that for ρ = 0, the parameters Γ are not identifiable. Since our focus is on large samples n, reliance on the flat and uniform priors will not likely impact posterior estimates.</p><p>The conditional distribution for the parameters β is multivariate normal with mean and variance-covariance shown in (8).</p><formula xml:id="formula_11">p(β|σ 2 , ω, ỹ, X) = N ( β, Σβ )<label>(8)</label></formula><formula xml:id="formula_12">β = (X X) -1 (X ỹω) Σβ = σ 2 (X X) -1</formula><p>The conditional posterior for σ 2 (given β, ω) takes the form in (9), given the prior p(σ 2 ) ∝ 1/σ 2 .</p><formula xml:id="formula_13">p(σ 2 |β, ω, ỹ, X) ∝ (σ 2 ) -( n 2 ) exp - e e 2σ 2<label>(9)</label></formula><formula xml:id="formula_14">e = ỹω -Xβ ∼ IG(ã, b) ã = n/2 b = (e e)/2</formula><p>The (log) joint posterior for the parameters in ω after integrating out the parameters β and σ 2 takes the form in (10) and does not reflect a known distribution (as in the case of the conditional distributions for β and σ 2 ).</p><formula xml:id="formula_15">ln p(ω|ỹ, X, W) ∝ ln |R(ω)| - n -k 2 ln (ω F ω)<label>(10)</label></formula><p>We note that ln(ω F ω) is a quadratic form involving the matrix F , which consists of only sample data and can be calculated prior to MCMC sampling. As such ln(ω F ω) can be quickly evaluated for any vector of dependence parameters ω.</p><p>Finally, we sample the parameter ρ from the joint posterior distribution in (10) conditioning on Γ and similarly for Γ conditioning on ρ. Details about the sampling procedure are postponed to section 2.4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Log-determinants based on trace approximations</head><p>To approximate the logarithm of the Jacobian, we rely on a (truncated) Taylor series expansion, shown in (11), which has been initially set forth by <ref type="bibr">Pace et al. (2002)</ref> and <ref type="bibr" target="#b9">Golub and Van Loan (1996)</ref>. We use a fourth order Taylor expansion which Monte Carlo simulations reported in the online Appendix show works well to produce accurate parameter estimates as well as good coverage intervals.</p><formula xml:id="formula_16">ln|I n -ρW c (Γ)| = - ∞ i=1 ρ i tr(W i c (Γ))/i (<label>11</label></formula><formula xml:id="formula_17">) - q j=2 ρ j tr(W j c (Γ))/j<label>(12)</label></formula><p>Note that the 1st-order tr(W c (Γ)) is zero, given the definitions of W ℓ and the restrictions placed on γ ℓ . The second-order trace can be expressed as a quadratic form in parameters Γ and all pairwise multiplications of the individual matrices in W ℓ as shown in ( <ref type="formula" target="#formula_19">14</ref>) and (15), which are equivalent to expression (13).</p><formula xml:id="formula_18">tr(W 2 c (Γ)) = L i=1 L j=1 γ i γ j tr(W i W j ) (<label>13</label></formula><formula xml:id="formula_19">) = Γ QΓ.<label>(14)</label></formula><formula xml:id="formula_20">= (Γ ⊗ Γ) vec(Q),<label>(15)</label></formula><formula xml:id="formula_21">Q =          tr(W 2 1 ) tr(W 1 W 2 ) . . . tr(W 1 W L ) tr(W 2 W 1 ) tr(W 2 2 ) . . . tr(W 2 W L ) . . . . . . tr(W L W 1 ) tr(W L W 2 ) . . . tr(W 2 L )          . (<label>16</label></formula><formula xml:id="formula_22">)</formula><p>LeSage and <ref type="bibr" target="#b17">Pace (2009)</ref> point out that accelerated computation of traces can be accomplished using sums of matrix Hadamard products, which for asymmetric nonnegative connectivity matrices take the following form: tr(</p><formula xml:id="formula_23">W i W j ) = L i L j W i W j .</formula><p>Expression (14) shows that the parameters can be separated from the trace of the product of matrices, which can be pre-calculated prior to MCMC sampling. An even more efficient computational expression to compute tr(W 2 c ) is shown in (15), where ⊗ stands for the Kronecker product and vec(Q) is the operator which stacks the columns of the matrix Q.</p><p>Expressions for 3rd-and 4th-order traces are presented in ( <ref type="formula" target="#formula_24">17</ref>) and ( <ref type="formula" target="#formula_25">18</ref>) respectively.</p><formula xml:id="formula_24">tr(W 3 c (Γ)) = L i=1 L j=1 L k=1 γ i γ j γ k tr(W i W j W k ),<label>(17)</label></formula><formula xml:id="formula_25">tr(W 4 c (Γ)) = L i=1 L j=1 L k=1 L l=1 γ i γ j γ k γ ℓ tr(W i W j W k W l ).<label>(18)</label></formula><p>2.4 Sampling procedures for ρ and Γ</p><p>As noted in the introduction, a second computational challenge for MCMC estimation of the model is sampling parameters in the vector Γ, which must sum to one and cannot be negative. We set forth a block sampling procedure for Γ that proposes a vector of candidate values for γ ℓ , ℓ = 1, 2, . . . , L -1, with γ L = 1 -L-1 ℓ=1 . The conditional distributions for the current and proposed vectors that we label Γ c and Γ p are evaluated with a M-H step used to either accept or reject the newly proposed vector Γ p . Block sampling the parameter vector Γ has the virtue that accepted vectors will obey the summing up restriction and reduce autocorrelation in the MCMC draws for these parameters. However, block sampling is known to produce lower acceptance rates which may require more MCMC draws in order to collect a sufficiently large sample of draws for posterior inference regarding Γ.</p><p>The block sampling procedure involves (for each γ ℓ , ℓ = 1, . . . , L -1) a three-headed coin flip. By this we mean a uniform random number on the closed interval coin flip = U (0, 1), with head #1 a value of coin flip ≤ 1/3, head #2 a value in (1/3, 2/3] and head #3 a value &gt; 2/3. Given a head #1 result, we set a proposal for γ p ℓ using a uniform random draw on the interval [0, γ c ℓ ), the current value. A head #2 results in setting the proposal value equal to the current value (γ p ℓ = γ c ℓ ), while a head #3 selects a proposal value based on a uniform random draw on the interval (γ c ℓ , 1].</p><p>The (non-logged) conditional distributions in expression ( <ref type="formula" target="#formula_26">19</ref>) are used to calculate a M-H acceptance probability.</p><formula xml:id="formula_26">ψ M H (Γ c , Γ p ) = min (1, exp[(ln p(Γ p |ρ) -ln p(Γ c |ρ)])<label>(19)</label></formula><p>The expression to be evaluated at the current and proposed vectors of parameters Γ consists of two relevant terms, one involving the log-determinant and the other the quadratic form: ln (ω F ω), both of these evaluated for the vector of parameters Γ. As already motivated, our fourth-order Taylor series approximation to the log-determinant ln|I n -ρW c (Γ)| can be easily and rapidly calculated for any vector Γ using the pre-calculated traces and the conditioning parameter ρ, and use of these traces allows us to avoid the need to calculate the n × n matrix W c (Γ) = L ℓ=1 γ ℓ W ℓ , which saves on computer memory. A second point is that the quadratic form expression ln[ω F ω] can be easily calculated using the pre-calculated expression ỹ = (y W 1 y W 2 y . . . W L y) and the vector ω.</p><p>After the initial 1,000 draws we switch to a tuned random-walk proposal procedure. This is needed because proposals from the block sampling procedure based on the large intervals between [0, γ c j ) and (γ c j , 1] will not produce candidates likely to be accepted when these parameters are estimated with a great deal of precision, as would be the case for problems involving large sample size. This can result in a failure to move the chain adequately over the parameter space. To address this issue, standard deviations, σ γ(j) for each parameter j = 1, . . . , L -1 are calculated based on the first 1,000 draws (and thereafter using a rolling window interval of 1, 000 draws). These are used in a tuned random-walk procedure to produce candidate/proposal values. Specifically, we use a tuning scalar that is adjusted based on acceptance rates for the block of parameters Γ. This is used in conjunction with the standard deviations and the block sampling procedure described previously to produce proposals. Monte Carlo experiments in the online Appendix demonstrate the efficacy of this approach to sampling the parameter vector Γ.</p><p>Finally, the parameter ρ is drawn from the joint distribution for ω shown in (10) conditioning on Γ. We follow LeSage and <ref type="bibr" target="#b17">Pace (2009)</ref> and use M-H sampling for this parameter, based on a normal distribution along with a tuned random-walk procedure to produce candidate values for ρ. We further rely on rejection sampling to guarantee that proposed values belong to the (-1, 1) parameter space.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5">Calculating effects estimates</head><p>In addition to producing estimates for the underlying model parameters ρ, β, Γ, σ 2 , the non-linear nature of the model relationship requires calculating partial derivatives of y with respect to changes in the exogenous variables X based on the reduced form of the model.</p><p>For the standard SAR model, <ref type="bibr" target="#b17">LeSage and Pace (2009)</ref> derive these partial derivatives along with scalar summary measures reflecting own-and cross-partial derivatives that they label average direct and indirect effects. For the SAR model with a convex combination of connectivity matrices, the partial derivative of y with respect to the r th explanatory variable X r is shown in (20) while the associated scalar summary measures are presented in ( <ref type="formula" target="#formula_28">21</ref>) to ( <ref type="formula" target="#formula_32">25</ref>).</p><formula xml:id="formula_27">∂y/∂X r = = S r (W c (Γ)) (<label>20</label></formula><formula xml:id="formula_28">) S r (W c (Γ)) = (I n -ρW c (Γ)) -1 β r M (r) direct = n -1 tr(S r (W c (Γ))) (<label>21</label></formula><formula xml:id="formula_29">) = n -1 β r ∞ i=0 ρ i tr(W i c (Γ)) (<label>22</label></formula><formula xml:id="formula_30">) ≈ n -1 β r q i=0 ρ i tr(W i c (Γ))<label>(23)</label></formula><formula xml:id="formula_31">M (r) total = β r (1 -ρ)<label>(24)</label></formula><formula xml:id="formula_32">M (r) indirect = M (r) total -M (r) direct<label>(25)</label></formula><p>While expressions in ( <ref type="formula" target="#formula_28">21</ref>), ( <ref type="formula" target="#formula_31">24</ref>) and ( <ref type="formula" target="#formula_32">25</ref>) produce point estimates for the scalar summary measures of effects, we also require measures of dispersion for statistical inference regarding the significance of these effects. Use of an empirical distribution constructed by simulating the non-linear expressions in (20) using (say 1,000) draws from the posterior distribution of the underlying parameters ρ, β r , γ ℓ , ℓ = 1, . . . , L is suggested by <ref type="bibr" target="#b17">LeSage and Pace (2009)</ref>. The computation of the traces in ( <ref type="formula" target="#formula_30">23</ref>) is complicated by the fact that the matrix W c (Γ)</p><p>depends on estimated parameters γ ℓ , ℓ = 1, . . . , L ruling out use of pre-calculated traces.</p><p>To account for the stochastic variation in the effects estimated due to uncertainty in the estimation of the parameter Γ, we proceed in the following steps.</p><p>We calculate q = 100 traces using W c (Γ) = L ℓ=1 γℓ W ℓ where Γ is the posterior mean value of the vector Γ (more precisely, the traces are not computed but estimated using the procedure set forth in LeSage and <ref type="bibr" target="#b17">Pace, 2009)</ref>. The second-through fourth-order traces are then replaced with those shown in ( <ref type="formula" target="#formula_18">13</ref>), ( <ref type="formula" target="#formula_24">17</ref>) and ( <ref type="formula" target="#formula_25">18</ref>) during simulation, where MCMC draws for the parameters γ ℓ are used instead of relying on the posterior mean value of these parameters.</p><p>Given that the sum in ( <ref type="formula" target="#formula_30">23</ref>) involves increasingly small magnitudes associated with higher-order powers of the parameters ρ and Γ, low-order traces are most important for accurate estimates of the effects. With the exception of modeling situations involving very large negative or positive values of spatial dependence ρ (say greater than 0.9 in absolute value) which do not arise often in applied practice, this approach should produce accurate estimates for the effects, as shown in the Monte Carlo experiments reported in the online Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.6">Accounting for model uncertainty</head><p>The convex combination of connectivity matrices model specification raises the question of which matrices should be used and which should be ignored. For example, in the case of L candidate connectivity matrices, there are M = 2 L -L -1 possible ways to employ two or more of the L matrices in alternative model specifications. When L = 5, we have M = 26 possible models involving two or more matrices, and for L = 10, M = 1, 013. To account for this model uncertainty, we rely on Metropolis-Hastings guided Monte Carlo integration during MCMC estimation of the models to produce log-marginal likelihoods and associated posterior model probabilities for the set of M possible models, which allows for Bayesian model averaged estimates. Alternative Bayesian procedures developed in the literature to account for model uncertainty are also discussed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.6.1">Computation of log-marginal likelihoods</head><p>Calculation of the log marginal likelihood for model (1) involves integrating the joint posterior distribution over all model parameters. We can analytically integrate out the parameters β and σ 2 , leading to a (log kernel) joint posterior for the remaining model parameters in ω that takes the form in (10), (see <ref type="bibr">Hepple, 1995a,b)</ref>.</p><p>Integrating out the remaining parameters using numerical methods could be computationally intensive for cases involving a large number of parameters in the vector Γ. We rely on Metropolis-Hastings tuned Monte Carlo integration that avoids the efficiency problem typically encountered with Monte Carlo integration when samples would reflect areas of low support in the joint posterior distribution. Use of MCMC draws for the parameters ω based on the Metropolis-Hastings sampler makes the integration very efficient because these are located in areas of high density in the posterior distribution. The Monte Carlo integration estimate of the the (kernel) joint posterior is the mean of expression (10) evaluated for values in the vector ω on every trip through the MCMC sampling loop.</p><p>We can then add any constants of integration to produce an estimate of the log marginal likelihood. These constants take the form: κ = -log(1/ max ρ-1/ min ρ)+log(Gamma(dof ))dof × log(2π), where log(Gamma()) is the log gamma function, and dof are the degrees of freedom equal to (n -L)/2, where we loose degrees of freedom based on the number of weight matrices. The (normalized) non-log joint posterior can be calculated in the usual way using exp[log p(ω) -max(log p(ω))].</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.6.2">Bayesian model averaging</head><p>Given the speed of estimation for single models and the availability of multi-core computer architecture, it is possible to estimate models based on all possible combinations of two or more connectivity matrices, even in cases of 10 matrices.</p><p>During estimation, log-marginal likelihood estimates would be produced that allow calculation of posterior model probabilities for the set of M models.</p><p>Given the non-linear relationship between the underlying parameters β, Γ, ρ and the scalar summary measures of direct and indirect effects which are the focus of inference in these models, model averaged estimates should be constructed by applying model probabilities to the scalar summary estimates of the direct and indirect effects from each model.</p><p>As an illustration, we present estimation results for all models (M = 26) involving two or more connectivity matrices using a set of five candidate W -matrices and a sample of N = 2, 000 observations in Table <ref type="table" target="#tab_0">1</ref>. The DGP in ( <ref type="formula" target="#formula_33">26</ref>) was used where the three first candidate matrices have non-zero gamma values, γ 1 = 0.4, γ 2 = 0.3, γ 3 = 0.3. We set γ 4 = γ 5 = 0, as a test of overfitting for this type of convex combination.</p><formula xml:id="formula_33">y = ρ(γ 1 W 1 + γ 2 W 2 + γ 3 W 3 )y + Xβ + ε (<label>26</label></formula><formula xml:id="formula_34">) = (I n -ρW c (Γ)) -1 (Xβ + ε)</formula><p>Where X includes a constant term and 2 standard normal variables, β = (-1, -0.5, 1.5)</p><p>and ρ = 0.6. The error term ε is assumed normally distributed, centered around zero with a variance σ 2 I n where σ 2 = 3.6061 so the signal to noise ratio (SN R) of the model is defined following <ref type="bibr" target="#b4">Debarsy and LeSage (2018)</ref> to equal to 0.7. They define SNR as in ( <ref type="formula" target="#formula_35">27</ref>),</p><formula xml:id="formula_35">SN R = A A A A + σ 2 tr(B B)<label>(27)</label></formula><p>where</p><formula xml:id="formula_36">A = (I n -ρW c (Γ)) -1 Xβ and B = (I n -ρW c (Γ)) -1 .</formula><p>The five candidate W -matrices are based on five nearest neighbors matrices constructed from independent sets of random normal latitude-longitude vectors to ensure they convey different connectivity information. A set of 60,000 draws were used with the first 10,000 discarded for burn-in, and thinning of the 50,000 retained draws was used based on every fifth draw producing a sample of 10,000 draws used to construct estimates.</p><p>Estimates for ρ and the parameters γ ℓ , ℓ = 1, . . . , 5 for the 26 possible models involving combinations of 2 or more of the five W -matrices are shown in the upper part of Table <ref type="table" target="#tab_0">1</ref>, along with the log-marginal likelihood estimate and posterior model probabilities. From the table, we see that the true model (model #11) that generated the sample data vector y had a posterior model probability of 92.19%, with model #21 assigned a probability of 3.68% and model #22 a probability of 3.96%. Note that model #21 contains the three true matrices W 1 , W 2 , W 3 plus W 4 with a γ4 = 0.0366, and model #22 contains the three true matrices W 1 , W 2 , W 3 plus W 5 with a γ5 = 0.0415, both of which are plausible models to receive some support in terms of posterior model probabilities.</p><p>Table <ref type="table" target="#tab_0">1</ref> also shows posterior means for a set of model averaged estimates for the parameters ρ, γ ℓ , ℓ = 1, . . . , 5. These were constructed using the model probabilities to weight the 10,000 retained MCMC draws from each of the 26 models, with posterior means calculated based on the set of 10,000 probability-weighted draws. We see small values for the BMA parameters γ4 = 0.0014, γ5 = 0.0017. We can calculate credible intervals for these two parameters using the distribution of the 10,000 probability-weighted draws, which would allow us to determine if estimates for model #11 suffers from problems with inference at the boundary of the parameter space for Γ. That is, we can use credible intervals for the BMA posterior estimates of γ 4 , γ 5 to see if an inference of zero for these parameters is reasonable. The 0.01 interval for γ4 is 0.0046, and that for γ5 is 0.005, allowing us to conclude that these parameters are sufficiently close to zero to make an inference of zero reasonable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.6.3">Alternative estimation methods</head><p>There is a literature on Bayesian model averaging for spatial autoregressive models, where the focus has been on extending the approaches of <ref type="bibr" target="#b6">Fernàndez et al. (2001)</ref> and <ref type="bibr">George and</ref><ref type="bibr">McCulloch (1993, 1997)</ref> from non-spatial regression modeling that focuses on selection of explanatory variables in the matrix X. LeSage and Parent (2007) show how to extend the approach of <ref type="bibr" target="#b6">Fernàndez et al. (2001)</ref> that relies on the log-marginal likelihood for models consisting of differing explanatory variables using univariate numerical integration of the spatial dependence parameter that arises in the spatial autoregressive model (with a single weight matrix) to arrive at the log-marginal likelihood. They rely on the same reversible jump MCMC estimation approach as <ref type="bibr" target="#b6">Fernàndez et al. (2001)</ref> to explore alternative explanatory variables as well as the Zellner (1986) g-prior distribution for the coefficients association with these variables, while fixing the single spatial weight matrix. LeSage and <ref type="bibr">(2008)</ref> extend this approach slightly to sample alternative (single) weight matrices based on differing numbers of nearest neighbors.</p><formula xml:id="formula_37">Fischer</formula><p>Although <ref type="bibr" target="#b14">LeSage and Fischer (2008)</ref> allow for uncertainty in the connectivity matrix, the SAR model they consider allows for only one connectivity matrix. In other words, they implicitly assume (as does most of the spatial econometrics literature) that the crosssectional dependence scheme is composed of only one layer. Our approach allows for a more general interaction scheme based on a convex combination of several simultaneously interacting layers. We note that estimating a SAR model with a single connectivity matrix when the DGP involves several of these matrices should lead to unreliable estimates. To illustrate this point, we perform a small Monte Carlo analysis where we compare the LeSage and Fischer ( <ref type="formula">2008</ref>) approach with the one developed here.</p><p>In this setup, we consider uncertainty solely in the specification of the connectivity matrix and for the sake of simplicity, we only consider two possible choices: W 1 and W 2 .</p><p>We compare the <ref type="bibr" target="#b14">LeSage and Fischer (2008)</ref> approach with the one developed here under two alternative DGPs. The first DGP is based on the cross-sectional dependence scheme involving a convex combination of the two matrices W 1 and W 2 as shown in <ref type="bibr" target="#b19">(28)</ref>, while the second uses only the matrix W 1 in the DGP as shown in ( <ref type="formula" target="#formula_39">29</ref>), where ι n is an n × 1 vector of ones.</p><formula xml:id="formula_38">y = ρ(γ 1 W 1 + (1 -γ 1 )W 2 )y + β 0 ι n + X 1 β 1 + ε (<label>28</label></formula><formula xml:id="formula_39">) y = ρW 1 y + β 0 ι n + X 1 β 1 + ε (<label>29</label></formula><formula xml:id="formula_40">)</formula><p>Matrices W 1 and W 2 are based on five nearest neighbors, where each connectivity matrix was generated using different sets of standard normal latitude-longitude coordinates. We consider a standard normal variable for the vector X 1 (kept constant across the 1000 replications) and also for the error term. Finally, the sample size is set to 2000 observations.</p><p>To compare the two approaches, we produce estimates based on either the DGP from ( <ref type="formula" target="#formula_38">28</ref>) or (29) using matrices W 1 and W 2 separately, and then calculate Bayesian model averaging estimates based on the two sets of results (approach of <ref type="bibr" target="#b14">LeSage and Fischer, 2008)</ref>. We contrast these BMA results with those obtained from the convex combination methodology set forth here.</p><p>The first column of Tables <ref type="table" target="#tab_3">2 to 4</ref> shows the true value of the parameters used in the DGP. Columns 2 to 4 summarize the results obtained with <ref type="bibr" target="#b14">LeSage and Fischer (2008)</ref>. The last column reports the results based on the convex combination approach. Table <ref type="table" target="#tab_1">2</ref> reports the results based on the DGP with a convex combination of connectivity matrices, setting γ 1 = 0.5. As expected, the convex combination approach performs much better. Columns 2 to 4 show substantial bias in the estimated coefficients and associated effects estimates arising from model misspecification of the connectivity matrix. Large bias in the estimate of ρ leads to direct, indirect and total effects far from their true value. (We note that these effects estimates are the focus of interest and the basis for inference in SAR models.) Since γ 1 = 0.5, the posterior probability is roughly the same for each model based on a single connectivity matrix, as we would expect.</p><p>Table <ref type="table" target="#tab_2">3</ref> summarizes the results when γ 1 = 0.2, with findings similar to those from Table <ref type="table" target="#tab_1">2</ref>. We note that the SAR model with only W 2 is always chosen over that based on W 1 only.</p><p>Results based on the convex combination approach are always much better.</p><p>Finally, Table <ref type="table" target="#tab_3">4</ref> reports results for a case where the DGP is a SAR based on W 1 only (equation 29) using the same format as in preceding tables. In this case, the convex combination performs well, but remains slightly inferior to estimates obtained from the true DGP model. This is expected since the estimated parameter governing the convex combination (γ 1 ) will not exactly equal that implied by the true DGP (γ 1 = 1).</p><p>A second alternative strategy has been proposed by <ref type="bibr" target="#b22">Piribauer and Crespo Cuaresma (2016)</ref> who focus on a single weight matrix for the spatial autoregressive model constructed based on some unknown number of nearest neighboring regions and adopt the stochastic variable selection approach from <ref type="bibr" target="#b8">George and McCulloch (1997)</ref>. This approach introduces a parameter that controls inclusion of explanatory variables in the model, and uses the posterior inclusion probability for this parameter as a way to draw inferences regarding which variables are important. Piribauer and Crespo Cuaresma (2016) extend the parameter that controls inclusion of explanatory variables in the model to also govern inclusion of a weight matrix based on some variable number of nearest neighbors. This allows a posterior inference regarding the number of neighbors that are most appropriate for a single weight matrix. They argue that applying the stochastic variable selection approach used for selection of explanatory variables to also determine the number of nearest neighbors weight matrix in spatial autoregressive models holds computational advantages over the approach taken by <ref type="bibr" target="#b14">LeSage and Fischer (2008)</ref>. In the applied illustration presented in the next section, we show that for the case of a single connectivity matrix, the two estimation strategies <ref type="bibr" target="#b14">(LeSage and Fischer, 2008;</ref><ref type="bibr" target="#b22">Piribauer and Crespo Cuaresma, 2016)</ref> find the same optimal matrix. However, the same drawback illustrated above for the <ref type="bibr" target="#b14">LeSage and Fischer (2008)</ref> approach applies to the Piribauer and Crespo Cuaresma (2016) approach in cases where the true DGP involves convex combinations of weight matrices.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">An applied illustration</head><p>To illustrate the method, we estimate a hedonic house price regression using a sample of 72,045 homes sold in the state of Ohio during the year 2000. The data is described in <ref type="bibr" target="#b2">Brasington and Haurin (2006)</ref>; <ref type="bibr" target="#b1">Brasington (2007)</ref> and <ref type="bibr" target="#b3">Brasington and Hite (2008)</ref>. The dataset is publicly avaliable at: <ref type="url" target="http://homepages.uc.edu/~brasindd/housing.html">http://homepages.uc.edu/~brasindd/housing.html</ref>.</p><p>We rely on a subset from a larger sample of 112,830 homes, because we require that each home has twenty nearest neighboring homes within two miles that had the the same number of bedrooms, same number of full plus half baths and same categorical age variable. Full plus half baths were assigned a value equal to the # of full + 0.5 x # of half-baths. So, a home with one full plus two half baths has a value of 2 (equal to two full baths), and so on. House age was specified as six categorical variables, 0 to ≤ 5 years (new homes up to those less than or equal to 5 years old), 6 to ≤ 10 years, 11 to ≤ 20 years, 21 to ≤ 50 years, 51 to ≤ 100 years, and more than 100 years.</p><p>The dependent variable is the (logged) selling price, with two explanatory variables: log(total living area) in square feet, denoted as lTLA and log(lot size) in square feet, which we label lLSIZE. Typically, house characteristics such as bedrooms, baths and house age are used as explanatory variables in hedonic house price regressions. We take a different approach and use these variables to specify a set of alternative connectivity matrices. The motivation for this approach is that the conventional spatial autoregressive hedonic house price regression uses a spatial lag of prices from nearby homes (whatever their characteristics) as a way to approximate prices of comparable homes, and treats house characteristics such as bedrooms, baths and house age as explanatory variables that explain variation in selling prices.</p><p>Our use of these characteristics to form a convex combination of connectivity matrices, treats the characteristics as reflecting a more composite notion that we label house design.</p><p>House design is the basis on which a buyer searching for a home identifies comparable homes.</p><p>Since the conventional spatial lag of nearby home selling prices is an approximation used to identify comparable homes on which selling price of each home is dependent, our approach could be viewed as an attempt to improve on identifying comparable homes on which selling price of each home is dependent. As such, we expect to see a higher level of crosssectional dependence between selling prices. The higher level of dependence also implies that we would see larger indirect/spillover effects for the model that uses connectivity matrices reflecting design aspects of homes. In addition, we might see a denser weight matrix arising from the convex combination approach, which would also lead to larger spatial spillovers, because these are calculated as an average of the cumulative off-diagonal elements of the n × n matrix of partial derivatives, which are used to produce the scalar summary measures of indirect effects. In the following, we will compare our proposed approach to constructing the neighborhood of each home based on house design with the one based only on spatial neighbors without regard for house design. We also compare the convex combination approach based only on lTLA and lLSIZE (in square feet) as explanatory variables with a more conventional specification that models cross-sectional dependence using only spatial neighbors and treats the number of bedrooms, baths and house age as explanatory variables in the hedonic house price relationship.</p><p>We note that one can view characteristics such as bedrooms, baths and house age as either explanatory variables (e.g., conventional hedonic house price relationship), or as facets of house design that define comparable homes (e.g., our convex combination model illustrated here), but not both. If the weight matrix used in a SAR model is functionally related to explanatory variables in the model, important interpretation difficulties arise.</p><p>Consider that in this case, the partial derivative effect of a a change in X r on the outcome variable vector y would require that we take into account any (non-linear) change in the connectivity structure induced by the change in X r . <ref type="bibr" target="#b13">Lee and Yu (2012)</ref> develop theoretical expressions for this type of situation which require knowledge of the functional relationship between X r and the connectivity matrix, something unlikely to be known in practice.</p><p>Three connectivity matrices were constructed to reflect the nearest neighboring homes that potential buyers would view as comparable along three dimensions. Specifically, the nearest homes (within two miles) with the same number of bedrooms (W beds ), the same number of full plus half-baths (W baths ), and the same age category (W age ). In their search for a home, buyers would view nearby homes that did not have a similar number of beds, baths or house age as not truly comparable.</p><p>Of course, there is the question of how many nearest neighboring homes should be used to construct each connectivity matrix (and hence the convex combination) which can be answered using estimated log-marginal likelihoods and associated model probabilities.</p><p>Throughout the application, a set of 60,000 MCMC draws were made with the first 30,000 discarded for burn-in and thinning of the 30,000 retained draws was used to produce a sample of 1,000 draws used for inference. The model used to select the relevant number of neighbors for each definition of connectivity is shown in (30), where 4 types of connectedness were considered: three mentioned above as well as the conventional spatial connectivity matrix based on geographically nearest neighboring homes (W space ).</p><formula xml:id="formula_41">y = ρW y + β 0 ι n + β 1 lT LA + β 2 lLSIZE + ε (<label>30</label></formula><formula xml:id="formula_42">)</formula><p>Table <ref type="table" target="#tab_4">5</ref> shows the results of these calculations while Table <ref type="table" target="#tab_5">6</ref> reports the outcomes associated to the approach developed by <ref type="bibr" target="#b22">Piribauer and Crespo Cuaresma (2016)</ref>. We observe that both approaches lead to the same results, where the optimal number of neighbors for W space is 14, 12 for W beds , 13 for W baths and 14 for W age .</p><p>LeSage and <ref type="bibr" target="#b15">Pace (2014)</ref> propose a measure of similarity for alternative connectivity matrices, that involves multiplication of each n × n matrix with the same n × 1 random normal vector (ν) to produce vectors W space ν, W beds ν, W baths ν, W age ν. The correlation between these vectors can then be used to judge similarity. A correlation matrix based on the optimal number of neighbors is shown in Table <ref type="table" target="#tab_6">7</ref>, where we see correlations around 0.5 for lag vectors W beds ν and W baths ν and a slightly higher correlation of 0.54 between lag vectors W baths ν and W age ν. These correlations indicate that neighbors defined on the basis of homes with a common number of bedrooms, baths or of similar age are not the same. It is also of interest to consider the correlation between the three components that we use to define our notion of house design versus the conventional connectivity matrix based solely on nearby spatial neighbors. We see that the highest correlation between the spatial lag vector W space ν is with W age ν, indicating spatial clustering of homes of the same vintage/age, which is not surprising given that homes in a neighborhood are usually built around the same time. These results point to the inherent truth that homes located nearby tend to be similar in design providing a good approximation to comparable homes, which accounts for the success of spatial autoregressive hedonic house price regressions that rely on prices of homes located nearby.</p><p>In this application, the convex combination of connectivity matrices is based on three different measures of similarity. Table <ref type="table" target="#tab_7">8</ref> reports the log-marginal likelihood and associated posterior probabilities of all models that include two or more matrices in the convex combination. The results indicate a strong preference for a model based on the number of bedrooms, bathrooms and house age (model 4), since the posterior probability associated with this model is 100%. Table <ref type="table">9</ref> reports estimation results for each connectivity matrix considered separately along with estimates based on the convex combination of house design.</p><p>Similar results in terms of estimated coefficients and log-marginal values are observed for the SAR model based on the four separate connectivity matrices, but we see some divergence in the calculated effects estimates. These differences are notable for the total and indirect elasticities of selling price with respect to total living area, which range between 1.261 and 1.499 for the former and between 0.919 and 1.077 for the latter.</p><p>Comparing results based on a conventional geographically based weight matrix with those from the convex combination model, we observe different findings in terms of the direct, indirect and total effects. Estimates for the parameters γ 1 , γ 2 , γ 3 indicate that house age is the most important characteristic, with bathrooms next most important and bedrooms least important. Given the lower 0.01 and upper 0.99 credible intervals, these differences in the relative importance of house age, bathrooms and bedrooms are significant.</p><p>In addition, the lower 0.01 and upper 0.99 credible intervals point to a significant difference between the direct effects of TLA from the two models. Specifically, a 10 percent increase in living area (TLA) would result in a 4.2 percent higher price in the case of the spatial neighbors specification, but only a 3.3 percent higher price for the convex combination model. Also, the spillover (indirect) effects associated with the 10 percent increase in TLA are larger for the convex combination model, implying a 12.46 percent increase in selling price versus an 10.77 percent higher price in the case of changes in TLA when the interaction scheme is solely based on geographic neighbors. These results accord with the motivation given earlier that better identification of comparable homes results in a higher level of dependence, with a median value ρ = 0.803 for the convex combination model versus ρ = 0.739 for the spatial neighbors model. Of course, this leads to larger indirect or spillover effects. As noted earlier, larger spillover estimates may also arise because the convex combination model weight matrix is denser than the spatial weight matrix. (A check of non-zero off-diagonal elements from the two weight matrices showed this was indeed the case. For example, the average number of non-zero off-diagonal elements of the convex combination matrix was 23, versus 14 for the spatial weight matrix based on 14 nearest neighbors.)</p><p>In the case of the elasticity response of selling price to changes in lotsize, we also observe a significant difference in the direct and indirect effects for the five cases under study. Here again, given the higher level of dependence for the convex combination model and the denser connectivity matrix W c , we would expect to see a larger indirect effect of lotsizes from more comparable homes on the selling prices. The significant difference in indirect lotsize effects estimates lead to a significant difference in the total effect of lotsize for the five specifications, with those from the convex combination model being larger.</p><p>It is also the case that the log-marginal likelihood shows a clear improvement for the convex combination model relative to that based on all proximity weights taken separately.</p><p>Finally, Table <ref type="table" target="#tab_0">10</ref> compares the estimation results of the convex combination SAR model with house characteristics (number of bedrooms, baths and house age) used to construct the house design notion of comparable houses with those of a conventional SAR model where the neighborhood is based on a purely geographic 14 nearest neighbors definition and where the characteristics are treated as explanatory variables.</p><p>We first note that the log-marginal likelihood value is much higher for the SAR model based on a convex combination of matrices. Adding the number of bedrooms, bathrooms and the house age to the set of explanatory variables slightly decreases estimated values of the coefficients and effects of lTLA and lLSIZE, with respect to the first column of Table <ref type="table">9</ref>, dedicated to the estimation of the conventional SAR model where connectivity is based on the 14 geographic nearest neighbors, even though the log-marginal of the latter is somewhat smaller than for the former (-26,490.735 vs -26,052.668).</p><p>Finally, we observe that the approach relying on a convex combination of matrices implies much higher indirect and total effects for lTLA and lLSIZE than the SAR model with the additional explanatory variables, even though direct effects are quite similar.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Conclusion</head><p>We consider estimating spatial regression models that utilize convex combinations of connectivity structures that expand on conventional approaches based only on a single connectivity scheme between observations. Models constructed using a convex combination of weight matrices to form a single linear combination of alternative weight structures hold intuitive appeal since cross-sectional dependence is most of the time multi-dimensional.</p><p>The spatial autoregressive model with convex combination of connectivity matrices raises the question of which matrices should be used and which should be ignored. We show how Metropolis-Hastings guided Monte Carlo integration can be used during MCMC estimation of the models to produce estimates of log-marginal likelihoods and associated posterior model probabilities for alternative models, which allows for Bayesian model averaged estimates.</p><p>An applied illustration of our model shows that spatial hedonic house price regressions that rely on the conventional spatial weight matrix that relates selling prices of homes to those located nearby in space can be improved by taking into consideration design characteristics of homes located nearby. Homes located nearby of comparable age, bedrooms and baths can be viewed as comparable in terms of design, and better model the relevant neighborhood buyers (or real estate appraisers) consider to assess house prices.  </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>Expression (22)  shows that the only required quantities for constructing scalar effect measures are the traces of powers of W c (Γ). In practice, this infinite sum is truncated, as indicated by (23).<ref type="bibr" target="#b17">LeSage and Pace (2009)</ref>, who initially set forth this computationally efficient solution rely on q = 100. See LeSage andPace (2009, chap.4) for details regarding computation of measures of dispersion for the scalar summary effects estimates in the traditional SAR model.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Estimates for 5 candidate W -matrices, M = 26 models, N = 2000.</figDesc><table><row><cell>Models</cell><cell cols="2">log marginal Prob(m i )</cell><cell>ρ</cell><cell>γ 1</cell><cell>γ 2</cell><cell>γ 3</cell><cell>γ 4</cell><cell>γ 5</cell></row><row><cell>1</cell><cell>-4860.8213</cell><cell>0.0000</cell><cell cols="3">0.4201 0.5688 0.4312</cell><cell>-</cell><cell>-</cell><cell>-</cell></row><row><cell>2</cell><cell>-4866.3998</cell><cell>0.0000</cell><cell cols="2">0.3979 0.6023</cell><cell>-</cell><cell>0.3977</cell><cell>-</cell><cell>-</cell></row><row><cell>3</cell><cell>-4881.2037</cell><cell>0.0000</cell><cell cols="2">0.2568 0.9194</cell><cell>-</cell><cell>-</cell><cell>0.0806</cell><cell>-</cell></row><row><cell>4</cell><cell>-4881.1596</cell><cell>0.0000</cell><cell cols="2">0.2599 0.9096</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.0904</cell></row><row><cell>5</cell><cell>-4882.0701</cell><cell>0.0000</cell><cell>0.3353</cell><cell>-</cell><cell cols="2">0.5378 0.4622</cell><cell>-</cell><cell>-</cell></row><row><cell>6</cell><cell>-4896.0347</cell><cell>0.0000</cell><cell>0.2011</cell><cell>-</cell><cell>0.8924</cell><cell>-</cell><cell>0.1076</cell><cell>-</cell></row><row><cell>7</cell><cell>-4895.9268</cell><cell>0.0000</cell><cell>0.2042</cell><cell>-</cell><cell>0.8818</cell><cell>-</cell><cell>-</cell><cell>0.1182</cell></row><row><cell>8</cell><cell>-4901.7257</cell><cell>0.0000</cell><cell>0.1757</cell><cell>-</cell><cell>-</cell><cell cols="2">0.8746 0.1254</cell><cell>-</cell></row><row><cell>9</cell><cell>-4901.6148</cell><cell>0.0000</cell><cell>0.1799</cell><cell>-</cell><cell>-</cell><cell>0.8579</cell><cell>-</cell><cell>0.1421</cell></row><row><cell>10</cell><cell>-4914.8764</cell><cell>0.0000</cell><cell>-0.0098</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell cols="2">0.5008 0.4992</cell></row><row><cell>11  *</cell><cell>-4849.2302</cell><cell>0.9219</cell><cell cols="4">0.5750 0.4154 0.3124 0.2722</cell><cell>-</cell><cell>-</cell></row><row><cell>12</cell><cell>-4864.1171</cell><cell>0.0000</cell><cell cols="3">0.4356 0.5407 0.4115</cell><cell>-</cell><cell>0.0478</cell><cell>-</cell></row><row><cell>13</cell><cell>-4863.9848</cell><cell>0.0000</cell><cell cols="3">0.4390 0.5375 0.4099</cell><cell>-</cell><cell>-</cell><cell>0.0526</cell></row><row><cell>14</cell><cell>-4869.6133</cell><cell>0.0000</cell><cell cols="2">0.4153 0.5728</cell><cell>-</cell><cell cols="2">0.3750 0.0522</cell><cell>-</cell></row><row><cell>15</cell><cell>-4869.5024</cell><cell>0.0000</cell><cell cols="2">0.4190 0.5653</cell><cell>-</cell><cell>0.3756</cell><cell>-</cell><cell>0.0592</cell></row><row><cell>16</cell><cell>-4884.3557</cell><cell>0.0000</cell><cell cols="2">0.2768 0.8423</cell><cell>-</cell><cell>-</cell><cell cols="2">0.0743 0.0834</cell></row><row><cell>17</cell><cell>-4885.2463</cell><cell>0.0000</cell><cell>0.3518</cell><cell>-</cell><cell cols="3">0.5047 0.4327 0.0625</cell><cell>-</cell></row><row><cell>18</cell><cell>-4885.1041</cell><cell>0.0000</cell><cell>0.3570</cell><cell>-</cell><cell cols="2">0.4990 0.4281</cell><cell>-</cell><cell>0.0729</cell></row><row><cell>19</cell><cell>-4899.1158</cell><cell>0.0000</cell><cell>0.2207</cell><cell>-</cell><cell>0.7948</cell><cell>-</cell><cell cols="2">0.0959 0.1092</cell></row><row><cell>20</cell><cell>-4904.7257</cell><cell>0.0000</cell><cell>0.1960</cell><cell>-</cell><cell>-</cell><cell cols="3">0.7631 0.1080 0.1289</cell></row><row><cell>21</cell><cell>-4852.4506</cell><cell>0.0368</cell><cell cols="5">0.5912 0.3996 0.3012 0.2626 0.0366</cell><cell>-</cell></row><row><cell>22</cell><cell>-4852.3771</cell><cell>0.0396</cell><cell cols="4">0.5939 0.3991 0.2987 0.2606</cell><cell>-</cell><cell>0.0415</cell></row><row><cell>23</cell><cell>-4867.2128</cell><cell>0.0000</cell><cell cols="3">0.4551 0.5155 0.3882</cell><cell>-</cell><cell cols="2">0.0454 0.0509</cell></row><row><cell>24</cell><cell>-4872.6434</cell><cell>0.0000</cell><cell cols="2">0.4354 0.5412</cell><cell>-</cell><cell cols="3">0.3544 0.0488 0.0557</cell></row><row><cell>25</cell><cell>-4888.3092</cell><cell>0.0000</cell><cell>0.3736</cell><cell>-</cell><cell cols="4">0.4691 0.4026 0.0593 0.0690</cell></row><row><cell>26</cell><cell>-4855.5251</cell><cell>0.0017</cell><cell cols="6">0.6112 0.3851 0.2875 0.2531 0.0342 0.0401</cell></row><row><cell cols="2">bma_avg -4849.4842</cell><cell>1.0000</cell><cell cols="6">0.5764 0.4141 0.3114 0.2713 0.0014 0.0017</cell></row><row><cell>highest</cell><cell>-4849.2302</cell><cell>0.9219</cell><cell cols="4">0.5750 0.4154 0.3124 0.2722</cell><cell>-</cell><cell>-</cell></row><row><cell>truth</cell><cell></cell><cell></cell><cell cols="6">0.6000 0.4000 0.3000 0.3000 0.0000 0.0000</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>DGP is a convex combination, n = 2000, γ 1 = 0.5, 1000 replications</figDesc><table><row><cell cols="2">Parameter true</cell><cell>W 1</cell><cell cols="3">W 2 BMA Convex</cell></row><row><cell>ρ</cell><cell cols="4">0.600 0.311 0.312 0.321</cell><cell>0.598</cell></row><row><cell>γ 1</cell><cell>0.5</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.499</cell></row><row><cell cols="5">intercept 1.000 1.733 1.738 1.713</cell><cell>1.006</cell></row><row><cell>β 1</cell><cell cols="4">2.000 2.033 2.032 2.030</cell><cell>2.000</cell></row><row><cell>direct 1</cell><cell cols="4">2.073 2.072 2.071 2.071</cell><cell>2.073</cell></row><row><cell cols="5">indirect 1 2.927 0.885 0.889 2.071</cell><cell>2.936</cell></row><row><cell>total 1</cell><cell cols="4">5.000 2.957 2.959 2.071</cell><cell>5.009</cell></row><row><cell>σ 2</cell><cell cols="4">1.000 1.168 1.163 1.153</cell><cell>1.001</cell></row><row><cell>post prob</cell><cell>-</cell><cell cols="2">0.443 0.557</cell><cell>-</cell><cell>-</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>DGP is a convex combination, n = 2000, γ 1 = 0.2, 1000 replications</figDesc><table><row><cell></cell><cell>true</cell><cell>W 1</cell><cell cols="3">W 2 BMA Convex</cell></row><row><cell>ρ</cell><cell cols="4">0.600 0.140 0.486 0.486</cell><cell>0.600</cell></row><row><cell>γ 1</cell><cell>0.200</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.196</cell></row><row><cell cols="5">intercept 1.000 2.159 1.292 1.292</cell><cell>1.000</cell></row><row><cell>β 1</cell><cell cols="4">2.000 2.101 2.004 2.004</cell><cell>2.000</cell></row><row><cell>direct 1</cell><cell cols="4">2.112 2.109 2.113 2.113</cell><cell>2.114</cell></row><row><cell cols="5">indirect 1 2.888 0.337 1.788 2.113</cell><cell>2.917</cell></row><row><cell>total 1</cell><cell cols="4">5.000 2.446 3.901 2.113</cell><cell>5.031</cell></row><row><cell>σ 2</cell><cell cols="4">1.000 1.571 1.023 1.023</cell><cell>1.000</cell></row><row><cell>post prob</cell><cell>-</cell><cell cols="2">0.000 1.000</cell><cell>-</cell><cell>-</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 :</head><label>4</label><figDesc>DGP is a classic SAR (with W 1 only), n = 2000, 1000 replications</figDesc><table><row><cell></cell><cell>true</cell><cell>W 1</cell><cell cols="3">W 2 BMA Convex</cell></row><row><cell>ρ</cell><cell cols="4">0.600 0.605 0.012 0.605</cell><cell>0.622</cell></row><row><cell>γ 1</cell><cell>1</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.973</cell></row><row><cell cols="5">intercept 1.000 0.986 2.509 0.986</cell><cell>0.944</cell></row><row><cell>β 1</cell><cell cols="4">2.000 1.998 2.184 1.998</cell><cell>1.998</cell></row><row><cell>direct 1</cell><cell cols="4">2.194 2.198 2.185 2.198</cell><cell>2.198</cell></row><row><cell cols="5">indirect 1 2.806 2.874 0.029 2.198</cell><cell>3.104</cell></row><row><cell>total 1</cell><cell cols="4">5.000 5.072 2.214 2.198</cell><cell>5.302</cell></row><row><cell>σ 2</cell><cell cols="4">1.000 0.999 2.183 0.999</cell><cell>0.999</cell></row><row><cell>post prob</cell><cell>-</cell><cell cols="2">1.000 0.000</cell><cell>-</cell><cell>-</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 :</head><label>5</label><figDesc>Selection of the most relevant number of neighbors for each connectivity matrix.Posterior probabilities (in %) # neighbors W space W beds W baths W age</figDesc><table><row><cell>1</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>2</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>3</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>4</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>5</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>6</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>7</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>8</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>9</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>10</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>11</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>12</cell><cell>0.0</cell><cell>100.0</cell><cell>0.0</cell><cell>0.0.</cell></row><row><cell>13</cell><cell>0.0</cell><cell>0.0</cell><cell>100.0</cell><cell>0.0</cell></row><row><cell>14</cell><cell>100.0</cell><cell>0.0</cell><cell>0.0</cell><cell>100.0</cell></row><row><cell>15</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>16</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>17</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>18</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>19</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row><row><cell>20</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell><cell>0.0</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 :</head><label>6</label><figDesc>Selection of the most relevant number of neighbors for each connectivity matrix using the Piribauer and Crespo Cuaresma (2016) approach W space W beds W baths W ageThe probability has been computed as the percentage of (retained) draws for which the number of neighbors in the above row has been preferred.</figDesc><table><row><cell># of neighbors</cell><cell>14</cell><cell>12</cell><cell>13</cell><cell>14</cell></row><row><cell cols="5">Probability (%) a 100.0 100.0 100.0 100.0</cell></row></table><note><p>a</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 7 :</head><label>7</label><figDesc>Correlation of W space ν, W beds ν, W baths ν W age ν W space (14) W beds (12) W baths (13) W age (14)</figDesc><table><row><cell>W space (14)</cell><cell>1.000</cell><cell></cell><cell></cell><cell></cell></row><row><cell>W beds (12)</cell><cell>0.604</cell><cell>1.000</cell><cell></cell><cell></cell></row><row><cell>W baths (13)</cell><cell>0.642</cell><cell>0.490</cell><cell>1.000</cell><cell></cell></row><row><cell>W age (14)</cell><cell>0.728</cell><cell>0.511</cell><cell>0.538</cell><cell>1.000</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>Table 8 :</head><label>8</label><figDesc>Posterior model probabilities using different convex combination of matrices Model log-marginal Post. prob. (in %) ρ W beds W baths W age</figDesc><table><row><cell>1</cell><cell>-25,216.558</cell><cell>0.0</cell><cell>0.795 0.412 0.588 0.000</cell></row><row><cell>2</cell><cell>-24,957.895</cell><cell>0.0</cell><cell>0.778 0.361 0.000 0.639</cell></row><row><cell>3</cell><cell>-24,172.776</cell><cell>0.0</cell><cell>0.791 0.000 0.462 0.538</cell></row><row><cell>4</cell><cell>-23,884.628</cell><cell>100.0</cell><cell>0.803 0.196 0.375 0.429</cell></row><row><cell cols="2">BMA -23,884.628</cell><cell>-</cell><cell>0.803 0.196 0.375 0.429</cell></row></table></figure>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Median values of the posterior distribution are reported. Further, figures between square brackets represent the credible confidence interval at the 99% threshold.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_8"><head>Table 9 :</head><label>9</label><figDesc>SAR model hedonic house price regressions= γ 1 W beds + γ 2 W baths + γ 2 W age</figDesc><table><row><cell cols="5">Estimates (variable) W Constant W space W beds W baths W age -0.358 -0.119 -0.052 -0.402</cell><cell>-0.513</cell></row><row><cell></cell><cell cols="4">[-0.422 ; -0.297] [-0.181 ; -0.053 ] [-0.113 ; 0.005 ] [-0.465 ; -0.342]</cell><cell>[-0.571 ; -0.453]</cell></row><row><cell>β 1 (lTLA)</cell><cell>0.391</cell><cell>0.351</cell><cell>0.314</cell><cell>0.384</cell><cell>0.306</cell></row><row><cell></cell><cell>[0.383 ; 0.399]</cell><cell>[0.341 ; 0.360 ]</cell><cell>[ 0.304 ; 0.322 ]</cell><cell>[0.376 ; 0.392]</cell><cell>[0.298 ; 0.316]</cell></row><row><cell>β 2 (lLSIZE)</cell><cell>0.059</cell><cell>0.076</cell><cell>0.072</cell><cell>0.070</cell><cell>0.062</cell></row><row><cell></cell><cell>[0.055 ; 0.063]</cell><cell>[0.072 ; 0.081]</cell><cell>[0.068 ; 0.076]</cell><cell>[0.066 ; 0.074]</cell><cell>[0.058 ; 0.066]</cell></row><row><cell>ρ(Wy)</cell><cell>0.739</cell><cell>0.730</cell><cell>0.751</cell><cell>0.739</cell><cell>0.803</cell></row><row><cell></cell><cell>[0.733; 0.746 ]</cell><cell>[0.723 ; 0.738]</cell><cell>[0.745 ; 0.759]</cell><cell>[0.733 ; 0.746]</cell><cell>[0.796 ; 0.811]</cell></row><row><cell>γ 1 (W beds )</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.195</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>[0.177 ; 0.218]</cell></row><row><cell>γ 2 (W baths )</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.376</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>[0.357 ; 0.397]</cell></row><row><cell>γ 3 (W age )</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.429</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>[0.407 ; 0.449]</cell></row><row><cell>Direct(lTLA)</cell><cell>0.422</cell><cell>0.381</cell><cell>0.342</cell><cell>0.415</cell><cell>0.330</cell></row><row><cell></cell><cell>[0.413 ; 0.430]</cell><cell>[0.371 ; 0.391]</cell><cell>[0.332 ; 0.351]</cell><cell>[0.406 ; 0.423]</cell><cell>[0.321 ; 0.340]</cell></row><row><cell>Direct(lLSIZE)</cell><cell>0.064</cell><cell>0.083</cell><cell>0.078</cell><cell>0.076</cell><cell>0.067</cell></row><row><cell></cell><cell>[0.059 ;0.068]</cell><cell>[0.078 ; 0.088]</cell><cell>[0.074 ; 0.082]</cell><cell>[0.072 ; 0.081]</cell><cell>[0.063 ; 0.072]</cell></row><row><cell>Indirect(lTLA)</cell><cell>1.077</cell><cell>0.920</cell><cell>0.919</cell><cell>1.054</cell><cell>1.229</cell></row><row><cell></cell><cell>[1.043 ;1.116]</cell><cell>[0.885 ; 0.955]</cell><cell>[0.884 ; 0.950]</cell><cell>[1.021 ; 1.094]</cell><cell>[1.177 ; 1.292]</cell></row><row><cell>Indirect(lLSIZE)</cell><cell>0.163</cell><cell>0.200</cell><cell>0.210</cell><cell>0.193</cell><cell>0.249</cell></row><row><cell></cell><cell>[0.151 ;0.176]</cell><cell>[0.186 ; 0.213]</cell><cell>[0.197 ; 0.222 ]</cell><cell>[0.181 ; 0.206]</cell><cell>[0.230 ; 0.267]</cell></row><row><cell>Total(lTLA)</cell><cell>1.499</cell><cell>1.301</cell><cell>1.261</cell><cell>1.469</cell><cell>1.560</cell></row><row><cell></cell><cell>[1.460 ; 1.542]</cell><cell>[1.261 ; 1.339]</cell><cell>[1.218 ; 1.299]</cell><cell>[1.430 ; 1.514]</cell><cell>[1.500 ; 1.629]</cell></row><row><cell>Total(lLSIZE)</cell><cell>0.226</cell><cell>0.283</cell><cell>0.289</cell><cell>0.269</cell><cell>0.316</cell></row><row><cell></cell><cell>[0.210 ; 0.244 ]</cell><cell>[0.264 ; 0.301 ]</cell><cell>[0.271 ; 0.305]</cell><cell>[0.253 ; 0.286]</cell><cell>[0.293 ; 0.338]</cell></row><row><cell>Log-marginal likelihood</cell><cell>-26,490.735</cell><cell>-28,573.085</cell><cell>-26,903.300</cell><cell>-26,055.200</cell><cell>-23,884.628</cell></row><row><cell>Monte Carlo Errors</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Constant</cell><cell>0.0008</cell><cell>0.0007</cell><cell>0.0006</cell><cell>0.0007</cell><cell>0.0005</cell></row><row><cell>β 1 (lTLA)</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell></row><row><cell>β 2 (lLSIZE)</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell></row><row><cell>ρ(Wy)</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell><cell>0.0001</cell></row><row><cell>γ 1 (W beds )</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.0002</cell></row><row><cell>γ 2 (W baths )</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.0002</cell></row><row><cell>γ 3 (W age )</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.0002</cell></row><row><cell cols="6">Median values of the posterior distribution are reported. Further, figures between square brackets represent the credible</cell></row><row><cell cols="2">confidence interval at the 99% threshold.</cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note><p>c</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_9"><head>Table 10 :</head><label>10</label><figDesc>Comparison of SAR models</figDesc><table><row><cell>Estimates (variable)</cell><cell>Wspace</cell><cell>Wc = γ 1 W beds + γ 2 W baths + γ 2 Wage</cell></row><row><cell>Constant</cell><cell>0.475</cell><cell>-0.513</cell></row><row><cell></cell><cell>[0.380 ; 0.567]</cell><cell>[-0.571 ; -0.453]</cell></row><row><cell>β 1 (lTLA)</cell><cell>0.331</cell><cell>0.306</cell></row><row><cell></cell><cell>[0.320 ; 0.341]</cell><cell>[0.298 ; 0.316]</cell></row><row><cell>β 2 (lLSIZE)</cell><cell>0.056</cell><cell>0.062</cell></row><row><cell></cell><cell>[0.052 ; 0.060]</cell><cell>[0.058 ; 0.066]</cell></row><row><cell>Bedrooms (#)</cell><cell>0.009</cell><cell>-</cell></row><row><cell></cell><cell>[0.005 ; 0.014]</cell><cell></cell></row><row><cell>Bathrooms (#)</cell><cell>0.041</cell><cell>-</cell></row><row><cell></cell><cell>[0.036 ; 0.046]</cell><cell></cell></row><row><cell>House age</cell><cell>-0.009</cell><cell>-</cell></row><row><cell></cell><cell>[-0.011 ; -0.007]</cell><cell></cell></row><row><cell>ρ(Wy)</cell><cell>0.702</cell><cell>0.803</cell></row><row><cell></cell><cell>[0.694 ; 0.709]</cell><cell>[0.796 ; 0.811]</cell></row><row><cell>γ 1 (W beds )</cell><cell>-</cell><cell>0.195</cell></row><row><cell></cell><cell></cell><cell>[0.177 ; 0.218]</cell></row><row><cell>γ 2 (W baths )</cell><cell>-</cell><cell>0.376</cell></row><row><cell></cell><cell></cell><cell>[0.357 ; 0.397]</cell></row><row><cell>γ 3 (Wage)</cell><cell>-</cell><cell>0.428</cell></row><row><cell></cell><cell></cell><cell>[0.407 ; 0.449]</cell></row><row><cell>Direct(lTLA)</cell><cell>0.352</cell><cell>0.330</cell></row><row><cell></cell><cell>[0.340 ; 0.363]</cell><cell>[0.321 ; 0.340]</cell></row><row><cell>Direct(lLSIZE)</cell><cell>0.060</cell><cell>0.067</cell></row><row><cell></cell><cell>[0.056 ; 0.064]</cell><cell>[0.063 ; 0.072]</cell></row><row><cell>Direct(Bedrooms (#))</cell><cell>0.010</cell><cell>-</cell></row><row><cell></cell><cell>[0.005 ; 0.015]</cell><cell></cell></row><row><cell>Direct(Bathrooms (#))</cell><cell>0.044</cell><cell>-</cell></row><row><cell></cell><cell>[0.038 ; 0.049]</cell><cell></cell></row><row><cell>Direct(House age)</cell><cell>-0.010</cell><cell>-</cell></row><row><cell></cell><cell>[-0.012 ; -0.007]</cell><cell></cell></row><row><cell>Indirect(lTLA)</cell><cell>0.757</cell><cell>1.229</cell></row><row><cell></cell><cell>[0.722 ; 0.791]</cell><cell>[1.177 ; 1.292]</cell></row><row><cell>Indirect(lLSIZE)</cell><cell>0.129</cell><cell>0.249</cell></row><row><cell></cell><cell>[0.119 ; 0.139]</cell><cell>[0.230 ; 0.267]</cell></row><row><cell>Indirect(Bedrooms (#))</cell><cell>0.021</cell><cell>-</cell></row><row><cell></cell><cell>[0.010 ; 0.032]</cell><cell></cell></row><row><cell>Indirect(Bathrooms (#))</cell><cell>0.094</cell><cell>-</cell></row><row><cell></cell><cell>[0.083 ; 0.106]</cell><cell></cell></row><row><cell>Indirect(House age)</cell><cell>-0.021</cell><cell>-</cell></row><row><cell></cell><cell>[-0.026 ; -0.015]</cell><cell></cell></row><row><cell>Total(lTLA)</cell><cell>1.109</cell><cell>1.560</cell></row><row><cell></cell><cell>[1.069 ; 1.151]</cell><cell>[1.500 ; 1.629]</cell></row><row><cell>Total(lLSIZE)</cell><cell>0.189</cell><cell>0.316</cell></row><row><cell></cell><cell>[0.175 ; 0.203]</cell><cell>[0.293 ; 0.338]</cell></row><row><cell>Total(Bedrooms (#))</cell><cell>0.032</cell><cell>-</cell></row><row><cell></cell><cell>[0.015 ; 0.047]</cell><cell></cell></row><row><cell>Total(Bathrooms (#))</cell><cell>0.137</cell><cell>-</cell></row><row><cell></cell><cell>[0.121 ; 0.155]</cell><cell></cell></row><row><cell>Total(House age)</cell><cell>-0.030</cell><cell>-</cell></row><row><cell></cell><cell>[-0.038 ; -0.022]</cell><cell></cell></row><row><cell>Log-marginal likelihood</cell><cell>-26052.668</cell><cell>-23884.639</cell></row><row><cell>Monte Carlo Errors</cell><cell></cell><cell></cell></row><row><cell>Constant</cell><cell>0.0010</cell><cell>0.0005</cell></row><row><cell>β 1 (lTLA)</cell><cell>0.0001</cell><cell>0.0001</cell></row><row><cell>β 2 (lLSIZE)</cell><cell>0.0001</cell><cell>0.0001</cell></row><row><cell>Bedrooms (#)</cell><cell>0.0001</cell><cell>-</cell></row><row><cell>Bathrooms (#)</cell><cell>0.0001</cell><cell>-</cell></row><row><cell>House age</cell><cell>0.0001</cell><cell>-</cell></row><row><cell>ρ(Wy)</cell><cell>0.0001</cell><cell>0.0001</cell></row><row><cell>γ 1 (W beds )</cell><cell>-</cell><cell>0.0002</cell></row><row><cell>γ 2 (W baths )</cell><cell>-</cell><cell>0.0002</cell></row><row><cell>γ 3 (Wage)</cell><cell>-</cell><cell>0.0002</cell></row></table></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Peergroup dependence in salary benchmarking: a statistical model</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Blankmeyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Stutzman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Knox</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Managerial and Decision Economics</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="91" to="104" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Private schools and the willingness to pay for public schooling</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Brasington</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Education Finance and Policy</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="152" to="174" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Educational outcomes and house values: A test of the value added approach</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Brasington</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Haurin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="245" to="268" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A mixed index approach to identifying hedonic price models</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Brasington</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hite</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="271" to="284" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Flexible dependence modeling using convex combinations of different types of connectivity structures</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Debarsy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="48" to="68" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Bayesian estimation of the network autocorrelation model</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Dittrich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Leenders</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mulder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Social Networks</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="213" to="236" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Benchmark priors for bayesian model averaging</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Fernàndez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Steel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="page" from="381" to="427" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Variable selection via gibbs sampling</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>George</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mcculloch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">423</biblScope>
+			<biblScope unit="page" from="881" to="889" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Approaches for bayesian variable selection</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>George</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mcculloch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="339" to="373" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><surname>Golub</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Van Loan</surname></persName>
+		</author>
+		<title level="m">Matrix Computation, Third Edition</title>
+		<meeting><address><addrLine>Baltimore</addrLine></address></meeting>
+		<imprint>
+			<publisher>The Johns Hopkins University Press</publisher>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">The role of r&amp;d collaboration networks on regional knowledge creation: Evidence from information and communication technologies</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Hazır</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Autant-Bernard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="549" to="567" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Bayesian techniques in spatial and network econometrics: 1. model comparison and posterior odds</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Hepple</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="447" to="469" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Bayesian techniques in spatial and network econometrics: 2. computational methods and algorithms</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Hepple</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environnment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="615" to="644" />
+			<date type="published" when="1995">1995b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">QML estimation of spatial dynamic panel data models with time varying spatial weights matrices</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="31" to="74" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Spatial growth regressions: model specification, estimation and interpretation</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fischer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="275" to="304" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">The biggest myth in spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="217" to="249" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Pitfalls in higher order model extensions of basic spatial regression methodology</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Regional Studies</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="13" to="26" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>Pace</surname></persName>
+		</author>
+		<title level="m">Introduction to Spatial Econometrics</title>
+		<meeting><address><addrLine>Boca Raton</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press Taylor and Francis Group</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Bayesian model averaging for spatial econometric models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Parent</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="241" to="267" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A method for spatial-temporal forecasting with an application to real estate prices</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Barry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Gilley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Forecasting</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="229" to="246" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Semiparametric maximum likelihood estimates of spatial dependence</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="76" to="90" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Are appraisers statisticians?</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Slawson</surname></persName>
+		</author>
+		<editor>K. Wang and M. Wolverton</editor>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Springer</publisher>
+			<biblScope unit="page" from="31" to="45" />
+		</imprint>
+	</monogr>
+	<note>Real Estate Valuation Theory</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Bayesian variable selection in spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Piribauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Crespo Cuaresma</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="457" to="479" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zellner</surname></persName>
+		</author>
+		<title level="m">Introduction to Bayesian inference in Econometrics</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley</publisher>
+			<date type="published" when="1971">1971</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">On assessing prior distributions and bayesian regression analysis with g-prior distributions</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zellner</surname></persName>
+		</author>
+		<editor>P. Goel and A. Zellner</editor>
+		<imprint>
+			<date type="published" when="1986">1986</date>
+			<publisher>Elsevier</publisher>
+			<biblScope unit="page" from="233" to="243" />
+		</imprint>
+	</monogr>
+	<note>Bayesian Inference and Decision Techniques: Essays in Honor of Bruno de Finetti</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

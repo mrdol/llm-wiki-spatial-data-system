@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A Low-Rank Bayesian Approach for Geoadditive Modeling</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2024-07-08">8 Jul 2024</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Bryan</forename><surname>Sumalinab</surname></persName>
+							<email>bryan.sumalinab@uhasselt.be</email>
+							<affiliation key="aff0">
+								<orgName type="department">Data Science Institute (DSI)</orgName>
+								<orgName type="institution" key="instit1">Interuniversity Institute for Biostatistics and statistical Bioinformatics (I-BioStat)</orgName>
+								<orgName type="institution" key="instit2">Hasselt University</orgName>
+								<address>
+									<settlement>Hasselt</settlement>
+									<country key="BE">Belgium</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department" key="dep1">Department of Mathematics and Statistics</orgName>
+								<orgName type="department" key="dep2">College of Science and Mathematics</orgName>
+								<orgName type="institution">Mindanao State University -Iligan Institute of Technology</orgName>
+								<address>
+									<settlement>Iligan City</settlement>
+									<country key="PH">Philippines</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Oswaldo</forename><surname>Gressani</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Data Science Institute (DSI)</orgName>
+								<orgName type="institution" key="instit1">Interuniversity Institute for Biostatistics and statistical Bioinformatics (I-BioStat)</orgName>
+								<orgName type="institution" key="instit2">Hasselt University</orgName>
+								<address>
+									<settlement>Hasselt</settlement>
+									<country key="BE">Belgium</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Niel</forename><surname>Hens</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Data Science Institute (DSI)</orgName>
+								<orgName type="institution" key="instit1">Interuniversity Institute for Biostatistics and statistical Bioinformatics (I-BioStat)</orgName>
+								<orgName type="institution" key="instit2">Hasselt University</orgName>
+								<address>
+									<settlement>Hasselt</settlement>
+									<country key="BE">Belgium</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="institution" key="instit1">Centre for Health Economic Research and Modelling Infectious Diseases (CHERMID), Vaccine &amp; Infectious Disease Institute</orgName>
+								<orgName type="institution" key="instit2">Antwerp University</orgName>
+								<address>
+									<settlement>Antwerp</settlement>
+									<country key="BE">Belgium</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Christel</forename><surname>Faes</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Data Science Institute (DSI)</orgName>
+								<orgName type="institution" key="instit1">Interuniversity Institute for Biostatistics and statistical Bioinformatics (I-BioStat)</orgName>
+								<orgName type="institution" key="instit2">Hasselt University</orgName>
+								<address>
+									<settlement>Hasselt</settlement>
+									<country key="BE">Belgium</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A Low-Rank Bayesian Approach for Geoadditive Modeling</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2024-07-08">8 Jul 2024</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">451DC677032C33D3F4EF4EDD32BFECBB</idno>
+					<idno type="arXiv">arXiv:2407.05854v1[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-21T11:52+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Kriging</term>
+					<term>Geoadditive models</term>
+					<term>Bayesian P-splines</term>
+					<term>Laplace approximations</term>
+					<term>Lowrank model</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Kriging is an established methodology for predicting spatial data in geostatistics. Current kriging techniques can handle linear dependencies on spatially referenced covariates. Although splines have shown promise in capturing nonlinear dependencies of covariates, their combination with kriging, especially in handling count data, remains underexplored. This paper proposes a novel Bayesian approach to the low-rank representation of geoadditive models, which integrates splines and kriging to account for both spatial correlations and nonlinear dependencies of covariates. The proposed method accommodates Gaussian and count data inherent in many geospatial datasets. Additionally, Laplace approximations to selected posterior distributions enhances computational efficiency, resulting in faster computation times compared to Markov chain Monte Carlo techniques commonly used for Bayesian inference. Method performance is assessed through a simulation study, demonstrating the effectiveness of the proposed approach. The methodology is applied to the analysis of heavy metal concentrations in the Meuse river and vulnerability to the coronavirus disease 2019 (COVID-19) in Belgium. Through this work, we provide a new flexible and computationally efficient framework for analyzing spatial data.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Observations characterized by spatial locations often exhibit inherent correlations, with closer observations demonstrating stronger dependencies than those farther apart. This spatial correlation phenomenon is a fundamental aspect of spatial data analysis, especially in disciplines such as geostatistics, where the spatial arrangement of data points provides valuable insights into underlying processes where proximity often implies similarity. <ref type="bibr" target="#b0">Cressie (1993)</ref> categorized spatial data into three main types: areal (or lattice) data, geostatistical (continuous) data, and point patterns. Our primary focus here is on the analysis of geostatistical data. Geostatistics is a field dedicated to studying phenomena that are continuously distributed over spatial domains. For example, in environmental studies, nearby soil samples are likely to have similar characteristics due to shared environmental conditions and geological processes. The principles and methodologies of geostatistics can also be applied to phenomena that are not strictly continuous (e.g. areal data), including those related to epidemic modeling and public health outcomes. For example, geostatistical methods can be used to assess the impact of spatially referenced exposure/covariates on health outcomes, model the spatial variation in disease incidence rates, identify high-risk areas, and assess the spatial dependence of disease transmission (see e.g. <ref type="bibr" target="#b20">Waller and Gotway, 2004;</ref><ref type="bibr" target="#b2">Diggle and Giorgi, 2019)</ref>. In addition, spatial interpolation techniques, similar to those used in geostatistics, can also help to estimate disease prevalence in regions with sparse or missing data.</p><p>One of the primary applications in geostatistics is spatial prediction/interpolation, where missing or unobserved values at specific (unsampled) locations within a spatial domain are estimated.</p><p>Kriging, a widely used geostatistical technique, relies on spatial correlations to interpolate and predict values across a spatial domain. Kriging methods estimate the spatial variability by considering the spatial arrangement and correlation between observations, resulting in predictions that minimize estimation errors. The strength of kriging lies in its ability to incorporate both the spatial trend and the spatial correlation structure of the data, making it a powerful tool for spatial data analysis. Although theories about kriging are well established, dealing with larger sample sizes presents a significant computational burden, which is particularly evident in the inversion of the covariance matrix. The computational cost increases as the dimension of the covariance matrix grows with sample size. A promising solution comes in the form of low-rank representations of spatial models using basis functions, which substantially improve computation time. These low-rank approaches, reviewed by <ref type="bibr" target="#b23">Wikle (2010b)</ref> and <ref type="bibr" target="#b1">Cressie et al. (2022)</ref>, offer a practical means to handle large datasets. One such low-rank kriging approach is proposed by <ref type="bibr" target="#b9">Kammann and Wand (2003)</ref>, and involves reducing the spatial locations with a subset, called "knots", using a space-filling algorithm <ref type="bibr" target="#b7">(Johnson et al., 1990;</ref><ref type="bibr" target="#b11">Nychka and Saltzman, 1998)</ref>. They adopt a spline-basis approach and rely upon the commonly used stationary covariance matrix in kriging as the basis functions. Their method offers not only computational advantages for handling big data but also ease of implementation through standard mixed models software. In addition to kriging, other techniques and modeling approaches are employed to address specific challenges and objectives. Generalized additive models <ref type="bibr" target="#b25">(Wood, 2017)</ref>, for instance, offer flexible frameworks for capturing nonlinear relationships in the data. This approach was also implemented by <ref type="bibr" target="#b9">Kammann and Wand (2003)</ref> in combination with spatial smoothing, which they termed as geoadditive modeling. <ref type="bibr" target="#b18">Vandendijck et al. (2017)</ref> extended their method by proposing to estimate the spatial decay parameter. Both approaches <ref type="bibr" target="#b9">(Kammann and Wand, 2003;</ref><ref type="bibr" target="#b18">Vandendijck et al., 2017)</ref> use likelihood-based estimation methods through mixed model representations of splines <ref type="bibr" target="#b21">(Wand, 2003;</ref><ref type="bibr" target="#b15">Ruppert et al., 2003)</ref> and are implemented in the context of Gaussian data.</p><p>This paper proposes a Bayesian approach for geoadditive modeling where spatial components are modeled in a similar way as in <ref type="bibr" target="#b9">Kammann and Wand (2003)</ref>. The Laplace approximation is used to approximate the posterior distribution of regression parameters, so as to significantly reduce the computational time to carry out inference as compared to traditional Markov chain Monte Carlo (MCMC) algorithms. Penalized B-splines (P-splines) <ref type="bibr" target="#b3">(Eilers and Marx, 1996)</ref> are used to model the nonlinear effects of covariates. This smoother offers the advantage of a penalty matrix that can be easily constructed and naturally translated into a Bayesian framework <ref type="bibr" target="#b10">(Lang and Brezger, 2004)</ref>. The combination of Laplace approximations and P-splines (Laplacian-P-splines) in generalized additive models developed by <ref type="bibr" target="#b5">Gressani and Lambert (2021)</ref> offers a computationally efficient alternative to classic MCMC approaches and serve as a backbone to the methodology developed here. We extend the Laplacian-P-splines methodology to a geoadditive model. Additionally, a novel approach is proposed for handling count data in combination with linear and nonlinear dependencies on covariates, an aspect not well explored in the literature on geostatistical modeling. Typically, a Poisson distribution is assumed for count data. However, this assumption is inadequate for handling overdispersion, where the variability exceeds the mean, as the Poisson model requires the mean and variance to be equal. In contrast, the negative binomial distribution, although more complex, accounts for overdispersion and permits more sophisticated modeling of count data. This paper implements both Poisson and negative binomial distributions, providing a robust and flexible approach for handling spatial count data.</p><p>The article is organized as follows. Section 2 introduces the geoadditive model, explaining how the smooth covariates and spatial components are modeled. It also presents the Bayesian geoadditive model and discusses the use of Laplace approximations, optimization of hyperparameters, predictions, criteria for model selection, and hypothesis testing for the significance of nonlinear covariates. Section 3 conducts a simulation study to assess the proposed methodology using various performance measures, including bias, relative bias, and credible and prediction interval coverage. In Section 4, the proposed model is applied to the analysis of two real-world datasets: the Meuse river data and the coronavirus disease 2019 (COVID-19) vulnerability data in Belgium. Finally, Section 5 concludes the paper. Code to reproduce results of this article is available on the following repository <ref type="url" target="https://github.com/bryansumalinab/Geoadditive-Modeling.git">https://github.com/bryansumalinab/Geoadditive-Modeling.git</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Important concepts and methodology</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Geoadditive model</head><p>Consider spatially indexed observations denoted by y i (w i ), where w i = (w 1i , w 2i ) ⊤ ∈ R 2 denotes the spatial coordinates for i = 1, ..., n. The observations y i (w i ) are typically assumed to have a distribution from an exponential family as in generalized linear models. The geoadditive model can be written as:</p><formula xml:id="formula_0">g(µ i ) = β 0 + β 1 x i1 + • • • β p x ip Linear predictors + f 1 (s i1 ) + • • • f q (s iq ) Smooth terms + s(w i ) Spatial component ,<label>(1)</label></formula><p>where g(•) is the link function and E(y i (w i )) = µ i . Model (1) consists of three different components. The first component contains the linear predictors (1, x i1 , . . . , x ip ), with corresponding parameters (β 0 , β 1 , . . . , β p ). The second component captures nonlinear dependencies of g(µ i ) on covariates s ij , for j = 1, . . . , q. Each smooth covariate s ij can be modeled as:</p><formula xml:id="formula_1">f j (s ij ) = K k=1 θ jk b jk (s ij ), j = 1, . . . , q,</formula><p>where b jk (•) is a basis function and θ jk is the coefficient for k = 1, . . . , K. In our case, the Bspline basis function is used with a discrete difference penalty on successive B-spline coefficients proposed by <ref type="bibr" target="#b3">Eilers and Marx (1996)</ref>. The penalty controls the roughness of the fit and can be naturally extended to the Bayesian framework in formulating the joint prior distribution of the B-spline coefficients <ref type="bibr" target="#b10">(Lang and Brezger, 2004)</ref>. That is, if we let θ j = (θ j1 , θ j2 , . . . , θ jK ) ⊤ , then a Gaussian prior distribution is assumed on θ j given by (θ j |λ j ) ∼ N K (0, (λ j P ) -1 ) where λ j &gt; 0 is the penalty parameter for the j th smooth model component and P = D ⊤ m D m where D m denotes the mth order difference matrix (m = 2 in this paper). To ensure that the penalty matrix is of full rank, a diagonal matrix is added to P with small entries on the main diagonal (e.g. 10 -12 ).</p><p>The third component of (1), s(w i ), accounts for spatial correlation and can be modeled in several ways depending on the type of spatial data. In kriging or classical geostatistics, the observations y i (w i ) are assumed to be continuous in the spatial domain w i , and s(w i ) is assumed to be a Gaussian process with mean 0 and variance σ 2 w . An important assumption of kriging is that s(w i ), for i = 1, . . . , n, are correlated such that Cov(s(w i ), s(w j )) = R(w i -w j ), which satisfies the stationarity assumption since the covariance function R(•) only depends on the distances between spatial locations. The main goal of kriging is to predict observations at a given location. For Gaussian data, the best linear unbiased prediction for an arbitrary location is analytically available along with the corresponding prediction uncertainty <ref type="bibr" target="#b29">(Zimmerman and Stein, 2010)</ref>. For non-Gaussian data, one can rely, for example, on Bayesian <ref type="bibr">(Wikle, 2010a)</ref> or likelihood-based methodologies <ref type="bibr" target="#b28">(Zimmerman, 2010)</ref>.</p><p>Kriging predictions require to compute the inverse of the covariance matrix R(•) which is of dimension n × n. With increasing sample size, the computational burden associated to these predictions becomes non-negligible. One way to address this problem is to write the spatial component in terms of the basis function model as follows:</p><formula xml:id="formula_2">s(•) = L l=1 α l b l (•) + ε,<label>(2)</label></formula><p>where b l (•) is a known basis function and α l are the coefficients for l = 1, . . . , L with L &lt; n.</p><p>Define α = (α 1 , . . . , α L ) ⊤ . The vector α is assumed to have a multivariate Gaussian distribution, that is, α ∼ N L (0, Σ α ) where the form of Σ α depends on the choice of the basis function and the error term ε is usually assumed to have a Gaussian distribution with mean 0 and constant variance. The addition of the error term ε accounts for the errors stemming from approximating the underlying spatial process with a finite set of basis functions or its lowdimensional representation <ref type="bibr" target="#b23">(Wikle, 2010b;</ref><ref type="bibr" target="#b1">Cressie et al., 2022)</ref>. Several choices can be made for the basis functions. One such choice is the method proposed by <ref type="bibr" target="#b9">Kammann and Wand (2003)</ref> using the stationary covariance function in kriging as the basis function. By replacing the coordinates by a set of points, called knots, this approach allows for a low-rank representation of the covariance function. The spatial component s(w i ) is modeled as follows:</p><formula xml:id="formula_3">s(w i ) = β w 1 w 1i + β w 2 w 2i + S s=1 z is (ρ)u s ,<label>(3)</label></formula><p>where w 1i and w 2i are the spatial coordinates with corresponding coefficients β w 1 and β w 2 , z is (ρ) = R ρ (w i -κ s ) and u = (u 1 , u 2 , . . . , u S ) ⊤ are assumed to be normally distributed such that (u|λ spat , ρ) ∼ N S (0, (λ spat Ω ρ ) -1 ), where λ spat &gt; 0 and Ω ρ = R ρ (κ s -κ s ′ ) is an S ×S matrix for all s, s ′ ∈ 1, . . . , S. Here, R ρ (•) is the covariance function used in kriging and κ s (s = 1, . . . , S)</p><p>is a subset of the spatial coordinates. One way to efficiently choose these two-dimensional knots (κ s ) is through the use of a space-filling algorithm <ref type="bibr" target="#b7">(Johnson et al., 1990;</ref><ref type="bibr" target="#b11">Nychka and Saltzman, 1998)</ref>. In addition, there is an additional parameter, ρ, representing the range parameter in kriging, see e.g. <ref type="bibr" target="#b4">Fahrmeir et al. (2013)</ref> pp. 453 -456, for commonly used covariance functions.</p><p>The covariance functions used in this paper are:</p><formula xml:id="formula_4">Exponential : R ρ (d) = λ -1 spat exp(-ρ||d||), Matérn : R ρ (d) = λ -1 spat exp(-ρ||d||)(1 + ρ||d||), Spherical : R ρ (d) = λ -1 spat (1 -1.5ρ||d|| + 0.5ρ 3 ||d|| 3 ) I(||d||≤ ρ -1 ), Circular : R ρ (d) = λ -1 spat exp(-ρ 2 ||d|| 2 ),</formula><p>where ||•|| refers to the Euclidean distance and I(•) is the indicator function. In the Gaussian scenario, it becomes apparent that even without the inclusion of the additional error term as in (2), model ( <ref type="formula" target="#formula_3">3</ref>) is capable of generating accurate predictions for y i (w i ). This is primarily due to the fact that any extra variance introduced by ε tends to be absorbed by the measurement error variance inherent in the Gaussian model. However, the same cannot be said for count data when the Poisson distribution is assumed. To address this, we propose a negative binomial model for the count data. In this way, the error term ε is regarded as excess variability, which can be effectively managed by the overdispersion parameter in the negative binomial model.</p><p>This allows for a more accurate estimation of the prediction uncertainty. However, if this excess variability is small, then the Poisson assumption may be sufficient. It is also important to note that equation (3) represents a model for the average spatial process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Bayesian model formulation</head><p>For ease of notation let y i := y i (w i ). To generalize the derivations, we can write the probability distributions of y i as an exponential dispersion family, y i ∼ EDF(γ i , ϕ) with probability distribution given by p(</p><formula xml:id="formula_5">y i ; γ, ϕ) = exp{[y i γ i -b(γ i )]/a(ϕ) + c(y i , ϕ)} where ϕ is a dispersion parameter and γ i is a natural parameter with mean E(y i ) = b ′ (γ i ) = µ i and variance V(y i ) = a(ϕ)s ′′ (γ i ).</formula><p>The log-link function is used for the Poisson and negative binomial model such that g(µ i ) = log(µ i ). Note that an offset term N i (e.g., number of populations) may be added so that</p><formula xml:id="formula_6">µ i = exp(g(µ i )) × N i .</formula><p>In matrix form, (1) can be written as:</p><formula xml:id="formula_7">log(µ) = Xβ + q j=1 B j (s j )θ j + Z(ρ)u,<label>(4)</label></formula><p>where µ = (µ 1 , . . . , µ n ) ⊤ , X is an n × (p + 3) matrix with i th row vector</p><formula xml:id="formula_8">x i = (1, x i1 , x i2 , . . . , x ip , w 1i , w 2i ) ⊤ and coefficient vector β = (β 0 , β 1 , β 2 , • • • β p , β w 1 , β w 2 ) ⊤ , B j is an n × K matrix with i th row b ij = (b j1 (s ij ), b j2 (s ij ), . . . , b jK (s ij )) ⊤ and coefficients θ j = (θ j1 , θ j2 , . . . , θ jK ) ⊤ , Z(ρ) is an n×S matrix with i th row z i (ρ) = (z i1 (ρ), z i2 (ρ), . . . , z iS (ρ)) ⊤</formula><p>and coefficients u = (u 1 , u 2 , . . . , u S ) ⊤ for i = 1, . . . , n and j = 1, . . . , q.</p><p>A Gaussian prior is assumed for β, i.e.,</p><formula xml:id="formula_9">β ∼ N dim(β) (0, V -1 β ) where V β = ζI with small ζ (e.g. ζ = 10 -5 in this paper). Denote the global design matrix as C ρ = [X : B 1 : B 2 : • • • : B q : Z(ρ)]</formula><p>and the corresponding parameter vector ξ = (</p><formula xml:id="formula_10">β ⊤ , θ ⊤ 1 , . . . , θ ⊤ q , u ⊤ ) ⊤ such that equation (4) becomes log(µ) = C ρ ξ. Moreover, let λ spat := λ q+1 and λ = (λ 1 , . . . , λ q , λ q+1 ) ⊤ . Denote the precision of ξ by Q λ ξ = blkdiag(V β , λ 1 P, . . . , λ q P, λ q+1 Ω ρ )</formula><p>, where blkdiag(•) is a block diagonal matrix. The full Bayesian model is given by:</p><formula xml:id="formula_11">(y i |ξ) ∼ EDF(γ i , ϕ), i = 1, . . . , n, (ξ|λ, ρ) ∼ N dim(ξ) (0, (Q λ ξ ) -1 ), (λ j |δ j ) ∼ G ν 2 , νδ j 2 , j = 1, . . . , q + 1, δ j ∼ G(a δ , b δ ), j = 1, . . . , q + 1, p(ρ) ∝ ρ -1 , p(ϕ) ∝ ϕ -1 ,</formula><p>where G(a, b) denotes a Gamma distribution with mean a/b and variance a/b 2 . This robust prior specification on the penalty parameters follows from <ref type="bibr" target="#b8">Jullion and Lambert (2007)</ref> where a δ = b δ are chosen to be small enough, say 10 -5 , with fixed ν (e.g. ν = 3 in this paper).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Laplace approximation</head><p>This section discusses the derivations for the conditional posterior distribution of ξ and approximate posterior distributions of the hyperparameters. The Laplace approximation is used to approximate the conditional posterior p(ξ|λ, ρ, ϕ, D) as a Gaussian distribution. This posterior approximation is particularly advantageous for its computational efficiency, significantly reducing computational time, as it eliminates the need for sampling compared to MCMC methods.</p><p>In the case of a Gaussian response, the derived conditional posterior is exactly Gaussian, and the detailed derivations are provided in Appendix A. Denote the (Poisson or negative binomial) likelihood function by L(ξ, ρ, ϕ; D) where D is the observed data. Using Bayes' rule, the conditional posterior of ξ can be written as p(ξ|λ, ρ, ϕ, D) ∝ L(ξ, ρ, ϕ; D)p(ξ|λ, ρ). The gradient and Hessian of the log-conditional posterior, log p(ξ|λ, ρ, ϕ, D), with respect to ξ are analytically derived and used in a Newton-Raphson algorithm to approximate the mode of the conditional posterior of ξ. The availability of the derived analytic gradient and Hessian further enhances the computational speed. After convergence, the Laplace approximation of p(ξ|λ, ρ, ϕ, D)</p><formula xml:id="formula_12">is a multivariate Gaussian density denoted by p G (ξ|λ, ρ, ϕ, D) = N dim(ξ) ( ξ λ , Σ λ ) where ξ λ</formula><p>is the mode and Σ λ is the inverse of the negative Hessian matrix evaluated at the posterior mode.</p><p>Next, the (approximate) joint posterior distribution of the hyperparameters λ, δ, ρ and ϕ is derived. Let δ = (δ 1 , δ 2 , . . . , δ q ) ⊤ . Using Bayes' theorem, the joint marginal posterior of λ, δ, ρ and ϕ can be written as:</p><formula xml:id="formula_13">p(λ, δ, ρ, ϕ|D) ∝ L(ξ, ρ, ϕ; D)p(ξ|λ)p(λ|δ)p(δ)p(ρ)p(ϕ) p(ξ|λ, ρ, ϕ, D) .</formula><p>Following <ref type="bibr" target="#b14">Rue et al. (2009)</ref>, this joint posterior can be approximated by replacing the denominator p(ξ|λ, ρ, ϕ, D) with p G (ξ|λ, ρ, ϕ, D) and by evaluating ξ at ξ λ . Note that the deter-</p><formula xml:id="formula_14">minant |Q λ ξ | 1 2 in p(ξ|λ) can be obtained as |Q λ ξ | 1 2 = |V β |×|λ 1 P |× • • • × |λ q P |×|λ q+1 Ω ρ | 1 2 ∝ λ K 1 × • • • × λ K q × λ S q+1 |Ω ρ | 1 2</formula><p>. The approximate joint posterior can then be written as:</p><formula xml:id="formula_15">p(λ, δ, ρ, ϕ|D) ∝ L(ξ, ρ, ϕ; D) × exp - 1 2 ξ ⊤ λ Q λ ξ ξ λ × q j=1 (λ j ) K+ν 2 -1 × λ S+ν 2 -1 q+1 × q+1 j=1 (δ j ) ν 2 +a δ -1 exp - νλ j 2 + b δ δ j × |Ω ρ | 1 2 ρ -1 ϕ -1 | Σ λ | 1 2 .<label>(5)</label></formula><p>From ( <ref type="formula" target="#formula_15">5</ref>), the joint posterior p(λ, ρ, ϕ|D) can be analytically obtained by integrating out the hyperparameters δ j . To ensure numerical stability, the remaining hyperparameters are log-</p><formula xml:id="formula_16">transformed such that v = (v 1 , . . . , v q+1 ) ⊤ = (log(λ 1 ), . . . , log(λ q+1 )) ⊤ , v ρ = log(ρ) and v ϕ =</formula><p>log(ϕ). Note that the transformed posterior is multiplied by the Jacobian of the transformation</p><formula xml:id="formula_17">given by J = q+1 j=1 exp(v j ) × exp(v ρ ) × exp(v ϕ ). The joint log-posterior of v, v ρ and v ϕ is then given by: log p(v, v ϕ |D) = log L(ξ, v ρ , v ϕ ; D) -0.5 ξ ⊤ v Q v ξ ξ v + q j=1 K + ν 2 v j + S + ν 2 v q+1 - q+1 j=1 ν 2 + a δ log ν exp(v j ) 2 + b δ + 1 2 log|Ω vρ |+ 1 2 log| Σ v |,</formula><p>where = denotes equality up to an additive constant. The above log-posterior is then optimized to obtain the maximum a posteriori estimate for v, v ρ and v ϕ .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Prediction and prediction interval</head><p>The main goal of kriging is to predict the value of the response variable y 0 at an arbitrary location w 0 = (w 1 0 , w 2 0 ) ⊤ . Suppose the linear and smooth covariates are available denoted by (x 1 0 , x 2 0 , . . . , x p 0 ) and (s 1 0 , s 2 0 , . . . , s q 0 ), respectively. Define for s = 1, . . . , S and ρ is the maximum a posteriori estimate of ρ. Furthermore, define</p><formula xml:id="formula_18">x 0 = (1, x 1 0 , x 2 0 , . . . , x p 0 , w 1 0 , w 2 0 ) ⊤</formula><formula xml:id="formula_19">c ρ = (x ⊤ 0 , b ⊤ 1 0 , b ⊤ 2 0 , . . . , b ⊤ q 0 , z 0 ( ρ) ⊤ ) ⊤ .</formula><p>From model (4), the estimated mean response can be obtained as E(y 0 ) = exp(c ⊤ ρ ξ λ ).</p><p>To obtain predictions, note that log(E(y 0 )) = c ⊤ ρ ξ, where</p><formula xml:id="formula_20">p G (ξ|v, v ρ , v ϕ , D) = N dim(ξ) ( ξ v , Σ v ).</formula><p>The approximate posterior distribution for the log mean number of cases is thus</p><formula xml:id="formula_21">p(log(E(y 0 ))|v, v ρ , v ϕ , D) = N 1 (c ⊤ ρ ξ v , c ⊤ ρ Σ v c ρ )</formula><p>. From this Gaussian distribution, 1000 samples are drawn with mean c ⊤ ρ ξ v and variance c ⊤ ρ Σ v c ρ . These samples are exponentiated to obtain an estimated mean vector, denoted by µ 0 . Subsequently, 1000 samples are generated from a</p><p>Poisson or negative binomial distribution with mean vector µ 0 to obtain predictive samples for y 0 . The corresponding quantiles of these samples are then computed to determine the desired prediction interval. Note that in the presence of an offset term N i , both y 0 and µ 0 are multiplied by N i .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5">Bayesian information criteria and test for smooth effects</head><p>The effective degrees of freedom (ED) serve as a measure of model complexity and quantify the amount of smoothing in a given model. A covariate with an associated ED value close to 1 indicates a linear effect, while values greater than 1 indicate nonlinearity. Let</p><formula xml:id="formula_22">I = -∇ 2 ξ log L(ξ, ρ, ϕ; D)| ξ= ξ λ</formula><p>denote the negative Hessian of the log-likelihood evaluated at the posterior mode estimate ξ λ . The total ED is computed by summing the main diagonal of the matrix H = Σ λ I, where Σ λ is the estimated covariance matrix of ξ. The ED of a specific smooth term is obtained by summing the diagonal elements of H that correspond to the B-spline coefficients associated with the smooth term. The Bayesian information criteria (BIC) <ref type="bibr" target="#b16">(Schwarz, 1978)</ref> is useful for model selection and is computed using the formula</p><formula xml:id="formula_23">BIC = -2 log L(ξ, ρ, ϕ; D) + ED × log(n).</formula><p>A lower BIC indicates a better fit of the model. <ref type="bibr" target="#b24">Wood (2013)</ref> proposed a test statistic, T r , to test the effect of a smooth covariate. T r is a Wald-type statistic used to test the null hypothesis H 0 : f j (x) = 0 versus the alternative hypothesis H a : f j (x) ̸ = 0 for a smooth covariate x. Let f j = B j θ j denote the estimated j th smooth function, where B j and θ j are the associated B-spline matrix and estimated coefficients, respectively. The covariance matrix of f j is given by V f j = B j Σ θ j B ⊤ j , where Σ θ j is the estimated covariance matrix of the B-spline coefficients θ j . The test statistic is computed as</p><formula xml:id="formula_24">T r = f ⊤ j V r- f j f j , where V r- f j</formula><p>is the rank-r Moore-Penrose inverse of V f j and r is the estimated effective degrees of freedom for the j th smooth. Under the null hypothesis, T r follows a Gamma distribution, that is T r ∼ G(r/2, 1/2), with mean E(T r ) = r and variance V(T r ) = 2r.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Simulation study</head><p>A simulation study is conducted to evaluate the performance of our proposed methodology. For the count data, the samples y are generated from a Poisson distribution with rate parameter µ • exp(ε). The inclusion of exp(ε) preserves the stochasticity of the true spatial process in agreement with equation ( <ref type="formula" target="#formula_2">2</ref>). Thus, this is equivalent to simulating a spatial component from a two-dimensional smooth function plus an error term (s(w 1 , w 2 ) + ε). For the Gaussian data, ε represents the error term of the Gaussian distribution, such that observations y have mean µ and variance V(ε) = σ 2 . In the simulation, the following mean structure is assumed:</p><formula xml:id="formula_25">µ = β 0 + β 1 x 1 + f (x 2 ) + s(w 1 , w 2 ),</formula><p>where β 0 = 3, β 1 = -0.5, and f (x 2 ) = cos(2πx 2 ). The covariates x 1 and x 2 are randomly simulated from a uniform distribution over the unit interval, and ε is drawn from a zero mean Gaussian distribution with standard deviation σ = 0.25 for the count data and σ = √ 0.10 for the Gaussian data. The spatial component s(w 1 , w 2 ) is a two-dimensional smooth function, for which the following three different forms are considered:</p><formula xml:id="formula_26">s 1 (w 1 , w 2 ) = 0.5 - w 2 1 + w 2 2 18 , s 2 (w 1 , w 2 ) = w 3 1 + w 1 w 2 + w 2 2 25 , s 3 (w 1 , w 2 ) = - (w 1 -w 2 ) 2 15 + sin(w 1 ) cos(w 2 ).</formula><p>Here, the spatial coordinates w 1 and w 2 are simulated from a uniform distribution on the interval (-3, 3). The plot for the two-dimensional smooth functions considered in the simulation is shown in Figure <ref type="figure" target="#fig_1">1</ref>. The performance measures used in our study are bias, relative bias (%Bias), and credible interval (CI) coverage. These measures are computed for µ, the smooth term f (x 2 ), and the spatial term s(w 1 , w 2 ). Additionally, the prediction interval (PI) coverage for the samples y are calculated.</p><p>For smooth and spatial terms, a grid of values for x 2 and a two-dimensional grid for (w 1 , w 2 ) are created. Using these grids, f (x 2 ) and s(w 1 , w 2 ) are computed, and the corresponding relative bias and PI coverage are obtained. To avoid identifiability issues, column mean centering is imposed for the basis functions associated with the smooth and spatial components and the performance measures are computed on the mean centered f (x 2 ) and s(w 1 , w 2 ). Due to this centering, the bias is only computed for µ. Suppose that the quantity of interest is denoted by ω with the corresponding estimate ω. The bias and relative bias are computed as follows:</p><formula xml:id="formula_27">Bias = 1 B × M B b=1 M m=1 (ω bm -ω bm ), %Bias = 1 B × M B b=1 M m=1 ω bm -ω bm ω bm × 100%,</formula><p>where M is the length of the grid created for the covariates, and B is the number of simulations or generated realizations. Moreover, CI or PI coverage is determined by calculating the percentage of ω values that fall within the interval.</p><p>Tables 1-3 present the results for different functions (s 1 , s 2 and s 3 ) across various covariance structures (circular, exponential, Matérn, and spherical) and different model distributions (neg-ative binomial, Poisson, and Gaussian). The percentage bias for the smooth term is around 4%</p><p>to 7% for all scenarios (Tables <ref type="table" target="#tab_0">1</ref><ref type="table" target="#tab_1">2</ref><ref type="table" target="#tab_2">3</ref>), demonstrating low bias and suggesting robust performance in estimating smooth effects using our proposed method. For all functions (s 1 , s 2 and s 3 ), the negative binomial model has coverage rates of the smooth term that are generally closer to the 95% nominal level for the smooth term as compared to the Poisson model which shows undercoverage, with rates ranging from 73% to 80%. The Gaussian data, on the other hand, also demonstrates good coverage, ranging from 91% to 94%, which is slightly lower than the nominal level. Note that the relative bias for the Gaussian data is very low, around 4% to 5%.</p><p>Regarding the spatial term, the Gaussian model generally exhibits the lowest relative bias, followed by the negative binomial model, while the Poisson model has the highest bias. Notably, all covariance functions show similar relative biases across each model for the spatial term, except for the Matérn covariance function. For the Poisson model, the Matérn covariance consistently shows lower bias. In the negative binomial and Gaussian models, the Matérn covariance has a relatively low bias for function s 1 but a higher bias for functions s 2 and s 3 . The coverage for the spatial term is highest for the negative binomial model, ranging from 97% to 99%, except for the Matérn covariance, which has lower coverage for functions s 2 and s 3 , with rates of 83% and 69%, respectively. This pattern is similar to the Gaussian data, with coverage mostly close to the 95% nominal level, although there is undercoverage for the Matérn covariance for functions s 2 and s 3 . This behavior for the spatial term suggests that using our proposed model, the Matérn covariance might be more suitable for symmetric functions (s 1 ) but not for non-symmetric functions in modeling the spatial component. On the other hand, the other covariance functions are more robust regardless of the shape of the underlying spatial structure. Finally, the Poisson model shows undercoverage for all functions and covariance structures.</p><p>For the mean response, biases are generally close to zero for all scenarios, with the percentage bias being lowest for the Gaussian data, ranging between 1% to 3%, except for the Matérn covariance with function s 3 , where the relative bias is around 6%. The relative bias for µ is mostly lower for the negative binomial model compared to the Poisson model, but their values are very similar, ranging around 4% to 9%, except for function s 3 with the Matérn covariance in the negative binomial model, which has a relative bias of 13%. Finally, for the response y,   and scatter plots illustrating the relationship between log-zinc and the variables, distance, and elevation. The data indicates nonlinearity between distance and log-zinc values, whereas elevation suggests linearity. Classical geostatistical methods typically accommodate only the linear effects of covariates. Therefore, transformation is commonly applied (e.g. a square root transformation of distance) in order to fit a linear geostatistical model. One benefit of our proposed method is the direct incorporation of nonlinear covariates without the need for any transformation. The distance and elevation are included as smooth covariates, using a Gaussian model for the log-zinc, with various covariance structures. Table <ref type="table" target="#tab_3">4</ref> shows that the BIC values are similar for different model covariances, with the Circular covariance having the lowest BIC. Consequently, the model using circular covariance is examined further. Both tests for the significance of the two smooth covariates yield a p-value &lt; 0.0001, indicating a statistically significant relationship between the covariates and log-zinc. Since Figure <ref type="figure" target="#fig_3">2c</ref> indicates a linear effect of elevation, a model is fitted with elevation as a linear covariate, resulting in a BIC of -126.89, higher than the BIC (-128.94) obtained when elevation is included as a smooth covariate. Therefore, the final model includes both distance and elevation as smooth covariates given by:</p><formula xml:id="formula_28">log(zinc i ) = β 0 + f (dist i ) + f (elev i ) + s(w 1i , w 2i ) + ϵ i ,<label>(6)</label></formula><p>for i = 1, . . . , 155. Figure <ref type="figure" target="#fig_4">3</ref> presents the estimated effects of the covariates. Figure <ref type="figure" target="#fig_5">4</ref> shows the estimated spatial surface and the comparison between fitted and observed log-zinc values based on model (6).   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">COVID-19 vulnerability data</head><p>The proposed negative binomial model is applied to the analysis of the COVID-19 data from Flanders and Brussels regions in Belgium from September 1, 2020, to December 31, 2020.</p><p>The study area is divided into 9627 statistical sectors, each with a population ranging from a minimum of 7 to a maximum of 6082, with an average population of approximately 740 inhabitants. The population per 100 inhabitants of each statistical sector is used as an offset term in the model. The centroid of each statistical sector serves as the coordinate for the spatial analysis. The dataset includes the number of positive cases and various risk factors for each statistical sector. Variables identified in the literature as risk factors for vulnerability to COVID-19 are considered. Correlations between these variables are then examined, with only one variable retained from each pair that had an absolute Pearson correlation greater than 0.5.</p><p>The final factors include median net income (med inc) <ref type="bibr" target="#b13">(Rozenfeld et al., 2020;</ref><ref type="bibr" target="#b19">Wachtler et al., 2020)</ref>, the proportion of retired people (pensinr ) <ref type="bibr" target="#b13">(Rozenfeld et al., 2020;</ref><ref type="bibr" target="#b12">Pijls et al., 2021)</ref>, the proportion of non-Belgian residents (nonBel ) <ref type="bibr" target="#b6">(Hayward et al., 2021)</ref>, the proportion of single parents <ref type="bibr" target="#b17">(Sung, 2021)</ref> (snglprn), the yearly average black carbon level (bc) <ref type="bibr" target="#b13">(Rozenfeld et al., 2020;</ref><ref type="bibr" target="#b27">Wu et al., 2020)</ref>, and the proportion of females (female) <ref type="bibr" target="#b26">(Wu and Qian, 2022)</ref>. All these variables are standardized.</p><p>Initially, all factors are considered as smooth covariates. Various covariance functions are fitted with the spherical covariance having the lowest BIC, as shown in Table <ref type="table" target="#tab_4">5</ref>. Therefore, further data analysis is conducted using spherical covariance, showing that all factors have statistically significant effects (p-value &lt; 0.0001). The plot illustrating the estimated smooth effects is shown in Figure <ref type="figure">C</ref>.2 in the Appendix. To investigate the linear effects, each smooth covariate is subsequently replaced as a linear covariate, and the BIC is compared to that of the full model (BIC = 1221406), where all factors are smooth covariates. As shown in Table <ref type="table" target="#tab_5">6</ref>, the factors med inc and bc resulted in lower BIC when included as linear covariates rather than smooth covariates. Therefore, the final model is given by:</p><formula xml:id="formula_29">log(µ i ) =β 0 + β 1 med inc i + β 2 bc i + f (pensinr i ) + f (nonBel i )+ f (sngplrn i ) + f (f emale i ) + s(w 1i , w 2i ) + log(N i ),<label>(7)</label></formula><p>where N i is the offset term per 100 population for i = 1, . . . , 9627. The estimated coefficients for the linear covariates in Table <ref type="table" target="#tab_6">7</ref> indicate that areas with higher median net income are negatively correlated with the number of COVID-19 cases, while areas with high levels of black carbon are positively correlated with the number of cases. Table <ref type="table" target="#tab_7">8</ref> shows the results for the nonlinear covariates in model ( <ref type="formula" target="#formula_29">7</ref>) and the plot of the estimated smooth effects is shown in Figure <ref type="figure" target="#fig_6">5</ref>. The latter figure shows that areas with higher proportions of pensioners and single parents exhibit higher vulnerability to COVID-19 compared to the average. However, areas with average or lower proportions of these groups correspond to average vulnerability. For the covariate pensinr, the smooth trend for higher values shows a wider credible interval, indicating higher uncertainty in the trend direction, which could potentially go up or down. This is due to the limited number of observations (only five) for pensinr values greater than 5. Other covariates also show higher uncertainty at the right tail because of the few observations, which are right-skewed (see Figure <ref type="figure">C</ref>.1 in the Appendix). Areas with higher proportions of non-Belgians and lower proportions of females appear to be less vulnerable to COVID-19. Finally, the plot for the estimated spatial surface and the comparison between fitted and observed cases is shown in Figure <ref type="figure" target="#fig_7">6</ref>.   5 Conclusion This paper presents a novel Bayesian method for geostatistical modeling that combines Laplace approximations, P-splines, and low-rank representations for spatial processes. The proposed model offers several advantages, including the ability to perform spatial interpolation and investigate the effects of both linear and nonlinear covariates. Its computational efficiency is substantially improved by using Laplace approximations and a low-rank representation of the spatial process, leading to faster computation times. Additionally, the model extends beyond Gaussian responses to accommodate Poisson and negative binomial models, thereby providing robust options for handling count data. Thus, the proposed approach not only enhances the Simulation studies demonstrate that the proposed model exhibits low relative bias and has credible intervals close to the nominal coverage with respect to the underlying target smooth function and spatial process. These results are consistent across all covariance functions, except for the Matérn covariance, which did not perform well in terms of credible interval coverage for the spatial component in non-symmetric two-dimensional functions. Additionally, the proposed model demonstrates good predictive interval coverage across all covariance functions, highlighting its robust predictive ability. In the presence of overdispersion, the Poisson model, as expected, results in undercoverage, but the availability of the negative binomial model within our proposed framework effectively addresses this issue.</p><p>The proposed model has been applied to the Meuse river data and COVID-19 vulnerability data in Belgium, demonstrating its practical applicability. The analysis of COVID-19 data reveals that areas with lower median incomes are more vulnerable to the virus, highlighting the economic disparities exacerbated by the pandemic <ref type="bibr" target="#b13">(Rozenfeld et al., 2020;</ref><ref type="bibr" target="#b19">Wachtler et al., 2020)</ref>. Additionally, areas with a higher proportion of pensioners who are at increased risk for severe COVID-19 outcomes show higher vulnerability <ref type="bibr" target="#b13">(Rozenfeld et al., 2020;</ref><ref type="bibr" target="#b12">Pijls et al., 2021)</ref>.</p><p>Environmental factors, such as higher levels of black carbon, further contribute to increased susceptibility, underscoring how air pollution contributes to health disparities <ref type="bibr" target="#b13">(Rozenfeld et al., 2020;</ref><ref type="bibr" target="#b27">Wu et al., 2020)</ref>. Social demographics also play a significant role, for instance, areas with higher proportions of females <ref type="bibr" target="#b26">(Wu and Qian, 2022)</ref> and single parents <ref type="bibr" target="#b17">(Sung, 2021)</ref> are more vulnerable to the virus. Interestingly, while studies indicate that migrants are generally at high risk for COVID-19 <ref type="bibr" target="#b6">(Hayward et al., 2021)</ref>, our findings suggest that areas with a high proportion of non-Belgians are less vulnerable to the disease.</p><p>Finally, an interesting extension of our proposed model is to assume a binomial distribution for the count response, considering the population size. This could enhance model performance in scenarios such as disease prevalence modeling, where count data naturally follows a binomial distribution due to the presence of binary outcomes (e.g. disease vs. no disease) within a given</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Posterior distribution of hyperparameters</head><p>Using Bayes' theorem, the marginal joint posterior of hyperparemeters λ, τ ϵ and ρ is given by: p(λ, τ ϵ , ρ|D) ∝ L(ξ, τ ϵ , ρ; D)p(ξ|λ, τ ϵ , ρ)p(λ|δ)p(τ ϵ )p(ρ) p(ξ|λ, τ ϵ , ρ, D) .</p><p>The above posterior can be approximated by evaluating ξ at the mode ξ λ . Note also that</p><formula xml:id="formula_30">|Q λ ξ |= |V β |×|λ 1 P |× • • • × |λ q P |×|λ q+1 Ω ρ |∝ λ K 1 × • • • × λ K q × λ S q+1 |Ω ρ |.</formula><p>Hence, the approximated marginal posterior of the hyperparameter is given by</p><formula xml:id="formula_31">p(λ, τ ϵ , ρ|D) ∝ τ n 2 ϵ exp -0.5τ ϵ ||y -C ρ ξ λ || 2 × τ dim( ξ λ ) 2 ϵ |Q λ ξ | 1 2 exp(-0.5τ ϵ ξ ⊤ λ Q λ ξ ξ λ ) × q+1 j=1 (δ j ) ν 2 (λ j ) ν 2 -1 exp - νδ j 2 λ j × q+1 j=1 (δ j ) a δ -1 exp(-b δ δ j ) × 1 τ ϵ × 1 ρ × | Σ λ | 1 2 ×τ - dim( ξ λ ) 2 ϵ |C ⊤ ρ C ρ + Q λ ξ | -1 2 = τ n 2 -1 ϵ exp -0.5τ ϵ (||y -C ρ ξ λ || 2 + ξ ⊤ λ Q λ ξ ξ λ ) × q j=1 (λ j ) K+ν 2 -1 (λ q+1 ) S+ν 2 -1 × 1 ρ |Ω ρ | -1 2 |C ⊤ ρ C ρ + Q λ ξ | -1 2 q+1 j=1 (δ j ) ν 2 +a δ -1 exp - νλ j 2 + b δ δ j . Eq. (A.1)</formula><p>The terms in the last line involving τ ϵ and δ j can be recognized as a kernel of a gamma density.</p><p>Thus, integrating p(λ, τ ϵ , ρ|D) successively with respect to τ ϵ and δ j for j = 1, .., q + 1 yields</p><formula xml:id="formula_32">p(λ, ρ|D) ∝(||y -C ρ ξ λ || 2 + ξ ⊤ λ Q λ ξ ξ λ ) -n 2 × ρ -1 |Ω ρ | 1 2 ×|C ⊤ ρ C ρ + Q| -1 2 × q j=1 (λ j ) K+ν 2 -1 (λ q+1 ) S+ν 2 -1 × q+1 j=1 νλ j 2 + b δ -ν 2 +a δ . Let v = (v 1 , . . . , v q+1 ) ⊤ = (log(λ 1 ), . . . , log(λ q+1 ) ⊤</formula><p>and v ρ = log(ρ). Using the method of transformation, the Jacobian of the transformation is given by J = exp(v ρ ) q+1 j=1 exp(v j ). Then the joint posterior of v and v ρ is given by</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>and denote the B-spline basis for the smooth covari-ates by b j 0 = (b j1 (s j 0 ), b j2 (s j 0 ), . . . , b jK (s j 0 )) ⊤ for j = 1, . . . , q. The spline basis for the coordinates is given by z 0 ( ρ) = (z 1 0 ( ρ), z 2 0 ( ρ), . . . , z S 0 ( ρ)) ⊤ , where z s 0 ( ρ) = R ρ (w 0 -κ s )</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Two-dimensional smooth functions.</figDesc><graphic coords="14,81.09,90.03,149.69,112.26" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: (a) Observed log-zinc values over the sampling locations (w 1 , w 2 ); (b) Scatterplot of observed log-zinc with the covariate distance; (c) Scatterplot of observed log-zinc with the covariate elevation.</figDesc><graphic coords="19,81.09,90.03,149.69,112.26" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 2</head><label>2</label><figDesc>Figure 2 displays the observed logarithm of zinc (log-zinc) values at sampling locations (w 1 , w 2 )</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: Estimated effects of smooth covariates on log-zinc.</figDesc><graphic coords="20,94.25,247.18,213.19,159.89" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: Results for the Meuse data using model (6). (a) Estimated continuous surface for the spatial term s(w 1 , w 2 ); (b) Estimated mean vs observed log-zinc values.</figDesc><graphic coords="20,81.09,465.45,213.19,159.89" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Estimated effects of smooth covariates for COVID-19 data using spherical covariance.</figDesc><graphic coords="23,126.00,559.19,181.43,136.08" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 6 :</head><label>6</label><figDesc>Figure 6: Results for the COVID-19 data using model (7). (a) Estimated continuous surface for the spatial term s(w 1 , w 2 ) overlaying the map of the study region; (b) Estimated mean vs observed number of COVID-19 positive cases.</figDesc><graphic coords="24,194.04,226.93,226.79,170.10" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>the Gaussian model has prediction interval coverage very close to the nominal level. For count data, the Poisson model shows undercoverage, while the negative binomial model has high prediction interval coverage. Overall, the negative binomial and Gaussian models demonstrate robust performance, characterized by low bias and high coverage rates across all quantities of interest. In contrast, although the Poisson model exhibits low bias, it suffers from lower coverage rates due to the presence of an additional error term, treated as an overdispersion parameter, that is unaccounted for within the Poisson model.Additional simulation results without covariates are presented in Appendix B, comparing the proposed model with the classical kriging approach for the Gaussian data using the geoR package, yielding comparable results, although the low-rank approach has a slightly larger percentage bias in terms of the mean. Moreover, the computation time is compared using the microbenchmark() Simulation results for function s 1 . Model -distributional assumption for the response. Covariance -covariance functions used in modeling the spatial component. CP(%) -indicates 95% interval coverage probability.</figDesc><table><row><cell>Model</cell><cell>Covariance</cell><cell cols="4">Smooth term f (x 2 ) Spatial term s(w 1 , w 2 )</cell><cell>µ</cell><cell></cell><cell>y</cell></row><row><cell></cell><cell></cell><cell>Bias(%)</cell><cell>CP(%)</cell><cell>Bias(%)</cell><cell>CP(%)</cell><cell cols="3">Bias Bias (%) CP(%)</cell></row><row><cell></cell><cell>Circular</cell><cell>5.49</cell><cell>94.08</cell><cell>23.43</cell><cell>99.43</cell><cell>-0.96</cell><cell>5.42</cell><cell>98.11</cell></row><row><cell>Negative</cell><cell>Exponential</cell><cell>5.41</cell><cell>93.94</cell><cell>22.95</cell><cell>98.99</cell><cell>-1.09</cell><cell>5.39</cell><cell>98.16</cell></row><row><cell>binomial</cell><cell>Matérn</cell><cell>5.40</cell><cell>93.66</cell><cell>17.77</cell><cell>98.36</cell><cell>-0.86</cell><cell>4.71</cell><cell>98.10</cell></row><row><cell></cell><cell>Spherical</cell><cell>5.32</cell><cell>93.62</cell><cell>23.24</cell><cell>99.25</cell><cell>-1.00</cell><cell>5.38</cell><cell>98.10</cell></row><row><cell></cell><cell>Circular</cell><cell>5.92</cell><cell>76.84</cell><cell>39.35</cell><cell>80.73</cell><cell>-0.91</cell><cell>7.57</cell><cell>83.00</cell></row><row><cell>Poisson</cell><cell>Exponential Matérn</cell><cell>5.80 5.52</cell><cell>76.39 77.37</cell><cell>38.20 19.20</cell><cell>80.83 77.93</cell><cell>-0.99 -0.95</cell><cell>7.36 5.19</cell><cell>82.74 82.75</cell></row><row><cell></cell><cell>Spherical</cell><cell>5.98</cell><cell>76.46</cell><cell>39.99</cell><cell>80.63</cell><cell>-0.93</cell><cell>7.65</cell><cell>83.33</cell></row><row><cell></cell><cell>Circular</cell><cell>4.88</cell><cell>92.34</cell><cell>19.87</cell><cell>97.77</cell><cell>-0.02</cell><cell>1.49</cell><cell>94.42</cell></row><row><cell>Gaussian</cell><cell>Exponential Matérn</cell><cell>4.92 4.81</cell><cell>92.42 91.74</cell><cell>21.01 16.21</cell><cell>96.73 95.04</cell><cell>-0.02 -0.01</cell><cell>1.55 1.26</cell><cell>94.38 94.77</cell></row><row><cell></cell><cell>Spherical</cell><cell>4.88</cell><cell>92.26</cell><cell>20.06</cell><cell>97.49</cell><cell>-0.02</cell><cell>1.49</cell><cell>94.46</cell></row></table><note><p>function from the microbenchmark package in R with 10 functions evaluated for 1000 observations. The analysis is implemented on a device with an Intel(R) Core(TM) i5-1135G7, CPU running at a base frequency of 2.40GHz, and having 4 cores with 16GB of RAM. The average real elapsed time for the proposed Bayesian approach is around 1 second, while the classical kriging approach takes around 110 seconds on average (see TableB</p><p>.2 in the Appendix). This highlights the computational benefit of our methodology.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Simulation results for function s 2 . Model -distributional assumption for the response. Covariance -covariance functions used in modeling the spatial component. CP(%) -indicates 95% interval coverage probability.</figDesc><table><row><cell>Model</cell><cell>Covariance</cell><cell cols="4">Smooth term f (x 2 ) Spatial term s(w 1 , w 2 )</cell><cell>µ</cell><cell></cell><cell>y</cell></row><row><cell></cell><cell></cell><cell>Bias(%)</cell><cell>CP(%)</cell><cell>Bias(%)</cell><cell>CP(%)</cell><cell cols="3">Bias Bias (%) CP(%)</cell></row><row><cell>Negative binomial</cell><cell>Circular Exponential Matérn</cell><cell>5.53 5.62 5.43</cell><cell>93.78 92.53 94.12</cell><cell>18.51 18.44 20.60</cell><cell>97.43 97.36 83.10</cell><cell>0.37 0.51 0.38</cell><cell>6.49 6.62 7.06</cell><cell>97.90 97.88 98.02</cell></row><row><cell></cell><cell>Spherical</cell><cell>5.47</cell><cell>94.11</cell><cell>18.90</cell><cell>97.97</cell><cell>0.20</cell><cell>6.52</cell><cell>97.90</cell></row><row><cell></cell><cell>Circular</cell><cell>5.82</cell><cell>76.46</cell><cell>27.88</cell><cell>80.23</cell><cell>-0.41</cell><cell>7.89</cell><cell>82.09</cell></row><row><cell>Poisson</cell><cell>Exponential Matérn</cell><cell>5.89 5.99</cell><cell>76.12 73.84</cell><cell>27.01 15.94</cell><cell>80.38 75.44</cell><cell>-0.18 -0.48</cell><cell>7.68 5.99</cell><cell>81.72 81.31</cell></row><row><cell></cell><cell>Spherical</cell><cell>6.35</cell><cell>73.98</cell><cell>28.58</cell><cell>79.93</cell><cell>-0.40</cell><cell>8.01</cell><cell>81.92</cell></row><row><cell></cell><cell>Circular</cell><cell>4.89</cell><cell>92.48</cell><cell>16.78</cell><cell>94.76</cell><cell>0.00</cell><cell>1.94</cell><cell>94.37</cell></row><row><cell>Gaussian</cell><cell>Exponential Matérn</cell><cell>4.99 4.84</cell><cell>92.84 92.61</cell><cell>16.87 26.34</cell><cell>93.59 52.35</cell><cell>0.00 0.00</cell><cell>1.98 2.59</cell><cell>94.28 94.66</cell></row><row><cell></cell><cell>Spherical</cell><cell>4.92</cell><cell>92.60</cell><cell>16.69</cell><cell>94.41</cell><cell>0.00</cell><cell>1.93</cell><cell>94.38</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>Simulation results for function s 3 . Model -distributional assumption for the response. Covariance -covariance functions used in modeling the spatial component. CP(%) -indicates 95% interval coverage probability.</figDesc><table><row><cell>Model</cell><cell>Covariance</cell><cell cols="4">Smooth term f (x 2 ) Spatial term s(w 1 , w 2 )</cell><cell>µ</cell><cell></cell><cell>y</cell></row><row><cell></cell><cell></cell><cell>Bias(%)</cell><cell>CP(%)</cell><cell>Bias(%)</cell><cell>CP(%)</cell><cell cols="3">Bias Bias (%) CP(%)</cell></row><row><cell></cell><cell>Circular</cell><cell>6.06</cell><cell>93.95</cell><cell>13.44</cell><cell>97.16</cell><cell>-0.34</cell><cell>8.05</cell><cell>98.15</cell></row><row><cell>Negative</cell><cell>Exponential</cell><cell>5.83</cell><cell>94.62</cell><cell>13.60</cell><cell>97.17</cell><cell>-0.33</cell><cell>8.03</cell><cell>98.25</cell></row><row><cell>binomial</cell><cell>Matérn</cell><cell>7.31</cell><cell>91.99</cell><cell>19.86</cell><cell>69.01</cell><cell>-0.20</cell><cell>13.09</cell><cell>99.15</cell></row><row><cell></cell><cell>Spherical</cell><cell>5.95</cell><cell>94.93</cell><cell>13.28</cell><cell>97.60</cell><cell>-0.34</cell><cell>7.97</cell><cell>98.26</cell></row><row><cell></cell><cell>Circular</cell><cell>6.51</cell><cell>79.43</cell><cell>15.82</cell><cell>83.74</cell><cell>-0.53</cell><cell>8.92</cell><cell>87.19</cell></row><row><cell>Poisson</cell><cell>Exponential Matérn</cell><cell>6.46 6.22</cell><cell>79.82 78.44</cell><cell>15.84 12.75</cell><cell>82.86 70.28</cell><cell>-0.51 -0.64</cell><cell>9.03 8.26</cell><cell>87.29 86.65</cell></row><row><cell></cell><cell>Spherical</cell><cell>6.28</cell><cell>79.42</cell><cell>15.85</cell><cell>83.77</cell><cell>-0.45</cell><cell>8.98</cell><cell>87.36</cell></row><row><cell></cell><cell>Circular</cell><cell>5.01</cell><cell>92.66</cell><cell>11.10</cell><cell>95.28</cell><cell>-0.01</cell><cell>2.85</cell><cell>94.70</cell></row><row><cell>Gaussian</cell><cell>Exponential Matérn</cell><cell>4.97 5.32</cell><cell>92.41 94.14</cell><cell>11.24 22.74</cell><cell>94.76 44.49</cell><cell>-0.02 -0.02</cell><cell>2.87 5.91</cell><cell>94.64 96.31</cell></row><row><cell></cell><cell>Spherical</cell><cell>5.00</cell><cell>93.25</cell><cell>11.23</cell><cell>95.17</cell><cell>-0.02</cell><cell>2.87</cell><cell>94.55</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 :</head><label>4</label><figDesc>Results for Gaussian model fitted on Meuse river data.</figDesc><table><row><cell>Covariance</cell><cell>BIC</cell></row><row><cell>Circular</cell><cell>-128.94</cell></row><row><cell cols="2">Exponential -128.12</cell></row><row><cell>Matérn</cell><cell>-126.61</cell></row><row><cell>Spherical</cell><cell>-127.14</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 :</head><label>5</label><figDesc>BIC results for the negative binomial model fitted on COVID-19 data using different covariance functions.</figDesc><table><row><cell>Covariance</cell><cell>BIC</cell></row><row><cell>Circular</cell><cell>-1221386</cell></row><row><cell cols="2">Exponential -1221397</cell></row><row><cell>Matérn</cell><cell>-1221187</cell></row><row><cell>Spherical</cell><cell>-1221406</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 :</head><label>6</label><figDesc>BIC comparison for the COVID-19 data using spherical covariance when the variables are added as linear covariates.</figDesc><table><row><cell cols="2">Variables BIC with linear</cell><cell>Difference from BIC</cell></row><row><cell></cell><cell>covariate</cell><cell>with smooth covariate</cell></row><row><cell>med inc</cell><cell>-1221420</cell><cell>-14</cell></row><row><cell>pensinr</cell><cell>-1221388</cell><cell>18</cell></row><row><cell>nonBel</cell><cell>-1221403</cell><cell>3</cell></row><row><cell>snglprn</cell><cell>-1221351</cell><cell>55</cell></row><row><cell>bc</cell><cell>-1221422</cell><cell>-16</cell></row><row><cell>female</cell><cell>-1221388</cell><cell>18</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 7 :</head><label>7</label><figDesc>Results for the linear covariates in model 7.</figDesc><table><row><cell>Estimate -estimated</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>Table 8 :</head><label>8</label><figDesc>Results for the smooth covariates in model 7.</figDesc><table><row><cell cols="2">Variables ED</cell><cell>T r</cell><cell>p-value</cell></row><row><cell>pensinr</cell><cell cols="3">5.10 37.95 &lt; 0.0001</cell></row><row><cell>nonBel</cell><cell cols="3">4.92 26.27 &lt; 0.0001</cell></row><row><cell>snglprn</cell><cell cols="3">5.87 45.68 &lt; 0.0001</cell></row><row><cell>female</cell><cell cols="3">3.43 63.86 &lt; 0.0001</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Data application</head><p>In this section, the proposed methodology is applied to the analysis of two datasets: (1) Meuse river data using the Gaussian model and (2) vulnerability to coronavirus disease 2019 (COVID-19) in Belgium using the negative binomial model.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Competing Interest Statement</head><p>The authors have declared no competing interest.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Meuse river data</head><p>The Meuse dataset contains measurements of heavy metal concentrations in topsoil collected from the flood plain of the Meuse River near the village of Stein, Netherlands. It also includes the geographic coordinates of each sampling location and is commonly used to demonstrate kriging and other geostatistical techniques. This analysis focuses on zinc concentrations in the topsoil, using two covariates: (1) distance to the Meuse river (dist), and (2) relative elevation above the local riverbed (elev). The dataset is available in the R package sp. population size.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A. Derivations for the Gaussian case</head><p>Assuming a Gaussian distribution on the observations y i (w i ), we have the following geoadditive model:</p><formula xml:id="formula_33">y i (w i ) = β 0 + β 1 x i1 + • • • β 1 x ip + f 1 (s i1 ) + • • • f q (s iq ) + s(w i ) + ϵ i , ϵ i ∼ N 1 (0, τ -1 ϵ ).</formula><p>The full Bayesian model for the Gaussian case is given by:</p><formula xml:id="formula_34">(y|ξ) ∼ N n (C ρ ξ, τ -1 ϵ I) (ξ|λ, τ ϵ , ρ) ∼ N dim(ξ) (0, (τ ϵ Q λ ξ ) -1 ), (λ j |δ j ) ∼ G ν 2 , νδ j 2 , j = 1, . . . , q + 1, δ j ∼ G(a δ , b δ ), j = 1, . . . , q + 1, p(τ ϵ ) ∝ 1 τ ϵ , p(ρ) ∝ 1 ρ .</formula><p>The conditional posterior of ξ can be written as:</p><formula xml:id="formula_35">p(ξ|λ, τ ϵ , ρ, D) ∝ L(ξ, τ ϵ , ρ|D) × p(ξ|λ, τ ϵ , ρ) ∝ exp(-0.5τ ϵ ||y -C ρ ξ|| 2 ) × exp(-0.5τ ϵ ξ ⊤ Q λ ξ ξ). It can be shown that p(ξ|λ, τ ϵ , ρ, D) ∝ exp 0.5ξ Σ -1 λ ξ -2ξ Σ -1 λ ξ λ , where ξ λ = (C ⊤ ρ C ρ + Q λ ξ ) -1 C ⊤ ρ y and Σ λ = τ -1 ϵ (C ⊤ ρ C ρ + Q λ ξ ) -1 .</formula><p>This can be recognized as proportional to a multivariate Gaussian distribution with mean vector ξ λ and covariance matrix Σ λ . Therefore, the conditional posterior of ξ is a Gaussian density given by (ξ|λ,</p><formula xml:id="formula_36">τ ϵ , ρ, D) ∼ N dim(ξ) ( ξ λ , Σ λ ). p(v, v ρ |D) ∝(||y -C vρ ξ λ || 2 + ξ ⊤ λ Q λ ξ ξ λ ) -n 2 × |Ω vρ | 1 2 ×|C ⊤ vρ C vρ + Q λ ξ | -1 2 × q j=1 (exp(v j )) K+ν 2 (exp(v q+1 )) S+ν 2 × q+1 j=1 ν exp(v j ) 2 + b δ -ν 2 +a δ .</formula><p>Moreover, the log-posterior of v and v ρ is</p><formula xml:id="formula_37">log( p(v, v ρ |D)) = - n 2 log(||y -C vρ ξ λ || 2 + ξ ⊤ λ Q λ ξ ξ λ ) + 1 2 log|Ω vρ |- 1 2 log|C ⊤ vρ C vρ + Q λ ξ | + q j=1 K + ν 2 v j + S + ν 2 v q+1 - q+1 j=1 ν 2 + a δ log ν exp(v j ) 2 + b δ .</formula><p>Furthermore, from Eq. (A.1), the posterior of τ ϵ conditional on λ and ρ is a gamma density</p><formula xml:id="formula_38">given by (τ ϵ |λ, ρ, D) ∼ G n 2 , 0.5(||y -C ρ ξ λ || 2 + ξ ⊤ λ Q λ ξ ξ λ ) .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B. Simulation study comparing the proposed model with the classical kriging approach</head><p>The proposed model for the Gaussian data is compared with the classical kriging approach using the likfit() function in the R package geoR. A model with constant mean and spatial term only is assumed for this simulation scenario. Specifically, the observations are generated from the model y = µ + ϵ, where µ = β 0 + s(w 1 , w 2 ), β 0 = 3, ϵ ∼ N (0, √ 0.10). The spatial term</p><p>s(w 1 , w 2 ) is simulated from a Gaussian Random Field (GRF) using the grf() function in R with zero mean and different forms of covariances (circular, exponential, Matérn, spherical), with sill parameter λ -1 spat = 0.5, and range parameter ρ -1 = 0.15. Results are presented in Table A.1.</p><p>Table B.1: Results comparing the proposed low-rank Gaussian model and the classical kriging approach with spatial component only.</p><formula xml:id="formula_39">M 1 -proposed method; M 2 -using likfit() function in R. µ y Bias (%)Bias PI Coverage M 1 M 2 M 1 M 2 M 1 M 2 Circular -</formula><p>0.0061 0.0037 10.90 7.43 95.81 94.98 Exponential -0.0039 0.0043 8.58 6.61 95.75 95.14 Matérn -0.0023 0.0011 5.70 2.49 96.04 95.09 Spherical -0.0067 0.0039 11.72 7.81 95.62 95.02 Table B.2: Comparison of computation time (in seconds) with 10 evaluations for Gaussian data without covariates. Min Mean Median Max Proposed method 0.87 1.03 0.98 1.57 Classical kriging approach (likfit()) 108.19 109.82 109.48 112.80 </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure C. 2 :</head><label>2</label><figDesc>Histogram of the factors considered in the analysis of COVID-19 data.Estimated smooth effects for the COVID-19 data using spherical covariance.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Statistics for Spatial Data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Basis-function models in spatial statistics</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sainsbury-Dale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zammit-Mangion</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual Review of Statistics and Its Application</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="373" to="400" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">Model-Based Geostatistics for Global Public Health: Methods and Applications</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Giorgi</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Flexible smoothing with B-splines and penalties</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">H C</forename><surname>Eilers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Marx</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="89" to="121" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">L</forename><surname>Fahrmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Marx</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+	<note>Regression Models</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Laplace approximations for fast Bayesian inference in generalized additive models based on P-splines</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Gressani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Lambert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="page">107088</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Clinical outcomes and risk factors for COVID-19 among migrant populations in high-income countries: a systematic review</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>Hayward</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Deal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Cheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Crawshaw</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Orcutt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">F</forename><surname>Vandrevala</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Norredam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Carballo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Ciftci</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Requena-Méndez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Migration and Health</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page">100041</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Minimax and maximin distance designs</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Moore</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ylvisaker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="131" to="148" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Robust specification of the roughness penalty prior distribution in spatially adaptive Bayesian P-splines models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Jullion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Lambert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="2542" to="2558" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Geoadditive models</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Kammann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Wand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society Series C: Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Bayesian P-splines</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Brezger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="183" to="212" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Design of air-quality monitoring networks</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Saltzman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Case studies in environmental statistics</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="volume">132</biblScope>
+			<biblScope unit="page" from="51" to="76" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Demographic risk factors for COVID-19 infection, severity, ICU admission and death: a meta-analysis of 59 studies</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">G</forename><surname>Pijls</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jolani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Atherley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">T</forename><surname>Derckx</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">I R</forename><surname>Dijkstra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">H L</forename><surname>Franssen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hendriks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Richters</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Venemans-Jellema</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Zalpuri</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMJ Open</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">44640</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A model of disparities: risk factors associated with COVID-19 infection</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Rozenfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Beam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Maier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Haggerson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Boudreau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Carlson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Medows</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal for Equity in Health</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">126</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Approximate Bayesian inference for latent Gaussian models by using integrated nested Laplace approximations</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Martino</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Chopin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="319" to="392" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Wand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<title level="m">Semiparametric regression. Number 12</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Estimating the dimension of a model</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Schwarz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="461" to="464" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A spatial analysis of the association between social vulnerability and the cumulative number of confirmed deaths from COVID-19 in United States counties through November 14</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Sung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Osong Public Health and Research Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">149</biblScope>
+			<date type="published" when="2020">2021. 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Estimating the spatial covariance structure using the geoadditive model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Vandendijck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Faes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Hens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental and Ecological Statistics</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="341" to="361" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Socioeconomic inequalities and COVID-19-A review of the current international literature</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wachtler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Michalski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Nowossadeck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Diercke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wahrendorf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Santos-Hövener</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Lampert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hoebel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Health Monitoring</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">Suppl 7</biblScope>
+			<biblScope unit="page">3</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Applied Spatial Statistics for Public Health Data</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Smoothing and mixed models</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Wand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="223" to="249" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Hierarchical modeling with spatial data. Handbook of Spatial Statistics</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="89" to="106" />
+		</imprint>
+	</monogr>
+	<note>a)</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Low-rank representations for spatial processes</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Handbook of Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="page">118</biblScope>
+			<date type="published" when="2010">2010b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">On p-values for smooth components of an extended generalized additive model</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="221" to="228" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Generalized additive models: an introduction with R</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">The gender peak effect: Women are most vulnerable to infections during COVID-19 peaks</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Qian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Frontiers in Public Health</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page">937179</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Exposure to air pollution and covid-19 mortality in the United States: A nationwide cross-sectional study</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Nethery</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Sabath</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Braun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Dominici</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">MedRxiv</title>
+		<imprint>
+			<biblScope unit="page" from="2020" to="2024" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Likelihood-based methods. Handbook of Spatial Statistics</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Zimmerman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="45" to="56" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Zimmerman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Stein</surname></persName>
+		</author>
+		<title level="m">Classical geostatistical methods. Handbook of Spatial Statistics</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="29" to="44" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Sieve IV estimation of cross-sectional interaction models with nonparametric endogenous effect</title>
+				<funder ref="#_b7bAp7v">
+					<orgName type="full">JSPS, Japan</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Tadao</forename><surname>Hoshino</surname></persName>
+							<email>thoshino@waseda.jp.</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Political Science and Economics</orgName>
+								<orgName type="institution">Waseda University</orgName>
+								<address>
+									<addrLine>1-6-1 Nishi-waseda Shinjuku-ku</addrLine>
+									<postCode>169-8050</postCode>
+									<settlement>Tokyo</settlement>
+									<country key="JP">Japan</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Sieve IV estimation of cross-sectional interaction models with nonparametric endogenous effect</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">DEE23DC425553CE900E5F66D214D23BF</idno>
+					<idno type="DOI">10.1016/j.jeconom.2020.11.008</idno>
+					<note type="submission">Received 20 May 2019 Received in revised form 23 September 2020 Accepted 20 November 2020</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Instrumental variable estimation Peer effects Sieve estimation Social interactions Spatial autoregressive models</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In this study, we consider cross-sectional interaction models including spatial autoregressive models and peer effects models as special cases. Our model allows the endogenous effect -the effect of others' outcomes on one's own outcome -to be nonlinear and nonparametric. For the model estimation, we propose a sieve instrumental variable estimator and establish both its consistency and asymptotic normality. Furthermore, we propose a nonparametric specification test for the linearity of the endogenous effect. Under the null hypothesis of linearity, we show that the test statistic is asymptotically distributed as normal. As an empirical illustration, we focus on the data on regional economic performance investigated by <ref type="bibr" target="#b14">Gennaioli et al. (2013)</ref>. This empirical analysis highlights the usefulness of the proposed model and method.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Cross-sectional interdependence among units is an essential factor in the analysis of spatial data and peer effects. In particular, precisely estimating the endogenous effect -the effect of others' outcomes on one's own outcome -is important from a policy perspective. The existence of the endogenous effect implies that even a small intervention may generate larger aggregate impacts on society through the spatial/social ''multiplier''. Most studies in the literature on spatial econometrics and peer effects models assume that endogenous effects are linearly proportional to the other's outcome, with a few exceptions (e.g., <ref type="bibr" target="#b18">Jenish, 2016;</ref><ref type="bibr" target="#b32">Xu and Lee, 2015)</ref>. The linearity of the endogenous effect means that when an individual i is affected by j, the impact of the outcome of j, say y j , on i's outcome y i is equal to c i,j y j for some constant c i,j that is independent of y j . That is, irrespective of the magnitude of y j , the impact of a one-point increase in y j on y i is always equal to c i,j . Based on such a presumption, researchers frequently employ the so-called linear spatial autoregressive (SAR) model:</p><formula xml:id="formula_0">y n,i = ρ 0 n ∑ j=1 w i,j y n,j + x ⊤ n,i β 0 + ε n,i , i = 1, . . . , n, (1.1)</formula><p>where w i,j is a known interaction weight between i and j, x n,i is a vector of explanatory variables, and ε n,i is a zero-mean error term. β 0 is an unknown parameter vector, and the endogenous interaction effect is captured by the parameter ρ 0 (i.e., c i,j = ρ 0 w i,j ). There are vast theoretical and empirical studies that have attempted to account for the endogenous effect by applying models of this type. In the literature on peer effects models, using a model like (1.1) is often justified as a consequence of complementary social interactions, with one's own marginal payoff increasing proportionally to peers' average outcome <ref type="bibr">(cf., Fortin and Boucher, 2016)</ref>. However, such an assumption is merely made to simplify the analysis and has no theoretical foundation in most cases. For example, consider estimating the spatial spillover effects of regional economic outcomes, such as wages and economic growth. Based on a linear model specification, as in (1.1), many empirical studies have provided evidence of significant spatial endogenous effects of economic growth (e.g., <ref type="bibr" target="#b10">Ertur and Koch, 2007;</ref><ref type="bibr" target="#b11">Fischer, 2011;</ref><ref type="bibr" target="#b29">Sanso-Navarro et al., 2017)</ref>. However, it would be worth reexamining the results within a framework that allows nonlinear spatial interactions. For example, let the outcome of interest be regional average income, and consider three regions i, j, and k. Suppose that the current income levels of regions j and k are $10,000 and $100,000, respectively, and imagine that we can increase their income levels by $5000 using some economic policy instruments. Then, although both regions achieve the same $5000 improvements, the policy would induce a drastic economic change in region j, whereas it would have only moderate impacts for region k. Hence, in terms of the spatial spillover effects of the policy toward region i, the impact from region j would be larger than that from region k, implying the nonlinearity of the endogenous effects. To account for such nonlinearity, one may suggest replacing y n,j on the right-hand side of (1.1) with ln(y n,j ) or √ y n,j , for instance. However, these model specifications are arbitrary, and if they are incorrect, the resulting parameter estimators are not consistent.</p><p>To account for the potential nonlinearity of the endogenous effect, in this paper, we extend model (1.1) to the following nonlinear SAR model:</p><formula xml:id="formula_1">y n,i = n ∑ j=1 w i,j h 0 (y n,j ) + x ⊤ n,i β 0 + ε n,i , i = 1, . . . , n,</formula><p>where h 0 is an unknown nonparametric function. The linear SAR model (1.1) is just a special case of this model with h 0 (y n,j ) = ρ 0 y n,j . 1 A major complication in estimating this model is that h 0 is a nonparametric function of the endogenous variable y n,j . The endogeneity of y n,j may be controlled by using j's covariates x n,j as the instrumental variables (IVs). Then, our model can be viewed as a type of nonparametric IV regression model. 2 As a special case, if individual i interacts with only one individual i ′ , the above model is reduced to a partially linear model y n,i = h 0 (y n,i ′ ) + x ⊤ n,i β 0 + ε n,i . The estimation of the partially linear IV model has already been investigated in the literature (see, e.g., Example 2.1, <ref type="bibr" target="#b0">Ai and Chen, 2003</ref>; Section 2.4, <ref type="bibr" target="#b4">Chen, 2007;</ref><ref type="bibr" target="#b12">Florens et al., 2012)</ref>. However, when each individual may interact with more than one person in general, their estimation methods are not directly applicable, and we thus need to develop a new approach.</p><p>To estimate our model, following seminal works such as <ref type="bibr" target="#b0">Ai and Chen (2003)</ref>, <ref type="bibr" target="#b27">Newey and Powell (2003)</ref>, <ref type="bibr" target="#b2">Blundell et al. (2007)</ref>, and <ref type="bibr" target="#b6">Chen and Christensen (2018)</ref>, we approximate the function h 0 in a finite-dimensional sieve space so that the model can be approximated by a simple linear regression model with multiple lagged endogenous variables. In addition, we can treat ∑ n j=1 w i,j h 0 (y n,j ) as a ''single'' endogenous component rather than dealing with the endogeneity of each h 0 (y n,j ) separately, as in the two-stage least squares (2SLS) procedure of <ref type="bibr" target="#b19">Kelejian and Prucha (1998)</ref> for estimating the linear SAR model (1.1). Then, combining these ideas, we can develop computationally easy-to-implement 2SLS estimators for h 0 and β 0 . Under some regularity conditions, we establish the consistency and asymptotic normality of the estimators for both h 0 and β 0 . Furthermore, we provide a nonparametric specification test for the linearity of the endogenous effect.</p><p>The test proposed is based on a Wald-type test statistic and is easy to compute. We prove that with appropriate centering and scaling, the test statistic is asymptotically distributed as standard normal under the null hypothesis that h 0 is a linear function (i.e., (1.1) is a true model). To assess the finite sample performance of the proposed sieve estimator and test statistic, we conduct a set of Monte Carlo simulations. The results show that our estimator performs well in finite samples and that our test has approximately the correct size and good power properties as the sample size increases.</p><p>As an empirical illustration, we analyze a popular dataset in the literature. Namely, we investigate the determinants of regional development using the dataset created by <ref type="bibr" target="#b14">Gennaioli et al. (2013)</ref> (GLLS hereinafter), which comprises 1569 subnational regions from 110 countries. GLLS' data were further examined by <ref type="bibr" target="#b29">Sanso-Navarro et al. (2017)</ref> to detect the spatial spillovers of regional productivity (measured in income per capita). Similarly to <ref type="bibr" target="#b29">Sanso-Navarro et al. (2017)</ref>, we investigate the same data to estimate the form of the endogenous spatial spillovers of productivity. The results show that the endogenous spillover effect is highly nonlinear and concave -decreasing marginal returns to the productivity of surrounding regions. Indeed, the value of the test statistic is sufficiently large to reject the null hypothesis of linearity at any reasonable significance level.</p><p>Organization of the paper. The remainder of the paper is organized as follows. In Section 2, we first formally introduce the model studied in this paper. Since our model is characterized as a system of nonlinear equations, we discuss the conditions under which the model is well defined with a unique solution. After that, for model estimation, we propose our sieve IV estimator. The asymptotic properties of the proposed estimator are investigated in Section 3. In this section, 1 In addition to this paper, several other papers cast doubt on the parametric linear specification of the endogenous interaction effect, such as <ref type="bibr" target="#b24">Malikov and Sun (2017)</ref> and <ref type="bibr" target="#b25">Masten (2017)</ref>. Their approaches are different in spirit from our modeling approach in that while adopting the linearity assumption, they allow for the interaction parameter ρ 0 to be nonparametrically heterogeneous among individuals.</p><p>2 For recent surveys of nonparametric IV models, see <ref type="bibr" target="#b26">Newey (2013)</ref>, <ref type="bibr">Chen and</ref>  <ref type="formula">Qiu (2016), and Centorrino et al. (2017).</ref>we also propose a test statistic for testing the null hypothesis that h 0 is linear and study its asymptotic distribution. In Section 4, we present the set of Monte Carlo experiments to evaluate the finite sample performance of the proposed estimator and test. Section 5 presents our empirical analysis and Section 6 concludes. All the technical details are relegated to the appendices.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Notation.</head><p>For a natural number n, I n denotes an n × n identity matrix. For a random variable X , ∥X∥ p denotes its L p norm: ∥X∥ p = (E|X | p ) 1/p . For a matrix A, we use ∥A∥ to denote its Frobenius norm: ∥A∥ = √ tr{AA ⊤ }, where tr{•} is a trace of a matrix. In addition, ∥A∥ 1 and ∥A∥ ∞ are the maximum absolute column and row sums of A, respectively. When A is a square matrix, we use λ min (A) and λ max (A) to denote its smallest and largest eigenvalues, respectively. Further, A -denotes a symmetric generalized inverse of A. For a general matrix A (not necessarily square), we define σ 2 min (A) ≡ λ min (A ⊤ A) and σ 2 max (A) ≡ λ max (A ⊤ A).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Model and estimation procedure</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">A nonlinear autoregressive model</head><p>Suppose that we have the data {(y n,i , x n,i ) : 1 ≤ i ≤ n}, where n is the number of observations. As mentioned in the introduction, we modify the standard linear SAR model (1.1) in the following manner:</p><formula xml:id="formula_2">y n,i = n ∑ j=1 w i,j h 0 (y n,j ) + x ⊤ n,i β 0 + ε n,i , i = 1, . . . , n, (2.1)</formula><p>where y n,i ∈ R y is the outcome variable of interest, x n,i = (x (1) n,i , . . . , x (dx) n,i ) ⊤ ∈ R x is a d x ×1 vector of exogenous explanatory variables, and w i,j is the (i, j)th element of an n × n prespecified spatial/social interaction matrix W n . 3 The value of each element w i,j of the interaction matrix is determined based on the ''proximity'' between i and j measured in some space, say D. For the location of each unit in this space, we assume the following.</p><p>Assumption 2.1 (Sampling Space). Individual units {1, . . . , n} are located in a region D n ⊂ D ⊂ R d , where the cardinality of D n satisfies lim n→∞ |D n | = ∞. The Euclidean distance between any two observations i and j in D, which we denote ∆(i, j), is at least (without loss of generality) 1.</p><p>In this assumption, D n denotes the set of possible locations of the sampled units. For spatial data applications, the sampling space D is typically defined by a geographical space with d = 2. For the case of nonspatial data, it is possible to view the space D as a space of general socioeconomic characteristics. Here, we assume that each individual i does not necessarily directly interact with all other n -1 units, but may have a specific reference group based on the distance to them in D. More specifically, let N n,i (δ) be the δ-neighborhood of i:</p><p>N n,i (δ) ≡ {j ∈ {1, . . . , n}\{i} : ∆(i, j) ≤ δ}, and we assume the following. Assumption 2.2 (Interaction Matrix). (i) For all i = 1, . . . , n and n ≥ 1, there exists a fixed threshold distance ∆ such that w i,j = 0 for any j ̸ ∈ N n,i ( ∆). (ii) For all n ≥ 1, the row and column sums of the interaction matrix W n are uniformly bounded in absolute value.</p><p>From the definition of N n,i (δ), Assumption 2.2(i) also introduces a normalization that the diagonal elements of W n are zero. The existence of the threshold distance ∆ does not necessarily imply a homophily on some particular characteristics -a tendency to interact with similar others -since the definition of D can be freely modified depending on the context of the interaction and it does not need to be explicitly specified in practice. Assumption 2.2(ii) is standard in the literature.</p><p>In many empirical studies, the interaction matrix W n is row-normalized so that ∥W n ∥ ∞ = 1, which also implies that ∥W n ∥ 1 is uniformly bounded from Assumption 2.1.</p><p>Note that the outcomes y n,i 's are simultaneously endogenously determined following model (2.1), and thus the set of observed outcomes {y n,1 , . . . , y n,n } is an ''equilibrium'' of the system of nonlinear simultaneous equations. In general, the model may not be well defined when the system does not have a model-consistent unique solution. The following assumption guarantees the existence of a unique solution.</p><formula xml:id="formula_3">Assumption 2.3. (i) R y is a closed subset of R. (ii) h 0 is Lipschitz continuous on R y with Lipschitz constant K: for any y, y ′ ∈ R y , |h 0 (y) -h 0 (y ′ )| ≤ K|y -y ′</formula><p>|, and K∥W n ∥ ∞ &lt; 1.</p><p>3 Since individuals may have different interaction structures, the support of y n,i generally depends on i, say, R i,y . In such a case, we may let R y ≡ lim n→∞ ⋃ n i=1 R i,y . In addition, note that the model (2.1) is viewed as a triangular array because of the dependence of the interaction matrix W n on n. Thus, the supports of the variables and also the parameters h 0 and β 0 can depend on n in general. However, for notational and expositional simplicity, we omit such dependence on n throughout the paper.</p><p>For a row-normalized W n , Assumption 2.3(ii) can be reduced to K &lt; 1. In addition, if one adopts the linear SAR specification as in (1.1), the assumption is further reduced to a familiar condition on the space of the interaction parameter ρ 0 , namely |ρ 0 | &lt; 1.</p><p>Proposition 2.1. Suppose that Assumption 2.3 holds. Then, model (2.1) has a unique solution.</p><p>To verify the above result, rewrite the model in matrix form:</p><formula xml:id="formula_4">Y n = W n H 0 (Y n ) + X n β 0 + E n ,</formula><p>where</p><formula xml:id="formula_5">Y n = (y n,1 , . . . , y n,n ) ⊤ , X n = (x n,1 , . . . , x n,n ) ⊤ , E n = (ε n,1 , . . . , ε n,n ) ⊤ , and H 0 (Y n ) = (h 0 (y n,1 ), . . . , h 0 (y n,n )) ⊤ . Further, let M n,0 (A n ) ≡ W n H 0 (A n ) + X n β 0 + E n ,</formula><p>where</p><formula xml:id="formula_6">A n = (a 1 , . . . , a n ) ⊤ ∈ R n y .</formula><p>Then, we can characterize Y n as a fixed point of the mapping M n,0 : R n y → R n y ; that is,</p><formula xml:id="formula_7">Y n = M n,0 (Y n ). Observe that ⏐ ⏐ ⏐ ⏐ ⏐ ⏐ ⎛ ⎝ n ∑ j=1 w i,j h 0 (a j ) + x ⊤ n,i β 0 + ε n,i ⎞ ⎠ - ⎛ ⎝ n ∑ j=1 w i,j h 0 (a ′ j ) + x ⊤ n,i β 0 + ε n,i ⎞ ⎠ ⏐ ⏐ ⏐ ⏐ ⏐ ⏐ ≤ K n ∑ j=1 |w i,j | • |a j -a ′ j |,</formula><p>where</p><formula xml:id="formula_8">a ′ j is the jth element of A ′ n ∈ R n y .</formula><p>Since the above inequality holds for any i, we have</p><formula xml:id="formula_9">  M n,0 (A n ) -M n,0 (A ′ n )   ∞ ≤ (K∥W n ∥ ∞ ) •   A n -A ′ n   ∞ ,</formula><p>and thus M n,0 is a contraction mapping by Assumption 2.3(ii). Since R n y is complete with respect to ∥ • ∥ ∞ , by Banach's fixed point theorem, it follows that the mapping M n,0 has a unique solution in R n y . When Assumption 2.3 is not met, model (2.1) may allow multiple (or no) model-consistent solutions; however, we do not consider such cases in this paper. Not only for the existence of a unique equilibrium, Assumption 2.3(ii) also plays a key role in ensuring that the data follow a near-epoch dependent (NED) process (see Definition A.1 for the definition of the NED process).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Sieve IV estimation</head><p>Throughout the rest of the paper, the basic model assumptions given in Assumptions 2.1-2.3 are implicitly maintained.</p><p>For the unknown function h 0 , suppose that h 0 ∈ H, where H is a certain subset of square-integrable continuous functions on R. Then, we can approximate it in a finite-dimensional sieve space (e.g., power series, splines, Fourier series, wavelets). Specifically, let {p j (•) : j = 1, 2, . . .} be a sequence of sieve basis functions on R, including a constant function, and let p(y) = (p 1 (y), . . . , p J (y)) ⊤ for some J ≡ J n . Further, let H J be the sieve space of dimension J; that is,</p><formula xml:id="formula_10">H J ≡ {h J (•) = p(•) ⊤ γ : γ ∈ R J</formula><p>}. Note that when all the row sums of W n have the same constant value (which is 1 in most cases), an intercept term cannot be identified separately from the function h 0 ; thus, we cannot include a constant term in x n,i in this case.</p><p>For sufficiently large J, we can find a vector γ 0 = (γ 01 , . . . , γ 0J ) ⊤ such that h 0 (•) can be well approximated by p(•) ⊤ γ 0 ∈ H J . (A more precise statement is given later.) Then,</p><formula xml:id="formula_11">y n,i ≈ p ⊤ n,i γ 0 + x ⊤ n,i β 0 + ε n,i , where p n,i ≡ ∑ n j=1 w i,j p(y n,j ). If we write this in matrix form, Y n ≈ W n P n γ 0 + X n β 0 + E n ,</formula><p>where P n = (p(y n,1 ), . . . , p(y n,n )) ⊤ . The above expression implies that our model can be approximated by a standard (finitedimensional) regression model with multiple endogenous regressors p n,i . Here, let z n,i = (z (1) n,i , . . . , z (dz ) n,i ) ⊤ ∈ R z be a d z × 1 vector of continuous exogenous variables, which are elements of x n,i such that d z ≤ d x . Thus, unless their corresponding coefficient values are nonzero, z n,i must be correlated with y n,i . Further, let {q k (•) : k = 1, 2, . . .} be a sequence of basis functions on R dz and let q(z) = (q 1 (z), . . . , q K (z)) ⊤ for some K ≡ K n such that K ≥ J. Then, q n,i ≡ ∑ n j=1 w i,j q(z n,j ) would serve as valid instruments for p n,i , and we can obtain the 2SLS estimators of β 0 and γ 0 , respectively, as follows 4 :</p><formula xml:id="formula_12">βn = [ X ⊤ n (I n -S P n )X n ] -1 X ⊤ n (I n -S P n )Y n γn = [ P ⊤ n W ⊤ n (R n -S X n )W n P n ] -P ⊤ n W ⊤ n (R n -S X n )Y n , (2.2)</formula><p>4 With some matrix calculations, one can find that the estimator defined in (2.2) is numerically equivalent to the standard 2SLS estimator:</p><formula xml:id="formula_13">( βn γn ) = [( X ⊤ n P ⊤ n W ⊤ n ) R n (X n : W n P n ) ] -( X ⊤ n P ⊤ n W ⊤ n ) R n Y n .</formula><p>where</p><formula xml:id="formula_14">S P n ≡ R n W n P n [ P ⊤ n W ⊤ n R n W n P n ] -P ⊤ n W ⊤ n R n , S X n ≡ X n [ X ⊤ n X n ] -1 X ⊤ n , R n ≡ B n [ B ⊤ n B n ] -B ⊤ n with B n = (W n Q n , X n ) and Q n = (q(z n,1 ), . . . , q(z n,n )) ⊤ . Once γn is obtained, the sieve estimator of h 0 (•) is simply given by ĥnJ (•) ≡ p(•) ⊤ γn . 5</formula><p>Remark 2.2 (Identification). One notable feature of our model is that the identifiability of h 0 depends on the magnitude of the structural parameter β 0 . 6 That is, if it were the case that β 0 = 0, z n,i cannot be used as the instruments for y n,i , and h 0 would not be identified. For identification of our model, we need the so-called completeness condition (more precisely, L 2 -completeness, as we have assumed that h 0 is square integrable). According to Proposition 1 of <ref type="bibr" target="#b1">Andrews (2017)</ref>, this condition is equivalent to the condition that every non-constant function of the endogenous regressor is correlated with some function of the instruments. Hence, if β 0 = 0 and {x n,i } are independent of {ε n,i }, then {y n,i } and {z n,i } are independent by construction, and the completeness condition does not hold.</p><p>For a concrete example, consider a simple pair-wise interaction model: y n,i = h 0 (y n,i ′ ) + x ⊤ n,i β 0 + ε n,i , where i ′ denotes i's interacting partner. We assume that (x n,i , x n,i ′ ) are independent of (ε</p><formula xml:id="formula_15">n,i , ε n,i ′ ), so that E[y n,i | x n,i , z n,i ′ ] = E[h 0 (y n,i ′ ) | x n,i , z n,i ′ ] + x ⊤ n,i β 0 (recall that z n,i ′ is a subset of x n,i ′ ).</formula><p>Then, the completeness condition in this context can be written as follows: E[h(y n,i ′ ) | x n,i , z n,i ′ ] = 0 almost surely (a.s.) ⇒ h(y n,i ′ ) = 0 a.s. for all square-integrable h (cf., <ref type="bibr" target="#b12">Florens et al., 2012)</ref>. Then, if β 0 = 0, since the value of</p><formula xml:id="formula_16">y n,i ′ is determined solely by (ε n,i , ε n,i ′ ), we have E[h(y n,i ′ ) | x n,i , z n,i ′ ] = E[h(y n,i ′ )] = 0 ̸ ⇒ h(y n,i ′ ) = 0.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Asymptotic properties</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Consistency and asymptotic normality</head><p>To derive the asymptotic properties of our estimator, we introduce the following assumptions.</p><formula xml:id="formula_17">Assumption 3.1. (i) sup 1≤i≤n; n≥1 E|y n,i | 2ω &lt; ∞ for some ω ≥ 1. (ii) For all n ≥ 1, {x n,i : 1 ≤ i ≤ n} are independent random variables, and R x is a compact subset of R dx .</formula><p>Assumption 3.2. (i) For all n ≥ 1, {ε n,i : 1 ≤ i ≤ n} are independent random variables with mean zero, and they are also independent of {x n,i : In Assumption 3.1(ii), we assume independence among {x n,i } for simplicity. Recall that z is a subset of x, and thus its support R z is also compact. In Assumption 3.2(i), while we assume that {ε n,i } are independent, their variances are allowed to be nonidentical. Several studies have argued that endogeneity arises frequently in spatial econometric models (e.g., <ref type="bibr" target="#b9">Drukker et al., 2013;</ref><ref type="bibr" target="#b23">Liu and Lee, 2013;</ref><ref type="bibr" target="#b16">Hoshino, 2018)</ref>. Although we assume exogenous regressors for simplicity, extending our results to the case of endogenous regressors is straightforward. Assumption 3.3 is introduced for analytical simplicity, which imposes some restrictions on the choice of basis functions. For example, B-spline basis and Fourier series satisfy the assumption. The uniform boundedness implies that we have sup y∈Ry ∥p(y)∥ = O(J 1/2 ) and sup z∈Rz ∥q(z)∥ = O(K 1/2 ).</p><formula xml:id="formula_18">1 ≤ i ≤ n}. (ii) inf 1≤i≤n; n≥1 E(ε 2 n,i ) &gt; 0 and sup 1≤i≤n; n≥1 E(ε 4 n,i ) &lt; ∞.</formula><p>To state the next assumption, we introduce the following matrices:</p><formula xml:id="formula_19">Ψ n,X ≡ E(X ⊤ n X n /n), Ψ n,K ≡ E(B ⊤ n B n /n), D n,KX ≡ E(B ⊤ n X n /n) C n,KJ ≡ E(B ⊤ n W n P n /n), C n,XJ ≡ E(X ⊤ n W n P n /n), Γ n,KJ ≡ C n,KJ -D n,KX Ψ -1 n,X C n,XJ . Assumption 3.4. (i) Uniformly in K , there exist positive constants 0 &lt; c B &lt; cB &lt; ∞ such that c B &lt; lim inf n→∞ λ min (Ψ n,K ) ≤ lim sup n→∞ λ max (Ψ n,K ) &lt; cB .</formula><p>5 For some applications, it would be natural to assume that h 0 (•) is a nondecreasing function. Such monotonicity constraint can be easily incorporated into the estimation procedure by restricting the sieve space to</p><formula xml:id="formula_20">H mon J ≡ {h J (•) = p(•) ⊤ γ : p ′ (•) ⊤ γ ≥ 0},</formula><p>where p ′ is the J × 1 vector of the derivatives of p. 6 I appreciate an anonymous referee for pointing this out.</p><p>(ii) Uniformly in J, there exists a positive constant cP &lt; ∞ such that lim sup</p><formula xml:id="formula_21">n→∞ λ max (E(P ⊤ n P n /n)) &lt; cP . (iii) Let ν JK ≡ lim sup n→∞ max{σ 2 max (C n,KJ ), σ 2 max (Γ n,KJ )} and ν JK ≡ lim inf n→∞ min{σ 2 min (C n,KJ ), σ 2 min (Γ n,KJ )}.</formula><p>Uniformly in J and K , there exists a positive constant 0 &lt; cC &lt; ∞ such that ν JK &lt; cC , and ν JK &gt; 0.</p><p>Assumption 3.5. There exist positive constants 0 &lt; c 1 &lt; c 2 &lt; ∞ such that c 1 &lt; K n /J n &lt; c 2 uniformly in n, and</p><formula xml:id="formula_22">J 2 /(ν 4 JK n) = o(1).</formula><p>Assumption 3.4(i) is a standard nonsingularity condition that ensures the existence of the inverse matrix Ψ -1 n,K for sufficiently large n. This implies that the eigenvalues of the Ψ n,K 's principal sub-matrices E(Q ⊤ n W ⊤ n W n Q n /n) and Ψ n,X are also bounded away from zero and infinity as n tends to infinity. Assumption 2.2(ii) ensures that sup n≥1 ∥W ⊤ n W n ∥ ∞ ≤ c &lt; ∞, which further implies λ max (W ⊤ n W n ) ≤ c &lt; ∞ for all n ≥ 1. With this and Assumption 3.4(ii), we can also obtain λ max (E(P ⊤ n W ⊤ n W n P n /n)) = O(1). For Assumption 3.4(iii), since the strength of the instruments is determined by the value of β 0 , ν JK and ν JK generally depend on β 0 . Thus, β 0 can indirectly affect the performance of the sieve estimator through these statistics. Although it is not easy to explicitly show how β 0 relates to them, for a particular model setting, we can derive some useful results, as in Remark 3.3. The first part of Assumption 3.5 excludes situations in which the number of basis terms for the instruments grows faster than the number of estimation parameters (i.e., K ≍ J), while satisfying K ≥ J.</p><p>Remark 3.2 (Measure of Ill-posedness). Let S K (•) be a space of functions defined by,</p><formula xml:id="formula_23">for each i = 1, . . . , n, S K (i) ≡ { ∑ n j=1 w i,j g K (z n,j ) + x ⊤ n,i β : g K ∈ G K , β ∈ R dx }, where G K is a sieve space spanned by {q 1 (•), . . . , q K (•)}.</formula><p>For a given h J ∈ H J , consider projecting</p><p>∑ n j=1 w i,j h J (y n,j ) onto S K (i) to minimize the average mean squared error:</p><formula xml:id="formula_24">min s K ∈S K 1 n n ∑ i=1 E ⎛ ⎝ n ∑ j=1 w i,j h J (y n,j ) -s K (i) ⎞ ⎠ 2 = min θ∈R (K +dx) 1 n n ∑ i=1 E ( p ⊤ n,i γ -b ⊤ n,i θ ) 2 , where b n,i is the ith column of B ⊤ n . Since argmin θ ∈R (K +dx) 1 n ∑ n i=1 E ( p ⊤ n,i γ -b ⊤ n,i θ ) 2 = Ψ -1 n,K C n,KJ γ , the projection of ∑ n j=1 w i,j h J (y n,j ) onto S K (i) is obtained as b ⊤ n,i Ψ -1 n,K C n,KJ γ .</formula><p>Thus, ν JK delivers information on the diminishing rate of the projection coefficients.</p><p>The reciprocal of √ ν JK , which we denote by τ JK ≡ 1/ √ ν JK , can be interpreted as a sieve measure of ill-posedness for our model. The same interpretation can be applied to Γ n,KJ on the orthogonal complement of the x-space. Note that τ JK is generally increasing in J. However, the larger J, the more accurate is the sieve approximation. Thus, there is a trade-off in this regard.</p><p>Remark 3.3. In general, the degree of ill-posedness is closely related to the strength of the instruments, as demonstrated in <ref type="bibr" target="#b26">Newey (2013)</ref>. This applies to our model as well. For exposition, we focus on a pair-wise interaction model, as in Remark 2.2. Then, a typical (k, j)th element of C n,KJ can be expressed as</p><formula xml:id="formula_25">1 n ∑ n i=1 E[q k (z n,i ′ )p j (y n,i ′ )].</formula><p>For simplicity, suppose that x n,i is one-dimensional (i.e., x n,i = z n,i ) and follows the standard normal distribution, and y n,i is also normally distributed with mean zero and variance σ 2 y . 7 Further, similar to <ref type="bibr" target="#b26">Newey (2013)</ref>, let p j (y) be the normalized Hermite polynomial of order j; that is, p j (y) = He j (y/σ y ). Then, with some calculations, we can show that E[p j (y n,i ) | x n,i ] = He j (x n,i )cor j n,i , where cor n,i is the correlation coefficient between y n,i and x n,i -see Appendix B.2 for the proof of this result.</p><p>Thus,</p><formula xml:id="formula_26">E[q k (x n,i ′ )p j (y n,i ′ )] = E[q k (x n,i ′ )E[p j (y n,i ′ ) | x n,i ′ ]] = E[q k (x n,i ′ )He j (x n,i ′ )]cor j n,i ′ holds.</formula><p>Recall that the measure of ill-posedness τ JK is inversely related to σ 2 min (C n,KJ ). Thus, since a (k, j)th element of C n,KJ can be written as</p><formula xml:id="formula_27">1 n ∑ n i=1 E[q k (x n,i ′ )He j (x n,i ′ )]</formula><p>cor j n,i ′ as shown above, we can find that τ JK tends to infinity as j increases. Here, note that coefficient β 0 of x n,i is proportional to cor n,i (see footnote 7 for example). Hence, the degree of ill-posedness generally increases as β 0 gets close to zero. In an extreme case where β 0 = 0, ν JK can be exactly zero, i.e., τ JK = ∞, although this situation is ruled out by the last part of Assumption 3.4(iii). As such, Assumption 3.4(iii) implicitly requires that the elements of β 0 that correspond to the coefficients of the instruments z n,i must be away from zero.</p><p>We check the impacts of β 0 on the degree of ill-posedness numerically by conducting Monte Carlo experiments, the details of which are presented in Appendix C to save space. The experiments also reveal that not only the magnitude of β 0 but the form of the interaction matrix W n can affect the ill-posedness. 7 For example, consider a linear SAR model y n,i = ρ 0 y n,i ′ +x n,i β 0 +ε n,i , where ε n,i ∼ N(0, σ 2 ε ). Then, y n,i follows a normal distribution with mean zero and variance σ 2 y = (β 2 0 +σ 2 ε )(1+ρ 2 0 )/(1-ρ 2 0 ) 2 . In this case, the correlation coefficient between y n,i and</p><formula xml:id="formula_28">x n,i is equal to cor n,i = β 0 / √ (β 2 0 + σ 2 ε )(1 + ρ 2 0 ).</formula><p>To state the next assumption, we introduce a weighted sup-norm defined as</p><formula xml:id="formula_29">|h| ∞,ω ≡ sup y∈Ry [ |h(y)| • (1 + |y| 2 ) -ω/2 ]</formula><p>for some ω ≥ 0; see, e.g., <ref type="bibr" target="#b7">Chen et al. (2005)</ref> and <ref type="bibr" target="#b20">Lee and Robinson (2016)</ref>. As stated by <ref type="bibr" target="#b7">Chen et al. (2005)</ref>, one may regard the weight function (1 + |y| 2 ) -ω/2 as an alternative to the trimming function used in kernel estimation when the support is unbounded. When w = 0, this leads to the standard sup-norm.</p><p>Assumption 3.6. There exist a sequence of vectors γ 0 ≡ γ 0J and a constant µ &gt; 0 satisfying |h 0 (</p><formula xml:id="formula_30">•) -p(•) ⊤ γ 0 | ∞,ω = O(J -µ ).</formula><p>This assumption quantifies the approximation error of the function h 0 by the sieve space H J in terms of the weighted sup-norm, where ω is as given in Assumption 3.1(i). The number µ is dependent on the smoothness of h 0 and the choice of sieve basis. For example, if h 0 belongs to a weighted Hölder ball with some finite radius and smoothness µ, 8   Assumption 3.6 is satisfied by commonly used basis functions such as splines, wavelets, and Fourier series. Define</p><formula xml:id="formula_31">Σ n,X ≡ Ψ n,X -C n,XJ (C ⊤ n,KJ Ψ -1 n,K C n,KJ ) -1 C ⊤ n,XJ , Ω n,X ≡ E(ξ ⊤ n V n ξ n /n),</formula><p>where</p><formula xml:id="formula_32">V n ≡ diag(E(ε 2 n,1 ), . . . , E(ε 2 n,n )), ξ n ≡ X n -B n Ψ -1 n,K C n,KJ (C ⊤ n,KJ Ψ -1 n,K C n,KJ ) -1 C ⊤ n,XJ .</formula><p>Assumption 3.7. The matrices Σ X ≡ lim n→∞ Σ n,X and Ω X ≡ lim n→∞ Ω n,X exist and are positive definite.</p><p>The following theorem provides the convergence rate and asymptotic distribution of βn .</p><p>Theorem 3.4. Under Assumptions 3.1-3.7, we have (i)</p><formula xml:id="formula_33"> β n -β 0   = O P (n -1/2 + J -µ ),<label>and</label></formula><formula xml:id="formula_34">(ii) if n 1/2 J -µ = o(1), √ n ( βn -β 0 ) d → N(0, Σ -1 X Ω X Σ -1 X ).</formula><p>Remark 3.5. Result (i) in Theorem 3.4 implies that if one uses a sufficiently large number of basis terms so that J -µ ≍ n -1/2 , then our estimator βn becomes √ n-consistent. To derive the limiting distribution of βn , further undersmoothing is required so that the sieve approximation error does not affect the limiting distribution; that is, J increases to infinity at a rate faster than n 1/(2µ) . In conjunction with Assumption 3.5, when J ≍ n κ for some constant 0 &lt; κ &lt; ∞, we need to choose κ satisfying 1/(2µ) &lt; κ and n 2κ-1 /ν 4 JK = o(1) simultaneously. 9 In particular, if the ill-posedness is not severe so that 1/ √ ν JK = τ JK = O(J r ) for some r &gt; 0, these conditions can be reduced to 1/(2µ) &lt; κ &lt; 1/(8r + 2). Note that this automatically implies that µ must be larger than 4r + 1.</p><p>Next, we examine the asymptotic properties of the sieve estimator ĥnJ of h 0 . Let</p><formula xml:id="formula_35">Σ n,h ≡ Γ ⊤ n,KJ Ψ -1 n,K Γ n,KJ , Ω n,h ≡ Γ ⊤ n,KJ Ψ -1 n,K E(B ⊤ n V n B n /n)Ψ -1 n,K Γ n,KJ , and v 2 n (y) ≡ p(y) ⊤ Σ -1 n,h Ω n,h Σ -1 n,h p(y)</formula><p>for a given y ∈ R y . Further, we define the sieve 2SLS operator Π n,JK as follows:</p><formula xml:id="formula_36">Π n,JK h(y) ≡ p(y) ⊤ [ P ⊤ n W ⊤ n (R n -S X n )W n P n ] -P ⊤ n W ⊤ n (R n -S X n )W n H(Y n ),</formula><p>where</p><formula xml:id="formula_37">H(Y n ) = (h(y n,1 ), . . . , h(y n,n )) ⊤ .</formula><p>The operator norm of Π n,JK with respect to the weighted sup-norm is naturally defined as ∥Π n,JK ∥ ∞,ω ≡ sup |h| ∞,ω =1 |Π n,JK h| ∞,ω . In a similar manner to Remark 2.5 in Chen and Christensen (2015), we can obtain a crude bound: ∥Π n,JK ∥ ∞,ω = O P (τ JK √ J); see Appendix B.3. As mentioned in Remark 3.7, if we could prove that ∥Π n,JK ∥ ∞,ω = O P (1), it can be shown that our sieve IV estimator attains the optimal convergence rate.</p><p>The next theorem establishes the uniform convergence rate and asymptotic normality of the sieve estimator. </p><formula xml:id="formula_38">⏐ ⏐ĥ nJ (•) -h 0 (•) ⏐ ⏐ ∞,ω = O P ( τ JK √ (J ln J)/n ) + (1 + ∥Π n,JK ∥ ∞,ω ) • O(J -µ</formula><p>). 8 Let Λ µ (R y ) denote a set of functions: h : R y → R, which is µ-times continuously differentiable, and the µth derivative is Hölder continuous with exponent µµ ∈ (0, 1]. Further, let Λ µ (R y , ω 1 ) ≡ {h : h(•)[1 + (•) 2 ] -ω 1 /2 ∈ Λ µ (R y )}. The set of functions h ∈ Λ µ (R y , ω 1 ) such that the Hölder norm of h(•)[1 + (•) 2</p><p>] -ω 1 /2 is bounded by c is called a weighted Hölder ball with radius c and smoothness µ, and is denoted as Λ µ c (R y , ω 1 ). Then, if h 0 ∈ Λ µ c (R y , ω 1 ), Assumption 3.6 is satisfied for ω &gt; µ + ω 1 . For more details, see <ref type="bibr" target="#b0">Ai and Chen (2003)</ref> and <ref type="bibr" target="#b7">Chen et al. (2005)</ref>. 9 For partially linear models without endogenous nonparametric components, it is known that a least-squares coefficient estimator can achieve √ n-asymptotic normality under n 1/2 J -µ = o(1) and J 2 /n = o(1) (see, e.g., <ref type="bibr" target="#b21">Li, 2000)</ref>. According to Theorem 3.4, the second condition needs to be strengthened to J 2 /(ν 4 JK n) = o(1) to attain the normality in our model due to the ill-posed nature of the estimation problem.</p><p>(ii) If J 3 /(ν 4 JK n) = o(1) and √ n(1 + ∥Π n,JK ∥ ∞,ω )J -µ /∥p(y)∥ = o(1), then, for a given finite y ∈ R y such that ∥p(y)∥ &gt; 0, we have</p><formula xml:id="formula_39">√ n vn(y) ( ĥnJ (y) -h 0 (y)</formula><p>) d → N(0, 1).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 3.7 (Attainability of the Optimal Convergence Rate).</head><p>Recently, Chen and Christensen (2018) have derived optimal sup-norm convergence rates for nonparametric IV regression models without cross-sectional dependence; that is, in our <ref type="bibr" target="#b6">Chen and Christensen, 2018)</ref>. Thus, in order to attain the same convergence rate, we need to show that ∥Π n,JK ∥ ∞,ω = O P (1) (see (A.13) in Appendix). It is an open question as to whether ∥Π n,JK ∥ ∞,ω = O P (1) actually holds true or not under reasonably primitive conditions.</p><formula xml:id="formula_40">context, | ĥnJ (•) -h 0 (•)| ∞,0 = O P (τ JK √ (J ln J)/n) + O P (J -µ ) (see Corollary 3.1(ii) of</formula><p>Another potential route to attain the optimal rate is to utilize a ''stability'' condition similar to Assumption 4(iii) in <ref type="bibr" target="#b6">Chen and Christensen (2018)</ref>; that is, in our context,</p><formula xml:id="formula_41">|Π JK (h 0 (•) -p(•) ⊤ γ 0 )| ∞,ω ≤ O(1) • |h 0 (•) -p(•) ⊤ γ 0 | ∞,ω</formula><p>, where Π JK is the population version of Π n,JK . Under this stability condition, the bias term would become just O P (J -µ ), as desired. However, again, whether this assumption can be justified in our setting is an open question.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 3.8 (Consistent Estimation of Covariance Matrices).</head><p>For statistical inferences based on Theorems 3.4(ii) and 3.6(ii), it is necessary to consistently estimate Σ -1 X Ω X Σ -1 X and v n (y). They can be easily estimated by the sample analogues. In view of Lemmas A.6-A.8 in Appendix A, we only need to discuss the estimation of E(B</p><formula xml:id="formula_42">⊤ n V n B n /n). Let εn,i ≡ y n,i - ∑ n j=1 w i,j ĥnJ (y n,j ) -x ⊤ n,i βn , and Vn ≡ diag(ε 2 n,1 , . . . ,ε 2 n,n ). Then, as shown in Appendix B.4, it holds that   B ⊤ n Vn B n /n -E(B ⊤ n V n B n /n)   = o P (1) (3.1)</formula><p>under the assumptions used in Theorem 3.6(i) and (ii).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Testing the linearity of the endogenous interaction effect</head><p>In this subsection, we consider testing the functional form of the endogenous effect h 0 . In particular, it is important to test whether the widely used linear specification is appropriate. To simplify the following discussion, we focus on the case in which the interaction matrix W n is row-normalized and an intercept term is included in the basis functions p. The null hypothesis we are interested in testing is</p><formula xml:id="formula_43">H 0 : h 0 (y n,i ) = c 0 + ρ 0 y n,i (i = 1, . . . , n) a.s. for some (c 0 , ρ 0 ) ∈ R 2 .</formula><p>The alternative hypothesis is the negation of H 0 . Let (ĉ n ,ρ n ) be an estimator of (c 0 , ρ 0 ) obtained from, for example, the parametric 2SLS procedure of <ref type="bibr" target="#b19">Kelejian and Prucha (1998)</ref>. If H 0 is true, both the parametric 2SLS and our sieve 2SLS estimator are consistent and they would generate close estimates; otherwise, at least for some of the y n,i 's, the estimates should be dissimilar. Thus, we can consider the following test statistic:</p><formula xml:id="formula_44">T n ≡ n ∑ i=1 ( ĥnJ (y n,i ) -ĉ n -ρn y n,i ) 2 . (3.2)</formula><p>To test the linearity of nonparametric functions, this type of test statistic has been considered in <ref type="bibr" target="#b30">Su and Lu (2013)</ref> and <ref type="bibr" target="#b31">Su and Zhang (2013)</ref>. In the following, we show that with appropriate centering and scaling, T n converges in distribution to the standard normal N(0, 1). To establish the desired result, let us modify the above-mentioned assumptions and introduce some additional assumptions as follows.</p><p>Assumption 3.1 ′ . Assumption 3.1 holds. In addition, sup 1≤i≤n; n≥1 E(y 4</p><formula xml:id="formula_45">n,i ) &lt; ∞. Assumption 3.2 ′ . Assumption 3.2 holds. In addition, sup 1≤i≤n; n≥1 E(ε 6 n,i ) &lt; ∞.</formula><p>Since the test statistic has a quadratic form, it is necessary to assume the existence of higher moments of the involved random variables. As mentioned above, with some additional conditions on h 0 , we can easily show that Assumption 3.2(ii) is sufficient for Assumption 3.1 ′ . We introduce Assumption 3.2 ′ to simplify the proof.</p><p>Assumption 3.4 ′ . Assumption 3.4 holds. In addition, there exist positive constants 0</p><formula xml:id="formula_46">&lt; c P , cPy &lt; ∞ such that (i) lim inf n→∞ λ min (E(P ⊤ n P n /n)) &gt; c P and (ii) lim sup n→∞ σ 2 max (E(P ⊤ n Y c n /n)) &lt; cPy , where Y c n ≡ (1 n , Y n ) with 1 n being an n × 1 vector of ones.</formula><p>Assumption 3.5 ′ . Assumption 3.5 holds. In addition, (i</p><formula xml:id="formula_47">) J 3 /(ν 5 JK n) = o(1), (ii) n 1/2 J 1/2-µ / √ ν JK = o(1), and (iii) ν 2 JK J → ∞ as J → ∞. Assumption 3.8. Under H 0 , (ĉ n ,ρ n ) is a √ n-consistent estimator for (c 0 , ρ 0 ).</formula><p>Assumptions 3.5 ′ (i) and (ii) are slightly stronger than those required for Theorem 3.6(ii). Assumption 3.5 ′ (iii) requires that the ill-posedness is not severe. Assumption 3.8 is standard for the estimation of linear SAR models. As mentioned above, one can use the 2SLS estimator of <ref type="bibr" target="#b19">Kelejian and Prucha (1998)</ref>. <ref type="bibr" target="#b22">Lin and Lee's (2010)</ref> generalized method of moments estimator is also available, and this is more efficient than the simple 2SLS estimator. Since we have assumed the error terms to be heteroskedastic, the maximum likelihood method cannot be used for this purpose.</p><p>Let</p><formula xml:id="formula_48">V n,h ≡ Ψ -1 n,K Γ n,KJ Σ -1 n,h E(P ⊤ n P n /n)Σ -1 n,h Γ ⊤ n,KJ Ψ -1 n,K , B n ≡ tr { V n,h E(B ⊤ n V n B n /n) } , s 2 n ≡ 2tr { V n,h E(B ⊤ n V n B n /n)V n,h E(B ⊤ n V n B n /n) } .</formula><p>As shown below, B n and s 2 n serve as the mean and variance of the test statistic T n , respectively. The following theorem characterizes the limiting distribution of the test statistic T n .</p><p>Theorem 3.9. Suppose that Assumptions 3.1 ′ -3.8 hold (where 3.2, 3.4 and 3.5 are also replaced with 3.2 ′ , 3.4 ′ and 3.5 ′ , respectively). Then, under</p><formula xml:id="formula_49">H 0 , s -1 n (T n -B n ) d → N(0, 1).</formula><p>If H 0 is not true, the standardized test statistic s -1 n (T n -B n ) tends to deviate to a positive value. Thus, Theorem 3.9 implies that we can implement a one-sided test by comparing the value of s -1 n (T n -B n ) with z α , the upper α-percentile of N(0, 1). To implement the test in practice, we need to consistently estimate s n and B n , which can be carried out by the sample analogues:</p><formula xml:id="formula_50">Bn ≡ tr { Vn,h (B ⊤ n Vn B n /n) } , ŝ2 n ≡ 2tr { Vn,h (B ⊤ n Vn B n /n) Vn,h (B ⊤ n Vn B n /n) } ,</formula><p>where the precise definition of Vn,h can be found in the first section of Appendix.</p><p>In view of (3.1) (see also Appendix B.4) and Lemmas A.6-A.8 in Appendix A, it is straightforward to see that Bn and ŝ2 n are consistent estimators for B n and s 2 n , respectively.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Monte Carlo experiments</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Sieve IV estimation</head><p>In this subsection, we examine the finite sample performance of the sieve IV estimator. We consider the following three data-generating processes (DGPs) for the Monte Carlo experiments:</p><formula xml:id="formula_51">y n,i = n ∑ j=1 w i,j h 0 (y n,j ) + x (1) n,i β 01 + x (2) n,i β 02 + ε n,i , i = 1, . . . , n, where DGP 1: h 0 (y) = 1 + cos(0.8y) DGP 2: h 0 (y) = 0.9 ln(|y -1| + 1)sgn(y -1) DGP 3: h 0 (y) = 0.5y -1 with β 01 = 1, β 02 = 1, x (1) n,i 's iid ∼ N(0, 2 2 ), x (2) n,i 's iid ∼ Uniform[-1, 1], and ε n,i 's iid</formula><p>∼ N(0, 0.8 2 ) for all DGPs. Note that h 0 in DGP 2 is less smooth compared to the other DGPs; the derivative of h 0 (y) has a kink at y = 1 (this design is borrowed from <ref type="bibr" target="#b27">Newey and Powell, 2003)</ref>. The weight matrix W n is defined according to the Rook contiguity with row normalization.</p><p>We randomly allocate n units on the lattice of 20 × t, such that 20t = n, in which we consider three sample sizes: n ∈ {500, 1000, 2000}. Then, since these three DGPs satisfy the requirement in Assumption 2.3, we can generate the dependent variables {y n,1 , . . . , y n,n } by contraction mapping iterations. More specifically, let Y (0) n be an initial candidate value of Y n , and update it by</p><formula xml:id="formula_52">Y (l+1) n = M n,0 (Y (l)</formula><p>n ), where the definition of the mapping M n,0 can be found in Section 2.1. The iteration stops when ∥Y (l+1</p><formula xml:id="formula_53">) n -Y (l) n ∥ ∞ &lt; 1/10 4 is met.</formula><p>As for the choice of the basis functions p and q, we use the cubic B-splines for both. The sieve space for the instrumental variables is defined by q(z n,j ) = (q(x (1) n,j ) ⊤ ,q(x (2) n,j ) ⊤ ) ⊤ , where q(•) is a vector of the univariate B-spline functions. Let J and K be the number of internal knots for the univariate B-spline bases p and q, respectively. To evaluate how our sieve estimator is sensitive to the choice of J and K , we consider three pairs of values for each n: ( J, K ) ∈ {(1, 1), (1, 2), (2, 2)} for n = 500, ( J, K ) ∈ {(2, 2), (2, 3), (3, 3)} for n = 1000, and ( J, K ) ∈ {(3, 3), (3, 4), (4, 4)} for n = 2000. The locations of the knots are determined based on the empirical quantiles.</p><p>The number of Monte Carlo repetitions for each set-up is set to 1000.</p><p>The performance of the sieve estimator ĥnJ is evaluated using the integrated squared bias</p><p>(ISB) and integrated mean squared error (IMSE): ISB: ∫ y 97.5 y 2.5 [ 1 1000 1000 ∑ r=1 ĥ(r) nJ (y) -h 0 (y) ] 2 dy, IMSE: ∫ y 97.5 y 2.5 ( 1 1000 1000 ∑ r=1 [ ĥ(r) nJ (y) -h 0 (y)</p><p>] 2 ) dy, where the superscript (r) means that the estimate is obtained from the rth replicated dataset, and y 2.5 and y 97.5 are the 2.5% and 97.5% empirical quantiles of {y n,i } averaged over the replications. Table <ref type="table" target="#tab_0">4</ref>.1 summarizes the simulation results for h 0 .</p><p>Our findings from Table <ref type="table" target="#tab_0">4</ref>.1 are as follows. In DGP 1, where the function h 0 is highly nonlinear, we can significantly reduce the ISB value by increasing J, as expected in theory. In particular, the estimator with J = 1 is clearly insufficiently flexible to capture the shape of h 0 . However, increasing J too quickly deteriorates the estimation performance. For example, when the sample size is 2000, using J = 4 is too flexible, and this results in an IMSE that is twice as large as the cases with J = 3. These results highlight the bias-variance trade-off of our estimator with respect to J. On the other hand, when h 0 can be well approximated (or exactly represented) by a linear function, as in DGPs 2 and 3, using a parsimonious number of J always outperforms the cases with larger J in terms of IMSE. In addition, for DGP 2, although the function h 0 is not very smooth as compared to the other DGPs, it seems that our estimator works satisfactorily, probably because its nonsmoothness is not severe. The choice of K has relatively minor impacts on the performance of the estimator in all DGPs. As shown above, the choice of J is an important factor that governs the performance of the sieve estimator. However, choosing an optimal J is not a simple task, and we leave this issue for future investigation.</p><p>The results of estimating (β 01 , β 02 ) are presented in Table <ref type="table" target="#tab_0">4</ref>.2. They show that our estimator performs quite well. The bias and RMSE (root mean squared error) are satisfactorily small, and the coverage rate of the 95% confidence interval is close to the nominal level in all set-ups.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Test for the linearity of h 0</head><p>We next examine the finite sample performance of the proposed test. The DGPs considered are the same as above; that is, the null hypothesis is true in DGP 3, but not in DGPs 1 and 2. Table <ref type="table" target="#tab_0">4</ref>.3 reports the simulation results for the rejection frequency over 1000 Monte Carlo repetitions at the 10%, 5%, and 1% significance levels.</p><p>Table 4.3 Rejection frequency. DGP 1 DGP 2 DGP 3 n J K 10% 5% 1% 10% 5% 1% 10% 5% 1% 500 1 1 0.991 0.987 0.976 0.432 0.347 0.243 0.074 0.049 0.019 500 1 2 0.995 0.994 0.983 0.430 0.352 0.253 0.072 0.047 0.020 500 2 2 0.953 0.932 0.879 0.277 0.209 0.119 0.064 0.041 0.014 1000 2 2 1.000 1.000 0.998 0.563 0.472 0.316 0.092 0.065 0.034 1000 2 3 1.000 1.000 1.000 0.587 0.489 0.335 0.086 0.060 0.033 1000 3 3 0.987 0.978 0.952 0.316 0.236 0.130 0.073 0.047 0.021 2000 3 3 1.000 0.996 0.996 0.691 0.594 0.413 0.083 0.056 0.029 2000 3 4 1.000 1.000 0.999 0.713 0.620 0.461 0.089 0.056 0.024 2000 4 4 0.982 0.975 0.949 0.242 0.166 0.093 0.067 0.040 0.016</p><p>Our findings from Table <ref type="table" target="#tab_0">4</ref>.3 are as follows. When the function h 0 is highly nonlinear, as in DGP 1, our test has a good power property for all choices of ( J, K ) and all sample sizes. On the contrary, if h 0 becomes closer to a linear function, as in DGP 2, the power of the test decreases, although it can be improved by increasing the sample size. For DGP 2, the choice of J has a certain influence on the performance of our test. Specifically, if too many basis terms are used to approximate h 0 , the increase in the estimation variance diminishes the power of the test considerably. The results for DGP 3 indicate that the size of our test is reasonably well controlled.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">An empirical application: Spatial spillovers of regional productivity</head><p>As mentioned in the introduction, the dataset investigated in this empirical analysis is the one used by GLLS. The authors proposed a new regional development model based on the Lucas model of endogenous growth and presented empirical evidence that regional education level (as a proxy of human capital) is a critical determinant of regional development. In addition, as mentioned by <ref type="bibr" target="#b10">Ertur and Koch (2007)</ref>, it is commonly observed that national and regional economic growth depends not only on a country's domestic investment in physical and human capital, but also critically on the growth rates and income levels of neighboring regions. Then, Sanso-Navarro et al. (2017) consider a spatial extension of GLLS and provide evidence of the need to account for the presence of spatial dependence to study the determinants of regional productivity. 10 For the estimation, these studies derive a reduced-form model that can be expressed as a standard linear SAR model as in (1.1).</p><p>The GLLS data consist of 1569 subnational regions from 110 countries. In this empirical illustration, the outcome variable of interest is regional productivity, measured by income per capita. The explanatory variables considered include, for example, each region's average temperature, oil production, years of education, and the number of ethnic groups inhabited in the region. County-specific dummies are also included. For the definitions of these variables and their detailed summary statistics, see GLLS. After discarding observations with missing data, the analysis is performed on a sample of size 1463.</p><p>The model estimated is as follows:</p><formula xml:id="formula_54">ln(Income pc n,i ) = n ∑ j=1 w i,j h 0 (ln(Income pc n,j )) + x ⊤ n,i β 0 + ε n,i , i = 1, . . . , 1463,</formula><p>where w i,j is the row-normalized spatial weight between region i and region j created based on the Rook contiguity. For the instruments z n,i , we use all elements of x n,i excluding the country dummies. Note that z n,i includes both continuous and discontinuous variables, say, z c n,i and z d n,i , respectively. 11 Therefore, we use z d n,i without any transformation, and (with an abuse of notation) we redefine q(z n,i ) = (q(z c n,i ) ⊤ , z d⊤ n,i ) ⊤ . We estimate the above model in two alternative ways: using the 2SLS procedure by <ref type="bibr" target="#b19">Kelejian and Prucha (1998)</ref> assuming that h 0 (y) = c 0 + ρ 0 y and using the sieve IV method. We use the cubic B-spline basis function with the number of internal knots being 2 for both p and q. The estimation results for the spatial spillover of regional productivity are presented in Fig. <ref type="figure">5</ref>.1, and Table <ref type="table" target="#tab_1">5</ref>.1 shows the results for β 0 .</p><p>Fig. <ref type="figure">5</ref>.1 shows that the spatial spillover effect is nonlinear and concave. The value of the standardized test statistic is 13.5565, and thus the null hypothesis of linearity is clearly rejected at any reasonable significance level. The result implies that if the economic performances of neighboring regions are high, a one percent increase in them results in less than 10 The GLLS data used in this analysis and spatial information on each region were obtained from the Journal of Applied Econometrics Data Archive: Sanso-Navarro, Vera-Cabello and Ximénez-de-Embún (2017) Human capital spillovers and regional development, Journal of Applied Econometrics, 32, 923-930. 11 Specifically, we set z c n,i = {Temperature, Inverse distance to coast, ln(Population)} and z d n,i = {ln(Oil production per capita), Years of education, ln(No. ethnic groups)}.  a one percent increase in own productivity. 12 As reported in Table <ref type="table" target="#tab_1">5</ref>.1, the magnitude and significance of the coefficient estimates are somewhat different between the linear SAR model and the nonlinear model. Then, considering the fact that the linear SAR model is rejected by our specification test, we may conclude that the parameter estimates obtained by the sieve IV method are more reliable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusion</head><p>In this paper, we consider the sieve IV estimation of cross-sectional interaction models with nonparametric endogenous effects. We establish the consistency and asymptotic normality of the estimator. We also propose a nonparametric specification test for testing the null hypothesis that the endogenous effect is linear in the other's outcome and derive its asymptotic distribution. An empirical illustration using GLLS data indicates the usefulness of the proposed model and test.</p><p>There remain some issues not addressed in this study, some of which have been mentioned above. These include choosing an optimal order of the basis expansion J (and K ), accounting for endogenous sample selection, investigating whether the proposed sieve IV estimator can attain the optimal convergence rate, and investigating the sieve IV estimation with shape restrictions (e.g., monotonicity and/or contractivity) on h 0 . In addition, considering a bootstrap version of our test would be important to improve the finite sample properties of the test. Moreover, as suggested by a number of authors (e.g., <ref type="bibr" target="#b15">Goldsmith-Pinkham and Imbens, 2013;</ref><ref type="bibr" target="#b28">Qu and Lee, 2015;</ref><ref type="bibr" target="#b17">Hsieh and Lee, 2016)</ref>, treating the interaction matrix W n as exogenous and given would be too restrictive in some empirical situations. Lastly, it would be interesting to consider other types of nonparametric endogenous effects models such as y n,i = h 0 ( ∑ n j=1 w i,j y n,j ) + x ⊤ n,i β 0 + ε n,i . We leave these topics to future research.</p><p>12 As shown in Fig. <ref type="figure">5</ref>.1, for a few observations with ln(Income pc) values lower than 4, the derivative of the estimated h 0 is larger than one. Since this violates the contraction property required in Assumption 2.3, careful interpretation is needed for such low-productivity regions. To circumvent this issue, it would be important to develop a shape-restricted estimator that imposes |∂h 0 (ỹ)/∂y| &lt; 1 for all ỹ.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>Assumption 3.3. (i) The basis functions {p j (•) : j = 1, 2, . . .} and {q k (•) : k = 1, 2, . . .} are uniformly bounded on R y and R z , respectively. (ii) For all j = 1, . . . , J, p j is Lipschitz continuous on R y with Lipschitz constant cpj . Remark 3.1 (Primitive Conditions for Assumption 3.1(i)). For example, if h 0 is a bounded function on R y , Assumption 3.1(i) is clearly satisfied by Assumption 3.1(ii) and sup 1≤i≤n; n≥1 E|ε n,i | 2ω &lt; ∞. However, imposing boundedness on h 0 is extremely restrictive in the sense that linear SAR models are precluded for unbounded R y . For another example, assuming that h 0 is differentiable with K = sup ỹ∈Ry |∂h 0 (ỹ)/∂y|, where K is as given in Assumption 2.3(ii), we can show that Assumption 3.1(ii) and sup 1≤i≤n; n≥1 E|ε n,i | 2ω &lt; ∞ imply Assumption 3.1(i) -see Appendix B.1 for the proof of this result. In either case, Assumption 3.2(ii) implies that ω is at least 2.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Theorem 3. 6 .</head><label>6</label><figDesc>Suppose that Assumptions 3.1-3.6 hold. (i) If the following assumptions additionally hold: (a) there exist finite constants c p &gt; 0 and ξ &gt; 0 such that ∥p(y)-p(y ′ )∥ ≤ c p J ξ |y -y ′| for any finite y, y ′ ∈ R y , (b) (J 2 ln J)/n = o(1), and (c) J 3 /(ν 3 JK n ln J) = O(1), we have</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 5 . 1 .</head><label>51</label><figDesc>Fig. 5.1. Estimation results for h 0 (•).</figDesc><graphic coords="12,171.05,61.06,202.32,197.39" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 4 .1</head><label>4</label><figDesc>Performance of the sieve IV estimator: h 0 .</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell>DGP 1</cell><cell></cell><cell>DGP 2</cell><cell></cell><cell>DGP 3</cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell>n</cell><cell>J</cell><cell>K</cell><cell>ISB</cell><cell>IMSE</cell><cell>ISB</cell><cell>IMSE</cell><cell>ISB</cell><cell>IMSE</cell></row><row><cell></cell><cell></cell><cell></cell><cell>500</cell><cell>1</cell><cell>1</cell><cell>0.5194</cell><cell>0.8930</cell><cell>0.0283</cell><cell>0.3335</cell><cell>0.0002</cell><cell cols="2">0.3684</cell></row><row><cell></cell><cell></cell><cell></cell><cell>500</cell><cell>1</cell><cell>2</cell><cell>0.5095</cell><cell>0.8980</cell><cell>0.0291</cell><cell>0.3234</cell><cell>0.0001</cell><cell cols="2">0.3494</cell></row><row><cell></cell><cell></cell><cell></cell><cell>500</cell><cell>2</cell><cell>2</cell><cell>0.0420</cell><cell>0.6071</cell><cell>0.0287</cell><cell>0.6675</cell><cell>0.0004</cell><cell cols="2">0.8579</cell></row><row><cell></cell><cell></cell><cell></cell><cell>1000</cell><cell>2</cell><cell>2</cell><cell>0.0503</cell><cell>0.3199</cell><cell>0.0337</cell><cell>0.3339</cell><cell>0.0002</cell><cell cols="2">0.3961</cell></row><row><cell></cell><cell></cell><cell></cell><cell>1000</cell><cell>2</cell><cell>3</cell><cell>0.0487</cell><cell>0.3153</cell><cell>0.0340</cell><cell>0.3159</cell><cell>0.0001</cell><cell cols="2">0.3563</cell></row><row><cell></cell><cell></cell><cell></cell><cell>1000</cell><cell>3</cell><cell>3</cell><cell>0.0173</cell><cell>0.5005</cell><cell>0.0116</cell><cell>0.6137</cell><cell>0.0003</cell><cell cols="2">0.8486</cell></row><row><cell></cell><cell></cell><cell></cell><cell>2000</cell><cell>3</cell><cell>3</cell><cell>0.0271</cell><cell>0.2304</cell><cell>0.0126</cell><cell>0.2579</cell><cell>0.0009</cell><cell cols="2">0.3540</cell></row><row><cell></cell><cell></cell><cell></cell><cell>2000</cell><cell>3</cell><cell>4</cell><cell>0.0291</cell><cell>0.2247</cell><cell>0.0125</cell><cell>0.2418</cell><cell>0.0007</cell><cell cols="2">0.3138</cell></row><row><cell></cell><cell></cell><cell></cell><cell>2000</cell><cell>4</cell><cell>4</cell><cell>0.0145</cell><cell>0.4626</cell><cell>0.0039</cell><cell>0.5566</cell><cell>0.0013</cell><cell cols="2">0.8361</cell></row><row><cell>Table 4.2</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="6">Performance of the sieve IV estimator: (β 01 , β 02 ).</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell></cell><cell></cell><cell></cell><cell>DGP 1</cell><cell></cell><cell></cell><cell></cell><cell>DGP 2</cell><cell></cell><cell></cell><cell>DGP 3</cell><cell></cell></row><row><cell>n</cell><cell>J</cell><cell>K</cell><cell>Bias β 01</cell><cell></cell><cell>RMSE β 01</cell><cell>CR95 β 01</cell><cell>Bias β 01</cell><cell>RMSE β 01</cell><cell>CR95 β 01</cell><cell>Bias β 01</cell><cell></cell><cell>RMSE β 01</cell><cell>CR95 β 01</cell></row><row><cell>500</cell><cell>1</cell><cell>1</cell><cell>-0.0003</cell><cell></cell><cell>0.0186</cell><cell>0.947</cell><cell>-0.0006</cell><cell>0.0188</cell><cell>0.946</cell><cell cols="2">-0.0007</cell><cell>0.0190</cell><cell>0.945</cell></row><row><cell>500</cell><cell>1</cell><cell>2</cell><cell>-0.0004</cell><cell></cell><cell>0.0186</cell><cell>0.947</cell><cell>-0.0007</cell><cell>0.0188</cell><cell>0.944</cell><cell cols="2">-0.0007</cell><cell>0.0190</cell><cell>0.942</cell></row><row><cell>500</cell><cell>2</cell><cell>2</cell><cell>-0.0008</cell><cell></cell><cell>0.0187</cell><cell>0.945</cell><cell>-0.0005</cell><cell>0.0190</cell><cell>0.943</cell><cell cols="2">-0.0005</cell><cell>0.0192</cell><cell>0.946</cell></row><row><cell>1000</cell><cell>2</cell><cell>2</cell><cell>-0.0007</cell><cell></cell><cell>0.0132</cell><cell>0.953</cell><cell>-0.0005</cell><cell>0.0132</cell><cell>0.955</cell><cell cols="2">-0.0005</cell><cell>0.0133</cell><cell>0.953</cell></row><row><cell>1000</cell><cell>2</cell><cell>3</cell><cell>-0.0007</cell><cell></cell><cell>0.0132</cell><cell>0.953</cell><cell>-0.0005</cell><cell>0.0131</cell><cell>0.954</cell><cell cols="2">-0.0005</cell><cell>0.0133</cell><cell>0.950</cell></row><row><cell>1000</cell><cell>3</cell><cell>3</cell><cell>-0.0006</cell><cell></cell><cell>0.0133</cell><cell>0.955</cell><cell>-0.0004</cell><cell>0.0134</cell><cell>0.954</cell><cell cols="2">-0.0004</cell><cell>0.0137</cell><cell>0.954</cell></row><row><cell>2000</cell><cell>3</cell><cell>3</cell><cell>0.0003</cell><cell></cell><cell>0.0093</cell><cell>0.944</cell><cell>0.0003</cell><cell>0.0094</cell><cell>0.937</cell><cell>0.0003</cell><cell></cell><cell>0.0096</cell><cell>0.942</cell></row><row><cell>2000</cell><cell>3</cell><cell>4</cell><cell>0.0003</cell><cell></cell><cell>0.0093</cell><cell>0.944</cell><cell>0.0003</cell><cell>0.0094</cell><cell>0.940</cell><cell>0.0003</cell><cell></cell><cell>0.0095</cell><cell>0.943</cell></row><row><cell>2000</cell><cell>4</cell><cell>4</cell><cell>0.0003</cell><cell></cell><cell>0.0095</cell><cell>0.942</cell><cell>0.0003</cell><cell>0.0095</cell><cell>0.940</cell><cell>0.0003</cell><cell></cell><cell>0.0097</cell><cell>0.945</cell></row><row><cell></cell><cell></cell><cell></cell><cell>DGP 1</cell><cell></cell><cell></cell><cell></cell><cell>DGP 2</cell><cell></cell><cell></cell><cell>DGP 3</cell><cell></cell></row><row><cell>n</cell><cell>J</cell><cell>K</cell><cell>Bias β 02</cell><cell></cell><cell>RMSE β 02</cell><cell>CR95 β 02</cell><cell>Bias β 02</cell><cell>RMSE β 02</cell><cell>CR95 β 02</cell><cell>Bias β 02</cell><cell></cell><cell>RMSE β 02</cell><cell>CR95 β 02</cell></row><row><cell>500</cell><cell>1</cell><cell>1</cell><cell>-0.0001</cell><cell></cell><cell>0.0649</cell><cell>0.938</cell><cell>0.0004</cell><cell>0.0642</cell><cell>0.935</cell><cell>0.0005</cell><cell></cell><cell>0.0644</cell><cell>0.931</cell></row><row><cell>500</cell><cell>1</cell><cell>2</cell><cell>-0.0003</cell><cell></cell><cell>0.0648</cell><cell>0.941</cell><cell>0.0002</cell><cell>0.0641</cell><cell>0.936</cell><cell>0.0002</cell><cell></cell><cell>0.0642</cell><cell>0.932</cell></row><row><cell>500</cell><cell>2</cell><cell>2</cell><cell>-0.0005</cell><cell></cell><cell>0.0645</cell><cell>0.935</cell><cell>0.0002</cell><cell>0.0651</cell><cell>0.940</cell><cell>0.0001</cell><cell></cell><cell>0.0652</cell><cell>0.939</cell></row><row><cell>1000</cell><cell>2</cell><cell>2</cell><cell>-0.0016</cell><cell></cell><cell>0.0421</cell><cell>0.962</cell><cell>-0.0014</cell><cell>0.0418</cell><cell>0.963</cell><cell cols="2">-0.0013</cell><cell>0.0418</cell><cell>0.967</cell></row><row><cell>1000</cell><cell>2</cell><cell>3</cell><cell>-0.0016</cell><cell></cell><cell>0.0420</cell><cell>0.962</cell><cell>-0.0015</cell><cell>0.0419</cell><cell>0.961</cell><cell cols="2">-0.0014</cell><cell>0.0418</cell><cell>0.965</cell></row><row><cell>1000</cell><cell>3</cell><cell>3</cell><cell>-0.0018</cell><cell></cell><cell>0.0420</cell><cell>0.964</cell><cell>-0.0016</cell><cell>0.0419</cell><cell>0.959</cell><cell cols="2">-0.0015</cell><cell>0.0422</cell><cell>0.961</cell></row><row><cell>2000</cell><cell>3</cell><cell>3</cell><cell>0.0012</cell><cell></cell><cell>0.0304</cell><cell>0.963</cell><cell>0.0013</cell><cell>0.0305</cell><cell>0.957</cell><cell>0.0013</cell><cell></cell><cell>0.0306</cell><cell>0.956</cell></row><row><cell>2000</cell><cell>3</cell><cell>4</cell><cell>0.0012</cell><cell></cell><cell>0.0304</cell><cell>0.962</cell><cell>0.0013</cell><cell>0.0305</cell><cell>0.956</cell><cell>0.0012</cell><cell></cell><cell>0.0306</cell><cell>0.956</cell></row><row><cell>2000</cell><cell>4</cell><cell>4</cell><cell>0.0011</cell><cell></cell><cell>0.0307</cell><cell>0.955</cell><cell>0.0011</cell><cell>0.0311</cell><cell>0.954</cell><cell>0.0010</cell><cell></cell><cell>0.0313</cell><cell>0.958</cell></row><row><cell cols="11">Note: CR95 stands for the coverage rate of the 95% confidence interval computed based on Theorem 3.4(ii).</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 5 .1</head><label>5</label><figDesc>Parameter estimates.Sample size: n = 1463. The results for the country dummies are omitted.</figDesc><table><row><cell></cell><cell>Parametric 2SLS</cell><cell></cell><cell>Sieve IV</cell><cell></cell></row><row><cell></cell><cell>Coef.</cell><cell>t-value</cell><cell>Coef.</cell><cell>t-value</cell></row><row><cell>ρ</cell><cell>0.3332</cell><cell>3.8370</cell><cell></cell><cell></cell></row><row><cell>Intercept</cell><cell>2.7214</cell><cell>3.2056</cell><cell></cell><cell></cell></row><row><cell>Temperature</cell><cell>-0.0102</cell><cell>-2.1084</cell><cell>-0.0042</cell><cell>-1.0376</cell></row><row><cell>Inverse distance to coast</cell><cell>0.5006</cell><cell>3.1829</cell><cell>0.2229</cell><cell>1.6494</cell></row><row><cell>ln(Oil production per capita)</cell><cell>0.1848</cell><cell>4.5656</cell><cell>0.1855</cell><cell>4.4742</cell></row><row><cell>ln(Population)</cell><cell>0.0152</cell><cell>0.7547</cell><cell>-0.0031</cell><cell>-0.2100</cell></row><row><cell>Years of education</cell><cell>0.2660</cell><cell>13.6698</cell><cell>0.2754</cell><cell>16.7097</cell></row><row><cell>ln(No. ethnic groups)</cell><cell>0.0022</cell><cell>0.0972</cell><cell>-0.0405</cell><cell>-2.1374</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>I am grateful to Editor <rs type="person">Xiaohong Chen</rs> and three anonymous referees for their very constructive comments, which greatly improved the paper. I also thank the participants of SEA 2019 for their valuable discussions and suggestions. This work was supported financially by <rs type="funder">JSPS, Japan</rs> <rs type="grantName">Grant-in-Aid for Young Scientists B-15K17039 and JSPS, Japan Grant-in-Aid for Scientific Research</rs> <rs type="grantNumber">C-20K01597</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_b7bAp7v">
+					<idno type="grant-number">C-20K01597</idno>
+					<orgName type="grant-name">Grant-in-Aid for Young Scientists B-15K17039 and JSPS, Japan Grant-in-Aid for Scientific Research</orgName>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A. Supplementary data</head><p>Supplementary material related to this article can be found online at <ref type="url" target="https://doi.org/10.1016/j.jeconom.2020.11.008">https://doi.org/10.1016/j.jeconom.2020.11.008</ref>.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Efficient estimation of models with conditional moment restrictions containing unknown functions</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1795" to="1843" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Examples of L 2 -complete and boundedly-complete distributions</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Andrews</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">199</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="213" to="220" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Semi-nonparametric IV estimation of shape-invariant Engel curves</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Blundell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Kristensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1613" to="1669" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Additive nonparametric instrumental regressions: A guide to implementation</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Centorrino</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Feve</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-P</forename><surname>Florens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econom. Methods</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="25" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Large sample sieve estimation of semi-nonparametric models</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Econometrics</title>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Heckman</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">E</forename><forename type="middle">E</forename><surname>Leamer</surname></persName>
+		</editor>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Optimal uniform convergence rates and asymptotic normality for series estimators under weak dependence and weak conditions</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Christensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">188</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="447" to="465" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Optimal sup-norm rates and uniform inference on nonlinear functionals of nonparametric IV regression</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Christensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Quant. Econ</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="39" to="84" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Measurement error models with auxiliary data</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Hong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Tamer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Rev. Econom. Stud</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="343" to="366" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Methods for nonparametric and semiparametric regressions with endogeneity: A gentle guide</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">J J</forename><surname>Qiu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annu. Rev. Econ</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="259" to="290" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">On two-step estimation of a spatial autoregressive model with autoregressive disturbances and endogenous regressors</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Egger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Rev</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">5-6</biblScope>
+			<biblScope unit="page" from="686" to="733" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Growth, technological interdependence and spatial externalities: Theory and evidence</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Koch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1033" to="1062" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">A spatial Mankiw-Romer-Weil model: Theory and evidence</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Fischer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Reg. Sci</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="419" to="436" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Instrumental regression in partially linear models</title>
+		<author>
+			<persName><forename type="first">J.-P</forename><surname>Florens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Johannes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Van Bellegem</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econom. J</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="304" to="324" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Some challenges in the empirics of the effects of networks</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fortin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Boucher</surname></persName>
+		</author>
+		<editor>Bramoullé, Y., Galeotti, A., Rogers, B.W.</editor>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<publisher>Oxford University Press</publisher>
+			<biblScope unit="page" from="277" to="302" />
+		</imprint>
+	</monogr>
+	<note>The Oxford Handbook of the Economics of Networks</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Human capital and regional development</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Gennaioli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>La Porta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lopez-De Silanes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Shleifer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Q. J. Econ</title>
+		<imprint>
+			<biblScope unit="volume">128</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="105" to="164" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Social networks and the identification of peer effects</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Goldsmith-Pinkham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">W</forename><surname>Imbens</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Bus. Econom. Statist</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="253" to="264" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Semiparametric spatial autoregressive models with endogenous regressors: With an application to crime data</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hoshino</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Bus. Econom. Statist</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="160" to="172" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A social interactions model with endogenous friendship formation and selectivity</title>
+		<author>
+			<persName><forename type="first">C.-S</forename><surname>Hsieh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="301" to="319" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Spatial semiparametric model with endogenous regressors</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Jenish</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="714" to="739" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Real Estate Finance Econ</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Series estimation under cross-sectional dependence</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">190</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="17" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Efficient estimation of additive partially linear models</title>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Internat. Econom. Rev</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1073" to="1092" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial autoregressive models with unknown heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="34" to="52" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Two-stage least squares estimation of spatial autoregressive models with endogenous regressors and many instruments</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Rev</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">5-6</biblScope>
+			<biblScope unit="page" from="734" to="753" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Semiparametric estimation and testing of smooth coefficient spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Malikov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">199</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="12" to="34" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Random coefficients on endogenous variables in simultaneous equations models</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Masten</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Rev. Econom. Stud</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="1193" to="1250" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Nonparametric instrumental variables estimation</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Amer. Econ. Rev</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="550" to="556" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Instrumental variable estimation of nonparametric models</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Powell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1565" to="1578" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Estimating a spatial autoregressive model with an endogenous spatial weight matrix</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Human capital spillovers and regional development</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sanso-Navarro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vera-Cabello</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Ximénez-De-Embún</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Appl. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="923" to="930" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Nonparametric dynamic panel data models: Kernel estimation and specification testing</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">176</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="112" to="133" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Nonparametric Dynamic Panel Data Models with Interactive Fixed Effects: Sieve Estimation and Specification Testing</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">Working Paper</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A spatial autoregressive model with a nonlinear transformation of the dependent variable</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">186</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

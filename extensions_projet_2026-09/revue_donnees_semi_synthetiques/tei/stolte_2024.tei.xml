@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Simulation study to evaluate when Plasmode simulation is superior to parametric simulation in estimating the mean squared error of the least squares estimator in linear regression</title>
+				<funder ref="#_DFpZ6rW">
+					<orgName type="full">Deutsche Forschungsgemeinschaft (DFG</orgName>
+				</funder>
+				<funder ref="#_syzMRX5">
+					<orgName type="full">German Research Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2024-05-15">May 15, 2024</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Marieke</forename><surname>Stolte</surname></persName>
+							<email>stolte@statistik.tu-dortmund.de</email>
+							<idno type="ORCID">0009-0002-0711-6789</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">TU Dortmund University</orgName>
+								<address>
+									<settlement>Dortmund</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Nicholas</forename><surname>Schreck</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Division of Biostatistics</orgName>
+								<orgName type="institution">North Rhine-Westphalia</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Alla</forename><surname>Slynko</surname></persName>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Statistics and Actuarial Science</orgName>
+								<orgName type="institution">University of Waterloo</orgName>
+								<address>
+									<settlement>Waterloo</settlement>
+									<region>Ontario</region>
+									<country key="CA">Canada</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Maral</forename><surname>Saadati</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Division of Biostatistics</orgName>
+								<orgName type="institution">North Rhine-Westphalia</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Axel</forename><surname>Benner</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Division of Biostatistics</orgName>
+								<orgName type="institution">North Rhine-Westphalia</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Jo</forename><surname>¨rg Rahnenfu ¨hrer</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">TU Dortmund University</orgName>
+								<address>
+									<settlement>Dortmund</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Andrea</forename><surname>Bommert</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">TU Dortmund University</orgName>
+								<address>
+									<settlement>Dortmund</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="institution">German Cancer Research Center</orgName>
+								<address>
+									<settlement>Heidelberg</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="institution">Baden-Wuerttemberg</orgName>
+								<address>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff5">
+								<orgName type="institution">Cairo University</orgName>
+								<address>
+									<country key="EG">EGYPT</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Simulation study to evaluate when Plasmode simulation is superior to parametric simulation in estimating the mean squared error of the least squares estimator in linear regression</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2024-05-15">May 15, 2024</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">D9B791CDF371A10110B0B3B8561360EC</idno>
+					<idno type="DOI">10.1371/journal.pone.0299989</idno>
+					<note type="submission">Received: December 21, 2023 Accepted: February 20, 2024</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:11+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Simulation is a crucial tool for the evaluation and comparison of statistical methods. How to design fair and neutral simulation studies is therefore of great interest for both researchers developing new methods and practitioners confronted with the choice of the most suitable method. The term simulation usually refers to parametric simulation, that is, computer experiments using artificial data made up of pseudo-random numbers. Plasmode simulation, that is, computer experiments using the combination of resampling feature data from a real-life dataset and generating the target variable with a known user-selected outcomegenerating model, is an alternative that is often claimed to produce more realistic data. We compare parametric and Plasmode simulation for the example of estimating the mean squared error (MSE) of the least squares estimator (LSE) in linear regression. If the true underlying data-generating process (DGP) and the outcome-generating model (OGM) were known, parametric simulation would obviously be the best choice in terms of estimating the MSE well. However, in reality, both are usually unknown, so researchers have to make assumptions: in Plasmode simulation studies for the OGM, in parametric simulation for both DGP and OGM. Most likely, these assumptions do not exactly reflect the truth. Here, we aim to find out how assumptions deviating from the true DGP and the true OGM affect the performance of parametric and Plasmode simulations in the context of MSE estimation for the LSE and in which situations which simulation type is preferable. Our results suggest that the preferable simulation method depends on many factors, including the number of features, and on how and to what extent the assumptions of a parametric simulation differ from the true DGP. Also, the resampling strategy used for Plasmode influences the results. In particular, subsampling with a small sampling proportion can be recommended.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Simulation studies are usually defined as computer experiments using artificial data generated by a pseudo-random number generator for which some truth about the data-generating process (DGP) and the outcome-generating model (OGM) is known, e.g., the true parameter values of the OGM or the distribution of the features. Well-designed, fair simulation studies are needed both for the evaluation of newly introduced methods and, in particular, for the neutral comparison of existing methods <ref type="bibr" target="#b0">[1]</ref>. The DGP and OGM are usually chosen to either reflect realistic scenarios or edge cases for the application of the method of interest. We investigate the first case here.</p><p>We call the kind of simulation with artificial data, where the DGP and OGM are fully known, "parametric" simulations. Non-parametric simulation, where all data are real-life data, is not part of our analysis. Plasmode simulation is a special case of semi-parametric simulation, which is characterized by parts of the data being real-life data and parts of the DGP or OGM being specified. <ref type="bibr" target="#b1">[2]</ref> give a technical introduction to (parametric) simulation studies and focus on guidance for best practices in performing and reporting simulation studies ("ADEMP" criteria). <ref type="bibr" target="#b2">[3]</ref> give a general and more applied introduction to (parametric) simulation studies.</p><p>Parametric simulation studies are a crucial tool in the performance evaluation and comparison of statistical methods since they can offer insights beyond analytical results <ref type="bibr" target="#b1">[2,</ref><ref type="bibr" target="#b2">3]</ref> and can be used to evaluate criteria that cannot be assessed on real data where the DGP and OGM are unknown <ref type="bibr" target="#b2">[3]</ref>. An example is the bias of an estimator, which can only be evaluated if the true parameter value can be controlled within the simulation. Therefore, one of the main advantages of parametric simulation studies is the full knowledge of the parameters of the DGP and OGM within the study. Another advantage is the possibility of investigating large numbers of different scenarios which permits analyzing how the performance of methods depends on the choice of the DGP and OGM. Moreover, it is possible to generate very large numbers of datasets. One of the main disadvantages is the simplification of real-life DGPs. Often very simple DGPs and OGMs are chosen arbitrarily which then do not reflect the often complex real-life processes. This may lead to wrong conclusions <ref type="bibr" target="#b2">[3]</ref>. The over-simplification gets even worse for high-dimensional data, as it gets harder, for example, to specify realistic distributions and correlation structures for an increasing number of variables <ref type="bibr" target="#b3">[4]</ref>.</p><p>A different approach are so-called statistical Plasmodes as first introduced by <ref type="bibr" target="#b4">[5]</ref>. <ref type="bibr" target="#b3">[4]</ref> distinguish between statistical and biological Plasmodes depending on the procedure used for generating data. The motivation of statistical Plasmodes is to preserve a realistic data structure by resampling feature data from real-life datasets instead of using pseudo-random numbers as usually done in parametric simulation. At the same time, some control over the generated data is given by generating outcome variables for the given resampled feature data according to a known outcome-generating model like in parametric simulation. So, parametric and Plasmode simulations differ in the generation of features, while outcomes are generated in the same manner. For the feature resampling, different resampling approaches can be utilized <ref type="bibr" target="#b3">[4]</ref>. Biological Plasmodes are generated by natural biological processes, for example in a wet lab by manipulating biological samples. In this paper, only statistical Plasmodes are considered.</p><p>The main advantage of Plasmode simulations is that the DGP does not have to be specified. The resampling is claimed to ensure the generation of realistic feature data. At the same time, quantities depending on the parameters of the OGM can still be assessed in contrast to fully non-parametric simulations. However, the resampling requires suitable datasets from the true DGP of interest with not too few observations. Depending on the application, this might be a major limitation. A more detailed discussion of the advantages and disadvantages of parametric vs. Plasmode simulation is given in <ref type="bibr" target="#b3">[4]</ref>. The authors especially point out that evidence for the often-made claim of Plasmode simulations producing more realistic data, i.e. data that is closer to the true DGP, is missing. Also, the authors emphasize the lack of studies on the effect of the often arbitrary choice of OGMs, which might affect both Plasmode and parametric simulation studies.</p><p>We aim to compare the ability of Plasmode and parametric simulation to assess the performance of statistical methods, especially concerning how misspecifications affect the results in both cases. We do this in a controlled simulation scenario so that we know both the true DGP and the true OGM, for evaluation purposes. In general, if we knew the truth, parametric simulation using this truth would be best. Since the truth is usually unknown in real-life applications, for parametric simulation researchers instead have to make assumptions about the DGP. These assumptions might deviate from the truth. Without deviations, the parametric simulation will always perform best since it accurately reflects the truth. On the other hand, when the parametric assumptions about the DGP are far from the truth, we expect Plasmode to be superior since the resampling is expected to give results that are rarely very far from the true DGP. Our goal is to determine the extent of deviation for which the parametric simulation gets worse than Plasmode. Therefore, we aim to find out 1. How much the DGP chosen in the parametric simulation can deviate from the truth before the parametric simulation becomes worse than Plasmode.</p><p>2. How deviations of the chosen OGM from the true OGM affect both parametric and Plasmode simulations.</p><p>3. How the choice of the resampling type affects the Plasmode simulation.</p><p>Based on the results, we are able to give guidance in which situations to choose parametric or Plasmode simulation and how to perform it.</p><p>We restrict our analysis to a simple scenario and focus on the estimation of the mean squared error (MSE) of the least squares estimator (LSE) in a linear regression model. Therefore, we focus on explanatory performance of the linear model and do not consider predictive performance. Moreover, we restrict to the low-dimensional setting, i.e., at most p = 50 features. We compare how well both parametric simulations with different assumptions about the DGP and the OGM and Plasmode simulations using different resampling strategies estimate the true MSE. So here, we check how well parametric and Plasmode simulation perform for one particular example of application. We investigate this for different true DGPs and OGMs. To compare different methods via simulation, this approach ensures that the simulation studies approximate well the performance of the methods for the true DGP and OGM.</p><p>The article is structured as follows. First, we describe parametric and Plasmode simulation in general and our specific simulation setup. Afterwards, we present the results of our simulations and provide recommendations for performing simulations based on our results. Finally, the results are summarized and discussed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods</head><p>In the following, we briefly explain parametric and Plasmode simulation in general, pointing out, in particular, the different options for the resampling strategy in Plasmode simulations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Parametric simulation</head><p>In parametric simulation studies, the whole data-generating process (DGP) and the outcomegenerating model (OGM) have to be specified and are therefore known within the study. They are usually set up to either be as close as possible to a certain kind of data that the researcher is interested in (e.g. gene expression data) or to cover as many situations as possible, possibly including extreme situations. We focus on the first case. Given the specified DGP, a large number of feature datasets is generated using pseudo-random number generators. In all cases that we are investigating, a target variable is then generated from these features by applying the OGM. This yields a large number of datasets which are then used for applying the methods of interest. This procedure allows the researcher to evaluate the performance of the methods with respect to a metric of interest. The process of generating the datasets can be seen as mimicking the repeated collection of samples from a large population. The results can provide insights into how the methods under study perform on average for datasets that are similar to the chosen DGPs and OGMs <ref type="bibr" target="#b2">[3]</ref>. For more details on how to design, perform, analyze, and report parametric simulation studies, refer to <ref type="bibr" target="#b1">[2]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Plasmode simulation</head><p>In Plasmode simulation studies, no assumptions on the DGP for the feature data are made. Instead, it is required to have a representative real-life dataset at hand that resulted from the true DGP <ref type="bibr" target="#b3">[4]</ref>. If only real data was used, we would have no control over the DGP and OGM in our simulation. This means that we could not estimate certain quantities (e.g. the bias of an estimator) that directly depend on the true unknown parameters <ref type="bibr" target="#b2">[3]</ref>. To enable us to estimate the quantities that directly depend on the true parameters of the OGM (which are most quantities of interest for performance evaluation of models), Plasmode simulation combines the use of real feature data with a known OGM. A Plasmode simulation study then works as follows.</p><p>In each iteration, a Plasmode dataset is drawn from the real-life dataset at hand. The researcher has to decide on the resampling method. Possible methods include</p><p>• n out of n Bootstrap <ref type="bibr" target="#b5">[6]</ref>, i.e. drawing with replacement a dataset of the same size as the original dataset,</p><p>• m out of n Bootstrap <ref type="bibr" target="#b6">[7]</ref><ref type="bibr" target="#b7">[8]</ref><ref type="bibr" target="#b8">[9]</ref>, i.e. drawing with replacement m &lt; n observations of the original dataset,</p><p>• subsampling, i.e. drawing without replacement m &lt; n observations of the original dataset, or other adaptations of Bootstrap like</p><p>• smoothed Bootstrap <ref type="bibr" target="#b9">[10]</ref><ref type="bibr" target="#b10">[11]</ref><ref type="bibr" target="#b11">[12]</ref><ref type="bibr" target="#b12">[13]</ref>, i.e. applying kernel-estimation to the empirical distribution of the original dataset and resampling from this smoothed empirical distribution,</p><p>• wild Bootstrap <ref type="bibr" target="#b13">[14]</ref>, i.e. adding the standardized values of each variable scaled by a random number to the original variable, or</p><p>• no resampling, i.e. using the whole dataset as it is.</p><p>A discussion of the first three options in the context of Plasmode simulation can be found in <ref type="bibr" target="#b3">[4]</ref>. In the case of m out of n Bootstrap and subsampling, the researcher also has to decide on the number of observations to draw. For m out of n Bootstrap, there exists a data-dependent algorithm to find the optimal value of m <ref type="bibr" target="#b14">[15]</ref>. After resampling a number of Plasmode datasets, the OGM is applied to each of the datasets to generate the outcomes. The resulting datasets can then be used for computing the performance metrics of interest like in parametric simulation. For more details, see <ref type="bibr" target="#b3">[4]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Setup of the comparison study</head><p>In the following, we first describe the general approach and then the detailed setup of our comparison study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>General approach</head><p>We conduct our comparisons with respect to different true DGPs and OGMs. For each scenario, we calculate the true MSE of the least squares estimator (LSE). We then perform a parametric and a Plasmode simulation for estimating the MSE. For these simulations, we choose different DGPs and OGMs. The estimated MSEs resulting from these simulations are then compared to the true MSEs to assess how well the parametric and Plasmode simulation approximate the true values.</p><p>The outcomes are in all cases generated according to a linear model</p><formula xml:id="formula_0">y ¼ Xb þ ε<label>ð1Þ</label></formula><p>for the true scenarios as well as for the parametric and Plasmode simulations. Note that the intercept is included in this model. The true MSE of the LSE b depends on the number of observations n, the residual variance of ε, and the distribution of the features X. For fixed X, the LSE is unbiased and thus the MSE reduces to the variance, which is given by</p><formula xml:id="formula_1">Varð bjXÞ ¼ s 2 ðX T XÞ À 1 .</formula><p>To define the true DGP and OGM, we have to determine</p><p>• the true distribution of the features,</p><p>• the true parameter vector β, and</p><p>• the true distribution of the error term ε.</p><p>In the context of the parametric simulation, both DGP and OGM have to be chosen, so the distribution of the features, the coefficient vector, and the error distribution have to be specified. Inside the Plasmode simulation, only the OGM has to be chosen, so the coefficient vector and the error distribution have to be specified.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulation setup</head><p>In this section, we describe the true scenarios used in the simulation as well as the deviations from these true scenarios that are assumed for the parametric or Plasmode simulation.</p><p>True scenarios. We use different scenarios as our truth for the comparison. Table <ref type="table">1</ref> gives an overview of these scenarios. The scenarios differ in the number of features (p) and observations (n) as well as the true correlation structure. In all scenarios, we assume that our features come from a multivariate normal distribution with mean zero and variances of one, that the true vector of coefficients (β) consists of all ones, and that the true error distribution is N(0, 0.3 2 ).</p><p>We start with simple scenarios with only two features (p = 2), which are sampled from a bivariate Gaussian distribution with mean zero, variances of one, and a pairwise correlation of 0.2 or 0.5, and 50 or 100 observations. We use the same parameter settings for p = 10 except that we only look at pairwise correlations of 0.2. For p = 50, we always use 100 observations for identifiability reasons. Once again, we set all pairwise correlations to 0.2. Additionally, we use block diagonal correlation matrices with five blocks of ten features each. Within each block, the correlations are once set to 0.2 |i-j| and once to 0.5 |i-j| for all i 6 ¼ j. Features from different blocks are assigned a correlation of 0.</p><p>The scenarios are chosen to represent a low, a moderate, and a higher number of features for which the estimation process is still stable for 100 observations.</p><p>Moreover, we use covariance matrices estimated from real datasets to see how the simulations behave with more complicated correlation structures. We chose regression datasets that were available on OpenML <ref type="bibr" target="#b19">[20]</ref>, were used in the benchmark in <ref type="bibr" target="#b20">[21]</ref>, had at most 100 features, no constant features, no missing values and pairwise correlations with absolute values of at most 0.95. With these criteria, we ended up with four datasets: quake <ref type="bibr" target="#b15">[16]</ref>, wine_quality <ref type="bibr" target="#b16">[17]</ref>, pol <ref type="bibr" target="#b17">[18]</ref>, and Yolanda <ref type="bibr" target="#b18">[19]</ref>.</p><p>Deviations from true scenarios. We choose DGPs and OGMs for parametric and Plasmode simulation that present different kinds of deviations from the truth described in the previous section. The general structures of these deviations are listed in Table <ref type="table">2</ref>. A complete list of the specific parameter values that were chosen can be found in <ref type="table">S1</ref> Table. As a baseline, we assume the true scenario, which reflects the case that we-by chance-correctly specify all parameters in the simulations. Then we consider choices for each part of the DGP and OGM that reflect increasing deviations from the truth. For the coefficients, we use different values that are either wrong, but of the same order, or that even differ a large factor. We also included the case of assuming no effect (β = 0) which is an important special case that might be of interest in many studies. For the distribution of ε, we either only misspecify its standard deviation or misspecify the distribution as either more heavy-tailed (scaled t-distribution) or skewed (scaled and shifted χ 2 -distribution). As deviations from the true feature distribution, we first still assume multivariate normal distribution but with wrong correlations, expectations, or variances. We then look at entirely wrong distributions, namely Gaussian mixture, log-normal, and Bernoulli distribution. The true correlation structure is preserved in those cases. We Table <ref type="table">1</ref>. Parameters for true data generating processes (DGP) and outcome generating models (OGM). In all scenarios, the true vector of coefficients is equal to ð1; . . . ; 1Þ T 2 R pþ1 and the error distribution is set to ε * N(0, 0.3 2 ). 0 p denotes the p-dimensional vector of zeros.</p><p>Name p n Distribution of features (p2n100ρ0.2) 2 100 (X 1 , X 2 ) T * N 2 (0 2 , S) with S i,j = 0.2 8i 6 ¼ j, S ii = 1 (p2n50ρ0.2) 2 50 (X 1 , X 2 ) T * N 2 (0 2 , S) with S i,j = 0.2 8i 6 ¼ j, S ii = 1 (p2n100ρ0.5) 2 100 (X 1 , X 2 ) T * N 2 (0 2 , S) with S i,j = 0.5 8i 6 ¼ j, S ii = 1 (p10n100ρ0.2) 10 100 (X 1 , . . ., X 10 ) T * N 10 (0 10 , S) with S i,j = 0.2 8i 6 ¼ j, S ii = 1 (p10n50ρ0.2) 10 50 (X 1 , . . ., X 10 ) T * N 10 (0 10 , S) with S i,j = 0.2 8i 6 ¼ j, S ii = 1 (p50n100ρ0.2) 50 100 (X 1 , . . ., X 50 ) T * N 50 (0 50 , S) with S i,j = 0.2 8i 6 ¼ j,</p><formula xml:id="formula_2">S ii = 1 (p50n100ρ0.2 |i -j|</formula><p>) 50 100 (X 1 , . . ., X 50 ) T * N 50 (0 50 , S) with covariance matrix S with blockdiagonal structure where within each of 5 blocks of 10 features the pairwise covariance/ correlation between the ith and jth feature of the block is given as 0.2 |i-j| and all variances are equal to 1</p><formula xml:id="formula_3">(p50n100ρ0.5 |i -j|</formula><p>) 50 100 (X 1 , . . ., X 50 ) T * N 50 (0 50 , S) with covariance matrix S with block diagonal structure where within each of 5 blocks of 10 features the pairwise covariance/ correlation between the ith and jth feature of the block is given as 0.5 |i-j| and all variances are equal to 1 (quake) 3 100 (X 1 , . . ., X 3 ) T * N 3 (0 3 , S) with covariance matrix S estimated from real dataset quake <ref type="bibr" target="#b15">[16]</ref> (wine_quality) 11 100 (X 1 , . . ., X 11 ) T * N 11 (0 11 , S) with covariance matrix S estimated from real dataset wine_quality <ref type="bibr" target="#b16">[17]</ref> (pol) 26 100 (X 1 , . . ., X 26 ) T * N 26 (0 26 , S) with covariance matrix S estimated from real dataset pol <ref type="bibr" target="#b17">[18]</ref> (Yolanda) 100 200 (X 1 , . . ., X 100 ) T * N 100 (0 100 , S) with covariance matrix S estimated from real dataset Yolanda <ref type="bibr" target="#b18">[19]</ref> <ref type="url" target="https://doi.org/10.1371/journal.pone.0299989.t001">https://doi.org/10.1371/journal.pone.0299989.t001</ref> </p><p>achieve this by generating Gaussian mixture, log-normal, and Bernoulli variables from multivariate normals and setting the covariance matrix of the underlying normals in a way such that the corresponding variables have the desired variances and covariances. For log-normals and Bernoulli variables with variables of the same distribution, the calculation can be found in <ref type="bibr" target="#b21">[22,</ref><ref type="bibr" target="#b22">23]</ref>. The calculation for log-normal and Bernoulli variables in combination with normal variables as well as all calculations for Gaussian mixture variables can be found in S1 Appendix.</p><p>Table 2. Deviations from true DGP and OGM for parametric and Plasmode simulation. Scenario name Description True model Assumptions coincide with truth Coefficients misspecified I Assumed β vector ð0; 1=p; 2=p; . . . ; 1Þ T 2 R pþ1 instead of 1 p+1 Coefficients misspecified II Assumed β vector 0.05 p+1 instead of 1 p+1 Coefficients misspecified III Assumed β vector 10 p+1 instead of 1 p+1 Coefficients misspecified IV Assumed β vector 0 p+1 instead of 1 p+1 Error sd misspecified c Assumed σ = c instead of σ = 0.3 for ε * N(0, σ 2 ) Correlation misspecified ρ Assumed fixed pairwise correlation of ρ Correlation misspecified ρ |i-j| Assumed pairwise correlation of ρ |i-j| for ith and jth feature for p = 10, or ith and jth feature within each of 5 blocks of 10 features for p = 50, respectively Coefficients (I) and correlation (ρ) misspec. 0.05 p+1 instead of 1 p+1 and fixed pairwise correlation of ρ instead of ρ true Coefficients (II) and correlation (ρ) misspec. Assumed β vector 10 p+1 instead of 1 p+1 and fixed pairwise correlation of ρ instead of ρ true Error sd (0.4) and correlation (ρ) misspec. Assumed σ = 0.4 instead of σ = 0.3 for ε * N(0, σ 2 ) and fixed pairwise correlation of ρ instead of ρ true </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulation procedure</head><p>The overall simulation structure is described in Algorithm 1. For each true scenario, we first approximate the true MSE by drawing 25 000 000 datasets of size n from the true distribution of X with the first column being a vector of ones, corresponding to the intercept of the model. We then calculate Xβ and add random noise ε according to the true distribution of ε and define this as our outcome vector y belonging to the respective dataset. For each pair of data X and corresponding target y, we estimate b using least squares estimation. We then calculate the component-wise means over the replications of the simulation of ð bj À b j Þ 2 ; j ¼ 0; . . . ; p, with p denoting the number of features, as estimates of the true component-wise MSEs. We refer to these quantities as the "true" component-wise MSEs. In each true scenario, we then perform parametric and Plasmode simulations for estimating the component-wise MSEs under the assumption that we do not know the respective true scenario.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Algorithm 1 Structure of simulation process</head><p>Require: n &gt; 0 (number of observations), 0 &lt; p &lt; n (number of features), n.mse &gt; 0 (number of MSE estimations), n.mod &gt; 0 (number of LSEs, i.e. model estimates, used for estimation of one estimated MSE), true DGP (distribution of features), true OGM (β, distribution of ε), assumed DGP (assumed distribution of features), assumed OGM (β a , assumed distribution of ε), type of Bootstrap, proportion π for resampling (= 1 for n out of n Bootstrap, Wild Bootstrap, and Smoothed Bootstrap) Ensure: Error in estimated MSE for parametric simulation 1: MSE true;j E½ð bj À b j Þ 2 �; j ¼ 0; . . . ; p; for the LSE b in the true model 2: for k = 1, . . ., n.mse do 3: X (k,i) design matrix generated with Algorithm 2 or 3 for i = 1, . . ., n.mod 4:</p><p>for i = 1, . . ., n.mod do 5: ε (k, i) noise sampled from assumed distribution of ε 6:</p><formula xml:id="formula_4">y (k,i) X (k,i) β a + ε (k,i</formula><p>) 7: bðk;iÞ ððX ðk;iÞ Þ T X ðk;iÞ Þ À 1 ðX ðk;iÞ Þ T y ðk;iÞ ⊳ LSE 8: end for 9: MSE ðkÞ j 1 n:mod P n:mod i¼1 ð bðk;iÞ j À b a;j Þ 2 ; j ¼ 0; . . . ; p 10: Err ðkÞ j MSE ðkÞ j À MSE true;j ; j ¼ 0; . . . ; p 11: end for</p><p>The process for data generation for parametric simulation is described in Algorithm 2. We make different assumptions on the distribution of the features (X), the values of the coefficients β, and the distribution of ε. We then generate n.mod = 1000 datasets according to these assumptions using pseudo-random numbers.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Algorithm 2 Structure of feature data generation for parametric simulation</head><p>Require: n &gt; 0, 0 &lt; p &lt; n, assumed DGP, k (iteration number of Algorithm 1) Ensure: Generated datasets 1: for i = 1, . . ., n.mod do ⊳ Inner Simulation 2: X (k,i) design matrix drawn from assumed data generating process using a pseudo-random number generator 3: end for</p><p>In some scenarios, we use parametric simulation with estimation of mean and covariance. For this, at the beginning of each simulation, one dataset of size n = 1000 is sampled from the true DGP and the mean and covariance are estimated from this dataset and used as the assumed mean and covariance of the assumed DGP. This corresponds to the case that researchers might have data at hand from which they estimate some characteristics of the DGP to incorporate them into a parametric simulation in order to perform a more realistic simulation.</p><p>The procedure for data generation for Plasmode simulation is described in Algorithm 3. Here, we have to specify the resampling method to use. As a first step for each Plasmode simulation, one dataset is drawn from the true DGP. Note that in each case, the number of observations after resampling has to match the number of observations used for parametric simulation and for the true scenario to ensure a fair comparison of methods. For a more detailed discussion of this issue, see below. We then draw n.mod = 1000 resampled datasets from our dataset according to the chosen resampling method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Algorithm 3 Structure of feature data generation for Plasmode simulation</head><p>Require: n &gt; 0, 0 &lt; p &lt; n, true DGP, type of Bootstrap, proportion π for resampling (= 1 for n out of n Bootstrap, Wild Bootstrap and Smoothed Bootstrap), k (iteration number of Algorithm 1) Ensure: Plasmode datasets 1: X ðkÞ Plasm design matrix 2 R dn=pe�ðpþ1Þ drawn from true DGP 2: for i = 1, . . ., n.mod do ⊳ Inner Simulation 3: if type == "m out of n Bootstrap" or type == "n out of n Bootstrap" then 4: X (k,i) n rows sampled from X ðkÞ Plasm with replacement 5: else 6:</p><p>if type == "Subsampling" then 7:</p><p>X (k,i) n rows sampled from X ðkÞ Plasm without replacement 8: else 9:</p><p>if type == "Wild Bootstrap" then 10: a vector of p numbers sampled from N(0, 1) 11:</p><formula xml:id="formula_5">X ðk;iÞ 1 1 n 12: X ðk;iÞ j X ðk;iÞ j þ a j � ðX ðk;iÞ j À � X ðk;iÞ j</formula><p>Þ=SDðX ðk;iÞ j Þ, j = 2, . . ., p + 1 13: else 14:</p><p>if type == "Smoothed Bootstrap" then 15:</p><p>X (k,i) n rows sampled from X ðkÞ Plasm with replacement + random noise from a multivariate normal distribution centered at the data points and parameterized by corresponding bandwidth matrix estimated by Silverman's rule <ref type="bibr" target="#b23">[24]</ref>); 16:</p><p>end if 17:</p><p>end if 18:</p><p>end if 19:</p><p>end if 20: end for We utilize the following Bootstrap versions:</p><p>• m out of n Bootstrap <ref type="bibr" target="#b6">[7]</ref><ref type="bibr" target="#b7">[8]</ref><ref type="bibr" target="#b8">[9]</ref> with resampling proportion π 2 {0.01, 0.1, 0.5, 0.632, 0.8, 0.9}, i.e.</p><p>drawing with replacement n observations out of dn/πe observations,</p><p>• n out of n Bootstrap <ref type="bibr" target="#b5">[6]</ref>, i.e. drawing with replacement n observations out of n (special case of m out of n Bootstrap for π = 1),</p><p>• Smoothed Bootstrap <ref type="bibr" target="#b9">[10]</ref><ref type="bibr" target="#b10">[11]</ref><ref type="bibr" target="#b11">[12]</ref><ref type="bibr" target="#b12">[13]</ref>, i.e. drawing with replacement n observations out of the smoothed empirical distribution of n observations,</p><p>• Wild Bootstrap <ref type="bibr" target="#b13">[14]</ref>, i.e. adding the standardized version of each observed feature vector scaled with a noise factor sampled from N(0, 1) to the observed feature vectors, and</p><p>• subsampling with resampling proportion π 2 {0.01, 0.1, 0.5, 0.632, 0.8, 0.9}, i.e. drawing without replacement n observations out of dn/πe observations,</p><p>• no resampling, equivalent to subsampling with resampling proportion π = 1.</p><p>We do not determine an optimal resampling proportion, e.g. with the algorithm introduced in <ref type="bibr" target="#b14">[15]</ref>, since it takes too much time to repeat this for every dataset in the simulation. Instead, we try a range of resampling proportions.</p><p>On each dataset generated either according to the parametric or the Plasmode approach, the linear model (1) using the chosen parameters for the OGM is then applied to generate the outcome variable. From these, b is estimated for each dataset. The MSE is estimated as the average component-wise squared difference of the estimated and assumed coefficient vectors. One estimated MSE value corresponds to the result of one parametric or Plasmode simulation study. The whole process is repeated 100 times so we can see how much variation exists in the MSE estimation when repeating the parametric or Plasmode simulation study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Performance evaluation</head><p>To compare the performance of parametric and Plasmode simulation, we look at their errors in MSE estimation. For each type of simulation (parametric, parametric with estimation of mean and variance, Plasmode with different resampling methods and proportions) we obtain 100 estimated MSEs for each deviation from the true DGP and OGM. We calculate the component-wise absolute errors as the differences between estimated MSEs and corresponding true MSEs in each case. Additionally, we calculate the relative errors by dividing the absolute errors by the corresponding true MSEs. We aggregate the absolute and relative errors per simulation over the coefficients by taking the arithmetic mean over the absolute component-wise values. We aggregate over the repetitions of the simulation studies by taking the median of the aggregated values. With this strategy, runs with large errors in single coefficients obtain large aggregated values, while the overall aggregated value across simulation repetitions is robust against single simulations with large aggregated errors.</p><p>We examine the errors graphically using boxplots. An example with a corresponding explanation will be shown later. Additionally, we analyze how much the assumptions in parametric simulation can deviate from the truth until the results are worse than with Plasmode simulation. Therefore, we sort the parametric deviations within each subgroup (e.g. deviation from the variance of the multivariate normal) in increasing order of the magnitude of the deviation (e.g. if the true variance is 1 and the tested values are 0.1, . . ., 0.99, these are ordered decreasingly) and identify the first value in this order for which the fully aggregated error for parametric simulation is larger than that for the considered type of Plasmode simulation. In this way, we can quantitatively compare parametric simulation to the different Plasmode variants. If the first value where parametric is worse than Plasmode is close to the true value, it follows that for deviations of this type, the parametric simulation is very sensitive to small deviations and we have to be very confident in our parameter settings for the DGP if we want to use parametric simulation. These are the cases where Plasmode might be superior to parametric simulation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Software</head><p>All analyses are performed using R 4.2.2 <ref type="bibr" target="#b24">[25]</ref>. We use the mvtnorm package <ref type="bibr" target="#b25">[26,</ref><ref type="bibr" target="#b26">27]</ref> to simulate data from multivariate normal distributions. For smoothed Bootstrap, the R package kernelboot <ref type="bibr" target="#b27">[28]</ref> is used. For visualization of the results, we use the ggplot2 package <ref type="bibr" target="#b28">[29]</ref> and ggh4x <ref type="bibr" target="#b29">[30]</ref>. The R code and results for the simulation are available on Zenodo (<ref type="url" target="https://doi.org/10.5281/zenodo.10567144">https://doi.org/10.  5281/zenodo.10567144</ref>, <ref type="url" target="https://doi.org/10.5281/zenodo.10567059">https://doi.org/10.5281/zenodo.10567059</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head><p>In this Section, we evaluate the results of the simulations. First, we explain the plots for one simple scenario and type of deviation. Then, the different resampling strategies for Plasmode are compared. Afterward, we discuss the results for the different types of deviations. Last, we consider the results for correlation structures estimated from real data as well as the effect of the size of the resampled dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example</head><p>In the following, we explain the displays that we use in the subsequent sections using one concrete example. We again consider the two scenarios with p = 2, n = 100, pairwise correlation of 0.2, β = 1 3 , and ε * N(0, 0.3 2 ) or ε * N(0, 3 2 ). We calculated the errors in the MSE estimation using parametric and Plasmode simulation as described in the previous section. We display the errors in different ways using boxplots. We display the absolute or relative errors for each coefficient individually like in Figs <ref type="figure" target="#fig_1">1</ref> and <ref type="figure" target="#fig_3">3</ref>, and S1 Fig, or aggregated over the coefficients like in Fig <ref type="figure" target="#fig_2">2</ref>. We use the unaggregated version in cases where the error for different coefficients might behave differently. This is for example the case for deviations in the feature distribution of the second half of features. Otherwise, if all coefficients behave similarly, we use the aggregated version.</p><p>For the individual coefficients, the absolute or relative errors of the 100 repetitions of each type of simulation (parametric, different types of Plasmode) are displayed in one box per coefficient. This is done separately for the true model and each deviation. The deviations are described on the x-axis and coefficients are distinguished by differently colored boxes. The headers give information about the type of simulation used. The first row is the distinction between parametric and Plasmode simulation. The second row gives the type of Plasmode simulation. The third row gives the resampling proportion. For example in Fig <ref type="figure" target="#fig_1">1</ref> in the third facet, the relative errors per coefficient for Plasmode using m out of n Bootstrap with a resampling proportion of 0.5 are displayed. This corresponds to sampling with replacement 100 observations from a dataset of 200 observations for each simulation. For parametric simulation, n out of n Bootstrap and Smoothed Bootstrap, there is no subsampling proportion so this field is left empty. We leave out Wild Bootstrap in the following analyses since it produces very large outliers and is consistently outperformed by all other Bootstrap types (see e.g. Fig <ref type="figure" target="#fig_4">4</ref>). We abbreviate m out of n Bootstrap as m-Bootstrap, n out of n Bootstrap as n-Bootstrap and Smoothed Bootstrap as S-Bootstrap. If necessary we further abbreviate Bootstrap as Boot. or B., Parametric as Param. or Prm. and Subsampling as Sub.</p><p>For the aggregated errors, we display the mean over the absolute values of the errors of the individual coefficients per deviation, i.e. the mean error per coefficient of one simulation, for the 100 repetitions of each simulation type in one box. Apart from the aggregation, the figures are constructed in the same way as for the individual coefficients. There are two types of comparisons: we can compare the performance of different types of simulation for the true model like in Figs <ref type="figure" target="#fig_1">1</ref> and <ref type="figure" target="#fig_2">2</ref>, and <ref type="figure" target="#fig_1">S1</ref> Fig to see how well each simulation type would perform if we knew the truth. Or we can compare the performance for differently strong deviations like in Fig <ref type="figure" target="#fig_3">3</ref>. This allows us to assess the impact of different deviations on the performance. We can also combine both displays and show the performance for one kind of deviation for all those types of simulation that are affected by it and the performance for all other simulation types for the true model only. For example, in the case of deviation from the mean of the second feature distribution, we can show the errors for parametric simulation for different amounts of deviation as in Fig <ref type="figure" target="#fig_3">3</ref> along with the performance of the Plasmode types under the true model as in Fig <ref type="figure" target="#fig_1">1</ref> or <ref type="figure" target="#fig_1">S1</ref> Fig. We cannot misspecify the feature distribution in Plasmode simulation, so only the true model is shown. This combined version is the display that we will use for the rest of our analysis.</p><p>In general, we might be interested in both absolute and relative errors. As can be seen in S1 Fig, the absolute errors for our specific problem are directly dependent on the chosen parameter for the error standard deviation: if the standard deviation changes by a factor of 10, e.g. here from σ = 0.3 to σ = 3, the errors change by a factor of approximately 10 2 = 100, which can easily be checked by the theoretical relation Varð bjXÞ ¼ s 2 X T X, using that the LSE is unbiased for fixed X. The relative errors, on the other hand, are independent of σ since the factor affects both the absolute error and the true MSE, by which the absolute error is divided, in the same way. This is for example demonstrated in Fig <ref type="figure" target="#fig_1">1</ref>. Therefore, we will only display the relative version for the rest of this analysis since the absolute values could be scaled to be arbitrarily small or large by choosing the error variance accordingly. We will also restrict our analysis to the case σ = 0.3, since this leads to more stable simulations than σ = 3, as the latter corresponds to an extremely low signal-to-noise ratio. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Comparison of different Plasmode types and resampling proportions</head><p>Fig <ref type="figure" target="#fig_4">4</ref> shows the aggregated relative errors for p = 50 with fixed pairwise correlations of 0.2 for the true model for all types of simulation. This example confirms that overall, Plasmode using Wild Bootstrap performs worst. All values for its relative errors lie outside the range of all other resampling types. This is similar for other scenarios, such that we do not show the results for Wild Bootstrap in any other plot. Within the other simulation types, Plasmode using the n out of n Bootstrap performs worst with relative mean errors of around 2.5 and also relatively high variation. m out of n Bootstrap and subsampling perform better both in terms of the median aggregated error and in terms of smaller variability with decreasing resampling proportion, i.e. the larger the dataset from which the 100 observations are sampled, the lower the variability. m out of n Bootstrap converges towards n out of n Bootstrap for increasing subsampling proportions. Except for very low subsampling proportions (0.1 and 0.01), Bootstrap performs worse than subsampling both with regard to median aggregated error and variability. It is interesting to note, that no resampling (i.e. subsampling with a subsampling rate of one), which means using the same feature data for the whole simulation and only sampling new observations of the target, still outperforms m out of n Bootstrap with subsampling proportions from 0.5 on as well as the smoothed, n out of n, and wild bootstrap. Smoothed Bootstrap performs worse than all subsampling versions, but better than the m out of n Bootstrap for subsampling proportions from 0.5 on. With Smoothed Bootstrap, the true MSE of the slope coefficients gets consistently underestimated under the true model (see e.g. Fig <ref type="figure" target="#fig_1">1</ref>). Subsampling and m out of n Bootstrap are indistinguishable for very low subsampling proportions since the impact of duplicate observations decreases with increasing size of the dataset from which we resample. For a proportion of 0.01, both these approaches perform as well as the parametric simulation. These results reflect what we also have seen in all other scenarios, although for lower p, the differences between the simulation types become very small. It should be noted that in these simulations, subsampling and m out of n Bootstrap require a larger dataset to resample from for lower resampling proportions. This might give them an advantage. Due to its very poor performance, we will exclude the wild Bootstrap from now on. We will also reduce the values of resampling proportions to 0.1 and 0.632 for m out of n Bootstrap and to 0.1, 0.632, and 1 for subsampling for more clarity. The numbers were chosen to represent a relatively low and a relatively high resampling proportion. Moreover, 0.632 has been used in Plasmode simulations, motivated by the expected proportion of non-duplicated observations for n out of n Bootstrap <ref type="bibr" target="#b30">[31]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Deviations from true feature distribution</head><p>We will now take a look at the different deviations from the true feature distribution. These only affect the parametric simulation. Since in all cases, different coefficients are affected differently, we always show the individual errors per coefficient. We focus on the case p = 2 and n = 100 since for this we can still display the errors for individual coefficients in a clear manner. The results can be transferred to higher numbers of features or lower numbers of observations. As expected, the absolute values of the errors are larger for higher values of p or smaller values of n, but the qualitative results are the same. In all cases, we only display the range of deviations that is relevant to the comparison of parametric and Plasmode simulation.</p><p>Gaussian with wrong expectation. Fig <ref type="figure" target="#fig_5">5</ref> shows the relative errors in case of deviations from the expectation of the second feature (Feature distribution misspecified N(0,1), N(μ,1), cf. Table <ref type="table">2</ref>). We can observe that the second coefficient stays unaffected while the errors for the intercept increase with increasing deviations from the true mean. This result is to be expected, as can be seen by reparametrization. If the truth is X 2 * N(0, 1) and we assume </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>X a</head><p>2 � Nðm; 1Þ; m &gt; 0, we can rewrite the resulting linear model using X a 2 instead of X 2 as</p><formula xml:id="formula_6">Y ¼ b 0 þ X 1 b 1 þ X a 2 b 2 þ ε ¼ b 0 þ X 1 b 1 þ ðX 2 þ mÞb 2 þ ε ¼ b 0 þ mb 2</formula><p>|ffl ffl ffl ffl ffl {zffl ffl ffl ffl ffl }</p><formula xml:id="formula_7">¼:b new 0 þ X 1 b 1 þ X 2 b 2 þ ε:</formula><p>As μ &gt; 0 and β 2 &gt; 0 in our case, it holds b new 0 &gt; b 0 . The errors in the intercept can be prevented by estimating the mean using a dataset sampled from the true DGP. This leads to slightly increased variance in the errors of the parametric simulation, but stable median errors that are close to zero for all coefficients.</p><p>Gaussian with wrong variance. Fig <ref type="figure" target="#fig_6">6</ref> shows the relative errors for deviations from the true variance of the second feature. We see that both slope coefficients are affected. The true MSE is underestimated by the simulation and this underestimation gets worse for increasing (misspecified) variance of the second feature.</p><p>Again, this behavior can be prevented by estimating the covariance matrix from a dataset from the true DGP at the cost of slightly increased variation. For estimation of the covariance matrix, the dataset from the true DGP must have sufficiently many observations. Here, we used 1000 observations which is sufficient for p = 2, as well as for p = 50. Smaller numbers of observations are insufficient for p = 50 as can be seen in S2 Fig . When increasing the variance of the second feature, the error in MSE converges to an upper bound corresponding to the true MSE, since the estimated MSE converges to zero for increasing variances. This can lead to problems later on, when we look for the first deviation where the aggregated error for parametric simulation exceeds the error for Plasmode simulation. For low p, the upper bound of the error for increasing the feature variance in parametric simulation is still larger than the errors obtained with Plasmode simulation. However, for large p, where Plasmode performs worse, the error reached even with very high values for the variance of the second half of features is smaller than that of some Plasmode types. This is demonstrated in <ref type="figure" target="#fig_3">S3</ref> Fig for the case of p = 50. There, we show the mean of the relative errors of the coefficients per simulation run. In that case, we do not take the absolute values before averaging, to demonstrate the direction of the errors. In the present case, this is no problem since either the MSEs for all coefficients are overestimated or all are underestimated, so there is no risk of the errors of different coefficients cancelling out in the mean. Decreasing instead of increasing the variance of the second half of features leads to an overestimation of the true MSE and this overestimation is unbounded. Therefore, in settings where the upper bound does not exceed the errors of all Plasmode types, we use decreasing instead of increasing variances, see e.g. S4 Fig.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Gaussian with wrong correlations.</head><p>The overall influence of misspecifying the pairwise correlations of the features is more easily demonstrated, when the true pairwise correlations are 0.5 instead of 0.2. The relative errors in this case for parametric simulation are shown in Fig <ref type="figure" target="#fig_7">7</ref>.</p><p>The intercept is unaffected when misspecifying the correlation. For the errors in the slopes, we observe a parabolic shape that intersects with zero at the true correlation of 0.5 and at -0.5. For the MSE estimation, the sign of the correlation does not seem to have any influence, only the absolute value, as the parabolic shape is symmetrical around zero. When overestimating the absolute value of the true correlation, the true MSE is overestimated. For underestimating the absolute value of the true correlation, the true MSE is underestimated.</p><p>This pattern is also observed for a true correlation of 0.2 (Fig <ref type="figure" target="#fig_8">8</ref>). For the comparison of parametric and Plasmode, we concentrate on assuming a correlation that is higher than the true correlation, since for these deviations, the errors are monotonously increasing. This can for example be seen in the comparison for true fixed pairwise correlations of 0.2 and p = 2, n = 100 as shown in Fig <ref type="figure" target="#fig_8">8</ref>.</p><p>The observed shape is plausible from a theoretical point of view. The MSE of the LSE given X is equal to its variance, as it is unbiased. This variance is given as the diagonal of σ 2 (X T X) -1 . For X drawn from a multivariate normal distribution, i.e. ignoring the intercept term, (X T X) -1 follows an inverse Wishart distribution. Its expectation is given by the inverse covariance matrix S -1 of this multivariate normal. When explicitly calculating the diagonal values of S -1 in case of pairwise fixed correlations of ρ, we can see that this expectation depends quadratically on ρ, which matches the observed form.</p><p>When the true correlation matrix has a block structure, we observe lower errors for the coefficients at the margins of the blocks if the value of the correlations but not their structure is misspecified (Fig <ref type="figure" target="#fig_9">9</ref>). Again, this can be derived theoretically for the very simple case described above when inserting the block diagonal structure for S.</p><p>Gaussian mixture. Next, we use two different versions of Gaussian mixtures as feature distributions for the second half of the features. With this, not only the parameter but the whole shape of the distribution is altered. For the first type of Gaussian mixture, a proportion of α of the observations stems from a normal distribution with mean 3 and variance 1. This yields a bimodal distribution. For the second type of Gaussian mixture, a proportion of α of the observations stems from a normal distribution with mean 0 and variance 10. This represents a contamination model with outliers. In both cases, the remaining proportion of 1 -α stems from the standard normal, in agreement with the true distribution. We always set the marginal distribution of the first feature to a normal that has the same mean and variance as the Gaussian mixture for the second marginal distribution and successively increase the proportion in the mixing distribution. This enables us to separate the influence of the change in expectation and variance of the distribution from the effect of the bimodality and outliers.</p><p>In the bimodal case (Fig <ref type="figure" target="#fig_10">10</ref>) we see that with an increasing proportion of observations from the N(3, 1) distribution, the underestimation of the MSE for the corresponding second coefficient also increases. It is still less pronounced than for the first coefficient which corresponds to the normal with wrong expectation and variance. This might be due to the fact that most of the observations in the mixture distribution belong to the true distribution. In the case of a normal with wrong expectation and variance, all observations come from a distribution that differs from the true one.</p><p>For the contamination model (Fig <ref type="figure" target="#fig_11">11</ref>) we observe the same behavior, but the differences between the coefficients are smaller there.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Log-normal.</head><p>Fig <ref type="figure" target="#fig_12">12</ref> shows the relative errors for the individual coefficients when the distribution of the second feature is misspecified as log-normal and the distribution of the first feature is misspecified as a normal with matching mean and variance. There is a large overestimation of the MSE for the intercept, while the MSEs for the other coefficients are underestimated. The underestimation is slightly worse for the second coefficient than for the first, so the additional skewness of the log-normal leads to worse MSE estimation compared to a normal with the same mean and variance. The errors in all coefficients for this deviation are considerably higher than the ones of any Plasmode variant that is compared here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bernoulli.</head><p>Fig <ref type="figure" target="#fig_13">13</ref> shows the relative errors for the individual coefficients when the distribution of the second feature is misspecified as Bernoulli and the distribution of the first feature     is correctly specified as a standard normal. We observe an increasing overestimation of the MSE for the intercept with increasing success probabilities. The MSE for the first coefficient is unaffected. The MSE for the coefficient belonging to the binary feature is also clearly overestimated where the overestimation decreases towards success probabilities of 0.5. The errors for the intercept and the second coefficient for this deviation are considerably higher than the ones of any Plasmode variant that is compared here.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Deviations from true coefficients</head><p>Fig <ref type="figure" target="#fig_14">14</ref> shows the aggregated relative errors in MSE estimation for p = 50 and fixed correlations of 0.2 for misspecifications of the coefficient vector β. Since the specification of the coefficient vector is part of the OGM, this concerns all types of simulations. For each simulation type, the errors for the misspecified coefficients do not differ from the errors for the true model. Therefore, we conclude that the assumed values for the coefficients do not affect the simulation results. The theoretical MSE formula for given X is also only dependent on σ and X, so independent of β.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Deviations from true error variance</head><p>In Fig <ref type="figure" target="#fig_15">15</ref>, the aggregated relative errors in MSE estimation for p = 50 and fixed correlations of 0.2 for misspecifications of the standard deviation of the error term ε are shown. Here, we use the relative errors directly without taking the absolute value to demonstrate under-and overestimation. This again concerns all types of simulation. In general, for too small error standard deviations, the true MSE is underestimated, and for too large error standard deviations, the true MSE is overestimated. This pattern is visible for nearly all types of simulations. For m out of n Bootstrap with large resampling proportions as well as for n out of n Bootstrap, the MSE is overestimated even for the true model, and the errors for other values of the error standard deviation are shifted up accordingly. This leads to values closest to zero for too small error standard deviations. In all cases, the variability of the errors increases with increasing error standard deviation. We observe the same ordering that has already resulted for the true model (see Fig <ref type="figure" target="#fig_4">4</ref>) when comparing the errors from different simulation types for misspecified error standard deviations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Deviations from true error distribution</head><p>In Fig <ref type="figure" target="#fig_16">16</ref>, the aggregated relative errors in MSE estimation for p = 50 and fixed correlations of 0.2 for misspecifications of the distribution of the error term are shown. There are two types of misspecifications that we compare. We use t-distributed errors as an example of a heaviertailed distribution and χ 2 -distributed errors as an example of a skewed distribution. Both are scaled and shifted in a way that the errors still have zero expectation and a standard deviation of 0.3. Overall, the distribution of the errors does not seem to have any influence on the error in MSE estimation as long as the error standard deviation and zero mean are preserved.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>True DGP: Correlation estimated from real data</head><p>We now analyze the results for the scenarios where the true correlation matrix is estimated from a real dataset. In the following, we only discuss the results that differ from those for the more simple correlation structures we looked at before. These are all deviations that do not alter the correlation matrix. For deviations from the true correlations, it gets more complicated. In the case of small correlations which differ little, the results are still similar to those that we saw before. For example, Fig <ref type="figure" target="#fig_17">17</ref> shows the results for the correlation estimated from   the dataset quake. The true pairwise correlations are Cor(X 1 , X 2 ) = -0.1286, Cor(X 1 , X 3 ) = -0.0151, and Cor(X 2 , X 3 ) = 0.1353. The results look similar to those we saw before for fixed correlations of 0.2. On the other hand, for the other datasets, the estimated pairwise correlations show higher variation, which means that no fixed value can be used to approximate all correlations simultaneously in a good way. This is for example clearly visible in Fig <ref type="figure" target="#fig_18">18</ref> for the correlation matrix estimated from the dataset wine_quality. For each choice of fixed pairwise correlation, there are some coefficients with very large relative errors. This can also lead to errors showing a pattern that differs from the parabolic shape we observed before (Fig <ref type="figure" target="#fig_7">7</ref>), as can be seen in Fig <ref type="figure" target="#fig_19">19</ref> for the dataset Yolanda. For those cases where no constant correlation approximates all real correlations well, many of the Plasmode variants outperform parametric simulation for all assumed oversimplified correlation structures. A possible cure for parametric simulation would be to estimate the correlation structure from real data which-in this case-corresponds to the true model. Overall, assuming some simple correlation structure, like often done in parametric simulations, might lead to high errors in the estimation of the MSE in cases where the true correlation structure is more complicated. To correctly guess this correlation structure is highly unlikely, and it might even be impossible to specify complicated correlation structures in high-dimensional settings.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Size of resampled datasets</head><p>Until now, we have always compared simulations that use the same number of observations, which leads to differently sized datasets from which the Plasmode data is resampled. This might seem unintuitive, but is necessary to ensure a fairer comparison of the simulation methods since the true MSE that the estimations are compared to, is monotonously decreasing in the number of observations in the dataset. Therefore, if we set the size of the dataset that we are resampling from to 100 and resample smaller datasets from this, the MSE will always be overestimated, even for the true model. This means that if we want to estimate the MSE for datasets of a certain size n, we have to use datasets of that exact size in our simulations. However, it might be unrealistic that we have a dataset of the correct size at hand to resample from for our simulation. For example, if we use simulation to estimate a quantity that cannot be estimated directly from the data since it depends on unknown parameters (e.g. the bias of an estimator), we might have a concrete dataset at hand for which we want to estimate this quantity. In this case, Plasmode would be a natural choice and since the number of observations is limited, we might use resampled datasets of smaller size to estimate the quantity for the whole dataset. We now discuss the results for this case for p = 10 for the true model. For p = 2, differences between the resampling methods are very small anyway. For p = 50, it will be hard to differentiate between the errors occurring due to the differently sized datasets and the errors caused by approaching the boundary of identifiability. Fig <ref type="figure" target="#fig_20">20</ref> shows the results for the different Bootstrap methods compared to parametric simulation for differing sizes of datasets resampled from a dataset of size 100. For comparison, the case of resampling 100 out of 158 observations that has been used in the analysis so far for a resampling proportion of 0.632 is also included. The estimated MSEs are compared to the true MSE for n = 100 in all cases. Higher errors are observed for smaller sizes of the resampled dataset. The smallest errors are observed for subsampling with the subsampling proportion approaching the number of observations in the dataset. So in the case where the number of observations is limited to the number of observations that we are interested in, it might even be the best choice to do no resampling at all and just generate different responses for the MSE estimation. It should be noted that when fixing the size of the dataset to resample from, the n out of n Bootstrap performs comparably well. A reason for this might be that it uses a dataset of size 100 for estimating the MSE. Therefore, no errors occur due to the dependency of the MSE on n. Moreover, the n out of n Bootstrap can use the dataset more efficiently since it uses more samples for the MSE estimation than subsampling or the m out of n Bootstrap with lower resampling proportions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions and recommendations</head><p>In the following, we summarize what we have learned from the comparisons that we performed. First, we provide some general insights. Then, we present detailed comparisons, for which type of deviations from the data-generating process Plasmode was superior to parametric simulation in our analyses.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>General insights</head><p>We looked at different true data-generating processes (DGP) and deviations from those for the estimation of the MSE of the least squares estimator (LSE) in linear regression to compare how well different simulation types perform in this case. Overall, we saw that if there is no deviation from the true scenario, parametric simulation outperforms all Plasmode simulations. The same holds for deviations that affect parametric as well as Plasmode, i.e. deviations from the outcome generating model (OGM), given that the DGP used for parametric simulation is close to the truth. We saw that the misspecification of the coefficients and of the error distribution (as long as expectation and variance are kept) does not have any effect on the quality of the MSE estimation while the misspecification of the error standard deviation does have an effect.</p><p>Misspecifications of the DGP only affect parametric simulation. For all kinds of misspecifications of the DGP in parametric simulation (misspecification of expectation, variance, correlation, whole distribution), parametric simulation can become worse than Plasmode. The degree of misspecification needed for Plasmode to be superior depends on the type of misspecification, the resampling method used in the context of Plasmode that we compare with, and on the number of observations n and the number of features p. A detailed analysis of the degree of misspecification needed for Plasmode to be superior is given in Subsection 2.</p><p>Within the different resampling strategies for Plasmode simulations we observed that in general, Wild Bootstrap performed worst, followed by n out of n Bootstrap. m out of n Bootstrap performed better than n out of n and subsampling usually performed best. For both m out of n Bootstrap and subsampling, smaller resampling proportions are favorable. This means that for a fixed number of subsampled observations n of interest, larger datasets to resample from are required. Smoothed Bootstrap usually performs worse than subsampling and even than no resampling (subsampling proportion of one), but better than m out of n Bootstrap with moderate resampling rates, i.e. rates larger than 0.5. When the number of observations for resampling is limited to the number of observations that we are interested in, we are restricted to n out of n Bootstrap, Smoothed Bootstrap, Wild Bootstrap, no resampling at all (i.e. subsampling with the proportion of one), or resampling a dataset of smaller size for Plasmode. Our analyses suggest that no resampling at all or subsampling with a subsampling proportion very close to one might be the best choice in this case. This is due to the dependence of the MSE on the number of observations, which leads to biased estimates of the MSE if the number of observations used for the simulation differs from the number of observations of interest.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Detailed comparisons</head><p>Table <ref type="table" target="#tab_0">3</ref> presents the values for each scenario and deviation at which certain types of Plasmode simulation are superior to parametric simulation. As discussed before, this is only applicable to deviations regarding the data-generating process (DGP). The numbers given in the Plasmode columns are calculated as follows. For the given scenario, deviation and Plasmode type, the deviations are ordered increasingly. Then, the first deviation for which the median aggregated relative error of parametric is higher than that for the Plasmode type is identified. These values correspond to the medians in the aggregated boxplots. For example in the first row, the case of p = 2, n = 100 and fixed pairwise correlations of 0.2 is analyzed for deviations of the assumed expected value for the second feature. The true expectation is 0. Plasmode with m out of n Bootstrap or subsampling with a resampling proportion of 0.1 is superior to parametric simulation for assumed expectations of 0.25 and higher. Plasmode with m out of n Bootstrap or subsampling with a resampling proportion of 0.632 is only superior for assumed expectations of 0.4 and higher, n out of n Bootstrap for values of 0.5 and higher, Smoothed Bootstrap for values of 0.55 and higher, and Plasmode without resampling (subsampling with proportion of 1) for values of 0.45 and higher.</p><p>When using correlation matrices estimated from real datasets, the order for the deviations in the correlations is unclear, as discussed before. Therefore, they are excluded from the comparison. Also, in all cases, assuming log-normal or binary data instead of normal data is worse than all Plasmode variants and therefore also excluded.</p><p>For these analyses, in the parametric simulations, the expectations and high variances were increased in steps of 0.05, and the low variances were decreased in steps of 0.1. The mixing proportion for Gaussian mixtures and the pairwise correlations were increased in steps of 0.01.</p><p>For p = 50 and assuming Gaussian mixtures, in some cases even a proportion of 100% data for the second half of features coming from the wrong distribution is not sufficient for Plasmode to be superior, as can be concluded from the values found for deviating expectations and variances. The corresponding entries in Table <ref type="table" target="#tab_0">3</ref> are left empty in these cases. The effect that Plasmode notably overestimates the true MSE for increasing p, especially for resampling with replacement and high resampling proportions, might be a property of the chosen simulation setup. It is known that using Bootstrap to estimate the variance of the LSE in linear regression models for p/n ! κ 2 (0, 1) can lead to severe overestimation of the true variance. For n out of n Bootstrap and features sampled from a multivariate standard Gaussian distribution, this property was formally shown and additionally demonstrated via simulation in <ref type="bibr" target="#b31">[32]</ref>. Overestimation of the variance implies overestimation of the MSE, so the arguments made in <ref type="bibr" target="#b31">[32]</ref> might in part explain the bad performance of Plasmode simulations that we observed. The authors also derived an overestimation of the variance by Jackknifing which is similar to subsampling with resampling proportions very close to one.</p><p>If the distribution class of the features was misspecified as log-normal or even Bernoulli instead of normal or if the true correlation matrix of the features is more complex and parametric simulation uses an oversimplified approximation for it, all types of resampling used for Plasmode simulations were superior.</p><p>Regarding the resampling strategy used for Plasmode simulations, we observed that wild Bootstrap performed by far the worst with respect to MSE estimation. For the remaining types, n out of n Bootstrap was usually inferior to the other resampling strategies. The performance of m out of n Bootstrap and subsampling depends on the chosen subsampling proportion. Generally, smaller proportions are beneficial. Note that the size of the resulting dataset after resampling has to be fixed, so a smaller proportion corresponds to a larger dataset from which to sample. For small resampling proportions, m out of n Bootstrap and subsampling behave very similarly, for larger proportions, subsampling performs better. Smoothed Bootstrap performs similarly to m out of n Bootstrap and subsampling with moderate resampling proportions. For the resampling proportion approaching one, m out of n Bootstrap converges to n out of n Bootstrap. No resampling (subsampling with a resampling proportion of one), i.e. using the whole dataset for the features and only generating new responses in each iteration of the simulation, performed better than n out of n Bootstrap. The differences between the resampling types except for wild Bootstrap are negligible for small numbers of features (p = 2). In that case, Plasmode using any resampling strategy might be a good option since even very small deviations from the DGP lead to parametric simulation being inferior. In general, we suggest using subsampling with a small resampling proportion if feasible.</p><p>For larger numbers of features, the performance of Plasmode simulations gets worse in general. Nevertheless, there might still be good reasons for Plasmode simulations in this case. For example, the specification of the DGP gets more and more complicated with an increasing number of features. Especially the specification of the correlation structure is non-trivial as the number of pairwise correlations increases quadratically with the number of features. This might lead to the choice of oversimplified correlation structures for which we observed a clearly inferior performance of parametric compared to Plasmode simulation. A remedy could be to at least estimate key parameters like mean and covariance matrix from a real dataset for the parametric simulation. We observed good results for that strategy at least as long as the dataset from which the parameters are estimated is big enough.</p><p>The availability of datasets might be a major limitation for the application of Plasmode simulations. In general, at least one suitable dataset from the DGP of interest is required, see Section 3.2 in <ref type="bibr" target="#b3">[4]</ref> for a discussion. Ideally, this dataset is considerably larger than the sample size n of interest, to allow for a low resampling proportion. In practice, this might often not be given. If the dataset size is limited to the sample size one is interested in, our comparison suggests that no resampling (subsampling with a resampling proportion of one) might be a reasonable variant since the error made by using a dataset of the wrong sample size might outweigh the advantage of lower resampling proportions.</p><p>Overall, the choice of the simulation type should be carefully considered for each application. A combination of parametric and Plasmode simulation within a simulation study might be a solution to use both the flexibility of parametric simulation and the ability of Plasmode to preserve characteristics of real-life data.</p><p>So far, the comparison of parametric and Plasmode simulation is limited to the specific example of estimating the MSE of the LSE. Therefore, further studies on other endpoints as well as a comparison for high-dimensional data which brings additional challenges might be interesting extensions of the analysis at hand.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Feature 2 ) 1 )</head><label>21</label><figDesc>distribution misspecified N (0,1), N(μ,1) Assumed expectation of μ for second half of features Feature distribution misspecified N (μ,1) Assumed expectation of μ for all features Feature distribution misspecified N (0,1), N(0,σ 2 ) Assumed variance of σ 2 for second half of features Feature distribution misspecified N(0, σ Assumed variance of σ 2 for all features Feature distribution misspecified N (0,1), (1 -α)N(0,1)+αN(0,10) Assumed marginal distribution of second half of features as Gaussian mixture with 100α% outliers sampled from N(0, 10) and marginal distribution of first half of features misspecified as normal with mean 0 and variance that matches the variance σ 2 of the second half of features, Cor(X i , X j ) = ρ true , i 6 ¼ j still holds Feature distribution misspecified N(μ, σ 2 ), (1 -α)N(0,1)+αN(3,Assumed marginal distribution of second half of features as Gaussian mixture with 100α% of the observations sampled from N(3, 1) and marginal distribution of first half of features misspecified as normal with mean μ and variance σ 2 chosen such that they match mean and variance of the second half of features, Cor(X i , X j ) = ρ true , i 6 ¼ j still holds Feature distribution misspecified N (1.65,2.83), logN(0,1) Assumed marginal distribution of second half of features misspecified as log-normal with parameters 0 and 1 and marginal distribution of first half of features misspecified as normal with matching mean and variance, Cor (X i , X j ) = ρ true , i 6 ¼ j still holds Feature distribution misspecified Bin (π) Assumed marginal distribution of second feature misspecified as Bernoulli with a success probability of π, Cor(X i , X j ) = ρ true , i 6 ¼ j still holds Error distribution misspecified t(df) scaled Assumed ε * t df and scaled ε to still have sd 0.3 Error distribution misspecified chisq (df) scaled Assumed ε � w 2 df and shifted and scaled ε to still have mean 0 and sd 0.3 https://doi.org/10.1371/journal.pone.0299989.t002</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig 1 .</head><label>1</label><figDesc>Fig 1. Relative error in MSE estimation for individual coefficients for different types of Plasmode simulation compared to parametric simulation under assumption of true DGP and OGM. https://doi.org/10.1371/journal.pone.0299989.g001</figDesc><graphic coords="11,84.02,69.45,491.98,383.98" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig 2 .</head><label>2</label><figDesc>Fig 2. Absolute value of the relative error in MSE estimation averaged over individual coefficients, for different types of Plasmode simulation compared to parametric simulation under the assumption of the true DGP and OGM, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. https://doi.org/10.1371/journal.pone.0299989.g002</figDesc><graphic coords="12,84.02,79.54,491.98,240.95" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig 3 .</head><label>3</label><figDesc>Fig 3. Absolute value of relative error in MSE estimation for individual coefficients when the assumed feature distribution in parametric simulation deviates from the true distribution, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. https://doi.org/10.1371/journal.pone.0299989.g003</figDesc><graphic coords="13,84.02,92.18,491.98,245.25" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig 4 .</head><label>4</label><figDesc>Fig 4. Absolute value of relative error in the MSE estimation averaged over individual coefficients for different types of Plasmode simulation compared to parametric simulation, under the assumption of the true data generating process and outcome generating model, for p = 50, n = 100, β = 1 51 , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. https://doi.org/10.1371/journal.pone.0299989.g004</figDesc><graphic coords="14,84.02,78.01,491.98,240.72" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig 5 .</head><label>5</label><figDesc>Fig 5. Relative error in MSE estimation for individual coefficients when the assumed mean of the marginal distribution of the second feature in parametric simulation deviates from the true mean, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. N(0,1), N(μ,1) denotes that the first feature is generated from a standard normal (truth), and the second feature is generated from a normal distribution with mean μ instead (deviation). https://doi.org/10.1371/journal.pone.0299989.g005</figDesc><graphic coords="15,84.02,78.01,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig 6 .</head><label>6</label><figDesc>Fig 6. Relative error in MSE estimation for individual coefficients when the assumed variance of the marginal distribution of the second feature in parametric simulation deviates from the true variance, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. N(0,1), N(0,σ 2 ) denotes that the first feature is generated from a standard normal (truth), and the second feature is generated from a normal distribution with variance σ 2 instead (deviation). https://doi.org/10.1371/journal.pone.0299989.g006</figDesc><graphic coords="16,84.02,401.39,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Fig 7 .</head><label>7</label><figDesc>Fig 7. Relative error in MSE estimation for individual coefficients when the assumed correlation of the features in parametric simulation deviates from true correlation, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.5 8i 6 ¼ j. https://doi.org/10.1371/journal.pone.0299989.g007</figDesc><graphic coords="17,84.02,78.01,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Fig 8 .</head><label>8</label><figDesc>Fig 8. Relative error in MSE estimation for individual coefficients when the assumed correlation of the features in parametric simulation deviates from true correlation, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. https://doi.org/10.1371/journal.pone.0299989.g008</figDesc><graphic coords="18,84.02,78.01,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Fig 9 .</head><label>9</label><figDesc>Fig 9. Relative error in MSE estimation for individual coefficients when the assumed correlation of the features in parametric simulation deviates from true correlation, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 |i-j| for ith and jth feature within each of the 5 blocks. https://doi.org/10.1371/journal.pone.0299989.g009</figDesc><graphic coords="19,84.02,78.01,491.98,299.74" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Fig 10 .</head><label>10</label><figDesc>Fig 10. Relative error in MSE estimation for individual coefficients when the assumed marginal distribution of the second feature in parametric simulation is misspecified as Gaussian mixture with increasing proportion of data drawn from Gaussian with different expectations (bimodal distribution). The mean and the variance of the marginal normal distribution of the first feature are set to match those of the second. The mixing proportion is given on the x-axis. https://doi.org/10.1371/journal.pone.0299989.g010</figDesc><graphic coords="20,84.02,68.60,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Fig 11 .</head><label>11</label><figDesc>Fig 11. Relative error in MSE estimation for individual coefficients when the assumed marginal distribution of the second feature in parametric simulation is misspecified as Gaussian mixture with increasing proportion of data drawn from Gaussian with different variance (contaminated distribution), for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. The mean and the variance of the marginal normal distribution of the first feature are set to match those of the second. The mixing proportion is given on the x-axis. https://doi.org/10.1371/journal.pone.0299989.g011</figDesc><graphic coords="20,84.02,398.27,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Fig 12 .</head><label>12</label><figDesc>Fig 12. Relative error in MSE estimation for individual coefficients when the assumed marginal distribution of the second feature in parametric simulation is misspecified as log-normal, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. The mean and the variance of the marginal normal distribution of the first feature are set to match those of the second. https://doi.org/10.1371/journal.pone.0299989.g012</figDesc><graphic coords="21,84.02,78.01,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Fig 13 .</head><label>13</label><figDesc>Fig 13. Relative error in MSE estimation for individual coefficients when the assumed marginal distribution of the second feature in parametric simulation is misspecified as Bernoulli with different success probabilities, for p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. https://doi.org/10.1371/journal.pone.0299989.g013</figDesc><graphic coords="21,84.02,406.77,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Fig 14 .</head><label>14</label><figDesc>Fig 14. Absolute value of relative error in MSE estimation averaged over individual coefficients when the assumed coefficients in parametric and Plasmode simulation are misspecified, for p = 50, n = 100, β = 1 51 , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j, β I = (0, 0.02, . . ., 1) T , β II = 0.05 51 , β III = 10 51 , β IV = 0 51 . Large outliers for n out of n Bootstrap are not displayed. https://doi.org/10.1371/journal.pone.0299989.g014</figDesc><graphic coords="22,84.02,78.01,491.98,256.31" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Fig 15 .</head><label>15</label><figDesc>Fig 15. Absolute value of relative error in MSE estimation averaged over individual coefficients when the assumed error variance in parametric and Plasmode simulation are misspecified for p = 50, n = 100, β = 1 51 , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. Large outliers for n out of n Bootstrap are not displayed. https://doi.org/10.1371/journal.pone.0299989.g015</figDesc><graphic coords="23,84.02,78.01,491.98,242.36" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Fig 16 .</head><label>16</label><figDesc>Fig 16. Absolute value of relative error in MSE estimation averaged over individual coefficients when the assumed error distributions in parametric and Plasmode simulation are misspecified, for p = 50, n = 100, β = 1 51 , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. Large outliers for n out of n Bootstrap are not displayed. https://doi.org/10.1371/journal.pone.0299989.g016</figDesc><graphic coords="24,84.02,78.01,491.98,252.91" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Fig 17 .</head><label>17</label><figDesc>Fig 17. Absolute value of relative error in MSE estimation for individual coefficients when the assumed feature correlation matrix in parametric simulation is misspecified. True correlation matrix is estimated from the benchmark dataset quake (p = 3, n = 100, β = 1 4 , σ = 0.3). https://doi.org/10.1371/journal.pone.0299989.g017</figDesc><graphic coords="24,84.02,414.43,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>Fig 18 .</head><label>18</label><figDesc>Fig 18. Absolute value of relative error in MSE estimation for individual coefficients when the assumed feature correlation matrix in parametric simulation is misspecified. True correlation matrix is estimated from benchmark dataset wine_quality (p = 11, n = 100, β = 1 12 , σ = 0.3). https://doi.org/10.1371/journal.pone.0299989.g018</figDesc><graphic coords="25,84.02,417.54,491.98,245.03" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head>Fig 19 .</head><label>19</label><figDesc>Fig 19. Absolute value of relative error in MSE estimation averaged over individual coefficients when the assumed feature correlation matrix in parametric simulation is misspecified. True correlation matrix is estimated from benchmark dataset Yolanda (p = 100, n = 200, β = 1 101 , σ = 0.3). https://doi.org/10.1371/journal.pone.0299989.g019</figDesc><graphic coords="26,84.02,78.01,491.98,242.36" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_20"><head>Fig 20 .</head><label>20</label><figDesc>Fig 20. Comparison of different resampling types for different numbers of observations resampled from a dataset with 100 observations. Absolute value of relative error in MSE estimation averaged over individual coefficients when the true model is assumed in parametric and Plasmode simulation, for p = 10, n = 100, β = 1 11 , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. https://doi.org/10.1371/journal.pone.0299989.g020</figDesc><graphic coords="27,84.02,78.01,491.98,242.36" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 3 . Smallest deviations in parametric simulations for which Plasmode simulation is superior to parametric simulation</head><label>3</label><figDesc>. p denotes the number of features, n the number of observations. True ρ gives the true correlation structure, scenario type the type of deviation and true value the true parameter value that the deviation refers to.</figDesc><table><row><cell>p</cell><cell>n</cell><cell>True ρ Scenario type</cell><cell>True value</cell><cell cols="2">m-Bootstrap</cell><cell>n-Bootstrap</cell><cell>Smoothed Bootstrap</cell><cell cols="2">Subsampling</cell><cell>No resampling</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>0.1</cell><cell>0.632</cell><cell></cell><cell></cell><cell>0.1</cell><cell>0.632</cell><cell></cell></row><row><cell>2</cell><cell>100</cell><cell>0.2 Expectation of 2nd feature misspecified</cell><cell>0</cell><cell>0.25</cell><cell>0.4</cell><cell>0.5</cell><cell>0.55</cell><cell>0.25</cell><cell>0.4</cell><cell>0.45</cell></row><row><cell>2</cell><cell>100</cell><cell>0.2 Variance of 2nd feature misspecified</cell><cell>1</cell><cell>1.05</cell><cell>1.15</cell><cell>1.15</cell><cell>1.2</cell><cell>1.1</cell><cell>1.1</cell><cell>1.15</cell></row><row><cell>2</cell><cell>100</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell><cell>0.03</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell></row><row><cell>2</cell><cell>100</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell><cell>0.01</cell><cell>0.01</cell><cell>0.01</cell></row><row><cell>2</cell><cell>100</cell><cell>0.2 Feature correlation misspecified</cell><cell>N(0,1)</cell><cell>0.28</cell><cell>0.35</cell><cell>0.39</cell><cell>0.4</cell><cell>0.29</cell><cell>0.35</cell><cell>0.36</cell></row><row><cell>2</cell><cell>50</cell><cell>0.2 Expectation of 2nd feature misspecified</cell><cell>0</cell><cell>0.3</cell><cell>0.5</cell><cell>0.55</cell><cell>0.6</cell><cell>0.3</cell><cell>0.5</cell><cell>0.55</cell></row><row><cell>2</cell><cell>50</cell><cell>0.2 Variance of 2nd feature misspecified</cell><cell>1</cell><cell>1.1</cell><cell>1.2</cell><cell>1.25</cell><cell>1.3</cell><cell>1.1</cell><cell>1.2</cell><cell>1.2</cell></row><row><cell>2</cell><cell>50</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.01</cell><cell>0.03</cell><cell>0.03</cell><cell>0.04</cell><cell>0.01</cell><cell>0.03</cell><cell>0.03</cell></row><row><cell>2</cell><cell>50</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell><cell>0.03</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell></row><row><cell>2</cell><cell>50</cell><cell>0.2 Feature correlation misspecified</cell><cell>N(0,1)</cell><cell>0.33</cell><cell>0.41</cell><cell>0.41</cell><cell>0.41</cell><cell>0.29</cell><cell>0.39</cell><cell>0.41</cell></row><row><cell>2</cell><cell>50</cell><cell>0.5 Expectation of 2nd feature misspecified</cell><cell>0</cell><cell>0.25</cell><cell>0.35</cell><cell>0.4</cell><cell>0.5</cell><cell>0.25</cell><cell>0.35</cell><cell>0.4</cell></row><row><cell>2</cell><cell>50</cell><cell>0.5 Variance of 2nd feature misspecified</cell><cell>1</cell><cell>1.05</cell><cell>1.15</cell><cell>1.15</cell><cell>1.25</cell><cell>1.05</cell><cell>1.1</cell><cell>1.15</cell></row><row><cell>2</cell><cell>50</cell><cell>0.5 Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell><cell>0.03</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell></row><row><cell>2</cell><cell>50</cell><cell>0.5 Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell><cell>0.03</cell><cell>0.01</cell><cell>0.01</cell><cell>0.02</cell></row><row><cell>2</cell><cell>50</cell><cell>0.5 Feature correlation misspecified</cell><cell>N(0,1)</cell><cell>0.54</cell><cell>0.57</cell><cell>0.57</cell><cell>0.61</cell><cell>0.54</cell><cell>0.56</cell><cell>0.57</cell></row><row><cell>10</cell><cell>100</cell><cell>0.2 Expectation of 2nd half of features misspecified</cell><cell>0</cell><cell>0.25</cell><cell>0.45</cell><cell>0.6</cell><cell>0.7</cell><cell>0.25</cell><cell>0.4</cell><cell>0.5</cell></row><row><cell>10</cell><cell>100</cell><cell>0.2 Variance of 2nd half of features misspecified</cell><cell>1</cell><cell>1.1</cell><cell>1.25</cell><cell>1.4</cell><cell>1.55</cell><cell>1.1</cell><cell>1.2</cell><cell>1.25</cell></row><row><cell>10</cell><cell>100</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.01</cell><cell>0.02</cell><cell>0.03</cell><cell>0.04</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell></row><row><cell>10</cell><cell>100</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell><cell>0.03</cell><cell>0.01</cell><cell>0.01</cell><cell>0.02</cell></row><row><cell>10</cell><cell>100</cell><cell>0.2 Feature correlation misspecified</cell><cell>N(0,1)</cell><cell>0.24</cell><cell>0.29</cell><cell>0.33</cell><cell>0.36</cell><cell>0.24</cell><cell>0.28</cell><cell>0.3</cell></row><row><cell>10</cell><cell>100</cell><cell>0.2 Feature correlation misspecified ρ |i-j|</cell><cell>N(0,1)</cell><cell>0.24</cell><cell>0.38</cell><cell>0.41</cell><cell>0.44</cell><cell>0.24</cell><cell>0.36</cell><cell>0.39</cell></row><row><cell>10</cell><cell>50</cell><cell>0.2 Expectation of 2nd half of features misspecified</cell><cell>0</cell><cell>0.3</cell><cell>0.7</cell><cell>0.9</cell><cell>0.7</cell><cell>0.3</cell><cell>0.55</cell><cell>0.65</cell></row><row><cell>10</cell><cell>50</cell><cell>0.2 Variance of 2nd half of features misspecified</cell><cell>1</cell><cell>1.1</cell><cell>1.55</cell><cell>2.45</cell><cell>1.55</cell><cell>1.1</cell><cell>1.3</cell><cell>1.45</cell></row><row><cell>10</cell><cell>50</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.01</cell><cell>0.05</cell><cell>0.08</cell><cell>0.04</cell><cell>0.01</cell><cell>0.03</cell><cell>0.04</cell></row><row><cell>10</cell><cell>50</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.03</cell><cell>0.06</cell><cell>0.03</cell><cell>0.01</cell><cell>0.02</cell><cell>0.03</cell></row><row><cell>10</cell><cell>50</cell><cell>0.2 Feature correlation misspecified</cell><cell>N(0,1)</cell><cell>0.26</cell><cell>0.36</cell><cell>0.43</cell><cell>0.36</cell><cell>0.25</cell><cell>0.31</cell><cell>0.34</cell></row><row><cell>10</cell><cell>50</cell><cell>0.2 Feature correlation misspecified ρ |i-j|</cell><cell>N(0,1)</cell><cell>0.33</cell><cell>0.44</cell><cell>0.5</cell><cell>0.44</cell><cell>0.22</cell><cell>0.39</cell><cell>0.42</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 Expectation of 2nd half of features misspecified</cell><cell>0</cell><cell>0.4</cell><cell>1.55</cell><cell>2.7</cell><cell>0.8</cell><cell>0.25</cell><cell>0.5</cell><cell>0.65</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 Variance of 2nd half of features misspecified (too small)</cell><cell>1</cell><cell>0.88</cell><cell>0.38</cell><cell>0.17</cell><cell>0.69</cell><cell>0.94</cell><cell>0.84</cell><cell>0.77</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.02</cell><cell>0.57</cell><cell></cell><cell>0.05</cell><cell>0.01</cell><cell>0.02</cell><cell>0.03</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.98</cell><cell></cell><cell>0.04</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 Feature correlation misspecified</cell><cell>N(0,1)</cell><cell>0.27</cell><cell>0.57</cell><cell>0.78</cell><cell>0.37</cell><cell>0.24</cell><cell>0.29</cell><cell>0.32</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 Feature correlation misspecified ρ |i-j|</cell><cell>N(0,1)</cell><cell>0.25</cell><cell>0.62</cell><cell>0.79</cell><cell>0.46</cell><cell>0.34</cell><cell>0.21</cell><cell>0.42</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 |i-j| in 5 blocks Expectation of 2nd half of features misspecified</cell><cell>0</cell><cell>0.4</cell><cell>2.05</cell><cell>2.6</cell><cell>0.8</cell><cell>0.25</cell><cell>0.5</cell><cell>0.6</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 |i-j| in 5 blocks Variance of 2nd half of features misspecified (too small)</cell><cell>1</cell><cell>0.88</cell><cell>0.39</cell><cell>0.17</cell><cell>0.68</cell><cell>0.94</cell><cell>0.84</cell><cell>0.77</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 |i-j| in 5 blocks Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.02</cell><cell>0.51</cell><cell></cell><cell>0.05</cell><cell>0.01</cell><cell>0.02</cell><cell>0.03</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 |i-j| in 5 blocks Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.26</cell><cell></cell><cell>0.03</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 |i-j| in 5 blocks Feature correlation misspecified</cell><cell>N(0,1)</cell><cell>0.2</cell><cell>0.5</cell><cell>0.74</cell><cell>0.28</cell><cell>0.2</cell><cell>0.2</cell><cell>0.22</cell></row><row><cell>50</cell><cell>100</cell><cell>0.2 |i-j| in 5 blocks Feature correlation misspecified ρ |i-j|</cell><cell>0.2 |i-j|</cell><cell>0.3</cell><cell>0.59</cell><cell>0.78</cell><cell>0.41</cell><cell>0.25</cell><cell>0.32</cell><cell>0.36</cell></row><row><cell>50</cell><cell>100</cell><cell>0.5 |i-j| in 5 blocks Expectation of 2nd half of features misspecified</cell><cell>0</cell><cell>0.5</cell><cell>2.05</cell><cell>3.4</cell><cell>2.05</cell><cell>0.3</cell><cell>0.6</cell><cell>0.8</cell></row><row><cell>50</cell><cell>100</cell><cell>0.5 |i-j| in 5 blocks Variance of 2nd half of features misspecified (too small)</cell><cell>1</cell><cell>0.88</cell><cell>0.39</cell><cell>0.17</cell><cell>0.68</cell><cell>0.94</cell><cell>0.84</cell><cell>0.78</cell></row><row><cell>50</cell><cell>100</cell><cell>0.5 |i-j| in 5 blocks Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.02</cell><cell>0.43</cell><cell></cell><cell>0.05</cell><cell>0.01</cell><cell>0.02</cell><cell>0.04</cell></row><row><cell>50</cell><cell>100</cell><cell>0.5 |i-j| in 5 blocks Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.26</cell><cell></cell><cell>0.02</cell><cell>0.01</cell><cell>0.01</cell><cell>0.01</cell></row><row><cell>50</cell><cell>100</cell><cell>0.5 |i-j| in 5 blocks Feature correlation misspecified</cell><cell>N(0,1)</cell><cell>0.5</cell><cell>0.67</cell><cell>0.83</cell><cell>0.51</cell><cell>0.5</cell><cell>0.5</cell><cell>0.5</cell></row><row><cell>50</cell><cell>100</cell><cell>0.5 |i-j| in 5 blocks Feature correlation misspecified ρ |i-j|</cell><cell>0.5 |i-j|</cell><cell>0.54</cell><cell>0.72</cell><cell>0.85</cell><cell>0.6</cell><cell>0.53</cell><cell>0.55</cell><cell>0.58</cell></row><row><cell>3</cell><cell>100</cell><cell>quake Expectation of 2nd half of features misspecified</cell><cell>0</cell><cell>0.3</cell><cell>0.5</cell><cell>1</cell><cell>1</cell><cell>0.3</cell><cell>0.45</cell><cell>1</cell></row><row><cell>3</cell><cell>100</cell><cell>quake Variance of 2nd half of features misspecified (too small)</cell><cell>1</cell><cell>0.99</cell><cell>0.99</cell><cell>0.99</cell><cell>0.99</cell><cell>0.99</cell><cell>0.99</cell><cell>0.99</cell></row><row><cell>3</cell><cell>100</cell><cell>quake Distribution misspecified: Gaussian mixture with N(0,10)</cell><cell>0</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell><cell>0.03</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell></row><row><cell>3</cell><cell>100</cell><cell>quake Distribution misspecified: Gaussian mixture with N(3,1)</cell><cell>0</cell><cell>0.01</cell><cell>0.01</cell><cell>0.02</cell><cell>0.02</cell><cell>0.01</cell><cell>0.01</cell><cell>0.01</cell></row><row><cell cols="3">https://doi.org/10.1371/journal.pone.0299989.t003</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>PLOS ONE | https://doi.org/10.1371/journal.pone.0299989 May 15, 2024</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>We thank <rs type="person">Markus Pauly</rs> (<rs type="affiliation">TU Dortmund University &amp; UA Ruhr, Research Center Trustworthy Data Science and Security</rs>) for helpful discussions.</p></div>
+			</div>
+			<div type="funding">
+<div><p>MS has been supported (in part) by the <rs type="projectName">Research Training Group "Biostatistical Methods for High-Dimensional Data in Toxicology</rs>" (RTG 2624, Project <rs type="grantNumber">P1</rs>) funded by the <rs type="funder">Deutsche Forschungsgemeinschaft (DFG</rs>, <ref type="url" target="https://gepris.dfg.de/gepris/projekt/427806116">https://gepris.dfg.  de/gepris/projekt/427806116</ref>, <rs type="funder">German Research Foundation</rs> -Project Number <rs type="grantNumber">427806116</rs>). The funders had no role in study design, data collection and analysis, decision to publish, or preparation of the manuscript.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funded-project" xml:id="_DFpZ6rW">
+					<idno type="grant-number">P1</idno>
+					<orgName type="project" subtype="full">Research Training Group &quot;Biostatistical Methods for High-Dimensional Data in Toxicology</orgName>
+				</org>
+				<org type="funding" xml:id="_syzMRX5">
+					<idno type="grant-number">427806116</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The R code and results for the simulation are available on Zenodo (<ref type="url" target="https://doi.org/10.5281/zenodo.10567144">https://doi.org/10.5281/zenodo.10567144</ref>, <ref type="url" target="https://doi.org/10.5281/zenodo.10567059">https://  doi.org/10.5281/zenodo.10567059</ref>).</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The authors have declared that no competing interests exist.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Author Contributions</head><p>Conceptualization: Marieke Stolte, Nicholas Schreck, Alla Slynko, Maral Saadati, Axel Benner, Jo ¨rg Rahnenfu ¨hrer, Andrea Bommert.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Formal analysis: Marieke Stolte.</head><p>Methodology: Marieke Stolte, Jo ¨rg Rahnenfu ¨hrer, Andrea Bommert.</p><p>Software: Marieke Stolte.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supervision: Jo ¨rg Rahnenfu ¨hrer, Andrea Bommert.</head><p>Visualization: Marieke Stolte.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Writing -original draft: Marieke Stolte.</head><p>Writing -review &amp; editing: Nicholas Schreck, Alla Slynko, Maral Saadati, Axel Benner, Jo ¨rg Rahnenfu ¨hrer, Andrea Bommert.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Summary and discussion</head><p>We performed a simulation study to compare the performance of parametric and Plasmode simulation in the context of MSE estimation for the least squares estimator (LSE) in the linear regression model. For parametric simulation, artificial data is generated according to a fully user-specified data-generating process (DGP) for generating the feature data and an outcomegenerating model (OGM) for generating the outcome variable. In contrast to that, in Plasmode simulation the feature data is generated by resampling from a real-life dataset and only the OGM has to be specified. For comparing the two approaches, we need control of the true underlying DGP and OGM. We used different true DGPs and OGMs. Since the true DGP and OGM are unknown in practice, they must be specified when conducting a simulation study. For Plasmode simulation the DGP is implicitly given by the chosen dataset. This specification is likely a deviation from the truth. Therefore, we examined the influence of different deviations on both types of simulation studies. Note that for Plasmode, there is no explicit deviation from the DGP. When resampling from a dataset, one samples from the empirical DGP which ideally converges to the true DGP.</p><p>Within Plasmode simulations, we compared different resampling strategies, namely n out of n Bootstrap, m out of n Bootstrap, subsampling, smoothed Bootstrap, and wild Bootstrap, and where applicable also different resampling proportions. Each simulation strategy was evaluated based on the differences between the MSEs estimated using the respective method and the true MSEs. If the true DGP and OGM are known, it is obvious that parametric simulation is the optimal choice as long as drawing from the true DGP and OGM is feasible. However, in reality, the true DGP and OGM are unknown and can at best be approximated using expert knowledge. In Plasmode simulations, as long as a dataset from the DGP of interest is given, only the OGM has to be specified. Therefore, our aim was to find out 1. How much the DGP chosen in the parametric simulation can deviate from the truth before the parametric simulation becomes worse than Plasmode simulation.</p><p>2. How deviations of the chosen OGM from the true OGM affect both parametric and Plasmode simulations.</p><p>3. How the choice of the resampling type affects the Plasmode simulation.</p><p>In general, we observed that parametric simulation is superior to Plasmode in all situations where the DGP is specified correctly, i.e. for the true situation or deviations from the true OGM only. For deviations from the DGP in parametric simulation, it depends on the kind of deviation, the degree of deviation, the number of observations, and especially on the number of features in the dataset and the type of resampling used for the Plasmode simulation. For very small deviations, parametric simulations usually remain superior. For low numbers of observations, or especially for higher numbers of features, the performance of Plasmode simulation decreases more drastically than that of parametric simulation both in terms of the median difference between the estimated and true MSE and the variation of the estimated MSE. This means that the deviations from the true DGP in the assumptions of parametric simulation have to be larger for Plasmode to be superior. The effect is more pronounced when using resampling strategies with replacement and a high resampling proportion. A reason for this might be that in these cases, the number of unique observations is lower. Therefore less information is contained in the data, so the variance and consequently the MSE of the estimator is inflated. On the other hand, there are certain settings where Plasmode was always superior to parametric simulation in our study, such as when the DGP was severely misspecified, e.g. when using binary instead of standard normal features. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_21"><figDesc>error in MSE estimation for individual coefficients for different types of Plasmode simulation compared to parametric simulation under assumption of true data generating process and outcome generating model. (A) p = 2, n = 100, β = (1, 1, 1) T , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. (B) p = 2, n = 100, β = (1, 1, 1) T , σ = 3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. (TIF) S2 Fig. Relative error in MSE estimation averaged over individual coefficients when the variance of the second half of features is misspecified for p = 50, n = 100, β = 1 51 , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. The first facet displays the errors in case the misspecified variances are used in the simulation. The remaining facets display the errors for using a variance that is estimated using datasets of different sizes from the true DGP for parametric simulation instead. (TIF) S3 Fig. Relative error in MSE estimation averaged over individual coefficients when the assumed variance of the second half of features exceeds the true variance for p = 50, n = 100, β = 1 51 , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. Large outliers for n out of n Bootstrap not displayed. (TIF) S4 Fig. Relative error in MSE estimation averaged over individual coefficients when the assumed variance of the second half of features underestimates the true variance for p = 50, n = 100, β = 1 51 , σ = 0.3, Cor(X i , X j ) = 0.2 8i 6 ¼ j. Large outliers for n out of n Bootstrap not displayed. (TIF) S1 Table. Complete list of deviations from true scenarios. (PDF) S1 Appendix. Simulation of Bernoulli, log-normal, and Gaussian mixture variables with fixed correlations. (PDF)</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">A Plea for Neutral Comparison Studies in Computational Sciences</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mja</forename><surname>Eugster</surname></persName>
+		</author>
+		<idno type="DOI">10.1371/journal.pone.0061562</idno>
+		<idno type="PMID">23637855</idno>
+		<ptr target="https://doi.org/10.1371/journal.pone.0061562" />
+	</analytic>
+	<monogr>
+		<title level="j">PLOS ONE</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">61562</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Using simulation studies to evaluate statistical methods</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Crowther</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/sim.8086</idno>
+		<idno type="PMID">30652356</idno>
+		<ptr target="https://doi.org/10.1002/sim.8086" />
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2074" to="2102" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Introduction to statistical simulations in health research</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Groenwold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Abrahamowicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Binder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Briel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hornung</surname></persName>
+		</author>
+		<idno type="DOI">10.1136/bmjopen-2020-039921</idno>
+		<idno type="PMID">33318113</idno>
+		<ptr target="https://doi.org/10.1136/bmjopen-2020-039921" />
+	</analytic>
+	<monogr>
+		<title level="j">BMJ Open</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page">39921</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<author>
+			<persName><forename type="first">N</forename><surname>Schreck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Slynko</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Saadati</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Benner</surname></persName>
+		</author>
+		<ptr target="http://arxiv.org/abs/2305.06028" />
+		<title level="m">Statistical Plasmode Simulations-Potentials, Challenges and Recommendations; 2023</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">A General Plasmode (No. 30-10-5-2) for Factor Analytic Exercises and Research: By Raymond B</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Cattell</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1967">1967</date>
+			<publisher>Cattell and Joseph Jaspers. Society of Multivariate Experimental Psychology</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Bootstrap Methods: Another Look at the Jackknife. The Annals of Statistics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/aos/1176344552</idno>
+		<ptr target="https://doi.org/10.1214/aos/1176344552" />
+		<imprint>
+			<date type="published" when="1979">1979</date>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+	</analytic>
+	<monogr>
+		<title level="m">Go ¨tze F. Asymptotic approximation and the bootstrap</title>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<biblScope unit="page">305</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Resampling Fewer Than n Observations: Gains, Losses, and Remedies for Losses</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Bickel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Go ¨tze</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Van Zwet Wr</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="31" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">N</forename><surname>Politis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Romano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wolf</forename><forename type="middle">M</forename><surname>Subsampling</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Nonparametric Estimates of Standard Error: The Jackknife, the Bootstrap and Other Methods</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<idno type="DOI">10.1093/biomet/68.3.589</idno>
+		<ptr target="https://doi.org/10.1093/biomet/68.3.589" />
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="589" to="599" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">The bootstrap: To smooth or not to smooth?</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">W</forename><surname>Silverman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">A</forename><surname>Young</surname></persName>
+		</author>
+		<idno type="DOI">10.1093/biomet/74.3.469</idno>
+		<ptr target="https://doi.org/10.1093/biomet/74.3.469" />
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="469" to="479" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">On Smoothing and the Bootstrap</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Diciccio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Romano</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/aos/1176347135</idno>
+		<ptr target="https://doi.org/10.1214/aos/1176347135" />
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="692" to="704" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Optimizing the smoothed bootstrap</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wang</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/BF00773412</idno>
+		<ptr target="https://doi.org/10.1007/BF00773412" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Institute of Statistical Mathematics</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="65" to="80" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Bootstrap and Other Resampling Methods in Regression Analysis</title>
+		<author>
+			<persName><forename type="first">Cfj</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Jackknife</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/aos/1176350161</idno>
+		<ptr target="https://doi.org/10.1214/aos/1176350161" />
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1261" to="1295" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">On the Choice of m in the m Out of n Bootstrap and Confidence Bounds for Extrema</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Bickel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sakov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Smoothing Methods in Statistics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Simonoff</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Modeling wine preferences by data mining from physicochemical properties</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Cortez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cerdeira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Almeida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Matos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Reis</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.dss.2009.05.016</idno>
+		<ptr target="https://doi.org/10.1016/j.dss.2009.05.016" />
+	</analytic>
+	<monogr>
+		<title level="j">Decision Support Systems</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="547" to="553" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Rule-based Machine Learning Methods for Functional Prediction</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Weiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Indurkhya</surname></persName>
+		</author>
+		<idno type="DOI">10.1613/jair.199</idno>
+		<ptr target="https://doi.org/10.1613/jair.199" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Artificial Intelligence Research</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="383" to="403" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">I</forename><surname>Guyon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sun-Hosoya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">´m</forename><surname>Boulle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Escalante</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Escalera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<ptr target="https://www.automl.org/book/" />
+	</analytic>
+	<monogr>
+		<title level="j">Analysis of the AutoML Challenge series</title>
+		<imprint>
+			<date type="published" when="2015">2015-2018. 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">OpenML: networked science in machine learning</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Torgo</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/2641190.2641198</idno>
+		<ptr target="https://doi.org/10.1145/2641190.2641198" />
+	</analytic>
+	<monogr>
+		<title level="m">SIGKDD Explorations</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="49" to="60" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">An Open Source AutoML Benchmark</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gijsbers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Ledell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Poirier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<idno>abs/1907.00909</idno>
+	</analytic>
+	<monogr>
+		<title level="j">CoRR</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Population models and simulation methods: The case of the Spearman rank correlation</title>
+		<author>
+			<persName><forename type="first">Olo</forename><surname>Astivia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Zumbo</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/bmsp.12085</idno>
+		<idno type="PMID">28140458</idno>
+		<ptr target="https://doi.org/10.1111/bmsp.12085" />
+	</analytic>
+	<monogr>
+		<title level="j">British Journal of Mathematical and Statistical Psychology</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="347" to="367" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A Method for Generating High-Dimensional Multivariate Binary Variates</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Emrich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Piedmonte</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00031305.1991.10475828</idno>
+		<ptr target="https://doi.org/10.1080/00031305.1991.10475828" />
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="302" to="304" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Density estimation for statistics and data analysis</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">W</forename><surname>Silverman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1986">1986</date>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">R: A Language and Environment for Statistical Computing</title>
+		<author>
+			<persName><forename type="first">Team</forename><surname>Core</surname></persName>
+		</author>
+		<ptr target="https://www.R-project.org/" />
+		<imprint>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">mvtnorm: Multivariate Normal and t Distributions</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Genz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Bretz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Miwa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Mi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Leisch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Scheipl</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=mvtnorm" />
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Computation of Multivariate Normal and t Probabilities</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Genz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Bretz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Lecture Notes in Statistics</title>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Springer-Verlag</publisher>
+			<pubPlace>Heidelberg</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wolodzko</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Kernelboot</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=kernelboot" />
+		<title level="m">Smoothed Bootstrap and Random Generation from Kernel Densities; 2023</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">ggplot2: Elegant Graphics for Data Analysis</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wickham</surname></persName>
+		</author>
+		<ptr target="https://ggplot2.tidyverse.org" />
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<publisher>Springer-Verlag</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<title level="m" type="main">Hacks for&apos;ggplot2</title>
+		<ptr target="https://CRAN.R-project.org/package=ggh4x" />
+		<imprint>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Subsampling versus Bootstrapping in Resampling-Based Model Selection for Multivariable Regression</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>De Bin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Janitza</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Sauerbrei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">L</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/biom.12381</idno>
+		<idno type="PMID">26288150</idno>
+		<ptr target="https://doi.org/10.1111/biom.12381" />
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="272" to="280" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Can we trust the bootstrap in high</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">E</forename><surname>Karoui</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Purdom</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

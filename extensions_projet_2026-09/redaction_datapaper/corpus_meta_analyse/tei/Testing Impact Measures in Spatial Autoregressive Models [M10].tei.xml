@@ -1,0 +1,720 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Testing Impact Measures in Spatial Autoregressive Models</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Giuseppe</forename><surname>Arbia</surname></persName>
+							<email>arbia@unich.it</email>
+							<affiliation key="aff0">
+								<orgName type="institution">Catholic University of the Sacred Hearth</orgName>
+								<address>
+									<settlement>Milano</settlement>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Anil</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Illinois at Urbana-Champaign</orgName>
+								<address>
+									<settlement>Champaign</settlement>
+									<region>IL</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Su</forename><surname>¨leyman Tas ¸pınar</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Illinois at Urbana-Champaign</orgName>
+								<address>
+									<settlement>Champaign</settlement>
+									<region>IL</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of New York</orgName>
+								<address>
+									<settlement>City</settlement>
+									<region>Queens College NY</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="institution">Catholic University of the Sacred Hearth</orgName>
+								<address>
+									<addrLine>Largo Gemelli 1</addrLine>
+									<postCode>20123</postCode>
+									<settlement>Milano</settlement>
+									<country key="IT">Italy</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Testing Impact Measures in Spatial Autoregressive Models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">3077D0357AFBEF0359080C989062EECE</idno>
+					<idno type="DOI">10.1177/0160017619826264</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>spatial econometric models</term>
+					<term>spatial autoregressive models</term>
+					<term>impact measures</term>
+					<term>asymptotic approximation</term>
+					<term>standard errors</term>
+					<term>inference</term>
+					<term>MLE</term>
+					<term>direct effects</term>
+					<term>indirect effects</term>
+					<term>total effects</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Researchers often make use of linear regression models in order to assess the impact of policies on target outcomes. In a correctly specified linear regression model, the marginal impact is simply measured by the linear regression coefficient. However, when dealing with both synchronic and diachronic spatial data, the interpretation of the parameters is more complex because the effects of policies extend to the neighboring locations. Summary measures have been suggested in the literature for the cross-sectional spatial linear regression models and spatial panel data models. In this article, we compare three procedures for testing the significance of impact measures in the spatial linear regression models. These procedures include (i) the estimating equation approach, (ii) the classical delta method, and (iii) the simulation method. In a Monte Carlo study, we compare the finite sample properties of these procedures.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In evaluating the effectiveness of economic policies, researchers often make use of linear regression models in order to assess their impact on a target outcome. In a standard nonspatial linear regression model, the regression parameters represent the partial derivative of the dependent variable Y with respect to an independent variable X and, as a consequence, they can be straightforwardly interpreted as the impact on variable Y of a unitary increase or of a one percent increase (when in log) of each independent variable X . In contrast, in the spatial econometric models containing spatial lag terms of dependent variable, the interpretation of parameters is less immediate and requires some clarification. In fact, due to the spatial transmission mechanism inherent to spatial modeling, a variation of variable X observed in location i not only has an effect on the value of variable Y in the same location but also on the same variable observed in other neighboring locations (see <ref type="bibr" target="#b0">Anselin 1988;</ref><ref type="bibr" target="#b10">Kelejian, Tavlas, and Hondroyiannis 2006;</ref><ref type="bibr" target="#b16">LeSage and Pace 2009;</ref><ref type="bibr" target="#b3">Debarsy, Ertur, and LeSage 2012;</ref><ref type="bibr" target="#b13">Lee and Yu 2012;</ref><ref type="bibr" target="#b11">Kelejian, Murrell, and Shepotylo 2013;</ref><ref type="bibr" target="#b4">Elhorst 2010</ref><ref type="bibr">Elhorst , 2014b;;</ref><ref type="bibr" target="#b1">Arbia 2014;</ref><ref type="bibr" target="#b14">LeSage and Chih 2016)</ref>.</p><p>In a spatial regression model that has a spatial lag of the dependent variable, the marginal effects accounting will require the analysis of k different n Â n matrices, where k is the number of explanatory variables and n is the number of spatial units. To ease the interpretation and presentation of marginal effects, summary measures, that is, impact measures, have been suggested in the literature. Since the diagonal elements of these n Â n matrices contain the own-partial derivatives, while the offdiagonal elements represent the cross-partial derivatives, <ref type="bibr" target="#b16">LeSage and Pace (2009)</ref> define the average of the main diagonal elements as a scalar summary measure of direct effects and the average of the off-diagonal elements as a scalar summary measure of indirect effects. The sum of direct and indirect effects is labeled as the total effect. Other impact measures can also be defined by using the relevant row or column sums of these n Â n matrices for a plethora of purposes. Although the impact measures are functions of estimated parameters, we cannot use directly the estimated parameters and the corresponding standard errors to decide whether the impact measures are statistically and economically significant. In order to draw inference on impact measures, we need to estimate their dispersions as well.</p><p>The purpose of this article is to develop general methods for the estimation of dispersions of impact measure and investigate their finite sample properties. We first consider three general procedures: (i) the estimating equation approach, (ii) the classical delta method, and (iii) the simulation method. We show how these methods can be used to derive the asymptotic standard errors of the impact measures in crosssectional spatial autoregressive (SAR) models containing a spatial lag of the dependent variable. Second, we derive the standard error of some well-known impact measures in some particular cases. Third, we investigate the finite sample properties of the proposed methods through an extensive simulation study. Our results on the impact measures are applicable only for exogenous variables introduced linearly in the regression equations.</p><p>of the approach presented here. The simulation results and some technical derivations are relegated to appendices.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The Model Specification</head><p>We consider the following SAR model:</p><formula xml:id="formula_0">Y ¼ l 0 WY þ X b 0 þ x;<label>ð2:1Þ</label></formula><p>where Y ¼ ðy 1 ; y 1 ; . . . ; y n Þ 0 is the n Â 1 vector of dependent variable, X ¼ ðx 1 ; . . . ; x k Þ is the n Â k matrix of nonstochastic regressors with the matching parameter vector b 0 , W is the n Â n exogenously given spatial weight matrix that has zero diagonal elements and x ¼ ðx 1 ; x 2 ; . . . ; x n Þ 0 is the n Â 1 vector of regression disturbance terms. X includes an intercept term. We assume that x i s are i.i.d. normal random variables with mean 0 and variance s 2 0 . The spatial lag term is denoted by WY , and the associated scalar parameter l 0 is called the SAR parameter. The parameter vector y 0 ¼ ðl 0 ; b 0 0 ; s 2 0 Þ 0 represents true values, while y ¼ ðl; b 0 ; s 2 Þ 0 any arbitrary value in the relevant parameter space. The quantities Y , W , X , and x in equation (2.1) are allowed to depend on the sample size n in order to form triangular arrays (see <ref type="bibr" target="#b12">Lee 2004;</ref><ref type="bibr" target="#b9">Kelejian and Prucha 2010)</ref>. However, for the notational simplicity, we suppressed the subscript n in equation (2.1). Let SðlÞ ¼ ðI n À lW Þ, GðlÞ ¼ WS À1 ðlÞ, Sðl 0 Þ ¼ S, and Gðl 0 Þ ¼ G, where I n is the n Â n identity matrix. We consider equation (2.1) under the following assumptions.</p><p>Assumption 1: The disturbance terms x i s are i.i.d. normal random variables with mean 0 and variance s 2 0 . Assumption 2: (i) The sequences of matrices fW g and fSg are uniformly bounded in both row and column sums. (ii) fS À1 ðlÞg are uniformly bounded in either row or column sums, uniformly in l in a compact parameter space L. (iii) The true l 0 is in the interior of L. Assumption 3: (i) The elements of X are uniformly bounded constants for all n and lim n!1 1 n X 0 X exists and is nonsingular. (ii) lim n!1</p><formula xml:id="formula_1">1 n ðX ; GX b 0 Þ 0 ðX ; GX b 0 Þ exists and is nonsingular.</formula><p>Assumptions 1 and 2 provide the main features of disturbance terms and weights matrix. The uniform boundedness property of fW g and fSg in Assumption 2 is considered by <ref type="bibr">Kelejian and</ref><ref type="bibr">Prucha (1998, 2010)</ref> in order to limit spatial dependence among units to a tractable degree. The additional uniform boundedness of fS À1 ðlÞg is required to justify the ML estimation <ref type="bibr" target="#b12">(Lee, 2004)</ref>. In the literature, (i) Assumption 3 is usually adopted for analytical simplicity; (ii) Assumption 3 requires that GX b 0 and X are not asymptotically multicollinear, which ensures the global identification of y 0 in the ML framework <ref type="bibr" target="#b12">(Lee, 2004)</ref>. In certain interaction scenarios, elements of weights matrices can be a function of sample size n. For equation (2.1), <ref type="bibr" target="#b12">Lee (2004)</ref> assumes a large group interaction setting and specifies elements of the weights matrix by w ij ¼ Oð1=h n Þ, where w ij is the ði; jÞth element of W and fh n g is a sequence of real numbers that can be bounded or divergent with the property that lim n!1 h n =n ¼ 0. For simplicity, we assume interaction scenarios in which fh n g is bounded.</p><p>Under Assumption 1, the log-likelihood function of the model can be expressed as</p><formula xml:id="formula_2">logLðyÞ ¼ À n 2 lnð2pÞ À n 2 lns 2 þ lnjSðlÞj À 1 2s 2 x 0 ðyÞxðyÞ;</formula><p>where xðyÞ ¼ SðlÞY À X b. Then, the MLE ŷ is defined by ŷ ¼ argmax y logLðyÞ. Under our stated assumptions, it can be shown that ŷ is a consistent estimator of y 0 with the following limiting distribution <ref type="bibr" target="#b12">(Lee, 2004)</ref>:</p><formula xml:id="formula_3">ffiffi ffi n p ð ŷ À y 0 Þ d h N ð0; S À1 Þ;<label>ð2:2Þ</label></formula><p>where</p><formula xml:id="formula_4">S ¼ lim n!1 E À 1 n q 2 logLðy 0 Þ qyqy 00 and E À 1 n q 2 logLðy 0 Þ qyqy 0 ¼ 1 s 2 0 n X 0 X 1 s 2 0 n X 0 GX b 0 0 1 s 2 0 n ðGX b 0 Þ 0 X 1 s 2 0 n ðGX b 0 Þ 0 ðGX b 0 Þ þ 1 n tr ðG þ G 0 ÞG 1 s 2 0 n<label>trðGÞ</label></formula><p>0 1 s 2 0 n trðGÞ 1 2s 4 0 2 6 6 6 6 6 6 6 6 4 3 7 7 7 7 7 7 7 7 5 :</p><p>For statistical inference, we can use the MLE ŷ to construct a plug-in estimator of S <ref type="bibr" target="#b12">(Lee, 2004)</ref>. As we will show in the fourth section, the limiting distribution in equation (2.2) is essential for our results on the impact measures.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Impact Measures in SAR Models</head><p>In spatial models, the interpretation of the coefficients is different from nonspatial models due to the possible presence of spatial transmission mechanisms, externalities, and spillovers. In this section, we show how several impact measures are formulated for the SAR models. Under the assumption that S is nonsingular, the model can be written in the reduced form as 1</p><formula xml:id="formula_5">Y ¼ S À1 X b 0 þ S À1 x:</formula><p>ð3:1Þ</p><p>The impact of a unitary change in the variable x k in one location, say j, on the variable y observed in location i can then be described through the partial derivatives qEðy i Þ=qx jk which can be arranged in the following matrix:</p><formula xml:id="formula_6">IMP ¼ qEðY Þ qx 0 k ¼ qEðy 1 Þ qx 1k qEðy 1 Þ qx 2k . . . qEðy 1 Þ qx nk qEðy 2 Þ qx 1k qEðy 2 Þ qx 2k . . . qEðy 2 Þ qx nk . . . . . . . . . . . . qEðy n Þ qx 1k qEðy n Þ qx 2k . . . qEðy n Þ qx nk<label>2</label></formula><p>6 6 6 6 6 6 6 6 6 6 6 4 3 7 7 7 7 7 7 7 7 7 7 7 5</p><formula xml:id="formula_7">¼ S À1 b k ;<label>ð3:2Þ</label></formula><p>where b k is the kth element of b 0 . On this basis, we can derive a series of impact measures for each of the independent variables x ik included in the model <ref type="bibr" target="#b1">(Arbia 2014;</ref><ref type="bibr" target="#b4">Elhorst 2010</ref><ref type="bibr">Elhorst , 2014b;;</ref><ref type="bibr" target="#b16">LeSage and Pace 2009)</ref>. In particular, three scalar measures can be derived. The first, called the Average Direct Impact (ADI), refers to the average total impact of a change in x ki on y i for i ¼ 1; . . . ; n, which can be calculated by taking the average of all diagonal entries in the matrix S À1 b k :</p><formula xml:id="formula_8">ADI ¼ 1 n trðS À1 b k Þ ¼ 1 n X n i¼1 IMP ii ;<label>ð3:3Þ</label></formula><p>where IMP ii ¼ qEðy i Þ=qx ik . The second impact measure, called Average Total Impact (ATI), is a global measure defined simply as the average of all entries in the matrix S À1 b k :</p><formula xml:id="formula_9">ATI ¼ 1 n l 0 n S À1 l n b k ¼ 1 n X n i¼1 X n j¼1 IMP ij ;<label>ð3:4Þ</label></formula><p>where IMP ij ¼ qEðy i Þ=qx jk and l n is the n Â 1 vector of ones. The third impact measure is the Average Indirect Impact (AII) and is defined as the difference between ATI and ADI:</p><formula xml:id="formula_10">AII ¼ ATI À ADI;<label>ð3:5Þ</label></formula><p>and is thus simply the average of all off-diagonal entries of matrix S À1 b k . Two vector measures are also available defined as the Average Total Impact To (ATIT) an observation and the Average Total Impact From (ATIF) an observation. ATIT is a measure related to the impact produced on one single observation by all other observations. For each observation i, this is calculated as the sum of the i th row of matrix S À1 b k :</p><formula xml:id="formula_11">ATIT i ¼ 1 n e 0 i S À1 l n b k ¼ 1 n X n j¼1 IMP ij ; i ¼ 1; . . . ; n;<label>ð3:6Þ</label></formula><p>where e i is the ith unitary vector. In contrast, ATIF is related to the impact produced by one single observation on all other observations. For each observation, this is calculated as the sum of the jth column of matrix S À1 b k :</p><formula xml:id="formula_12">ATIF i ¼ 1 n l 0 n S À1 e i b k ¼ 1 n X n i¼1 IMP ij ; i ¼ 1; . . . ; n:<label>ð3</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>:7Þ</head><p>Our results on ADI, ATI, and AII indicate that the magnitude of these impact measures depends on (i) the specification adopted for W , (ii) the strength of spatial dependence measured by l 0 , and (iii) the magnitude of coefficient estimate for b k . In the case of ATIT and ATIF measures, besides these factors, the position of the region in the space also affects the magnitudes of ATIT and ATIF measures. From the series expansion</p><formula xml:id="formula_13">S À1 b k ¼ ðI À l 0 W Þ À1 b k ¼ ðI þ l 0 W þ l 2 0 W 2 þ l 3 0 W 3 þ . . . Þb k , it</formula><p>is also obvious that the sign of l 0 will affect the magnitude of all impact measures. In particular, when l 0 &lt; 0, we have alternating signs in the series expansion due to the alternation between odd and even powers. As a consequence, the negative effect will be moderated by the presence of positive effects produced by the even powers. To illustrate the effect of l 0 on the magnitudes of ADI, ATI, and AII, we set b k ¼ 1 and consider row-normalized rook and queen contiguity-based weight matrices over 10 Â 10 regular square lattice grid. We calculate the magnitude of each impact measure as l 0 varies from À0:9 to 0:9. The results are illustrated in Figure <ref type="figure" target="#fig_0">1</ref>. The figure shows that the sign of l 0 not only affects the sign of ATI and AII measures, but it also affects their magnitudes. As expected, the magnitudes of impact measures in absolute value are relatively larger when l 0 gets positive large values. In the case of ADI measure, we have ADI ¼ ð1 þ l 2 0 trðW 2 Þ=n þ l 3 0 trðW 3 Þ=n þ . . . Þb k . In this expansion, the magnitudes of odd powers are less than that of even powers, and the trace terms are nonnegative since all elements of W are nonnegative. Thus, in this case, the sign of ADI measure is completely determined by the sign of b k . The figure also shows that the magnitude of ADI measure in absolute value is relatively slightly larger when l 0 is positive and large, especially in the case of queen weights matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The Asymptotic Standard Errors of Impact Measures</head><p>In this section, we consider three general methods to derive the asymptotic standard errors of the impact measures described in the previous section. The first method is based on the estimating equation approach suggested by <ref type="bibr" target="#b21">Pierce (1982;</ref><ref type="bibr"></ref> the Pierce method hereafter). The second approach is the classical approach based on the delta method. The final approach is the simulation method suggested by <ref type="bibr" target="#b16">LeSage and Pace (2009)</ref>.</p><p>We start with the Pierce method and provide a general argument by following <ref type="bibr" target="#b21">Pierce (1982)</ref>. Let y 1 ; . . . ; y n be the sequence of (not necessarily identical nor independent) random variables whose joint density function depends on a vector of parameters c. Let ĉ ¼ ĉðY Þ be the MLE of c, where Y ¼ ðy 1 ; y 2 ; . . . ; y n Þ 0 . Let U ðY ; ĉÞ be a vector-valued statistic. Under some regularity conditions, <ref type="bibr" target="#b21">Pierce (1982)</ref> suggests a method that can be used to determine the asymptotic variance of certain type of statistics. The first condition is about the joint limiting distribution of ffiffi ffi n p ð ĉ À cÞ and ffiffi ffi n p U ðY ; cÞ. <ref type="bibr" target="#b21">Pierce (1982)</ref> assumes that these two random variables have a limiting joint multivariate normal distribution, namely, ffiffi ffi n p U ðY ; cÞ ffiffi ffi n p ð ĉ À cÞ</p><formula xml:id="formula_14">! d h N 0; V 11 V 12 V 21 V 22 ! ;<label>ð4:1Þ</label></formula><p>where the variance-covariance matrix may depend continuously on c. Note that this assumption is stated for the unfeasible statistic U ðY ; cÞ. For the second regularity condition, <ref type="bibr" target="#b21">Pierce (1982)</ref> assumes that there exists a matrix B, possibly depending continuously on c, such that ffiffi ffi n p U ðY ;</p><formula xml:id="formula_15">ĉÞ ¼ ffiffi ffi n p U ðY ; cÞ þ B ffiffi ffi n p ð ĉ À cÞ þ o p ð1Þ:<label>ð4:2Þ</label></formula><p>When U is differentiable with respect to c, this result follows from a first-order expansion and B is simply given by</p><formula xml:id="formula_16">B ¼ lim n!1 E qU ðY ; cÞ qc 0 : ð4:3Þ</formula><p>Finally, third required condition is that EðU ðY ; cÞÞ is independent with c. Under these conditions, <ref type="bibr" target="#b21">Pierce (1982)</ref> </p><formula xml:id="formula_17">show that ffiffi ffi n p U ðY ; ĉÞ d h N ð0; V 11 À BV 22 B 0 Þ:<label>ð4:4Þ</label></formula><p>This result is based on the expansion in equation (4.2), which implies that</p><formula xml:id="formula_18">Var ffiffi ffi n p U ðY ; ĉÞ ¼ V 11 þ BV 22 B 0 þ V 12 B 0 þ BV 21 :<label>ð4:5Þ</label></formula><p>The second assumption, that is EðU ðY ; cÞÞ is independent with c, can be used to simplify equation (4.5). Let lðY ; cÞ be the log-likelihood function of the sample. Then, under the second assumption, we have</p><formula xml:id="formula_19">qEðU ðY ; cÞÞ qc 0 ¼ q qc 0 Z U ðY ; cÞexpðlðY ; cÞÞdY ¼ 0:<label>ð4:6Þ</label></formula><p>Changing the order of integration and differentiation above yields Z qU ðY ; cÞ</p><formula xml:id="formula_20">qc 0 expðlðY ; cÞÞdY þ Z ffiffi ffi n p U ðY ; cÞ 1 ffiffi ffi n p qlðY ; cÞ qc 0 expðlðY ; cÞÞdY ¼ 0:<label>ð4:7Þ</label></formula><p>This last result implies that</p><formula xml:id="formula_21">ÀB 0 ¼ Cov 1 ffiffi ffi n p qlðY ; cÞ qc ; ffiffi ffi n p U ðY ; cÞ :<label>ð4:8Þ</label></formula><p>Using the asymptotic normality of score function under certain regularity conditions (see <ref type="bibr" target="#b18">Newey and McFadden 1994)</ref>, we can show that V 22 1 ffiffi n p qlðY ;cÞ qc is asymptotically equivalent to ffiffi ffi n p ð ĉ À cÞ. Hence,</p><formula xml:id="formula_22">ÀV 22 B 0 ¼ Cov V 22 1 ffiffi ffi n p qlðY ; cÞ qc ; ffiffi ffi n p U ðY ; cÞ % Covð ffiffi ffi n p ð ĉ À cÞ; ffiffi ffi n p U ðY ; cÞÞ ¼ V 21 :<label>ð4:9Þ</label></formula><p>This last result can be considered as a generalized information matrix equality <ref type="bibr" target="#b18">(Newey and McFadden 1994)</ref>. Then, the Pierce result in equation (4.4) is obtained by substituting V 21 ¼ ÀV 22 B 0 and V 12 ¼ ÀBV 22 into equation (4.5).</p><p>Next, we apply the general result in equation (4.4) to our stated impact measures to determine their corresponding asymptotic variances. We set ĉ ¼ l in formulating the statistics of interest for our impact measures ADI, AII, ATI, ATIF, and ATIT. These statistics are listed below.</p><formula xml:id="formula_23">1. U ADI ðY ; lÞ ¼ 1 n trðS À1 ð lÞÞ bk À 1 n trðS À1 Þb k : 2. U ATI ðY ; lÞ ¼ 1 n l 0 n S À1 ð lÞl n bk À 1 n l 0 n S À1 l n b k : 3. U AII ðY ; lÞ ¼ 1 n l 0 n S À1 ð lÞl n bk À 1 n trðS À1 ð lÞ bk Þ À 1 n l 0 n S À1 l n b k þ 1 n trðS À1 b k Þ. 4. U ATIT i ðY ; lÞ ¼ 1 n e 0 i S À1 ð lÞl n bk À 1 n e 0 i S À1 l n b k ; i ¼ 1; . . . ; n. 5. U ATIF i ðY ; lÞ ¼ 1 n l 0 n S À1 ð lÞe i bk À 1 n l 0 n S À1 e i b k ; i ¼ 1; . . . ; n.</formula><p>Using the Pierce method, we determine the asymptotic distributions of these statistics in the following proposition.</p><p>Proposition 1: Under our stated assumptions, the following results hold. 1. In the case of U ADI ðY ; lÞ, we have</p><formula xml:id="formula_24">ffiffi ffi n p U ADI ðY ; lÞ ¼ 1 ffiffi ffi n p tr S À1 ð lÞ bk À trðS À1 Þb k d h N 0; lim n!1 1 n 2 tr 2 ðS À1 ÞVarð ffiffi ffi n p bk Þ À 1 n 2 tr 2 ðWS À2 Þb 2 k Var ffiffi ffi n p ð l À l 0 Þ :<label>ð4:10Þ</label></formula><p>2. In the case of U ATI ðY ; lÞ, we have</p><formula xml:id="formula_25">ffiffi ffi n p U ATI ðY ; lÞ ¼ 1 ffiffi ffi n p l 0 n S À1 ð lÞl n bk À l 0 n S À1 l n b k d h N 0; lim n!1 1 n l 0 n S À1 l n 2 Varð ffiffi ffi n p bk Þ À 1 n l 0 n S À1 WS À1 l n b k 2 Var ffiffi ffi n p ð l À l 0 Þ ! :<label>ð4:11Þ</label></formula><p>3. In the case of U AII ðY ; lÞ, we have</p><formula xml:id="formula_26">ffiffi ffi n p U AII ðY ; lÞ ¼ 1 ffiffi ffi n p l 0 n S À1 ð lÞl n bk À tr S À1 ð lÞ bk À l 0 n S À1 l n b k þ trðS À1 b k Þ d h N ð0; lim n!1 1 n l 0 n S À1 l n À 1 n trðS À1 Þ 2 Varð ffiffi ffi n p bk Þ À 1 n l 0 n S À1 WS À1 l n b k À 1 n trðWS À2 Þb k 2 Var ffiffi ffi n p ð l À l 0 Þ :<label>ð4:12Þ</label></formula><p>4. In the case of U ATIT i ðY ; lÞ, we have</p><formula xml:id="formula_27">ffiffi ffi n p U ATITi ðY ; lÞ ¼ 1 ffiffi ffi n p e 0 i S À1 ð lÞl n bk À e 0 i S À1 l n b k d h N 0; lim n!1 1 n e 0 i S À1 l n 2 Varð ffiffi ffi n p bk Þ À 1 n e 0 i S À1 WS À1 l n b k 2 Var ffiffi ffi n p ð l À l 0 Þ ! :</formula><p>ð4:13Þ 10 International Regional Science Review XX(X)</p><p>5. In the case of U ATIF i ðY ; lÞ, we have</p><formula xml:id="formula_28">ffiffi ffi n p U ATIFi ðY ; lÞ ¼ 1 ffiffi ffi n p l 0 n S À1 ð lÞe i bk À l 0 n S À1 e i b k d h N 0; lim n!1 1 n l 0 n S À1 e i 2 Varð ffiffi ffi n p bk Þ À 1 n l 0 n S À1 WS À1 e i b k 2 Var ffiffi ffi n p ð l À l 0 Þ ! :<label>ð4:14Þ</label></formula><p>Proof: See Appendix A.</p><p>We can use the plug-in estimators to estimate the asymptotic variances in Proposition 1. For example, the estimated variance of U ADI ðY ; lÞ can be formulated as 2</p><formula xml:id="formula_29">d Var U ADI ðY ; lÞ ¼ 1 n 3 tr 2 S À1 ð lÞ d Varð ffiffi ffi n p bk Þ À 1 n 3 tr 2 WS À2 ð lÞ b2 k d Var ffiffi ffi n p ð l À l 0 Þ ;<label>ð4:15Þ</label></formula><formula xml:id="formula_30">where d Varð ffiffi ffi n p bk Þ and d Varð ffiffi ffi n p ð l À l 0 ÞÞ can be recovered from the plug-in estima- tor of ffiffi ffi n p ð ŷ À y 0 Þ in equation (2.2).</formula><p>Similarly, the plug-in estimators for other asymptotic variances in Proposition 1 can be formulated. Another asymptotic method that can be used to determine the asymptotic variances of impact measures is the classical delta method (Tas ¸pınar, Dog ˘an, and Vijverberg 2018). In general, the delta method is used to determine (i) the variance of a function of a random variable, (ii) the bias correction for the expectation of a function of a random variable, and (iii) the limiting distribution of a function of a random variable <ref type="bibr" target="#b19">(Oehlert 1992;</ref><ref type="bibr" target="#b25">van der Vaart 1998)</ref>. In the following proposition, we show how this method can be used to derive the limiting distribution of each impact measure considered in the second section.</p><p>Proposition 2: Let J be the asymptotic covariance of</p><formula xml:id="formula_31">ffiffi ffi n p ð l À l 0 ; bk À b k Þ 0 .</formula><p>Then, under our stated assumptions, the following results holds. 1. For the ADI measure, we have</p><formula xml:id="formula_32">1 ffiffi ffi n p tr S À1 ð lÞ bk À trðS À1 b k Þ d h N 0; lim n!1 A 1 JA 0 1 ;<label>ð4:16Þ</label></formula><p>where</p><formula xml:id="formula_33">A 1 ¼ 1 n trðS À1 Gb k Þ; 1 n trðS À1 Þ Â Ã .</formula><p>2. For the ATI measure, we have</p><formula xml:id="formula_34">1 ffiffi ffi n p bk l 0 n S À1 ð lÞl n À b k l 0 n S À1 l n d h N 0; lim n!1 A 2 JA 0 2 ;<label>ð4:17Þ</label></formula><p>where</p><formula xml:id="formula_35">A 2 ¼ ½ 1 n b k l 0 n S À1 Gl n ; 1 n l 0 n S À1 l n .</formula><p>3. In the case of AII measure, we have</p><formula xml:id="formula_36">1 ffiffi ffi n p bk l 0 n S À1 ð lÞl n À tr S À1 ð lÞ bk À b k l 0 n S À1 l n À trðS À1 Þb k d h N 0; lim n!1 ðA 2 À A 1 ÞJ ðA 2 À A 1 Þ 0 : ð4:18Þ 4. For the ATIT i measure, we have 1 ffiffi ffi n p e 0 i S À1 ð lÞl n bk À e 0 i S À1 l n b k d h N ð0; lim n!1 A 3 JA 0 3 Þ;<label>ð4:19Þ</label></formula><p>where</p><formula xml:id="formula_37">A 3 ¼ 1 n e 0 i S À1 Gl n b k ; 1 n e 0 i S À1 l n Â Ã .</formula><p>5. For the ATIF i measure, we have</p><formula xml:id="formula_38">1 ffiffi ffi n p l 0 n S À1 ð lÞe i bk À l 0 n S À1 e i b k d h N ð0; lim n!1 A 4 JA 0 4 Þ; ð4:<label>20Þ</label></formula><formula xml:id="formula_39">where A 4 ¼ 1 n l 0 n S À1 Ge i b k ; 1 n l 0 n S À1 e i Â Ã .</formula><p>Proof: See Appendix B.</p><p>The asymptotic variances stated in Proposition 2 can estimated by the corresponding plug-in estimators. For example, Proposition 2 indicates that the asymptotic variance of ADI measure can be estimated by 1 n Â1 Ĵ Â0 1 , where</p><formula xml:id="formula_40">Â1 ¼ ½ 1 n trðS À1 ð lÞGð lÞ bk Þ; 1 n trðS À1 ð lÞÞ, and Ĵ is the estimated asymptotic covar- iance of ffiffi ffi n p ð l À l 0 ; bk À b k Þ 0 .</formula><p>The estimates of other asymptotic variances in Proposition 2 can be obtained similarly.</p><p>Remark 1: Note that our suggested estimators for the asymptotic variance of impact measures in Proposition 2 are specific to the kth explanatory variable. The estimators for other explanatory variables can be easily obtained by adjusting only the J term. For example, the estimators for the various impact measures of the jth regressor is obtained by defining the Ĵ term as the estimated asymptotic covariance of ffiffi ffi n p ð l À l 0 ; bj À b j Þ 0 .</p><p>The simulation approach suggested by <ref type="bibr" target="#b16">LeSage and Pace (2009)</ref> utilizes the parameter estimates and the estimated asymptotic covariance matrix of a consistent estimator. Let L be a lower-triangular matrix recovered from the Cholesky decomposition of Varð ŷÞ and W be a random vector that has a multivariate standard normal distribution. Then, random draws of the parameter vector are generated according to</p><formula xml:id="formula_41">y r ¼ ŷ þ L Â W r ; for r ¼ 1; . . . ; R:<label>ð4:21Þ</label></formula><p>A sequence of impact measures can be calculated by using the sequence fy r g for r ¼ 1; . . . ; R. The mean and the standard deviation calculated from each sequence of impact measures can be used as the point estimate and the standard error of the corresponding impact measure. <ref type="formula">LeSage and Pace (2009)</ref>also consider the Bayesian estimation method for SAR models. In the Bayesian MCMC approach, a sequence of random draws is generated for each parameter. Similarly, a sequence of random draws can be generated for each scalar summary measure of impact estimates. Hence, the mean and the standard deviation calculated from each sequence of impact measures can be used as the point estimate and the standard error of the corresponding impact measure.</p><p>Remark 2: The three methods that we presented in the preceding paragraphs can be extended to the following spatial Durbin model:</p><formula xml:id="formula_42">Y ¼ l 0 WY þ X b 0 þ WX d 0 þ x;<label>ð4:22Þ</label></formula><p>where WX is the spatial lag of X with the matching parameter vector</p><formula xml:id="formula_43">d 0 . From the reduced form Y ¼ S À1 X b 0 þ S À1 WX d 0 þ S À1 x, we have IMP ¼ qEðY Þ qx 0 k ¼ qEðy 1 Þ qx 1k qEðy 1 Þ qx 2k . . . qEðy 1 Þ qx nk qEðy 2 Þ qx 1k qEðy 2 Þ qx 2k . . . qEðy 2 Þ qx nk . . . . . . . . . . . . qEðy n Þ qx 1k qEðy n Þ qx 2k . . . qEðy n Þ qx nk<label>2</label></formula><p>6 6 6 6 6 6 6 6 6 6 6 4 3 7 7 7 7 7 7 7 7 7 7 7 5</p><formula xml:id="formula_44">¼ S À1 b k þ S À1 W d k ;<label>ð4:23Þ</label></formula><p>where b k and d k are the kth elements of b 0 and d 0 , respectively. Then, in this case, the impact measures are in the following forms:</p><formula xml:id="formula_45">1. ADI ¼ 1 n trðS À1 Þb k þ 1 n trðS À1 W Þd k : 2. ATI ¼ 1 n l 0 n S À1 l n b k þ 1 n l 0 n S À1 Wl n d k : 3. AII ¼ ATI À ADI ¼ 1 n l 0 n S À1 l n b k þ 1 n l 0 n S À1 Wl n d k À 1 n trðS À1 Þb k À 1 n trðS À1 W Þd k : 4. ATIT i ¼ 1 n e 0 i S À1 l n b k þ 1 n e 0 i S À1 Wl n d k ; i ¼ 1; . . . ; n: 5. ATIF i ¼ 1 n l 0 n S À1 e i b k þ 1 n l 0 n S À1 W e i d k ; i ¼ 1; . . . ; n:</formula><p>Following our arguments given for the proofs of Propositions 1 and 2, the Pierce method and the delta method can be used to determine the asymptotic distributions of these statistics. We provide these results in Appendix C.</p><p>Remark 3: Note that the calculations of impact measures require the evaluation of S À1 ð lÞ. Also our results in Propositions 1 and 2 indicate that the dispersions of impact measures also require the evaluation of S À1 ð lÞ. It is clear that the computational cost is relatively high in the case of simulation method as it requires multiple evaluations of S À1 ð lÞ. When the sample size is large, the evaluation of S À1 ð lÞ can be time consuming and even may not be feasible due to memory problems. <ref type="bibr" target="#b16">LeSage and Pace (2009)</ref> suggest an approximation approach based on the series expansion S À1 ðlÞ ¼ P 1 j¼0 l j W j . In this approach, we can approximate the infinite sum with the truncated sum P q j¼0 l j W j , where q is a large number and thus avoid the computational problems associated with the inversion of SðlÞ. See LeSage and <ref type="bibr" target="#b16">Pace (2009)</ref> and <ref type="bibr">Elhorst (2014a)</ref> on the software demonstrations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Monte Carlo Study</head><p>In this section, we design a Monte Carlo simulation to investigate the finite sample properties of the methods described in the preceding section. We assume the following data generating process:</p><formula xml:id="formula_46">y i ¼ l 0 X i6 ¼j w ij y j þ b 0 þ b 1 x 1i þ b 2 x 2i þ x i ;<label>ð5:1Þ</label></formula><p>for i ¼ 1; 2; . . . ; n, where n 2 f400; 900g. We specify two weights matrices corresponding to rook and queen contiguity cases. Assume that n spatial units are randomly allocated into a lattice of k Â m squares, where</p><formula xml:id="formula_47">k ¼ m ¼ ffiffi ffi n p .</formula><p>In the rook contiguity case, w ij ¼ 1 if the spatial spatial unit j is in a square that is adjacent (left/ right/above or below) to the square of the spatial unit i. In the queen contiguity case, w ij ¼ 1 if the spatial unit j is in a square that is adjacent to or shares a corner with the square of the spatial unit i. In both cases, W is then row normalized.</p><p>For the regressors x 1 and x 2 , we allow for spatial correlations in both regressors and set x 1 ¼ 0:7Wx 1 þ E 1 and x 2 ¼ 0:3Wx 2 þ E 2 , where the elements of E 1 and E 2 are drawn independently from a uniform distribution on the unit interval <ref type="bibr" target="#b20">(Pace, LeSage, and Zhu 2012)</ref>. We set ðb 0 ; b 1 ; b 2 Þ 0 ¼ ð0:2; 0:5; À0:5Þ 0 . In order to allow for weak, moderate, and strong spatial dependence, we assume that the autoregressive parameter l 0 takes on values from the set fÀ0:8; À0:5; À0:2; 0; 0:2; 0:5; 0:8g. We consider two cases for the distribution of x i . In the first case, x i 's are drawn independently from the normal distribution that has mean zero and variance s 2 0 . To analyze the impact of nonnormality in disturbances, in the second case, we set</p><formula xml:id="formula_48">x i ¼ c Â W i ,</formula><p>where c is a constant and W i is a random variable that has the student's t distribution with 5 degrees of freedom. To measure the degree of signal-to-noise in our setting, we use the following R 2 measure (Pace, LeSage, and Zhu 2012):</p><formula xml:id="formula_49">R 2 ¼ 1 À s 2 0 trðS 0 À1 S À1 Þ b 0 0 X 0 S 0 À1 S À1 X b 0 þ s 2 0 trðS 0 À1 S À1 Þ :<label>ð5:2Þ</label></formula><p>We fix the signal-to-noise ratio to R 2 ¼ 0:5 as l 0 varies over fÀ0:8; À0:5; À0:2; 0; 0:2; 0:5; 0:8g. To do so, we solve R 2 ¼ 0:5 for s 2 0 in equation (5.2) and obtain</p><formula xml:id="formula_50">s 2 0 ðl 0 Þ ¼ b 0 0 X 0 S 0 À1 S À1 X b 0 trðS 0 À1 S À1 Þ :<label>ð5:3Þ</label></formula><p>We then determine s 2 0 ðl 0 Þ values as l 0 varies over fÀ0:8; À0:5; À0:2; 0; 0:2; 0:5; 0:8g and use these values in our simulation for the normal distribution case. In the nonnormal case, we set c ¼ ffiffiffiffiffiffiffi ffi 3=5 p Â s 0 ðl 0 Þ, so that R 2 ¼ 0:5 in all cases. As a result, the signal-to-noise ratio is fixed to 0.5 in all cases. For each specification, the resampling is carried out 5,000 times.</p><p>We will focus on the relative performance of the following methods: (i) the Pierce method, (ii) the delta method, and (iii) the simulation method. 3 The performance of each method will be analyzed in the context of the ADI, AII, and ATI measures. For each impact measure, we report (i) the empirical standard deviation (referred to as Emp.), (ii) the estimated standard error based on the Pierce method (say Pier.), (iii) the estimated standard error based on the delta method (say Del.), and (iv) the estimated standard error based on the simulation method (say Sim.). For the estimated standard error, we also calculated their percentage deviation from the empirical standard deviation. 4 A low percentage deviation for a method indicates that the method provides a good approximation to the finite sample distribution of the impact measure, while a large percentage deviation shows that the method provides a poor approximation. Furthermore, we will analyze the finite sample properties of the relevant Wald test for each impact measure in terms of size and power.</p><p>The simulation results are presented in Tables <ref type="table">D1-D7</ref>. In order to give an overall assessment for the performance of each method, in the following tables, we highlight the estimated standard errors that have percentage deviations in the ðÀ5%; þ 5%Þ interval in Tables <ref type="table">D1</ref> and <ref type="table">D2</ref>. These estimated standard errors are presented in blue color and bold font. We summarize our main findings as follows.</p><p>1. In all tables, the empirical standard deviations become larger when the SAR parameter is positive and large. The same pattern is also true for the estimated standard errors reported by each method. That is, all methods report relatively larger estimated standard errors as l 0 increases from À0:8 to 0:8. Consider the ADI of X 1 in Table <ref type="table">D1</ref>. When l 0 ¼ 0:2 in the Rook contiguity case for n ¼ 400, the reported values for the empirical standard deviation, the Pierce method, the delta method, and the simulation method are, respectively, 0.106, 0.107, 0.106, and 0.107, while the corresponding values are 0.346, 0.340, 0.339, and 0.340 when l 0 ¼ 0:8. The extensive simulation results in <ref type="bibr" target="#b2">Arraiz et al. (2010)</ref> also show that the MLE of l 0 reports relatively large empirical standard deviations and root mean square errors in the context of a SARAR(1,1) specification when l 0 increases from À0:8 to 0:8. 2. In all tables, the empirical standard deviations and the estimated standard errors become relatively smaller when the sample size increases to n ¼ 900.</p><p>In terms of empirical standard deviations and estimated standard errors, the simulation results based on the rook contiguity case are similar to those based on the queen contiguity case. Also, the comparison of results in Table <ref type="table">D1</ref> and D2 indicates that the nonnormality of disturbance term has negligible effects on the performance of each method. 3. Looking at the results in Tables <ref type="table">D1</ref> and <ref type="table">D2</ref> for the ADI measure, all methods produce estimates that are mostly in the interval of ðÀ5%; þ 5%Þ for both X 1 and X 2 . There are only some exceptions when l 0 is negative and large in the case of Pierce and simulation methods. For example, when l 0 ¼ À0:8 in the Rook contiguity case for the Pierce method, and when l 0 ¼ À0:8 in the Queen contiguity case for the simulation method, the percentage deviations do not lie in the interval ðÀ5%; þ 5%Þ. Overall, these results clearly suggest that all methods have very similar finite sample properties for the ADI measure. 4. Next, we compare the performance of each method for the AII measure. The delta and simulation methods produce estimates that are mostly in the interval of ðÀ5%; þ 5%Þ for both X 1 and X 2 . However, the Pierce method seems to produce standard error estimates that are much smaller than the empirical standard deviations, and increasing the sample size does not yield an improvement. These results clearly show that Pierce method performs worse than the delta and simulation methods for the AII measure. 5. Turning to the ATI measure, the Pierce method again reports estimates that are smaller than the corresponding empirical standard deviations in Tables <ref type="table">D1</ref> and <ref type="table">D2</ref>. The only occasions when the percentage deviations are in the ðÀ5%; þ 5%Þ interval for the Pierce method is the Rook contiguity case when true l is negative and large. Similarly, increasing sample size does not yield an improvement in the Pierce method. On the other hand, the delta and simulation methods produce estimates that are mostly in the interval of ðÀ5%; þ 5%Þ for both X 1 and X 2 .</p><p>Next, we use the same Monte Carlo setting to investigate the finite sample size and power properties of the standard Wald statistics for testing linear simple hypotheses on the impact measures. Using a nominal size of 0:05 and different values of l 0 , we investigate the size properties for the null hypotheses</p><formula xml:id="formula_51">H 1 0 : ADI ¼ 1 n trðS À1 b k Þ, H 2 0 : ATI ¼ 1 n l 0 n S À1 l n b k</formula><p>, and H 3 0 : AII ¼ ATI À ADI, while the power properties for the null hypotheses H 4 0 : ADI ¼ 0, H 5 0 : ATI ¼ 0, and H 6 0 : AII ¼ 0. Note that we set the hypothesized values to the corresponding true values in the case of H 1 0 , H 2 0 , and H 3 0 . The simulation results for the empirical size properties are reported in Tables <ref type="table">D3</ref> and <ref type="table">D4</ref> and for the empirical power properties in Tables <ref type="table">D6</ref> and <ref type="table">D7</ref>. In these tables, T p , T d , and T s denote, respectively, the Wald statistic using the estimated standard errors calculated from the corresponding Pierce, delta, and simulation methods. Our main findings are listed in the following:</p><p>1. We start with interpreting the results on the empirical size properties of test statistics. Considering the Wald statistics for testing H 1 0 in Tables <ref type="table">D3</ref> and <ref type="table">D4</ref>, we see that all statistics generally report empirical size values that are very close to the nominal size value of 0.05. In particular, all statistics perform similarly under both the rook and queen contiguity cases in general, but T s is moderately undersized in Queen contiguity case when l 0 takes large negative values. These results are consistent with our results pertaining to the ADI measure reported in Tables <ref type="table">D1</ref> and <ref type="table">D2</ref>, where all methods generally produce estimated standard errors that are very close to the corresponding empirical standard deviations. 2. We now consider the empirical size properties of statistics for testing H 2 0 . In Tables <ref type="table">D3</ref> and <ref type="table">D4</ref>, we see that T p is oversized highlighting the fact that the estimated standard errors based on the Pierce method are smaller than the corresponding empirical standard deviations, which we have documented in Tables <ref type="table">D1</ref> and <ref type="table">D2</ref>. The results also indicate that T d and T s have small size distortions in all cases, and they outperform T p in all cases. However, again we see that T s is severely undersized in Queen contiguity case when l 0 takes large negative values. Overall, these findings are consistent with our results on the ATI measure reported in Tables <ref type="table">D1</ref> and <ref type="table">D2</ref>. 3. Turning to the empirical size properties of statistics for testing H 3 0 , we find that T p is severely oversized confirming our results in Tables <ref type="table">D1</ref> and <ref type="table">D2</ref> on the estimated standard errors based on the Pierce method for the AII measure. The results also indicate that T d and T s have small size distortions in all cases. 4. Next, we consider the empirical power properties of test statistics in Tables <ref type="table">D6</ref> and <ref type="table">D7</ref>. The true values of impact measures in the alternative model are given in Table <ref type="table">D5</ref>. We start with the empirical powers of statistics for testing H 4 0 . In general, all statistics have similar powers under both the rook and queen contiguity cases, and power increases as the sample size increases. All test statistics for testing H 4 0 report relatively lower power for the cases where l 0 ¼ 0:5 and l 0 ¼ 0:8, though the true ADI values corresponding to l 0 ¼ 0:5 and l 0 ¼ 0:8 in Table <ref type="table">D5</ref> are further away from the null value of zero. This result is not surprising, since all methods produce relatively large estimated standard errors yielding relatively lower t-statistics for these cases as shown in Tables <ref type="table">D3</ref> and <ref type="table">D4</ref>. 5. Looking at the power properties of all statistics for testing H 5 0 , the results are similar to those for H 4 0 . As expected though, both T p and T d report more power than T s when l 0 is large, especially when l 0 ¼ À0:8. This confirms our findings from previous tables for the simulation method. However, this gap in power declines as the sample size increases to 900. Again, all test statistics report relatively lower power for the cases where l 0 ¼ 0:5 and l 0 ¼ 0:8, since all methods produce relatively large estimated standard errors for these cases as documented in Tables <ref type="table">D3</ref> and <ref type="table">D4</ref>. 6. Finally, turning to the power properties of all statistics for testing H 6 0 , all statistics have similar powers under both the rook and queen contiguity cases, and the power increases as the sample size increases to n ¼ 900. All test statistics report relatively lower power when l 0 is near to zero. This is not surprising because as seen from Table <ref type="table">D5</ref>, the true AII values approach to the null value when l 0 tends to zero. The relatively large estimated standard errors reported in Tables <ref type="table">D3</ref> and <ref type="table">D4</ref> for the AII measure for the cases where l 0 ¼ 0:5 and l 0 ¼ 0:8 also cause lower powers for these cases.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion</head><p>In this article, we consider three methods that can be used to estimate the variance of impact measures suggested for spatial models that have spatial dependence in the dependent variable and, thus, allowing for reliable statistical inference on the models' parameters. These methods include (i) the estimating equation approach (the Pierce method), (ii) the classical delta method, and (iii) the simulation method suggested by <ref type="bibr" target="#b16">LeSage and Pace (2009)</ref>. We provide simple expressions for the variance of various impact measures under each method. In a Monte Carlo simulation, we investigate the finite sample properties of these three methods. Our results show that all three methods have very similar finite sample properties for the ADI measure and they perform satisfactorily. Therefore, the Pierce and delta methods are valid alternatives to reduce the computational burden and to overcome some of the drawbacks of the simulation method. In the case of AII and ATI measures, our simulation results indicate that the delta and simulation methods outperform the Pierce method in all cases. 5  Finally, we state the possible extensions for future research. Although we derived the variance formulas for various impact measures in the context of a cross-sectional SAR model, our results can easily be extended, among the others, to (i) the static and dynamic spatial panel data models; (ii) the discrete choice models such as spatial logit, probit, or Tobit; (iii) the matrix exponential specification suggested by LeSage and <ref type="bibr" target="#b15">Pace (2007)</ref>; and (iv) the SAR models with endogenous weights matrices considered in <ref type="bibr" target="#b22">Qu and Lee (2015)</ref> and <ref type="bibr" target="#b23">Qu, Lee, and Yu (2017)</ref>. We leave these extensions for future research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A Proof of Proposition 1</head><p>In order to apply the Pierce approach, we need to check for the three assumptions described in the fourth section. All of our test statistics are continuously differentiable with respect to parameter vector. Thus, we only need to check (i) the joint normality assumption in equation (4.1) and (ii) the assumption that E ffiffi ffi n p U ðY ; l 0 Þ being independent of l 0 . The joint normality assumption holds for all statistics by our result in equation (2.2). For example, consider U ADI ðY ; l 0 Þ. Then, under our stated assumptions, the joint normality assumption is satisfied since</p><formula xml:id="formula_52">ffiffi ffi n p U ADI ðY ; l 0 Þ ¼ 1 n trðS À1 Þ ffiffi ffi n p ð bk À b k Þ</formula><p>has a limiting normal distribution by equation (2.2). Here, note that 1 n trðS À1 Þ ¼ Oð1Þ by Assumption 2. Similarly, it easy to see that the remaining unfeasible statistics ffiffi ffi n p U ATI ðY ; l 0 Þ, ffiffi ffi n p U AII ðY ; l 0 Þ, ffiffi ffi n p U ATIT ðY ; l 0 Þ, and ffiffi ffi n p U ATIF ðY ; l 0 Þ have limiting normal distributions. Finally, by constructions, all statistics satisfy the assumption that E ffiffi ffi n p U ðY ; l 0 Þ being independent of l 0 . Thus, in the following, we directly apply equation (4.4) to derive the limiting distribution of impact measures.</p><p>We start with U ADI ðY ; lÞ. The variance term <ref type="bibr" target="#b21">Pierce (1982)</ref> formula (4.4), we have</p><formula xml:id="formula_53">V 11 ¼ Var ffiffi ffi n p U ADI ðY ; l 0 Þ is V 11 ¼ 1 n 2 tr 2 ðS À1 ÞVarð ffiffi ffi n p bk Þ. Simple calculation shows that the gradient of the statistic is B ¼ E U ADI ðY ;lÞ ql j l 0 ¼ 1 n trðWS À2 Þb k . Note that V 22 ¼ Var ffiffi ffi n p ð l À l 0 Þ . Then, using</formula><formula xml:id="formula_54">Var ffiffi ffi n p U ADI ðY ; lÞ ¼ V 11 À BV 22 B 0 ¼ 1 n 2 tr 2 ðS À1 ÞVarð ffiffi ffi n p bk Þ À 1 n 2 tr 2 ðWS À2 Þb 2 k Var ffiffi ffi n p ð l À l 0 Þ :<label>ðA1Þ</label></formula><p>Next, we consider the average total impact measure ATI ¼ n À1 l 0 n S À1 l n b k . In this case, the variance term</p><formula xml:id="formula_55">V 11 ¼ Var ffiffi ffi n p U ATI ðY ; l 0 Þ is V 11 ¼ 1 n l 0 n S À1 l n À Á 2</formula><p>Varð ffiffi ffi n p bk Þ, and the gradient term is given by</p><formula xml:id="formula_56">B ¼ E U ATI ðY ;lÞ ql j l 0 ¼ 1 n l 0 n S À1 WS À1 l n b k .</formula><p>Then, using equation (4.4), we obtain</p><formula xml:id="formula_57">Var ffiffi ffi n p U ATI ðY ; lÞ ¼ 1 n l 0 n S À1 l n 2 Var ffiffi ffi n p bk À 1 n l 0 n S À1 WS À1 l n b k 2 Var ffiffi ffi n p ð l À l 0 Þ : Next, we turn to the AII ¼ 1 n l 0 n S À1 l n b k À 1 n trðS À1 b k Þ. Then, we have V 11 ¼ 1 n l 0 n S À1 l n À 1 n tr ðS À1 Þ 2 Varð ffiffi ffi n p bk Þ. The preceding calculations show that B ¼ E U AII ðY ; lÞ ql j l 0 ¼ 1 n l 0 n S À1 WS À1 l n b k À 1 n trðWS À2 Þb k :<label>ðA2Þ</label></formula><p>Then, using the Pierce (1982) formula in equation (4.4), we obtain</p><formula xml:id="formula_58">Var ffiffi ffi n p U AII ðY ; lÞ ¼ 1 n l 0 n S À1 l n À 1 n trðS À1 Þ 0 @ 1 A 2 Varð ffiffi ffi n p bk Þ À 1 n l 0 n S À1 WS À1 l n b k À 1 n trðWS À2 Þb k 0 @ 1 A 2 Var ffiffi ffi n p l À l 0 :<label>ðA3Þ</label></formula><p>In the case of ATIT i , the variance of the unfeasible version is</p><formula xml:id="formula_59">V 11 ¼ 1 n e 0 i S À1 l n À Á 2 Varð ffiffi ffi n p bk Þ. Simple calculations show that B ¼ 1 n e 0 i S À1 WS À1 l n b k . Then, applying the Pierce formula yields Var ffiffi ffi n p U ATIT i Y ; l ¼ 1 n e 0 i S À1 l n 2 Var ffiffi ffi n p bk À 1 n e 0 i S À1 WS À1 l n b k 2 Var ffiffi ffi n p l À l 0 :<label>ðA4Þ</label></formula><p>Finally, in the the case of ATIF i , the required terms are</p><formula xml:id="formula_60">V 11 ¼ 1 n l 0 n S À1 e i À Á 2 Varð ffiffi ffi n p bk Þ and B ¼ 1 n l 0 n S À1 WS À1 e i b k . Then, the Pierce formula yields Var ffiffi ffi n p U ATIF i ðY ; lÞ ¼ 1 n l 0 n S À1 e i 2 Var ffiffi ffi n p bk À 1 n l 0 n S À1 WS À1 e i b k 2 Var ffiffi ffi n p l À l 0 :<label>ðA5Þ</label></formula><formula xml:id="formula_61">20 International Regional Science Review XX(X)</formula><p>Using a first-order Taylor approximation and equation (2.2), it follows that</p><formula xml:id="formula_62">1 ffiffi ffi n p tr S À1 l bk À tr S À1 b k À Á ¼ A 1 Â ffiffi ffi n p l À l 0 ; bk À b k 0 þ o p<label>ð1Þ</label></formula><formula xml:id="formula_63">d h N ð0; lim n!1 A 1 JA 0 1 Þ;<label>ðB1Þ</label></formula><p>where</p><formula xml:id="formula_64">A 1 ¼ ½ 1 n trðS À1 Gb k Þ; 1 n trðS À1</formula><p>Þ, and J is the asymptotic covariance of ffiffi ffi n p ð l À l 0 ; bk À b k Þ 0 . Similarly, for the ATI measure, the first-order Taylor approximation along with equation (2.2) gives</p><formula xml:id="formula_65">1 ffiffi ffi n p bk l 0 n S À1 l l n À b k l 0 n S À1 l n ¼ A 2 Â ffiffi ffi n p ð l À l 0 ; bk À b k Þ 0 þ o p<label>ð1Þ</label></formula><formula xml:id="formula_66">d h N ð0; lim n!1 A 2 JA 0 2 Þ;<label>ðB2Þ</label></formula><formula xml:id="formula_67">where A 2 ¼ 1 n b k l 0 n S À1 Gl n ; 1 n l 0 n S À1 l n Â Ã .</formula><p>In the case of AII measure, using a firstorder Taylor expansion and equation (2.2), we obtain</p><formula xml:id="formula_68">1 ffiffi ffi n p bk l 0 n S À1 l l n À tr S À1 l bk À b k l 0 n S À1 l n À trðS À1 Þb k ¼ ðA 2 À A 1 Þ Â ffiffi ffi n p ln À l 0 ; bk À b k 0 þ o p ð1Þ d h N 0; lim n!1 ðA 2 À A 1 ÞJ ðA 2 À A 1 Þ 0 :<label>ðB3Þ</label></formula><p>Next, we derive the asymptotic distributions of vector measures. Using a firstorder Taylor expansion and equation (2.2) for the ATIT i measure, we derive</p><formula xml:id="formula_69">1 ffiffi ffi n p e 0 i S À1 ð lÞl n bk À e 0 i S À1 l n b k ¼ A 3 Â ffiffi ffi n p l À l 0 ; bk À b k 0 þ o p<label>ð1Þ</label></formula><formula xml:id="formula_70">d h N ð0; lim n!1 A 3 JA 0 3 Þ;<label>ðB4Þ</label></formula><p>where</p><formula xml:id="formula_71">A 3 ¼ 1 n e 0 i S À1 Gl n b k ; 1 n e 0 i S À1 l n Â Ã .</formula><p>Finally, a similar argument for the ATIF i measure gives</p><formula xml:id="formula_72">1 ffiffi ffi n p l 0 n S À1 ð lÞe i bk À l 0 n S À1 e i b k ¼ A 4 Â ffiffi ffi n p ð l À l 0 ; bk À b k Þ 0 þ o p<label>ð1Þ</label></formula><formula xml:id="formula_73">d h N ð0; lim n!1 A 4 JA 0 4 Þ;<label>ðB5Þ</label></formula><p>where</p><formula xml:id="formula_74">A 4 ¼ 1 n l 0 n S À1 Ge i b k ; 1 n l 0 n S À1 e i Â Ã .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix C The Limiting Distribution of the Impact Measures in Spatial Durbin Models</head><p>To apply the Pierce method, we consider the following statistics of interest:</p><formula xml:id="formula_75">1. U ADI ðY ; lÞ ¼ 1 n trðS À1 ð lÞÞ bk þ 1 n trðS À1 ð lÞW Þ dk À 1 n trðS À1 Þb k À 1 n trðS À1 W Þd k : 2. U ATI ðY ; lÞ ¼ 1 n l 0 n S À1 ð lÞl n bk þ 1 n l 0 n S À1 ð lÞWl n dk À 1 n l 0 n S À1 l n b k À 1 n l 0 n S À1 Wl n d k : 3. U AII ðY ; lÞ ¼ ½ 1 n l 0 n S À1 ð lÞl n À 1 n trðS À1 ð lÞÞ bk þ ½ 1 n l 0 n S À1 ð lÞWl n À 1 n trðS À1 ð lÞW Þ dk À 1 n l 0 n S À1 l n b k þ 1 n l 0 n S À1 Wl n d k À À 1 n trðS À1 Þb k À 1 n trðS À1 W Þd k Þ: 4. U ATIT i ðY ; lÞ ¼ 1 n e 0 i S À1 ð lÞl n bk þ 1 n e 0 i S À1 ð lÞWl n dk À 1 n e 0 i S À1 l n b k À þ 1 n e 0 i S À1 Wl n d k Þ: 5. U ATIF i ðY ; lÞ ¼ 1 n l 0 n S À1 ð lÞe i bk þ 1 n l 0 n S À1 ð lÞW e i dk À 1 n l 0 n S À1 e i b k À þ 1 n l 0 n S À1 W e i d k Þ:</formula><p>We start with U ADI ðY ; lÞ. The variance term V 11 is</p><formula xml:id="formula_76">V 11 ¼ 1 n 2 tr 2 ðS À1 Þ Varð ffiffi ffi n p bk Þ þ 1 n 2 tr 2 ðS À1 W ÞVarð ffiffi ffi n p dk Þ þ 2 n 2 trðS À1 ÞtrðS À1 W ÞCovð ffiffi ffi n p bk ; ffiffi ffi n p dk Þ:</formula><p>Simple calculation shows that the gradient of the statistic is <ref type="bibr">Then, using Pierce (1982)</ref> formula (4.4), we have</p><formula xml:id="formula_77">B ¼ E U ADI ðY ;lÞ ql j l 0 ¼ 1 n trðWS À2 Þb k þ 1 n trðG 2 Þd k : Note that V 22 ¼ Varð ffiffi ffi n p ð l À l 0 ÞÞ.</formula><formula xml:id="formula_78">Var ffiffi ffi n p U ADI ðY ; lÞ ¼ 1 n 2 tr 2 ðS À1 ÞVarð ffiffi ffi n p bk Þ þ 1 n 2 tr 2 ðS À1 W ÞVarð ffiffi ffi n p dk Þ þ 2 n 2 trðS À1 ÞtrðS À1 W ÞCovð ffiffi ffi n p bk ; ffiffi ffi n p dk Þ À 1 n trðWS À2 Þ b k þ 1 n trðG 2 Þd k 2 4 3 5 2 Var ffiffi ffi n p ð l À l 0 Þ :<label>ðC1Þ</label></formula><p>In the case of ATI, we have</p><formula xml:id="formula_79">V 11 ¼ 1 n l 0 n S À1 l n Â Ã 2 Varð ffiffi ffi n p bk Þ þ 1 n l 0 n S À1 Wl n Â Ã 2 Varð ffiffi ffi n p dk Þ þ 2 1 n l 0 n S À1 l n Â Ã 1 n l 0 n S À1 Wl n Â Ã Covð ffiffi ffi n p bk ;</formula><p>ffiffi ffi n p dk Þ, and the gradient term is</p><formula xml:id="formula_80">given by B ¼ E U ATI ðY ;lÞ ql j l 0 ¼ 1 n l 0 n S À1 WS À1 l n b k þ 1 n l 0 n G 2 l n d k .</formula><p>Then, using equation (4.4), we obtain 22</p><p>International Regional Science Review XX(X)</p><formula xml:id="formula_81">Var ffiffi ffi n p U ATI ðY ; lÞ ¼ 1 n l 0 n S À1 l n 2 4 3 5 2 Varð ffiffi ffi n p bk Þ þ 1 n l 0 n S À1 Wl n 2 4 3 5 2 Varð ffiffi ffi n p dk Þ þ 2 1 n l 0 n S À1 l n 2 4 3 5 1 n l 0 n S À1 Wl n 2 4 3 5 Covð ffiffi ffi n p bk ; ffiffi ffi n p dk Þ À 1 n l 0 n S À1 WS À1 l n b k þ 1 n l 0 n G 2 l n d k 2 4 3 5 2 Var ffiffi ffi n p ð l À l 0 Þ :<label>ðC2Þ</label></formula><p>In the case of AII, we have</p><formula xml:id="formula_82">V 11 ¼ 1 n l 0 n S À1 ð lÞl n À 1 n trðS À1 ð lÞÞ 2 4 3 5 2 Varð ffiffi ffi n p bk Þ þ 1 n l 0 b S À1 ð lÞWl n À 1 n trðS À1 ð lÞW Þ 2 4 3 5 2 Varð ffiffi ffi n p dk Þ þ2 1 n l 0 n S À1 ð lÞl n À 1 n trðS À1 ð lÞÞ 2 4 3 5 1 n l 0 l S À1 ð lÞWl n À 1 n trðS À1 ð lÞW Þ 2 4 3 5 Covð ffiffi ffi n p dk ; ffiffi ffi n p bk Þ;<label>ðC3Þ</label></formula><formula xml:id="formula_83">and B ¼ E U AII ðY ; lÞ ql j l0 ¼ 1 n l 0 n S À1 WS À1 l n À 1 n trðWS À2 Þ ! b k þ 1 n l 0 n G 2 l n À 1 n trðG 2 Þ ! d k :<label>ðC4Þ</label></formula><p>Then, substituting equations (C3) and (C4) into equation (4.4), we will obtain the asymptotic variance:</p><formula xml:id="formula_84">Var ffiffi ffi n p U AII ðY ; lÞ ¼ 1 n l 0 n S À1 ð lÞl n À 1 n trðS À1 ð lÞÞ 2 4 3 5 2 Varð ffiffi ffi n p bk Þ þ 1 n l 0 n S À1 ð lÞWl n À 1 n trðS À1 ð lÞW Þ 2 4 3 5 2 Varð ffiffi ffi n p dk Þ þ2 1 n l 0 n S À1 ð lÞl n À 1 n trðS À1 ð lÞÞ 2 4 3 5 1 n l 0 n S À1 ð lÞWl n À 1 n trðS À1 ð lÞW Þ 2 4 3 5 Covð ffiffi ffi n p dk ; ffiffi ffi n p bk Þ À 1 n l 0 n S À1 WS À1 l n À 1 n trðWS À2 Þ 2 4 3 5 b k þ 1 n l 0 n G 2 l n À 1 n trðG 2 Þ 2 4 3 5 d k 0 @ 1 A 2 Var ffiffi ffi n p ð l À l 0 Þ :<label>ðC5Þ</label></formula><p>In the case of ATIT i , the variance of the unfeasible version is</p><formula xml:id="formula_85">V 11 ¼ ½ 1 n e 0 i S À1 ð lÞl n 2 Varð ffiffi ffi n p bk Þ þ ½ 1 n e 0 i S À1 ð lÞWl n 2 Varð ffiffi ffi n p dk Þ þ 2½ 1 n e 0 i S À1 ð lÞl n ½ 1 n e 0 i S À1 ð lÞWl n Covð ffiffi ffi n p bk ; ffiffi ffi n p dk Þ: Simple calculations show that B ¼ 1 n e 0 i S À1 WS À1 l n b k þ 1 n e 0 i S À1 WS À1 Wl n d k .</formula><p>Then, applying the Pierce formula in equation (4.4) yields</p><formula xml:id="formula_86">Var ffiffi ffi n p U ATITi ðY ; lÞ ¼ 1 n e 0 i S À1 ð lÞl n 2 4 3 5 2 Varð ffiffi ffi n p bk Þ þ 1 n e 0 i S À1 ð lÞWl n 2 4 3 5 2 Varð ffiffi ffi n p dk Þ þ 2 1 n e 0 i S À1 ð lÞl n 2 4 3 5 1 n e 0 i S À1 ð lÞWl n 2 4 3 5 Covð ffiffi ffi n p bk ; ffiffi ffi n p dk Þ À 1 n e 0 i S À1 WS À1 l n b k þ 1 n e 0 i S À1 WS À1 Wl n d k 2 4 3 5 2 Var ffiffi ffi n p ð l À l 0 Þ :<label>ðC6Þ</label></formula><p>Finally, in the the case of ATIF i , the required terms are</p><formula xml:id="formula_87">V 11 ¼ 1 n l 0 n S À1 ð lÞe i h i 2 Varð ffiffi ffi n p bk Þ þ 1 n l 0 n S À1 ð lÞW e i h i 2 Varð ffiffi ffi n p dk Þ þ 2 1 n l 0 n S À1 ð lÞe i h i 1 n l 0 n S À1 ð lÞW e i h i Cov ð ffiffi ffi n p bk ; ffiffi ffi n p dk Þ and B ¼ 1 n l 0 n S À1 WS À1 e i b k þ 1 n l 0 n S À1 WS À1 W e i d k . Then, the Pierce formula in equation (4.4) yields Var ffiffi ffi n p U ATIFi ðY ; lÞ ¼ 1 n l 0 n S À1 ð lÞe i 2 4 3 5 2 Varð ffiffi ffi n p bk Þ þ 1 n l 0 n S À1 ð lÞW e i 2 4 3 5 2 Varð ffiffi ffi n p dk Þ þ 2 1 n l 0 n S À1 ð lÞe i 2 4 3 5 1 n l 0 n S À1 ð lÞW e i 2 4 3 5 Covð ffiffi ffi n p bk ; ffiffi ffi n p dk Þ À 1 n l 0 n S À1 WS À1 e i b k þ 1 n l 0 n S À1 WS À1 W e i d k 2 4 3 5 2 Var ffiffi ffi n p ð l À l 0 Þ :<label>ðC7Þ</label></formula><p>Next, we determine the asymptotic distributions of statistics by using the delta method. For the ADI measure, using a first-order Taylor approximation and equation (2.2), it can be shown that</p><formula xml:id="formula_88">1 ffiffi ffi n p trðS À1 ð lÞÞ bk þ trðS À1 ð lÞW Þ dk À trðS À1 Þb k À trðS À1 W Þd k ¼ A 1 Â ffiffi ffi n p ð l À l 0 ; bk À b k ; dk À d k Þ 0 þ o p ð1Þ d h N ð0; lim n!1 A 1 JA 0 1 Þ;<label>ðC8Þ</label></formula><formula xml:id="formula_89">24 International Regional Science Review XX(X)</formula><p>where</p><formula xml:id="formula_90">A 1 ¼ ½ 1 n trðS À1 Gb k Þ þ 1 n trðG 2 Þ; 1 n trðS À1 Þ; 1 n trðS À1 W Þ, and J is the asymp- totic covariance of ffiffi ffi n p ð l À l 0 ; bk À b k ; dk À d k Þ 0 .</formula><p>In the case of ATI measure, the first-order Taylor approximation and equation (2.2) gives</p><formula xml:id="formula_91">1 ffiffi ffi n p l 0 n S À1 ð lÞl n bk þ l 0 n S À1 ð lÞWl n dk À l 0 n S À1 l n b k À 1 n l 0 n S À1 Wl n d k 0 @ 1 A ¼ A 2 Â ffiffi ffi n p ð l À l 0 ; bk À b k ; dk À d k Þ 0 þ o p ð1Þ d h N ð0; lim n!1 A 2 JA 0 2 Þ;<label>ðC9Þ</label></formula><p>where</p><formula xml:id="formula_92">A 2 ¼ ½ 1 n b k l 0 n S À1 Gl n þ 1 n l 0 n G 2 l n d k ; 1 n l 0 n S À1 l n ; 1 n l 0 n S À1 Wl n .</formula><p>In the case of AII measure, the first-order Taylor expansion along with equation (2.2) yields</p><formula xml:id="formula_93">1 ffiffi ffi n p ½l 0 n S À1 ð lÞl n À trðS À1 ð lÞÞ bk þ ½l 0 n S À1 ð lÞWl n À trðS À1 ð lÞW Þ dk À l 0 n S À1 l n b k þ l 0 n S À1 Wl n d k À trðS À1 Þb k À trðS À1 W Þd k ¼ ðA 2 À A 1 Þ Â ffiffi ffi n p ð ln À l 0 ; bk À b k ; dk À d k Þ 0 þ o p ð1Þ d h N 0; lim n!1 ðA 2 À A 1 ÞJ ðA 2 À A 1 Þ 0 :<label>ðC10Þ</label></formula><p>The first-order Taylor expansion for the ATIT i measure gives</p><formula xml:id="formula_94">1 ffiffi ffi n p e 0 i S À1 ð lÞl n bk þ e 0 i S À1 ð lÞWl n dk À ðe 0 i S À1 l n b k þ e 0 i S À1 Wl n d k Þ ¼ A 3 Â ffiffi ffi n p ð l À l 0 ; bk À b k ; dk À d k Þ 0 þ o p ð1Þ! dNð0; lim n!1 A 3 JA 0 3 Þ;<label>ðC11Þ</label></formula><p>where</p><formula xml:id="formula_95">A 3 ¼ 1 n e 0 i S À1 Gl n b k þ 1 n e 0 i G 2 l n ; 1 n e 0 i S À1 l n ; 1 n e 0 i S À1 Wl n Â Ã .</formula><p>Finally, in the case of ATIF i , we have</p><formula xml:id="formula_96">1 ffiffi ffi n p l 0 n S À1 ð lÞe i bk þ l 0 n S À1 ð lÞW e i dk À ðl 0 n S À1 e i b k þ l 0 n S À1 W e i d k Þ ¼ A 4 Â ffiffi ffi n p ð l À l 0 ; bk À b k ; dk À d k Þ 0 þ o p ð1Þ d h N ð0; lim n!1 A 4 JA 0 4 Þ;<label>ðC12Þ</label></formula><p>where</p><formula xml:id="formula_97">A 4 ¼ 1 n l 0 n S À1 Ge i b k þ 1 n l 0 n G 2 e i d k ; 1 n l 0 n S À1 e i ; 1 n l 0 n S À1 W e i Â Ã .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix D Simulation Results</head><p>Table <ref type="table">D1</ref>. Empirical and Estimated Standard Errors: Normal Case.</p><formula xml:id="formula_98">l 0 Direct Indirect Total X 1 X 2 X 1 X 2 X 1 X 2 Emp.</formula><p>Pier. Del. Sim. Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Rook n ¼ 400 À.8 .054 .042 .054 .054 .064 .058 .065 .065 0.040 0.004 0.039 0.040 0.042 0.023 0.043 0.044 0.021 0.020 0.020 0.020 0.028 0.026 0.027 0.027 À.5 .063 .059 .062 .062 .079 .077 .078 .078 0.034 0.005 0.034 0.034 0.036 0.020 0.037 0.037 0.037 0.035 0.037 0.037 0.050 0.046 0.050 0.050 À.2 .076 .074 .075 .075 .099 .096 .097 .097 0.031 0.000 0.032 0.032 0.032 0.000 0.032 0.033 0.062 0.056 0.061 0.061 0.084 0.076 0.082 0.082 .0 .088 .088 .088 .088 .115 .114 .114 .114 0.034 0.000 0.034 0.035 0.034 0.000 0.034 0.036 0.088 0.080 0.087 0.088 0.118 0.108 0.117 0.118 .2 .106 .107 .106 .107 .140 .139 .139 .139 0.050 0.000 0.050 0.052 0.059 0.000 0.056 0.059 0.132 0.120 0.132 0.133 0.180 0.162 0.177 0.178 .5 .164 .161 .160 .160 .212 .210 .210 .210 0.160 0.088 0.155 0.162 0.203 0.138 0.201 0.211 0.308 0.272 0.298 0.304 0.402 0.366 0.398 0.406 .8 .346 .340 .339 .340 .445 .447 .448 .449 1.021 0.829 0.983 1.053 1.326 1.140 1.297 1.397 1.349 1.192 1.306 1.373 1.754 1.609 1.734 1.824 n ¼ 900 À.8 .038 .031 .038 .038 .046 .042 .045 .046 0.027 0.009 0.027 0.027 0.030 0.018 0.030 0.030 0.015 0.014 0.015 0.015 0.020 0.019 0.019 0.019 À.5 .043 .042 .044 .044 .056 .054 .055 .055 0.022 0.007 0.023 0.023 0.025 0.015 0.025 0.025 0.026 0.025 0.026 0.026 0.035 0.033 0.035 0.035 À.2 .054 .053 .053 .053 .070 .068 .068 .068 0.021 0.000 0.021 0.021 0.022 0.000 0.022 0.022 0.045 0.041 0.044 0.044 0.059 0.054 0.058 0.058 .0 .063 .063 .063 .063 .079 .080 .080 .080 0.023 0.000 0.023 0.023 0.023 0.000 0.023 0.023 0.063 0.058 0.063 0.063 0.082 0.077 0.083 0.083 .2 .077 .077 .076 .076 .100 .099 .098 .098 0.035 0.000 0.034 0.035 0.039 0.000 0.039 0.039 0.097 0.087 0.095 0.095 0.127 0.116 0.124 0.125 .5 .114 .115 .115 .115 .148 .149 .149 .149 0.111 0.070 0.112 0.114 0.142 0.106 0.142 0.145 0.215 0.200 0.217 0.219 0.283 0.266 0.284 0.286 .8 .251 .247 .246 .246 .322 .320 .321 .321 0.751 0.644 0.736 0.758 0.965 0.865 0.954 0.984 0.991 0.904 0.971 0.993 1.278 1.194 1.266 1.296 Queen n ¼ 400 À.8 .063 .061 .063 .068 .074 .074 .075 .068 0.040 0.017 0.041 0.090 0.043 0.027 0.043 0.092 0.033 0.028 0.033 0.091 0.041 0.035 0.041 0.092 À.5 .075 .072 .073 .073 .088 .087 .088 .088 0.041 0.000 0.041 0.041 0.043 0.000 0.043 0.043 0.049 0.041 0.048 0.049 0.060 0.051 0.060 0.061 À.2 .089 .088 .089 .089 .107 .107 .107 .107 0.042 0.000 0.042 0.043 0.042 0.000 0.042 0.044 0.076 0.064 0.075 0.076 0.094 0.081 0.093 0.094 .0 .104 .104 .104 .104 .129 .126 .127 .127 0.048 0.000 0.047 0.049 0.049 0.000 0.047 0.050 0.106 0.091 0.107 0.108 0.136 0.115 0.131 0.133 .2 .127 .128 .128 .128 .155 .155 .155 .155 0.069 0.000 0.067 0.071 0.075 0.000 0.072 0.078 0.163 0.140 0.161 0.165 0.201 0.176 0.199 0.203 .5 .197 .195 .194 .195 .240 .238 .238 .238 0.208 0.113 0.203 0.218 0.252 0.157 0.241 0.260 0.384 0.335 0.376 0.388 0.473 0.420 0.462 0.476 .8 .437 .421 .421 .422 .522 .515 .516 .518 1.425 1.121 1.317 1.459 1.732 1.397 1.615 1.793 1.837 1.570 1.720 1.847 2.231 1.939 2.116 2.281 n ¼ 900 À.8 .041 .039 .041 .042 .048 .046 .047 .047 0.027 0.011 0.027 0.036 0.028 0.016 0.028 0.037 0.021 0.018 0.021 0.034 0.026 0.022 0.026 0.036 À.5 .048 .047 .048 .048 .055 .054 .055 .055 0.027 0.000 0.027 0.027 0.027 0.005 0.027 0.027 0.032 0.026 0.031 0.031 0.038 0.032 0.038 0.038 À.2 .057 .057 .057 .057 .068 .067 .067 .067 0.027 0.000 0.028 0.028 0.027 0.000 0.028 0.028 0.048 0.041 0.049 0.049 0.058 0.050 0.058 0.059 .0 .069 .068 .068 .068 .079 .079 .079 .079 0.032 0.000 0.032 0.032 0.032 0.000 0.032 0.032 0.070 0.059 0.069 0.069 0.083 0.071 0.083 0.083 .2 .082 .083 .083 .083 .098 .097 .097 .097 0.044 0.000 0.045 0.046 0.048 0.000 0.047 0.049 0.104 0.091 0.105 0.106 0.128 0.110 0.125 0.126 .5 .127 .126 .126 .126 .149 .148 .148 .148 0.132 0.036 0.134 0.138 0.156 0.098 0.155 0.160 0.245 0.220 0.245 0.248 0.293 0.264 0.291 0.296 .8 .278 .274 .273 .274 .328 .322 .323 .323 0.926 0.780 0.893 0.930 1.089 0.939 1.055 1.100 1.189 1.068 1.154 1.187 1.405 1.277 1.365 1.410 Note: Emp. ¼ empirical standard deviation; Pier. ¼ estimated standard error based on the Pierce method; Del. ¼ estimated standard error based on the delta method; Sim. ¼ estimated standard error based on the simulation method.</p><p>Table D2. Empirical and Estimated Standard Errors: Nonnormal Case. l 0 Direct Indirect Total X 1 X 2 X 1 X 2 X 1 X 2 Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Emp. Pier. Del. Sim. Rook n ¼ 400 À.8 .053 .042 .053 .054 .064 .058 .064 .065 0.039 0.004 0.039 0.040 0.042 0.023 0.043 0.043 0.020 0.020 0.020 0.020 0.028 0.026 0.027 0.027 À.5 .062 .058 .061 .062 .078 .076 .078 .078 0.034 0.000 0.034 0.034 0.036 0.020 0.037 0.037 0.037 0.035 0.037 0.037 0.050 0.046 0.049 0.049 À.2 .076 .074 .075 .075 .096 .096 .096 .096 0.032 0.000 0.032 0.032 0.032 0.000 0.032 0.033 0.063 0.056 0.061 0.061 0.082 0.076 0.082 0.082 .0 .087 .087 .087 .087 .113 .113 .113 .113 0.033 0.000 0.034 0.035 0.034 0.000 0.034 0.036 0.087 0.079 0.087 0.087 0.117 0.107 0.116 0.117 .2 .105 .106 .106 .106 .141 .138 .138 .138 0.049 0.000 0.050 0.052 0.057 0.018 0.057 0.060 0.131 0.120 0.131 0.133 0.180 0.161 0.176 0.178 .5 .161 .160 .159 .159 .211 .209 .209 .209 0.156 0.087 0.155 0.162 0.201 0.138 0.200 0.210 0.301 0.271 0.297 0.304 0.399 0.365 0.397 0.406 .8 .344 .338 .337 .338 .449 .444 .445 .446 1.015 0.825 0.983 1.052 1.336 1.130 1.302 1.397 1.340 1.190 1.306 1.370 1.768 1.599 1.736 1.829 n ¼ 900 À.8 .037 .031 .037 .038 .045 .041 .045 .045 0.027 0.008 0.027 0.027 0.030 0.018 0.030 0.030 0.015 0.014 0.015 0.015 0.019 0.019 0.019 0.019 À.5 .044 .042 .043 .044 .055 .054 .055 .055 0.023 0.007 0.023 0.023 0.025 0.015 0.025 0.025 0.026 0.025 0.026 0.026 0.035 0.033 0.035 0.035 À.2 .053 .053 .053 .053 .067 .068 .068 .068 0.021 0.000 0.021 0.021 0.021 0.000 0.022 0.022 0.044 0.041 0.044 0.044 0.058 0.054 0.057 0.058 .0 .065 .062 .062 .062 .082 .080 .080 .080 0.022 0.000 0.023 0.023 0.023 0.000 0.023 0.023 0.065 0.058 0.063 0.063 0.084 0.077 0.082 0.083 .2 .076 .076 .076 .076 .099 .098 .098 .098 0.034 0.000 0.034 0.035 0.039 0.011 0.039 0.039 0.095 0.087 0.095 0.095 0.126 0.116 0.124 0.125 .5 .116 .115 .115 .115 .148 .149 .149 .149 0.113 0.070 0.112 0.114 0.140 0.106 0.143 0.146 0.219 0.200 0.217 0.219 0.280 0.265 0.284 0.285 .8 .248 .246 .245 .246 .318 .319 .319 .320 0.741 0.649 0.738 0.759 0.960 0.868 0.959 0.988 0.978 0.906 0.973 0.993 1.268 1.199 1.270 1.297 Queen n ¼ 400 À.8 .064 .060 .063 .069 .076 .074 .075 .070 0.041 0.017 0.041 0.071 0.043 0.027 0.043 0.074 0.033 0.028 0.033 0.071 0.042 0.035 0.041 0.073 À.5 .074 .071 .073 .073 .089 .087 .087 .087 0.041 0.000 0.041 0.041 0.042 0.009 0.042 0.043 0.049 0.040 0.048 0.049 0.061 0.051 0.060 0.061 À.2 .088 .088 .088 .088 .107 .106 .106 .106 0.042 0.000 0.042 0.043 0.042 0.000 0.042 0.044 0.075 0.063 0.075 0.076 0.094 0.080 0.093 0.094 .0 .105 .104 .104 .104 .127 .126 .126 .126 0.048 0.000 0.047 0.049 0.048 0.000 0.047 0.050 0.106 0.091 0.106 0.107 0.134 0.114 0.131 0.133 .2 .129 .127 .126 .127 .157 .154 .154 .154 0.067 0.000 0.067 0.071 0.075 0.026 0.071 0.077 0.161 0.139 0.160 0.163 0.203 0.175 0.197 0.201 .5 .196 .194 .193 .194 .238 .236 .236 .236 0.209 0.000 0.199 0.214 0.245 0.155 0.239 0.258 0.383 0.333 0.373 0.385 0.464 0.416 0.459 0.473 .8 .429 .419 .418 .420 .524 .512 .513 .515 1.391 1.117 1.321 1.469 1.709 1.414 1.619 1.793 1.797 1.564 1.724 1.858 2.213 1.954 2.114 2.275 n ¼ 900 À.8 .042 .039 .041 .042 .048 .046 .047 .048 0.027 0.011 0.027 0.033 0.028 0.016 0.028 0.034 0.022 0.018 0.021 0.030 0.026 0.022 0.026 0.033 À.5 .048 .046 .047 .047 .055 .054 .055 .055 0.027 0.000 0.027 0.027 0.027 0.005 0.027 0.027 0.032 0.026 0.031 0.031 0.037 0.032 0.038 0.038 À.2 .059 .057 .057 .057 .066 .066 .066 .066 0.028 0.000 0.028 0.028 0.027 0.000 0.028 0.028 0.050 0.041 0.049 0.049 0.058 0.050 0.058 0.059 .0 .068 .067 .067 .067 .078 .078 .078 .079 0.032 0.000 0.032 0.032 0.032 0.000 0.031 0.032 0.070 0.059 0.069 0.069 0.082 0.071 0.083 0.083 .2 .082 .082 .082 .082 .098 .096 .096 .096 0.045 0.000 0.045 0.046 0.048 0.000 0.047 0.049 0.106 0.091 0.105 0.106 0.128 0.110 0.125 0.126 .5 .127 .126 .125 .125 .147 .147 .147 .147 0.134 0.072 0.133 0.138 0.154 0.098 0.155 0.161 0.247 0.219 0.245 0.248 0.289 0.263 0.291 0.295 .8 .280 .272 .272 .273 .325 .321 .321 .322 0.926 0.772 0.882 0.922 1.071 0.928 1.042 1.087 1.192 1.059 1.144 1.179 1.384 1.265 1.353 1.394 Note: Emp. ¼ empirical standard deviation; Pier. ¼ estimated standard error based on the Pierce method; Del. ¼ estimated standard error based on the delta method; Sim. ¼ estimated standard error based on the simulation method.</p><p>Table D3. Empirical Size of Wald Statistics: Normal Case. l 0 Direct Indirect Total X 1 X 2 X 1 X 2 X 1 X 2 T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s Rook n ¼ 400 À.8 .132 .049 .046 .072 .048 .046 .700 .054 .049 .288 .049 .047 .060 .050 .051 .055 .046 .046 À.5 .069 .055 .055 .057 .054 .053 .580 .056 .054 .315 .055 .053 .068 .052 .053 .074 .054 .055 À.2 .052 .050 .051 .058 .057 .057 .189 .046 .043 .281 .054 .050 .073 .055 .055 .076 .054 .052 .0 .053 .052 .050 .054 .054 .051 .071 .042 .038 .084 .035 .029 .077 .052 .049 .072 .053 .049 .2 .048 .049 .049 .052 .052 .051 .166 .082 .072 .297 .092 .079 .079 .053 .050 .073 .050 .048 .5 .054 .056 .056 .050 .050 .050 .331 .074 .065 .220 .064 .053 .086 .061 .056 .077 .048 .044 .8 .055 .056 .055 .051 .051 .049 .128 .060 .044 .101 .055 .039 .094 .057 .047 .073 .047 .037 n ¼ 900 À.8 .113 .051 .048 .076 .050 .049 .542 .056 .053 .242 .058 .056 .058 .049 .049 .058 .051 .050 À.5 .052 .043 .044 .059 .056 .056 .564 .044 .043 .273 .055 .054 .062 .046 .045 .072 .058 .057 À.2 .052 .050 .050 .052 .052 .052 .181 .048 .048 .281 .058 .054 .076 .055 .054 .073 .054 .053 .0 .052 .052 .052 .047 .047 .048 .061 .043 .041 .067 .039 .036 .071 .052 .051 .068 .046 .046 .2 .054 .054 .055 .052 .052 .053 .165 .067 .063 .301 .070 .065 .078 .056 .053 .072 .051 .050 .5 .045 .046 .048 .047 .047 .048 .245 .062 .058 .165 .054 .050 .070 .047 .044 .068 .046 .043 .8 .051 .052 .052 .053 .052 .053 .103 .053 .046 .083 .049 .045 .077 .051 .047 .070 .049 .046 Queen n ¼ 400 À.8 .055 .047 .013 .052 .046 .016 .435 .048 .020 .251 .048 .017 .098 .047 .007 .090 .046 .009 À.5 .057 .052 .050 .052 .050 .048 .487 .053 .038 .409 .055 .044 .111 .052 .043 .095 .048 .041 À.2 .050 .049 .048 .054 .054 .053 .165 .045 .038 .215 .042 .035 .099 .051 .047 .092 .052 .050 .0 .052 .052 .052 .058 .058 .058 .086 .038 .033 .103 .034 .028 .096 .051 .049 .102 .057 .054 .2 .050 .051 .050 .049 .049 .051 .158 .096 .080 .240 .115 .094 .103 .056 .051 .093 .055 .049 .5 .050 .052 .053 .055 .055 .054 .337 .085 .067 .266 .084 .064 .091 .055 .047 .085 .052 .046 .8 .064 .064 .063 .053 .052 .053 .133 .059 .039 .105 .043 .027 .103 .057 .040 .080 .042 .028 (continued) Table D3. (continued) l 0 Direct Indirect Total X 1 X 2 X 1 X 2 X 1 X 2 T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s n ¼ 900 À.8 .062 .050 .038 .062 .057 .046 .455 .048 .025 .276 .054 .032 .102 .052 .019 .103 .058 .025 À.5 .057 .051 .051 .054 .053 .052 .519 .048 .048 .525 .052 .051 .109 .055 .054 .100 .054 .052 À.2 .049 .049 .048 .055 .055 .056 .121 .044 .042 .146 .048 .045 .097 .050 .050 .097 .052 .050 .0 .054 .054 .055 .048 .048 .046 .068 .047 .043 .073 .045 .038 .099 .053 .054 .092 .047 .046 .2 .047 .047 .047 .055 .055 .056 .114 .065 .059 .184 .079 .069 .090 .050 .048 .092 .055 .053 .5 .049 .050 .051 .048 .048 .051 .333 .057 .051 .250 .067 .058 .082 .049 .046 .075 .049 .047 .8 .054 .054 .055 .057 .056 .055 .106 .052 .044 .096 .048 .040 .079 .049 .043 .078 .048 .040 Table D4. Empirical Size of Wald Statistics: Nonnormal Case. l 0 Direct Indirect Total X 1 X 2 X 1 X 2 X 1 X 2 T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s Rook n ¼ 400 À.8 .124 .046 .043 .076 .046 .044 .677 .053 .048 .299 .050 .046 .053 .046 .047 .060 .049 .048 À.5 .063 .053 .052 .054 .051 .050 .590 .053 .051 .326 .050 .047 .066 .051 .052 .070 .050 .051 À.2 .055 .052 .053 .049 .049 .050 .189 .046 .043 .275 .053 .048 .076 .056 .055 .071 .048 .049 .0 .051 .050 .050 .044 .044 .044 .059 .035 .030 .072 .028 .022 .072 .052 .049 .073 .049 .048 .2 .046 .047 .046 .055 .055 .056 .154 .078 .071 .279 .091 .079 .075 .051 .049 .083 .056 .053 .5 .053 .053 .052 .050 .050 .050 .319 .067 .058 .213 .061 .051 .080 .052 .046 .077 .051 .047 .8 .053 .054 .054 .053 .053 .051 .130 .065 .051 .107 .055 .042 .089 .060 .050 .085 .053 .041 n ¼ 900 À.8 .109 .050 .049 .072 .049 .048 .539 .053 .051 .249 .051 .049 .060 .052 .053 .053 .045 .046 À.5 .066 .053 .052 .052 .048 .050 .565 .056 .055 .279 .050 .050 .068 .052 .052 .066 .049 .051 À.2 .056 .054 .053 .049 .047 .049 .183 .052 .051 .269 .053 .050 .074 .056 .057 .067 .052 .049 .0 .055 .055 .055 .053 .053 .054 .050 .035 .034 .055 .032 .030 .079 .055 .056 .068 .049 .048 .2 .047 .048 .047 .054 .054 .055 .161 .064 .061 .297 .073 .067 .069 .045 .043 .074 .052 .051 .5 .052 .054 .054 .045 .045 .046 .247 .058 .053 .152 .050 .045 .075 .054 .052 .065 .046 .044 .8 .055 .055 .054 .050 .050 .048 .097 .053 .046 .084 .052 .045 .073 .052 .048 .071 .051 .045 Queen n ¼ 400 À.8 .063 .050 .016 .059 .055 .017 .443 .050 .023 .249 .053 .017 .100 .049 .007 .097 .054 .009 À.5 .056 .051 .049 .054 .053 .051 .474 .052 .039 .427 .050 .042 .107 .053 .047 .102 .054 .045 À.2 .048 .046 .046 .047 .047 .047 .162 .044 .039 .208 .046 .040 .099 .049 .047 .096 .049 .048 .0 .050 .050 .050 .050 .050 .051 .086 .037 .034 .100 .032 .026 .097 .050 .048 .097 .055 .051 .2 .050 .051 .050 .048 .048 .048 .160 .095 .078 .227 .107 .086 .092 .051 .047 .093 .053 .049 .5 .055 .055 .055 .050 .050 .052 .339 .088 .071 .262 .087 .065 .094 .056 .047 .082 .052 .044 .8 .053 .053 .054 .054 .053 .052 .123 .052 .034 .111 .047 .030 .090 .050 .034 .086 .045 .030 (continued) Table D4. (continued) l 0 Direct Indirect Total X 1 X 2 X 1 X 2 X 1 X 2 T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s n ¼ 900 À.8 .066 .055 .042 .059 .054 .047 .465 .054 .031 .279 .056 .034 .102 .053 .021 .101 .054 .022 À.5 .059 .053 .054 .052 .051 .050 .526 .050 .050 .535 .054 .054 .112 .056 .053 .098 .046 .046 À.2 .057 .056 .054 .049 .049 .049 .133 .047 .046 .149 .042 .039 .104 .050 .049 .094 .049 .048 .0 .055 .055 .055 .048 .048 .048 .073 .053 .049 .077 .053 .046 .100 .053 .051 .088 .049 .048 .2 .048 .048 .048 .055 .055 .055 .117 .067 .060 .189 .084 .075 .095 .049 .047 .094 .056 .053 .5 .050 .051 .052 .048 .048 .050 .337 .063 .055 .250 .065 .057 .080 .049 .048 .080 .052 .049 .8 .056 .056 .056 .055 .055 .055 .109 .061 .050 .098 .052 .046 .081 .056 .050 .078 .052 .046 International Regional Science Review XX(X) Table D6. Empirical Power of Wald Statistics: Normal Case. l 0 Direct Indirect Total X 1 X 2 X 1 X 2 X 1 X 2 T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s</p><p>Rook n ¼ 400 À.8 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.5 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.2 1.000 1.000 1.000 0.999 0.999 0.999 0.906 0.860 0.851 0.912 0.858 0.842 1.000 1.000 1.000 0.999 0.999 0.999 .0 1.000 1.000 1.000 0.993 0.993 0.993 0.071 0.042 0.038 0.084 0.035 0.029 1.000 1.000 1.000 0.993 0.992 0.992 .2 0.998 0.998 0.998 0.951 0.951 0.951 0.788 0.693 0.646 0.811 0.479 0.389 0.998 0.998 0.998 0.953 0.948 0.945 .5 0.916 0.917 0.917 0.716 0.716 0.715 0.942 0.897 0.874 0.769 0.644 0.588 0.924 0.914 0.908 0.729 0.702 0.686 .8 0.471 0.473 0.470 0.287 0.284 0.285 0.531 0.432 0.373 0.348 0.231 0.171 0.511 0.453 0.413 0.323 0.255 0.216 n ¼ 900 À.8 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.5 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.2 1.000 1.000 1.000 1.000 1.000 1.000 0.997 0.995 0.994 0.997 0.995 0.994 1.000 1.000 1.000 1.000 1.000 1.000 .0 1.000 1.000 1.000 1.000 1.000 1.000 0.061 0.043 0.041 0.067 0.039 0.036 1.000 1.000 1.000 1.000 1.000 1.000 .2 1.000 1.000 1.000 0.999 0.999 0.999 0.989 0.987 0.984 0.990 0.974 0.966 1.000 1.000 1.000 0.999 0.999 0.999 .5 0.998 0.998 0.999 0.950 0.950 0.950 0.999 0.998 0.996 0.958 0.944 0.937 0.998 0.998 0.998 0.952 0.948 0.947 .8 0.736 0.736 0.734 0.515 0.514 0.512 0.757 0.721 0.699 0.543 0.487 0.459 0.748 0.729 0.713 0.530 0.498 0.478</p><p>Queen n ¼ 400 À.8 1.000 1.000 0.406 1.000 1.000 0.408 1.000 1.000 0.171 1.000 1.000 0.172 1.000 1.000 0.177 1.000 1.000 0.178 À.5 1.000 1.000 0.991 1.000 1.000 0.990 1.000 1.000 0.959 1.000 1.000 0.958 1.000 1.000 0.962 1.000 1.000 0.</p><p>963 À.2 1.000 1.000 1.000 0.997 0.997 0.996 0.710 0.594 0.576 0.724 0.579 0.551 1.000 1.000 1.000 0.997 0.996 0.996 .0 0.998 0.998 0.998 0.975 0.975 0.976 0.086 0.038 0.033 0.103 0.034 0.028 0.998 0.998 0.998 0.978 0.974 0.972 .2 0.980 0.980 0.980 0.898 0.898 0.898 0.510 0.275 0.200 0.539 0.151 0.085 0.982 0.979 0.975 0.906 0.893 0.884 .5 0.766 0.768 0.766 0.590 0.590 0.590 0.828 0.678 0.592 0.677 0.453 0.355 0.783 0.757 0.737 0.616 0.570 0.545 .8 0.288 0.289 0.287 0.215 0.214 0.212 0.359 0.235 0.156 0.275 0.153 0.078 0.333 0.261 0.205 0.250 0.180 0.127 n ¼ 900</p><p>À.8 1.000 1.000 0.908 1.000 1.000 0.909 1.000 1.000 0.596 1.000 1.000 0.599 1.000 1.000 0.599 1.000 1.000 0.601 À.5 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.2 1.000 1.000 1.000 1.000 1.000 1.000 0.931 0.902 0.899 0.932 0.909 0.904 1.000 1.000 1.000 1.000 1.000 1.000 .0 1.000 1.000 1.000 1.000 1.000 1.000 0.068 0.047 0.043 0.073 0.045 0.038 1.000 1.000 1.000 1.000 1.000 1.000 .2 1.000 1.000 1.000 1.000 1.000 1.000 0.862 0.824 0.804 0.871 0.775 0.736 1.000 1.000 1.000 1.000</p><p>1.000 1.000 .5 0.987 0.987 0.986 0.936 0.936 0.935 0.990 0.983 0.979 0.949 0.920 0.907 0.987 0.986 0.985 0.940 0.932 0.929 .8 0.574 0.575 0.573 0.451 0.450 0.448 0.611 0.549 0.507 0.488 0.408 0.368 0.597 0.561 0.534 0.476 0.428 0.395 Table D7. Empirical Power of Wald Statistics: Nonnormal Case. l 0 Direct Indirect Total X 1 X 2 X 1 X 2 X 1 X 2 T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s T p T d T s</p><p>Rook n ¼ 400 À.8 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.5 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.2 1.000 1.000 1.000 1.000 1.000 0.999 0.898 0.842 0.834 0.906 0.842 0.828 1.000 1.000 1.000 1.000 0.999 0.999 .0 1.000 1.000 1.000 0.993 0.993 0.993 0.059 0.035 0.030 0.072 0.028 0.022 1.000 1.000 1.000 0.994 0.992 0.992 .2 0.998 0.998 0.998 0.948 0.948 0.948 0.796 0.699 0.648 0.814 0.489 0.395 0.998 0.998 0.998 0.950 0.946 0.943 .5 0.919 0.919 0.919 0.728 0.727 0.726 0.946 0.901 0.875 0.777 0.658 0.605 0.927 0.917 0.911 0.740 0.717 0.701 .8 0.470 0.472 0.470 0.301 0.300 0.301 0.531 0.433 0.370 0.354 0.243 0.181 0.510 0.456 0.414 0.335 0.267 0.228 n ¼ 900 À.8 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.5 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.2 1.000 1.000 1.000 1.000 1.000 1.000 0.997 0.995 0.995 0.997 0.995 0.995 1.000 1.000 1.000 1.000 1.000 1.000 .0 1.000 1.000 1.000 1.000 1.000 1.000 0.050 0.035 0.034 0.055 0.032 0.030 1.000 1.000 1.000 1.000 1.000 1.000 .2 1.000 1.000 1.000 1.000 1.000 0.999 0.990 0.987 0.984 0.990 0.974 0.967 1.000 1.000 1.000 1.000 1.000 0.999 .5 0.996 0.996 0.996 0.953 0.953 0.951 0.997 0.996 0.995 0.960 0.943 0.937 0.996 0.996 0.996 0.956 0.951 0.948 .8 0.734 0.735 0.735 0.513 0.513 0.509 0.758 0.721 0.699 0.543 0.482 0.455 0.750 0.727 0.715 0.532 0.496 0.477</p><p>Queen n ¼ 400 À.8 1.000 1.000 0.393 1.000 1.000 0.394 1.000 1.000 0.169 1.000 1.000 0.171 1.000 1.000 0.175 1.000 1.000 0.177 À.5 1.000 1.000 0.992 1.000 1.000 0.993 1.000 0.999 0.963 1.000 0.999 0.963 1.000 1.000 0.966 1.000 1.000 0.966 À.2 1.000 1.000 1.000 0.997 0.997 0.996 0.713 0.589 0.570 0.729 0.583 0.557 1.000 1.000 1.000 0.997 0.996 0.996 .0 0.997 0.997 0.997 0.978 0.978 0.978 0.086 0.037 0.034 0.100 0.032 0.026 0.997 0.997 0.997 0.979 0.977 0.975 .2 0.977 0.977 0.977 0.902 0.902 0.899 0.509 0.265 0.187 0.530 0.153 0.088 0.980 0.977 0.972 0.908 0.895 0.885 .5 0.767 0.768 0.768 0.601 0.601 0.601 0.832 0.681 0.591 0.689 0.457 0.358 0.786 0.759 0.740 0.625 0.580 0.548 .8 0.305 0.307 0.305 0.208 0.207 0.204 0.375 0.247 0.154 0.267 0.146 0.078 0.350 0.279 0.215 0.244 0.175 0.121 n ¼ 900 À.8 1.000 1.000 0.911 1.000 1.000 0.912 1.000 1.000 0.604 1.000 1.000 0.607 1.000 1.000 0.607 1.000 1.000 0.611 À.5 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 1.000 À.2 1.000 1.000 1.000 1.000 1.000 1.000 0.928 0.894 0.890 0.930 0.900 0.895 1.000 1.000 1.000 1.000 1.000 1.000 .0 1.000 1.000 1.000 1.000 1.000 1.000 0.073 0.053 0.049 0.077 0.053 0.046 1.000 1.000 1.000 1.000 1.000 1.000 .2 1.000 1.000 1.000 0.999 0.999 0.999 0.865 0.834 0.814 0.879 0.780 0.749 1.000 1.000 1.000 0.999 0.999 0.999 .5 0.985 0.985 0.985 0.941 0.941 0.941 0.989 0.982 0.979 0.952 0.925 0.912 0.986 0.985 0.984 0.944 0.938 0.934 .8 0.573 0.573 0.572 0.437 0.437 0.435 0.612 0.541 0.501 0.478 0.404 0.369 0.599 0.555 0.529 0.461 0.417 0.395</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. The effect of l 0 on impact measures.</figDesc><graphic coords="7,57.37,83.34,317.55,160.55" type="bitmap" /></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_0"><p>International Regional Science Review XX(X)</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_1"><p>International Regional Science Review XX(X)</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_2"><p>International Regional Science Review XX(X)</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_3"><p>International Regional Science Review XX(X)</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_4"><p>Arbia et al.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="12" xml:id="foot_5"><p>International Regional Science Review XX(X)</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="16" xml:id="foot_6"><p>International Regional Science Review XX(X)</p></note>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgments</head><p>We are grateful to the editor, an associate editor, and two anonymous referees for many helpful comments and constructive suggestions. Any remaining errors and omissions are, of course, ours.</p></div>
+			</div>
+
+
+			
+			<div type="funding">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Funding</head><p>The author(s) received no financial support for the research, authorship, and/or publication of this article.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Declaration of Conflicting Interests</head><p>The author(s) declared no potential conflicts of interest with respect to the research, authorship, and/or publication of this article.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Table D5. True Effects Values. l 0 ADI AII ATI X 1 X 2 X 1 X 2 X 1 X 2 Rook n ¼ 400 À.8 .642 À.642 À0.364 0.364 0.278 À0.278 À.5 .538 À.538 À0.205 0.205 0.333 À0.333 À.2 .505 À.505 À0.089 0.089 0.417 À0.417 .0 .500 À.500 0.000 0.000 0.500 À0.500 .2 .505 À.505 0.120 À0.120 0.625 À0.625 .5 .538 À.538 0.462 À0.462 1.000 À1.000 .8 .642 À.642 1.858 À1.858 2.500 À2.500 n ¼ 900 À.8 .639 À.639 À0.362 0.362 0.278 À0.278 À.5 .537 À.537 À0.204 0.204 0.333 À0.333 À.2 .505 À.505 À0.089 0.089 0.417 À0.417 .0 .500 À.500 0.000 0.000 0.500 À0.500 .2 .505 À.505 0.120 À0.120 0.625 À0.625 .5 .537 À.537 0.463 À0.463 1.000 À1.000 .8 .639 À.639 1.861 À1.861 2.500 À2.500 Queen n ¼ 400 À.8 .537 À.537 À0.260 0.260 0.278 À0.278 À.5 .515 À.515 À0.181 0.181 0.333 À0.333 À.2 .502 À.502 À0.086 0.086 0.417 À0.417 .0 .500 À.500 0.000 0.000 0.500 À0.500 .2 .503 À.503 0.122 À0.122 0.625 À0.625 .5 .522 À.522 0.478 À0.478 1.000 À1.000 .8 .590 À.590 1.910 À1.910 2.500 À2.500 n ¼ 900 À.8 .537 À.537 À0.259 0.259 0.278 À0.278 À.5 .514 À.514 À0.181 0.181 0.333 À0.333 À.2 .502 À.502 À0.086 0.086 0.417 À0.417 .0 .500 À.500 0.000 0.000 0.500 À0.500 .2 .503 À.503 0.122 À0.122 0.625 À0.625 .5 .522 À.522 0.478 À0.478 1.000 À1.000 .8 .588 À.588 1.912 À1.912 2.500 À2.500 Note: ADI ¼ Average Direct Impact; AII ¼ Average Indirect Impact; ATI ¼ Average Total Impact.</p><p>Notes 1. For parameter spaces suggested for l 0 , see <ref type="bibr" target="#b0">Anselin (1988)</ref>, <ref type="bibr" target="#b16">LeSage and Pace (2009)</ref>, <ref type="bibr" target="#b9">Kelejian and Prucha (2010)</ref>, and Elhorst, Lacombe, and Piras (2012). 2. The consistency of all plug-in estimators in this section can be established by using <ref type="bibr" target="#b17">Liu, Lee, and Bollinger (2010;</ref><ref type="bibr">lemma D.11)</ref>. 3. We do not consider the Bayesian approach suggested by <ref type="bibr" target="#b16">LeSage and Pace (2009)</ref> as our focus is on the classical approach. 4. The percentage deviation is calculated by 100 Â (estimated standard error À empirical standard deviation)/empirical standard deviation. 5. A function written in Matlab is available at <ref type="url" target="https://sites.google.com/site/gcsuleymantaspinar/home/software">https://sites.google.com/site/gcsuleymantaspinar/  home/software</ref>. The function returns impact measure estimates and their standard errors.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">Luc</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">A Primer for Spatial Econometrics: With Applications in R. Palgrave Texts in Econometrics</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Arbia</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>Palgrave Macmillan</publisher>
+			<pubPlace>Basingstoke, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A Spatial Cliff-Ord-Type Model with Heteroskedastic Innovations: Small and Large Sample Results</title>
+		<author>
+			<persName><surname>Arraiz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">M</forename><surname>Irani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="592" to="614" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Interpreting Dynamic Space-time Panel Data Models</title>
+		<author>
+			<persName><forename type="first">Nicolas</forename><surname>Debarsy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Cem</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Statistical Methodology</title>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="158" to="171" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Applied Spatial Econometrics: Raising the Bar</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="9" to="28" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Matlab Software for Spatial Panels</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="389" to="405" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Spatial Econometrics: From Cross-sectional Data to Spatial Panels</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Springer Briefs in Regional Science</title>
+		<meeting><address><addrLine>Berlin, Germany</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">On Model Specification and Parameter Space Definitions in Higher Order Spatial Econometric Models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Donald</forename><forename type="middle">J</forename><surname>Paul</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gianfranco</forename><surname>Lacombe</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="page" from="211" to="220" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">A Generalized Spatial Two-stage Least Squares Procedure for Estimating a Spatial Autoregressive Model with Autoregressive Disturbances</title>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="1899" to="1926" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Specification and Estimation of Spatial Autoregressive Models with Autoregressive and Heteroskedastic Disturbances</title>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">A Spatial Modelling Approach to Contagion among Emerging Economies</title>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>George</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">George</forename><surname>Tavlas</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hondroyiannis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Open Economies Review</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="423" to="441" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Spatial Spillovers in the Development of Institutions</title>
+		<author>
+			<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peter</forename><surname>Murrell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Oleksandr</forename><surname>Shepotylo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Development Economics</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="page" from="297" to="315" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Asymptotic Distributions of Quasi-maximum Likelihood Estimators for Spatial Autoregressive Models</title>
+		<author>
+			<persName><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+	<note>Lung-fei</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">QML Estimation of Spatial Dynamic Panel Data Models with Time Varying Spatial Weights Matrices</title>
+		<author>
+			<persName><forename type="first">Lung</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yu</forename><surname>Fei</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Jihai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="31" to="74" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Interpreting Heterogeneous Coefficient Spatial Autoregressive Panel Models</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yao-Yu</forename><surname>Chih</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letters</title>
+		<imprint>
+			<biblScope unit="volume">142</biblScope>
+			<biblScope unit="page" from="1" to="5" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">A Matrix Exponential Spatial Specification</title>
+		<author>
+			<persName><forename type="first">James</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="190" to="214" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<author>
+			<persName><forename type="first">James</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<title level="m">Introduction to Spatial Econometrics (Statistics: A Series of Textbooks and Monographs</title>
+		<meeting><address><addrLine>London, UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">An Efficient GMM Estimator of Spatial Autoregressive Models</title>
+		<author>
+			<persName><forename type="first">Xiaodong</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lung-Fei</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christopher</forename><forename type="middle">R</forename><surname>Bollinger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="303" to="319" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Chapter 36 Large Sample Estimation and Hypothesis Testing</title>
+		<author>
+			<persName><forename type="first">Whitney</forename><forename type="middle">K</forename><surname>Newey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniel</forename><surname>Mcfadden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Econometrics</title>
+		<editor>
+			<persName><forename type="first">Robert</forename><forename type="middle">F</forename><surname>Engle</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Daniel</forename><forename type="middle">L</forename><surname>Mcfadden</surname></persName>
+		</editor>
+		<meeting><address><addrLine>North Holland, Netherlands</addrLine></address></meeting>
+		<imprint>
+			<publisher>Elsevier</publisher>
+			<date type="published" when="1994">1994</date>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="2111" to="2245" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A Note on the Delta Method</title>
+		<author>
+			<persName><forename type="first">Gary</forename><forename type="middle">W</forename><surname>Oehlert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="27" to="29" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Spatial Dependence in Regressors and Its Effect on Performance of Likelihood-based and Instrumental Variable Estimators</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>James</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Shuang</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Econometrics, 30th Anniversary</title>
+		<editor>
+			<persName><forename type="first">Daniel</forename><surname>Millimet</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Dek</forename><surname>Terrell</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Bingley, UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>Emerald Group</publisher>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="257" to="295" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">The Asymptotic Effect of Substituting Estimators for Parameters in Certain Types of Statistics</title>
+		<author>
+			<persName><forename type="first">Donald</forename><forename type="middle">A</forename><surname>Pierce</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="475" to="478" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Estimating a Spatial Autoregressive Model with an Endogenous Spatial Weight Matrix</title>
+		<author>
+			<persName><forename type="first">Xi</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lung-Fei</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">QML Estimation of Spatial Dynamic Panel Data Models with Endogenous Time Varying Spatial Weights Matrices</title>
+		<author>
+			<persName><forename type="first">Xi</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lung</forename><surname>Fei Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Yu</forename><surname>Jihai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">197</biblScope>
+			<biblScope unit="page" from="173" to="201" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<author>
+			<persName><surname>Tas ¸pınar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Osman</forename><surname>Su ¨leyman</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Dog</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Wim</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Vijverberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">GMM Inference in Spatial Autoregressive Models</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="931" to="954" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Van Der Vaart</surname></persName>
+		</author>
+		<title level="m">Asymptotic Statistics. Cambridge Series in Statistical and Probabilistic Mathematics</title>
+		<meeting><address><addrLine>Cambridge, UK</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

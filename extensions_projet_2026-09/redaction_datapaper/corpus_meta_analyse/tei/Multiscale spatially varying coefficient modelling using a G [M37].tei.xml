@@ -1,0 +1,1159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Multiscale spatially varying coefficient modelling using a Geographical Gaussian Process GAM</title>
+				<funder ref="#_N9M5Kh3">
+					<orgName type="full">Biotechnology and Biological Sciences Research Council</orgName>
+				</funder>
+				<funder ref="#_yZS7NDz">
+					<orgName type="full">Natural Environment Research Council</orgName>
+				</funder>
+				<funder ref="#_n9hyPUx">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2023-10-27">27 Oct 2023.</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Alexis</forename><surname>Comber</surname></persName>
+							<email>a.comber@leeds.ac.uk</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geography</orgName>
+								<orgName type="institution">University of Leeds</orgName>
+								<address>
+									<settlement>Leeds</settlement>
+									<country>UK;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Paul</forename><surname>Harris</surname></persName>
+							<idno type="ORCID">0000-0002-3652-7846</idno>
+							<affiliation key="aff1">
+								<orgName type="institution" key="instit1">Sustainable Agriculture Sciences, Rothamsted Research</orgName>
+								<orgName type="institution" key="instit2">North Wyke</orgName>
+								<address>
+									<country>UK;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Chris</forename><surname>Brunsdon</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="institution" key="instit1">National Centre for Geocomputation</orgName>
+								<orgName type="institution" key="instit2">Maynooth University</orgName>
+								<address>
+									<settlement>Maynooth</settlement>
+									<country key="IE">Ireland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Multiscale spatially varying coefficient modelling using a Geographical Gaussian Process GAM</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">Print</idno>
+						<imprint>
+							<date type="published" when="2023-10-27">27 Oct 2023.</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">C0D4273DAA55C6DCCA9B9F3D9F8F6C36</idno>
+					<idno type="DOI">10.1080/13658816.2023.2270285</idno>
+					<note type="submission">Received 20 January 2023 Accepted 4 October 2023</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>Spatial regression; GWR</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper proposes a novel spatially varying coefficient (SVC) regression through a Geographical Gaussian Process GAM (GGP-GAM): a Generalized Additive Model (GAM) with Gaussian Process (GP) splines parameterised at observation locations. A GGP-GAM was applied to multiple simulated coefficient datasets exhibiting varying degrees of spatial heterogeneity and out-performed the SVC brand-leader, Multiscale Geographically Weighted Regression (MGWR), under a range of fit metrics. Both were then applied to a Brexit case study and compared, with MGWR marginally out-performing GGP-GAM. The theoretical frameworks and implementation of both approaches are discussed: GWR models calibrate multiple models whereas GAMs provide a full single model; GAMs can automatically penalise local collinearity; GWR-based approaches are computationally more demanding; MGWR is still only for Gaussian responses; MGWR bandwidths are intuitive indicators of spatial heterogeneity. GGP-GAM calibration and tuning are also discussed and areas of future work are identified, including the creation of a user-friendly package to support model creation and coefficient mapping, and to facilitate ease of comparison with alternate SVC models. A final observation that GGP-GAMs have the potential to overcome some of the long-standing reservations about GWRbased regression methods and to elevate the perception of SVCs amongst the broader community.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>A standard linear regression seeks to model the relationship between a response variable and a series of predictor variables. Via ordinary least squares (OLS), it estimates a single set of unknown regression coefficients for each predictor (and intercept) together with errors that are assumed independent and identically distributed with mean zero and a uniform variance (usually denoted r 2 ). A standard OLS regression assumes that the errors have a Gaussian distribution. For non-Gaussian response variables (such as integer count data), the OLS regression can be replaced with a Generalized Linear Model (GLM) <ref type="bibr" target="#b37">(Nelder and Wedderburn 1972;</ref><ref type="bibr" target="#b32">McCullagh and Nelder 2019)</ref> whose coefficients are typically estimated via maximum likelihood (ML). For greater flexibility in capturing non-linear relationships between the response and predictors, a GLM can be extended by a Generalized Additive Model (GAM) <ref type="bibr" target="#b21">(Hastie and Pregibon 2017)</ref> where each regression relationship can be modelled non-linearly, as an arbitrary function, say through splines or some other smoothing tool.</p><p>OLS regression and classic forms of GLM assume fixed (constant) coefficient processes. However, in reality, the relationship between the response and predictor variables in a geographical context may change with observation location, potentially due to unaccounted-for local factors or due to spatial heterogeneity in the process being examined. In this context, spatially varying coefficient (SVC) models provide an alternative to 'whole map' or global regressions that may incorrectly assume spatial stationarity in regression coefficients <ref type="bibr" target="#b39">(Openshaw 1996)</ref>. GAM smoothing functions allow for varying (non-constant) coefficient processes in attribute-space. In geographic space, spatial settings for the GAM smoothing functions are possible leading to the characterisation of response-to-predictor relationships changing across space, i.e. a SVC model.</p><p>The most popular SVC model is Geographically Weighted Regression (GWR) <ref type="bibr" target="#b2">(Brunsdon et al. 2010)</ref> which has been subject to a number of developments including Multiscale GWR (MGWR) <ref type="bibr" target="#b48">(Yang 2014;</ref><ref type="bibr" target="#b14">Fotheringham et al. 2017)</ref> which is now recommended as the default GWR <ref type="bibr" target="#b5">(Comber et al. 2023)</ref>. Interestingly these can be viewed in terms of a GAM <ref type="bibr" target="#b1">(Brunsdon et al. 1999;</ref><ref type="bibr" target="#b49">Yu et al. 2020)</ref>, where coefficients are estimated from data subsets falling under distance-weighted kernels around any spatial location via a weighted least squares algorithm for GWR and an iterative back-fitting algorithm for MGWR.</p><p>The focus of this study is only for multiscale SVC models, that allow each predictor-toresponse relationship to operate at its own spatial scale. MGWR is the most popular SVC model <ref type="bibr" target="#b4">(Comber et al. 2021</ref><ref type="bibr" target="#b5">(Comber et al. , 2023))</ref>. Other widely applied multiscale SVC models include Bayesian Gaussian Process (GP) models that use co-kriging (via a linear Model of Coregionalisation (LMC)) (Bayes-GP) to generate unknown coefficients that are assumed spatially co-dependent stochastic processes <ref type="bibr" target="#b15">(Gelfand et al. 2003;</ref><ref type="bibr" target="#b10">Finley 2011;</ref><ref type="bibr" target="#b26">Kim and Lee 2017;</ref><ref type="bibr" target="#b11">Finley and Banerjee 2020)</ref> and Eigenvector Spatial Filtering (ESF) with Moran coefficients (ESF-MC) <ref type="bibr" target="#b34">(Murakami and Griffith 2015;</ref><ref type="bibr" target="#b36">Murakami et al. 2017</ref>) that extends the deterministic ESF model <ref type="bibr" target="#b17">(Griffith 2008)</ref> with random effects to model stochastic spatial processes. These SVC constructs can be shown to have a direct relationship to each other <ref type="bibr" target="#b36">(Murakami et al. 2017)</ref>, where comparisons with MGWR can be found in the simulated studies of <ref type="bibr" target="#b44">Wolf et al. (2018)</ref> and <ref type="bibr" target="#b35">Murakami et al. (2019)</ref> for Bayes-GP and ESF-MC, respectively. Such comparative studies concluded that no-one multiscale SVC model could be considered significantly better than another, when jointly considering model accuracy and precision, computational overheads, and ease of application for the novice user. More recently, multiscale SVC models include a model that uses triangulation with bivariate spline estimators <ref type="bibr" target="#b33">(Mu et al. 2018)</ref>, a GP-based model that uses a frequentist approach with ML estimation <ref type="bibr" target="#b7">(Dambon et al. 2021)</ref>, and a GLM-based model that uses a reduced-rank spline methodology <ref type="bibr" target="#b9">(Fan and Huang 2022)</ref>, but at the time of writing community take up for these models has been limited.</p><p>For this study, a novel SVC model is proposed as an alternative, not only to MGWR, but also to Bayes-GP, ESF-MC and the more recent SVC models listed above: a Geographical Gaussian Process GAM (GGP-GAM), in which GP splines are parameterised at observation locations. The combination of a GAM with GP splines constitutes the key advance. The main theoretical limitation with MGWR (and GWR) is that its rudimentary kernel-based parameterisation means that only a collection of local models is used to capture and quantify the non-stationary processes (re-using data each time), whereas Bayes-GP, ESF-MC and GGP-GAM each provide a single, global model formulation that is still non-stationary in nature (e.g. <ref type="bibr" target="#b10">Finley (2011)</ref>; <ref type="bibr" target="#b44">Wolf et al. (2018)</ref>). This has led some to argue that MGWR (and GWR) is best suited to exploratory rather than inferential analyses <ref type="bibr" target="#b42">(Wheeler and Calder 2007;</ref><ref type="bibr" target="#b10">Finley 2011;</ref><ref type="bibr" target="#b7">Dambon et al. 2021)</ref>. However, the practical consequences of this theoretical limitation can in part, be quantified and are often marginal <ref type="bibr" target="#b28">(Li et al. 2020;</ref><ref type="bibr" target="#b49">Yu et al. 2020)</ref>. The GGP-GAM is evaluated through a simulation experiment with MGWR as comparison, and also through an empirical case study with UK Brexit vote data.</p><p>Common challenges across all multiscale SVC models, include: (i) sensitivity to the parameterisation of the spatial smoothing function (e.g. sensitivity to the location and number of knots in GGP-GAM, sensitivity to kernel and bandwidth form in MGWR, ensuring a positive-definite fit for the LMC in Bayes-GP), (ii) collinearity in the predictors (e.g. for instances of local collinearity when not present globally), (iii) use as a spatial predictor, (iv) computational burden, and (v) ease of application for the novice user together with intuitive understandings of process spatial heterogeneity from model outputs. Each of these challenges are discussed for the proposed GGP-GAM model in relation to MGWR only.</p><p>Comparison with MGWR is important as currently such studies exist only for basic GWR, where all non-stationary relationships are naively assumed to operate at the same spatial scale. For example, <ref type="bibr">P� aez et al. (2011)</ref> and <ref type="bibr" target="#b13">Fotheringham and Oshan (2016)</ref> examined GWR's sensitivity to local collinearity; <ref type="bibr" target="#b20">Harris et al. (2010)</ref> and <ref type="bibr" target="#b19">Harris et al. (2011)</ref> for GWR's use as a spatial predictor, including hybrids with kriging; <ref type="bibr" target="#b27">Li et al. (2019)</ref> and <ref type="bibr" target="#b31">Lu et al. (2022)</ref> describe computational solutions to implementations of GWR. Whilst MGWR has some benefits to dealing with local collinearity <ref type="bibr" target="#b18">(Harris 2019)</ref>, its value as a spatial predictor is unclear <ref type="bibr" target="#b29">(Lu et al. 2019)</ref> and its underlying back-fitting algorithm is computationally expensive <ref type="bibr" target="#b9">(Fan and Huang 2022)</ref>. Both GWR and MGWR also suffer from an absence of a generic framework for any form of Geographically Weighted model <ref type="bibr" target="#b6">(Comber et al. 2022)</ref>, whereas frameworks for GAMs are relatively mature meaning that issues such as those for collinearity are more easily resolved through various penalised model options in GAM R packages.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">GAMs with Gaussian Process splines</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">GAMs</head><p>Generalized Additive Models (GAMs) are general in that they can handle outputs with many types of distributions and not just linear relationships, polynomial or not <ref type="bibr" target="#b46">(Wood 2006;</ref><ref type="bibr" target="#b8">Fahrmeir et al. 2022)</ref>. They are additive and because they generate multiple model terms which are added together to generate predictions. Methodologically, GAMs offer a middle ground between simple but interpretable linear models and complex but opaque machine learning approaches, where it is difficult to understand how one variable relates to an outcome. Thus GAMs provide an intuitive approach to fit relatively complex relationships in data with complex interactions and non-linearities, and the outputs provide easily understood measures of the relationship between predictor and response variables and how the outcome is modelled. They are able to predict well from complex systems, to quantify relationships and to make inferences about these relationships, for example about what variables are important and at what range of values are they most influential. GAMS can perform as well or better than most machine learning models and they are relatively fast.</p><p>GAMs typically model non-linear relationships using splines. Other approaches to modelling can also fit into a GAM framework, but in many situations splines are the building blocks of GAMs. A spline can be represented as a linear combination of functions called � basis functions � . Each of these is assigned a coefficient and these are linearly combined to generate the predictions of outcome (ŷ). Basis functions can be single or multi-dimensional in terms of predictor variables. Thus, the form of a GAM is composed of linear sums of multi-dimensional basis functions and this is what allows complex relationships to be modelled.</p><p>Splines can be of different forms depending on the problem and data (see below) and need to include an appropriate degree of 'wiggliness' to model non-linear relationships. This is determined by the spline smoothing parameter. If this is too small then the model will overfit the data, resulting in too many bases and too much noise in the function. If it is too large then the functions will be overly simple and fail to represent the complexity of the relationship. Thus a core problem to resolve in GAMs is to determine the smoothing parameters and balance overfitting versus capturing the complex in the relationship. This is done automatically in the GAM functions of the 'mgcv' R package <ref type="bibr" target="#b45">(Wood 2015)</ref> used in this work.</p><p>Some earlier work has combined GAMs with location. Kelsall and Diggle (1998) used GAMs to estimate covariates with a discrete smooth (spline) for location. However they did not look at the interactions of individual covariates over space as was done by <ref type="bibr" target="#b24">Kammann and Wand (2003)</ref>, who combined geostatistical approaches with a GAM by merging kriging, cast as a linear mixed model, with an additive model in order to account for non-linearity. However, this was only done for the intercept and for prediction rather than process understanding. In recent work, <ref type="bibr" target="#b9">Fan and Huang (2022)</ref> proposed a SVC model via a GLM with reduced-rank thin-plate splines. In these, the rotations of the covariates are not changed and the splines are fitted with fewer coefficients than there are data to smooth using an Eigen-decomposition for coefficient (rank) reduction. An alternative approach to SVC modelling is to consider the predictor-to-response relationship over space as a GP. Here a GP is a random process over functions whose terms can be modelled using GP splines within a GAM. In this work, a low rank GP spline, parameterised with location was used rather than the more standard thin-plate spline. This is because GPs are good for specifying autocorrelation in spatially-varying random functions and GP-based smoothing using observations at specific locations should detect any spatial trends in the data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">A Geographical Gaussian Process GAM for SVC modelling</head><p>GAMs provide a method for calibrating regression models with unspecified functions of the predictor variables, of the form:</p><formula xml:id="formula_0">y ¼ a þ f 1 ðz 1 Þ þ f 2 ðz 2 Þ þ � � � þ f m ðz m Þ þ � (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where z j may be a scalar or a vector. These can be extended such that each f j ðz j Þ is a linear regression coefficient on another scalar predictor x j :</p><formula xml:id="formula_2">y ¼ aðz 0 Þ þ x 1 f 1 ðz 1 Þ þ x 2 f 2 ðz 2 Þ þ � � � þ x m f m ðz m Þ þ � (2) Finally, if z 0 ¼ z 1 ¼ � � � z m ¼ z say,</formula><p>and z is a vector of locations then this specifies a SVC model:</p><formula xml:id="formula_3">y ¼ aðzÞ þ x 1 f 1 ðzÞ þ x 2 f 2 ðzÞ þ � � � þ x m f m ðzÞ þ � (<label>3</label></formula><formula xml:id="formula_4">)</formula><p>One way of specifying aðzÞ � � � f m ðzÞ is that each function is generated from a GP and each function estimate is an a posteriori estimate of a GP with a zero mean.</p><p>Importantly in the context of this work, GPs also have a covariance function:</p><formula xml:id="formula_5">j m ðdÞ ¼ Covðf m ðdÞ, f m ðz þ dÞÞ<label>(4)</label></formula><p>These control the smoothness of f m ðzÞ, such that the more j m ðdÞ decreases as d increases, the smoother f m ðzÞ tends to be. In this sense, these are similar to models based on kriging (that similarly use covariance functions via semivariograms) and similar to MGWR, as the covariance function for each f m ðzÞ is individually calibrated to optimise model fit. Thus a key task in the GAM, in the context of SVCs, is to estimate parameters in each j m ðdÞ and so estimate f m ðzÞ:</p><p>A GAM uses smooth functions of the predictor variables in which the values of y are assumed to have an exponential family distribution:</p><formula xml:id="formula_6">f ðyjhÞ ¼ hðyÞ exp �ðhÞTðxÞ -AðhÞ ð Þ<label>(5)</label></formula><p>where hð:Þ, �ð:Þ, Tð:Þ and Að:Þ are known functions, and h is a vector of parameters. This very flexible form can represent a wide range of commonly used distributions such as Gaussian, Poisson, Gamma, or Binomial with a known number of trials. If</p><formula xml:id="formula_7">y ¼ f ðxÞ þ � (<label>6</label></formula><formula xml:id="formula_8">)</formula><p>where f is the function being modelled, then in GAMs a space of functions, or basis, is chosen of which f is some element, rather than more specifically assuming y to be some linear function of x. This allows the basic formula above to be expanded:</p><formula xml:id="formula_9">y ¼ f ðxÞ þ � ¼ X d j¼1 j j ðxÞc j þ � (<label>7</label></formula><formula xml:id="formula_10">)</formula><p>where each j j is a basis function of the transformed x and the c are the corresponding regression coefficient estimates. One example of a basis is a GP basis. If there are n distinct geographical locations in the data set, knowing the locations and the covariance function j allows the variance-covariance function of the values of b j in each location to be found, giving a variance-covariance matrix R. This can be translated into a set of n basis vectors j j ðxÞ <ref type="bibr" target="#b22">(Hefley et al. 2017)</ref>, and the GAM can be calibrated in this way. Thus, in contrast to standard linear models, the predictors in a GAM include smooth non-linear functions of some or all of the covariates, which allows for non-linear relationships between the predictors and the target variable.</p><p>It is this local fitting that starts to hint at how GAMs can be used with geographic data, if the non-linear relationships are constructed over geographical space. This can be done by constructing splines that represent the GP parameterised by location as well as attribute space. Specifically a GP spline with location can be specified for each covariate j, although because the GP has a mean zero, a further constant a j is added as an offset, creating a spatially varying coefficient b j ðzÞ: In the standard 2D case, z i ¼ ðu i , v i Þ: This is the Geographical Gaussian Process GAM (GGP-GAM) described in this paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">A simulation case study</head><p>Simulated spatial data sets with varying degrees of regression relationship heterogeneity were used to examine the performance of the GGP-GAM and to compare that with the performance of a standard MGWR. The simulated data were created in a similar way to <ref type="bibr" target="#b14">Fotheringham et al. (2017)</ref> and used subsequently by others (e.g. <ref type="formula">Fan and  Huang (2022)</ref>), with the aim of simulating the coefficient estimates (b j ðzÞ's) for Equation (8):</p><formula xml:id="formula_11">y i ¼ a 0 þ b 0 ðu i , v i Þ þ b 1 ðu i , v i Þx i1 þ b 2 ðu i , v i Þx i2 þ � i (<label>8</label></formula><formula xml:id="formula_12">)</formula><p>Three coefficient surfaces were created over a 25 � 25 regular square grid. Each of the surfaces was assigned to the coefficients of the three predictor variables as follows:</p><formula xml:id="formula_13">b zero ¼ b 0 ðu, vÞ ¼ 3 (<label>9</label></formula><formula xml:id="formula_14">) b low ¼ b 1 ðu, vÞ ¼ 1 þ 1 12 ðu þ vÞ (<label>10</label></formula><formula xml:id="formula_15">) b high ¼ b 2 ðu, vÞ ¼ 1 þ 1 324 36 -ð6 - u 2 Þ 2 � � 36 -ð6 - v 2 Þ 2 � � (<label>11</label></formula><formula xml:id="formula_16">)</formula><p>The values for predictors x 1 and x 2 were generated from a normal distribution in the range [0, 1] (i.e Nð0:50, 0:17Þ) and � from normal distribution in the range [0, 0.25] (i.e. � � Nð0:04, 0:11Þ), and 100 surfaces were generated. The values of the response y can be found directly from the simulated coefficients, the simulated predictor variables and the simulated error term. The simulated true regression coefficient surfaces are shown in Figure <ref type="figure" target="#fig_0">1</ref>, which the analysis will seek to estimate using GGP-GAM and MGWR.</p><p>As discussed above, GP splines can be used within a GAM model. The mgcv R package <ref type="bibr" target="#b45">(Wood 2015</ref>) was used to construct the GAM with GP splines with a GP smooth and for the simulation data, the spatial locations were extracted from (u, v) respectively. In this package, a parameter which controls the degree of smoothing of the data (via the GP's correlation function) is optimised and as such potentially indicates the locally varying nature of the coefficient estimate in a similar way to MGWR bandwidths. The GPs modelled in the GAM function all have a mean of zero, so for each covariate an extra fixed offset term is added along with the spatially smoothed terms. All of the MGWR models were fitted using the GWmodel R package <ref type="bibr" target="#b30">(Lu et al. 2014;</ref><ref type="bibr" target="#b16">Gollini et al. 2015)</ref>.</p><p>The simulated coefficient surfaces for b 0 , b 1 , b 2 in Figure <ref type="figure" target="#fig_0">1</ref> and the 100 simulated values of x 1 , x 2 and � were used to create a 100 sets of predictor variables over the 625 surface points, y. These values of true y, x 0 , x 1 and x 2 were then used as inputs to the GGP-GAM model (i.e at 625 located observations with 4 fields) to generate coefficient estimates. For comparison, a MGWR was also undertaken with the same data. The spatially located coefficient estimates for both models were retained and used to generate measures of coefficient accuracy by comparing the model estimated coefficients with true ones in Figure <ref type="figure" target="#fig_0">1</ref>, generating R 2 for b 1 and b 2 (as b 0 is stationary R 2 cannot be computed) and RMSE and MAE for b 0 , b 1 , b 2 . An assessment of model fit for predicted y (ŷ) and true y for GGP-GAM and MGWR is found using AIC. This was done for each of the 100 sets of simulated y, x 0 , x 1 and x 2 .</p><p>The results are shown in Figure <ref type="figure" target="#fig_1">2</ref>. Under each fit measure, (AIC, RMSE, MAE, R 2 ) the GPP-GAM generates more accurate estimates of the true coefficients than MGWR, with the difference in fit measures increasing with increasing degrees of spatial heterogeneity. The distributions of AIC values indicate the GGP-GAM to have consistently lowered AIC to that found with MGWR, indicating improved model parsimony and fit with GGP-GAM. This is also shown visually using an example set of b values from the 100 sets of coefficients estimated by the GGP-GAM and by the MGWR to recreate the surfaces for b 0 , b 1 , b 2 . Figure <ref type="figure" target="#fig_2">3</ref> shows the coefficient surfaces estimated from the 4th set of simulations, with the same shading breaks as Figure <ref type="figure" target="#fig_0">1</ref>. The better performance of the GGP-GAM in estimating the true bs is clearly demonstrated.</p><p>A final comparison concerns the estimated scale of process spatial heterogeneity. In a MGWR model this is indicated by the optimised parameter-specific bandwidths that explicitly describe the scale of the predictor-to-response relationship. In a GGP-GAM, this is indicated through the smoothing parameters (SPs) for each spline. Table <ref type="table" target="#tab_0">1</ref> summarises the MGWR adaptive bandwidths and the GGP-GAM spline SPs for the 100 models using simulated data. What is interesting is the homogeneity of the bandwidths identified under the MGWR models and heterogeneity of the spline SPs values identified under the GGP-GAMs. However, this is related to the nature of the GAM SPs which are parameters in a covariance function, and thus not equivalent to a bandwidth. Here the GGP-GAM models were constructed using the mgcv package defaults. The result was that the number of knots, k, which defines the basis dimension in a spline, was automatically set at 33 in each GGP-GAM. Normally, k is iteratively determined (S. Wood 2015), as done in the empirical analysis below. Thus, the heterogeneity of the spline SPs in Table <ref type="table" target="#tab_0">1</ref> is probably a result of under-fitting. This point is returned in the Discussion section. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">An empirical case study: the UK Brexit</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Data</head><p>A spatial analysis of the factors associated with the 2016 referendum on EU membership (Brexit) was used to empirically illustrate the proposed GGP-GAM approach and to compare it with MGWR. Census and voting data were obtained from the parlitools R package <ref type="bibr" target="#b38">(Odell 2020)</ref>. This includes data on voting for the 632 Westminster parliamentary constituencies in Great Britain (i.e. excluding those in Northern Ireland, for which some data is missing). Information on the data and the package can be found at <ref type="url" target="https://docs.evanodell.com/parlitools/">https://docs.evanodell.com/parlitools/</ref>. The voting data were linked to socio-  economic factors that were associated with the Leave vote as described in <ref type="bibr" target="#b0">Beecham et al. (2020)</ref> and contained in the parlitools R package. A number of variables were chosen to illustrate the SVC model using a GGP-GAM relating to structural economic variables, age, and employment sector. These are summarised in Table <ref type="table" target="#tab_1">2</ref>. The constituency areas with an OSGM projection (<ref type="url" target="https://epsg.io/27700">https://epsg.io/27700</ref>) are available from the UK Office of National Statistics 1 and the hexagonal cartograms are contained in the parlitools R package <ref type="bibr" target="#b38">(Odell 2020</ref>). The response variable and the UK regions for reference are shown over both spatial structures in Figure <ref type="figure" target="#fig_3">4</ref>. The predictor variables over the hexagonal cartograms (hex-bins) are shown in Figures <ref type="figure" target="#fig_3">4</ref> and <ref type="figure" target="#fig_4">5</ref>. The GGP-GAM and MGWR spatial analyses used the original untransformed data and the coordinates from the OSGB projected data, with the results displayed using the hex-bins.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">A GGP-GAM analysis</head><p>Spatially varying coefficient models with the GGP-GAM were undertaken using the OSGB projected parliamentary constituency in Figure <ref type="figure" target="#fig_3">4</ref>. The geometric centroids of each parliamentary constituency were extracted to generate X and Y (Easting and Northing) variables in kilometres. A GGP-GAM was specified. Recall that the splines optimise a parameter which controls the degree of smoothing and that the GPs modelled in the GAM function all have a mean of zero, so for each covariate an extra fixed offset term was added along with the spatially smoothed terms. In this case the GGP-GAM was fully tuned by specifying a sufficiently high number of knots through the k parameter, in contrast to the GGP-GAMs applied to the simulated data above for which the defaults were used (k ¼ 33). The value of k sets an upper limit on effective degrees of freedom associated with GP spline smooth and thus the splines bases. Higher values of k also increase computation time. However the choice of k is difficult to determine algorithmically or to optimise and a typical approach is to investigate different values of k and adjust up or down as need. As Simon Wood notes in the mgcv R package manual under the choose.k help page, '[the] exact choice of k is not generally critical: it should be chosen to be large enough that you are reasonably sure of having enough degrees of freedom to represent the underlying 'truth' reasonably well, but small enough to maintain reasonable computational efficiency' <ref type="bibr" target="#b45">(Wood 2015)</ref>. Here, the GGP-GAM was specified with a k ¼ 60. This was large enough to accommodate the GGP-GAM parametric and spline parameters, and to ensure sufficient degrees of freedom. A summary of the fixed parametric coefficient estimates, the smooth terms of the GGP splines for the GGP-GAM model and the distribution of the spatial varying coefficient estimates are shown in Tables <ref type="table" target="#tab_2">3</ref><ref type="table" target="#tab_3">4</ref><ref type="table" target="#tab_4">5</ref>, respectively. The GGP-GAM fixed (parametric) coefficient estimates in Table <ref type="table" target="#tab_2">3</ref> can be interpreted as linear terms in the model, in a similar way as the results of a standard linear regression model. Here, only the Intercept and the covariate for the election 2015 turn out (Turn out (2015)) are globally significant.</p><p>Table <ref type="table" target="#tab_3">4</ref> summarises the GGP-GAM smooth terms (GP splines) and the spline SPs. The SPs determine the 'wiggliness' of the SVCs and are controlled by the number of knots (k). Together these control the characterisation of the response-to-predictor relationships over space. The spline SPs are parameters in a covariance function that penalise the complexity of the model and k defines the basis dimension in a spline (also referred to as a smooth), and are generally indicative of the degree of variation in the predictor to response spatial relationship. Table <ref type="table" target="#tab_3">4</ref> indicates that the SP is    Table <ref type="table" target="#tab_4">5</ref> summarises the distribution of the GGP-GAM SVCs. Most flip between being positive in some constituencies and negative in others, except for the Intercept, Over 65s (%) and Transport &amp; utilities employment (%), which are consistently positively associated with the leave vote. However the interpretation of these should be alongside the interpretation of the fixed parameters and the spline smooth terms: the Intercept is significant globally and locally; Turn out (2015) is globally significant with Degree qualification (%) and UK born (%) significant locally.</p><p>It also possible to map the spatial variation in the coefficient estimates generated by the GGP-GAM as in Figure <ref type="figure" target="#fig_5">6</ref>. The spatial trends in the coefficients show a number of spatial patterns associated with different population characteristics and the leave vote share. The 2015 Turn out is positive associated in the East; Over 65s is positively associated except in the South West; Transport and utilities employment is positively associated except in the South East and London; Leisure and hospitality is negatively associated except in Scotland and the South West; Manufacturing is positively associated except on the East, East Midlands and North East; Degree and Bad Health are negatively associated nearly everywhere; and Born UK is positively associated except in the South East, London and Scotland. So overall, for some covariates, there are some distinct differences between Scotland, the East, South East (including London) and the parts of the South West with the rest of the country, but in different directions for different covariates, suggesting how individual factors were interacting in different ways in these areas in relation to the leave vote.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">A MGWR analysis</head><p>Finally it also is possible to compare the GGP-GAM results with those from a MGWR. Summaries of model fit and accuracy are shown in Table <ref type="table" target="#tab_5">6</ref>. Comparing the diagnostics of AIC, adjusted R 2 , and MAE for the GGP-GAM and MGWR models indicates that the MGWR model exhibits marginally better metrics: broadly they seem to be performing as well as each other. Table <ref type="table" target="#tab_6">7</ref> summarises the MGWR SVCs and the parameter-specific adaptive bandwidths. It is instructive to examine the variation in these and to compare with the GGP-GAM SVCs in Table <ref type="table" target="#tab_4">5</ref>. Comparing the SVC inter-quartile ranges indicates that both models exhibit similar levels of variation for many of the covariates, in terms of their sign and range, except for the following:</p><formula xml:id="formula_17">� Transport &amp; utilities employment (%): negative in MGWR, positive in GGP-GAM. � Leisure &amp; hospitality employment (%): flips sign in MGWER, negative in GGP-GAM. � Bad Health (%): flips sign in MGWER, negative in GGP-GAM. � UK born (%): positive in MGWR, flips sign in GGP-GAM.</formula><p>This suggest that in general the inference (understanding) supported by each model is largely similar when the associations between the target variable and individual covariates are considered, but with some potentially important differences as described above.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Discussion and conclusion</head><p>Spatially varying coefficient (SVC) models explicitly accommodate process spatial nonstationarity, where statistical relationships expressed using regression coefficient estimates are allowed to vary with location. SVCs provide an explicit representation of process spatial heterogeneity and can be mapped to describe how and where statistical relationships vary. These in turn provide insights into variations in the underlying socio-economic, environmental or other kind of geographical process, and support the spatial 'detective work' that is core activity in much spatial and geographical analysis. This paper proposes an alternative SVC based on GAMs with Gaussian Process splines parameterised with location -a Geographical GP GAM (GGP-GAM). It was applied to 100 simulated data generated from coefficients with known spatial heterogeneities and was shown to out-perform Multiscale Geographically Weighted Regression (MGWR) under a range of fit metrics. Then both models were applied to an empirical case study of the UK Brexit referendum. Here the MGWR model was shown to (marginally) outperform the GGP-GAM. Comparisons of the SVCs arising from both models indicated similar levels of variation for many of the covariates, with few differences in the predictor-to-response relationships. The correlations between the GGP-GAM and MGWR coefficients are summarised in Table <ref type="table" target="#tab_7">8</ref> with two covariates indicating different relationships. In general, however, this reinforces an emerging theme from the SVC literature that alternative SVC approaches generate results that are much more similar than they are different, indicating a general coherence across this family of models and supporting SVC modelling overall. The GGP-GAM covariates were mapped and these indicated some strong regional differences in their relationship with the leave vote, for specific variables in different parts of the study area, when compared to the rest of the country (Figure <ref type="figure" target="#fig_5">6</ref>). These are reflected the spatial variation in the associations between socio-economic factors the process and the Brexit leave vote.</p><p>In terms of historic frequency of use, the SVC model 'brand leader' is Geographically Weighted Regression. One could say that SVC modelling is to 'vacuum cleaner' as GWR is to 'Hoover'. More specifically Multiscale GWR is becoming the approach of choice. The increase in GWR and MGWR applications over recent years (as documented in <ref type="bibr" target="#b6">Comber et al. (2022)</ref>) has in part been driven by the conceptual simplicity of GWR and MGWR: they generate a collection of local regression models, which are readily understood by both expert and non-expert users. However there are number of conceptual limitations to GWR-based approaches. Coefficients are estimated as though calibrating multiple models rather than a single one, whereas, for example, GP-based and ESF-based approaches within GLM or GAM frameworks provide a full single data model. Additionally, GW-based regressions may be sensitive to local collinearity even when this is not a problem across the whole dataset <ref type="bibr" target="#b43">(Wheeler and P� aez 2010;</ref><ref type="bibr" target="#b40">P� aez et al. 2011)</ref>, although tools for GWR have been developed to compensate for this (see <ref type="bibr" target="#b16">Gollini et al. (2015)</ref>). Finally, kernel based approaches like GWR and particularly MGWR are computationally demanding, as they require a series of optimisation problems to be solved to determine the individual scales of predictor-toresponse relationships <ref type="bibr" target="#b9">(Fan and Huang 2022)</ref>.</p><p>In contrast, the proposed GGP-GAM has a rich and more comprehensive theoretical underpinning through its use of GP splines set within a GAM framework that has much greater flexibility than MGWR (especially as many GWR extensions have not been developed for MGWR). For example, GAM frameworks are relatively mature, and GAM functions commonly provide options for penalized terms for handling collinearity, robust options for treating outliers, and options for heteroskedastic or autocorrelated error terms. Further, MGWR is still only for Gaussian responses, despite being developed in 2014, whereas GGP-GAM can be used for a variety of responsetypes and has much stronger theoretical background to support such 'within framework' extensions than GWR/MGWR. The one area where MGWR has an inferential advantage is in the way that the scales of predictor-to-response variable relationships are reported. In MGWR, the parameter specific bandwidths provide an explicit and intuitively understood indication of process spatial heterogeneity, which GGP-GAM outputs currently lack. The nearest similar measure is the GGP-GAM spline SPs as in Table <ref type="table" target="#tab_0">1</ref> but these describe parameters in a covariance function whose stability is linked to the specification of the knots parameter, k, and are not equivalent to a bandwidth. They do however provide a measure of the spatial complexity of the predictor to response relationship. <ref type="bibr" target="#b44">Wolf et al. (2018)</ref> compared MGWR and multiscale Bayesian SVC (BSVC) models and sought to unpick the conceptual differences between the bandwidths reported by the two approaches. Specifically, they were interested in expounding how the different bandwidth distances indicated process 'scale' and identifying some important ontological differences between them. Their summary was that the MGWR bandwidths describe the local heterogeneity of predictor to response relationships and BSVC bandwidths (ranges) provided a composite measure of predictor to response relationships heterogeneity combined with local variation. Understanding the scale of spatial variation in this way is a key geographic consideration. However, as with BSVC, weights in GGP-GAM will not decay uniformly from a calibration point as in MGWR, since accounting for spatial correlation in a BSVC or a GGP-GAM leads to desirable weighting effects related to the data's spatial configuration <ref type="bibr" target="#b3">(Chiles and Delfiner 1999)</ref>. In this respect, the spatial configuration of a dataset will directly affect any comparison between a GGP-GAM and MGWR (see also <ref type="bibr" target="#b19">Harris et al. (2011)</ref> in the context of GWR versus kriging). Future work will explore these issues in depth and how to characterise the link between the spline SPs through the GP covariance function in order to increase the interpretability of process scale through the GGP-GAM. Specifically, it will seek to connect the spline SPs to an inference of geographic scale. A final observation is the potential for SVCs via a GGP-GAM to overcome some of the long-standing reservations about GWR-based regression methods and to elevate the perception of SVCs amongst the broader community. Typically, GWR studies are presented as informal, exploratory analyses, and thus of implicitly lower status, supporting informal inferences of observed spatial processes. The mature GAM framework offers a potential opportunity to elevate this class of work and maybe incentivise greater mainstream use of SVCs. Future work will provide a more thorough demonstration of how GGP-GAMs and their outputs can be explored, tuned and reported, potentially using the diagnostic tools proposed in <ref type="bibr" target="#b41">Sachdeva et al. (2022)</ref>.</p><p>There are a number of other areas of further work that will be undertaken. The immediate next steps are to explore how the GGP-GAM handles highly complex spatial heterogeneities and apply it to larger datasets. Then a wrapper package for undertaking GGP-GAMs and extracting the coefficients at each locations will be constructed to sit above the mcgv package. Currently, a number of operations are needed to set up the GGP-GAMs and to extract the outputs in a form useful to a person interpreting a SVC model. Although R code can be written to do this, providing a simpler interface for frequent use would greatly increase accessibility. It is anticipated that there will be a number of further methodological developments. First, investigations will be undertaken to determine optimal spline smoothing parameters, which control the smoothing of the data and as such indicates the locally varying nature of the coefficient, and the number of knots used to ensure sufficient degrees of freedom across the data and the splines. In this paper, defaults were used, and the results are encouraging. However this suggests that potentially even better results could be achieved if the rubrics for tuning the GGP-GAP could be established. Second, further work will investigate how to provide explicit descriptions of the scale of predictor-to-response variable relationships. An approximation of these can be extracted from the semivariograms of the GP spline smoothing parameters which can be constructed for each GP spline. However, there is some uncertainty in the interpretation of the semivariograms in the mcgv package, in which the GGP-GAMs were constructed. Third, GAMs have options for penalised terms in order to handle predictor variable collinearity and selection. Investigations are needed to determine how and whether this needs to be tested for and then specified. Fourth, the wrapper package will include options to deal with outliers and dependent errors (i.e. heteroskedascity, autocorrelation) will also be investigated for GGP-GAMs. There are also a number of areas of SVC model development, particularly in the temporal domain. GP splines can be parameterised with time as well as as location. This suggests opportunities for methodological entrancement to current Geographically and Temporally Weighted Regression (GTWR) approaches <ref type="bibr" target="#b23">(Huang et al. 2010;</ref><ref type="bibr" target="#b12">Fotheringham et al. 2015)</ref> and multiscale GTWR <ref type="bibr" target="#b47">(Wu et al. 2019)</ref>, which effectively determine parameter (q) to link space and time. These, and other methodological opportunities, are possible because of the considerable developments that have taken place around GAMs in the temporal, spatial and spatio-temporal domains.</p><p>In conclusion, this paper demonstrates for the first time, the formulation and application of a GAM with GP splines calibrated via observation location in a multiscale spatially varying coefficient model. The Geographical Gaussian Process GAM (GGP-GAM) was applied to 100 simulated datasets with known variations in spatial heterogeneity, and were shown consistently to perform better than MGWR. GGP-GAM was applied to a Brexit case study to demonstrate how process GPP-GAMs could be used to understand how and where relationships (and therefore processes) vary spatially. The results were compared with MGWR which was shown to perform marginally better. A number of areas of further work have been identified, including the development of a user-friendly wrapper to the GGP-GAM functions that will incorporate spline tuning, explicit descriptions of the scale of predictor-to-response variable relationships, handling variable collinearity, model selection (penalization), robust regression and handling error term dependencies. These are supported by the richer and more comprehensive theoretical framework of GAMs.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. The simulated regression coefficient surfaces with zero, low and high spatial heterogeneity.</figDesc><graphic coords="8,60.60,52.95,371.96,159.82" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Evaluation of the accuracy of the GGP-GAM and MGWR regression coefficient estimates, when compared to the true coefficients, and with the distribution of AIC values for model fit.</figDesc><graphic coords="9,60.60,52.95,371.96,364.88" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure3. The estimated regression coefficients from a single fit of the GGP-GAM and MGWR models, shaded using the same range as Figure1.</figDesc><graphic coords="10,60.60,52.95,371.96,298.55" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. The Brexit leave vote majority over parliamentary constituencies with the UK regions, under an OSGB projection (left) and recast into hexagons (right).</figDesc><graphic coords="12,60.60,52.95,371.96,378.43" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. The predictor variables over parliamentary constituencies, recast into hexagons.</figDesc><graphic coords="13,60.60,52.95,371.96,287.49" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. The spatially varying coefficient (SVC) estimates from GGP-GAM.</figDesc><graphic coords="15,90.60,52.95,311.98,532.91" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Summaries of MGWR bandwidths (BW) and GGP-GAM spline smoothing parameters (SP).</figDesc><table><row><cell></cell><cell>Min.</cell><cell>Q1</cell><cell>Median</cell><cell>Q3</cell><cell>Max.</cell></row><row><cell>GGP-GAM SP x 0</cell><cell>9.2e-05</cell><cell>2.0e-02</cell><cell>2.3e-01</cell><cell>1.9e þ 04</cell><cell>4.3e þ 05</cell></row><row><cell>GGP-GAM SP x 1</cell><cell>3.8e-05</cell><cell>1.3e-02</cell><cell>1.9e þ 02</cell><cell>1.3e þ 03</cell><cell>1.1e þ 05</cell></row><row><cell>GGP-GAM SP x 2</cell><cell>2.3e-07</cell><cell>2.5e-06</cell><cell>9.1e-06</cell><cell>1.7e-05</cell><cell>2.5e-05</cell></row><row><cell>MGWR BW x 0</cell><cell>10</cell><cell>10</cell><cell>10</cell><cell>10</cell><cell>13</cell></row><row><cell>MGWR BW x 1</cell><cell>22</cell><cell>25</cell><cell>30</cell><cell>46</cell><cell>73</cell></row><row><cell>MGWR BW x 2</cell><cell>10</cell><cell>13</cell><cell>13</cell><cell>25</cell><cell>26</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>The variables used to construct the GGP-GAM of leave voting rates, for each parliamentary constituency.</figDesc><table><row><cell>Variable</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>The fixed (parametric) coefficients for the GGP-GAM.</figDesc><table><row><cell></cell><cell>Estimate</cell><cell>Std. error</cell><cell>t Value</cell><cell>Pr(&gt;jtj)</cell></row><row><cell>Intercept</cell><cell>63.566</cell><cell>6.087</cell><cell>10.443</cell><cell>0.000</cell></row><row><cell>Turn out (2015)</cell><cell>-0.096</cell><cell>0.026</cell><cell>-3.732</cell><cell>0.000</cell></row><row><cell>Over 65s (%)</cell><cell>0.192</cell><cell>0.869</cell><cell>0.221</cell><cell>0.825</cell></row><row><cell>Transport &amp; utilities employment (%)</cell><cell>0.085</cell><cell>0.920</cell><cell>0.092</cell><cell>0.927</cell></row><row><cell>Leisure &amp; hospitality employment (%)</cell><cell>3.067</cell><cell>8.552</cell><cell>0.359</cell><cell>0.720</cell></row><row><cell>Manufacturing employment (%)</cell><cell>0.861</cell><cell>3.974</cell><cell>0.217</cell><cell>0.829</cell></row><row><cell>Degree qualification (%)</cell><cell>-1.583</cell><cell>2.591</cell><cell>-0.611</cell><cell>0.542</cell></row><row><cell>Bad health (%)</cell><cell>-0.858</cell><cell>2.276</cell><cell>-0.377</cell><cell>0.706</cell></row><row><cell>UK born (%)</cell><cell>-0.029</cell><cell>1.233</cell><cell>-0.024</cell><cell>0.981</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>The smooth terms of the GGP-GAM model, with the Spline smoothing parameters. and 10 -5 for the other covariates. The effective degrees of freedom (edf in the table) can be interpreted as an indicator of the non-linearity of the relationship of the response (leave vote) with the predictor variables -i.e. the effective degrees of freedom would have a value of ~1 if the model penalized the smooth term to a near linear relationship. Higher edf values indicate increasing non-linearity in the relationship over a 2-dimensional space defined by (X, Y). All edf values are less than k indicating that it is adequately specified. The p-values relate to the splines defined over geographic space and their significance can be interpreted as indicating whether they vary locally. The p-values indicate that the Intercept, Degree qualification (%) and UK born (%) are significant locally. The insignificant p-values can be interpreted as indicating that although there are effects, these do not vary locally.</figDesc><table><row><cell></cell><cell>Spline SPs</cell><cell>edf</cell><cell>Ref.df</cell><cell>F</cell><cell>p-Value</cell></row><row><cell>s(X,Y):Intercept</cell><cell>3.24e-13</cell><cell>4.108</cell><cell>4.121</cell><cell>4.367</cell><cell>0.002</cell></row><row><cell>s(X,Y):Turn out (2015)</cell><cell>8.71e þ 01</cell><cell>2.500</cell><cell>2.500</cell><cell>6.351</cell><cell>0.051</cell></row><row><cell>s(X,Y):Over 65s (%)</cell><cell>1.59e-03</cell><cell>4.386</cell><cell>5.327</cell><cell>0.354</cell><cell>0.851</cell></row><row><cell>s(X,Y):Transport &amp; utilities employment (%)</cell><cell>1.41e-03</cell><cell>6.572</cell><cell>7.982</cell><cell>0.746</cell><cell>0.653</cell></row><row><cell>s(X,Y):Leisure &amp; hospitality employment (%)</cell><cell>1.48e-05</cell><cell>11.607</cell><cell>13.499</cell><cell>1.584</cell><cell>0.073</cell></row><row><cell>s(X,Y):Manufacturing employment (%)</cell><cell>7.13e-05</cell><cell>9.966</cell><cell>12.155</cell><cell>1.109</cell><cell>0.351</cell></row><row><cell>s(X,Y):Degree qualification (%)</cell><cell>1.62e-04</cell><cell>16.926</cell><cell>20.090</cell><cell>1.679</cell><cell>0.033</cell></row><row><cell>s(X,Y):Bad health (%)</cell><cell>2.35e-04</cell><cell>3.810</cell><cell>4.436</cell><cell>1.176</cell><cell>0.271</cell></row><row><cell>s(X,Y):UK born (%)</cell><cell>7.21e-04</cell><cell>31.584</cell><cell>37.638</cell><cell>1.444</cell><cell>0.050</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 5 .</head><label>5</label><figDesc>The distributions of the GGP-GAM spatially varying coefficient estimates (MAE ¼ 1.794 Adjusted R 2 ¼ 0.945; AIC ¼ 3131.3).</figDesc><table><row><cell></cell><cell>Min.</cell><cell>1st Qu.</cell><cell>Median</cell><cell>3rd Qu.</cell><cell>Max.</cell></row><row><cell>Intercept</cell><cell>12.80</cell><cell>48.65</cell><cell>56.99</cell><cell>82.64</cell><cell>114.52</cell></row><row><cell>Turn out (2015)</cell><cell>-0.51</cell><cell>-0.27</cell><cell>-0.19</cell><cell>-0.10</cell><cell>0.05</cell></row><row><cell>Over 65s (%)</cell><cell>0.46</cell><cell>0.73</cell><cell>0.76</cell><cell>0.81</cell><cell>0.82</cell></row><row><cell>Transport &amp; utilities employment (%)</cell><cell>0.13</cell><cell>0.24</cell><cell>0.38</cell><cell>0.47</cell><cell>0.54</cell></row><row><cell>Leisure &amp; hospitality employment (%)</cell><cell>-1.17</cell><cell>-0.91</cell><cell>-0.61</cell><cell>-0.19</cell><cell>1.39</cell></row><row><cell>Manufacturing employment (%)</cell><cell>-0.41</cell><cell>0.07</cell><cell>0.20</cell><cell>0.35</cell><cell>2.04</cell></row><row><cell>Degree qualification (%)</cell><cell>-1.65</cell><cell>-0.99</cell><cell>-0.82</cell><cell>-0.68</cell><cell>0.16</cell></row><row><cell>Bad health (%)</cell><cell>-3.01</cell><cell>-2.04</cell><cell>-1.72</cell><cell>-1.25</cell><cell>0.58</cell></row><row><cell>UK born (%)</cell><cell>-0.28</cell><cell>-0.03</cell><cell>0.11</cell><cell>0.23</cell><cell>0.51</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_5"><head>Table 6 .</head><label>6</label><figDesc>Comparison of the model fit diagnostics for the GGP-GAM and MGWR models.</figDesc><table><row><cell></cell><cell>R-squared</cell><cell>MAE</cell><cell>AIC</cell></row><row><cell>GGP-GAM</cell><cell>0.953</cell><cell>1.794</cell><cell>3131.3</cell></row><row><cell>MGWR</cell><cell>0.966</cell><cell>1.582</cell><cell>2927.1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_6"><head>Table 7 .</head><label>7</label><figDesc>The distributions of the MGWR spatially varying coefficient estimates and the adaptive bandwidths.</figDesc><table><row><cell></cell><cell>Min.</cell><cell>1st Qu.</cell><cell>Median</cell><cell>3rd Qu.</cell><cell>Max.</cell><cell>Bandwidths</cell></row><row><cell>Intercept</cell><cell>27.202</cell><cell>48.550</cell><cell>63.901</cell><cell>106.228</cell><cell>130.530</cell><cell>18</cell></row><row><cell>Turn out (2015)</cell><cell>-0.078</cell><cell>-0.077</cell><cell>-0.075</cell><cell>-0.073</cell><cell>-0.070</cell><cell>630</cell></row><row><cell>Over 65s (%)</cell><cell>0.398</cell><cell>0.401</cell><cell>0.406</cell><cell>0.415</cell><cell>0.445</cell><cell>630</cell></row><row><cell>Transport &amp; utilities employment (%)</cell><cell>-1.448</cell><cell>-1.167</cell><cell>-0.342</cell><cell>-0.224</cell><cell>0.088</cell><cell>88</cell></row><row><cell>Leisure &amp; hospitality employment (%)</cell><cell>-2.433</cell><cell>-0.681</cell><cell>0.022</cell><cell>0.609</cell><cell>2.704</cell><cell>22</cell></row><row><cell>Manufacturing employment (%)</cell><cell>-0.291</cell><cell>0.278</cell><cell>0.425</cell><cell>1.415</cell><cell>2.012</cell><cell>65</cell></row><row><cell>Degree qualification (%)</cell><cell>-1.681</cell><cell>-1.669</cell><cell>-1.345</cell><cell>-1.209</cell><cell>-1.090</cell><cell>313</cell></row><row><cell>Bad health (%)</cell><cell>-0.710</cell><cell>-0.462</cell><cell>-0.178</cell><cell>0.365</cell><cell>0.398</cell><cell>295</cell></row><row><cell>UK born (%)</cell><cell>0.107</cell><cell>0.116</cell><cell>0.374</cell><cell>0.416</cell><cell>0.468</cell><cell>192</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_7"><head>Table 8 .</head><label>8</label><figDesc>The correlations between the GGP-GAM and MGWR spatially varying coefficient estimates.</figDesc><table><row><cell>Covariate</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><head>Funding</head><p>This work was by <rs type="funder">Natural Environment Research Council</rs> [<rs type="grantNumber">NE/S009124/1</rs>] and <rs type="funder">Biotechnology and Biological Sciences Research Council</rs> [<rs type="grantNumber">BB/X010961/1</rs> and <rs type="grantNumber">BBS/E/RH/23NB0008</rs>].</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_yZS7NDz">
+					<idno type="grant-number">NE/S009124/1</idno>
+				</org>
+				<org type="funding" xml:id="_N9M5Kh3">
+					<idno type="grant-number">BB/X010961/1</idno>
+				</org>
+				<org type="funding" xml:id="_n9hyPUx">
+					<idno type="grant-number">BBS/E/RH/23NB0008</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data and codes availability statement</head><p>The data and code used to undertake the full GGP-GAM analysis and generate the results presented in this paper can be found at <ref type="url" target="https://github.com/lexcomber/GGP-GAM">https://github.com/lexcomber/GGP-GAM</ref>.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure statement</head><p>No potential conflict of interest was reported by the author(s).</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Notes on contributors</head><p>Alexis Comber is Professor of Spatial Data Analytics, with research interests in all areas of spatial analysis and geocomputation. His recent work explores methods for handling spatial scale and for supporting different scales of decision making.</p><p>Paul Harris is Professor of Agriculture Sciences with interests in environmental monitoring and modelling, and methodologies in spatial statistics. His recent research focuses on developing analytical methods for resilient farming systems.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Chris Brunsdon is Professor of Geocomputation at the National University of Ireland, Maynooth.</head><p>He has research interests in developing spatial data analysis methods, and reproducibility and inference for these methods. His recent reserach has been applying these ideas to data related to Covid-19.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Note</head><p>1. <ref type="url" target="https://geoportal.statistics.gov.uk/datasets/d3650c649bff40768badafdf0518a4af.">https://geoportal.statistics.gov.uk/datasets/d3650c649bff40768badafdf0518a4af</ref>.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Regionally-structured explanations behind arealevel populism: an update to recent ecological analyses</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Beecham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLOS One</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">229974</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Some notes on parametric significance tests for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Chiles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Delfiner</surname></persName>
+		</author>
+		<title level="m">Geostatistics: modeling spatial uncertainty</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">The GWR route map: a guide to the informed application of GWR</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+		<ptr target="https://arxiv.org/abs/2004.06070" />
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">A route map for successful applications of geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="178" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Gwverse: a template for a new generic geographically weighted R package</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="685" to="709" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood estimation of spatially varying coefficient models for large data with an application to real estate price prediction</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Dambon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Sigrist</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="page">100470</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Regression models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Fahrmeir</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Regression: models, methods and applications</title>
+		<meeting><address><addrLine>Berlin, Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="page" from="23" to="84" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient models using reduced-rank thinplate splines</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">T</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">C</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="page">100654</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Bayesian spatially varying coefficient models in the spBayes R package</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Modelling &amp; Software</title>
+		<imprint>
+			<biblScope unit="volume">125</biblScope>
+			<biblScope unit="page">104608</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Geographical and temporal weighted regression (GTWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression and multicollinearity: dispelling the myth</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="303" to="329" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">GWmodel: an R package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="1" to="50" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Spatial-filtering-based contributions to a critique of geographically weighted regression (GWR)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A: Economy and Space</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2751" to="2769" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A simulation study on specifying a regression model for spatial data: choosing between autocorrelation and heterogeneity effects</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="151" to="181" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Links, comparisons and extensions of the geographically weighted regression model when used as a spatial predictor</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stochastic Environmental Research and Risk Assessment</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="123" to="138" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">The use of geographically weighted regression for spatial prediction: an evaluation of models using simulated data sets</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Geosciences</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="657" to="680" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Generalized additive models</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Pregibon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">eds. Statistical models in S</title>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Chambers</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hastie</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Boca Raton</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman &amp; Hall</publisher>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="195" to="247" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">The basis function approach for modeling autocorrelation in ecological data</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hefley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="632" to="646" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Geographically and temporally weighted regression for modeling spatio-temporal variation in house prices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="383" to="401" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Geoadditive models</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Kammann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Wand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society Series C: Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Spatial variation in risk of disease: a nonparametric binary regression approach</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Kelsall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society Series C: Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="559" to="573" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Hierarchical spatially varying coefficient process model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="521" to="527" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Fast geographically weighted regression (FastGWR): a scalable algorithm to investigate spatial process heterogeneity in millions of observations</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="175" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Measuring bandwidth uncertainty in multiscale geographically weighted regression using Akaike weights</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">110</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1500" to="1520" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A response to &apos;A comment on geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1300" to="1312" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">The GWmodel R package: further topics for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geo-Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="85" to="101" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">High-performance solutions of geographically weighted regression in R</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geo-Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="536" to="549" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mccullagh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Nelder</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<publisher>Routledge</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Generalized linear models</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Estimation and inference in spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">2485</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Random effects specifications in eigenvector spatial filtering: a simulation study</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="311" to="331" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">The importance of scale in spatially varying coefficient modeling</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="50" to="70" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">A Moran coefficient-based mixed effects approach to investigate spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="68" to="89" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Generalized linear models</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Nelder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">W</forename><surname>Wedderburn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series A</title>
+		<imprint>
+			<biblScope unit="volume">135</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="370" to="384" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<title level="m" type="main">Package &apos;parlitools. R Package Version</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Odell</surname></persName>
+		</author>
+		<ptr target="https://cran.r-project.org/web/pack-ages/parlitools/index.html" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">12</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Developing GIS-relevant zone-based spatial analysis methods</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Openshaw</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Analysis: Modelling in a GIS Environment</title>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Longley</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Batty</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>GeoInformation International</publisher>
+			<date type="published" when="1996">1996</date>
+			<biblScope unit="page" from="55" to="73" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A simulation-based study of geographically weighted regression as a method for investigating spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>P� Aez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A: Economy and Space</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2992" to="3010" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Are we modelling spatially varying processes or non-linear relationships?</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sachdeva</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="715" to="738" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">An assessment of coefficient accuracy in linear regression models with spatially varying coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of applied spatial analysis</title>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Fischer</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin, Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="461" to="486" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Single and multiscale models of process spatial heterogeneity</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="223" to="246" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<title level="m" type="main">Package &apos;MGCV. R Package Version</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wood</surname></persName>
+		</author>
+		<ptr target="https://cran.r-project.org/web/packages/mgcv/index.html" />
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page">729</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">Generalized additive models: an introduction with R</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>Chapman Hall/ CRC</publisher>
+			<pubPlace>Boca Raton</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically and temporally weighted regression: Exploring the spatiotemporal determinants of housing prices</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="489" to="511" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">An extension of geographically weighted regression with flexible bandwidths</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Thesis</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+		<respStmt>
+			<orgName>PhD). University of St Andrews</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">On the measurement of bias in geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page">100453</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

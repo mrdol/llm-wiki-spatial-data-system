@@ -1777,9 +1777,11 @@
       "yield"
     ],
     "x_candidates": [
+      "r",
+      "c",
       "lat1"
     ],
-    "rationale": "yield (rendement en blé) est la variable réponse naturelle pour un dataset agricole spatial. lat1 est une covariable spatiale continue exploitable (position/gradient spatial). SP_ID_1, r et c sont des identifiants ou codes de grille (ligne/colonne) purement administratifs, sans valeur explicative directe."
+    "rationale": "Selection Y/X corrigee depuis la documentation source : `yield` est la variable reponse naturelle. `r` et `c` decrivent les lignes et colonnes des centres de parcelles; elles sont donc des covariables de position/grille utiles pour capter un effet spatial de champ. `lat1` conserve le gradient nord-sud transforme de la documentation."
   },
   "Python_libpysal_Baltimore::1cbf694331f1cb19": {
     "y_candidates": [
@@ -2252,7 +2254,7 @@
     "R_surveillance_hagelloch_hagelloch": {
       "publication_doi": "10.1093/biostatistics/5.2.249",
       "reference_publication": "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic",
-      "formula_pub": "~ household + cox(AGE)",
+      "formula_pub": "not_applicable - twinSIR (Neal & Roberts 2004, Biostatistics 5(2):249-261, DOI 10.1093/biostatistics/5.2.249) est un modele de hasard/intensite pour processus ponctuel epidemique (classe 'epidata'/twinSIR du package surveillance, cf. https://surveillance.r-forge.r-project.org/pkgdown/reference/twinSIR.html), pas une regression Y~X classique : la 'reponse' est la structure d'historique d'evenements SIR elle-meme (start/stop/atRiskY/event, construite par as.epidata() depuis hagelloch.df), pas une colonne scalaire. household + cox(AGE) sont les covariables du terme de hasard, pas des predicteurs d'un Y observable. N reel : 188 enfants (hagelloch.df), 56 foyers distincts (x.loc/y.loc) -- les 70500 lignes de l'objet 'epidata' hagelloch sont 188 enfants x 375 pas de temps de la fenetre a risque, pas 70500 observations spatiales independantes.",
       "x_terms_pub": [
         "household",
         "cox(AGE)"
@@ -2495,7 +2497,7 @@
     "R_surveillance_hagelloch_hagelloch.df": {
       "publication_doi": "10.1093/biostatistics/5.2.249",
       "reference_publication": "Neal PJ, Roberts GO (2004) Statistical inference and model selection for the 1861 Hagelloch measles epidemic. Biostatistics, 5(2), 249–261",
-      "formula_pub": "~ household + cox(AGE)",
+      "formula_pub": "not_applicable - twinSIR (Neal & Roberts 2004, Biostatistics 5(2):249-261, DOI 10.1093/biostatistics/5.2.249) est un modele de hasard/intensite pour processus ponctuel epidemique (classe 'epidata'/twinSIR du package surveillance, cf. https://surveillance.r-forge.r-project.org/pkgdown/reference/twinSIR.html), pas une regression Y~X classique : la 'reponse' est la structure d'historique d'evenements SIR elle-meme (start/stop/atRiskY/event, construite par as.epidata() depuis hagelloch.df), pas une colonne scalaire. household + cox(AGE) sont les covariables du terme de hasard, pas des predicteurs d'un Y observable. N reel : 188 enfants (hagelloch.df), 56 foyers distincts (x.loc/y.loc) -- les 70500 lignes de l'objet 'epidata' hagelloch sont 188 enfants x 375 pas de temps de la fenetre a risque, pas 70500 observations spatiales independantes.",
       "x_terms_pub": [
         "household",
         "cox(AGE)"
@@ -2834,13 +2836,16 @@
     },
     "Python_geodatasets_geoda.guerry": {
       "publication_doi": null,
-      "reference_publication": null,
-      "formula_pub": null,
-      "x_terms_pub": [],
-      "y_term_pub": null,
-      "evidence_url": null,
-      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSmx8rUYypfSVwKfPEY'}",
-      "formula_evidence_url": null
+      "reference_publication": "Guerry, A.-M. (1833). Essai sur la statistique morale de la France. Paris: Crochard. Modern data/documentation: Friendly, M. (2007), 'A.-M. Guerry's Moral Statistics of France: Challenges for Multivariable Spatial Analysis', Statistical Science 22(3), 368-399 (arXiv:0801.4263); R package documentation https://friendly.github.io/Guerry/.",
+      "formula_pub": "Crm_prs ~ Litercy",
+      "x_terms_pub": [
+        "Litercy"
+      ],
+      "y_term_pub": "Crm_prs",
+      "evidence_url": "https://friendly.github.io/Guerry/",
+      "formula_evidence_url": "https://friendly.github.io/Guerry/reference/Guerry.html",
+      "error": null,
+      "note": "formula_pub restored 2026-08-15 (previous entry pending, not a corrected verified answer). Focal bivariate relationship documented directly in the Guerry R package reference docs (Friendly): 'Guerry was most interested in determining whether the occurrence of crimes was related to literacy' (abline(lm(Crime_pers ~ Literacy))). Dataset carries Donatns/Infants/Suicids/Wealth/Commerc/Clergy/Lottery/Desertn/Instrct/Prsttts/Distanc/Area/Pop1831 as additional covariates used in GeoDa-workbook multivariate/cluster analyses (not a single published multivariate regression equation), suitable as an ml_formula extension. Orphan duplicate R_sfdep_guerry_guerry (fewer real columns: no Lottery/Desertn/MainCty/Crm_prn/Infntcd/Dntn_cl) evaluated and discarded 2026-08-15 in favor of this already-registered, richer version - see CONFIRMED_DISCARD in generate_fiches.py."
     },
     "Python_geodatasets_geoda.health": {
       "publication_doi": null,
@@ -3102,14 +3107,29 @@
       "formula_evidence_url": null
     },
     "Python_geodatasets_spdata.boston": {
-      "publication_doi": null,
-      "reference_publication": null,
-      "formula_pub": null,
-      "x_terms_pub": [],
-      "y_term_pub": null,
-      "evidence_url": null,
-      "error": "Error code: 400 - {'type': 'error', 'error': {'type': 'invalid_request_error', 'message': 'Your credit balance is too low to access the Anthropic API. Please go to Plans & Billing to upgrade or purchase credits.'}, 'request_id': 'req_011CcZSn3Fvi7bv6CgzPnb8E'}",
-      "formula_evidence_url": null
+      "publication_doi": "10.1016/0095-0696(78)90006-2",
+      "reference_publication": "Harrison, D. & Rubinfeld, D.L. (1978). Hedonic housing prices and the demand for clean air. Journal of Environmental Economics and Management, 5(1), 81-102. Corrected coordinates/values per Gilley, O.W. & Pace, R.K. (1996), 'On the Harrison and Rubinfeld Data', JEEM 31(3), 403-405 (source of the CMEDV column).",
+      "formula_pub": "CMEDV ~ CRIM + ZN + INDUS + CHAS + NOX + RM + AGE + DIS + RAD + TAX + PTRATIO + B + LSTAT",
+      "x_terms_pub": [
+        "CRIM",
+        "ZN",
+        "INDUS",
+        "CHAS",
+        "NOX",
+        "RM",
+        "AGE",
+        "DIS",
+        "RAD",
+        "TAX",
+        "PTRATIO",
+        "B",
+        "LSTAT"
+      ],
+      "y_term_pub": "CMEDV",
+      "evidence_url": "https://geodacenter.github.io/data-and-lab/boston-housing/",
+      "formula_evidence_url": "https://geodacenter.github.io/data-and-lab/boston-housing/",
+      "error": null,
+      "note": "formula_pub restored 2026-08-15 - the previous cache entry only had error='credit balance too low' (API failure at web-enrichment time), never had a real value; not a correction of a verified answer. Classic hedonic housing regression, 13 standard predictors, CMEDV = bias-corrected median value (Gilley & Pace 1996) preferred over raw MEDV which contains censoring at $50k."
     },
     "Python_geodatasets_spdata.columbus": {
       "publication_doi": null,
@@ -3238,6 +3258,444 @@
       "y_term_pub": null,
       "evidence_url": null,
       "formula_evidence_url": null
+    },
+    "R_spatstat.data_betacells_betacells": {
+      "publication_doi": null,
+      "reference_publication": "Van Lieshout, M.N.M. and Baddeley, A.J. (1999) Indices of dependence between types in multivariate point patterns. Scandinavian Journal of Statistics 26, 511-532.",
+      "formula_pub": "not_applicable - analyse d'independance/dependance entre 2 types de points (processus ponctuel multitype), pas une regression Y~X. `area` est un attribut descriptif (taille du marqueur en plot), jamais modelise comme reponse.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_spatstat.data_btb_btb": {
+      "publication_doi": "10.1111/j.1467-9876.2005.05155.x",
+      "reference_publication": "Diggle, P.J., Zheng, P. and Durr, P. (2005) Nonparametric estimation of spatial segregation in a multivariate point process: bovine tuberculosis in Cornwall, UK. Applied Statistics 54, 645-658.",
+      "formula_pub": "not_applicable - estimation non parametrique de segregation spatiale entre types de spoligotype de tuberculose bovine, pas une regression Y~X.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_spatstat.data_finpines_finpines": {
+      "publication_doi": null,
+      "reference_publication": "Van Lieshout, M.N.M. (2004) A J-function for marked point patterns. Research Report PNA-R0404, Centrum voor Wiskunde en Informatica.",
+      "formula_pub": "not_applicable - analyse par fonction J (statistique d'interaction spatiale non parametrique comparant les distances au plus proche voisin par marque), pas une regression height~diameter malgre l'apparence allometrique des colonnes.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_spatstat.data_gorillas_gorillas": {
+      "publication_doi": null,
+      "reference_publication": "Funwi-Gabga, N. and Mateu, J. (2012) Understanding the nesting spatial behaviour of gorillas in the Kagwene Sanctuary, Cameroon. Stochastic Environmental Research and Risk Assessment 26(6), 793-811.",
+      "formula_pub": "not_applicable en l'etat pour ce projet (modele d'intensite de processus ponctuel area-interaction, pas une table Y~X ligne-par-observation) : intensity ~ elevation + slope + vegetation + aspect + waterdist [+ group + season], ajuste via ppm() sur les rasters de covariables gorillas.extra (non presents dans ce depot local, package spatstat.data seul).",
+      "x_terms_pub": [
+        "elevation",
+        "slope",
+        "vegetation",
+        "aspect",
+        "waterdist",
+        "group",
+        "season"
+      ],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_spatstat.data_shapley_shapley": {
+      "publication_doi": null,
+      "reference_publication": "Drinkwater, M.J., Parker, Q.A., Proust, D., Slezak, E. and Quintana, H. (2004) The large scale distribution of galaxies in the Shapley Supercluster. Publications of the Astronomical Society of Australia 21, 89-96.",
+      "formula_pub": "not_applicable - pattern de points pur (positions de galaxies), analyse descriptive/clustering du supercluster, aucune covariable de regression associee dans la source.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_spatstat.data_stonetools_stonetools": {
+      "publication_doi": "10.1371/journal.pone.0246605",
+      "reference_publication": "Diez-Martin, F., Cobo-Sanchez, L., Baddeley, A., Uribelarrea, D., Mabulla, A., Baquedano, E. and Dominguez-Rodrigo, M. (2021) Tracing the spread of technological innovations in early stone tool assemblages. PLOS ONE.",
+      "formula_pub": "not_applicable - estimation d'intensite non parametrique et test de segregation Monte Carlo entre points lithiques/osseux, pas une regression Y~X coordonnee-par-coordonnee (la regression logistique multinomiale du papier teste l'homogeneite technologique entre zones, pas un Y~X spatial).",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_SpatialEpi_scotland_sf_scotland_sf": {
+      "publication_doi": "10.2307/2532003",
+      "reference_publication": "Clayton D. and Kaldor J. (1987) Empirical Bayes estimates of age-standardized relative risks for use in disease mapping. Biometrics, 43, 671-681.",
+      "formula_pub": "cases ~ AFF + offset(log(expected))",
+      "x_terms_pub": [
+        "AFF"
+      ],
+      "y_term_pub": "cases",
+      "evidence_url": null
+    },
+    "R_spData_baltimore_baltimore": {
+      "publication_doi": "10.1016/0166-0462(92)90038-3",
+      "reference_publication": "Dubin, Robin A. (1992). Spatial autocorrelation and neighborhood quality. Regional Science and Urban Economics 22(3), 433-452. NOTE (confiance moyenne) : formule hedonique standard reproduite par les packages derives de ce jeu de donnees (hspm/spregimes) ; texte original de Dubin non accessible (paywall) pour verifier exactement la liste de covariables/forme fonctionnelle (log vs niveau, inclusion DWELL/BMENT/NSTOR/CITCOU).",
+      "formula_pub": "PRICE ~ NROOM + NBATH + PATIO + FIREPL + AC + GAR + AGE + LOTSZ + SQFT",
+      "x_terms_pub": [
+        "NROOM",
+        "NBATH",
+        "PATIO",
+        "FIREPL",
+        "AC",
+        "GAR",
+        "AGE",
+        "LOTSZ",
+        "SQFT"
+      ],
+      "y_term_pub": "PRICE",
+      "evidence_url": null
+    },
+    "R_spData_nydata_nydata": {
+      "publication_doi": "10.1002/0471662682",
+      "reference_publication": "Waller, L. and C. Gotway (2004) Applied Spatial Statistics for Public Health Data, Ch. 9, Wiley. Formule confirmee par reproduction dans Bivand, Pebesma & Gomez-Rubio (2008) Applied Spatial Data Analysis with R (coefficients rapportes : PEXPOSURE 0.153, PCTOWNHOME -0.359, PCTAGE65P 4.050).",
+      "formula_pub": "Cases ~ PEXPOSURE + PCTAGE65P + PCTOWNHOME + offset(log(POP8))",
+      "x_terms_pub": [
+        "PEXPOSURE",
+        "PCTAGE65P",
+        "PCTOWNHOME"
+      ],
+      "y_term_pub": "Cases",
+      "evidence_url": null
+    },
+    "R_spData_state.vbm_state.vbm": {
+      "publication_doi": null,
+      "reference_publication": "Conversion S-PLUS par Greg Snow d'un cartogramme de Mark Monmonier (visibility-based map des Etats-Unis).",
+      "formula_pub": "not_applicable - jeu de donnees purement cartographique (polygones redimensionnes pour la lisibilite visuelle), aucune variable reponse ni covariable : seulement center_x/center_y (centroides pour le placement d'etiquettes). L'exemple de la doc colore les etats avec une variable EXTERNE (state.x77) a but de demonstration graphique, pas de modelisation.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_HistData_OldMaps_OldMaps": {
+      "publication_doi": null,
+      "reference_publication": "Andrews, D.F. and Herzberg, A.M. (1985) Data: A Collection of Problems from Many Fields for the Student and Research Worker, Table 10.1, Springer.",
+      "formula_pub": "not_applicable - jeu de donnees de calibration cartographique/geodesique (latitude/longitude de 39 points de reference des Grands Lacs sur 11 cartes anciennes 1688-1818 vs coordonnees reelles), destine a diagnostiquer des erreurs de cartographe (erreur constante/proportionnelle en lat/long, rotation), pas une regression Y~X unique et defendable comparable aux autres fiches.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_agridat_gotway.hessianfly_gotway.hessianfly": {
+      "publication_doi": "10.2307/1400401",
+      "reference_publication": "Gotway, C. A. and Stroup, W. W. (1997) A Generalized Linear Model Approach to Spatial Data Analysis and Prediction. Journal of Agricultural, Biological, and Environmental Statistics 2, 157-178.",
+      "formula_pub": "cbind(y, n-y) ~ gen + (1|block) + Matern(1|long+lat)",
+      "x_terms_pub": [
+        "gen"
+      ],
+      "y_term_pub": "y/n (proportion de plants endommages, binomial(n))",
+      "evidence_url": null
+    },
+    "R_agridat_kayad.alfalfa_kayad.alfalfa": {
+      "publication_doi": "10.1371/journal.pone.0157166",
+      "reference_publication": "Kayad et al. (2016) PLOS ONE 11(6). NOTE : le papier regresse le rendement contre des indices satellites Landsat-8 (NIR, SAVI, NDVI, r jusqu'a 0.69) mais ces covariables ne sont PAS presentes dans l'objet R kayad.alfalfa (seulement harvest/lat/long/yield).",
+      "formula_pub": "not_applicable - aucune covariable presente dans le jeu de donnees local ; le papier source utilise des indices de teledetection non inclus dans ce depot (cartographie de rendement seulement, yield ~ long*lat a but de visualisation, pas de regression).",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_gstat_pcb_pcb": {
+      "publication_doi": null,
+      "reference_publication": "Pebesma, E. J., and Duin, R. N. M. (2005). Spatial patterns of temporal change in North Sea sediment quality on different spatial scales.",
+      "formula_pub": "pending - analyse geostatistique spatio-temporelle de PCB138 ; coast/depth sont des candidats plausibles de derive externe (universal kriging with external drift) mais aucune formule exacte confirmee dans la source (article non accessible en texte integral).",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_gstat_walker_walker": {
+      "publication_doi": null,
+      "reference_publication": "Applied Geostatistics by Edward H. Isaaks, R. Mohan Srivastava; Oxford University Press.",
+      "formula_pub": "not_applicable - interpolation geostatistique univariee de V (krigeage) ; U sert de variable secondaire dans des exercices de cokrigeage ailleurs dans le livre, ce n'est pas une regression OLS/GLM.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_MASS_npr1_npr1": {
+      "publication_doi": null,
+      "reference_publication": "Venables, W. N. and Ripley, B. D. (2002) Modern Applied Statistics with S, 4th ed., Springer. Source terrain : Maher, Carter & Lantz (1975) USGS Professional Paper 912.",
+      "formula_pub": "pending - hypothese non verifiee par analogie avec le traitement de `topo` dans le meme livre (surface de tendance polynomiale degre 2 puis krigeage des residus, ex. por ~ poly(x,y,2)) mais texte du chapitre non accessible pour confirmer ; ne pas retenir comme fait etabli.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_gstat_wind_wind.loc": {
+      "publication_doi": null,
+      "reference_publication": "Haslett, J. and Raftery, A. E. (1989) Space-time Modelling with Long-memory Dependence: Assessing Ireland's Wind Power Resource. Applied Statistics.",
+      "formula_pub": "not_applicable - table de localisation des stations uniquement (Station, Code, Latitude, Longitude, MeanWind), pas les donnees modelisees. Le modele spatio-temporel de Haslett & Raftery porte sur l'objet separe `wind` (series quotidiennes de vitesse de vent transformees), non present dans ce depot.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_spacetime_air_DE_NUTS1": {
+      "publication_doi": null,
+      "reference_publication": "https://www.eionet.europa.eu/etcs/etc-acm/databases/airbase (gadm.org pour les polygones administratifs)",
+      "formula_pub": "not_applicable - couche de polygones administratifs allemands (NUTS1/Bundeslander) utilisee pour illustrer l'agregation spatiale, sans variable reponse propre. La variable PM10 reelle vit dans l'objet separe STFDF (stations/dates/PM10), non present dans ce depot.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": null
+    },
+    "R_mgwrsar_mydata_mydata": {
+      "publication_doi": "10.1016/j.regsciurbeco.2017.04.001",
+      "reference_publication": "Geniaux, G. and Martinetti, D. (2018) A new method for dealing simultaneously with spatial autocorrelation and spatial heterogeneity in regression models. Regional Science and Urban Economics. Formule exacte confirmee dans le manuel de reference CRAN mgwrsar.pdf (exemple MGWRSAR()).",
+      "formula_pub": "Y_mgwrsar_0_kc_kv ~ X1 + X2 + X3",
+      "x_terms_pub": [
+        "X1",
+        "X2",
+        "X3"
+      ],
+      "y_term_pub": "Y_mgwrsar_0_kc_kv",
+      "evidence_url": null
+    },
+    "R_mgwrsar_mydatasf_mydatasf": {
+      "publication_doi": "10.1016/j.regsciurbeco.2017.04.001",
+      "reference_publication": "Geniaux, G. and Martinetti, D. (2018), meme papier que mydata. Formule confirmee dans la vignette officielle du package (\"Estimating GWR and Mixed GWR Models with mgwrsar package: An Introduction with House Price Data\"), donnees issues de data.gouv.fr (Demandes de valeurs foncieres).",
+      "formula_pub": "price ~ year + footage + land_area",
+      "x_terms_pub": [
+        "year",
+        "footage",
+        "land_area"
+      ],
+      "y_term_pub": "price",
+      "evidence_url": null
+    },
+    "R_spaMM_blackcap_blackcap": {
+      "publication_doi": "10.1098/rspb.2010.2567",
+      "reference_publication": "Mueller, J. C., Pulido, F., and Kempenaers, B. (2011) Identification of a gene associated with avian migratory behaviour. Proc. Roy. Soc. (Lond.) B 278, 2848-2856. Formule confirmee dans la doc officielle spaMM (fitme/corrHLfit/fixedLRT).",
+      "formula_pub": "migStatus ~ means + Matern(1|longitude+latitude)",
+      "x_terms_pub": [
+        "means"
+      ],
+      "y_term_pub": "migStatus",
+      "evidence_url": null
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2002": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2003": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2004": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2005": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2006": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2007": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2008": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2009": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2010": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2011": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2012": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2013": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.nyc_earnings_2014": {
+      "publication_doi": null,
+      "reference_publication": "Center for Spatial Data Science, University of Chicago (GeoDa Data and Lab), 'Block-level Earnings in NYC (2002-14)' -- source LEHD (Longitudinal Employer-Household Dynamics, US Census Bureau), https://geodacenter.github.io/data-and-lab//LEHD_Data/. Decoupe le 2026-08-15 en 13 fiches annuelles (politique : plusieurs coupes temporelles plutot qu'une seule) depuis l'objet source geoda.nyc_earnings (N=108487, 71 colonnes C000/CE01/CE02/CE03 x 2002-2014). total_jobs=C000 (emplois totaux), jobs_earnings_low/mid/high=CE01/CE02/CE03 (tiers de revenu LODES : <=1250$/mois, 1251-3333$/mois, >3333$/mois -- somme egale a total_jobs, donc CE01-03 ne doivent pas etre utilisees simultanement avec total_jobs comme X et Y, colinearite exacte par construction).",
+      "formula_pub": "pending",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://geodacenter.github.io/data-and-lab//LEHD_Data/"
+    },
+    "Python_geodatasets_geoda.ncovr_1960": {
+      "publication_doi": "10.1111/j.1745-9125.2001.tb00933.x",
+      "reference_publication": "Baller, R.D., Anselin, L., Messner, S.F., Deane, G. and Hawkins, D.F. (2001) Structural covariates of U.S. county homicide rates: incorporating spatial effects. Criminology 39(3), 561-590. DOI 10.1111/j.1745-9125.2001.tb00933.x. Section 'Data' (p.568) confirmee par lecture directe du PDF : 'The independent variables are county analogues of the measures used by Land et al. (1990) ... resource deprivation and population structure are represented by principal components indexes ... The models also include median age, the unemployment rate, percent divorced, and a Southern dummy variable.' RD/PS sont deja les composantes principales precalculees dans le dataset (colonnes RD60-90/PS60-90 du package geoda.ncovr), pas reconstruites. Decoupe le 2026-08-15 en 4 fiches decennales (politique : plusieurs coupes temporelles plutot qu'une seule).",
+      "formula_pub": "homicide_rate ~ resource_deprivation + population_structure + median_age + unemployment_rate + divorce_rate + SOUTH",
+      "x_terms_pub": [
+        "resource_deprivation",
+        "population_structure",
+        "median_age",
+        "unemployment_rate",
+        "divorce_rate",
+        "SOUTH"
+      ],
+      "y_term_pub": "homicide_rate",
+      "evidence_url": "http://mattingram.net/teaching/spatialanalysis/Balleretal2001.pdf"
+    },
+    "Python_geodatasets_geoda.ncovr_1970": {
+      "publication_doi": "10.1111/j.1745-9125.2001.tb00933.x",
+      "reference_publication": "Baller, R.D., Anselin, L., Messner, S.F., Deane, G. and Hawkins, D.F. (2001) Structural covariates of U.S. county homicide rates: incorporating spatial effects. Criminology 39(3), 561-590. DOI 10.1111/j.1745-9125.2001.tb00933.x. Section 'Data' (p.568) confirmee par lecture directe du PDF : 'The independent variables are county analogues of the measures used by Land et al. (1990) ... resource deprivation and population structure are represented by principal components indexes ... The models also include median age, the unemployment rate, percent divorced, and a Southern dummy variable.' RD/PS sont deja les composantes principales precalculees dans le dataset (colonnes RD60-90/PS60-90 du package geoda.ncovr), pas reconstruites. Decoupe le 2026-08-15 en 4 fiches decennales (politique : plusieurs coupes temporelles plutot qu'une seule).",
+      "formula_pub": "homicide_rate ~ resource_deprivation + population_structure + median_age + unemployment_rate + divorce_rate + SOUTH",
+      "x_terms_pub": [
+        "resource_deprivation",
+        "population_structure",
+        "median_age",
+        "unemployment_rate",
+        "divorce_rate",
+        "SOUTH"
+      ],
+      "y_term_pub": "homicide_rate",
+      "evidence_url": "http://mattingram.net/teaching/spatialanalysis/Balleretal2001.pdf"
+    },
+    "Python_geodatasets_geoda.ncovr_1980": {
+      "publication_doi": "10.1111/j.1745-9125.2001.tb00933.x",
+      "reference_publication": "Baller, R.D., Anselin, L., Messner, S.F., Deane, G. and Hawkins, D.F. (2001) Structural covariates of U.S. county homicide rates: incorporating spatial effects. Criminology 39(3), 561-590. DOI 10.1111/j.1745-9125.2001.tb00933.x. Section 'Data' (p.568) confirmee par lecture directe du PDF : 'The independent variables are county analogues of the measures used by Land et al. (1990) ... resource deprivation and population structure are represented by principal components indexes ... The models also include median age, the unemployment rate, percent divorced, and a Southern dummy variable.' RD/PS sont deja les composantes principales precalculees dans le dataset (colonnes RD60-90/PS60-90 du package geoda.ncovr), pas reconstruites. Decoupe le 2026-08-15 en 4 fiches decennales (politique : plusieurs coupes temporelles plutot qu'une seule).",
+      "formula_pub": "homicide_rate ~ resource_deprivation + population_structure + median_age + unemployment_rate + divorce_rate + SOUTH",
+      "x_terms_pub": [
+        "resource_deprivation",
+        "population_structure",
+        "median_age",
+        "unemployment_rate",
+        "divorce_rate",
+        "SOUTH"
+      ],
+      "y_term_pub": "homicide_rate",
+      "evidence_url": "http://mattingram.net/teaching/spatialanalysis/Balleretal2001.pdf"
+    },
+    "Python_geodatasets_geoda.ncovr_1990": {
+      "publication_doi": "10.1111/j.1745-9125.2001.tb00933.x",
+      "reference_publication": "Baller, R.D., Anselin, L., Messner, S.F., Deane, G. and Hawkins, D.F. (2001) Structural covariates of U.S. county homicide rates: incorporating spatial effects. Criminology 39(3), 561-590. DOI 10.1111/j.1745-9125.2001.tb00933.x. Section 'Data' (p.568) confirmee par lecture directe du PDF : 'The independent variables are county analogues of the measures used by Land et al. (1990) ... resource deprivation and population structure are represented by principal components indexes ... The models also include median age, the unemployment rate, percent divorced, and a Southern dummy variable.' RD/PS sont deja les composantes principales precalculees dans le dataset (colonnes RD60-90/PS60-90 du package geoda.ncovr), pas reconstruites. Decoupe le 2026-08-15 en 4 fiches decennales (politique : plusieurs coupes temporelles plutot qu'une seule).",
+      "formula_pub": "homicide_rate ~ resource_deprivation + population_structure + median_age + unemployment_rate + divorce_rate + SOUTH",
+      "x_terms_pub": [
+        "resource_deprivation",
+        "population_structure",
+        "median_age",
+        "unemployment_rate",
+        "divorce_rate",
+        "SOUTH"
+      ],
+      "y_term_pub": "homicide_rate",
+      "evidence_url": "http://mattingram.net/teaching/spatialanalysis/Balleretal2001.pdf"
+    },
+    "Python_geodatasets_spdata.auckland": {
+      "publication_doi": "10.2307/2347593",
+      "reference_publication": "Marshall, R.J. (1991) Mapping Disease and Mortality Rates Using Empirical Bayes Estimators. Journal of the Royal Statistical Society Series C (Applied Statistics) 40(2), 283-294. L'exemple empirique du papier est la mortalite infantile a Auckland, Nouvelle-Zelande. M77_85 = deces d'enfants <5 ans 1977-1985 (numerateur), Und5_81 = population <5 ans au recensement 1981 (denominateur/population a risque).",
+      "formula_pub": "not_applicable - estimation de taux par lissage Bayes empirique (M77_85 / Und5_81, ou M77_85 ~ offset(log(Und5_81))), pas une regression Y~X multivariee : aucune covariable explicative n'est presente dans le dataset au-dela des coordonnees.",
+      "x_terms_pub": [],
+      "y_term_pub": null,
+      "evidence_url": "https://rss.onlinelibrary.wiley.com/doi/10.2307/2347593"
+    },
+    "Python_geodatasets_geoda.sids_1974": {
+      "publication_doi": null,
+      "reference_publication": "Cressie, N. (1991) Statistics for Spatial Data. New York: Wiley, pp. 386-389. 'Much of the variance of the transformed SIDS rate for 1974-8 can be accounted for by the transformed non-white birth variable' (voir aussi Cressie & Read 1985, Cressie & Chan 1989). sids_rate et nonwhite_birth_rate (SIDR/NWR) sont deja precalcules dans le dataset source (geoda.sids2) ; verifie sids_rate = sids_deaths/births*1000 exactement. Decoupe le 2026-08-15 en 2 fiches par periode (1974-78, 1979-84) plutot qu'un seul dataset -- politique de fractionnement.",
+      "formula_pub": "sids_rate ~ nonwhite_birth_rate",
+      "x_terms_pub": [
+        "nonwhite_birth_rate"
+      ],
+      "y_term_pub": "sids_rate",
+      "evidence_url": "https://r-spatial.github.io/spdep/articles/sids.html"
+    },
+    "Python_geodatasets_geoda.sids_1979": {
+      "publication_doi": null,
+      "reference_publication": "Cressie, N. (1991) Statistics for Spatial Data. New York: Wiley, pp. 386-389. 'Much of the variance of the transformed SIDS rate for 1974-8 can be accounted for by the transformed non-white birth variable' (voir aussi Cressie & Read 1985, Cressie & Chan 1989). sids_rate et nonwhite_birth_rate (SIDR/NWR) sont deja precalcules dans le dataset source (geoda.sids2) ; verifie sids_rate = sids_deaths/births*1000 exactement. Decoupe le 2026-08-15 en 2 fiches par periode (1974-78, 1979-84) plutot qu'un seul dataset -- politique de fractionnement.",
+      "formula_pub": "sids_rate ~ nonwhite_birth_rate",
+      "x_terms_pub": [
+        "nonwhite_birth_rate"
+      ],
+      "y_term_pub": "sids_rate",
+      "evidence_url": "https://r-spatial.github.io/spdep/articles/sids.html"
+    },
+    "R_spData_elect80_elect80": {
+      "publication_doi": null,
+      "reference_publication": "Pace, R.K. & Barry, R. (1997). Quick computation of spatial autoregressive estimators. Geographical Analysis, 29(3), 232-247. Data distributed via the Spatial Econometrics Toolbox for Matlab (files elect.dat/elect.ford) and packaged in R as spData::elect80.",
+      "formula_pub": "pc_turnout ~ pc_college + pc_homeownership + pc_income",
+      "x_terms_pub": [
+        "pc_college",
+        "pc_homeownership",
+        "pc_income"
+      ],
+      "y_term_pub": "pc_turnout",
+      "evidence_url": "https://jakubnowosad.com/spData/reference/elect80.html",
+      "formula_evidence_url": "https://jakubnowosad.com/spData/reference/elect80.html",
+      "error": null,
+      "note": "1980 US presidential election, N=3107 counties. All 3 non-turnout percentage variables in the dataset (college, homeownership, income) used together as the standard covariate set for this well-known spatial-autoregressive textbook example (Pace & Barry 1997; also used in LeSage & Pace, Introduction to Spatial Econometrics, 2009)."
+    },
+    "R_gstat_fulmar_fulmar": {
+      "publication_doi": "10.1002/env.720",
+      "reference_publication": "Pebesma, E.J., Duin, R.N.M. & Burrough, P.A. (2005). Mapping Sea Bird Densities over the North Sea: Spatially Aggregated Estimates and Temporal Changes. Environmetrics, 16(6), 573-587.",
+      "formula_pub": "fulmar ~ depth + coast",
+      "x_terms_pub": [
+        "depth",
+        "coast"
+      ],
+      "y_term_pub": "fulmar",
+      "evidence_url": "https://r-spatial.github.io/gstat/reference/fulmar.html",
+      "formula_evidence_url": "https://r-spatial.github.io/gstat/reference/fulmar.html",
+      "error": null,
+      "note": "Northern Fulmar (Fulmaris glacialis) airborne density counts, Dutch North Sea, Aug/Sept 1998-1999. year column (1998/1999) available as an additional stratifying covariate for a panel/pooled ml_formula variant."
+    },
+    "R_spatstat.data_clmfires_clmfires": {
+      "publication_doi": null,
+      "reference_publication": "Forest Fire Database of Castilla-La Mancha region, Spain, 1998-2007, distributed as spatstat.data::clmfires (Baddeley, Rubak & Turner, spatstat package). Cause coded as lightning/accident/intentional/other. Related published analyses of this fire database include Diaz-Delgado, Lloret & Pons (2004) and later point-process studies (e.g. Comas, Mateu et al.).",
+      "formula_pub": "burnt.area ~ cause",
+      "x_terms_pub": [
+        "cause"
+      ],
+      "y_term_pub": "burnt.area",
+      "evidence_url": "https://rdrr.io/cran/spatstat.data/man/clmfires.html",
+      "formula_evidence_url": "https://rdrr.io/cran/spatstat.data/man/clmfires.html",
+      "error": null,
+      "note": "N=8488 fire events, Castilla-La Mancha (Spain) 1998-2007. burnt.area is heavily right-skewed (median 0.595 ha, max 12887 ha) -- typical use is on log(burnt.area) or with a large sample the pipeline's own diagnostics can flag transformation, not asserted here since documentation gives the raw variable relationship. date/julian.date available as an additional temporal covariate for a panel/pooled ml_formula variant."
     }
   },
   "Python_geodatasets_geoda.charleston2::b2f4cca2060c3b81": {
@@ -3403,5 +3861,529 @@
       "landcover_class"
     ],
     "rationale": "Les variables Y candidates sont les mesures directes de sévérité/occurrence des feux dérivées de Landsat (dNBR, burn_severity_class, burned_binary, nbr_anomaly_zscore), qui constituent les cibles naturelles de l'étude ; NBR_observed et NBR_predicted sont écartés car redondants avec dNBR. Les X candidates regroupent les forçages climatiques saisonniers et antécédents (température, précipitations, PET, bilan hydrique, enneigement) ainsi que les descripteurs topographiques statiques (élévation, pente, exposition, TPI, HLI) et le couvert terrestre, conformément à l'objectif d'expliquer la sévérité des feux ; year est inclus pour capturer la tendance temporelle du panel. Les colonnes region, fire_season_start, harmonic_rmse, total_observations et modis_burned_reference sont ignorées car administratives, méthodologiques ou redondantes."
+  },
+  "R_HistData_OldMaps_OldMaps::c86655d5e2b0884c": {
+    "y_candidates": [
+      "T"
+    ],
+    "x_candidates": [
+      "year",
+      "col"
+    ],
+    "rationale": "T (transformation/alignment target, plage identique à year) est la variable réponse plausible représentant la coordonnée ou valeur transformée à prédire/aligner. Year (date de la carte) et col (colonne/index de carte) sont des covariables explicatives utiles pour modéliser les biais de cartographie historique. Point et name sont des identifiants/libellés ignorés."
+  },
+  "R_MASS_npr1_npr1::51e9cc21f1f33ec6": {
+    "y_candidates": [
+      "perm"
+    ],
+    "x_candidates": [
+      "por"
+    ],
+    "rationale": "La perméabilité (perm) est la variable cible naturelle car elle mesure la capacité d'écoulement du pétrole, grandeur d'intérêt principal en ingénierie pétrolière. La porosité (por) est la covariable explicative, car elle est physiquement liée à la perméabilité et généralement plus facile à mesurer."
+  },
+  "R_SpatialEpi_scotland_sf_scotland_sf::0e11a3fdd9752aa3": {
+    "y_candidates": [
+      "cases"
+    ],
+    "x_candidates": [
+      "expected",
+      "AFF"
+    ],
+    "rationale": "cases (nombre de cas de cancer de la lèvre observés) est la variable réponse naturelle pour la modélisation de cette maladie. expected (cas attendus sous hypothèse nulle) sert de terme d'offset ou de covariable de standardisation, et AFF (proportion de la population active dans l'agriculture, la pêche et la forêt, proxy d'exposition solaire) est la covariable explicative classique de ce jeu de données. county.names est un libellé géographique ignoré."
+  },
+  "R_agridat_gotway.hessianfly_gotway.hessianfly::f142ea94439b5066": {
+    "y_candidates": [
+      "n"
+    ],
+    "x_candidates": [
+      "gen"
+    ],
+    "rationale": "n (count of damaged plants, range 6-20) is the natural response variable representing Hessian fly damage intensity. gen (wheat genotype/variety) is the key explanatory variable of interest. block is a design variable (experimental block) that is neither a meaningful target nor a standard spatial covariate, so it is ignored."
+  },
+  "R_agridat_kayad.alfalfa_kayad.alfalfa::1ac2fabeb7308ed3": {
+    "y_candidates": [
+      "yield"
+    ],
+    "x_candidates": [
+      "harvest"
+    ],
+    "rationale": "yield (t/ha ou unité de biomasse) est la variable réponse naturelle d'un yield monitor. harvest (numéro de coupe, facteur catégoriel) est une covariable explicative représentant le cycle de fauche, connu pour influencer la productivité de la luzerne."
+  },
+  "R_gstat_pcb_pcb::5ead3f6f54e94a01": {
+    "y_candidates": [
+      "PCB138"
+    ],
+    "x_candidates": [
+      "year",
+      "coast",
+      "depth"
+    ],
+    "rationale": "PCB138 est la mesure de concentration en polluant, cible naturelle de modélisation spatiale/temporelle. Les covariables explicatives retenues sont l'année (tendance temporelle), la distance à la côte et la profondeur (facteurs environnementaux structurant la distribution des sédiments). Les colonnes 'yf' et 'T' sont exclues car redondantes avec 'year' (même plage de valeurs, encodages alternatifs de l'année)."
+  },
+  "R_gstat_walker_walker::0836c2f36369f4bc": {
+    "y_candidates": [
+      "V",
+      "U"
+    ],
+    "x_candidates": [
+      "T"
+    ],
+    "rationale": "V et U sont les variables de concentration/mesure géostatistiques classiques du dataset Walker Lake (typiquement des teneurs en métaux), constituant des cibles naturelles pour l'interpolation spatiale ou la prédiction. T est une variable catégorielle binaire (1-2) représentant un type lithologique ou une zone, utilisable comme covariable explicative. Le taux élevé de NA sur U (41.5%) en fait par ailleurs une cible privilégiée pour la prédiction/imputation spatiale."
+  },
+  "R_gstat_wind_wind.loc::6e7cf4733f60b09c": {
+    "y_candidates": [
+      "MeanWind"
+    ],
+    "x_candidates": [],
+    "rationale": "MeanWind (vitesse moyenne du vent en nœuds) est la seule variable quantitative mesurée et constitue naturellement la variable réponse à modéliser spatialement. Station est un label administratif/géographique identifiant les sites de mesure, non pertinent comme covariable explicative au sens strict (et déjà exclu comme identifiant)."
+  },
+  "R_mgwrsar_mydata_mydata::fba142f52a685fec": {
+    "y_candidates": [
+      "Y_mgwrsar_1_0_kv",
+      "Y_ols",
+      "Y_sar",
+      "Y_gwr",
+      "Y_mgwr",
+      "Y_mgwrsar_0_0_kv",
+      "Y_mgwrsar_0_kc_kv",
+      "Y_mgwrsar_1_kc_kv",
+      "Y_mgwr_outlier",
+      "Y_mgwr_X2dummy"
+    ],
+    "x_candidates": [
+      "X0",
+      "X1",
+      "X2",
+      "X3",
+      "X2dummy"
+    ],
+    "rationale": "Les colonnes préfixées 'Y_' sont des variables réponses simulées selon différents modèles (OLS, SAR, GWR, MGWRSAR, avec ou sans outliers), chacune pouvant servir de cible selon le benchmark visé. Les colonnes X0–X3 et X2dummy sont les covariables explicatives du modèle simulé ; les colonnes Beta* et lambda sont des paramètres internes du générateur de données (coefficients spatialement variables et paramètre autorégressif) qui ne sont ni des Y observables ni des covariables utiles pour un benchmark d'estimateurs."
+  },
+  "R_mgwrsar_mydatasf_mydatasf::e551438317c46a82": {
+    "y_candidates": [
+      "price"
+    ],
+    "x_candidates": [
+      "year",
+      "footage",
+      "land_area",
+      "pbb45",
+      "T"
+    ],
+    "rationale": "Le prix (price) est la variable réponse naturelle pour un dataset immobilier. Les autres variables — ancienneté/année (year), surface habitable (footage), surface du terrain (land_area), consommation énergétique probable (pbb45) et type de bien (T) — constituent des covariables explicatives classiques du prix immobilier."
+  },
+  "R_spData_baltimore_baltimore::1cbf694331f1cb19": {
+    "y_candidates": [
+      "PRICE"
+    ],
+    "x_candidates": [
+      "NROOM",
+      "DWELL",
+      "NBATH",
+      "PATIO",
+      "FIREPL",
+      "AC",
+      "BMENT",
+      "NSTOR",
+      "GAR",
+      "AGE",
+      "CITCOU",
+      "LOTSZ",
+      "SQFT"
+    ],
+    "rationale": "PRICE (prix de vente des logements) est la variable réponse naturelle pour une régression hédonique spatiale. Toutes les autres colonnes descriptives du logement (superficie, nombre de pièces, équipements, âge, type) sont des covariables explicatives classiques du prix ; STATION est un identifiant de station/observation et est ignoré."
+  },
+  "R_spData_nydata_nydata::a390d441180b2c86": {
+    "y_candidates": [
+      "TRACTCAS",
+      "PROPCAS",
+      "Z"
+    ],
+    "x_candidates": [
+      "POP8",
+      "PCTOWNHOME",
+      "PCTAGE65P",
+      "AVGIDIST",
+      "PEXPOSURE"
+    ],
+    "rationale": "Les variables de leucémie (cas par tract TRACTCAS, proportion de cas PROPCAS, score standardisé Z) sont les cibles naturelles d'une modélisation épidémiologique spatiale. POP8 (population), PCTOWNHOME, PCTAGE65P (facteurs socio-démographiques), AVGIDIST et PEXPOSURE (distance/exposition à une source de contamination supposée, typiquement TCE) sont des covariables explicatives classiques dans ce dataset ; AREANAME est ignoré comme libellé administratif."
+  },
+  "R_spData_state.vbm_state.vbm::90d5c9244972e8a0": {
+    "y_candidates": [],
+    "x_candidates": [],
+    "rationale": "Les deux colonnes 'center_x' et 'center_y' représentent des coordonnées géographiques (centroïdes de polygones), qui sont déjà des informations spatiales structurelles du dataset et non des variables réponse ou des covariables explicatives thématiques utiles pour un modèle de spatial ML."
+  },
+  "R_spaMM_blackcap_blackcap::dea1aa83cc660f31": {
+    "y_candidates": [
+      "migStatus"
+    ],
+    "x_candidates": [
+      "means"
+    ],
+    "rationale": "migStatus (average migration behaviour score) is the biological response variable of interest, while means (average allele size at the genetic locus) is the genetic predictor hypothesized to correlate with migration behaviour. The column 'pos' appears to be a population index/identifier and is neither a meaningful target nor a useful covariate."
+  },
+  "R_spacetime_air_DE_NUTS1::d905c54189a9230f": {
+    "y_candidates": [
+      "Shape_Area"
+    ],
+    "x_candidates": [
+      "Shape_Leng"
+    ],
+    "rationale": "Ce dataset semble être une table de régions administratives NUTS1 allemandes sans variables de qualité de l'air réellement incluses dans les colonnes listées. Seules Shape_Area (superficie de la région) et Shape_Leng (périmètre) sont des variables numériques continues exploitables ; Shape_Area peut servir de variable cible géomorphologique et Shape_Leng de covariable explicative. Toutes les autres colonnes sont des identifiants, codes ou libellés administratifs/géographiques à ignorer."
+  },
+  "R_spatstat.data_betacells_betacells::ac9100ed7f0fb027": {
+    "y_candidates": [
+      "type",
+      "area"
+    ],
+    "x_candidates": [],
+    "rationale": "Les deux variables disponibles ('type' : on/off, 'area' : surface du profil cellulaire) sont toutes deux des variables réponses plausibles selon le contexte (classification du type cellulaire ou régression de l'aire), et peuvent alternativement servir l'une de prédicteur de l'autre (ex: area → type). Aucune covariable externe n'est disponible dans ce dataset, les coordonnées spatiales (déjà exclues) constituant les seuls prédicteurs exploitables en pratique."
+  },
+  "R_spatstat.data_btb_btb::379f99f58503f717": {
+    "y_candidates": [
+      "spoligotype",
+      "T"
+    ],
+    "x_candidates": [
+      "year"
+    ],
+    "rationale": "Le spoligotype et T (vraisemblablement le type/cluster de la souche de tuberculose bovine) sont des variables réponse naturelles pour modéliser la distribution spatiale des souches pathogènes. L'année (year) est une covariable temporelle explicative pertinente pour capturer l'évolution de l'épidémie dans le temps."
+  },
+  "R_spatstat.data_finpines_finpines::7756ec4ad9810607": {
+    "y_candidates": [
+      "height"
+    ],
+    "x_candidates": [
+      "diameter"
+    ],
+    "rationale": "La hauteur (height) est la variable réponse la plus naturelle pour modéliser la croissance des arbres, tandis que le diamètre (diameter) constitue une covariable explicative classique en dendrométrie (relation hauteur-diamètre). Les deux rôles peuvent être inversés selon le contexte, mais height ~ diameter est la convention standard."
+  },
+  "R_spatstat.data_gorillas_gorillas::a88df38422750a16": {
+    "y_candidates": [],
+    "x_candidates": [
+      "group",
+      "season"
+    ],
+    "rationale": "Dans ce dataset de sites de nidification de gorilles, 'season' et 'group' sont des covariables explicatives plausibles (saison et groupe social influençant la distribution spatiale des sites). Les colonnes 'date' et 'T' sont de type Date avec une plage non renseignée et semblent redondantes ou non exploitables directement ; aucune variable réponse quantitative explicite (densité, comptage, présence/absence agrégée) n'est disponible dans cette liste."
+  },
+  "R_spatstat.data_shapley_shapley::bce2aea74dd974d4": {
+    "y_candidates": [
+      "V",
+      "SigV"
+    ],
+    "x_candidates": [
+      "Mag"
+    ],
+    "rationale": "La vitesse de récession (V) et son incertitude (SigV) sont des propriétés cinématiques des galaxies naturellement modélisables en fonction de la magnitude apparente (Mag), qui reflète la distance/luminosité et constitue une covariable explicative classique en astronomie extragalactique. V peut aussi servir de covariable pour prédire SigV selon le modèle choisi."
+  },
+  "R_spatstat.data_stonetools_stonetools::437618d029a7b4eb": {
+    "y_candidates": [
+      "TYPE"
+    ],
+    "x_candidates": [
+      "Z"
+    ],
+    "rationale": "TYPE (lithic vs bone) est la variable réponse naturelle pour un modèle de classification spatiale distinguant les artefacts. Z (altitude/profondeur dans la couche de sol) est une covariable explicative continue pouvant influencer la distribution des types de specimens."
+  },
+  "R_spDataLarge_census_de_census_de::b80be0ad1b2111ee": {
+    "y_candidates": [
+      "pop"
+    ],
+    "x_candidates": [
+      "women",
+      "mean_age",
+      "hh_size"
+    ],
+    "rationale": "La population (pop) est la variable cible naturelle dans un contexte géomarketing (estimation de la demande potentielle par zone). Les variables sociodémographiques women, mean_age et hh_size sont des covariables explicatives classiques caractérisant le profil des ménages et servant à prédire ou expliquer la distribution de population."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2002::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high",
+      "jobs_earnings_low"
+    ],
+    "x_candidates": [
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi (total_jobs, jobs_earnings_high, jobs_earnings_low) sont des cibles plausibles pour modéliser la distribution spatiale des emplois et des revenus au niveau des blocs Census NYC 2002. Les caractéristiques physiques du bloc (superficie terrestre ALAND10, superficie en eau AWATER10) et le comté (COUNTYFP10) servent de covariables explicatives spatiales ; les identifiants géographiques textuels (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10) et les coordonnées encodées en caractères (INTPTLAT10, INTPTLON10) sont ignorés car purement administratifs ou redondants avec la géométrie."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2003::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high"
+    ],
+    "x_candidates": [
+      "jobs_earnings_low",
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi (total_jobs, jobs_earnings_high) sont des cibles naturelles pour modéliser l'activité économique ou la concentration de hauts salaires au niveau des blocs census. Les covariables retenues incluent jobs_earnings_low (structure salariale complémentaire), ALAND10 et AWATER10 (surface terrestre/aquatique comme proxies de densité et d'usage du sol), et COUNTYFP10 (arrondissement NYC comme effet fixe spatial) ; les identifiants géographiques textuels (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10) et les coordonnées internes (INTPTLAT10, INTPTLON10) sont ignorés car purement administratifs ou redondants avec la géométrie."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2004::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high"
+    ],
+    "x_candidates": [
+      "jobs_earnings_low",
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi (total_jobs, jobs_earnings_high) sont des cibles naturelles pour modéliser la distribution spatiale des emplois ou des emplois bien rémunérés à l'échelle des blocs census de NYC. ALAND10, AWATER10 et COUNTYFP10 sont des covariables géographiques/structurelles utiles, et jobs_earnings_low peut servir de prédicteur complémentaire (corrélé mais distinct de la cible choisie). Les identifiants géographiques textuels (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10, INTPTLAT10, INTPTLON10) sont ignorés car purement administratifs ou redondants avec les coordonnées spatiales."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2005::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high",
+      "jobs_earnings_low"
+    ],
+    "x_candidates": [
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi et de revenus (total_jobs, jobs_earnings_high, jobs_earnings_low) sont des cibles thématiques naturelles pour modéliser la distribution économique urbaine. La superficie terrestre (ALAND10), la superficie en eau (AWATER10) et le comté (COUNTYFP10) sont les seules covariables exploitables géographiquement ; les autres colonnes sont des codes/identifiants administratifs ou des coordonnées textuelles sans valeur explicative directe."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2006::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high"
+    ],
+    "x_candidates": [
+      "jobs_earnings_low",
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi (total_jobs, jobs_earnings_high) sont des cibles naturelles pour modéliser l'activité économique ou la distribution salariale au niveau bloc. ALAND10, AWATER10 et COUNTYFP10 sont des covariables morphologiques/géographiques exploitables, et jobs_earnings_low peut servir de prédicteur des emplois bien rémunérés ; les identifiants géographiques (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10, INTPTLAT10, INTPTLON10) sont administratifs ou redondants avec la géométrie et sont ignorés."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2007::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high",
+      "jobs_earnings_low"
+    ],
+    "x_candidates": [
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi et de revenus (total_jobs, jobs_earnings_high, jobs_earnings_low) sont des cibles thématiques naturelles pour modéliser la distribution spatiale de l'emploi à NYC en 2007. Les surfaces terrestres et aquatiques (ALAND10, AWATER10) ainsi que le comté (COUNTYFP10) constituent des covariables spatiales explicatives pertinentes ; les autres colonnes sont des identifiants ou codes géographiques administratifs sans valeur explicative directe."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2008::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high",
+      "jobs_earnings_low"
+    ],
+    "x_candidates": [
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi et de revenus (total_jobs, jobs_earnings_high, jobs_earnings_low) sont des cibles naturelles pour modéliser la distribution économique urbaine à l'échelle du bloc. Les surfaces terrestres (ALAND10) et aquatiques (AWATER10) ainsi que le comté (COUNTYFP10) constituent des covariables spatiales plausibles (densité, localisation administrative) ; les identifiants géographiques textuels (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10) et les coordonnées stockées en caractères (INTPTLAT10, INTPTLON10) sont ignorés car purement administratifs ou redondants avec la géométrie."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2009::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high",
+      "jobs_earnings_low"
+    ],
+    "x_candidates": [
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi et de revenus (total_jobs, jobs_earnings_high, jobs_earnings_low) sont des cibles naturelles pour modéliser l'activité économique à l'échelle des blocs census NYC 2009. La superficie terrestre (ALAND10), la superficie en eau (AWATER10) et le comté (COUNTYFP10) sont des covariables géographiques/structurelles exploitables ; les codes GEOID, TRACTCE, BLOCKCE, STATEFP sont des identifiants administratifs ignorés, et INTPTLAT/INTPTLON sont des coordonnées textuelles redondantes avec la géométrie sf."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2010::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high",
+      "jobs_earnings_low"
+    ],
+    "x_candidates": [
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi (total_jobs, jobs_earnings_high, jobs_earnings_low) sont des cibles naturelles pour modéliser la distribution spatiale des emplois et des revenus à New York en 2010. ALAND10 (superficie terrestre), AWATER10 (superficie en eau) et COUNTYFP10 (arrondissement/borough, variable catégorielle ordonnée) sont des covariables spatiales utiles ; les autres colonnes sont des identifiants géographiques purement administratifs (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10) ou des coordonnées encodées en texte (INTPTLAT10, INTPTLON10) déjà gérées en amont."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2011::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high"
+    ],
+    "x_candidates": [
+      "jobs_earnings_low",
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi et de revenus (total_jobs, jobs_earnings_high, jobs_earnings_low) sont les seules variables substantielles modélisables ; total_jobs et jobs_earnings_high sont des cibles naturelles (volume total d'emplois ou emplois à hauts revenus), tandis que jobs_earnings_low, la superficie terrestre (ALAND10), la superficie en eau (AWATER10) et le comté (COUNTYFP10) servent de covariables explicatives. Les identifiants géographiques textuels (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10, INTPTLAT10, INTPTLON10) sont ignorés car purement administratifs ou redondants avec la géométrie."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2012::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high",
+      "jobs_earnings_low"
+    ],
+    "x_candidates": [
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi (total_jobs, jobs_earnings_high, jobs_earnings_low) sont des cibles naturelles pour modéliser la distribution spatiale des emplois et des niveaux de revenus à l'échelle des block groups NYC 2012. Les surfaces terrestres (ALAND10) et aquatiques (AWATER10) ainsi que le comté (COUNTYFP10) constituent des covariables spatiales pertinentes (densité, effets de borough) ; les codes géographiques (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10) et les coordonnées centroïdes en chaîne (INTPTLAT10, INTPTLON10) sont ignorés car purement administratifs ou redondants avec la géométrie."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2013::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high"
+    ],
+    "x_candidates": [
+      "jobs_earnings_low",
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi (total_jobs, jobs_earnings_high) sont des cibles naturelles pour modéliser la distribution spatiale des emplois et des hauts salaires à NYC en 2013. Les covariables retenues incluent jobs_earnings_low (composition salariale du bloc), ALAND10/AWATER10 (superficie terrestre/aquatique, proxy de densité urbaine), et COUNTYFP10 (arrondissement, effet de zone). Les colonnes GEOID10, STATEFP10, TRACTCE10, BLOCKCE10, INTPTLAT10, INTPTLON10 sont des identifiants ou libellés géographiques administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.nyc_earnings_2014::7dd26a452f2c47c9": {
+    "y_candidates": [
+      "total_jobs",
+      "jobs_earnings_high"
+    ],
+    "x_candidates": [
+      "jobs_earnings_low",
+      "ALAND10",
+      "AWATER10",
+      "COUNTYFP10"
+    ],
+    "rationale": "Les variables d'emploi (total_jobs, jobs_earnings_high) sont des cibles naturelles pour modéliser la distribution spatiale de l'emploi ou des revenus élevés à NYC en 2014. Les covariables retenues incluent la proportion de bas salaires (jobs_earnings_low), la superficie terrestre (ALAND10) et en eau (AWATER10) comme proxies de densité/urbanisation, et le county (COUNTYFP10) comme facteur géographique structurant ; les codes purement administratifs (GEOID10, TRACTCE10, BLOCKCE10, STATEFP10) et les coordonnées textuelles (INTPTLAT10, INTPTLON10) sont ignorés."
+  },
+  "Python_geodatasets_geoda.ncovr_1960::a1947690e8eabb70": {
+    "y_candidates": [
+      "homicide_rate"
+    ],
+    "x_candidates": [
+      "SOUTH",
+      "resource_deprivation",
+      "population_structure",
+      "median_age",
+      "unemployment_rate",
+      "divorce_rate"
+    ],
+    "rationale": "Le taux d'homicide est la variable réponse naturelle de ce dataset issu de la littérature criminologique (NAcovR). Les variables socio-économiques et démographiques (déprivation, structure de population, âge médian, chômage, divorce, indicateur Sud) constituent des covariables explicatives classiques de la criminalité ; les colonnes NAME, STATE_NAME, FIPS et FIPSNO sont purement administratives/identifiantes et sont ignorées."
+  },
+  "Python_geodatasets_geoda.ncovr_1970::a1947690e8eabb70": {
+    "y_candidates": [
+      "homicide_rate"
+    ],
+    "x_candidates": [
+      "SOUTH",
+      "resource_deprivation",
+      "population_structure",
+      "median_age",
+      "unemployment_rate",
+      "divorce_rate"
+    ],
+    "rationale": "Le taux d'homicide est la variable réponse naturelle de ce dataset criminologique classique (NCovr). Les variables socio-économiques et démographiques (déprivation, structure de population, âge médian, chômage, divorce, indicateur Sud) constituent des covariables explicatives reconnues dans la littérature sur la criminalité spatiale."
+  },
+  "Python_geodatasets_geoda.ncovr_1980::a1947690e8eabb70": {
+    "y_candidates": [
+      "homicide_rate"
+    ],
+    "x_candidates": [
+      "SOUTH",
+      "resource_deprivation",
+      "population_structure",
+      "median_age",
+      "unemployment_rate",
+      "divorce_rate"
+    ],
+    "rationale": "homicide_rate est la variable cible naturelle de ce dataset (taux de criminalité à expliquer spatialement). Les variables socio-économiques et démographiques (resource_deprivation, population_structure, median_age, unemployment_rate, divorce_rate) ainsi que l'indicateur géographique SOUTH constituent des covariables explicatives classiques dans les modèles de criminalité ; NAME, STATE_NAME, FIPS et FIPSNO sont des identifiants/codes administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.ncovr_1990::a1947690e8eabb70": {
+    "y_candidates": [
+      "homicide_rate"
+    ],
+    "x_candidates": [
+      "SOUTH",
+      "resource_deprivation",
+      "population_structure",
+      "median_age",
+      "unemployment_rate",
+      "divorce_rate"
+    ],
+    "rationale": "Le taux d'homicide est la variable cible naturelle dans ce dataset issu de la criminologie spatiale (NCOVR). Les variables socio-économiques et démographiques (déprivation, structure de population, âge médian, chômage, divorce, indicateur Sud) constituent des covariables explicatives classiques de la littérature sur les déterminants spatiaux de la criminalité. NAME, STATE_NAME, FIPS et FIPSNO sont ignorés car purement administratifs/identifiants."
+  },
+  "Python_geodatasets_spdata.auckland::1be4edcba66612a4": {
+    "y_candidates": [
+      "M77_85"
+    ],
+    "x_candidates": [
+      "Und5_81"
+    ],
+    "rationale": "M77_85 (mortalité infantile 1977-85, plage étroite 0-38) est une variable réponse typique d'analyse spatiale de santé publique. Und5_81 (population des moins de 5 ans en 1981, plage large 6-1407) constitue une covariable démographique explicative naturelle du risque ou du nombre de décès observés."
+  },
+  "Python_geodatasets_geoda.sids_1974::aad7099f32d4486b": {
+    "y_candidates": [
+      "sids_deaths",
+      "sids_rate"
+    ],
+    "x_candidates": [
+      "births",
+      "nonwhite_births",
+      "nonwhite_birth_rate"
+    ],
+    "rationale": "Les variables cibles naturelles sont le nombre et le taux de morts subites du nourrisson (SIDS), qui constituent la variable épidémiologique d'intérêt à expliquer. Les covariables explicatives sont le nombre total de naissances (exposition), le nombre de naissances non-blanches et le taux correspondant, qui sont des facteurs démographiques classiquement associés au risque de SIDS dans la littérature. NAME, FIPS et FIPSNO sont des identifiants/codes administratifs ignorés."
+  },
+  "Python_geodatasets_geoda.sids_1979::aad7099f32d4486b": {
+    "y_candidates": [
+      "sids_rate",
+      "sids_deaths"
+    ],
+    "x_candidates": [
+      "births",
+      "nonwhite_births",
+      "nonwhite_birth_rate"
+    ],
+    "rationale": "Le taux et le nombre de décès par mort subite du nourrisson (SIDS) sont les variables réponses naturelles de ce dataset épidémiologique. Le nombre de naissances totales, les naissances non-blanches et leur taux constituent des covariables explicatives classiques pour modéliser la variabilité spatiale du SIDS (exposition démographique et facteur socio-racial reconnu dans la littérature). NAME, FIPS et FIPSNO sont des identifiants/codes administratifs ignorés."
+  },
+  "R_spData_elect80_elect80::3a733d7975278049": {
+    "y_candidates": [
+      "pc_turnout"
+    ],
+    "x_candidates": [
+      "pc_college",
+      "pc_homeownership",
+      "pc_income"
+    ],
+    "rationale": "pc_turnout (taux de participation électorale) est la variable réponse naturelle dans un contexte d'analyse des élections présidentielles de 1980. Les variables socio-économiques pc_college (niveau d'éducation), pc_homeownership (taux de propriété) et pc_income (revenu) sont des covariables explicatives classiques de la participation électorale ; FIPS est un code administratif ignoré."
+  },
+  "R_gstat_fulmar_fulmar::31a39e5585b3cfe8": {
+    "y_candidates": [
+      "fulmar"
+    ],
+    "x_candidates": [
+      "depth",
+      "coast",
+      "year"
+    ],
+    "rationale": "fulmar représente les comptages de Fulmarus glacialis, variable réponse écologique naturelle. depth (profondeur) et coast (distance à la côte) sont des covariables environnementales classiques pour modéliser la distribution d'oiseaux marins, et year capture l'effet interannuel. La colonne T est ignorée car elle semble redondante avec year (même plage [1998,1999])."
+  },
+  "R_spatstat.data_clmfires_clmfires::e7e5505397cf0b3e": {
+    "y_candidates": [
+      "burnt.area"
+    ],
+    "x_candidates": [
+      "cause",
+      "julian.date"
+    ],
+    "rationale": "burnt.area est la variable réponse naturelle pour modéliser la sévérité des incendies de forêt. cause et julian.date sont des covariables explicatives pertinentes (origine du feu et saisonnalité). La colonne date et T semblent redondantes avec julian.date ou mal typées, et sont ignorées."
   }
 }

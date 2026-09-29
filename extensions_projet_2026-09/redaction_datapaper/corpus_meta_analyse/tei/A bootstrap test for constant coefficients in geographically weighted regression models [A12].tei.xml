@@ -1,0 +1,1028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A bootstrap test for constant coefficients in geographically weighted regression models</title>
+				<funder ref="#_XKBvVRR">
+					<orgName type="full">National Natural Science Foundation of China</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2016-04-06">06 April 2016</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Chang-Lin</forename><surname>Mei</surname></persName>
+							<email>clmei@mail.xjtu.edu.cn</email>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Min</forename><surname>Xu</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ning</forename><surname>Wang</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution" key="instit1">New York University</orgName>
+								<orgName type="institution" key="instit2">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country key="CN">PR China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A bootstrap test for constant coefficients in geographically weighted regression models</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">1365-8816 (Print) 1362-3087</idno>
+						<imprint>
+							<date type="published" when="2016-04-06">06 April 2016</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">2D09D77F0A75E40F9A23D5C6AE904F0D</idno>
+					<idno type="DOI">10.1080/13658816.2016.1149181</idno>
+					<note type="submission">Received 23 August 2015 Accepted 27 January 2016</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-08-13T13:26+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Geographically weighted regression</term>
+					<term>spatial nonstationarity</term>
+					<term>generalized likelihood ratio statistic</term>
+					<term>bootstrap</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Statistical tests for whether some coefficients really vary over space play an important role in using the geographically weighted regression (GWR) to explore spatial non-stationarity of the regression relationship. In view of some shortcomings of the existing inferential methods, we propose a residual-based bootstrap test to detect the constant coefficients in a GWR model. The proposed test is free of the assumption that the model error term is normally distributed and admits some useful extensions for identifying more complicated spatial patterns of the coefficients. Some simulation with comparison to the existing test methods is conducted to assess the test performance, including the accuracy of the bootstrap approximation to the null distribution of the test statistic, the power in identifying spatially varying coefficients and the robustness to collinearity among the explanatory variables. The simulation results demonstrate that the bootstrap test works quite well. Furthermore, a real-world data set is analyzed to illustrate the application of the proposed test.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Due to its simple implementation and ease of interpretation, the geographically weighted regression (GWR) technique, originally proposed by <ref type="bibr" target="#b2">Brunsdon et al. (1996)</ref>, has become a popular tool for exploring spatial non-stationarity of a regression relationship in geo-referenced data analysis and has been applied to a variety of fields including geography, ecology, econometrics, epidemiology, and environmental science. In this methodology, a spatially varying coefficient model</p><formula xml:id="formula_0">Y ¼ X q j¼1 β j ðu; vÞX j þ ε<label>(1)</label></formula><p>is locally calibrated by the weighted least-squares procedure based on the observations y i ; x i1 ; . . . ; x iq È É n i¼1 of the response Y and the explanatory variables X 1, X 2 , . . ., X q collected at the geographical locations (u i , v i ) (i = 1, 2, . . ., n). In the model, β j (u,v) (j = 1, 2, . . ., q) are unknown functions of the location co-ordinate <ref type="bibr">(u,v)</ref>, and ε is the error term with mean zero and variance σ 2 . The model can include a spatially varying intercept by setting X 1 ;1.</p><p>Model (1) allows the regression coefficients to vary over space and therefore can be used to explore spatial non-stationarity of the regression relationship via the spatial variation patterns of the estimated coefficients. It is a common practice in the GWR literature that the estimated coefficients are mapped on the geographic region to show the degree of spatial non-stationarity in the regression relationship. In this sense, the coefficient estimators play an important role in reflecting spatial non-stationarity of the regression relationship and the analysis results depend largely upon the estimators of the underlying coefficients.</p><p>As a local fitting technique, however, the GWR estimator of each coefficient varies with the focal location no matter whether the underlying coefficient is constant or varies over the space. The excessive flexibility of this model calibration method may lead to spurious variation and even sign reversals of the estimated coefficients <ref type="bibr" target="#b22">(Jetz et al. 2005</ref><ref type="bibr" target="#b27">, Páez et al. 2011)</ref>. Moreover, collinearity among the explanatory variables may also result in sign changes and strong correlation in the coefficient estimators <ref type="bibr">(Wheeler and</ref><ref type="bibr" target="#b34">Tiefelsdorf 2005, Wheeler and</ref><ref type="bibr" target="#b33">Calder 2007)</ref>. On the other hand, if the coefficients are of very different degrees of smoothness with, for example, some coefficients being constant and the others varying over space, a global bandwidth selected by some commonly used data-driven methods, such as CV, GCV, and AIC c cannot yield accurate estimators for all of the coefficients, which has been theoretically proved and empirically confirmed in the statistical literature of varying coefficient models <ref type="bibr" target="#b12">(Fan and Zhang 1999)</ref> and has also been noted in the GWR literature <ref type="bibr" target="#b14">(Farber and Páez 2007</ref><ref type="bibr" target="#b35">, Yang et al. 2011</ref><ref type="bibr">, 2012)</ref>.</p><p>In summary, there are several causes of inaccurate coefficient estimators and consequently misleading interpretation on the spatial variation patterns of the regression relationship. To alleviate the adverse effect of the collinearity and obtain more accurate estimators of the coefficient, <ref type="bibr" target="#b31">Wheeler (2007)</ref> proposed the ridge regression and <ref type="bibr" target="#b0">Bárcena et al. (2014)</ref> used the regularization methods for calibrating the GWR models. Furthermore, <ref type="bibr" target="#b32">Wheeler (2009)</ref> presented the geographically weighted lasso for coefficient penalization and model selection. Recently, <ref type="bibr" target="#b1">Brunsdon et al. (2012)</ref> and <ref type="bibr" target="#b18">Gollini et al. (2015)</ref> developed a new ridge estimation approach, called locally compensated ridge GWR, to locally fit the ridge regression at the locations where the collinearity is a problem. Moreover, <ref type="bibr" target="#b30">Wang et al. (2008)</ref> suggested the local-linear GWR to reducing the bias and boundary effect of the coefficient estimators. <ref type="bibr" target="#b35">Yang et al. (2011</ref><ref type="bibr" target="#b36">Yang et al. ( , 2012) )</ref> proposed the flexible bandwidth GWR method to estimate the coefficients with different degrees of smoothness. In addition to the above improved estimation methods, statistical tests for judging whether some of the coefficients vary over the space are fundamental in achieving a valid interpretation of spatial non-stationarity of the regression relationship. In particular, if the test indicates that some coefficients are constant over space, then we can, on one hand, conclude that the impact of the corresponding explanatory variables on the response is spatially stationary and, on the other hand, identify a more appropriate model, i.e. the mixed GWR model <ref type="bibr" target="#b4">(Brunsdon et al. 1999)</ref> to fit the given data.</p><p>In fact, since the inception of GWR, much attention has been paid to such statistical inferences. In the pioneering work by <ref type="bibr" target="#b2">Brunsdon et al. (1996</ref><ref type="bibr" target="#b3">Brunsdon et al. ( , 1998))</ref>, two kinds of permutation test were proposed respectively based on the selected bandwidth size and the sample variances of the estimated coefficients at all of the observation locations. However, these two tests can only detect global stationarity of the regression relationship because it is under the null hypothesis that all of the coefficients are constant such that any permutations of the observations y i ; x i1 ; . . . ; x ip È É n i¼1 among the sampling locations are equally likely to occur and then the p-values of the tests could be derived. Shortly afterwards, <ref type="bibr" target="#b4">Brunsdon et al. (1999)</ref> developed a set of analytically derived tests for the null hypothesis of no spatial stationarity by comparing the residual sum of squares from the GWR estimation of Model (1) (called GWR model henceforth) with that from the ordinary least-squares estimation of the corresponding global linear model. Furthermore, they proposed so-called mixed GWR models with the back-fitting calibration procedure on which the aforementioned tests can be used to identify one or more constant coefficients in the full GWR model in Equation (1). <ref type="bibr" target="#b24">Leung et al. (2000)</ref> also introduced residual sum of squares based statistics to test for global stationarity of the regression relationship and another statistic that is based on the sample variance of each coefficient estimator at the sampling locations to test whether each coefficient varies spatially. In both papers, the null distributions of the test statistics were approximated by an F distribution with proper degrees of freedom. This kind of approximation roots in the distributional theory of the quadratic forms in normal variables and is closely related to the assumption that the model error term follows a normal distribution. Furthermore, when formulating the numerator and (or) denominator of each statistic as the quadratic forms of the model errors, the assumption that the fitted values of the response variable are unbiased estimators of the expectations of the corresponding observations has to be made. This assumption is in general untrue because it has been proved in the statistical nonparametric literature that the local-constant kernel estimation like GWR always produces biased estimators of the regression function except for the case of ordinary linear models (e.g. <ref type="bibr">Fan and</ref><ref type="bibr">Zhang 1999, 2008)</ref>. Thirdly, when using an F distribution to approximate the null distributions of the test statistics, the dependence between the numerator and the denominator of each statistic is neglected although they are generally co-dependent in the framework of nonparametric estimation. <ref type="bibr" target="#b25">Mei et al. (2004)</ref> employed the sample variance based statistic to identify a mixed GWR model and suggested a more accurate approach, called three-moment χ 2 approximation, to derive the p-value of the test. Although the requirement of independence between the numerator and denominator of the test statistic is avoided in this approximation, the assumptions of the normality of the model error term and the unbiasedness of the coefficient estimators are still retained. <ref type="bibr">Páez et al. (2002a</ref><ref type="bibr">Páez et al. ( , 2002b) )</ref> developed a maximum likelihood estimation and inferential framework for the GWR model. However, the assumption that the model error term follows a heteroscedastic normal distribution is still needed.</p><p>The above discussions suggest that there is still much room for improvement in the existing inferential methods of the GWR technique. One of the possible ways is to derive the asymptotic null distributions of the test statistics. However, it has been recognized that the limiting distributions may not necessarily provide a valid approximation to the null distributions in the case of finite sample size (e.g. <ref type="bibr" target="#b10">Fan and Jiang 2007)</ref>. Driven by many sophisticated statistical inferential problems in a variety of areas and fueled by the power of modern computers, Monte Carlo methods are a popular method to simulate the distribution of a complex statistic. The most attractive one is perhaps the bootstrap method originally developed by <ref type="bibr" target="#b8">Efron (1979)</ref>. Because of its solid theoretical basis and fewer restrictions on the underlying distribution of the error term, the bootstrap method has been widely applied to the literature of parametric and nonparametric regression analysis for statistical inferences. This method has also been used in the GWR literature to test for zero coefficients in a mixed GWR model <ref type="bibr" target="#b26">(Mei et al. 2006)</ref> and to investigate coefficient nonstationarity via comparing the basic GWR with some standard spatially autocorrelated regressions <ref type="bibr" target="#b19">(Harris et al. 2015)</ref>. In this paper, we focus on the residual sum of squares based statistic in <ref type="bibr" target="#b4">Brunsdon et al. (1999)</ref> and propose a bootstrap procedure to approximate its null distribution to achieve the task of testing for the constant coefficients in GWR models. In view of the model calibration methods, although the local-linear GWR in <ref type="bibr" target="#b30">Wang et al. (2008)</ref> performs better than the conventional GWR in reducing the bias and the boundary effect of the coefficient estimators, it is very computationally expensive because both the coefficients and their partial derivatives should be simultaneously estimated. Here, we still use the conventional GWR technique proposed by <ref type="bibr" target="#b2">Brunsdon et al. (1996)</ref> to calibrate Model (1) and the two-step procedure derived by <ref type="bibr">Fotheringham et al. (2002, Chapter 3</ref>) to fit a mixed GWR model because of their computational efficiency.</p><p>The rest of this paper is organized as follows. In Section 2, the estimation procedures for a GWR model and a mixed GWR model are briefly described. In Section 3, the residual sum of squares based statistic is introduced to test the null hypothesis that some of the coefficients in the GWR model are constant and a residual-based bootstrap procedure is proposed to compute the p-value of the test. Furthermore, some issues including the computational strategy and some possible extensions of the test are discussed. A simulation study with comparison to the existing test methods is conducted in Section 4 to evaluate the performance of the test under different error distributions and different degrees of collinearity among the explanatory variables. The Boston housing price data are analyzed in Section 5 to demonstrate the application of the proposed test. The paper is then concluded with some remarks.</p><p>2. A brief review of the conventional estimation approaches of GWR and mixed GWR models 2.1. Estimation of a GWR model and the resulting residual sum of squares Let y i ; x i1 ; . . . ; x iq È É n i¼1 be the observations independently collected at the locations (u i , v i ) (i = 1, 2, . . ., n) and d 0i be the Euclidean distance between a given focal location (u 0 , v 0 ) and (u i , v i ). The GWR estimation of Model (1) is to minimize the objective function</p><formula xml:id="formula_1">X n i¼1 y i À X q j¼1 β j ðu 0 ; v 0 Þx ij " # 2 K h ðd 0i Þ</formula><p>with respect to β j (u 0 , V 0 ) (j = 1, 2, . . ., q), where K h ( . ) = K( . /h) with K( . ) being a kernel function and h being a bandwidth. Denote</p><formula xml:id="formula_2">X ¼ x 11 x 12 . . . x 1q x 21 x 22 . . . x 2q . . . . . . . . . . . . x n1 x n2 . . . x nq 0 B B B @ 1 C C C A ; Y ¼ y 1 y 2 . . . y n 0 B B B @ 1 C C C A ;<label>(2)</label></formula><formula xml:id="formula_3">W h ðu 0 ; υ 0 Þ ¼ DiagðK h ðd 01 Þ; K h ðd 02 Þ; . . . ; K h ðd 0n ÞÞ;<label>(3)</label></formula><p>and</p><formula xml:id="formula_4">βðu 0 ; υ 0 Þ ¼ ðβ 1 ðu 0 ; υ 0 Þ; β 2 ðu 0 ; υ 0 Þ; . . . ; β q ðu 0 ; υ 0 ÞÞ T :</formula><p>Then, the GWR estimator of the coefficient vector β(u 0 , v 0 ) is</p><formula xml:id="formula_5">βðu 0 ; υ 0 Þ ¼ ð β1 ðu 0 ; υ 0 Þ; β2 ðu 0 ; υ 0 Þ; . . . ; βq ðu 0 ; υ 0 ÞÞ T ¼ X T W h ðu 0 ; υ 0 ÞX Â Ã À1 X T W h ðu 0 ; υ 0 ÞY:</formula><p>Especially, taking the focal location (u 0 , v 0 ) = (u i , v i ) (i = 1, 2, . . ., n), respectively, the fitted values of the response variable Y at the n sampling locations are computed by</p><formula xml:id="formula_6">ŷi ¼ x T i βðu i ; υ i Þ ¼ x T i X T W h ðu i ; υ i ÞX Â Ã À1 X T W h ðu i ; υ i ÞY; i ¼ 1; 2; . . . ; n;</formula><p>where</p><formula xml:id="formula_7">x T i ¼ ðx i1 ; x i2 ; . . . ;</formula><p>x iq Þ is the ith row of the matrix X in Equation (2). The fitted vector of the response variable Y at the sampling locations can be denoted by</p><formula xml:id="formula_8">Ŷ ¼ ðŷ 1 ; ŷ2 ; . . . ; ŷn Þ T ¼ SðhÞY; (<label>4</label></formula><formula xml:id="formula_9">)</formula><p>where</p><formula xml:id="formula_10">SðhÞ ¼ x T 1 X T W h ðu 1 ; υ 1 ÞX Â Ã À1 X T W h ðu 1 ; υ 1 Þ x T 2 X T W h ðu 2 ; υ 2 ÞX Â Ã À1 X T W h ðu 2 ; υ 2 Þ . . . x T n X T W h ðu n ; υ n ÞX Â Ã À1 X T W h ðu n ; υ n Þ 0 B B B B @ 1 C C C C A :<label>(5)</label></formula><p>The residual vector is then</p><formula xml:id="formula_11">εðhÞ ¼ ε1 ; ε2 ; . . . ; εn ð Þ T ¼ Y À Ŷ ¼ I À SðhÞ ½ Y (<label>6</label></formula><formula xml:id="formula_12">)</formula><p>and the residual sum of squares is</p><formula xml:id="formula_13">RSSðhÞ ¼ εðhÞ ð Þ T εðhÞ ¼ Y T I À SðhÞ ½ T I À SðhÞ ½ Y;<label>(7)</label></formula><p>where I is the identity matrix of order n. The size of the bandwidth h can be determined by the data-driven methods, such as CV, GCV, and AIC c . Here, the AIC c procedure is used to select the bandwidth. That is, let</p><formula xml:id="formula_14">AIC c ðhÞ ¼ log 1 n RSSðhÞ ! þ n þ trðSðhÞÞ n À 2 À trðSðhÞÞ ;</formula><p>where tr( . ) stands for the trace of a matrix. The optimal size of h is</p><formula xml:id="formula_15">h 1 ¼ arg min AIC c h&gt;0 ðhÞ:<label>(8)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Estimation of a mixed GWR model and the resulting residual sum of squares</head><p>After properly re-ordering the explanatory variables, a mixed GWR model in its sample form <ref type="bibr" target="#b4">(Brunsdon et al. 1999</ref>) stands as</p><formula xml:id="formula_16">y i ¼ X r j¼1 β j ðu i ; υ i Þx ij þ X q j¼rþ1 β j x ij þ ε i ; i ¼ 1; 2; . . . ; n;<label>(9)</label></formula><p>where β j (u,v) (j = 1,2, . . ., r) are spatially varying coefficients and β j (j = r + 1, r + 2, . . ., q) are constant coefficients. Here, the errors ε i (i = 1, 2, . . ., n) are also assumed to be independent and identically distributed random variables with mean zero and variance σ 2 . <ref type="bibr">Fotheringham et al. (2002, chapter</ref> 3) proposed a two-step calibration method for the mixed GWR model. This method is less computationally intensive than the back-fitting approach suggested in <ref type="bibr" target="#b4">Brunsdon et al. (1999)</ref> and admits the explicit expressions of the estimators for both the constant and the spatially varying coefficients. What follows is the description of the two-step method with the resulting residual sum of squares.</p><p>For the mixed GWR model in Equation ( <ref type="formula" target="#formula_16">9</ref>), let</p><formula xml:id="formula_17">X υ ¼ x 11 x 12 . . . x 1r x 21 x 22 . . . x 2r . . . . . . . . . . . . x n1 x n2 . . . x nr 0 B B B @ 1 C C C A and X c ¼ x 1;rþ1 x 1;rþ2 . . . x 1q x 2;rþ1 x 2;rþ2 . . . x 2q . . . . . . . . . . . . x n;rþ1 x n;rþ2 . . . x nq 0 B B B @ 1 C C C A (<label>10</label></formula><formula xml:id="formula_18">)</formula><p>be the design matrices corresponding to the spatially varying coefficient part and the constant coefficient part, respectively, and let</p><formula xml:id="formula_19">β υ ðu; υÞ ¼ β 1 ðu; υÞ β 2 ðu; υÞ . . . β r ðu; υÞ 0 B B B @ 1 C C C A and β c ¼ β rþ1 β rþ2 . . . β q 0 B B B @ 1 C C C A</formula><p>be the vectors of the spatially varying coefficients and the constant coefficients, respectively. According to the two-step estimation, the estimator of β c is</p><formula xml:id="formula_20">βc ¼ βrþ1 ; βrþ2 ; . . . ; βq T ¼ X T c ðI À LðhÞÞ T ðI À LðhÞÞX c h i À1 X T c I À LðhÞ ½ T I À LðhÞ ½ Y</formula><p>and the estimator of</p><formula xml:id="formula_21">β v (u,v) at each sampling location (u i , v i ) is βυ ðu i ; υ i Þ ¼ β1 ðu i ; υ i Þ; β2 ðu i ; υ i Þ; . . . βr ðu i ; υ i Þ T ¼ X T υ W h ðu i ; υ i ÞX v Â Ã À1 X T υ W h ðu i ; υ i ÞðY À X c βc Þ ;</formula><p>where</p><formula xml:id="formula_22">LðhÞ ¼ x T υ1 X T υ W h ðu 1 ; υ 1 ÞX υ Â Ã À1 X T υ W h ðu 1 ; υ 1 Þ x T υ2 X T υ W h ðu 2 ; υ 2 ÞX υ Â Ã À1 X T υ W h ðu 2 ; υ 2 Þ . . . x T υn X T υ W h ðu n ; υ n ÞX υ Â Ã À1 X T υ W h ðu n ; υ n Þ 0 B B B B @ 1 C C C C A ; x T υi ¼ ðx i1 ; x i2 ; . . . ; x ir Þ is the ith row of X v , W h (u i , v i )</formula><p>is the same diagonal weight matrix in Equation ( <ref type="formula" target="#formula_3">3</ref>) with (u 0 ,v 0 ) replaced by (u i ,v i ) (i = 1,2, . . ., n) and Y is the observation vector in Equation ( <ref type="formula" target="#formula_2">2</ref>). With the estimators βc and βv ðu i ; υ i Þ (i = 1,2, . . ., n), the fitted vector of the response variable Y in the mixed GWR model is then</p><formula xml:id="formula_23">ŶM ¼ ŷ1M ; ŷ2M ; . . . ; ŷnM ð Þ T ¼ S M ðhÞY;<label>(11)</label></formula><p>where</p><formula xml:id="formula_24">S M ðhÞ ¼ LðhÞ þ ½I À LðhÞX c X T c ðI À LðhÞÞ T I À LðhÞ ð Þ X c h i À1 ÁX T c ½I À LðhÞ T ½I À LðhÞ:<label>(12)</label></formula><p>The residual vector is therefore</p><formula xml:id="formula_25">εM ðhÞ ¼ ε1M ; ε2M ; . . . ; εnM ð Þ T ¼ Y À ŶM ¼ I À S M ðhÞ ½ Y ; (<label>13</label></formula><formula xml:id="formula_26">)</formula><p>and the residual sum of squares is</p><formula xml:id="formula_27">RSS M ðhÞ ¼ ðε M ðhÞÞ T εM ðhÞ ¼ Y T ½I À S M ðhÞ T ½I À S M ðhÞY:<label>(14)</label></formula><p>In the above estimation of the mixed GWR model, the optimal size of the bandwidth h can also be selected by the AIC c criterion. That is, let</p><formula xml:id="formula_28">AIC cM ðhÞ ¼ log 1 n RSS M ðhÞ ! þ n þ trðS M ðhÞÞ n À 2 À trðS M ðhÞÞ : The optimal size of h is h M ¼ arg min AIC cM ðhÞ h&gt;0 :<label>(15)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">A residual-based bootstrap test for constant coefficients in the GWR model</head><p>In this section, we first focus on testing the null hypothesis H 0 : some coefficients in Model (1) are constant versus the alternative hypothesis H 1 : all of the coefficients in Model (1) vary over the space and formulate a residual-based bootstrap test for the hypotheses. Then, some related issues including the computational strategy of the p-value and some possible extensions of the test are discussed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Construction of the test statistic</head><p>Based on the data set</p><formula xml:id="formula_29">y i ; x i1 ; x i2 ; . . . ; x iq ; ðu i ; v i Þ È É n i¼1</formula><p>, fit the GWR model in Equation ( <ref type="formula" target="#formula_0">1</ref>) (the alternative model) according to the estimation procedure described in Subsection 2.1 and compute the residual sum of squares</p><formula xml:id="formula_30">RSSðh 1 Þ ¼ Y T ½I À Sðh 1 Þ T ½I À Sðh 1 ÞY ¼ Y T RðH 1 ÞY;<label>(16)</label></formula><p>where RðH 1 Þ ¼ ½I À Sðh 1 Þ T ½I À Sðh 1 Þ and h 1 is the optimal bandwidth size selected by the AIC c criterion in Equation ( <ref type="formula" target="#formula_15">8</ref>). Specifically, it is assumed that one wants to test whether the last qr coefficients in Model (1) are constant. Then the null hypothesis is</p><formula xml:id="formula_31">H 0 : β j ðu; υÞ ¼ β j for j ¼ r þ 1; r þ 2; . . . ; q; (<label>17</label></formula><formula xml:id="formula_32">)</formula><p>which leads to the null model of the mixed GWR model in Equation ( <ref type="formula" target="#formula_16">9</ref>). Calibrate the null model with the bandwidth size h 1 selected under the alternative model and compute the residual sum of squares</p><formula xml:id="formula_33">RSS M ðh 1 Þ ¼ Y T ½I À S M ðh 1 Þ T ½I À S M ðh 1 ÞY ¼ Y T RðH 0 ÞY;<label>(18)</label></formula><p>where</p><formula xml:id="formula_34">RðH 0 Þ ¼ ½I À S M ðh 1 Þ T ½I À S M ðh 1 Þ.</formula><p>The test statistic is then constructed as</p><formula xml:id="formula_35">T ¼ RSS M ðh 1 Þ À RSSðh 1 Þ RSSðh 1 Þ ¼ Y T ½RðH 0 Þ À RðH 1 ÞY Y T RðH 1 ÞY : (<label>19</label></formula><formula xml:id="formula_36">)</formula><p>The above statistic has been used in the GWR literature <ref type="bibr" target="#b4">(Brunsdon et al. 1999</ref><ref type="bibr" target="#b24">, Leung et al. 2000</ref><ref type="bibr" target="#b26">, Mei et al. 2006</ref>) for comparing the goodness-of-fit of two related models. In the nonparametric regression literature, this statistic is called a generalized likelihood ratio statistic originally proposed by <ref type="bibr" target="#b11">Fan et al. (2001)</ref> and has been widely used to perform inference for various nonparametric or semiparametric models <ref type="bibr" target="#b10">(Fan and Jiang 2007)</ref>. It has been proved in many situations that this statistic holds a useful property, called Wilks' phenomenon, meaning that its limiting distribution is free of the nonparametric smoothing methods used for calibrating the model. As pointed out by <ref type="bibr" target="#b9">Fan and Huang (2005)</ref>, when the generalized likelihood ratio statistic is used for hypothesis testing, it is essential to calibrate both the null and the alternative models with the same bandwidth size unless the null model is a full parametric model which does not need a bandwidth in its estimation. Otherwise, the adjustment of the bandwidth may make the residual sums of squares from the null and alternative models incomparable, leading to a loss in the power of the test. Furthermore, as noted in <ref type="bibr" target="#b10">Fan and Jiang (2007)</ref> and <ref type="bibr" target="#b5">Cai (2007)</ref>, for a given data set, since one is not certain whether the null model is correct, the fit from the alternative model should be used to generate the residuals for bootstrap sampling because this fit results in consistent residuals under both the null and alternative models. For these reasons, we use in this paper the bandwidth size h 1 selected in the GWR model (alternative model) to fit the mixed GWR model (null model) in the construction of the test statistic in Equation ( <ref type="formula" target="#formula_35">19</ref>), which meets the above two requirements simultaneously.</p><p>Intuitively, if the null hypothesis H 0 in Equation ( <ref type="formula" target="#formula_31">17</ref>) is indeed true, the difference between RSS M (h 1 ) and RSS(h 1 ) should be small. Otherwise, RSS M (h 1 ) tends to be significantly larger than RSS(h 1 ). Hence, a large value of the statistic T supports rejection of the null hypothesis and the p-value of the test is then</p><formula xml:id="formula_37">p ¼ P H 0 ðT ! tÞ; (<label>20</label></formula><formula xml:id="formula_38">)</formula><p>where t is the observed value of T obtained by Equation ( <ref type="formula" target="#formula_35">19</ref>) and P H 0 means that the probability is computed according to the null distribution of T. Given a significance level α, if p &lt; α, then reject the null hypothesis H 0 ; otherwise, do not reject H 0 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">A bootstrap procedure for computing the p-value of the test</head><p>To overcome the shortcomings of the existing inferential methods in approximating the null distribution of the test statistic T, we suggest a bootstrap procedure to compute the p-value of the test. Here, it is only assumed that the model errors ε 1 , ε 2 ,. . ., ε n are independent and identically distributed random variables with mean zero and variance σ 2 . The bootstrap procedure in our setting is as follows.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 1: Based on the original data y</head><formula xml:id="formula_39">i ; x i1 ; x i2 ; . . . ; x iq ; ðu i ; v i Þ È É n i¼1</formula><p>, the alternative model (i.e. the full GWR model in Equation ( <ref type="formula" target="#formula_0">1</ref>)) is calibrated and the optimal bandwidth size h 1 is selected. Then, compute the residual vector εðh</p><formula xml:id="formula_40">1 Þ ¼ ε1 ; ε2 ; . . . ; εn ð Þ T ¼ I À Sðh 1 Þ ½</formula><p>Y in Equation ( <ref type="formula" target="#formula_11">6</ref>) and the residual sum of squares RSS(h 1 ) = Y T R(H 1 )Y in Equation ( <ref type="formula" target="#formula_30">16</ref>).</p><p>Step 2: Fit the null model (i.e. the mixed GWR model in Equation ( <ref type="formula" target="#formula_16">9</ref>)) using the twostep calibration method and the same bandwidth size h 1 in Step 1. Then, compute the fitted vector of the response variable ŶM ¼ S M ðh 1 ÞY in Equation ( <ref type="formula" target="#formula_23">11</ref>) and the residual</p><formula xml:id="formula_41">sum of squares RSS M ðh 1 Þ ¼ Y T RðH 0 ÞY in Equation (18).</formula><p>Step 3: Compute the observed value of the statistic</p><formula xml:id="formula_42">T by t ¼ RSS M ðh 1 ÞÀRSSðh 1 Þ RSSðh 1 Þ</formula><p>and the</p><formula xml:id="formula_43">centered residual vector εc ¼ ε1c ; ε2c ; . . . ; εnc ð Þ T with εic ¼ εi À 1 n P n j¼1 εj<label>ði</label></formula><p>¼ 1; 2; . . . ; nÞ where ε1 ; ε2 ; . . . ; εn are the residuals obtained in Step 1. Step 4: Draw a bootstrap sample ε Ã ¼ ðε Ã 1 ; ε Ã 2 ;</p><p>. . . ε Ã n Þ T with replacement from εc ¼ ε1c ; ε2c ; . . . ; εnc ð Þ T and compute the bootstrap sample of the response variable by</p><formula xml:id="formula_44">Y Ã ¼ ðy Ã 1 ; y Ã 2 ; . . . ; y Ã n Þ T ¼ S M ðh 1 ÞY þ ε Ã , yielding the bootstrap data y Ã i ; x i1 ; x i2 ; n . . . ; x iq ; ðu i ; v i Þg n i¼1 .</formula><p>Step 5: Based on the bootstrap data, re-calibrate both the alternative and null models by their respective estimation approaches with the same bandwidth size h 1 . Compute the residual sums of the squares RSS*(h 1 ) and RSS Ã M ðh 1 Þ of the alternative and the null models, respectively. Then a bootstrap value of the statistic T is obtained by</p><formula xml:id="formula_45">t Ã ¼ RSS Ã M ðh 1 ÞÀRSS Ã ðh 1 Þ RSS Ã ðh 1 Þ .</formula><p>Step 6: Repeat Steps 4 and 5 for b times and obtain b bootstrap values of the statistic T, which we denote by t Ã 1 ; t Ã 2 ; . . . ; t Ã b . The p-value in Equation ( <ref type="formula" target="#formula_37">20</ref>) is then estimated by</p><formula xml:id="formula_46">p ¼ 1 b X b i¼1 Iðt Ã i ! tÞ;</formula><p>where I( . ) is the indicator function.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Some comments on the test</head><p>(1) Testing a globally stationary regression relationship. As one of the most important inferences in the GWR literature, the test for a globally stationary regression relationship can provide the information that a spatially varying coefficient model is really necessary for the given data. The proposed bootstrap test is applicable to this case. In fact, the null hypothesis in this case is H 0 : all of the coefficients in Model (1) are constant, which corresponds to the ordinary linear regression model</p><formula xml:id="formula_47">y i ¼ X q j¼1 β j x ij þ ε i ; i ¼ 1; 2; . . . ; n:</formula><p>In this case, the above null model is simply calibrated by the least-squares procedure. As a result, the matrix S M (h 1 ) and the residual sum of squares RSS M (h 1 ) in Step 2 do not depend on the bandwidth size h 1 and have the forms of</p><formula xml:id="formula_48">S M ðh 1 Þ ¼ XðX T XÞ À1 X T and RSS M ðh 1 Þ ¼ Y T ½I À XðX T XÞ À1 X T Y ;</formula><p>respectively, where X is the design matrix in Equation ( <ref type="formula" target="#formula_2">2</ref>).</p><p>(2) A simplified algorithm to compute the bootstrap value of the test statistic. Step 5 says that both the alternative and the null models must be recalibrated based on the bootstrap data y</p><formula xml:id="formula_49">Ã i ; x i1 ; x i2 ; . . . ; x iq ; ðu i ; v i Þ n o n i¼1</formula><p>. However, the calibrations of the alternative and null models do not need to be performed repeatedly. In fact, it is noted that both the original data and the bootstrap data have the same observations of the explanatory valuables and the corresponding sampling locations. Furthermore, the bandwidth size used for re-calibrating the two models is unchanged in each repeat of Steps 4 and 5. Therefore, re-calibrating the alternative and the null models will result in the same matrices S(h 1 ) and S M (h 1 ) and therefore the same matrices R(H 0 ) and R(H 1 ). Based on this fact, the residual sums of squares RSS Ã ðh 1 Þ and RSS Ã M (h 1 ) can be simply computed by</p><formula xml:id="formula_50">RSS Ã ðh 1 Þ ¼ Y Ã ð Þ T ½I À Sðh 1 Þ T ½I À Sðh 1 ÞY Ã ¼ Y Ã ð Þ T RðH 1 ÞY Ã</formula><p>and</p><formula xml:id="formula_51">RSS Ã M ðh 1 Þ ¼ Y Ã ð Þ T ½I À S M ðh 1 Þ T ½I À S M ðh 1 ÞY Ã ¼ Y Ã ð Þ T RðH 0 ÞY Ã respectively, where Y Ã ¼ S M ðh 1 ÞY þ ε Ã .</formula><p>Furthermore, the bootstrap value of the test statistic T is</p><formula xml:id="formula_52">t Ã ¼ ðY Ã Þ T ½RðH 0 Þ À RðH 1 ÞY Ã ðY Ã Þ T RðH 1 ÞY Ã :</formula><p>Therefore, in each of the b repeats of computing the bootstrap value in Step 6, it is only needed to replace Y* with the updated one, which can largely reduce the computational complexity of the bootstrap test.</p><p>(3) Some possible extensions of the test. Although the test is proposed mainly for identifying the constant coefficients in a GWR model, it admits some extensions for testing more complex structures of the coefficients.</p><p>One extension is to test the null hypothesis that some coefficients, for example, the last qr coefficients in Model (1), are linear combinations of some known functions of the spatial coordinate (u,v). Specifically, the null hypothesis can be expressed as H 0 : β j ðu; υÞ ¼</p><formula xml:id="formula_53">X I j k¼1 θ jk g jk ðu; υÞ for j ¼ r þ 1; r þ 2; . . . ; q;<label>(21)</label></formula><p>where for each j = r + 1, r + 2, . . ., q, θ jk (k = 1, 2, . . ., l j ) are unknown constant parameters and g jk (u,v) (k = 1, 2, . . ., l j ) are known linearly independent functions of the spatial coordinate <ref type="bibr">(u,v)</ref>. Under the null hypothesis, the null model is of the form</p><formula xml:id="formula_54">y i ¼ X r j¼1 β j ðu i ; υ i Þx ij þ X q j¼rþ1 X I j k¼1 θ jk g jk ðu i ; υ i Þx ij " # ; i ¼ 1; 2; . . . ; n: Let z ijk ¼ g jk ðu i ; v i Þx ij ; k ¼ 1; 2; : : : ; l j ; j ¼ r þ 1; r þ 2;</formula><p>. . . ; q; i ¼ 1; 2; : : : ; n:</p><p>The null model becomes</p><formula xml:id="formula_55">y i ¼ P r j¼1 β j ðu i ; υ i Þx ij þ P I rþ1 k¼1 θ rþ1;k z i;rþ1;k þ P I rþ2 k¼1 θ rþ2;k z i;rþ2;k þ Á Á Á þ P l q k¼1 θ qk z iqk þ ε i ; i ¼ 1; 2; . . . ; n;</formula><p>which is a mixed GWR model because z ijk (k = 1, 2, . . ., l j ; j = 1,2, . . ., q; i = 1, 2, . . ., n) are all known. Therefore, the proposed bootstrap test is applicable to the null hypothesis in Equation ( <ref type="formula" target="#formula_53">21</ref>). When each g jk (u,v) in Equation ( <ref type="formula" target="#formula_53">21</ref>) is a power function of u and v, the coefficients β j (u,v) (j = r + 1, r + 2, . . ., q) are polynomial functions of the spatial coordinate. Especially, when the null hypothesis includes all the coefficients (i.e. r = 0), the resulting null model is in fact a geographical expansion model which has been comprehensively studied in <ref type="bibr" target="#b6">Casetti (1972</ref><ref type="bibr" target="#b7">Casetti ( , 1997) )</ref> and <ref type="bibr" target="#b23">Jones and Casetti (1992)</ref>. Therefore, as a special case of the null hypothesis in Equation ( <ref type="formula" target="#formula_53">21</ref>), the bootstrap test can be used to identify whether an expansion model is suitable for a given data set.</p><p>Another extension is to test the hypothesis of one mixed GWR model against another mixed GWR model. In this case, the alternative model is a mixed GWR model. The null model may be diverse. For example, in order to evaluate whether some explanatory variables in the constant-coefficient part of the alternative model do influence the response variable, one can set such a null model that the coefficients corresponding to these explanatory variables are all zero, resulting in the same test method in <ref type="bibr" target="#b26">Mei et al. (2006)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">A simulation study</head><p>In this section, some simulation with comparison to the existing test methods in the GWR literature is conducted to assess the performance of the proposed bootstrap test. The simulation focuses on the validity of the bootstrap approximation to the null distribution of the test statistic and the power of the test in detecting the spatially varying coefficients under normal and some typical non-normal error distributions. Furthermore, in view of the fact that collinearity among the explanatory variables may have an adverse impact on the coefficient estimators <ref type="bibr">(Wheeler and</ref><ref type="bibr" target="#b34">Tiefelsdorf 2005, Wheeler and</ref><ref type="bibr" target="#b33">Calder 2007)</ref>, it is therefore of interest to evaluate the influence of the collinearity on the performance of the test.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Design of the simulation</head><p>(1) The spatial layout. The spatial region for the simulation is taken to be a square with the length of each side being 10 units and a Cartesian coordinate system is installed in such a way that its origin is located at the bottom-left corner of the square and the two axes coincide with the mutually orthogonal two sides of the square. The sampling locations are m × m lattice points with their spatial coordinates under the Cartesian system being</p><formula xml:id="formula_56">ðu i ; υ i Þ ¼ 10 m À 1 mod ði À 1; mÞ; 10 m À 1 intði À 1; mÞ ; i ¼ 1; 2; . . . ; m 2 ;</formula><p>where mod(a,b) and int(a,b) stand for the remainder and the integer part of a divided by b, respectively. In the simulation, m = 16 and 21 are designated, resulting in the sample sizes n = 256 and 441, respectively.</p><p>(2) The model for generating data. Let Y be the response variable, X 1 X 2 , X 3 , and X 4 be the explanatory variables, and</p><formula xml:id="formula_57">y i ; x i1 ; x i2 ; x i3 ; x i4 ; ðu i ; v i Þ f g n</formula><p>i¼1 be the data. The following GWR model is considered throughout the simulation:</p><formula xml:id="formula_58">y i ¼ β 1 ðu i ; υ i Þx i1 þ β 2 ðu i ; υ i Þx i2 þ β 3 ðu i ; υ i Þx i3 þ β 4 ðu i ; υ i Þx i4 þ ε i ; i ¼ 1; 2; . . . ; n; (22)</formula><p>where</p><formula xml:id="formula_59">β 1 ðu; υÞ ¼ 4 sin π 10 u À Á ; β 2 ðu; υÞ ¼ 4 625 uυð10 À uÞð10 À υÞ; β 3 ðu; υÞ ¼ 1 þ 4c ½1 þ e ÀðuÀ5Þ À1<label>;</label></formula><formula xml:id="formula_60">β 4 ðu; υÞ ¼ 0:5 þ 2c 1 þ 1 125 ðυ À 5Þ 3 h i ; 8 &gt; &gt; &gt; &lt; &gt; &gt; &gt; :</formula><p>with c being a constant which will be designated different values to evaluate the power of the test. The model errors ε 1 , ε 2 , . . ., ε n are independent and identically distributed random variables with mean zero and variance σ 2 .</p><p>(3) The error distribution. In order to examine the effect of the error distribution on the performance of the test, we consider the following three different types of the error distribution whose scales are so adjusted that they all have a common variance σ 2 = 1: (i) standard normal distribution N(0,1);</p><p>(ii) uniform distribution UðÀ ffiffi ffi 3 p ; ffiffi ffi 3 p Þ; (iii) transformed and centered χ 2 distribution 1 2 χ 2 2 ð Þ À 1. (4) The way of generating the observations of the explanatory variables. Let Z 1 , Z 2 , Z 3 , and Z 4 be independent random variables with the common distribution U(0,1).</p><p>The explanatory variables are taken to be</p><formula xml:id="formula_61">X 1 X 2 X 3 X 4 0 B B @ 1 C C A ¼ 1 γ 0 0 γ 1 τ 0 0 τ 1 δ 0 0 δ 1 0 B B @ 1 C C A Z 1 Z 2 Z 3 Z 4 0 B B @ 1 C C A ;<label>(23)</label></formula><p>where 0 γ,τ, ρ &lt; 1. The following four cases are considered:</p><p>(i) γ = τ = δ = 0. In this case, the explanatory variables are mutually independent. (ii) τ = δ = 0, and γ = 0.27 and 0.5, respectively. In this case (X 1 , X 2 ), X 3 , and X 4 are mutually independent while X 1 and X 2 are dependent. The correlation coefficient between X 1 and X 2 is</p><formula xml:id="formula_62">ρ X 1 X 2 ¼ CovðX 1 ; X 2 Þ ffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi VarðX 1 Þ Á VarðX 2 Þ p ¼ CovðZ 1 ; γZ 2 ; γZ 1 þZ 2 Þ ffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi ffi VarðZ 1 þγZ 2 Þ Á VarðγZ 1 þ Z 2 Þ p ¼ 2γ 1 þ γ 2 : γ ¼ 0:27 leads to ρ X 1 ;X 2 ¼ 0:5,</formula><p>a moderate correlation coefficient between X 1 and X 2 ; γ = 0.5 yields ρ X 1 ;X 2 = 0.8, a high correlation coefficient between X 1 and X 2 . (iii) γ ¼ δ ¼ 0, and τ ¼ 0:27 and 0.5, respectively. In this case X 1 , (X 2 , X 3 ), and X 4 are mutually independent while the correlation coefficients between X 2 and X 3 are ρ X 2 ;X 3 ¼ 0:5 and 0.8, respectively. (iv) γ ¼ δ ¼ 0, and δ ¼ 0:27 and 0.5, respectively. Similarly, X 1 , X 2 , and (X 3 , X 4 ) are mutually independent while the correlation coefficients between X 3 and X 4 are ρ X 3 ,X 4 = 0.5 and 0.8, respectively.</p><p>Given each set of the values for γ, τ, and δ, the observations of the explanatory valuables are generated as follows. Draw independently a sample (z 1 , z 2 , z 3 , z 4 ) T from the distribution U(0,1) and the observation of the explanatory variables (x 1 , x 2 , x 3 , x 4 ) T is computed according to Equation ( <ref type="formula" target="#formula_61">23</ref>). Furthermore, the corresponding observation of the response variable is derived according to Model ( <ref type="formula">22</ref>). ( <ref type="formula" target="#formula_10">5</ref>) The null hypothesis. The null hypothesis to be tested in the simulation is</p><formula xml:id="formula_63">H 0 : β 3 u; υ ð Þ ¼ β 3 and β 4 u; υ ð Þ ¼ β 4 ;<label>(24)</label></formula><p>where β 3 and β 4 are two constants. This null hypothesis corresponds to c = 0 in the coefficients β 3 (u,v) and β 4 (u,v). ( <ref type="formula" target="#formula_11">6</ref>) Selection of the kernel function and bandwidth. Throughout the simulation, the kernel function is chosen as the Gaussian kernel, i.e. K t ð Þ ¼ 1 ffiffiffiffi 2π p e À t 2 2 ; and the optimal bandwidth size for the alternative model is selected by the AIC c criterion in Equations (8).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Simulation results with analysis</head><p>For each of the experimental settings, we run N = 500 replications and, in each replication, b = 500 bootstrap samples were drawn to compute the p-value.</p><p>(1) Validity of the bootstrap approximation to the null distribution of the test statistic. Under the null hypothesis (i.e. setting c = 0 in the coefficients β 3 (u,v) and β 4 (u,v)) and for each of the experimental settings, we calculated the rate of rejecting the null hypothesis among N = 500 replications at the significance levels α = 0.01, 0.05, and 0.10, respectively. The rate is an estimator of the type I error of the test under the given setting and significance level.</p><p>Moreover, the bootstrap test was compared with the test in <ref type="bibr" target="#b4">Brunsdon et al. (1999)</ref> where the test statistic is the same as that in Equation ( <ref type="formula" target="#formula_35">19</ref>) except for an additional scaling factor, but the null distribution of the statistic is approximated by an F distribution. It should also be pointed out that, in the present simulation, the null model was calibrated by the two-step method described in Section 2.2 instead of the originally proposed back-fitting procedure in <ref type="bibr" target="#b4">Brunsdon et al. (1999)</ref>. Furthermore, although the degrees of freedom of the foregoing F distribution are derived under the assumption of the normally distributed error terms, the formulas can be routinely used to compute the degrees of freedom for other error distributions.</p><p>For each of the experimental settings, the rejection rate was computed for both test methods and the results are reported in Table <ref type="table" target="#tab_0">1</ref>, where the letters 'B' and 'F' refer respectively to the bootstrap test and the test in <ref type="bibr" target="#b4">Brunsdon et al. (1999)</ref> which we call F-test henceforth.</p><p>It is known from Table <ref type="table" target="#tab_0">1</ref> that, for the bootstrap test, the rejection rates under the null hypothesis are reasonably close to the respective significance levels in all of the experimental settings even for the small sample size of n = 256, indicating that the bootstrap method yields an accurate approximation to the null distribution of the test statistic at least on the right tail of the null distribution on which the p-value of the test is computed. Furthermore, although the bootstrap approximation seemingly performs best for the normal error distribution, it can also account well for nonnormal error distributions in the sense that the rejection rates do not show an evident deviation from the respective significance levels for both the short-tailed distribution of U À ffiffi ffi 3 p ; ffiffi ffi 3 p À Á and the skew distribution of 1 2 χ 2 (2)-1. More interestingly, although the collinearity among the explanatory variables may lead to spurious correlation between the GWR estimators of the spatially varying coefficients <ref type="bibr" target="#b34">(Wheeler and Tiefelsdorf 2005)</ref>, it does not bring about obvious influence on the rejection rates under the null hypothesis, which indicates that the bootstrap approximation to the null distribution of the test statistic is rather robust to the collinearity among the explanatory variables.</p><p>For the F-test, however, the rejection rates are much lower than their respective significance levels in all of the experimental settings, which indicates that the derived F distribution may have a heavier tail on the right than the real null distribution of the test statistic, leading to an inaccurate approximation to the null distribution. Although the rejection rates under the larger significance levels tend to increase with the sample size increasing, they are still much smaller than the corresponding significance levels. One more finding is that, under the null hypothesis, the rejection rates of the F-test are little influenced not only by the collinearity between the explanatory variables but also by the non-normality of the error distribution.</p><p>(2) Power of the bootstrap test. When c ≠ 0, the alternative hypothesis that all of the coefficients in Model ( <ref type="formula">22</ref>) vary over the space is true. In this situation, given a significance level α, the rate of rejecting the null hypothesis in N = 500 replications is an estimator of the test power. Here, we conduct some simulation to assess the power of the bootstrap test via a comparison with that of the F-test.</p><p>Set the significance level α = 0.05 and the values of c to be from 0.1 to 0.7 by an increment of 0.1. Here, we only focused on the cases where the explanatory variables X 1 , X 2 , X 3 , and X 4 are mutually independent and two of them are highly correlated with</p><formula xml:id="formula_64">ρ ðX 1 ;X 2 Þ ¼ ρ ðX 2 ;X 3 Þ ¼ ρ ðX 3 ;X 4 Þ ¼ 0:8; respectively.</formula><p>Furthermore, the power of the F-test was also computed in each experimental setting for the purpose of comparison. The power functions for both tests are depicted in Figure <ref type="figure">1</ref>.</p><p>It can be observed from Figure <ref type="figure">1</ref> that the bootstrap test is of high power in identifying the varying coefficients in the GWR model no matter what the model error term follows a normal or a non-normal distribution. In contrast, the F-test shows evidently lower power in compared to the case of ρ ðX 2 ;X 3 Þ ¼ 0:8: The results for the case of ρ ðX 2 ;X 3 Þ ¼ À0:8 are illustrated in the last row of Figure <ref type="figure">1</ref>.</p><p>In addition, the bootstrap test was compared with the test suggested in <ref type="bibr" target="#b24">Leung et al. (2000)</ref> (called L-test henceforth) in the simulation study. In the L-test, the test statistic is constructed based on the sample variance of the GWR estimators of each coefficient at all of the sampling locations (see Equation ( <ref type="formula">65</ref>) in <ref type="bibr" target="#b24">Leung et al. 2000)</ref> and its null distribution is also approximated by an F distribution. It should be noted that since each coefficient is separately tested for a constant in the L-test, testing the null hypothesis in Equation ( <ref type="formula" target="#formula_63">24</ref>) with the L-test amounts to simultaneously testing the following two null hypotheses H 03 : β 3 u; υ ð Þ ¼ β 3 and H 04 :</p><formula xml:id="formula_65">β 4 u; υ ð Þ ¼ β 4 :</formula><p>In all of the experimental settings, the rejection rates under the null hypotheses H 03 and H 04 were also computed with the L-test. Because of the limited space, the results are omitted here, but those for n = 441 are attached as a supplementary material. It is found from the results that the L-test yields an excessively high type I error. That is, when the null hypotheses are indeed true, the rejection rates in all settings are much larger than the corresponding significance levels, indicating that an F distribution cannot provide an accurate approximation to the null distributions of the test statistics. Although the results improve with the sample size increasing, the rejection rates are still generally two or three times higher than the corresponding significance levels even for the lager sample size of n = 441 (see Table <ref type="table">A</ref> in the supplementary material). In terms of the test power, the L-test yields a more complex pattern than the bootstrap test (see Figure <ref type="figure">A</ref> in the supplementary material). Generally speaking, the power of L-test is higher than that of the bootstrap test especially for small value of c. With the value of c increasing, however, the power of L-test for H 04 becomes lower than that of the bootstrap test. Moreover, the impact of the collinearity on the power seems different for these two tests with the most serious case being ρ ðX 3 ;X 4 Þ ¼ 0:8 for the L-test, but ρ ðX 2 ;X 3 Þ ¼ 0:8 for the bootstrap test.</p><p>In summary, the simulation study demonstrates that the bootstrap test outperforms the existing F-test and L-test in terms of type I error and test power. The bootstrap test can well approximate the null distribution of the test statistic even for small sample size and is free of the normality assumption on the error distribution. Furthermore, it is powerful in identifying the spatially varying coefficients. However, collinearity among the explanatory variables has an adverse impact on the power of the test, although the influence tends to be alleviated with the sample size increasing. Similar conclusions have been reached by <ref type="bibr" target="#b27">Páez et al. (2011)</ref> in the empirical study of estimation of GWR models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Application to Boston housing data</head><p>The proposed bootstrap test is illustrated by an application to the Boston housing data set given in <ref type="bibr" target="#b21">Hurrison and Rubinfeld (1978)</ref> and corrected for a few minor errors by <ref type="bibr" target="#b17">Gilley and Pace (1996)</ref>. The data set consists of the median value (MEDV in $1000) of owneroccupied homes in 506 US census tracts in the Boston area in 1970 as well as the following explanatory variables:</p><p>• CRIM, the per capita crime rate by town;</p><p>• ZN, the proportion of a town's residential land zoned for lots greater than 25,000 square feet; • INDVS, the proportion of non-retail business acres per town;</p><p>• CHAS, the Charles River dummy variable (CHAS = 1 if the tract bounds the Charles River; CHAS = 0 otherwise); • NOX, the nitrogen oxide concentration in parts per 10 million;</p><p>• RM, the average number of rooms in owner-occupied homes per dwelling;</p><p>• AGE, the proportion of owner-occupied homes built prior to 1940;</p><p>• DIS, the weighted distances to five employment centers in the Boston region;</p><p>• RAD, the index of accessibility to radial highways;</p><p>• TAX, the full value property tax rate per $10000;</p><p>• PTRATIO, the pupil-teacher ratio by town school district;</p><p>• LSTAT, the proportion of population that is in the lower status;</p><p>• BK, the black proportion of population by town.</p><p>In addition, the Cartesian coordinate (u,v) for each tract is attached to the data set.</p><p>The variables ZN and CHAS were excluded in the subsequent analysis because more than two-thirds of the observations of ZN are zero and the location information that CHAS reflects has been included in the spatially varying coefficients of the GWR model. Firstly, we considered the following GWR model between MEDV and the remaining eleven explanatory variables:</p><formula xml:id="formula_66">MEDV ¼ β 0 u; υ ð Þ þ β 1 u; υ ð ÞCRIM þ β 2 u; υ ð ÞINDVS þ β 3 u; υ ð ÞNOX þ β 4 u; υ ð ÞRM þ β 5 u; υ ð ÞAGE þ β 6 u; υ ð ÞDIS þ β 7 u; υ ð ÞRAD þ β 8 u; υ ð ÞTAX þ β 9 u; υ ð ÞPTRATIO þ β 10 u; υ ð ÞLSTAT þ β 11 u; υ ð ÞBK þ ε:<label>(25)</label></formula><p>Based on the data set, the bootstrap test was used to identify the constant coefficients in the alternative model in Equation ( <ref type="formula" target="#formula_66">25</ref>). Here, the Gaussian kernel was used once again for fitting the alternative model and the bandwidth size selected by the AIC c criterion is h 1 = 1.44. We conducted a series of the tests for different null hypotheses that some specific coefficients in Model ( <ref type="formula" target="#formula_66">25</ref>) are assumed to be constant. In each of the tests, 1000 bootstrap replications were run to compute the p-value. Some typical tests with their p-values are reported in Table <ref type="table">2</ref>.</p><p>From the last row of Table <ref type="table">2</ref> it is concluded that, under the significance level α = 0.05, we cannot reject the null hypothesis that the coefficients of the explanatory variables CRIM, INDVS, NOX, AGE, RAD, TAX, PTRATIO, and BK are constants. Furthermore, the additional tests were performed by adding one or more remaining coefficients β 0 (u,v), β 4 (u,v), β 6 (u,v), and β 10 (u,v), into the null hypothesis in the last row of Table <ref type="table">2</ref> and the resulting p-values are all between 0.000 and 0.017, indicating that the coefficients β 0 (u, v), β 4 (u,v), β 6 (u,v), and β 10 (u,v) vary over the space.</p><p>According to the above testing results, the following mixed GWR model might be appropriate to the data set. After rearranging the additive terms, this mixed GWR model stands as</p><formula xml:id="formula_67">MEDV ¼ β 0 u; υ ð Þ þ β 4 u; υ ð ÞRM þ β 6 u; υ ð ÞDIS þ β 10 u; υ ð ÞLSTAT þ β 1 CRIM þ β 2 INDVS þ β 3 NOX þ β 5 AGE þ β 7 RAD þ β 8 TAX þ β 9 PTRATIO þ β 11 BK þ ε:<label>(26)</label></formula><p>For the mixed GWR model in Equation ( <ref type="formula" target="#formula_67">26</ref>), of further interest is to test whether some explanatory variables with constant coefficients influence the response MEDV significantly, which amounts to the tests for identifying which constant coefficients are zero. As mentioned in Section 3.3, the bootstrap test is applicable to such kind of tests. With the Gaussian kernel and the bandwidth selection criterion in Equation ( <ref type="formula" target="#formula_28">15</ref>), the optimal size of the bandwidth for the mixed GWR model in Equation ( <ref type="formula" target="#formula_67">26</ref>) is h M = 0.68. We first performed the tests with 1000 bootstrap replications for the null hypothesis that each single constant coefficient in Model (26) is zero. The resulting p-values are listed in Table <ref type="table" target="#tab_1">3</ref>.</p><p>It is known from Table <ref type="table" target="#tab_1">3</ref> that, for each single explanatory variable with constant coefficient, INDVS has not significant impact on the response MEDV. Furthermore, we added one or more other constant coefficients into the null hypothesis β 2 = 0, the resulting p-values are all less than or equal to 0.005, indicating that INDVS is the only variable that does not influence MEDV significantly.</p><p>By removing the insignificant explanatory variable INDVS from Model (26) and reordering both the spatially varying coefficients and the constant coefficients, we finally specified a mixed GWR model for the Boston housing data as Table <ref type="table">2</ref>. Some typical null hypotheses with their p-values of the tests under 1000 bootstrap replications.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Null hypothesis</head><p>Corresponding variables p-Value β 0 (u,v) = β 0 Intercept 0.000 β 1 (u,v) = β 1 CRIM 0.568 β 2 (u,v) = β 2 INDVS 0.667 β 3 (u,v) = β 3 NOX 0.095 β 4 (u,v) = β 4 RM 0.000 β 5 (u,v) = β 5 AGE 0.678 β 6 (u,v) = β 6 DIS 0.021 β 7 (u,v) = β 7 RAD 0.398 β 8 (u,v) = β 8 TAX 0.596 β 9 (u,v) = β 9 PTRATIO 0.115 β 10 (u,v) = β 10 LSTAT 0.000 β 11 (u,v) = β 11 BK 0.258 β j (u,v) = β j CRIM INDVS NOX AGE 0.489 j = 1, 2, 3, 5, 7, 8, 9, 11 RAD TAX PTRATIO BK </p><formula xml:id="formula_68">MEDV ¼ β 0 u; υ ð Þ þ β 1 u; υ ð ÞRM þ β 2 u; υ ð ÞDIS þ β 3 u; υ ð ÞLSTAT þ β 4 CRIM þ β 5 NOX þ β 6 AGE þ β 7 RAD þ β 8 TAX þ β 9 PTRATIO þ β 10 BK þ ε:<label>(27)</label></formula><p>The above model can be calibrated by the two-step method in <ref type="bibr">Fotheringham et al. (2002, chapter 3)</ref> and can be used to explain the spatial characteristics of the regression relationship between the median value of owner-occupied homes and the related explanatory variables. This content is beyond the scope of this paper and is therefore omitted.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Final remarks</head><p>Understanding whether some of the coefficients in a GWR model really vary over the space is essential to validly explain spatial non-stationarity of the regression relationship. To achieve this task, we propose in this paper a residual-based bootstrap test to identify constant coefficients in a GWR model. The simulation study shows that the bootstrap test outperforms the existing test methods in terms of type I error and test power. Moreover, the bootstrap test is applicable to diverse hypotheses and provides a useful way of building a possible mixed GWR model for a georeferenced data set.</p><p>In terms of future research, it should be noted that only the effect of global collinearity between the explanatory variables is evaluated in the simulation study whereas the impact of local collinearity on the bootstrap and other tests remains to be investigated. Furthermore, a more important issue is how to alleviate the adverse impact of global or local collinearity on the tests and deserves to be further studied. Moreover, the geographically and temporally weighted regression (GTWR), a promising extension of the GWR model, has recently been developed to account for local effects in both space and time <ref type="bibr" target="#b20">(Huang et al. 2010</ref><ref type="bibr" target="#b16">, Fotheringham et al. 2015)</ref> and has attracted a growing interest on its applications. However, the similar inferential problems to those in the GWR model are far from being solved. The bootstrap test might be a potential candidate for achieving the task, but the details still need to be clearly addressed in view of the complexity of GTWR.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Rejection rates of the bootstrap test and the F-test under the null hypothesis.</figDesc><table><row><cell></cell><cell cols="4">Error distribution</cell><cell></cell></row><row><cell>N(0,1)</cell><cell>U À À</cell><cell>p</cell><cell>ffiffi ffi 3 ;</cell><cell>ffiffi ffi 3 p Á</cell><cell>1 2 χ 2 (2)-1</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3 .</head><label>3</label><figDesc>p-Values of the tests for the null hypotheses that each single constant coefficient is zero under 1000 bootstrap replications.</figDesc><table><row><cell>Null hypothesis</cell><cell>Corresponding variable</cell><cell>p-Value</cell></row><row><cell>β 1 = 0</cell><cell>CRIM</cell><cell>0.000</cell></row><row><cell>β 2 = 0</cell><cell>INDVS</cell><cell>0.756</cell></row><row><cell>β 3 = 0</cell><cell>NOX</cell><cell>0.000</cell></row><row><cell>β 5 = 0</cell><cell>AGE</cell><cell>0.000</cell></row><row><cell>β 7 = 0</cell><cell>RAD</cell><cell>0.000</cell></row><row><cell>β 8 = 0</cell><cell>TAX</cell><cell>0.000</cell></row><row><cell>β 9 = 0</cell><cell>PTRATIO</cell><cell>0.002</cell></row><row><cell>β 11 = 0</cell><cell>BK</cell><cell>0.001</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Downloaded by [New York University] at 14:33 06 April 2016</p></note>
+		</body>
+		<back>
+
+			
+			<div type="acknowledgement">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Acknowledgements</head><p>The authors thank the reviewers for their helpful comments and suggestions, which lead to a great deal of improvement on the manuscript.</p></div>
+			</div>
+
+
+			<div type="funding">
+<div><head>Funding</head><p>This work was supported by the <rs type="funder">National Natural Science Foundation of China</rs> [No. <rs type="grantNumber">11271296</rs>].</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_XKBvVRR">
+					<idno type="grant-number">11271296</idno>
+				</org>
+			</listOrg>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure statement</head><p>No potential conflict of interest was reported by the authors.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>all of the settings. Especially, when the difference between the null and alternative hypotheses is small, the F-test is much more conservative than the bootstrap test. For other aspects, both tests show similar characteristics. Specifically, the power increases rapidly with either the sample size increasing or the alternative hypothesis deviating from the null hypothesis gradually. Compared to the results in the case of mutually independent explanatory variables, the power of both tests is somewhat influenced by the collinearity among the explanatory variables in complicated ways. Generally, there is a loss of power especially in the case of ρ ðX 2 ;X 3 Þ ¼ 0:8, where the collinearity exists between the explanatory variables in the null and alternative hypotheses, respectively; in the case of ρ ðX 3 ;X 4 Þ ¼ 0:8, where the correlated explanatory variables are all in the alternative hypothesis, however, the power increases slightly for both tests.</p><p>To further understand the impact of the collinearity on the power of the tests, we also run the simulation for negative correlation between the explanatory variables. That is, the parameters γ, τ, and δ take the corresponding negative values, respectively. The results for both tests are in general similar to those mentioned above, but for the case of ρ ðX 2 ;X 3 Þ ¼ À0:8; the power of both tests shows an evident increase</p><p>0 0.2 0.4 0.6 0.8 1 Normal Rejection rate B n=256 B n=441 F n=256 F n=441 0 0.2 0.4 0.6 0.8 1 Uniform B n=256 B n=441 F n=256 F n=441 0 0.2 0.4 0.6 0 0 . 2 0 . 4 0 . 6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0 . 2 0 . 4 0 . 6 0 0 . 2 0 . 4 0 . 6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0 0.2 0.4 0.6 0.8 1 Chi-squre B n=256 B n=441 F n=256 F n=441 0 0.2 0.4 0.6 0.8 1 Rejection rate 0 0.2 0.4 0.6 0.8 1 0 0.2 0.4 0.6 0.8 1 0 0.2 0.4 0.6 0.8 1 Rejection rate 0 0.2 0.4 0.6 0.8 1 0 0.2 0.4 0.6 0.8 1 0 0.2 0.4 0.6 0.8 1 Rejection rate 0 0.2 0.4 0.6 0.8 1 0 0.2 0.4 0.6 0.8 1 0 0.2 0.4 0.6 0.8 1 c Rejection rate </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Power functions of the bootstrap test ('B' in the legend) and the F-test ('F' in the legend) under the significance level α = 0.05. The first to the fifth rows are, respectively, for (i) mutually independent variables; (ii) ρ ðX1;X2Þ ¼ 0:8; (iii) ρ ðX2;X3Þ ¼ 0:8; (iv) ρ ðX3;X4Þ ¼ 0:8; and (v) ρ ðX2;X3Þ ¼ À0:8:</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Alleviating the effect of collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Bárcena</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-014-0199-6</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="441" to="466" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Living with collinearity in local regression models</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 10th International Symposium on Spatial Accuracy Assessment in Natural Resources and Environmental Sciences</title>
+		<meeting>the 10th International Symposium on Spatial Accuracy Assessment in Natural Resources and Environmental Sciences<address><addrLine>Brasil</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.1996.tb00936.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: modelling spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Statistician</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Some notes on parametric significance tests for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/0022-4146.00146</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Trending time-varying coefficient time series models with serially correlated errors</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jeconom.2005.08.004</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">136</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="163" to="188" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Generating models by the expansion method: applications to geographical research</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.1972.4.issue-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="91" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">The expansion method, mathematical modeling, and spatial econometrics</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="9" to="32" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Bootstrap methods: another look at the jackknife</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<idno type="DOI">10.1214/aos/1176344552</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Profile likelihood inference on semiparametric varying-coefficient partially linear models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bernoulli</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1031" to="1057" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Nonparametric inference with generalized likelihood ratio tests</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Jiang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Test</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="409" to="444" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Generalized likelihood ratio statistics and Wilks phenomenon</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="153" to="193" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Statistical estimation in varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1491" to="1518" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Statistical methods with varying coefficient models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Its Interface</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="179" to="195" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A systematic investigation of cross-validation in GWR model estimation: empirical analysis and Monte Carlo simulations</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="371" to="396" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>John Wiley and Sons</publisher>
+			<pubPlace>Chichester, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Geographically and temporal weighted regression (GTWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">On the Harrison and Rubinfeld data</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">W</forename><surname>Gilley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Environmental Economics and Management</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="403" to="405" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">GW model: an R package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="1" to="50" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Using bootstrap methods to investigate coefficient non-stationarity in regression model: an empirical case study</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Procedia Environmental Sciences</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="112" to="115" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Geographically and temporally weighted regression for modeling spatio-temporal variation in house prices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="383" to="401" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Hedonic housing prices and the demand for clean air</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hurrison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Rubinfeld</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Environmental Economics and Management</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="102" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Local and global approaches to spatial data analysis in ecology</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Jetz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rahbek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">W</forename><surname>Lichstein</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/geb.2005.14.issue-1</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Global Ecology and Biogeography</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="97" to="98" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Applications of the Expansion Method</title>
+		<author>
+			<persName><forename type="first">Iii</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Casetti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1992">1992</date>
+			<publisher>Routledge</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Statistical tests for spatial nonstationarity based on the geographically weighted regression model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W.-X</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a3162</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="9" to="32" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A Note on the Mixed Geographically Weighted Regression Model</title>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-Y</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K.-T</forename><surname>Fang</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1085-9489.2004.00331.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="143" to="157" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Testing the importance of the explanatory variables in a mixed geographically weighted regression model</title>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W.-X</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a3768</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="587" to="598" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">A simulation-based study of geographically weighted regression as a method for investigating spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a44111</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2992" to="3010" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">A general framework for estimation and inference of geographically weighted regression models: 1. Location-specific kernel bandwidths and a test for locational heterogeneity</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Uchida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Miyamoto</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a34110</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="733" to="754" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A general framework for estimation and inference of geographically weighted regression models: 2. spatial association and model specification tests</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Uchida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Miyamoto</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a34133</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="883" to="904" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Local linear estimation of spatially varying coefficient models: an improvement on the geographically weighted regression technique</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X.-D</forename><surname>Yan</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a3941</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="986" to="1005" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Diagnostic tools and a remedial method for collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a38325</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="2464" to="2481" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a40256</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">An assessment of coefficient accuracy in linear regression models with spatially varying coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Calder</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-006-0040-y</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-005-0155-6</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">Model selection in GWR: the development of a flexible bandwidth GWR</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011. 2011</date>
+			<publisher>Geocomputation</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m" type="main">An extension of geographically weighted regression with flexible bandwidths</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<publisher>GISRUK</publisher>
+			<pubPlace>Lancaster; UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

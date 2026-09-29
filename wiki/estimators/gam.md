@@ -152,6 +152,26 @@ spatial trend look more predictive than it is.
 - Whether the spatial smooth should be isotropic `s(coord_x, coord_y)` or tensor-product based for projected coordinates.
 - Whether `k` should be tuned explicitly or kept as a conservative fixed choice.
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "gam_spatial"
+    package: "mgcv"
+    backend: "mgcv::gam"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords"
+    tunable_parameters: ""
+    family: "gam_spatial"
+    role: "reference"
+    dashboard_group: "Machine Learning"
+    response_typologies: ["continuous", "binary", "count"]
+    notes: "Baseline GAM avec lisseur spatial s(x, y)."
+```
+
 ## Related Pages
 
 - [[generalized_additive_models]]

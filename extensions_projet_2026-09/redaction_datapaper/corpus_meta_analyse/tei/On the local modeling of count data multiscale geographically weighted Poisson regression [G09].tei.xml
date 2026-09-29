@@ -1,0 +1,1013 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">On the local modeling of count data: multiscale geographically weighted Poisson regression</title>
+				<funder ref="#_RNV3eu2">
+					<orgName type="full">National Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Mehak</forename><surname>Sachdeva</surname></persName>
+							<email>mehaksachdeva@nyu.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Urban Science and Progress</orgName>
+								<orgName type="institution" key="instit1">Tandon School of Engineering</orgName>
+								<orgName type="institution" key="instit2">New York University</orgName>
+								<address>
+									<settlement>New York</settlement>
+									<region>NY</region>
+									<country>USA;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">A</forename><forename type="middle">Stewart</forename><surname>Fotheringham</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country>USA;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ziqi</forename><surname>Li</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="institution">Florida State University</orgName>
+								<address>
+									<settlement>Tallahassee</settlement>
+									<region>FL</region>
+									<country>USA;</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Hanchen</forename><surname>Yu</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">School of Urban Governance and Design</orgName>
+								<orgName type="institution">Hong Kong University of Science and Technology (Guangzhou)</orgName>
+								<address>
+									<settlement>Guangzhou</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">On the local modeling of count data: multiscale geographically weighted Poisson regression</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">314E63EA16B32CA9263FDAF69BFD4A1B</idno>
+					<idno type="DOI">10.1080/13658816.2023.2250838</idno>
+					<note type="submission">Received 16 December 2022 Accepted 18 August 2023</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Local Poisson regression</term>
+					<term>spatial process scale</term>
+					<term>multiscale geographically weighted Poisson model</term>
+					<term>COVID-19</term>
+					<term>local scoring algorithm</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>A recent addition to the suite of techniques for local statistical modeling is the implementation of the multiscale geographically weighted regression (MGWR), a multiscale extension to geographically weighted regression (GWR). Using a back-fitting algorithm, MGWR relaxes the restrictive assumption in GWR that all processes being modeled operate at the same spatial scale and allows the estimation of a unique indicator of scale, the bandwidth, for each process. However, the current MGWR framework is limited to use with continuous data making it unsuitable for modeling data that do not typically exhibit a Gaussian distribution. This study expands the application of the MGWR framework to scenarios involving discrete response outcomes (count data following a Poisson's distribution). Use of this new MGWR Poisson regression (MGWPR) model is demonstrated with a simulated data set and then with COVID-19 case counts within New York City at the zip code level. The results from the simulated data underscore the superiority of the MGWPR model in effectively capturing spatial processes that influence count data patterns, particularly those operating across diverse spatial scales. For empirical data, the results reveal significant spatial variations in relationships between socio-ecological factors and COVID-19 casesvariations often missed by traditional 'global' models.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Regression modeling is a popular ensemble of tools employed to unearth plausible explanations for the spatial and aspatial variations often inherent in observed phenomena. Many formulations within the broader regression framework have been developed to model the hypothesized relationships between a dependent variable (y) and single or multiple independent variables (x). 'Global' models, a term often used to refer to the traditional techniques that postulate spatially stationary processes, have been extensively deployed in the analysis of observed phenomena within the natural, social and physical sciences. However, a perspective that is gaining considerable traction within spatial analysis is that conditioned relationships might vary across space, suggesting geographical variations in how covariates influence the dependent variable based on context <ref type="bibr" target="#b12">(Fotheringham 2020</ref><ref type="bibr" target="#b10">, Fotheringham and Sachdeva 2021</ref><ref type="bibr" target="#b22">, 2022)</ref>. For example, although certain demographic variables might correlate with such preferences for certain types of music, an important determinant is that of cultural heritage, or what geographers refer to as 'spatial context' <ref type="bibr" target="#b20">(Hauser 1970</ref><ref type="bibr" target="#b36">, Relph 1976</ref><ref type="bibr" target="#b0">, Agnew 1996</ref><ref type="bibr" target="#b24">, King 1996</ref><ref type="bibr" target="#b17">, Golledge 1997</ref><ref type="bibr" target="#b18">, Goodchild 2011</ref><ref type="bibr" target="#b1">, Agnew 2014)</ref>. The contextual background to many decisions is widely recognized but is exceedingly difficult to measure. Sometimes, geographical interaction terms (indicator variables for example in spatial regime models) are introduced into models as a quick fix to solve the contextual problem but the addition of such terms demands a priori knowledge of the regions in which contextual effects occur. It also assumes that such contextual effects are uniform within these regions and change in a discontinuous manner at the boundaries of these regions. Both assumptions are highly questionable in most applications. Local models, such as multiscale geographically weighted regression (MGWR), provide a more effective alternative of identifying the range and intensity of contextual effects by allowing the intercept and the conditioned associations within a model to vary across space. Local models often convincingly outperform their global counterparts, as evident in the abundant empirical literature comparing the two frameworks (inter alia, <ref type="bibr" target="#b41">Zhang et al. 2004</ref><ref type="bibr" target="#b29">, Malczewski and Poetz 2005</ref><ref type="bibr" target="#b31">, Maroko et al. 2009</ref><ref type="bibr" target="#b4">, Cardozo et al. 2012</ref><ref type="bibr" target="#b39">, Wang et al. 2018</ref><ref type="bibr" target="#b42">, Zhu et al. 2020)</ref>.</p><p>The current implementation of the MGWR model assumes a Gaussian modeling framework. <ref type="bibr" target="#b14">Fotheringham et al. (2017)</ref> applied the Gaussian MGWR model to population change data in Ireland from 1841 to 1851, the period of the Great Famine, and found spatially varying associations operational at unique spatial scales. MGWR has since been used in modeling house prices, air quality, obesity rates, voting behavior and mortality rates among many other spatial phenomena and appears to provide more accurate estimates of spatially varying associations than its uniscale counterpart <ref type="bibr" target="#b15">(Fotheringham et al. 2019</ref><ref type="bibr" target="#b34">, Oshan et al. 2020</ref><ref type="bibr" target="#b5">, Cupido et al. 2021</ref><ref type="bibr">, Fotheringham et al. 2021</ref><ref type="bibr">, Sachdeva et al. 2022)</ref>. While a Gaussian modeling framework is useful in modeling observed phenomena that follow a normal distribution, many empirical data, especially in epidemiology, transportation and ecological analyses, exist in the form of integer counts, such as traffic crash incidents, and disease contraction counts, which often follow a Poisson distribution. It is well-known that an implementation of a Gaussian model on data that follow a Poisson distribution can lead to erroneous predictions and misspecification problems. A Poisson random variable is often used to model counts with a minimum value of zero, a theoretically unbound maximum value and assuming only integer values, unlike normal data that are continuous and have a theoretical unbounded maxima and minima. Moreover, the variance of a variable following a Poisson distribution is assumed to be equal to its mean. If a Gaussian linear regression model is used to model data that are Poisson distributed, the predictions could result in erroneous negative estimations and the constant variance assumption for normal linear regression inference would be violated. 1  Consequently, since Poisson regression provides a more appropriate framework to analyze discrete data (especially for low numbers) than conventional Gaussian regression, it would be useful to extend the current Gaussian-based MGWR framework to incorporate Poisson distributed data. Moreover, the predecessor model to MGWR, geographically weighted regression (GWR), extends the Gaussian model to accommodate a Poisson distribution for the dependent variable and this extension has been widely used in literature <ref type="bibr" target="#b33">(Nakaya et al. 2005)</ref>. 2 Here, we propose and develop a new statistical model, that of multiscale geographically weighted Poisson regression (MGWPR), to achieve this. This is not straightforward because the existing MGWR framework, which employs a backfitting algorithm used in the calibration of generalized additive models (GAMs) <ref type="bibr" target="#b19">(Hastie and Tibshirani 1986</ref><ref type="bibr" target="#b3">, Buja et al. 1989</ref><ref type="bibr" target="#b8">, Everitt 2005)</ref>, needs to be expanded and a general local scoring algorithm (LSA) has to be employed to allow the definition of different distributions of y (the response variable) and their associated link functions, before operationalizing the backfitting algorithm. The definition of different distributions and their associated link functions has further ramifications for the inference calculations for the model, which are also developed and described in this paper. Finally, this model is tested using simulated data and by expanding an existing COVID-19 study in New York City.</p><p>The remainder of this paper is organized as follows. In Section 2, we describe the framework of MGWPR and its calibration procedure. The inference procedure for the model is described in Section 3. A simulation experiment is constructed and tested in Section 4 where comparisons between global Poisson regression (Poisson GLM; Agresti 2002), GWPR and MGWPR are made. Finally, an empirical application of MGWPR using COVID-19 positive case counts in New York City at the zipcode level is described in Section 5, followed by conclusions and discussion in Section 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Specification of multiscale geographically weighted Poisson regression</head><p>Poisson regression falls within the umbrella of generalized linear models, a framework which generalizes OLS regression to enable its use with different distributions of response variables (e.g. binary, count, categorical, etc.). To do so, a transformation of the response variable is first applied using a link function specific to the distribution being modeled. This enables a linear estimation of the association between the response and predictor variables. In a Poisson regression model, the link function is the natural logarithm and the predicted response variable following the transformation is measured in the natural logarithms of the original counts. Since the Poisson distribution only allows discrete, non-negative integers, a Poisson regression model is a common choice to model count data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Poisson regression specification</head><p>A typical Poisson regression to model the expected count value of y i denoted by Eðy i jx k, i Þ can be specified as follows:</p><formula xml:id="formula_0">E y i |x k, i À Á $ Poisson exp X K k¼0 b k x k, i ! " #<label>(1)</label></formula><p>where x k, i is the kth predictor covariate at location i, b k is the parameter representing the conditioned relationship between the response variable and predictor variable k and Poisson ½k indicates a Poisson distribution with mean and variance ¼ k: This specification includes b 0 , the intercept, with x 0i representing an array of all 1s. The specification in Equation ( <ref type="formula" target="#formula_0">1</ref>) represents a global model where a single parameter represents the conditioned association between each covariate and the response variable across the entire study region. A local equivalent of this model, from the geographically weighted Poisson regression specification <ref type="bibr" target="#b33">(Nakaya et al. 2005)</ref>, can be expressed as follows:</p><formula xml:id="formula_1">E y i |x k, i À Á $ Poisson exp X K k¼0 b k, i x k, i ! " #<label>(2)</label></formula><p>where the response variable at each location i is modeled using weighted data from neighboring locations to estimate covariate and location-specific parameter estimates, c b k, i : A spatial kernel is used to develop a weighting matrix (with weights in the range 0-1) that assigns larger weights to neighboring locations and smaller weights to more distant locations following an optimized distance-decay function that is estimated from the data. The amount of neighboring data used in a local model is governed by either the number of locations used (adaptive bandwidth) or the radius used to select the locations (fixed bandwidth). The bandwidth parameter has a maximum of n, the number of data points (or a distance parameter), which represents a global relationship, with fewer data points (or smaller distance radii) representing more local processes. The inherent assumption in, and drawback of, GWPR is that the bandwidth parameter is the same for all relationships within a model, which could result in severe misspecification since different associations may vary over different spatial scales. This assumption is relaxed in the MGWPR model described below.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Multiscale geographically weighted Poisson regression</head><p>A multiscale version of the geographically weighted Poisson regression model is specified as follows:</p><formula xml:id="formula_2">E y i |x k, i À Á $ Poisson exp X K k¼0 b bwk, k, i x k, i ! " #<label>(3)</label></formula><p>where bwk as a subscript to the beta estimates represents the covariate (k)-specific bandwidths. Similar to the calibration procedure for MGWR, the challenge of estimating covariate-specific bandwidths is solved in MGWPR by using a backfitting algorithm. To calibrate the covariate-specific bandwidth, the term b bwk, k, i x i, k from Equation ( <ref type="formula" target="#formula_2">3</ref>) is defined as the kth additive term in a Gaussian additive model equivalent specification as follows:</p><formula xml:id="formula_3">y ¼ X K k¼0 f k þ e (<label>4</label></formula><formula xml:id="formula_4">)</formula><p>Since such a backfitting algorithm fits only normal additive models, further transformations are required to estimate unique bandwidths using the backfitting algorithm for a Poisson model. To do this, an adjusted response variable as described by <ref type="bibr" target="#b32">McCullagh and Nelder (2019)</ref> is constructed and then used within the backfitting algorithm. This calibration procedure for MGWPR draws from the LSA defined by <ref type="bibr" target="#b19">Hastie and Tibshirani (1986)</ref> from the GAM literature.</p><p>First, the additive terms f 0 0 , f 1 0 , f 2 0 , f 3 0 , . . . , f k 0 are initialized. There are multiple options for the initialization including GLM estimates, GWPR estimates or zeroes. As <ref type="bibr" target="#b14">Fotheringham et al. (2017)</ref> note, there is negligible difference in the results regardless of which initialization option is used. We describe the calibration procedure here with an initialization using GWPR estimates. Once a GWPR model is calibrated, a predictor term g ji (Equation ( <ref type="formula" target="#formula_6">5</ref>)), weights w i (Equation ( <ref type="formula" target="#formula_7">6</ref>)) and an adjusted dependent variable z i (Equation ( <ref type="formula" target="#formula_9">7</ref>)) are constructed. This is the first iteration of the LSA calibration loop and hence a superscript '0' is added as below.</p><formula xml:id="formula_5">g i ð0Þ ¼ X K k¼0 b i, k<label>ð0Þ</label></formula><formula xml:id="formula_6">x i, k<label>(5)</label></formula><p>where b i, k ð0Þ is estimated using GWPR for each covariate k: Next, predictions from the estimated GWPR parameters are calculated as follows:</p><formula xml:id="formula_7">b O i ð0Þ ¼ E i Ã e g i (<label>6</label></formula><formula xml:id="formula_8">)</formula><p>where E i is the expected count or the offset term in the model. Then, an adjusted dependent variable is constructed as:</p><formula xml:id="formula_9">z i ð0Þ ¼ g i ð0Þ þ O i À Ôi ð0Þ Ôi ð0Þ (<label>7</label></formula><formula xml:id="formula_10">)</formula><p>The predictions from the GWPR estimates in Equation ( <ref type="formula" target="#formula_7">6</ref>) are also used to construct a weighting matrix, as shown in Equation ( <ref type="formula">8</ref>). ( <ref type="formula">8)</ref>Finally, the adjusted dependent variable and the constructed weights ðA i Þ are used to fit the backfitting algorithm in a similar manner to that described by <ref type="bibr" target="#b14">Fotheringham et al. (2017)</ref>. Within the backfitting algorithm, the weights from LSA ðA i Þ and the spatial weights from the bandwidth optimization are both used until the convergence criterion is met. The overall weights in the backfitting algorithm are:</p><formula xml:id="formula_11">W Ã i ð0Þ ¼ W i ð0Þ Ã ðA i Þ ð0Þ (<label>9</label></formula><formula xml:id="formula_12">)</formula><p>After convergence is achieved within the backfitting loop, a second iteration of the LSA loop starts after updating values from Equations ( <ref type="formula" target="#formula_6">5</ref>)-( <ref type="formula" target="#formula_11">9</ref>). This continues until the convergence criterion for the LSA loop is satisfied. The convergence criterion for the mth iteration in LSA is defined as follows:</p><formula xml:id="formula_13">d m numerator ¼ X n i¼1 X K k¼1 ðb ik m ð Þ À b ik mÀ1 ð Þ Þ 2 n ; d m denominator ¼ X n i¼1 X K k¼1 ðb ik m ð Þ Þ 2 ; d m ¼ ffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi d m numerator d m denominator s (<label>10</label></formula><formula xml:id="formula_14">)</formula><p>We set the tolerance for d m at 10 À8 by default.</p><p>The estimation procedure for MGWPR hence consists of two loops. This is further clarified through Figure <ref type="figure" target="#fig_0">1</ref>. The outer loop (in blue) is the LSA that transforms the dependent variable using a link function and estimates weights. Inside each outer LSA loop is a weighted backfitting inner loop (in red) that runs until convergence. The new estimates from the backfitting loop are then used to calculate a new adjusted dependent variable and new weights, which are again run until convergence within the backfitting loop. The LSA stops when the change in the parameter estimates is below the tolerance. Because of the added complexity, the computational time requirements to calibrate a MGWPR model are much greater than for GWPR and Gaussian MGWR as we demonstrate below. As noted by <ref type="bibr" target="#b26">Li et al. (2019)</ref>, the time complexity for a GWR model is Oðk 3 n 2 log nÞ where k is the number of covariates, and n is the number of data points in a model. The time complexity for MGWR is given by Oðkdn 2 log nÞ where d is the number of iterations required for convergence in the backfitting algorithm. The calibration of MGWPR requires an outer LSA loop that increases the time complexity to Oðmkdn 2 log nÞ, where m is the number of iterations of the LSA loop before convergence. Since the memory allocation for each LSA loop remains constant across the m iterations, the memory complexity for MGWPR is expected to be similar to that for MGWR OðknÞ <ref type="bibr" target="#b25">(Li and Fotheringham 2020)</ref>. Similarly, the time complexity for inference calculation in an MGWPR model is expected to increase from Oðkdn 3 Þ for MGWR, to Oðmkdn 3 Þ owing to the m LSA iterations while not affecting memory allocation requirements.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Inference for MGWPR</head><p>Calculations for MGWPR inference closely follow those for GWPR <ref type="bibr" target="#b33">(Nakaya et al. 2005)</ref> and MGWR <ref type="bibr" target="#b40">(Yu et al. 2020)</ref>. At convergence, the parameter estimates at each regression point are given in the following equation:</p><formula xml:id="formula_15">bki ¼ C k z i (<label>11</label></formula><formula xml:id="formula_16">)</formula><p>where</p><formula xml:id="formula_17">C k ¼ X k t W i A i X k ð Þ À1 Ã X k t W i A i (<label>12</label></formula><formula xml:id="formula_18">)</formula><p>The LSA weights and adjusted dependent variable z i on the right-hand side of Equation ( <ref type="formula" target="#formula_15">11</ref>) are calculated based on the converged parameter estimates. The variance-covariance matrix of the estimated local parameter estimates is then given by:</p><formula xml:id="formula_19">cov ð bki Þ ¼ C k A i À1 C k 0 (<label>13</label></formula><formula xml:id="formula_20">)</formula><p>and the standard error of the kth parameter estimate is given by:</p><formula xml:id="formula_21">SEð bki Þ ¼ ffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi ffi cov ð bi Þ k q (<label>14</label></formula><formula xml:id="formula_22">)</formula><p>where cov ð bi Þ k is the kth diagonal element of the variance-covariance matrix defined in Equation ( <ref type="formula" target="#formula_21">14</ref>). Consequently, the local pseudo t statistic for the kth parameter at location i is computed by:</p><formula xml:id="formula_23">t c b ki ¼ c b ki SEð c b ki Þ (<label>15</label></formula><formula xml:id="formula_24">)</formula><p>Given the assumption that the true regression parameter equals zero, the distribution of values as specified in Equation ( <ref type="formula" target="#formula_23">15</ref>) will tend to follow a standard normal distribution. The covariate-specific hat matrix S k and the model hat matrix S (S ¼ P k¼K k¼1 S k )</p><p>can be calculated following the iterative process described in <ref type="bibr" target="#b40">Yu et al. (2020)</ref> so that the effective number of parameters can be obtained to calculate model goodness-offit scores such as AICc:</p><formula xml:id="formula_25">AICc ¼ X N i¼1 O i log ð Ôðb i ÞÞ O i þ O i À Ô b i ð Þ ! þ 2 Ã v 1 þ 2 Ã v 1 Ãðv 1 þ 1Þ N À v 1 À 1 (<label>16</label></formula><formula xml:id="formula_26">)</formula><p>where v 1 ¼ traceðSÞ is the model effective number of parameters.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">A simulation experiment</head><p>To demonstrate the performance of MGWPR, and its superiority to GWPR and global generalized linear models, a simulation experiment was designed to assess the following five aspects of model performance:</p><p>1. Estimation of the scale across which processes vary; 2. Reproduction accuracy of the spatial heterogeneity of different processes; 3. Model performance (flexibility and goodness of fit); 4. Replication of the response variable; and 5. Computational overhead.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Simulation design</head><p>Three surfaces of parameters representing processes with varying degrees of spatial heterogeneity were constructed. Local surfaces for b 0 and b 1 were simulated using a two-dimensional spatial random field (SRF) with a Gaussian covariance model on a 25 by 25 grid (n ¼ 625). The Gaussian variogram employed to construct the processes is:</p><formula xml:id="formula_27">c h, k ð Þ ¼ r 2 1 À e À p 4 h k Þ 2 ð Â (<label>17</label></formula><formula xml:id="formula_28">)</formula><p>where length-scale (h), the distance parameter ðkÞ controlling the range of spatial autocorrelation and variance ðr 2 Þ control the amount of spatial heterogeneity in the surfaces with larger values of h corresponding to lower spatial heterogeneity and higher values of r 2 resulting in greater variation in the estimates. To construct the surface of b 0 values, h ¼ 5 and r 2 ¼ 2; for the surface of b 1 , h ¼ 50 and r 2 ¼ 1; and b 2 is constant over space with magnitude ¼ 0.5. The three simulated parameter surfaces are shown in Figure <ref type="figure" target="#fig_2">2</ref>. The covariates x 1 and x 2 are drawn from random normal distributions with mean ¼ 0 and standard deviation ¼ 1. To ensure a Poisson distribution for the response variable, an expected number of values, l, is constructed using the following equation:</p><formula xml:id="formula_29">l ¼ e ðb 0 þ b 1 x 1 þ b 2 x 2 Þ (<label>18</label></formula><formula xml:id="formula_30">)</formula><p>and y is drawn at random from this distribution. The distribution and spatial variation of the constructed response variable are shown in Figure <ref type="figure" target="#fig_1">3</ref>. One thousand such datasets were constructed to ensure robustness of the results given the randomness in the response variable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Simulation results</head><p>We now describe the results of calibrating MGWPR, GWPR and GLM models on the constructed synthetic data described above. Within the LSA we use a tolerance of 10 À8 and GWPR estimates as the initialization values for the additive terms, for each of the 1000 iterations of the data construction and model runs. For the simulation experiments, we employ an adaptive kernel following a bisquare decay function, which optimizes and returns the number of nearest neighbors employed in each localized regression, also termed as the bandwidth parameter. We restrict the minimal value for the bandwidth optimization search algorithm to 43, following the current MGWR Gaussian implementation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.1.">Bandwidth estimation</head><p>The estimated optimal bandwidth(s) from GWPR and MGWPR from each of the 1000 runs are shown in Figure <ref type="figure" target="#fig_3">4</ref>, which demonstrates the sensitivity of the bandwidth across the realizations. The distribution for the single bandwidth estimated in a GWPR model ranges from 50 to 70. The bandwidth estimated for the local intercept using  MGWPR is almost always 43 (the most local bandwidth estimation possible). The bandwidth for b 1 and b 2 ranges from about 100 to 400 (with a mean of 225) and from 400 to 624 (with a mean of 556), respectively. It is clear from these distributions in the context of the constructed process surfaces in Figure <ref type="figure" target="#fig_2">2</ref> that MGWPR accurately estimates the spatial scale at which the surfaces vary. GWPR, on the other hand, estimates a rather local bandwidth representing all the three parameter surfaces despite the differences in their degrees of spatial heterogeneity.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.2.">Local parameter estimation accuracy</head><p>The accuracy with which both MGWPR and GWPR replicate the three known parameter surfaces, b i, 0 , b i, 1 and b i, 2 , for each of the 1000 simulations is measured in two ways. First, the root mean squared error (RMSE) for each parameter estimate b i, k from both MGWPR and GWPR is calculated as follows:</p><formula xml:id="formula_31">RMSE i, k ¼ ffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi ffi 1 n X n i¼1 ðb i, k À c b i, k Þ 2 r (<label>19</label></formula><formula xml:id="formula_32">)</formula><p>Smaller values of RMSE represent better replication of the known parameter estimates and the calculated values for GWPR and MGWPR are shown in Figure <ref type="figure" target="#fig_4">5</ref>.  Second, the estimated parameter surfaces from both MGWPR and GWPR are averaged across the 1000 simulations and mapped to visually inspect the local parameter estimation accuracy.</p><p>In Figure <ref type="figure" target="#fig_4">5</ref>, the overall lower values and tighter fit around the mean for MGWPR indicate that the model is able to replicate the three parameter surfaces more accurately than GWPR. This is supported by the visual inspection of the plotted surfaces shown in Figure <ref type="figure" target="#fig_5">6</ref>.</p><p>MGWPR closely replicates the local surfaces for all three parameters. While GWPR does a good job in replicating the more local parameter surfaces (b 0 and b 1 ), it is not able to replicate the global surface (b 2 ) correctly.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.3.">Model performance (flexibility and goodness of fit)</head><p>Figure <ref type="figure" target="#fig_7">7</ref>(a) shows the comparison of the AICc values from the three models in each of the 1000 iterations. GLM clearly, and as expected, is not able to accurately replicate the data owing to the spatial nonstationarity in the simulated parameter surfaces. Figure <ref type="figure" target="#fig_7">7</ref>(b) highlights the superiority of MGWPR over GWPR by rescaling without the GLM results. 4.2.4. Computational efficiency MGWPR is a more complex model than GWPR and takes longer to reach convergence. The external LSA loop has an internal backfitting loop which adds to the computational time. Figure <ref type="figure" target="#fig_6">8</ref> shows the time in minutes required to run the two models in each of the 1000 data sets. For this data set (n ¼ 625; k ¼ 3), the calibration of MGWPR takes around 10 minutes on average on a 10 core system 3 while GWPR takes only 0.4 minutes on average.</p><p>In summary, in a controlled simulation experiment, MGWPR is better able to estimate both parameter spatial heterogeneity and the spatial scale of this heterogeneity  than GWPR, at the expense of additional computational time. We now examine the use of MGWPR with real-world data on COVID-19 positive tests in New York City at the zipcode level.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">An empirical example of the use of MGWPR in analyzing the spatial distribution of COVID-19 counts</head><p>This section contains an empirical example of the MGWPR model using COVID-19 positive cases data in the early phase of the pandemic in New York City at the Zip Code Tabulation Area (ZCTA) level. In order to demonstrate the value of local modeling with count data, this example expands an existing study undertaken by DiMaggio et al. (2020) using a global Poisson model. Using similar data sources, model specification and discussions from DiMaggio et al. (2020), we can test the MGWPR model and showcase the importance of estimating covariate-specific indicators of scale of the spatial heterogeneity of the different processes being modeled. It is worth noting that there are two limitations of the data that restrict our findings from this analysis. First, the data are collected for only 183 areal units, which is too few to properly showcase the outputs from local models to the fullest extent but serves the purpose here of demonstrating how the new local modeling framework works. Second, the temporal span for which data are collected (from 3 April to 22 April 2020, representing the first phase of the pandemic), is extremely narrow and is not expected to represent the true variation in the phenomenon.</p><p>While a number of recent studies have investigated the ecological risk factors associated with COVID-19 at the county level in the United States <ref type="bibr" target="#b16">(Gao et al. 2020</ref><ref type="bibr" target="#b23">, Khazanchi et al. 2020</ref><ref type="bibr" target="#b21">, Hughes et al. 2021)</ref>, few studies have focused on the ZCTA or more granular spatial scales <ref type="bibr" target="#b28">(Liu et al. 2021</ref><ref type="bibr" target="#b22">, Kedron et al. 2022)</ref>. <ref type="bibr" target="#b7">DiMaggio et al. (2020)</ref> provide an exception to this and make their data sources and code available. Additionally, they use a Poisson Bayesian regression model with a spatially structured term to analyze COVID-19 case counts. This presents an opportunity to analyze the same data using MGWPR. While DiMaggio et al. (2020) implement and discuss various univariate and multivariate models, we focus on the following model, using the notations in their paper:</p><formula xml:id="formula_33">Y $ Poisðk i ¼ E i Á h i Þ; log h i ¼ b 0 þ b j x ij þ v i þ g i þ ðoffsetÞ (<label>20</label></formula><formula xml:id="formula_34">)</formula><p>where h i is the response variable measuring positive COVID-19 test cases, b j x ij represents the various predictors employed in the model and their corresponding parameter estimates (note that these are global estimates with a single value estimated for the covariate across the region), v i is a spatially unstructured random effects term and g i is the spatially structured random effects term. The primary conclusion from the calibration of this model in <ref type="bibr" target="#b7">DiMaggio et al. (2020)</ref> is that areas with higher percentages of African American population were at higher risk of contracting COVID-19. The universe of predictors considered in their models and the source for those data are presented in Table <ref type="table" target="#tab_0">1</ref>. Figure <ref type="figure" target="#fig_8">9</ref> presents the number of total COVID-19 tests and the number of positive COVID-19 cases in NYC at the ZCTA level from 3 April 2020 to 22 April 2020. These closely match the data presented in <ref type="bibr" target="#b7">DiMaggio et al. (2020)</ref>.</p><p>The multivariate model constructed and discussed by DiMaggio et al. (2020) consists of the following predictors: % of people with chronic obstructive pulmonary disease (COPD); % of pop. with heart disease; % of African American pop.; housing density; and % of pop. older than 65. Only two of these variables, % of African American population and % of the population older than 65, had significant associations (both positive) with COVID-19 cases. However, after the extraction, transformation and testing of the data employed by DiMaggio et al. (2020), we found multicollinearity issues in their predictors as shown in Table <ref type="table" target="#tab_2">2</ref>. In Bayesian models, unbiased estimates of the parameters can be obtained in the presence of multicollinearity by using an informative prior and this may have been the case in DiMaggio et al. (2020), but here we need to deviate from a direct reproduction of their model because we use a frequentist model, which would be prone to bias because of the  multicollinearity in the data. The covariates used in the model here are selected using an optimization algorithm designed to select the set with the best model performance based on AICc. 4 The model is shown in Equation ( <ref type="formula" target="#formula_35">21</ref>), which follows the MGWPR model described in Equation ( <ref type="formula" target="#formula_2">3</ref>).</p><formula xml:id="formula_35">E Positive cases ð Þ$ Poisson½Offset i ðTotal testsÞ exp ðb 0, i, bw0 þ b 1, i, bw1 ð% Afr: AmericanÞ þ b 2, i, bw2 pop density ð Þ þ b 3, i, bw3 ð% heartÞ þ b 4, i, bw4 ð% HispanicÞ þ b 5, i, bw5 ð% pub asstÞ þ b 6, i, bw6 ðschools per sq: mileÞÞ<label>(21)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">Poisson GLM results</head><p>The global model estimated using a Poisson GLM has an explained deviance of 44.2% and an AICc value of 1660. All the predictors are significant at the 1% confidence level and the estimated parameters and their standard errors are shown in Table <ref type="table" target="#tab_1">3</ref>. The residuals from the model are mapped in Figure <ref type="figure" target="#fig_9">10</ref>. Except for the school density parameter, which is significantly negative, all the predictors affect the response variable in a significant positive manner. Since the link for the Poisson regression model is the natural log, holding all other predictors constant, an increase in one unit for x multiplies the rate of y by the exponent of b: Since the predictors in this model are also standardized, the raw parameter estimates correspond to a one standard deviation increase in x leading to y being increased or decreased by a factor of e b : To simplify interpretation of coefficients hereafter, we transform the parameter estimates as follows: </p><formula xml:id="formula_36">b Ã ¼ ðe b raw rx À Á À 1ÞÃ100 (<label>22</label></formula><formula xml:id="formula_37">)</formula><p>This transformation results in coefficient values that are interpreted as follows: a one unit increase in x would affect y by b Ã percentage.</p><p>As shown in Figure <ref type="figure" target="#fig_9">10</ref>, the global residuals from the Poisson GLM are strongly positively spatially correlated with a Moran's I value of 0.45 and p value of .0024. This suggests the global model is severely misspecified and that a local model might be more appropriate. Consequently, we calibrate the GWPR and MGWPR models using the predictors, response and offset variables as described in Equation ( <ref type="formula" target="#formula_35">21</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">GWPR and MGWPR results</head><p>The AICc for the GWPR model is 511 and that for MGWPR is 480 (compared to 1600 for the GLM model). The deviance explained for the two models is 85.4% and 86.7%, respectively (compared to 44.2% for the GLM model). While the difference in model performance between GWPR and MGWPR is not large, the MGWPR model provides more information by allowing the estimation of covariate-specific bandwidths, which in turn should lead to superior prediction of the local parameters. The single population density and percentage of African American population. DiMaggio et al.</p><p>(2020) report a significant positive effect of population density on positive COVID-19 cases across NYC using a global model. The local estimates in Figure <ref type="figure" target="#fig_0">11</ref>(a) from MGWPR similarly suggest that holding all other covariates constant, an increase in population density would lead to an increase in positive COVID-19 cases but this association is only significant in Queens and in some parts of Brooklyn. Figure <ref type="figure" target="#fig_0">11(</ref> <ref type="bibr">b)</ref> shows the significant associations between the percentage of African American population and the % of COVID-19 cases, ceteris paribus. This association was reported as significantly positive across NYC by DiMaggio et al. (2020) but the local parameter estimates suggest a large variability in this relationship across the city. A 1% increase in African American population would lead to a 0.33% increase in COVID-19 positive cases in neighborhoods in the Bronx and in parts of Upper Manhattan, while in some parts of Queens this drop to just a 0.1% increase.</p><p>Figure <ref type="figure" target="#fig_10">12</ref> shows two other relationships with Covid cases estimated in this analysis, that of the percentage of the population with heart disease and the percentage of the population receiving any kind of public assistance. DiMaggio et al. (2020) note that in their multivariate model where racial predictors were accounted for, predictors measuring comorbidities such as heart disease or COPD were not significantly associated with positive COVID-19 cases. It is possible to estimate significant local relationships that might not be significant at the global level, as noted by <ref type="bibr" target="#b11">Fotheringham and Sachdeva (2022)</ref> and <ref type="bibr" target="#b37">Sachdeva and Fotheringham (2023)</ref>. Using MGWR, the predictor measuring the association between heart disease and the probability of contracting the virus is seen to be significant in some parts of the city. This suggests that holding the racial predictors constant, not only the disease severity but also the acquisition of the disease might be significantly associated with comorbidities in some parts of the city. One explanation could be the more frequent hospital visits for patients suffering some conditions such as heart disease that could potentially bring them into contact with other infected patients. Finally, the association between the percentage of the population receiving public assistance and the percentage of positive COVID-19 cases is positive and significant in areas mainly in the southern part of the city, especially in Staten Island. Public assistance in this context refers to any kind of assistance or benefits received in a household in either cash or in-kind from any governmental entity. This predictor could thus be capturing low-income residents that are otherwise not included in the model.</p><p>Finally, the local intercept estimated using MGWPR can be interpreted as the average probability of testing positive for COVID-19 in the areal unit of analysis (ZCTA in this case), holding all other predictors at their mean values. This interpretation follows from the transformation of the estimated b 0i values as below:</p><formula xml:id="formula_38">Positive cases ðy i Þ Total tests ðoffset i Þ ¼ exp ðb 0i Þ Ã exp X K k¼1 b k x i, k<label>(23)</label></formula><p>These values are mapped in Figure <ref type="figure" target="#fig_11">13</ref> where it can be seen that for most of Manhattan and parts of the Bronx and Staten Island, a little less than half the total tests conducted were expected to return positive for COVID-19, assuming average population characteristics. In some parts of Queens and south Brooklyn, this probability increases to more than half. The variability can be interpreted as the impact of local effects not included in the model. Given the probable local nature of the mechanisms leading to the spread of COVID-19, the coarse spatial unit of analysis is perhaps not appropriate to capture the actual variability of the COVID-19 spread.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Discussion and conclusions</head><p>Local regression models enable the estimation of spatially nonstationary processes by allowing the parameter estimates to vary across space. Additionally, local models estimate a bandwidth parameter that represents the spatial scale across which a process exhibits heterogeneity. Generalized extensions of a rudimentary local model, GWR, exist that allow the response variable to assume non-normal distributions such as Poisson and Binomial. However, GWR is restricted in that it allows the estimation of only a single bandwidth to represent the scale of all associations in a model. A multiscale extension of GWR, MGWR was recently developed that removes this restriction and allows the estimation of process specific bandwidths. However, MGWR is restricted to response variables following a normal distribution. The development and implementation of MGWPR as described here is thus a major advance allowing the MGWR framework to handle count data. MGWPR is shown to accurately represent the unique scales at which surface heterogeneity occurs in relationships using simulated and empirical data. The estimated unique bandwidths from MGWPR provide more information and valuable insights on the nature of the operational processes being estimated when compared to GWPR. As such, it expands the tool-base within the non-Bayesian regression modeling field by allowing the modeling of a spatial phenomenon following a Poisson distribution.</p><p>The LSA, employed in the calibration of MGWPR, is a natural extension of GAMs. Where GAMs are used to estimate unique functions between a predictor and response variable in the covariate space, MGW(P)R estimates unique relationships between a predictor and response variable in the geographical space. Through the use of MGWPR, we can now estimate spatial associations varying at unique scales between count data such as disease spread, traffic crash incidents, crime counts, etc. and their associated socio-economic and ecological predictors. This new model provides an alternative methodology to spatial scientists especially within the fields of epidemiology and health studies. The availability of open source and intuitive local models such as MGWPR that enable measurement of the unique scales at which behavioral, ecological and environmental processes affect health outcomes opens up new possibilities to understand the multiscale processes affecting such phenomena. Additionally, the calibration algorithm demonstrated here can be used to extend MGWR to a generalized multiscale geographically weighted framework. The LSA calibration and inference procedure can easily scale to include other distributions of the response variable such as binomial, negative-binomial, gamma distributions, etc., by expanding the link function options. This will further increase the kinds of analysis that could leverage the potential of local modeling tools and help remove further limitations from the framework. Finally, these new forms of the MGWR model, with flexible input data types, will be implemented in the open-source MGWR software 6 and made available for use publicly.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. LSA loop for multiscale geographically weighted Poisson regression.</figDesc><graphic coords="7,60.61,52.95,371.96,341.35" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Simulated response variable distribution (left) and spatial distribution (right).</figDesc><graphic coords="10,60.61,221.95,371.96,174.10" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Simulated parameter estimates for b 0 , b 1 and b 2 (left to right).</figDesc><graphic coords="10,60.61,52.95,371.96,122.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Bandwidths estimated from GWPR (leftmost) and from MGWPR for b 0 , b 1 and b 2 (left to right, respectively).</figDesc><graphic coords="11,60.61,52.95,371.96,127.67" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. RMSE k comparisons for GLM, GWPR and MGWPR.</figDesc><graphic coords="11,60.61,231.36,371.96,139.75" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Estimated local parameters from GWPR and MGWPR.</figDesc><graphic coords="12,60.61,52.95,371.96,335.23" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Average time taken to convergence for both the GWPR and MGWPR models.</figDesc><graphic coords="13,126.60,243.72,239.98,249.79" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Comparison of AICc estimates from (a) GLM, GWPR and MGWPR and (b) GWPR and MGWPR.</figDesc><graphic coords="13,60.61,52.95,371.96,137.14" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Total COVID-19 tests and positive cases in NYC at the ZCTA level (3 April-22 April 2020).</figDesc><graphic coords="15,60.61,281.42,371.96,164.98" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. Global model (Poisson GLM) residuals.</figDesc><graphic coords="17,60.61,52.95,371.96,320.71" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 12 .</head><label>12</label><figDesc>Figure 12. Local parameter estimates for % of population with heart disease and % of population receiving public assistance (calibrated using MGWPR).</figDesc><graphic coords="19,60.61,52.95,371.96,162.31" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 13 .</head><label>13</label><figDesc>Figure 13. Local intercept estimated using MGWPR.</figDesc><graphic coords="20,60.61,52.95,371.96,320.71" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><graphic coords="18,60.61,165.77,371.96,166.90" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>The universe of all variables explored in DiMaggio et al. (2020) with data sources.</figDesc><table><row><cell>Variable</cell><cell>Source (DiMaggio et al.)</cell><cell>Source for this study</cell></row><row><cell>COVID-19 test result data</cell><cell>NYC DOHMH Github page</cell><cell>NYC DOHMH Github page</cell></row><row><cell>Total Population</cell><cell>US Census 2010</cell><cell>US Census 2010</cell></row><row><cell>Proportion of people older than</cell><cell>US Census 2010</cell><cell>US Census 2010</cell></row><row><cell>65 years</cell><cell></cell><cell></cell></row><row><cell>% of African American pop.</cell><cell>US Census 2010</cell><cell>US Census 2010</cell></row><row><cell>% pop. speaking one language</cell><cell>US Census 2010</cell><cell>US Census 2010</cell></row><row><cell>other than English</cell><cell></cell><cell></cell></row><row><cell>No. of people per sq. mile</cell><cell>US Census 2010</cell><cell>US Census 2010</cell></row><row><cell>No. of schools per sq. mile</cell><cell>US Census 2010</cell><cell>US Census 2010</cell></row><row><cell>No. of houses per sq. mile</cell><cell>US Census 2010</cell><cell>US Census 2010</cell></row><row><cell>% pop. receiving public assistance</cell><cell>US Census 2010</cell><cell>US Census 2010</cell></row><row><cell>Social fragmentation index</cell><cell>Combination of 4 variables</cell><cell>Combination of 4 variables</cell></row><row><cell>(Congdon)</cell><cell>calculated from US Census 2010</cell><cell>calculated from US Census 2010</cell></row><row><cell>% of people with heart disease or</cell><cell>Simply Analytics (paid data)</cell><cell>CDC 500 Cities data</cell></row><row><cell>congestive failure</cell><cell></cell><cell></cell></row><row><cell>% of people with chronic</cell><cell>Simply Analytics (paid data)</cell><cell>CDC 500 Cities data</cell></row><row><cell>obstructive pulmonary disease</cell><cell></cell><cell></cell></row><row><cell>(COPD)</cell><cell></cell><cell></cell></row><row><cell>Shapefiles of NYC ZCTAs</cell><cell>NYC Dept. of City Planning</cell><cell>NYC Dept. of City Planning</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3 .</head><label>3</label><figDesc>Poisson GLM results.</figDesc><table><row><cell>Variable</cell><cell>Est.</cell><cell>SE</cell><cell>t(Est/SE)</cell><cell>p Value</cell></row><row><cell>Intercept</cell><cell>À0.661</cell><cell>0.003</cell><cell>À203.9</cell><cell>.00</cell></row><row><cell>% African American</cell><cell>0.051</cell><cell>0.003</cell><cell>16.4</cell><cell>.00</cell></row><row><cell>% Pop. with heart disease</cell><cell>0.056</cell><cell>0.005</cell><cell>11.5</cell><cell>.00</cell></row><row><cell>Pop. density (pop/sq.mile)</cell><cell>0.157</cell><cell>0.013</cell><cell>12.1</cell><cell>.00</cell></row><row><cell>No. of schools per sq. mile</cell><cell>À0.197</cell><cell>0.014</cell><cell>À14.1</cell><cell>.00</cell></row><row><cell>% Pop. receiving public asst.</cell><cell>0.015</cell><cell>0.005</cell><cell>3.2</cell><cell>.001</cell></row><row><cell>% Hispanic</cell><cell>0.057</cell><cell>0.004</cell><cell>14.8</cell><cell>.00</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 2 .</head><label>2</label><figDesc>Variance inflation factors for the predictors used by<ref type="bibr" target="#b7">DiMaggio et al. (2020)</ref>.</figDesc><table><row><cell>Variable</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><head>Funding</head><p>This work is supported by the <rs type="funder">National Science Foundation</rs> (#<rs type="grantNumber">2117455</rs>) awarded to <rs type="person">Prof. A. Stewart Fotheringham</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_RNV3eu2">
+					<idno type="grant-number">2117455</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data and codes availability statement</head><p>The data and code used in the manuscript are openly available on Figshare: <ref type="url" target="https://doi.org/10.6084/m9.figshare.21743021.v1">https://doi.org/10.6084/m9.figshare.21743021.v1</ref>. A local version of the MGWR repository from <ref type="url" target="https://github.com/pysal/mgwr">https://github.com/pysal/mgwr</ref> was used as a base code for the experiments. The simulation experiment code files are available in file 'Simulation_experiment_version-1_IJGIS.ipynb'. The code runs the experiment onceto obtain the results reported in the paper, the code was run 1000 times. The replication of the NYC Covid data study from <ref type="bibr" target="#b7">DiMaggio et al. (2020)</ref> uses the data file named 'nyc_all_data.csv'. The data are compiled from the sources mentioned by <ref type="bibr" target="#b7">DiMaggio et al. (2020)</ref> and are enumerated in Table <ref type="table">1</ref> of the manuscript. The code for the NYC replication study is available in the file 'NYC_replication_code_submission-IJGIS.ipynb'.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure statement</head><p>No potential conflict of interest was reported by the author(s).</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Author contributions</head><p>Mehak Sachdeva: project administration, conceptualization, software development, graphics production, analysis, writing original draft and editing subsequent drafts. A. Stewart Fotheringham: conceptualization, writing original draft and editing subsequent drafts. Ziqi Li: conceptualization, assistance with writing original draft, software development. Hanchen Yu: analytical development, editing original draft, software development.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>bandwidth estimated for GWPR is 59 (given a total of 183 ZCTAs). The covariate-specific bandwidths (along with their 95% confidence intervals followed by <ref type="bibr" target="#b25">Li et al. 2020)</ref> estimated from MGWPR are shown in Table <ref type="table" target="#tab_3">4</ref> and suggest a range of heterogeneity in the processes being modeled. For example, the bandwidth for the local association between % of the population receiving public assistance and the probability of testing positive for COVID-19 is 111 (109-129) representing a fairly global process while the local intercept represents a local process with an estimated bandwidth of 43. It bears repeating that the temporal and spatial scale of analysis for this study is extremely limited and hence the processes estimated using sophisticated regression models such as MGWPR are not expected to reveal plausible insights into the actual operational processes. For example, the most populous zip code in NYC has 108,661 residents (ZCTA 11368 in Brooklyn; US Census 2010) and the average population for all the zip codes is approximately 46,000. Additionally, the arbitrary and short timespan for which the data are collected and analyzed are hardly representative of the true phenomena and the factors associated with it in the city. For this reason, we describe only a limited number of local parameter maps resulting from MGWPR to showcase the implementation of MGWPR rather than to interpret the processes affecting the spread of COVID-19 in NYC.</p><p>Figure <ref type="figure" target="#fig_13">11</ref> shows the significant (at the 95% confidence level accounting for multiple hypothesis testing 5 ) local parameter estimates for the predictors representing  Notes 1. The constant variance assumption for a linear regression model states that the variance of the errors/residuals is assumed to be constant <ref type="bibr" target="#b35">(Poole and O'Farrell 1971)</ref>. 2. An up-to-date bibliography of all the peer-reviewed journal articles applying the geographically weighted regression framework and its extensions is available here: <ref type="url" target="https://sgsup.asu.edu/sparc/multiscale-gwr">https://  sgsup.asu.edu/sparc/multiscale-gwr</ref> 3. We used cores of Intel Xeon Processor E5 v4 Family (E5-2680V4) on the high-performance computing platform at ASU Core research facilities. 4. We used the commonly employed statistical variable selection techniques namely, best subset selection and forward selection <ref type="bibr" target="#b30">(Marhuenda et al. 2014)</ref>, using the AICc as the diagnostic criterion and both resulted in the same subset of variables as depicted in Equation ( <ref type="formula">21</ref>). 5. We follow da <ref type="formula">Silva and Fotheringham (2016</ref>)'s effective correction criterion to maintain the expected family-wise error rate and to avoid false positives. 6. MGWR desktop software is available for open download at: <ref type="url" target="https://sgsup.asu.edu/sparc/multiscale-gwr">https://sgsup.asu.edu/sparc/  multiscale-gwr</ref>; the open-source Python implementation of MGWR is embedded within PySAL: <ref type="url" target="https://github.com/pysal/mgwr">https://github.com/pysal/mgwr</ref> Notes on contributors Mehak Sachdeva is a Faculty Fellow at the Center for Urban Science and Progress within the Tandon School of Engineering at New York University. E-mail: mehaksachdeva@nyu.edu. Her research interests include developing and testing spatial analytical methods to model and understand urban processes and phenomena. A. Stewart Fotheringham is Regents' Professor of Computational Spatial Science and Director of the Spatial Analysis Research Center in the School of Geographical Sciences and Urban Planning at Arizona State University. E-mail: stewart.fotheringham@asu.edu. His research interests include local spatial models, spatial processes, spatial analytics, and spatial interaction modeling. Ziqi Li is an Assistant Professor of Quantitative Geography in the Department of Geography at Florida State University, Tallahassee, FL 32306. E-mail: Ziqi.Li@fsu.edu. His research interests include spatial statistical modeling, explainable geospatial artificial intelligence, and their applications in interdisciplinary fields. Hanchen Yu is a visiting assistance professor in Urban Governance and Design Thrust, Society Hub, The Hong Kong University of Science and Technology (Guangzhou), Guangzhou, China. His research interests include spatial analysis, geographic information science, and spatial interaction modeling.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 11 .</head><label>11</label><figDesc>Local parameter estimates for population density and % of African American population (calibrated using MGWPR).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 .</head><label>4</label><figDesc>Bandwidths estimated using MGWPR with their 95% confidence intervals.</figDesc><table><row><cell>Variable</cell><cell>Bandwidth</cell><cell>Bandwidth CI</cell></row><row><cell>Intercept</cell><cell>43</cell><cell>(43.0, 47.0)</cell></row><row><cell>% African American</cell><cell>92</cell><cell>(88.0, 96.0)</cell></row><row><cell>% Pop. with heart disease</cell><cell>45</cell><cell>(45.0, 75.0)</cell></row><row><cell>Pop. density (pop/sq.mile)</cell><cell>65</cell><cell>(63.0, 75.0)</cell></row><row><cell>No. of schools per sq. mile</cell><cell>49</cell><cell>(49.0, 63.0)</cell></row><row><cell>% Pop. receiving public asst.</cell><cell>111</cell><cell>(109.0, 129.0)</cell></row><row><cell>% Hispanic</cell><cell>80</cell><cell>(75.0, 96.0)</cell></row></table></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Mapping politics: how context counts in electoral geography</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Agnew</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Geography</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="129" to="146" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Place and politics: the geographical mediation of state and society</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Agnew</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>Routledge</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Agresti</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/0471249688</idno>
+		<ptr target="http://dx.doi.org/10.1002/0471249688" />
+		<title level="m">Categorical data analysis</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons, Inc</publisher>
+			<date type="published" when="2002">2002</date>
+			<biblScope unit="page" from="320" to="332" />
+		</imprint>
+	</monogr>
+	<note>nd ed</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Linear smoothers and additive models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Buja</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="453" to="510" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Application of geographically weighted regression to the direct forecasting of transit ridership at station-level</title>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">D</forename><surname>Cardozo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Garc Ia-Palomares</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Guti Errez</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Geography</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="548" to="558" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Local modelling of U.S. mortality rates: a multiscale geographically weighted regression approach</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Cupido</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Jevtic</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Population, Space and Place</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">2379</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The Multiple Testing Issue in Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="233" to="247" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Black/African American Communities are at highest risk of COVID-19: spatial modeling of New York City ZIP Code-level testing results</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Dimaggio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="page" from="7" to="13" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Generalized additive model</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">S</forename><surname>Everitt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Encyclopedia of statistics in behavioral science</title>
+		<imprint>
+			<publisher>Ltd</publisher>
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Hoboken</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Modelling spatial processes in quantitative human geography</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sachdeva</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of GIS</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="5" to="14" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">On the importance of thinking locally for statistics and society</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sachdeva</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Statistics</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page">100601</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Local modelling: one size does not fit all</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">21</biblScope>
+			<biblScope unit="page" from="83" to="87" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Scale, context, and heterogeneity: a spatial analytical perspective on the 2016 U.S. presidential election</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1" to="20" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Examining the influences of air quality in China&apos;s cities using multi-scale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions in GIS</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1444" to="1464" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Mapping county-level mobility pattern changes in the United States in response to COVID-19</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIGSPATIAL Special</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="16" to="26" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<title level="m" type="main">Spatial behavior: a geographic perspective</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">G</forename><surname>Golledge</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997">1997</date>
+			<publisher>Guilford Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Formalizing place in geographic information systems</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Goodchild</surname></persName>
+		</author>
+		<editor>L.M. Burton, S. A. Matthews, et al.</editor>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Springer</publisher>
+			<biblScope unit="page" from="21" to="33" />
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+	<note>and health: expanding the boundaries of place</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Generalized additive models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="297" to="310" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Context and consex: a cautionary tale</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Hauser</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Sociology</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="645" to="664" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">County-level COVID-19 vaccination coverage and social vulnerability-United States</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Hughes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">MMWR. Morbidity and Mortality Weekly Report</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="431" to="436" />
+			<date type="published" when="2020-03-01">2021. December 14, 2020-March 1, 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A replication of DiMaggio et al</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kedron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="8" to="14" />
+			<date type="published" when="2020">2022. 2020</date>
+			<pubPlace>Phoenix, AZ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">County-level association of social vulnerability with COVID-19 cases and deaths in the USA</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Khazanchi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of General Internal Medicine</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="2784" to="2787" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Why context should not count</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>King</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Geography</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="159" to="164" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Computational improvements to multi-scale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1378" to="1397" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Fast geographically weighted regression (FastGWR): a scalable algorithm to investigate spatial process heterogeneity in millions of observations</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="155" to="175" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Measuring bandwidth uncertainty in multiscale geographically weighted regression using Akaike weights</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">110</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1500" to="1520" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">The impacts of the built environment on the incidence rate of COVID-19: a case study of King County</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Guan</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<publisher>Washington. Sustainable Cities and Society</publisher>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page">103144</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Residential burglaries and neighborhood socioeconomic context in London, Ontario: global and local regression analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Malczewski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Poetz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Professional Geographer</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="516" to="529" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Information criteria for Fay-Herriot model selection</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Marhuenda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Morales</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Pardo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="268" to="280" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">The complexities of measuring access to parks and physical activity sites in New York City: a quantitative and qualitative approach</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Maroko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Health Geographics</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">34</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">P</forename><surname>Mccullagh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Nelder</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<publisher>Routledge</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Generalized linear models. 2nd ed</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Geographically weighted Poisson regression for disease association mapping</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="2695" to="2717" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Targeting the spatial context of obesity determinants via multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Health Geographics</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">11</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">The assumptions of the linear regression model</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Poole</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">N</forename><surname>O'farrell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions of the Institute of British Geographers</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">52</biblScope>
+			<biblScope unit="page" from="145" to="158" />
+			<date type="published" when="1971">1971</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m" type="main">Place and placelessness</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Relph</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1976">1976</date>
+			<publisher>Pion</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">A geographical perspective on Simpson&apos;s paradox</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sachdeva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="issue">26</biblScope>
+			<biblScope unit="page" from="1" to="25" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Do places have value? Quantifying the intrinsic value of housing neighborhoods using MGWR</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sachdeva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Housing Research</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="24" to="52" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Spatial variations of PM2.5 in Chinese cities for the joint impacts of human activities and natural conditions: a global and local regression perspective</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Cleaner Production</title>
+		<imprint>
+			<biblScope unit="volume">203</biblScope>
+			<biblScope unit="page" from="143" to="152" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Inference in multiscale geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="87" to="106" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Modeling spatial variation in tree diameter-height relationships</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Forest Ecology and Management</title>
+		<imprint>
+			<biblScope unit="volume">189</biblScope>
+			<biblScope unit="issue">1-3</biblScope>
+			<biblScope unit="page" from="317" to="329" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Impacts of urbanization and landscape pattern on habitat quality using OLS and GWR models in Hangzhou</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">China. Ecological Indicators</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page">106654</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

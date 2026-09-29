@@ -1,0 +1,1330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatially constrained clustering of ecological networks</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Vincent</forename><surname>Miele</surname></persName>
+							<email>vincent.miele@univ-lyon1.fr</email>
+							<affiliation key="aff0">
+								<orgName type="laboratory" key="lab1">Laboratoire Biom etrie et Biologie Evolutive</orgName>
+								<orgName type="laboratory" key="lab2">UMR5558</orgName>
+								<orgName type="institution" key="instit1">CNRS</orgName>
+								<orgName type="institution" key="instit2">Universit e de Lyon</orgName>
+								<address>
+									<addrLine>Universit e Lyon 1</addrLine>
+									<postCode>F-69622</postCode>
+									<settlement>Villeurbanne</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Franck</forename><surname>Picard</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory" key="lab1">Laboratoire Biom etrie et Biologie Evolutive</orgName>
+								<orgName type="laboratory" key="lab2">UMR5558</orgName>
+								<orgName type="institution" key="instit1">CNRS</orgName>
+								<orgName type="institution" key="instit2">Universit e de Lyon</orgName>
+								<address>
+									<addrLine>Universit e Lyon 1</addrLine>
+									<postCode>F-69622</postCode>
+									<settlement>Villeurbanne</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">St</forename><surname>Ephane Dray</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="laboratory" key="lab1">Laboratoire Biom etrie et Biologie Evolutive</orgName>
+								<orgName type="laboratory" key="lab2">UMR5558</orgName>
+								<orgName type="institution" key="instit1">CNRS</orgName>
+								<orgName type="institution" key="instit2">Universit e de Lyon</orgName>
+								<address>
+									<addrLine>Universit e Lyon 1</addrLine>
+									<postCode>F-69622</postCode>
+									<settlement>Villeurbanne</settlement>
+									<country key="FR">France</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatially constrained clustering of ecological networks</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">580158101F3058711B02CB71DBEA2722</idno>
+					<idno type="DOI">10.1111/2041-210X.12208</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-21T11:52+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>graph Laplacian</term>
+					<term>model-based clustering</term>
+					<term>stochastic block model</term>
+					<term>regularized EM algorithm</term>
+					<term>spatial partitioning</term>
+					<term>spatial structure</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>1. Spatial ecological networks are widely used to model interactions between georeferenced biological entities (e.g. populations or communities). The analysis of such data often leads to a two-step approach where groups containing similar biological entities are firstly identified and the spatial information is used afterwards to improve the ecological interpretation. 2. We develop an integrative approach to retrieve groups of nodes that are geographically close and ecologically similar. Our model-based spatially constrained method embeds the geographical information within a regularization framework by adding some constraints to the maximum likelihood estimation of parameters.</p><p>3. A simulation study and the analysis of two real data sets demonstrate that our approach is able to detect complex spatial patterns that are ecologically meaningful. 4. The model-based framework allows us to consider external information (e.g. geographical proximities, covariates) in the analysis of ecological networks and appears to be an appealing alternative to consider such data.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>In many ecological studies, researchers must analyse data describing the interactions between biological entities (e.g. individuals, populations, species or communities). These interactions can be directly observed (e.g. trophic relationships in a food web, <ref type="bibr" target="#b33">Krause et al. 2003)</ref> or they can be inferred from computed distance/similarity measures. Several genetic distances have been developed to summarize allele frequency differences between populations for instance <ref type="bibr" target="#b29">(Kalinowski 2002)</ref>. In community ecology, species abundance (or presence/ absence) data are routinely used to assess turnover (i.e. betadiversity) between sites based on differences in species composition (Chapter 7 in <ref type="bibr">Legendre &amp; Legendre 2012)</ref>. Describing and summarizing these sets of pairwise interactions is an important step to better understand the functioning of ecological systems. In a theoretical viewpoint, networks (or graphs) offer a natural and efficient framework to store and analyse interaction data. Whereas food web analysis was a traditional and historical field <ref type="bibr" target="#b25">(Ings et al. 2009</ref>), network analysis techniques have recently gained popularity in genetics <ref type="bibr" target="#b1">(Albert et al. 2013;</ref><ref type="bibr" target="#b31">Keller, Holderegger &amp; van Strien 2013)</ref>, movement ecology <ref type="bibr" target="#b27">(Jacoby et al. 2012)</ref>, landscape ecology <ref type="bibr" target="#b6">(Bodin &amp; Norberg 2006;</ref><ref type="bibr" target="#b41">Pereira, Segurado &amp; Neves 2011)</ref>, biogeography <ref type="bibr" target="#b38">(Moalic et al. 2012;</ref><ref type="bibr" target="#b48">Th ebault 2013)</ref> or species distribution modelling <ref type="bibr" target="#b3">(Araujo et al. 2011;</ref><ref type="bibr" target="#b16">Foltête et al. 2012)</ref>.</p><p>From a statistical perspective, interaction data can be handled using ecological networks where biological entities correspond to the nodes while the intensities of interactions are represented by weighted edges <ref type="bibr" target="#b44">(Proulx, Promislow &amp; Phillips 2005)</ref>. Traditional approaches consist in summarizing the structure of a network using easy-to-compute statistics that relate to ecological properties (connectivity, degree distribution, average path length, <ref type="bibr" target="#b45">Rayfield, Fortin &amp; Fall (2011)</ref>). Unsupervised clustering is another common practice to detect groups of biological entities. In ecology, this strategy has been widely applied to find highly intraconnected groups referred to as modules : several works have linked the modularity to the stability of the ecological network <ref type="bibr" target="#b33">(Krause et al. 2003)</ref>; searching for modular structure has also helped to identify co-evolution patterns <ref type="bibr" target="#b14">(Dupont &amp; Olesen 2009)</ref> and to delineate conservation units <ref type="bibr" target="#b17">(Fortuna et al. 2009</ref>), habitat patches <ref type="bibr" target="#b41">(Pereira, Segurado &amp; Neves 2011)</ref> or biogeographical entities <ref type="bibr" target="#b38">(Moalic et al. 2012)</ref>.</p><p>The identification of groups of nodes has received considerable interest in physical sciences (see <ref type="bibr" target="#b40">Newman (2006)</ref> or <ref type="bibr" target="#b18">Fortunato (2010)</ref> for an extensive review) but also in statistics: in particular, this work relies on well-established model-based clustering procedures <ref type="bibr" target="#b11">(Daudin, Picard &amp; Robin 2008;</ref><ref type="bibr" target="#b42">Picard et al. 2009</ref>). These methods are fundamentally different from classic approaches by assuming a statistical distribution for interaction data. They are thus very flexible for handling various types of interaction data by specifying adequate statistical distribution to model presence/absence (Bernoulli), abundances (Poisson) or fluxes (Gaussian) or to integrate external covariates <ref type="bibr" target="#b37">(Mariadassou, Robin &amp; Vacher 2010)</ref>. These methods among others <ref type="bibr" target="#b36">(Leger, Vacher &amp; Daudin (2013)</ref>) can detect hidden connectivity patterns that are not limited to modularity, such as centrality (hubs) or hierarchy (see <ref type="bibr" target="#b42">Picard et al. (2009)</ref> on a food web of wasps). Lastly, this general statistical framework is adequate for using tools from model selection theory (such as Bayesian information criterion (BIC)) in order to determine the number of groups that structure the data.</p><p>In many situations, the nodes correspond to entities that have explicit geographical locations transforming ecological networks into spatial networks <ref type="bibr" target="#b9">(Dale &amp; Fortin 2010)</ref>. When available, this spatial information is often used posterior to the identification of groups to improve their ecological interpretation <ref type="bibr" target="#b3">(Araujo et al. 2011;</ref><ref type="bibr" target="#b38">Moalic et al. 2012;</ref><ref type="bibr" target="#b10">D attilo, Guimarães &amp; Izzo 2013)</ref>. However, if the aim of a study is to identify spatially coherent groups (e.g. habitat patches), this indirect approach may not be optimal as it considers the spatial aspect only after summarizing the network structure. An appropriate technique would integrate spatial information explicitly in the detection of groups. This process is the core of spatially constrained clustering techniques <ref type="bibr" target="#b20">(Gordon 1996;</ref><ref type="bibr" target="#b2">Ambroise &amp; Govaert 1998;</ref><ref type="bibr" target="#b15">Duque, Ramos &amp; Surinach 2007)</ref> when ecological observations are stored as raw data tables. When data consist in pairwise interactions stored as a network, no direct technique yet exists to delimit spatial groups except related strategies based on boundary detection <ref type="bibr" target="#b39">(Monmonier 1973)</ref>.</p><p>In this work, we propose an original method to integrate the spatial information in the clustering of ecological interactions. Whereas spatial information is traditionally treated as geographical coordinates, trend surfaces or distance matrix, we used a more efficient strategy that models spatial proximity as a structural network where two nodes are connected if they are considered as neighbours <ref type="bibr" target="#b12">(Dray, Legendre &amp; Peres-Neto 2006;</ref><ref type="bibr" target="#b13">Dray et al. 2012)</ref>. This approach offers a great flexibility allowing to include the effect of structural constraints (landscape fragmentation) or physical barriers (rivers, mountains). In our framework, what is usually referred to a spatial network is thus decomposed into a pair of networks: nodes are identical, but edges reflect either biological interactions (ecological network) or spatial connectivity (structural network). Our new model-based approach considers both networks in a single step allowing to identify ecologically homogeneous and spatially coherent groups. The originality of our method is to embed the geographical information within a regularization framework <ref type="bibr" target="#b2">(Ambroise &amp; Govaert 1998;</ref><ref type="bibr" target="#b23">He et al. 2011</ref>) that has been popularized by the analysis of high-dimensional data sets <ref type="bibr" target="#b22">(Hastie, Tibshirani &amp; Friedman 2001;</ref><ref type="bibr" target="#b7">Buhlmann &amp; van de Geer 2011)</ref>. We evaluate our new approach by a simulation study and applied it on two real ecological data sets. An R package including methods and data to perform the analysis is also provided at <ref type="url" target="http://lbbe.univ-lyon1.fr/">http://lbbe.univ-lyon1.fr/</ref> geoclust.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Materials and methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>M O D E L -B A S E D C L U S T E R I N G O F I N T E R A C T I O N D A T A</head><p>Our method belongs to the general framework of model-based clustering of network data. This family of models includes the stochastic block model <ref type="bibr" target="#b0">(Airoldi et al. 2008)</ref> and the MixNet approach <ref type="bibr" target="#b11">(Daudin, Picard &amp; Robin 2008;</ref><ref type="bibr" target="#b37">Mariadassou, Robin &amp; Vacher 2010)</ref> among others. We consider data for n interacting entities with Y ij standing for the observed measure of these interactions and Y = (Y ij ). Our model is based on group membership of entities, and Z = (Z 1 ,. . .,Z n ) denotes the matrix of labels of entities 1,. . ., n, i.e. Z iq = 1 if i belongs to group q and 0 otherwise. In the context of unsupervised clustering, this matrix is unknown and our method aims to recover these labels using the observed information contained in Y. Model-based clustering hypotheses that if labels were known, the distribution of the interaction data would be completely determined. Hence, we start by assuming that there are Q groups with proportions a = (a 1 ,. . .,a Q ) such that the distribution of labels Z i = (Z i1 ,. . .Z iQ ) is multinomial with parameter a. The number of groups Q is unknown and will be estimated afterwards. The distribution of the interaction data is specified conditionally to the labels:</p><formula xml:id="formula_0">Z i $ Mð1; aÞ; Z j $ Mð1; aÞ; Y ij jfZ iq Z i' ¼ 1g $ fðÁ; h ql Þ;</formula><p>eqn 1</p><p>where distribution f(Á,h ql ) can be Bernoulli to model presence-absence data <ref type="bibr" target="#b0">(Airoldi et al. 2008;</ref><ref type="bibr" target="#b11">Daudin, Picard &amp; Robin 2008)</ref> and Gaussian or Poisson to model fluxes or abundance data <ref type="bibr" target="#b37">(Mariadassou, Robin &amp; Vacher 2010)</ref>. The parameters of this model are the proportions for the groups (a) and the parameters governing the conditional distribution of the observations (h = (h qℓ )). In the following, we note c = (a,h).</p><p>The objective is to estimate c and to recover the unobserved labels of the data using the posterior expectation of membership EðZ i jYÞ. This is achieved using the EM algorithm to maximize the observed-data log likelihood denoted by logLðY; cÞ. Unfortunately, the direct maximization of this likelihood is untractable due to the total number of possible partitions ðLðY; cÞ ¼ P Z LðY; Z; cÞÞ. Hence, we use an iterative algorithm that maximizes the complete-data likelihood:</p><formula xml:id="formula_1">logLðY; Z; cÞ ¼ logLðZ; aÞ þ logLðYjZ; hÞ ¼ X iq Z iq logða q Þ þ X ij;q' Z iq Z j' logfðY ij ; h q' Þ eqn 2</formula><p>The labels being unknown, the algorithm proceeds as follows: the Estep computes the conditional expectation of the complete-data log likelihood defined as:</p><formula xml:id="formula_2">Qðc; c ½h Þ ¼ E c ½h logLðY; Z; cÞjY f g ¼ X iq E c ½h ðZ iq jYÞlogða q Þ þ X ij;q' E c ½h ðZ iq Z j' jYÞlogfðY ij ; h q' Þ; eqn 3</formula><p>for a current value of the parameters (c [h] ). Then, the M-step maximizes Q with respect to a and h. Computational difficulties often arise at the E-step, mainly due to complex dependency structures that can govern the posterior distribution of labels given the data. This issue has motivated many methodological developments, in particular in the context of network data, with the use of variational methods <ref type="bibr" target="#b28">(Jordan et al. 1999)</ref> to approximate this posterior distribution <ref type="bibr" target="#b11">(Daudin, Picard &amp; Robin 2008;</ref><ref type="bibr" target="#b37">Mariadassou, Robin &amp; Vacher 2010)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A C C O U N T I N G F O R S P A T I A L C O N S T R A I N T S I N T H E C L U S T E R I N G M O D E L</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Labels regularization using a structural network</head><p>We choose to use a structural network that records the spatial proximity between ecological entities of the ecological network Y (see Fig. <ref type="figure" target="#fig_0">1</ref>). Structural networks are sometimes directly available such as road networks <ref type="bibr" target="#b47">(Smaltschinski, Seeling &amp; Becker 2012)</ref>, but they are usually constructed using geographical data with ad hoc techniques such as maximum spanning trees <ref type="bibr" target="#b4">(Assunc ßão et al., 2006)</ref>, k-nearest neighbours <ref type="bibr" target="#b21">(Guo 2008)</ref>, distance thresholding <ref type="bibr" target="#b41">(Pereira, Segurado &amp; Neves 2011)</ref> or edge thinning <ref type="bibr" target="#b50">(Urban &amp; Keitt 2001;</ref><ref type="bibr" target="#b31">Keller, Holderegger &amp; van Strien 2013)</ref>. In the following, we suppose that the structural network is given and fixed. It is denoted by X = (X ij ) such that (X ij &gt; 0) is the geographical proximity between entities i and j and X ij = 0 if they are not connected. We assume X is symmetric. The entities are the same as in the ecological network Y.</p><p>We propose to embed the geographical information within a regularization framework by adding some constraints in the maximum likelihood estimation of parameters. In regularization techniques, a constraint defined by a network can be introduced using the graph Laplacian <ref type="bibr" target="#b26">(Jacob, Neuvial &amp; Dudoit 2012)</ref>. For a network with connection matrix X = (X ij ), the Laplacian is defined by L x ¼ D À X where D is the diagonal matrix of degrees with diagonal terms d i = ∑ j X ij . The Laplacian L x can then be used as a semi-metric to measure the spatial variability. Indeed, for a given vector u = (u 1 ,. . .u n ), we have:</p><formula xml:id="formula_3">kuk 2 Lx ¼ u T L x u ¼ X i $ j X ij ðu i À u j Þ 2 ;</formula><p>which is the squared distance between values of u weighted by their spatial proximities contained in X. This quantity has been defined as the local variance by <ref type="bibr" target="#b34">Lebart (1969)</ref> and is equal to the numerator of the spatial autocorrelation index proposed by <ref type="bibr" target="#b19">Geary (1954)</ref>.</p><p>We develop an original regularization procedure aiming to reduce the variation of labels along the structural network. Whereas the vector of parameters is traditionally regularized, our approach considers that the vector of labels can be regularized using the structural network X. Denoting by Z q = (Z 1q ,. . .,Z nq ) the vector of individuals for label q, we propose the following penalty:</p><formula xml:id="formula_4">penðZ; L x Þ ¼ X Q q¼1 kZ q k 2 Lx ¼ X Q q¼1 X i $ j X ij ðZ iq À Z jq Þ 2 ;</formula><p>and the likelihood to maximize by the EM algorithm becomes:</p><formula xml:id="formula_5">log LðY; Z; cÞ À k Â penðZ; L x Þ;</formula><p>with k a constant controlling the amount of penalization that can be estimated adaptively to the data. Let us consider the case where X ij 2 {0,1} to interpret the penalty. In this case,</p><formula xml:id="formula_6">penðZ; L x Þ ¼ X Q q¼1 X i $ j ðZ iq À Z jq Þ 2 ¼ X Q q¼1 X i $ j 1 fZiq6 ¼Zjqg</formula><p>with i $ j standing for entities i and j connected in the structural network, so that the penalty accounts for the number of edges in the structural network that have discordant labels.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Regularized EM algorithm based on structural network</head><p>Considering the new penalized likelihood, the regularized EM algorithm is based on the conditional expectation of the penalized complete-data likelihood</p><formula xml:id="formula_7">Qðc; c ½h Þ À k Â E c ½h penðZ; L x ÞjY f g :</formula><p>As the penalty term does not involve the parameters but only the labels, the maximization step is unchanged <ref type="bibr" target="#b37">(Mariadassou, Robin &amp; Vacher 2010)</ref>. For instance, if the interaction data are supposed to be Gaussian such that</p><formula xml:id="formula_8">Y ij jfZ iq Z i' ¼ 1g $ N ðl q' ; r 2 Þ;</formula><p>eqn 4</p><p>we get the following updated estimates (at iteration [h + 1]): b l</p><formula xml:id="formula_9">½hþ1 ql ¼ P ij;q' b Z ½h iq b Z ½h j' Y ij P ij;q' b Z ½h iq b Z ½h j' ; b r 2½hþ1 ¼ P ij;q' b Z ½h iq b Z ½h jl ðY ij À b l ½hþ1 ql Þ 2 P ij;q' b Z ½h iq b Z ½h j'</formula><p>; with ð b Z ½h iq Þ the predicted labels provided by the E-step (below).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Network-based regularized E-step.</head><p>The traditional EM algorithm is not tractable in the case of mixtures for interaction data <ref type="bibr" target="#b11">(Daudin, Picard &amp; Robin 2008)</ref>. Thus, we use a variational approach which consists in choosing a surrogate posterior distribution for the labels that is as close as possible to the true posterior distribution. Moreover, this surrogate posterior allows us to suppose that they are conditionally independent <ref type="bibr" target="#b28">(Jordan et al. 1999</ref>).</p><p>Denoting by s iq ' E c ½h Z iq jY È É the approximate posterior expectation of labels and by s = (s i ) = (s iq ), the penalized complete-data likelihood becomes: Our method deciphers groups of entities (black squares on the right) using both networks into a model-based strategy associated with a regularization framework. While entities A,B,C and D,E forms two groups in the ecological data, the geographical constraints leads to lastly grouping C with D and E.</p><formula xml:id="formula_10">Qðc; c ½h Þ À k Â E c ½h fpenðZ; L x ÞjYg ' À X iq s iq logðs iq Þ þ X iq s iq logða q Þ þ X ij;q' s iq s j' logfðY ij ; h q' Þ À k Â X i $ j X ij ks i À s j k 2 2 :</formula><p>The computation of these approximate posterior probabilities is achieved by solving a fixed-point algorithm <ref type="bibr" target="#b2">(Ambroise &amp; Govaert 1998;</ref><ref type="bibr" target="#b37">Mariadassou, Robin &amp; Vacher 2010)</ref>, and we account for spatial constraints through the penalty term. The derivation of this algorithm is provided in the Appendix S1. Lastly, to retrieve clear and separable groups, we add a classification step corresponding to the classification EM algorithm <ref type="bibr" target="#b8">(Celeux &amp; Govaert 1992)</ref>. We use the maximum a posteriori rule such that b Z iq ¼ 1 if q ¼ arg max ' b s i' and 0 otherwise.</p><p>Initialization, k values and number of groups. It is well known that EM algorithms are very sensitive to the quality of the initialization point. We propose to set up s (0) using the clustering partition b Z 0 obtained with a traditional k-means algorithm as suggested by <ref type="bibr" target="#b11">Daudin, Picard &amp; Robin (2008)</ref>. Parameter k increased until b k max that corresponds to the maximal spatial homogeneity (i.e. until no further change of labels). Lastly, the number of groups b Qð b k max Þ is chosen using model selection strategy based on the integrated classification likelihood <ref type="bibr">[ICL, Daudin, Picard &amp; Robin (2008)</ref>].</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S I M U L A T I O N S T U D Y</head><p>In this section, we evaluate the relative merits of our method on simulated data that explore different degrees of coherence between the interaction data and the spatial information. For standard clustering methods, the performance only depends on the group separability, i.e. the ability to delineate groups within the ecological network. However, in the case of spatially constrained clustering, performance is more difficult to explore since it depends on a trade-off between group separability and spatial homogeneity/coherence of the groups. The easiest configuration is when the groups and the spatial information overlap (low spatial discordance); the most difficult situation is when groups and spatial information are contradictory (high spatial discordance).</p><p>We start by simulating a structural network X that consists of two spatial components of 50 nodes each, related by one single edge only (see Fig. <ref type="figure" target="#fig_0">S1</ref>). The proximity values stored in the edges in X are determined using a Gabriel graph <ref type="bibr" target="#b9">(Dale &amp; Fortin 2010)</ref>. Then, we consider Q = 2 groups with equal proportions, the true labels denoted by Z * . In order to explore different degrees of spatial discordance for the groups, we start by matching labels with the connected components of X (no spatial discordance), and we randomly sample an increasing number of pairs of nodes from the two spatial components and swap their labels (without modifying X). Then, we use the proportion of edges in X with discordant labels in the ecological network as a measure of spatial discordance. In the most favourable situation, there is a perfect overlap between labels and the spatial components in X. In the worst situation, labels are spread independently of X. Once the spatial discordance of labels is determined, we sample a Gaussian interaction network Y (Eqn 4) with parameters r=0Á2 and mean parameters:</p><formula xml:id="formula_11">l ¼ l m m l ! :</formula><p>The group separability is governed by d = (lÀm)/r, which varied from no signal (d = 0) to high signal levels (d = 1). Each configuration was repeated 50 times, and we applied our method with spatial penalty or without (i.e. k = 0). The performance of the method is then assessed by the averaged adjusted Rand Index <ref type="bibr">[aRI, Hubert &amp; Arabie (1985)</ref>] that measures the agreement between two partitions. It lies between 0 and 1, 1 being for a perfect match between the simulated and the recovered partition. This index is first used to assess the classification of interactions (between estimated and simulated labels Z * , referred to as aRI on Y) and secondly to assess the spatial homogeneity of groups (between estimated labels and the two spatial components of X, referred to as aRI on X, with the true classification given by the two spatial components).</p><p>When groups are highly separable (d ≥ 0Á5) and without any spatial discordance, clustering performs perfectly with or without the spatial penalty (aRI ≃ 1 on both X and Y, Fig. <ref type="figure">2ad</ref>). The interest in using the spatial penalty is illustrated when the spatial discordance increases until the proportion of spatially discordant labels reaches 50%. In this case, the spatial penalty induces a lower classification performance on the interaction data (decreasing aRI on Y, Fig. <ref type="figure">2b</ref>), which is compensated by an excellent clustering performance on spatial information (aRI &gt; 0Á9 on X, Fig. <ref type="figure">2a</ref>). Consequently, the effect of the spatial penalty is to maintain the spatial homogeneity of the groups at the price of classification errors on Y. When the separability of the group decreased (d = 0Á25), the performance of clustering also decreased, with a aRI of 0Á3 on Y. In this case, the spatial penalty clearly helps to recover the groups when they match the spatial structure (aRI = 0Á8 on X without spatial discordance, d = 0Á25, Fig. <ref type="figure">2a</ref>,<ref type="figure">c</ref>). In conclusion, when the spatial discordance is low to moderate, the spatial penalty helps in finding the groups, even if the signal in the interaction network is moderate.</p><p>Lastly, we evaluate the ability of our method to identify groups when the spatial discordance is high. When looking at the number of groups chosen by the model selection procedure (Fig. <ref type="figure" target="#fig_1">3</ref>), it is clear that all nodes are gathered in a single group when the spatial discordance increases. This proves that our method is adaptive to the spatial discordance and searches only for spatially coherent groups that are in agreement with ecologically homogeneous subsets.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S P A T I A L T U R N O V E R I N S P E C I E S C O M P O S I T I O N</head><p>We re-examine data concerning the presence/absence of 332 genera in 63 hydrothermal fields. This data set was used by <ref type="bibr" target="#b5">Bachraty, Legendre &amp; Desbruy eres (2009)</ref> and <ref type="bibr" target="#b38">Moalic et al. (2012)</ref> to define biogeographical provinces based on the faunal distribution in oceanic hydrothermal vents. We built an ecological network by computing distances in faunal composition using Jaccard coefficient (see Chapter 7 in <ref type="bibr">Legendre &amp; Legendre 2012)</ref>. This fully connected network contains 63 nodes (the fields), and edges are weighted by the ecological distances.</p><p>The distribution of Jaccard coefficients was bimodal due to an excess of distance values equal to 1 corresponding to pairs of fields sharing no species; the remaining values, after a logistic transform, follow a Gaussian distribution. Consequently, we modelled data using an inflated Gaussian distribution. We computed spatial proximities among the fields by computing great circle distances. The structural network was then built by removing all the edges corresponding to distances higher than 3600 km (see Fig. <ref type="figure">5b</ref>). This choice ensures that each node has at least one edge and that only local spatial proximities are considered. Edges were then weighted by spatial distances (max (d ij )Àd ij ).</p><p>We first applied our algorithm without spatial penalty (i.e. k = 0). Fields were partitioned in six groups based on their species composition (Fig. <ref type="figure">4</ref>). It is clear that fields share more ecological similarities within-groups than between-groups (comparison of diagonal and off-diagonal terms, respectively, in Fig. <ref type="figure">4a</ref>). This partitioning highlights some geographical patterns: some groups are roughly spatially coherent (groups A, C, D, E), whereas other groups did not show any spatial coherence (Fig. <ref type="figure">4b</ref>).</p><p>If the spatial penalty is applied, the model selection procedure selected also a clustering in six groups (Fig. <ref type="figure">5b</ref>). In this case, within-group similarities are also higher than the between-group (Fig. <ref type="figure">5a</ref>). Average within-group Jaccard index (0Á944) is slightly higher than for the unconstrained approach (0Á928). This loss of ecological homogeneity is counterbalanced by a gain in the spatial aspect (Fig. <ref type="figure">5b</ref>) as all ecological groups are now spatially coherent. Our results are very similar to those obtained by <ref type="bibr" target="#b5">Bachraty, Legendre &amp; Desbruy eres (2009)</ref> and <ref type="bibr" target="#b38">Moalic et al. (2012)</ref> who used different methods and identified 6 and 5 provinces, respectively. Their partitioning disagreed for the provinces in West Pacific (WP), Indian Ocean (IO) and East Pacific Rise (EPR). We identified a group with only one field (Loihi Seamount, LOS) that shares no species with all others and is poorly spatially connected (only one edge) in the</p><formula xml:id="formula_12">0•0 0•2 0•4 0•6 0•8 1•0 0•0 0•2 0•4 0•6 0•8 1•0 aRI on X aRI 0•0 0•2 0•4 0•6 0•8 1•0 0•0 0•2 0•4 0•6 0•8 1•0 Spatial discordance aRI δ = 1 δ = 0•5 δ = 0•25 δ = 0 0•0 0•2 0•4 0•6 0•8 1•0 0•0 0•2 0•4 0•6 0•8 1•0 aRI on Y Spatial penalty 0•0 0•2 0•4 0•6 0•8 1•0 0•0 0•2 0•4 0•6 0•8 1•0 Spatial discordance No Spatial penalty (a) (b) (c)<label>(d)</label></formula><p>Fig. 2. Performance of our method on simulated data, assessed by the averaged Adjusted Rand Index (aRI), for varying spatial discordance and group separability (d) values. (a) aRI on X with our regularized EM algorithm with spatial penalty. (b) same for aRI on Y. (c) aRI on X without spatial penalty, i.e k = 0. (d) same for aRI on Y. structural network. As in the mentioned studies, we found the Mid-Atlantic Ridge (MAR) and the Northeast Pacific (NE) provinces, the latter including the Guaymas Basin in our results. We also identified the partitioning between the Northern and Southern Pacific Rise provinces (NEPR and SEPR) that were proposed in <ref type="bibr" target="#b5">Bachraty, Legendre &amp; Desbruy eres (2009)</ref> as centres of dispersal for hydrothermal fauna. This shows that our algorithm can separate groups of fields that are spatially connected but very dissimilar according to the ecological network. Our algorithm was not able to partition the global province (NW + SW + IO on Fig. <ref type="figure">5b</ref>) composed by the Indian Ocean (IO) and Western Pacific zones. Interestingly, both previous studies were discordant for this region: Bachraty, <ref type="bibr" target="#b5">Legendre &amp; Desbruy eres (2009)</ref> merged Indian Ocean and Southwest Pacific (SW) and introduced an additional Northwest Pacific province (NW), whereas <ref type="bibr" target="#b38">Moalic et al. (2012)</ref> proposed a global WP province but kept aside the IO province. <ref type="formula">Moalic et al. (2012)</ref>focused on the central role of the WP province in the biogeography of hydrothermal vents and also mentioned that the existence of the IO province remains unclear due its poor representation in the data. Consequently, the group NW + SW + IO is the most ecologically heterogeneous in our results (Fig. <ref type="figure">5a</ref>) because our method is more conservative and suggests that any partitioning would be artificial in this region. This merging of IO and Western Pacific zones (SW, NW) demonstrated that our algorithm is able to merge two groups that are ecologically similar but not spatially connected.</p><formula xml:id="formula_13">0•2 0•4 0•6 0•8 1•0 1•2 1•4 1•6 1•8 2•0 Spatial discordance Average number of groups δ = 1 δ = 0•5 δ = 0•25 δ = 0</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>S P A T I A L T U R N O V E R O F M U T U A L I S T I C N E T W O R K S</head><p>This second application illustrates the ability of our approach to study spatial variations of species interaction networks (see e.g. <ref type="bibr" target="#b49">Tylianakis, Tscharntke &amp; Lewis 2007)</ref>. We analyse the data of <ref type="bibr" target="#b46">Ricciardi, Boyer &amp; Ollerton (2010)</ref>, which described anemonefish-anemone mutualistic interactions for 16 (a) (b) Fig. 5. Spatial clustering of 63 hydrothermal fields in six groups based on similarities in species composition. (a) Heatmap showing average ecological distances within and between groups. (b) Map showing the structural network and the six groups: Loihi Seamount (LOS), Northeast Pacific (NE), Northeast Pacific Rise (NEPR), Northeast Pacific Rise (SEPR), Mid-Atlantic Ridge (MAR) and Northwest Pacific/Southwest Pacific/Indian Ocean (NW + SW + IO).</p><p>sampling sites located all over Bunaken Islands and Manado Coast (Indonesia, Fig. <ref type="figure" target="#fig_4">6</ref>). For each site, field observations were performed to build interaction matrices between seven anemonefishes and nine anemone species. The ecological dissimilarity between two mutualistic networks can originate from two sources because species compositions and∖or species interactions between shared species could vary among sites. Hence, to disentangle these two aspects, we used the additive partitioning framework proposed by <ref type="bibr" target="#b43">Poisot et al. (2012)</ref> that decomposes network dissimilarity (b WN ) into interactions (b OS ) and species turnover (b ST ) components. We used the betalink package for R <ref type="bibr" target="#b43">(Poisot et al. 2012)</ref> to build three ecological networks. We <ref type="formula">chose the Whittaker (1960</ref> The steps to build the structural network are described in Fig. <ref type="figure" target="#fig_4">6a</ref>. As this example concerns marine animals and the study area contains land and sea, we used a procedure that considers only sea routes and treats islands as barriers. We firstly divided the study area by computing a Voronoi diagram (step a in Fig. <ref type="figure" target="#fig_4">6a</ref>). Then, we removed parts of the Voronoi cells that are not overlapped by the sea (i.e. islands) and built a structural network where two sites are linked by an edge if their Voronoi cells have a common boundary (step b). Lastly, the structural network was pruned by removing all the edges corresponding to sea distances higher than 11Á1 km (step c). This choice guarantees that each node has at least one edge and that only local spatial proximities are taken into account. Edges were then weighted by sea distances (max(d ij )Àd ij ).</p><p>The spatial clustering of sites leads to a common partition in two groups for b WN and b ST (Fig. <ref type="figure" target="#fig_4">6b</ref>). However, the selection procedure returns only one group for b OS , suggesting that no spatial turnover of interaction networks is observed when considering only shared species. Hence, the partitioning observed for b WN is related to changes in species composition but not in species interactions. For species turnover, we identified a group of two sites (sandy lagoons) characterized by two interacting species (Stichodactyla haddoni and Amphiprion polymnus) that are not present in other sites. The lack of pattern observed for b OS is coherent with the findings of <ref type="bibr" target="#b46">Ricciardi, Boyer &amp; Ollerton (2010)</ref> who suggested that 'competition is not an important factor determining the presence or absence of particular anemonefish/anemone combinations' and that 'a stochastic event on a chronological basis (who arrives first) may determine the presence of an anemonefish in an anemone for long periods, and not a clear niche differentiation or a superiority as competitor against other species'. These stochastic processes increased the spatial homogeneity of mutualistic interactions in the study area so that no pattern can be detected.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusions</head><p>The analysis of ecological networks has gained a lot of attention in the past years, and the development of dedicated statistical methods has been challenging. Here, we propose a statistical framework to identify spatial groups of ecological entities based on interaction data. We developed an efficient way to retrieve spatially coherent groups of ecological entities using a regularization framework. The analysis of simulated data and of two real data sets demonstrated the ability of our method to identify groups that match the spatial structure. If no spatial patterns are present in the data, our method did not identify any partitioning, and standard clustering algorithms, which do not consider the spatial aspect, should be preferred in these circumstances.</p><p>Whereas classical analysis consists in describing the main structures of ecological networks by summary statistics, our method is based on a model-based framework that assumes and estimates a distribution for interaction data. This approach is already used to analyse genomics data but it has been rarely applied to ecological data (but see <ref type="bibr" target="#b42">Picard et al. 2009)</ref>. We demonstrated that this framework is very promising as it allows to include easily spatial constraints in the estimation procedure. It can be extended to build more complex models by considering covariates measured either on the nodes or the edges of the network (e.g. environmental variables). Lastly, different distributions can be modelled so that the method is applicable to a wide variety of interaction data. For instance, we could assume a multivariate distribution to handle multilayer ecological networks that record different types of interaction between entities (K efi et al. 2012).</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1 .</head><label>1</label><figDesc>Fig. 1. Framework of our algorithm. The ecological network (top) records the ecological distance between entities. The structural network (bottom) summarizes the proximity between geographical locations.Our method deciphers groups of entities (black squares on the right) using both networks into a model-based strategy associated with a regularization framework. While entities A,B,C and D,E forms two groups in the ecological data, the geographical constraints leads to lastly grouping C with D and E.</figDesc><graphic coords="3,66.19,571.23,57.39,89.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 3 .</head><label>3</label><figDesc>Fig.3. Average number of groups selected by our model selection approach, on simulated data, for varying spatial discordance and group separability (d) values.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 4 .Fig. 5 .</head><label>45</label><figDesc>Fig. 4. Clustering of 63 hydrothermal fields in six groups based on similarities in species composition (no spatial penalty). (a) Heatmap showing average ecological distances within and between groups. (b) Map showing the six groups.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>) index of dissimilarity (index 1 in<ref type="bibr" target="#b32">Koleff, Gaston &amp; Lennon 2003)</ref> and computed ecological distances among sites based on b WN , b OS and b ST to study the spatial turnover of the different facets of mutualistic interactions.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 6 .</head><label>6</label><figDesc>Fig. 6. Analysis of 16 mutualistic networks. (a) The different steps to build the structural network consist in (a) computing a Voronoi diagram, (b) removing lands and building the network and (c) removing the longer edges. (b) Spatial clustering of the 16 sites based on b WN , b OS and b ST similarities.</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>© 2014 The Authors. Methods in Ecology and Evolution © 2014 British Ecological Society, Methods in Ecology and Evolution, 5, 771-779</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>The authors would like to thank <rs type="person">Sophie Arnaud-Haond</rs> and <rs type="person">Pierre Legendre</rs> for providing access to the hydrothermal fields data set, <rs type="person">Francesco Ricciardi</rs> for the anemonefish-anemone data set and the anonymous referees for their constructive remarks.</p></div>
+			</div>
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data accessibility</head><p>The hydrothermal fields data set is available online as a supplementary material of <ref type="bibr" target="#b5">Bachraty, Legendre &amp; Desbruy eres (2009)</ref> and is integrated in the R package. The anemonefish-anemone data set is available in <ref type="bibr" target="#b46">Ricciardi, Boyer &amp; Ollerton (2010)</ref> (geographical positions were provided by Francesco Ricciardi).</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supporting Information</head><p>Additional Supporting Information may be found in the online version of this article. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure S1 .</head><label>S1</label><figDesc>Simulation scheme.Appendix S1. Fixed point equations. © 2014 The Authors. Methods in Ecology and Evolution © 2014 British Ecological Society, Methods in Ecology and Evolution, 5, 771-779 Spatial clustering of networks 779</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Mixed-membership stochastic block models</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Airoldi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Blei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fienberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Xing</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="page" from="1981" to="2014" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Assessing the robustness of networks of spatial genetic variation</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Albert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Fortuna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Godoy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bascompte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology Letters</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">Suppl 1</biblScope>
+			<biblScope unit="page" from="86" to="93" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Convergence of an EM-type algorithm for spatial clustering</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ambroise</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Govaert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pattern Recognition Letters</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="919" to="927" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Using species co-occurrence networks to assess the impacts of climate change</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Araujo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Rozenfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rahbek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Marquet</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecography</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="897" to="908" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Efficient regionalization techniques for socio-economic geographical units using minimum spanning trees</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Assunc ßão</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Corrêa Neves</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Câmara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Da Costa Freitas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="797" to="811" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">Biogeographic relationships among deep-sea hydrothermal vent faunas at global scale. Deep Sea Research Part I: Oceano-graphic Research Papers</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bachraty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Desbruy Eres</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="page" from="1371" to="1378" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A network approach for analyzing spatially structured populations in fragmented landscape</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Bodin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Norberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Landscape Ecology</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="31" to="44" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<author>
+			<persName><forename type="first">P</forename><surname>Buhlmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Van De Geer</surname></persName>
+		</author>
+		<title level="m">Statistics for High-Dimensional Data: Methods, Theory and Applications</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">A classification EM algorithm for clustering and two stochastic versions</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Celeux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Govaert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics and Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="315" to="332" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">From graphs to spatial graphs</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Dale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M.-J</forename><surname>Fortin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual Review of Ecology, Evolution, and Systematics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="21" to="38" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Spatial structure of ant-plant mutu-alistic networks</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Guimarães</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">R</forename><surname>Izzo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Oikos</title>
+		<imprint>
+			<biblScope unit="volume">122</biblScope>
+			<biblScope unit="page" from="1643" to="1648" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">A mixture model for random graphs</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Daudin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Picard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Robin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Computing</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="173" to="183" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Spatial modeling: a comprehensive framework for principal coordinate analysis of neighbor matrices (PCNM)</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">R</forename><surname>Peres-Neto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Modelling</title>
+		<imprint>
+			<biblScope unit="volume">196</biblScope>
+			<biblScope unit="page" from="483" to="493" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Community ecology in the age of multivariate multiscale spatial analysis</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Couteron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Fortin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Peres-Neto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">R</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Monographs</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="257" to="275" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Ecological modules and roles of species in heathland plant-insect flower visitor networks</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">L</forename><surname>Dupont</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Olesen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Animal Ecology</title>
+		<imprint>
+			<biblScope unit="volume">78</biblScope>
+			<biblScope unit="page" from="346" to="353" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Supervised regionalization methods: a survey</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Duque</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ramos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Surinach</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="195" to="220" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Integrating graph-based connectivity metrics into species distribution models</title>
+		<author>
+			<persName><forename type="first">J.-C</forename><surname>Foltête</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Clauzel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Vuidel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Tournant</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Landscape Ecology</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="557" to="569" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Networks of spatial genetic variation across species</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Fortuna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">G</forename><surname>Albaladejo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Ferna Ndez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Aparicio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bascompte</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the National Academy of Sciences of the United States of America</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="page" from="19044" to="19049" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Community detection in graphs</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fortunato</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Physics Reports</title>
+		<imprint>
+			<biblScope unit="volume">486</biblScope>
+			<biblScope unit="page" from="75" to="174" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The contiguity ratio and statistical mapping</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Geary</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Incorporated Statistician</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="115" to="145" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">A survey of constrained classification</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gordon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics &amp; Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="17" to="29" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Regionalization with dynamically constrained agglomerative clustering and partitioning (redcap)</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Guo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="801" to="823" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Friedman</surname></persName>
+		</author>
+		<title level="m">The Elements of Statistical Learning: Data Mining, Inference, and Prediction: with 200 Full-Color Illustrations</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Laplacian regularized gaussian mixture model for data clustering</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Shao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Bao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Han</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Knowledge and Data Engineering</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="1406" to="1418" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Comparing partitions</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Hubert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Arabie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Classification</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="193" to="218" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Ecological networksbeyond food webs</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C</forename><surname>Ings</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Montoya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bascompte</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Bl€ Uthgen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Dormann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Animal Ecology</title>
+		<imprint>
+			<biblScope unit="volume">78</biblScope>
+			<biblScope unit="page" from="253" to="269" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">More power via graph-structured tests for differential expression of gene networks</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Jacob</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Neuvial</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dudoit</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="561" to="600" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Developing a deeper understanding of animal movements and spatial dynamics through novel application of network analyses</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M P</forename><surname>Jacoby</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Brooks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Croft</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Sims</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="574" to="583" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">An introduction to variational methods for graphical models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jordan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Ghahramani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Jaakkola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Saul</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Machine Learning</title>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="183" to="233" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Evolutionary and statistical properties of three genetic distances</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">T</forename><surname>Kalinowski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Molecular Ecology</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="1263" to="1273" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">More than a meal integrating non feeding interactions into food webs</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Berlow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">L</forename><surname>Wieters</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">A</forename><surname>Navarrete</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Petchey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">L</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology Letters</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="291" to="300" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Spatial scale affects landscape genetic analysis of a wetland grasshopper</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Keller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Holderegger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Van Strien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Molecular Ecology</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="2467" to="2482" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Measuring beta diversity for presence absence data</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Koleff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Gaston</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Lennon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Animal Ecology</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="367" to="382" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Compartments revealed in food-web structure</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Krause</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">A</forename><surname>Frank</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Mason</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Ulanowicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">W</forename><surname>Taylor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">426</biblScope>
+			<biblScope unit="page" from="282" to="285" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Analyse statistique de la contigu€ ıt e</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lebart</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Publication de l&apos;Institut de Statistiques de l&apos;Universit e de Paris</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="81" to="112" />
+			<date type="published" when="1969">1969</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Legendre</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Numerical Ecology</title>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<publisher>Elsevier</publisher>
+			<pubPlace>Amsterdam</pubPlace>
+		</imprint>
+	</monogr>
+	<note>3rd edn.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Detection of structurally homogeneous subsets in graphs</title>
+		<author>
+			<persName><forename type="first">J.-B</forename><surname>Leger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Vacher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-J</forename><surname>Daudin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Computing</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Uncovering latent structure in valued graphs: a variational approach</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Mariadassou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Robin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Vacher</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="715" to="742" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Biogeography revisited with network theory: retracing the history of hydrothermal vent communities</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Moalic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Desbruy Eres</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Duarte</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F</forename><surname>Rozenfeld</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bachraty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Arnaud-Haond</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Systematic Biology</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="page" from="127" to="137" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Maximum-difference barriers: an alternative numerical regionalization method</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Monmonier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="245" to="261" />
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Modularity and community structure in networks</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E J</forename><surname>Newman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the National Academy of Sciences of the United States of America</title>
+		<meeting>the National Academy of Sciences of the United States of America</meeting>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="page" from="8577" to="8582" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<title level="m" type="main">Using spatial network structure in land scape management and planning: a case study with pond turtles. Landscape and Urban Planning</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pereira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Segurado</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Neves</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="page" from="67" to="76" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Deciphering the connectivity structure of biological networks using MixNet</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Picard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Miele</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Daudin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Cottret</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Robin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">Suppl 6</biblScope>
+			<biblScope unit="page">17</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">The dissimilarity of species interaction networks</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Poisot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Canard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Mouillot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Mouquet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gravel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology Letters</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="1353" to="1361" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Network thinking in ecology and evolution</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Proulx</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">E L</forename><surname>Promislow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C</forename><surname>Phillips</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trends in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="345" to="353" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Connectivity for conservation: a framework to classify network measures</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Rayfield</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M.-J</forename><surname>Fortin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="page" from="847" to="858" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Assemblage and interaction structure of the anemonefish-anemone mutualism across the Manado region of Sulawesi</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Ricciardi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Boyer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ollerton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Indonesia. Environmental Biology of Fishes</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="page" from="333" to="347" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Clustering forest harvest stands on spatial networks for optimised harvest scheduling</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Smaltschinski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Seeling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Becker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Forest Science</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="651" to="657" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Identifying compartments in presence-absence matrices and bipartite networks: insights into modularity measures</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Th Ebault</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Biogeography</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="759" to="768" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Habitat modification alters the structure of tropical host-parasitoid food webs</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Tylianakis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Tscharntke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">T</forename><surname>Lewis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">445</biblScope>
+			<biblScope unit="page" from="202" to="205" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Landscape connectivity: a graph-theoretic perspective</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Urban</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Keitt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="1205" to="1218" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Vegetation of the Siskiyou mountains, Oregon and California</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Whittaker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Monographs</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="279" to="338" />
+			<date type="published" when="1960">1960</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

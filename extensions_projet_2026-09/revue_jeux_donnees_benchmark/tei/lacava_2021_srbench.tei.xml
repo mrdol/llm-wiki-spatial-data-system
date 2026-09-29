@@ -1,0 +1,2384 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Contemporary Symbolic Regression Methods and their Relative Performance</title>
+				<funder>
+					<orgName type="full">Penn Medicine Academic Computing Services</orgName>
+					<orgName type="abbreviated">PMACS</orgName>
+				</funder>
+				<funder ref="#_KPYeTP9">
+					<orgName type="full">NIH/NLM</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2021-07-29">29 Jul 2021</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">William</forename><forename type="middle">La</forename><surname>Cava</surname></persName>
+							<email>lacava@upenn.edu</email>
+						</author>
+						<author>
+							<persName><forename type="first">Patryk</forename><surname>Orzechowski</surname></persName>
+							<email>patryk.orzechowski@gmail.com</email>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Automatics and Robotics</orgName>
+								<orgName type="institution">AGH University of Science and Technology</orgName>
+								<address>
+									<settlement>Krakow</settlement>
+									<country key="PL">Poland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Bogdan</forename><surname>Burlacu</surname></persName>
+							<email>bogdan.burlacu@fh-ooe.at</email>
+						</author>
+						<author>
+							<persName><forename type="first">Fabrício</forename><surname>Olivetti De França</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Marco</forename><surname>Virgolin</surname></persName>
+							<email>marco.virgolin@chalmers.se</email>
+						</author>
+						<author>
+							<persName><forename type="first">Ying</forename><surname>Jin</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Michael</forename><surname>Kommenda</surname></persName>
+							<email>michael.kommenda@fh-ooe.at</email>
+						</author>
+						<author>
+							<persName><forename type="first">Jason</forename><forename type="middle">H</forename><surname>Moore</surname></persName>
+							<email>jhmoore@upenn.edu</email>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Institute for Biomedical Informatics</orgName>
+								<orgName type="department" key="dep2">Institute for Biomedical Informatics</orgName>
+								<orgName type="department" key="dep3">Josef Ressel Center for Symbolic Regression</orgName>
+								<orgName type="institution" key="instit1">University of Pennsylvania</orgName>
+								<orgName type="institution" key="instit2">University of Pennsylvania</orgName>
+								<orgName type="institution" key="instit3">University of Applied Sciences Upper</orgName>
+								<address>
+									<country key="AT">Austria</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Mechanics and Maritime Sciences Chalmers</orgName>
+								<orgName type="institution">Federal University of ABC ‡ Santo Andre</orgName>
+								<address>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">Department of Statistics Stanford University</orgName>
+								<orgName type="department" key="dep2">Josef Ressel Center for Symbolic Regression</orgName>
+								<orgName type="institution" key="instit1">University of Technology</orgName>
+								<orgName type="institution" key="instit2">University of Applied Sciences Upper</orgName>
+								<address>
+									<country key="AT">Austria</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="department">Institute for Biomedical Informatics</orgName>
+								<orgName type="institution">University of Pennsylvania</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff5">
+								<orgName type="department">Center for Mathematics, Computation and Cognition | Heuristics</orgName>
+								<orgName type="laboratory">Analysis and Learning Laboratory Preprint. Under review</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Contemporary Symbolic Regression Methods and their Relative Performance</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2021-07-29">29 Jul 2021</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">26BB004F6E6E9651BBAAF452A878D75D</idno>
+					<idno type="arXiv">arXiv:2107.14351v1[cs.NE]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Many promising approaches to symbolic regression have been presented in recent years, yet progress in the field continues to suffer from a lack of uniform, robust, and transparent benchmarking standards. In this paper, we address this shortcoming by introducing an open-source, reproducible benchmarking platform for symbolic regression. We assess 14 symbolic regression methods and 7 machine learning methods on a set of 252 diverse regression problems. Our assessment includes both real-world datasets with no known model form as well as ground-truth benchmark problems, including physics equations and systems of ordinary differential equations. For the real-world datasets, we benchmark the ability of each method to learn models with low error and low complexity relative to state-of-the-art machine learning methods. For the synthetic problems, we assess each method's ability to find exact solutions in the presence of varying levels of noise. Under these controlled experiments, we conclude that the best performing methods for real-world regression combine genetic algorithms with parameter estimation and/or semantic search drivers. When tasked with recovering exact equations in the presence of noise, we find that deep learning and genetic algorithm-based approaches perform similarly. We provide a detailed guide to reproducing this experiment and contributing new methods, and encourage other researchers to collaborate with us on a common and living symbolic regression benchmark.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Symbolic regression (SR) is an approach to machine learning (ML) in which both the parameters and structure of an analytical model are optimized. SR can be useful when one wishes to describe a process via a mathematical expression, especially a simple expression; thus, it is often applied in the hopes of producing a model of a process that, by virtue of its simplicity, may be easy to interpret. Interpretable ML is becoming increasingly important as model deployments in high stakes societal applications such as finance and medicine grow <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2]</ref>. Moreover, the mathematical expressions produced by SR are well-suited to be analyzed and controlled for their out-of-distribution behavior (e.g., in terms of asymptotic behavior, periodicity, etc.). These attractive properties of SR have led to its application in a number of areas, such as physics <ref type="bibr" target="#b2">[3]</ref>, biology <ref type="bibr" target="#b3">[4]</ref>, clinical informatics <ref type="bibr" target="#b4">[5]</ref>, climate modeling <ref type="bibr" target="#b5">[6]</ref>, finance <ref type="bibr" target="#b6">[7]</ref>, and many fields of engineering <ref type="bibr" target="#b7">[8]</ref><ref type="bibr" target="#b8">[9]</ref><ref type="bibr" target="#b9">[10]</ref>.</p><p>SR literature has, in general, fallen short of evaluating and ranking new methods in a way that facilitates their widespread adoption. Our view is that this shortcoming largely stems from a lack of standardized, transparent and reproducible benchmarks, especially those that test a large and diverse array of problems <ref type="bibr" target="#b10">[11]</ref>. Although community surveys <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b11">12]</ref> have led to suggestions for improving benchmarking standards, and even black-listed certain problems, contemporary literature continues to be published that violates those standards. Absent these standards, it is difficult to assess which methods or family of methods should be considered "state-of-the-art" (SotA).</p><p>Achieving a fleeting sense of SotA is certainly not the singular pursuit of methods research, yet without common, robust benchmarking studies, promising avenues of investigation cannot be well-informed by empirical evidence. We hope the benchmarking platform introduced in this paper improves the cross-pollination between research communities interested in SR, which include evolutionary computation, physics, engineering, statistics, and more traditional machine learning disciplines.</p><p>In this paper, we describe a large benchmarking effort that includes a dataset repository curated for SR, as well as a benchmarking library designed to allow researchers to easily contribute methods. To achieve this, we incorporated 130 datasets with ground truth forms into the Penn Machine Learning Benchmark (PMLB) <ref type="bibr" target="#b12">[13]</ref>, including metadata describing the underlying equations, their units, and various summary statistics. Furthermore, we created a SR benchmark repository called SRBench <ref type="foot" target="#foot_0">4</ref>and sought contributions from researchers in this area. Here we describe this process and the results, which consist of comparisons of 14 contemporary SR methods on hundreds of regression problems.</p><p>To our knowledge, this is by far the largest and most comprehensive SR benchmark effort to date, which allows us to make claims concerning current SotA methods for SR with better certainty. Importantly, and in contrast to many previous efforts, the datasets, methods, benchmarking code, and results are completely open-source, reproducible, and revision-controlled, which should allow SRBench to exist as a living benchmark for future studies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Background and Motivation</head><p>The goal of SR is to learn a mapping ŷ(x) = φ(x, θ) : R d → R using a dataset of paired examples D = {(x i , y i )} N i=1 , with features x ∈ R d and target y. SR assumes the existence of an analytical model of the form y(x) = φ * (x, θ * ) + that would generate the observations in D, and seeks to estimate this model by searching the space of expressions, φ, and parameters, θ, in the presence of white noise, . Koza <ref type="bibr" target="#b13">[14]</ref> introduced SR as an application of genetic programming (GP), a field that investigates the use of genetic algorithms (GAs) to evolve executable data structures, i.e. programs. In the case of so-called "Koza-style" GP, the programs to be optimized are syntax trees consisting of functions/operations over input features and constants. Like in other GAs, GP is a process that evolves a population of candidate solutions (e.g., syntax trees) by iteratively producing offspring from parent solutions (e.g., by swapping parents' subtrees) and eliminating unfit solutions (e.g., programs with sub-par behavior). Most SR research to date has emerged from within this sub-field and its associated conferences. <ref type="foot" target="#foot_1">5</ref>Despite the availability of post-hoc methods for explaining black-box model predictions <ref type="bibr" target="#b14">[15]</ref>, there have been recent calls to focus on learning interpretable/transparent models explicitly <ref type="bibr" target="#b1">[2]</ref>. Perhaps due to this renewed interest in model interpretability, entirely different methods for tackling SR have been proposed <ref type="bibr" target="#b15">[16]</ref><ref type="bibr" target="#b16">[17]</ref><ref type="bibr" target="#b17">[18]</ref><ref type="bibr" target="#b18">[19]</ref><ref type="bibr" target="#b19">[20]</ref><ref type="bibr" target="#b20">[21]</ref><ref type="bibr" target="#b21">[22]</ref>. These include methods based in Bayesian optimization <ref type="bibr" target="#b15">[16]</ref>, recurrent neural networks (RNNs) <ref type="bibr" target="#b16">[17]</ref>, and physics-inspired divide-and-conquer strategies <ref type="bibr" target="#b17">[18,</ref><ref type="bibr" target="#b22">23]</ref>. Some of these papers refer to Eureqa, a commercial, GP-based SR method used to re-discover known physics equations <ref type="bibr" target="#b2">[3]</ref>, as the "gold standard" for SR <ref type="bibr" target="#b16">[17]</ref> and/or the best method for SR "by far" <ref type="bibr" target="#b17">[18]</ref>. However, Schmidt and Lipson <ref type="bibr" target="#b23">[24]</ref> make no claim to being the SotA method for SR, nor is this hypothesis tested in the body of work on which Eureqa is based <ref type="bibr" target="#b24">[25]</ref>.</p><p>Although commercial platforms like Eureqa and Wolfram <ref type="bibr" target="#b25">[26]</ref> are successful tools for applying SR, they are not designed to support controlled benchmark experiments, and therefore experiments utilizing them have serious caveats. Due to the design of the front-end API for both tools, it is not possible to benchmark either method against others while holding important parameters of such an experiment constant, including the computational effort, number of model evaluations, CPU/memory limits, and final solution assessment. More generally, researchers cannot uniquely determine which features of the software and/or experiment lead to observed differences in performance, given that these commercial tools are closed-source. In this light, it is not clear what insights are to be gained when comparing to Eureqa and Wolfram beyond a simple head-to-head comparison. Therefore, rather than benchmark against Eureqa in this paper, we implement its underlying algorithms in an open-source package, which allows our experiment to remain transparent, reproducible, accessible, and controlled. We discuss the algorithms underlying Eureqa in detail in Sec. A.3.</p><p>A close reading of SR literature since 2009 implies that a number of proposed methods would outperform Eureqa in controlled tests, and are therefore suitable choices for benchmarking (e.g. <ref type="bibr" target="#b26">[27,</ref><ref type="bibr" target="#b27">28]</ref>). Unfortunately, the widespread adoption of these promising SR approaches is hamstrung by a lack of consensus on good benchmark problems, testing frameworks, and experimental designs. Our effort to establish a common benchmark is motivated by our view that common, robust, standardized benchmarks for SR could speed progress in the field by providing a clear baseline from which to assert the quality of new approaches. Consider the NN community's focus on common benchmarks (e.g. ImageNet <ref type="bibr" target="#b28">[29]</ref>), frameworks (e.g. TensorFlow, PyTorch) and experiment designs. By contrast, it is common to observe results in SR literature that are based on a small number of low dimensional, easy and unrealistic problems, comparing only to very basic GP systems such as those described in <ref type="bibr" target="#b13">[14]</ref> nearly thirty years ago. Despite detailed descriptions of these issues <ref type="bibr" target="#b10">[11]</ref>, community surveys and proposals to "black-list" toy problems <ref type="bibr" target="#b11">[12]</ref>, toy datasets and comparisons to out-dated SR methods continue to appear in contemporary literature.</p><p>The aspects of performance assessment for SR differ from typical regression benchmarking due to the interest in obtaining concise, symbolic expressions. In general, the trade-off between accuracy and simplicity must be considered when evaluating the merits of different models. Furthermore, model simplicity, typically measured as sparsity or model size, is but a proxy for model interpretability; a simple model may still be un-interpretable, or simply wrong <ref type="bibr" target="#b29">[30]</ref><ref type="bibr" target="#b30">[31]</ref><ref type="bibr" target="#b31">[32]</ref>. With these concerns in mind, datasets with ground truth solutions are useful, in that they allow researchers to assess whether or not the symbolic model regressed by a given method corresponds to a known analytical solution. Nevertheless, benchmarks utilizing synthetic datasets with ground-truth solutions are not sufficient for assessing real-world performance, and so we consider it essential to also evaluate the performance of SR on real-world or otherwise black-box regression problems, relative to SotA ML methods.</p><p>There have been a few recent efforts to benchmark SR algorithms <ref type="bibr" target="#b32">[33]</ref>, including a precursor to this work benchmarking four SR methods on 94 regression problems <ref type="bibr" target="#b33">[34]</ref>. In both cases, SR methods were assessed solely on their ability to make accurate predictions. In contrast, Udrescu and Tegmark <ref type="bibr" target="#b17">[18]</ref> proposed 120 new synthetic, physics-based datasets for SR, but compared only to Eureqa and only in terms of solution rates. A major contribution of our work is its significantly more comprehensive scope than previous studies. We include 14 SR methods on 252 datasets in comparison to 7 ML methods. Our metrics of comparison are also more comprehensive, and include 1) accuracy, 2) simplicity, and 3) exact or approximate symbolic matches to the ground truth process. Furthermore, we have made the benchmark openly available, reproducible, and open for contributions supported by continuous integration <ref type="bibr" target="#b34">[35]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">SRBench</head><p>We created SRBench to be a reproducible, open-source benchmarking project by pulling together a large set of diverse benchmark datasets, contemporary SR methods, and ML methods around a shared model evaluation and analysis environment. SRBench overcomes several of the issues in current benchmarking literature as described in Sec. 2. For example, it makes it easy for methodologists to benchmark new algorithms over hundreds of problems, in comparison to strong, contemporary reference methods. These improvements allow us to reason with more certainty than in previous work about the SotA methods for SR.</p><p>In order to establish common datasets, we extended PMLB, a repository of standardized regression and classification problems <ref type="bibr" target="#b12">[13,</ref><ref type="bibr" target="#b35">36]</ref>, by adding 130 SR datasets with known model forms. PMLB provides utilities for fetching and handling data, recording and visualizing dataset metadata, and contributing new datasets. The SR methods we benchmarked are all contemporary implementations (2011 -2020) from several method families, as shown in Tbl. 1. We required contributors to implement a minimal, Scikit-learn compatible <ref type="bibr" target="#b36">[37]</ref>, Python API for their method. In addition, contributors were required to provide the final fitted model as a string that was compatible with the symbolic mathematics library <ref type="url" target="https://www.sympy.org/en/index.html">sympy</ref>. Note that although we require a Python wrapper, SR implementations in many different languages are supported, as long as the Python API is available and the language environment can be managed via Anaconda <ref type="foot" target="#foot_2">6</ref> .</p><p>To ensure reproducibility, we defined a common environment (via Anaconda) with fixed versions of packages and their dependencies. In contrast to most SR studies, the full installation code, experiment code, results and analysis are available via the repository for use in future studies. To make SRBench as extensible as possible, we automated the process of incorporating new methods and results into the analysis pipeline. The repository accepts rolling contributions of new methods that meet the minimal API requirements. To achieve this, we created a continuous integration (CI) <ref type="bibr" target="#b34">[35]</ref> framework that assures contributions are compatible with the benchmark code as they arrive. CI also supports </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Experiment Design</head><p>We evaluated SR methods on two separate tasks. First, we assessed their ability to make accurate predictions on "black-box" regression problems (in which the underlying data generating function remains unknown) while minimizing the complexity of the discovered models. Second, we tested the ability of each method to find exact solutions to synthetic datasets with known, ground-truth functions, originating from physics and various fields of engineering.</p><p>The basic experiment settings are summarized in Tbl. 2. Each algorithm was trained on each dataset (and level of noise, for ground-truth problems) in 10 repeated trials with a different random state that controlled both the train/test split and the seed of the algorithm. Datasets were split 75/25% in training and testing. For black-box regression problems, each algorithm was tuned using 5-fold cross validation with halving grid search. The SR algorithms were limited to 6 hyperparameter combinations; the ML methods were allowed more, as shown in Tbls. 4-6. The best hyperparameter settings were used to tune a final estimator and evaluate it according to the metrics described above. Details for running the experiment are given in Sec. A.1.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Symbolic Regression Methods</head><p>Here we characterize the SR methods summarized in Tbl. 1 by describing how they fit into broader research trends within the SR field. The most traditional implementation of GP-based SR we test is gplearn, which initializes a random population of programs/models, and then iterates through the steps of tournament selection, mutation and crossover.</p><p>Pareto optimization methods <ref type="bibr" target="#b7">[8,</ref><ref type="bibr" target="#b46">[47]</ref><ref type="bibr" target="#b47">[48]</ref><ref type="bibr" target="#b48">[49]</ref> are popular evolutionary strategies that exploit Pareto dominance relations to drive the population of models towards a set of efficient trade-offs between competing objectives. Half of the SR methods we test use Pareto optimization in some form during training. Age-Fitness Pareto optimization (AFP), proposed by Eureqa's authors Schmidt and Lipson <ref type="bibr" target="#b37">[38]</ref>, uses a model's age as an objective in order to reduce premature convergence as well as bloat <ref type="bibr" target="#b49">[50]</ref>. AFP_FE combines AFP with Eureqa's method for fitness estimation <ref type="bibr" target="#b50">[51]</ref>. Thus we expect AFP_FE and AFP to perform similarly to Eureqa as described in literature.</p><p>Another promising line of research has been to leverage program semantics (in this case, the equation's intermediate and final outputs over training samples) more heavily during optimization, rather than compressing that information into aggregate fitness values <ref type="bibr" target="#b51">[52]</ref>. -lexicase selection (EPLEX) <ref type="bibr" target="#b26">[27]</ref> is a parent selection method that utilizes semantics to conduct selection by filtering models through randomized subsets of cases, which rewards models that perform well on difficult regions of the training data. EPLEX is also used as the parent selection method in FEAT <ref type="bibr" target="#b39">[40]</ref>. Semantic backpropagation (SBP) is another semantic technique to compute, for a given target value and a tree node position, that value which makes the output of the model match the target (i.e., the label) <ref type="bibr" target="#b52">[53]</ref><ref type="bibr" target="#b53">[54]</ref><ref type="bibr" target="#b54">[55]</ref>. Here, we evaluate the (SBP-GP) algorithm by Virgolin et al. <ref type="bibr" target="#b45">[46]</ref> which improves SBP-based recombination by dynamically adapting intermediate outputs using affine transformations.</p><p>Backpropagation-based gradient descent was proposed for GP-SR by Topchy and Punch <ref type="bibr" target="#b55">[56]</ref>, but tends to appear less often than stochastic hill climbing (e.g. <ref type="bibr" target="#b2">[3,</ref><ref type="bibr" target="#b56">57]</ref>). More recent studies <ref type="bibr" target="#b44">[45,</ref><ref type="bibr" target="#b57">58]</ref> have made a strong case for the use of gradient-based constant optimization as an improvement over stochastic and evolutionary approaches. The aforementioned studies are embodied by Operon, a GP method that incorporates non-linear least squares constant optimization using the Levenberg-Marquadt algorithm <ref type="bibr" target="#b58">[59]</ref>.</p><p>In addition to the question of how to best optimize constants, a line of research has proposed different ways of defining program and/or model encodings. The methods FEAT, MRGP, ITEA, and FFX each impose additional structural assumptions on the models being evolved. In FEAT, each model is a linear combination of a set of evolved features, the parameters of which are encoded as edges and optimized via gradient descent. In MRGP <ref type="bibr" target="#b43">[44]</ref>, the entire program trace (i.e., each subfunction of the model) is decomposed into features and used to train a Lasso model. In ITEA, each model is an affine combination of interaction-transformation expressions, which compose a unary function (the transformation) and a polynomial function (the interaction) <ref type="bibr" target="#b42">[43,</ref><ref type="bibr" target="#b59">60]</ref>. Finally, FFX <ref type="bibr" target="#b40">[41]</ref> simply initializes a population of equations, selects the Pareto optimal set, and returns a single linear model by treating the population of equations as features.</p><p>GP-GOMEA is a GP algorithm where recombination is adapted over time <ref type="bibr" target="#b41">[42,</ref><ref type="bibr" target="#b60">61]</ref>. Every generation, GP-GOMEA builds a statistical model of interdependencies within the encoding of the evolving programs, and then uses this information to recombine interdependent blocks of components, as to preserve their concerted action.</p><p>Jin et al. <ref type="bibr" target="#b15">[16]</ref> recently proposed Bayesian Symbolic Regression (BSR), in which a prior is placed on tree structures and the posterior distributions are sampled using a Markov Chain Monte Carlo (MCMC) method. As in GP-based SR, arithmetic expressions are expressed with symbolic trees, although BSR explicitly defines the final model form as a linear combination of several symbolic trees. Model parsimony is encouraged by specifying a prior that presumes additive, linear combinations of small components.</p><p>Deep Symbolic Regression (DSR) <ref type="bibr" target="#b16">[17]</ref> uses reinforcement learning to train a generative RNN model of symbolic expressions. Expressions sampled from the model distribution are assessed to create a reward signal. DSR introduces a variant of the Monte Carlo policy gradient algorithm <ref type="bibr" target="#b61">[62]</ref> dubbed a "risk-seeking policy gradient" in an effort to bias the generative model towards exact expressions.</p><p>AIFeynman is a divide-and-conquer approach that recursively applies a set of solvers and problem decomposition heuristics to build a symbolic model <ref type="bibr" target="#b17">[18]</ref>. If the problem is not directly solve-able by polynomial fitting or brute-force search, AIFeynman trains a NN on the data and uses it to estimate functional modularities (e.g., symmetry and/or separability), which are used to partition the data into simpler problems and recurse. An updated version of the algorithm, which we test here, integrates Pareto optimization with an information-theoretic complexity metric to improve robustness to noise <ref type="bibr" target="#b22">[23]</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Datasets</head><p>All of the benchmark datasets are summarized by number of instances and number of features in Fig. <ref type="figure" target="#fig_1">5</ref>. The problems range from 47 to 1 million instances, and two to 124 features. We used 122 black-box regression problems available in PMLB v.1.0. These problems are pulled from, and overlap with, various open-source repositories, including OpenML <ref type="bibr" target="#b62">[63]</ref> and the UCI repository <ref type="bibr" target="#b63">[64]</ref>. PMLB standardizes these datasets to a common format and provides fetching functions to load them into Python (and R). The black-box regression datasets consist of 46 "real-world" problems (i.e., observational data collected from physical processes) and 76 synthetic problems (i.e., data generated computationally from static functions or simulations). The black-box problems cover diverse domains, including health informatics <ref type="bibr" target="#b10">(11)</ref>, business (10), technology (10), environmental science (11) and government <ref type="bibr" target="#b11">(12)</ref>; in addition, they are derived from varied data sources, including human subjects (14), environmental observations (11), government studies (12), and economic markets <ref type="bibr" target="#b6">(7)</ref>. The datasets can be browsed by their properties at <ref type="url" target="https://epistasislab.github.io/pmlb">epistasislab.github.io/pmlb</ref>. Each dataset includes metadata describing source information as well as a detailed profile page summarizing the data distributions and interactions (<ref type="url" target="https://epistasislab.github.io/pmlb/profile/analcatdata_aids.html">here is an example</ref>).</p><p>We extended PMLB with 130 datasets with known, ground-truth model forms. These datasets were used to assess the ability of SR methods to recover known process physics. The 130 datasets came from two sources: the <ref type="url" target="https://space.mit.edu/home/tegmark/aifeynman.html">Feynman Symbolic Regression Database,</ref> and the <ref type="url" target="https://github.com/lacava/ode-strogatz">ODE-Strogatz repository</ref>. Both sets of data come from first principles models of physical systems. The Feynman problems originate in the Feynman Lectures on Physics <ref type="bibr" target="#b64">[65]</ref>, and the datasets were recently created and proposed as SR benchmarks <ref type="bibr" target="#b17">[18]</ref>. Whereas the Feynman datasets represent static systems, the Strogatz problems are non-linear and chaotic dynamical processes <ref type="bibr" target="#b65">[66]</ref>. Each dataset is one state of a 2-state system of first-order, ordinary differential equations (ODEs). They were used to benchmark SR methods in previous work <ref type="bibr" target="#b24">[25,</ref><ref type="bibr" target="#b66">67]</ref>, and are described in more detail in Sec. A.4 and Tbl. 3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Metrics Accuracy</head><p>We assessed accuracy using the coefficient of determination, defined as</p><formula xml:id="formula_0">R 2 = 1 - N i (y i -ŷi ) 2 N i (y i -ȳi ) 2 .</formula><p>Complexity A number of different complexity measures have been proposed for SR, including those based on syntactic complexity (i.e. related to the complexity of the symbolic model); those based on semantic complexity (i.e. related to the behavior of the model over the data) <ref type="bibr" target="#b22">[23,</ref><ref type="bibr" target="#b67">68]</ref>; those using both definitions <ref type="bibr" target="#b68">[69]</ref>; and those estimating complexity via meta-learning <ref type="bibr" target="#b69">[70]</ref>. The pros and cons of these methods and their relation to notions of interpretability is a point of discussion <ref type="bibr" target="#b70">[71]</ref>. For the sake of simplicity, we opted to define complexity as the number of mathematical operators, features and constants in the model, where the mathematical operators are in the set {+, -, * , /, sin, cos, arcsin, arccos, exp, log, pow, max, min}. In addition to calculating the complexity of the raw model forms returned by each method, we calculated the complexity of the models after simplifying via sympy.</p><p>Solution Criteria For the ground-truth regression problems, we used the following solution definition.</p><p>Definition 4.1 (Symbolic Solution). A model φ(x, θ) is a Symbolic Solution to a problem with ground-truth model y = φ * (x, θ * ) + , if φ does not reduce to a constant, and if either of the following conditions are true: 1) φ * -φ = a; or 2) φ * / φ = b, b = 0, for some constants a and b.</p><p>This definition is designed to capture models that differ from the true model by a constant or scalar. Prior to assessing symbolic solutions, each model underwent sympy simplification, as did the conditions above. Relative to accuracy metrics, the Symbolic Solution metric is a more faithful evaluation of the ability of an SR method to discover the data generating process. However, because models can be represented in myriad ways, and sympy's simplification procedure is non-optimal, we cannot guarantee that all symbolic solutions are captured with perfect fidelity by this metric.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Results</head><p>The median test set performance on all problems and methods for the black-box benchmark problems is summarized in Fig. <ref type="figure">1</ref>. Across the problems, we find that the models generated by Operon are significantly more accurate than any other method's models in terms of test set R 2 (p ≤6.5e-05). SBP-GP and FEAT rank second and third and attain similar accuracies, although the models produced by FEAT are significantly smaller (p =9.2e-22).</p><p>We note that four of the top five methods (Operon, SBP-GP, FEAT, EPLEX) and six of the top ten methods (GP-GOMEA, ITEA) are GP-based SR methods. The other top methods are ensemble treebased methods, including two popular gradient-boosting algorithms, XGBoost and LightGBM <ref type="bibr" target="#b71">[72,</ref><ref type="bibr" target="#b72">73]</ref>); Random Forest <ref type="bibr" target="#b73">[74]</ref>; and AdaBoost <ref type="bibr" target="#b74">[75]</ref>. Among these methods, Operon, FEAT and SBP-GP significantly outperform and LightGBM (p ≤1.3e-07) and Operon and SBP-GP outperform XGBoost (p ≤1.3e-04). We also note ITEA's overall accuracy is not significantly different from RandomForest or AdaBoost. Of note, the models produced by the top five SR methods (aside from SBP-GP) are 1-3 orders of magnitude smaller than models produced by the ensemble tree-based approaches (p ≤1.3e-21).</p><p>-0.25 0.00 0.25 0.50 0.75 1.00 *Operon *SBP-GP *FEAT *EPLEX XGB LGBM *GP-GOMEA AdaBoost RandomForest *ITEA *AFP_FE *AFP *FFX KernelRidge *DSR *MRGP *gplearn MLP Linear *BSR *AIFeynman R 2 Test 10 2 10 4 Model Size 10 0 10 2 10 4</p><p>Training Time (s) 0 5 10 15 20 R 2 Test Rank 0 5 10 15 20 Model Size Rank AFP* AFP_FE* AIFeynman* AdaBoost BSR* DSR* EPLEX* FEAT* FFX* GP-GOMEA* ITEA* KernelRidge LGBM Linear MLP MRGP* Operon* RandomForest SBP-GP* XGB gplearn* Figure 2: Pareto plot comparing the rankings of SR methods in terms of model size and R 2 score on the black-box problems. Points denote median rankings and the bars denote 95% confidence intervals. Connecting lines and color denote Pareto dominance rankings. 0 25 50 Solution Rate (%) AIFeynman AFP_FE DSR AFP gplearn ITEA EPLEX GP-GOMEA Operon SBP-GP BSR MRGP FFX FEAT Feynman 0 25 50 Solution Rate (%) Strogatz Target Noise 0.0 0.001 0.01 0.1 Figure 3: Solution rates for the ground-truth regression problems. Color/shape indicates level of noise added to the target variable.</p><p>Among the non-GP-based SR algorithms, FFX and DSR perform similarly to each other (p =0.76) and significantly better than BSR and AIFeynman (p ≤6.1e-05). FFX trains more quickly than DSR, although DSR produces some of the smallest solutions, akin to penalized regression. We note that AIFeynman performs poorly on these problems, suggesting that not many of them exhibit the qualities of physical systems (rotational/translational invariance, symmetry, etc.) that AIFeynman was designed to exploit. Additional statistical comparisons are given in Figs. <ref type="figure">9</ref><ref type="figure">10</ref><ref type="figure">11</ref>.</p><p>In Fig. <ref type="figure">2</ref>, we illustrate the performance of the methods on the black-box problems when accuracy and simplicity are considered simultaneously. The optimal Pareto front for these two objectives (solid line) is composed of three methods: Operon, GP-GOMEA, and DSR, which taken together give the set of best trade-offs between accuracy and simplicity across the black-box regression problems.</p><p>Performance on the ground-truth regression problems is summarized in Fig. <ref type="figure">3</ref>, with methods sorted by their median solution rate and grouped by data source (Feynman or Strogatz). On average, when the target is free of noise, we observe that AIFeynman identifies exact solutions 53% of the time, nearly twice as often as the next closest method (GP-GOMEA, 27%). However, at noise levels above 0.01, four other methods recover exact solutions more often: DSR, gplearn, AFP_FE, and AFP. Taken together, the black-box and ground-truth regression results suggest AIFeynman may be brittle in application to real-world and/or noisy data, yet its performance with little to no noise is significant for the Feynman problems. On the Strogatz datasets, AIFeynman's performance is not significantly different than other methods, and indeed there are few significant differences in performance between the top 10 methods at any noise level. We note that the best method on real-world data, Operon, struggles to recover solutions to these problems, despite finding many candidate solutions with near prefect test set scores. See Sec. A.6-A.7 for additional analysis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Discussion and Conclusions</head><p>This paper introduces a SR benchmarking framework that allows objective comparisons of contemporary SR methods on a wide range of diverse regression problems. We have found that, on real-world and black-box regression tasks, contemporary GP-based SR methods (e.g. Operon) outperform new SR methods based in other fields of optimization, and can also perform as well as or better than gradient boosted trees while producing simpler models. On synthetic ground-truth physics and dynamical systems problems, we have verified that AIFeynman finds exact solutions significantly better than other methods when noise is minimal; otherwise, both deep learning-based methods (DSR) and GP-based SR methods (e.g. AFP_FE) perform best.</p><p>We see clear ways to improve SRBench by improving the dataset curation, experiment design and analysis. For one, we have not benchmarked the methods in a setting that allows them to exploit parallelism, which may change relative run-times. There are also many promising SR methods not included in this study that we hope to add in future revisions. In addition, whereas our benchmark includes real-world data as well as simulated data with ground-truth models, it does not include real-world data from phenomena with known, first principles models (e.g., observations of a massspring-damper system). Data such as these could help us better evaluate the ability of SR methods to discover relations under real-world conditions. We intend to include these data in future versions, given the evidence that SR models can sometimes discover unexpected analytical models that outperform the expert models in a field (e.g., in studies of yeast metabolism <ref type="bibr" target="#b75">[76]</ref> and fluid tank systems <ref type="bibr" target="#b66">[67]</ref>). As a final note, our current study highlights orthogonal approaches to SR that show promise, and in future work we hope to explore whether combinations of proposed methods (e.g., non-linear parameter optimization plus semantic search drivers) would have synergistic effects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Checklist</head><p>1. For all authors...</p><p>(a) Do the main claims made in the abstract and introduction accurately reflect the paper's contributions and scope? [Yes] The results can be verified by visiting our repository. Specific claims are supported by statistical tests. (b) Did you describe the limitations of your work? [Yes] See discussion and conclusions. (c) Did you discuss any potential negative societal impacts of your work? [Yes] See Sec. A.4. (d) Have you read the ethics review guidelines and ensured that your paper conforms to them? [Yes] In addition to releasing the benchmark in a transparent way, we discuss ethics in Sec. A.4. 2. If you ran experiments (e.g. for benchmarks)... (a) Did you include the code, data, and instructions needed to reproduce the main experimental results (either in the supplemental material or as a URL)? [Yes] See <ref type="url" target="https://github.com/EpistasisLab/srbench">https://github.com/EpistasisLab/srbench</ref>. (b) Did you specify all the training details (e.g., data splits, hyperparameters, how they were chosen)? [Yes] See Table 2. (c) Did you report error bars (e.g., with respect to the random seed after running experiments multiple times)? [Yes] See Figs. 1-3 for example. (d) Did you include the total amount of compute and the type of resources used (e.g., type of GPUs, internal cluster, or cloud provider)? [Yes] see Appendix 3. If you are using existing assets (e.g., code, data, models) or curating/releasing new assets... (a) If your work uses existing assets, did you cite the creators? [Yes] (b) Did you mention the license of the assets? [Yes] (c) Did you include any new assets either in the supplemental material or as a URL? [Yes] (d) Did you discuss whether and how consent was obtained from people whose data you're using/curating? [Yes] Datasets are released under an MIT license. (e) Did you discuss whether the data you are using/curating contains personally identifiable information or offensive content? [Yes] These datasets do not contain personally identifiable information.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Appendix</head><p>Please refer to <ref type="url" target="https://github.com/EpistasisLab/srbench/">https://github.com/EpistasisLab/srbench/</ref> for the most up-to-date guide to SRBench.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.1 Running the Benchmark</head><p>The README in our Github repository includes the set of commands to reproduce the benchmark experiment, which are summarized here. Experiments are launched from the experiments/ folder via the script analyze.py. The script can be configured to run the experiment in parallel locally, on an LSF job scheduler, or on a SLURM job scheduler. To see the full set of options, run python analyze.py -h. After installing and configuring the conda environment, the complete black-box experiment can be started via the command: python analyze.py /path/to/pmlb/datasets -n_trials 10 -results ../results -time_limit 48:00 Similarly, the ground-truth regression experiment for Strogatz datasets and a target noise of 0.0 are run by the command: python analyze.py -results ../results_sym_data -target_noise 0.0 "/path/to/pmlb/datasets/strogatz*" -sym_data -n_trials 10 -time_limit 9:00 -tuned</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.2 Contributing a Method</head><p>A living version of the method contribution instructions are described in the <ref type="url" target="https://github.com/EpistasisLab/srbench/blob/master/CONTRIBUTING.md">Contribution Guide</ref>. To illustrate the simplicity of contributing a method, Figure <ref type="figure">4</ref> shows the script submitted for Bayesian Symbolic Regression <ref type="bibr" target="#b15">[16]</ref>. In addition to the code snippet, authors may either add their code package to the conda/pip environment, or provide an install script. When a pull request is issued by a contributor, new methods and installs are automatically tested on a minimal version of the benchmark.</p><p>Once the tests pass and the method is approved by the benchmark maintainers, the contribution becomes part of the resource and can be tested via the commands above.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.3 Additional Background and Motivation</head><p>Eureqa Eureqa is a commercial GP-based SR software that was acquired by DataRobot in 2017 <ref type="foot" target="#foot_3">7</ref> . Due to its closed-source nature and incorporation into the DataRobot platform, it is impossible to benchmark its performance while controlling for important experimental variables such as number of evaluations, space and time limits, population size, and so forth. However, the novel algorithmic aspects of Eureqa are rooted in a number of ablation studies <ref type="bibr" target="#b37">[38,</ref><ref type="bibr" target="#b50">51,</ref><ref type="bibr" target="#b76">77]</ref> that we summarize here.</p><p>First is its use of directed acyclic graphs for representing equations in lieu of trees, which resulted in more space-efficient model encoding relative to trees, without a significant difference in accuracy <ref type="bibr" target="#b76">[77]</ref>.</p><p>The most significant improvement over traditional tournament-based selection is Eureqa's use of age-fitness Pareto optimization (AFP), a method in which random restarts are incorporated each generation as new offspring, and are protected from competing with older, more fit equations by including age as an objective to be minimized <ref type="bibr" target="#b37">[38]</ref>. Eureqa also includes the co-evolution of fitness 1 # method: Bayesian Symbolic Regression 2 # contributor: Ying Jin 3 # source: <ref type="url" target="https://github.com/ying531/MCMC-SymReg">https://github.com/ying531/MCMC-SymReg</ref> 4 from bsr.bsr_class import BSR  predictors, in which fitness assignment is sped up by optimizing a second population of training sample indices that best distinguish between equations in the population <ref type="bibr" target="#b50">[51]</ref>. Unfortunately we cannot guarantee that Eureqa currently uses any of these reported algorithms for SR, due to its closedsource nature. We chose instead to benchmark known algorithms (AFP, AFP_FE) with open-source implementations, hoping that the resulting study's conclusions may better inform future methods development. We note that AFP has been outperformed by a number of other optimization methods in controlled studies since its release (e.g., <ref type="bibr" target="#b26">[27,</ref><ref type="bibr" target="#b27">28]</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Constant optimization in Genetic Programming</head><p>One of the clearest improvements over Kozastyle GP has been the adoption of local search methods to handle constant optimization distinctly from evolutionary learning. Regarding the optimization of constants in GP, several reasons can explain why backpropagation and gradient descent can be considered to be relatively under-used in GP (compared to, e.g., evolutionary neural architecture search). For example, early works often ignored the use of feature standardization (e.g., by z-scoring), the lack of which can harm gradient propagation <ref type="bibr" target="#b77">[78]</ref>. Next to this, GP relies on crafting compositions out of a multitude of operations, some of which are prone to cause vanishing or exploding gradients. Last but not least, to the best of our knowledge, the field lacks a comprehensive study that provides guidelines for the appropriate hyperparameters for constant optimization (learning rate schedule, iterations, batch size, etc.), and how to effectively balance parameter learning with the evolutionary process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.4 Additional Dataset Information</head><p>All datasets, including metadata, are available from <ref type="url" target="https://epistasislab.github.io/pmlb/">PMLB</ref>. Each dataset is stored using Git Large File Storage and PMLB is planned for long-term maintenance. PMLB is available under an MIT license, and is described in detail in Romano et al. <ref type="bibr" target="#b35">[36]</ref>. The authors bear all responsibility in case of violation of rights.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Dataset Properties</head><p>The distribution of dataset sizes by samples and features are shown in Fig. <ref type="figure" target="#fig_1">5</ref>. Datasets vary in size from tens to millions of samples, and up to thousands of features. The datasets can be navigated and inspected in the <ref type="url" target="https://epistasislab.github.io/pmlb/">repository documentation</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Ethical Considerations and Intended Uses</head><p>PMLB is intended to be used as a framework for benchmarking ML and SR algorithms and as a resource for investigating the structure of datasets. This paper does not contribute new datasets, but rather collates and standardizes datasets that were already publicly available. In that regard, we do not foresee SRBench as creating additional ethical issues around their use. Nevertheless, it is worth noting that PMLB contains well-known, real-world datasets from UCI and OpenML for which ethical considerations are important, such as the <ref type="url" target="https://github.com/EpistasisLab/pmlb/blob/master/datasets/1089_USCrime/metadata.yaml">USCrime</ref> dataset. Whereas we would view the risk of harm arising specifically from this dataset to be low (the data is from 1960), it is exemplary of a task for which algorithmic decision making could exacerbate existing biases in the criminal justice system. As such it is used as a benchmark in a number of papers in the ML fairness literature (e.g. <ref type="bibr" target="#b78">[79,</ref><ref type="bibr" target="#b79">80]</ref>). None of the datasets herein contain personally identifiable information.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Feynman datasets</head><p>The Feynman benchmarks were sourced from the <ref type="url" target="https://space.mit.edu/home/tegmark/aifeynman.html">Feynman Symbolic Regres- sion Database</ref>. We standardized the Feynman and Bonus equations to PMLB format and included metadata detailing the model form and the units for each variable. We used the version of the equations that were not simplified by dimensional analysis. Udrescu and Tegmark <ref type="bibr" target="#b17">[18]</ref> describe each dataset as containing 10 5 rows, but each actually contains 10 6 . Given this discrepancy and after noting that sub-sampling did not significantly change the correlation structure of any of the problems, each dataset was down-sampled from 1 million samples to 100,000 to lower the computational burden. We also observed that Eqn. II.11.17 was missing from the database. Finally, we excluded three datasets from our analysis that contained arcsin and arccos functions, as these were not implemented in the majority of SR algorithms we tested.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Strogatz datasets</head><p>The Strogatz datasets were sourced from the <ref type="url" target="https://github.com/lacava/ode-strogatz">ODE-Strogatz repository</ref>  <ref type="bibr" target="#b66">[67]</ref>. Each dataset is one state of a 2-state system of first-order, ordinary differential equations (ODEs). The goal of each problem is to predict rate of change of the state given the current two states on which it depends. Each represents natural processes that exhibit chaos and non-linear dynamics. The problems were originally adapted from <ref type="bibr" target="#b65">[66]</ref> by Schmidt <ref type="bibr" target="#b24">[25]</ref>. In order to simulate their behavior, initial conditions were chosen within stable basins of attraction. Each system was simulated using Simulink, and the simulation code is available in the repository above. The equations for each of these datasets are shown in Table <ref type="table" target="#tab_2">3</ref>. </p><formula xml:id="formula_1">Glider v = -0.05 • v 2 -sin(θ) θ = v -cos(θ)/v Lotka-Volterra interspecies dynamics ẋ = 3 • x -2 • x • y -x 2 ẏ = 2 • y -x • y -y 2 Predator Prey ẋ = x • 4 -x -y 1+x ẏ = y • x 1+x -0.075 • y Shear Flow θ = cot(φ) • cos(θ) φ = cos 2 (φ) + 0.1 • sin 2 (φ) • sin(θ) van der Pol oscillator ẋ = 10 • y -1 3 • (x 3 -x) ẏ = -1 10 • x</formula><p>Adding Noise White gaussian noise was added to the target as a fraction of the signal root mean square value. In other words, for target noise level γ,</p><formula xml:id="formula_2">y noise = y + , ∼ N 0, γ 1 N y 2 i A.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Additional Experiment Details</head><p>Experiments were run in a heterogeneous cluster computing environment composed of hosts with 24-28 core Intel(R) Xeon(R) CPU E5-2690 v4 @ 2.60GHz processors and 250 GB of RAM. Jobs consisted of the training of each method on a single dataset for a fixed random seed. Each job received one CPU core and up to 16GB of RAM, and was time-limited as shown in Table <ref type="table" target="#tab_1">2</ref>. For the groundtruth problems, the final models from each method were given an additional hour of computing time with 8GB of RAM to be simplified with sympy and assessed by the solution criteria (see Def. 4.1).</p><p>For the black-box problems, if a job was killed due to the time limit, we re-ran the experiment without hyperparameter tuning, thereby only requiring a single training iteration to complete within 48 hours.</p><p>To ease the computational burden for large datasets, training data exceeding 10,000 samples was randomly subset to 10,000 rows; test set predictions were still evaluated over the entire test fold.</p><p>The hyperparameter settings for each method are shown in Tables 4-6. Each SR method was tuned from a set of six hyperparameter combinations. The most common parameter setting chosen during the black-box regression experiments was then used as the "tuned" version of each algorithm for the ground-truth problems, with updates to 1) include any mathematical operators needed for those problems and 2) double the evaluation budget.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.6 Additional Results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.6.1 Subgroup analysis of black-box regression results</head><p>Many of the black-box problems for regression in PMLB were originally sourced from <ref type="url" target="http://www.openml.org">OpenML</ref>.</p><p>A few authors have noted that several of these datasets are sourced from Friedman <ref type="bibr" target="#b80">[81]</ref>'s synthetic benchmarks. These datasets are generated by non-linear functions that vary in degree of noise, variable interactions, variable importance, and degree of non-linearity. Due to their number, they may have an out-sized effect on results reporting in PMLB. In Fig. <ref type="figure">6</ref>, we separate out results on this set of problems relative to the rest of PMLB. We do find that, relative to the rest of PMLB, the results on the Friedman datasets distinguish top-ranked methods more strongly than among the rest of the benchmark, on which performance between top-performing methods is more similar. In general, although we do see methods rankings change somewhat when looking at specific data groupings, we do not observe large differences. An exception is Kernel ridge regression, which performs poorly on the Friedman datasets but very well on the rest of PMLB. We recommend that future revisions to PMLB expand the dataset collection to minimize the effect of any one source of data, and include subgroup analysis to identify which types of problems are best solved by specific methods.</p><p>To get a better sense of the performance variability across methods and datasets, method rankings on each dataset are bi-clustered and visualized in Fig. <ref type="figure" target="#fig_4">7</ref>. Methods that perform most similarly across the benchmark are placed adjacent to each other, and likewise datasets that induce similar method rankings are grouped. We note some expected groupings first: AFP and AFP_FE, which differ only in fitness estimation, and FEAT and EPLEX, which use the same selection method, perform similarly. We also observe clustering among the Friedman datasets (names beginning with "fri_"), and again note stark differences between methods that perform well on these problems, e.g. Operon, SBP-GP, and FEAT, and those that do not, e.g. MLP. This view of the results also reveals a cluster of SR methods (AFP, AFP_FE, DSR, gplearn) that perform well on a subset of real-world problems (analcatdata_neavote_523 -vineyard_192) for which linear models also perform well. Interestingly, for that problem subset, Operon's performance is mediocre relative to its strong performance on other datasets. We also note with surprise that DSR and gplearn exhibit performance similarity on par with</p><p>Table 5: Part 1: SR methods and the hyperparameter spaces used in tuning on the black-box regression problems.</p><p>Method Hyperparameters AFP {'popsize': 100, 'g': 2500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 100, 'g': 2500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt', 'sin', 'cos']} {'popsize': 500, 'g': 500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 500, 'g': 500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt', 'sin', 'cos']} {'popsize': 1000, 'g': 250, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 1000, 'g': 250, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt', 'sin', 'cos']} AIFeynman {'BF_try_time': 60, 'NN_epochs': 4000, 'BF_ops_file_type'="10ops.txt"} {'BF_try_time': 60, 'NN_epochs': 4000, 'BF_ops_file_type'="14ops.txt"} {'BF_try_time': 60, 'NN_epochs': 4000, 'BF_ops_file_type'="19ops.txt"} {'BF_try_time': 600, 'NN_epochs': 400, 'BF_ops_file_type'="10ops.txt"} {'BF_try_time': 600, 'NN_epochs': 400, 'BF_ops_file_type'="14ops.txt"} {'BF_try_time': 600, 'NN_epochs': 400, 'BF_ops_file_type'="19ops.txt"} BSR {'treeNum': 6, 'itrNum': 500, 'val': 1000} {'treeNum': 6, 'itrNum': 1000, 'val': 500} {'treeNum': 3, 'itrNum': 500, 'val': 1000} {'treeNum': 6, 'itrNum': 5000, 'val': 100} {'treeNum': 3, 'itrNum': 5000, 'val': 100} {'treeNum': 3, 'itrNum': 1000, 'val': 500} DSR {'batch_size': array([ 10, 100, 1000, 10000, 100000])} EPLEX {'popsize': 1000, 'g': 250, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 500, 'g': 500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 1000, 'g': 250, 'op_list': ['n', 'v', '+', '-', '*', '/', 'sin', 'cos', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 100, 'g': 2500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 100, 'g': 2500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'sin', 'cos', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 500, 'g': 500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'sin', 'cos', 'exp', 'log', '2', '3', 'sqrt']} FEAT {'pop_size': 100, 'gens': 2500, 'lr': 0.1} {'pop_size': 100, 'gens': 2500, 'lr': 0.3} {'pop_size': 500, 'gens': 500, 'lr': 0.1} {'pop_size': 500, 'gens': 500, 'lr': 0.3} {'pop_size': 1000, 'gens': 250, 'lr': 0.1} {'pop_size': 1000, 'gens': 250, 'lr': 0.3} FE_AFP {'popsize': 1000, 'g': 250, 'op_list': ['n', 'v', '+', '-', '*', '/', 'sin', 'cos', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 500, 'g': 500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 1000, 'g': 250, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 100, 'g': 2500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 100, 'g': 2500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'sin', 'cos', 'exp', 'log', '2', '3', 'sqrt']} {'popsize': 500, 'g': 500, 'op_list': ['n', 'v', '+', '-', '*', '/', 'sin', 'cos', 'exp', 'log', '2', '3', 'sqrt']} AFP/AFP_FE, and are the next most similar-performing methods (note the dendrogram connecting these columns).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.6.2 Extended analysis of ground-truth regression results</head><p>As noted in Sec. 6, despite Operon's good performance on black-box regression, it finds few models with symbolic equivalence. An alternative (and weaker) notion of solution is based on test set accuracy, which we show in Fig. <ref type="figure">8</ref>; by this metric, the relative method performance corresponds more closely to that seen for black-box regression. We also note that methods that impose structural assumptions on the model (BSR, FEAT, ITEA, FFX) are worse at finding symbolic solutions, most of which do not match those assumptions (e.g. most processes in Table <ref type="table" target="#tab_2">3</ref>).  </p><note type="other">pollution_542</note></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :Figure 2 :Figure 3 :</head><label>123</label><figDesc>Figure 1: Results on the black-box regression problems. Points indicate the mean of the median test set performance on all problems, and bars show the 95% confidence interval. Methods marked with an asterisk are SR methods.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>5 6</head><label>5</label><figDesc>hyper_params = [] 7 for val, itrNum in zip([100,500,1000],[5000,1000,500]): estimator 15 est = BSR(val=100, itrNum=5000, treeNum=3, alpha1=0.4, alpha2=0.4, 16 beta=-1, disp=False, max_time=2*60*60)</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>17 18Figure 4 :</head><label>174</label><figDesc>Figure4: An example code contribution, defining the estimator, its hyperparameters, and functions to return the complexity and symbolic model.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Distribution of dataset sizes in PMLB.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 7 :</head><label>7</label><figDesc>Figure7: Rankings of methods by R 2 test score on the black-box problems (lower is better). Results are bi-clustered by SR method (columns) and dataset (rows). Darker cells indicate that a method performs well on that dataset relative to its competitors. Note only a subset of the datasets are labelled due to space constraints.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Short descriptions of the SR methods benchmarked in our experiment, including references and links to implementations.</figDesc><table><row><cell>Method</cell><cell>Year</cell><cell>Description</cell><cell>Method Family</cell><cell>Implementation</cell></row><row><cell>AFP [38]</cell><cell>2011</cell><cell>Age-fitness Pareto Optimization</cell><cell>GP</cell><cell>C++/Python (link)</cell></row><row><cell>AFP_FE [24]</cell><cell>2011</cell><cell>AFP with co-evolved fitness estimates; Eureqa-esque</cell><cell>GP</cell><cell>C++/Python (link)</cell></row><row><cell>AIFeynman [23]</cell><cell>2020</cell><cell>Physics-inspired method</cell><cell>Divide and conquer</cell><cell>Fortran/Python (link)</cell></row><row><cell>BSR [16]</cell><cell>2020</cell><cell>Bayesian Symbolic Regression</cell><cell>Markov Chain Monte Carlo</cell><cell>Python (link)</cell></row><row><cell>DSR [17]</cell><cell>2020</cell><cell>Deep Symbolic Regression</cell><cell>Recurrent neural networks</cell><cell>Python (PyTorch) (link)</cell></row><row><cell>EPLEX [39]</cell><cell>2016</cell><cell>-lexicase selection</cell><cell>GP</cell><cell>C++/Python (link)</cell></row><row><cell>FEAT [40]</cell><cell>2019</cell><cell>Feature Engineering Automation Tool</cell><cell>GP</cell><cell>C++/Python (link)</cell></row><row><cell>FFX [41]</cell><cell>2011</cell><cell>Fast function extraction</cell><cell>Random search</cell><cell>C++/Python (link)</cell></row><row><cell>GP-GOMEA [42]</cell><cell>2020</cell><cell>GP version of the Gene-pool Optimal Mixing Evolutionary Algorithm</cell><cell>GP</cell><cell>C++/Python (link)</cell></row><row><cell>gplearn</cell><cell>2015</cell><cell>Koza-style symbolic regression in Python</cell><cell>GP</cell><cell>C++/Python (link)</cell></row><row><cell>ITEA [43]</cell><cell>2020</cell><cell>Interaction-Transformation EA</cell><cell>GP</cell><cell>Haskell/Python (link)</cell></row><row><cell>MRGP [44]</cell><cell>2014</cell><cell>Multiple Regression Genetic Programming</cell><cell>GP</cell><cell>Java (link)</cell></row><row><cell>Operon [45]</cell><cell>2019</cell><cell>SR with Non-linear least squares</cell><cell>GP</cell><cell>C++/Python (link)</cell></row><row><cell>SBP-GP [46]</cell><cell>2019</cell><cell>Semantic Back-propagation Genetic Programming</cell><cell>GP</cell><cell>C++/Python (link)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Settings used in the benchmark experiments. "Total comparisons" refers to the total evaluatons of an algorithm on a dataset for a given noise level and random seed.</figDesc><table><row><cell>Setting</cell><cell>Black-box Problems</cell><cell>Ground-truth Problems</cell></row><row><cell>No. of datasets</cell><cell>122</cell><cell>130</cell></row><row><cell>No. of algorithms</cell><cell>21 (14 SR, 7 ML)</cell><cell>14</cell></row><row><cell>No. of trials per dataset</cell><cell>10</cell><cell>10</cell></row><row><cell>Train/test Split</cell><cell>.75/.25</cell><cell>.75/.25</cell></row><row><cell>Hyperparameter Tuning</cell><cell>5-fold Halving Grid Search CV</cell><cell>Tuned set from Black-box problems</cell></row><row><cell>Termination criteria</cell><cell>500k evaluations/train or 48 hours</cell><cell>1M evaluations or 8 hours</cell></row><row><cell>Levels of target noise</cell><cell>None</cell><cell>0, 0.001, 0.01, 0.1</cell></row><row><cell>Total comparisons</cell><cell>26840</cell><cell>54600</cell></row><row><cell>Computing Budget</cell><cell>1.29M core hours</cell><cell>436.8K core hours</cell></row></table><note><p>continuous updates to results reporting and visualization whenever new experiments are available, allowing us to maintain a standing leader-board of contemporary SR methods. Ideally these features will quicken the adoption of SotA approaches throughout the SR research community. Further details on how to use and contribute to SRBench are provided in Sec. A.1.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>The Strogatz ODE problems.</figDesc><table><row><cell>Name</cell><cell>Target</cell></row><row><cell>Bacterial Respiration</cell><cell>x•y 1+0.5•x 2 x•y ẋ = 20 -x -ẏ = 10 -1+0.5•x 2</cell></row><row><cell>Bar Magnets</cell><cell>θ = 0.5 • sin(θ -φ) -sin(θ)</cell></row><row><cell></cell><cell>φ = 0.5 • sin(φ -θ) -sin(φ)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 :</head><label>4</label><figDesc>ML methods and the hyperparameter spaces used in tuning.</figDesc><table><row><cell>Method</cell><cell>Hyperparameters</cell></row><row><cell>AdaBoost</cell><cell>{'learning_rate': (0.01, 0.1, 1.0, 10.0), 'n_estimators': (10, 100, 1000)}</cell></row><row><cell>KernelRidge</cell><cell>{'kernel': ('linear', 'poly', 'rbf', 'sigmoid'), 'alpha': (0.0001, 0.01, 0.1, 1), 'gamma': (0.01,</cell></row><row><cell></cell><cell>0.1, 1, 10)}</cell></row><row><cell>LassoLars</cell><cell>{'alpha': (0.0001, 0.001, 0.01, 0.1, 1)}</cell></row><row><cell>LGBM</cell><cell>{'n_estimators': (10, 50, 100, 250, 500, 1000), 'learning_rate': (0.0001, 0.01, 0.05, 0.1, 0.2),</cell></row><row><cell></cell><cell>'subsample': (0.5, 0.75, 1), 'boosting_type': ('gbdt', 'dart', 'goss')}</cell></row><row><cell cols="2">LinearRegression {'fit_intercept': (True,)}</cell></row><row><cell>MLP</cell><cell>{'activation': ('logistic', 'tanh', 'relu'), 'solver': ('lbfgs', 'adam', 'sgd'), 'learning_rate':</cell></row><row><cell></cell><cell>('constant', 'invscaling', 'adaptive')}</cell></row><row><cell>RandomForest</cell><cell>{'n_estimators': (10, 100, 1000), 'min_weight_fraction_leaf': (0.0, 0.25, 0.5), 'max_features':</cell></row><row><cell></cell><cell>('sqrt', 'log2', None)}</cell></row><row><cell>SGD</cell><cell>{'alpha': (1e-06, 0.0001, 0.01, 1), 'penalty': ('l2', 'l1', 'elasticnet')}</cell></row><row><cell>XGB</cell><cell>{'n_estimators': (10, 50, 100, 250, 500, 1000), 'learning_rate': (0.0001, 0.01, 0.05, 0.1, 0.2),</cell></row><row><cell></cell><cell>'gamma': (0, 0.1, 0.2, 0.3, 0.4), 'subsample': (0.5, 0.75, 1)}</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 6 :</head><label>6</label><figDesc>Part 2: SR methods and the hyperparameter spaces used in tuning on the black-box regression problems.</figDesc><table><row><cell>AIFeynman</cell><cell>BSR</cell><cell>Linear</cell><cell>AFP</cell><cell>AFP_FE</cell><cell>DSR</cell><cell>gplearn</cell><cell>FFX</cell><cell>MRGP</cell><cell>ITEA</cell><cell>KernelRidge</cell><cell>MLP</cell><cell>Operon</cell><cell>SBP-GP</cell><cell>FEAT</cell><cell>EPLEX</cell><cell>GP-GOMEA</cell><cell>LGBM</cell><cell>AdaBoost</cell><cell>RandomForest</cell><cell>XGB</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="3">algorithm</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_0"><p>https://github.com/EpistasisLab/srbench</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_1"><p>A non-exhaustive list: GECCO, EuroGP, FOGA, PPSN, and IEEE CEC.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_2"><p>https://www.anaconda.com/</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_3"><p>https://www.datarobot.com/nutonian/</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>William <rs type="person">La Cava</rs> was supported by <rs type="funder">NIH/NLM</rs> grant <rs type="grantNumber">K99-LM012926</rs>. He would like to thank <rs type="person">Curt Calafut</rs> and the <rs type="funder">Penn Medicine Academic Computing Services (PMACS)</rs>, as well as the <rs type="institution" subtype="infrastructure">PLGrid Infrastructure</rs>, for supporting the computational experiments. He also thanks members of the <rs type="institution">Epistasis Lab</rs> for their patience, and <rs type="person">Joseph D. Romano</rs> for coming through in a pinch.</p><p><rs type="person">Ying Jin</rs> would like to thank <rs type="person">Doctor Jian Guo</rs> for hosting an internship for the project and <rs type="person">Professor Jian Kang</rs> for helpful and inspiring guidance in Bayesian statistics.</p><p>The authors would also like to thank <rs type="person">James McDermott</rs> for his generous contributions to the repository, and <rs type="person">Randal Olson</rs> and <rs type="person">Weixuan Fu</rs> for their initial push to integrate regression benchmarking into PMLB. Authors declare no competing interests.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_KPYeTP9">
+					<idno type="grant-number">K99-LM012926</idno>
+				</org>
+			</listOrg>
+
+			<listOrg type="infrastructure">
+				<org type="infrastructure">					<orgName type="extracted">PLGrid Infrastructure</orgName>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>0.0 0.2 0.4 0.6 0.8 1.0 R 2 Test Norm *Operon *SBP-GP *FEAT XGB *EPLEX KernelRidge *GP-GOMEA *ITEA LGBM *FFX MLP RandomForest AdaBoost *AFP *AFP_FE *MRGP *DSR *gplearn Linear *BSR *AIFeynman Data Subset No Friedman Only Friedman All </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A.7 Statistical Tests</head><p>Figures 9-11 give summary significance levels of pairwise tests of significance between estimators on the black-box and ground-truth problems. All pair-wise statistical tests are Wilcoxon signed-rank tests. A Bonferroni correction was applied, yielding the α levels given in each. This methodology for assessing statistical significance is based on the recommendations of Demšar <ref type="bibr" target="#b81">[82]</ref> for comparing multiple estimators over many datasets. These figures are intended to complement Figures <ref type="figure">1</ref><ref type="figure">2</ref><ref type="figure">3</ref>in which effect sizes are shown. 0.0 0.5 1.0 Accuracy Solution MRGP Operon SBP-GP GP-GOMEA AIFeynman AFP_FE EPLEX AFP FEAT gplearn ITEA DSR BSR FFX Feynman 0.0 0.5 1.0 Accuracy Solution Strogatz Target Noise 0.0 0.001 0.01 0.1 Figure 8: Subset comparison of "Accuracy Solutions", i.e. models with R 2 &gt;0.999 on the Feynman and Strogatz problems, differentiated by noise level. AFP AFP_FE AIFeynman AdaBoost BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA KernelRidge LGBM Linear MLP MRGP Operon RandomForest SBP-GP XGB AFP_FE AIFeynman AdaBoost BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA KernelRidge LGBM Linear MLP MRGP Operon RandomForest SBP-GP XGB gplearn Wilcoxon signed-rank test, R2 Test, = 2.4e-04 no significance p &lt; p &lt; 1e-1 p &lt; 1e-2 p &lt; 1e-3 AFP AFP_FE AIFeynman AdaBoost BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA KernelRidge LGBM Linear MLP MRGP Operon RandomForest SBP-GP XGB AFP_FE AIFeynman AdaBoost BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA KernelRidge LGBM Linear MLP MRGP Operon RandomForest SBP-GP XGB gplearn Wilcoxon signed-rank test, Model Size, = 2.4e-04 no significance p &lt; p &lt; 1e-1 p &lt; 1e-2 p &lt; 1e-3 AFP AFP_FE AIFeynman BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA MRGP Operon SBP-GP AFP_FE AIFeynman BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA MRGP Operon SBP-GP gplearn Wilcoxon signed-rank test, R2 Test, = 5.5e-04 no significance p &lt; p &lt; 1e-1 p &lt; 1e-2 p &lt; 1e-3 AFP AFP_FE AIFeynman BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA MRGP Operon SBP-GP AFP_FE AIFeynman BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA MRGP Operon SBP-GP gplearn Wilcoxon signed-rank test, R2 Test, = 5.5e-04 no significance p &lt; p &lt; 1e-1 p &lt; 1e-2 p &lt; 1e-3 AFP AFP_FE AIFeynman BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA MRGP Operon SBP-GP AFP_FE AIFeynman BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA MRGP Operon SBP-GP gplearn Wilcoxon signed-rank test, Symbolic Solution Rate, = 5.5e-04 no significance p &lt; p &lt; 1e-1 p &lt; 1e-2 p &lt; 1e-3 AFP AFP_FE AIFeynman BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA MRGP Operon SBP-GP AFP_FE AIFeynman BSR DSR EPLEX FEAT FFX GP-GOMEA ITEA MRGP Operon SBP-GP gplearn Wilcoxon signed-rank test, Symbolic Solution Rate, = 5.5e-04 no significance p &lt; p &lt; 1e-1 p &lt; 1e-2 p &lt; 1e-3 </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 :</head><label>6</label><figDesc>Comparison of normalized R 2 test scores on all black-box datasets, just the Friedman datatasets, and just the non-Friedman datasets.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 9 :</head><label>9</label><figDesc>Pairwise statistical comparisons on the black-box regression problems. Wilcoxon signedrank tests are used with a Bonferonni correction on α for multiple comparisons. (Left) R 2 test scores, (Right) model size.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 10 :</head><label>10</label><figDesc>Pairwise statistical comparisons of R 2 test scores on the ground-truth regression problems. We report Wilcoxon signed-rank tests with a Bonferonni correction on α for multiple comparisons. (Left) target noise of 0, (Right) target noise of 0.01.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 11 :</head><label>11</label><figDesc>Pairwise statistical comparisons of solution rates on the ground-truth regression problems. We report Wilcoxon signed-rank tests with a Bonferonni correction on α for multiple comparisons. (Left) target noise of 0, (Right) target noise of 0.01.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">The global landscape of AI ethics guidelines</title>
+		<author>
+			<persName><forename type="first">Anna</forename><surname>Jobin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marcello</forename><surname>Ienca</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Effy</forename><surname>Vayena</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/s42256-019-0088-2</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Machine Intelligence</title>
+		<idno type="ISSN">2522-5839</idno>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="389" to="399" />
+			<date type="published" when="2019-09">September 2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead</title>
+		<author>
+			<persName><forename type="first">Cynthia</forename><surname>Rudin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Machine Intelligence</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="206" to="215" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Distilling free-form natural laws from experimental data</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hod</forename><surname>Lipson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science</title>
+		<imprint>
+			<biblScope unit="volume">324</biblScope>
+			<biblScope unit="issue">5923</biblScope>
+			<biblScope unit="page" from="81" to="85" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Automated modeling of stochastic reactions with large measurement time-gaps</title>
+		<author>
+			<persName><forename type="first">Douglas</forename><surname>Michael</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hod</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lipson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 13th Annual Conference on Genetic and Evolutionary Computation</title>
+		<meeting>the 13th Annual Conference on Genetic and Evolutionary Computation</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="307" to="314" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Application of concise machine learning to construct accurate and interpretable EHR computable phenotypes. medRxiv, page 2020</title>
+		<author>
+			<persName><forename type="first">La</forename><surname>William</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Paul</forename><forename type="middle">C</forename><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Imran</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Xiruo</forename><surname>Ajmal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Priyanka</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jordana</forename><forename type="middle">B</forename><surname>Solanki</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jason</forename><forename type="middle">H</forename><surname>Cohen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniel</forename><forename type="middle">S</forename><surname>Moore</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Herman</surname></persName>
+		</author>
+		<idno type="DOI">10.1101/2020.12.12.20248005</idno>
+		<imprint>
+			<date type="published" when="2021-02">February 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Modeling global temperature changes with genetic programming</title>
+		<author>
+			<persName><forename type="first">Karolina</forename><surname>Stanislawska</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Krzysztof</forename><surname>Krawiec</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zbigniew</forename><forename type="middle">W</forename><surname>Kundzewicz</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.camwa.2012.02.049</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Mathematics with Applications</title>
+		<idno type="ISSN">0898-1221</idno>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="3717" to="3728" />
+			<date type="published" when="2012-12">December 2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">Genetic Algorithms and Genetic Programming in Computational Finance</title>
+		<author>
+			<persName><forename type="first">Shu-Heng</forename><surname>Chen</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2012">2012</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Pareto-front exploitation in symbolic regression</title>
+		<author>
+			<persName><forename type="first">Guido</forename><forename type="middle">F</forename><surname>Smits</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mark</forename><surname>Kotanchek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Genetic Programming Theory and Practice II</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2005">2005</date>
+			<biblScope unit="page" from="283" to="299" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Automatic identification of wind turbine models using evolutionary multiobjective optimization</title>
+		<author>
+			<persName><forename type="first">La</forename><surname>William</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kourosh</forename><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lee</forename><surname>Danai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Paul</forename><surname>Spector</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alan</forename><surname>Fleming</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Matthew</forename><surname>Wright</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lackner</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.renene.2015.09.068</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Renewable Energy</title>
+		<idno type="ISSN">0960-1481</idno>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="page" from="892" to="902" />
+			<date type="published" when="2016-03">March 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A C++ framework for geometric semantic genetic programming</title>
+		<author>
+			<persName><forename type="first">Mauro</forename><surname>Castelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sara</forename><surname>Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Leonardo</forename><surname>Vanneschi</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10710-014-9218-0</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Genetic Programming and Evolvable Machines</title>
+		<idno type="ISSN">1389-2576</idno>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1573" to="7632" />
+			<date type="published" when="2015-03">March 2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Genetic programming needs better benchmarks</title>
+		<author>
+			<persName><forename type="first">James</forename><surname>Mcdermott</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sean</forename><surname>Luke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Luca</forename><surname>Manzoni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mauro</forename><surname>Castelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Leonardo</forename><surname>Vanneschi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wojciech</forename><surname>Jaskowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Krzysztof</forename><surname>Krawiec</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robin</forename><surname>Harper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kenneth</forename><surname>De</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jong</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Fourteenth International Conference on Genetic and Evolutionary Computation Conference</title>
+		<meeting>the Fourteenth International Conference on Genetic and Evolutionary Computation Conference</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="page" from="791" to="798" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Better GP benchmarks: Community survey results and proposals</title>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><surname>Mcdermott</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mauro</forename><surname>Castelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Luca</forename><surname>Manzoni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Brian</forename><forename type="middle">W</forename><surname>Goldman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gabriel</forename><surname>Kronberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wojciech</forename><surname>Jaśkowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Una-May O'</forename><surname>Reilly</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Sean</forename><surname>Luke</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10710-012-9177-2</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Genetic Programming and Evolvable Machines</title>
+		<idno type="ISSN">1389-2576</idno>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1573" to="7632" />
+			<date type="published" when="2012-12">December 2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">PMLB: A Large Benchmark Suite for Machine Learning Evaluation and Comparison</title>
+		<author>
+			<persName><forename type="first">Randal</forename><forename type="middle">S</forename><surname>Olson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">William</forename><surname>La Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Patryk</forename><surname>Orzechowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ryan</forename><forename type="middle">J</forename><surname>Urbanowicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jason</forename><forename type="middle">H</forename><surname>Moore</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BioData Mining</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<title level="m" type="main">Genetic Programming: On the Programming of Computers by Means of Natural Selection</title>
+		<author>
+			<persName><forename type="first">John</forename><forename type="middle">R</forename><surname>Koza</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1992">1992</date>
+			<publisher>MIT Press</publisher>
+			<pubPlace>Cambridge, MA, USA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><surname>Scott</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Su-In</forename><surname>Lundberg</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lee</surname></persName>
+		</author>
+		<title level="m">A Unified Approach to Interpreting Model Predictions</title>
+		<imprint>
+			<biblScope unit="page">10</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<author>
+			<persName><forename type="first">Ying</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Weilin</forename><surname>Fu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jian</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jiadong</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jian</forename><surname>Guo</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1910.08892</idno>
+		<title level="m">Bayesian Symbolic Regression</title>
+		<imprint>
+			<date type="published" when="2020-01">January 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Deep symbolic regression: Recovering mathematical expressions from data via risk-seeking policy gradients</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Brenden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mikel</forename><forename type="middle">Landajuela</forename><surname>Petersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Terrell</forename><forename type="middle">N</forename><surname>Larma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Claudio</forename><forename type="middle">Prata</forename><surname>Mundhenk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Soo</forename><surname>Santiago</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kyung</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Joanne</forename><forename type="middle">Taery</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations</title>
+		<imprint>
+			<date type="published" when="2020-09">September 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<author>
+			<persName><forename type="first">Marian</forename><surname>Silviu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Max</forename><surname>Udrescu</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Tegmark</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ai Feynman</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1905.11481</idno>
+		<title level="m">Physics-Inspired Method for Symbolic Regression</title>
+		<imprint>
+			<date type="published" when="2020-04">April 2020</date>
+		</imprint>
+	</monogr>
+	<note>hep-th, physics:physics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Automated Knowledge Discovery Using Neural Networks</title>
+		<author>
+			<persName><forename type="first">Maysum</forename><surname>Panju</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<author>
+			<persName><forename type="first">Matthias</forename><surname>Werner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrej</forename><surname>Junginger</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2105.06331</idno>
+		<title level="m">Philipp Hennig, and Georg Martius. Informed Equation Learning</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Learning equations for extrapolation and control</title>
+		<author>
+			<persName><forename type="first">Subham</forename><surname>Sahoo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christoph</forename><surname>Lampert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Georg</forename><surname>Martius</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="page" from="4442" to="4450" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Grammar variational autoencoder</title>
+		<author>
+			<persName><forename type="first">Matt</forename><forename type="middle">J</forename><surname>Kusner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Brooks</forename><surname>Paige</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">José</forename><surname>Miguel Hernández-Lobato</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Machine Learning</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="1945" to="1954" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Pareto-optimal symbolic regression exploiting graph modularity</title>
+		<author>
+			<persName><surname>Silviu-Marian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrew</forename><surname>Udrescu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jiahai</forename><surname>Tan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Orisvaldo</forename><surname>Feng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tailin</forename><surname>Neto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Max</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Tegmark</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2006.10782</idno>
+	</analytic>
+	<monogr>
+		<title level="j">AI Feynman</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">0</biblScope>
+			<date type="published" when="2020-12">December 2020</date>
+		</imprint>
+	</monogr>
+	<note>physics, stat</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Distilling free-form natural laws from experimental data</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hod</forename><surname>Lipson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science</title>
+		<imprint>
+			<biblScope unit="volume">324</biblScope>
+			<biblScope unit="issue">5923</biblScope>
+			<biblScope unit="page" from="81" to="85" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">Machine Science: Automated Modeling of Deterministic and Stochastic Dynamical Systems</title>
+		<author>
+			<persName><forename type="first">Douglas</forename><surname>Michael</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Schmidt</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<pubPlace>Ithaca, NY, USA</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Cornell University</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">PhD thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<monogr>
+		<title level="m" type="main">Automatic Formula Discovery in the Wolfram Language -from Wolfram Library Archive</title>
+		<author>
+			<persName><forename type="first">Giorgia</forename><surname>Fortuna</surname></persName>
+		</author>
+		<ptr target="https://library.wolfram.com/infocenter/Conferences/9329/" />
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Epsilon-Lexicase Selection for Regression</title>
+		<author>
+			<persName><forename type="first">La</forename><surname>William</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lee</forename><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kourosh</forename><surname>Spector</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Danai</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/2908812.2908898</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Genetic and Evolutionary Computation Conference 2016, GECCO &apos;16</title>
+		<meeting>the Genetic and Evolutionary Computation Conference 2016, GECCO &apos;16<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="741" to="748" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Discovery of Search Objectives in Continuous Domains</title>
+		<author>
+			<persName><forename type="first">Pawe\l</forename><surname>Liskowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Krzysztof</forename><surname>Krawiec</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3071178.3071344</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Genetic and Evolutionary Computation Conference, GECCO &apos;17</title>
+		<meeting>the Genetic and Evolutionary Computation Conference, GECCO &apos;17<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="969" to="976" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Imagenet: A large-scale hierarchical image database</title>
+		<author>
+			<persName><forename type="first">Jia</forename><surname>Deng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wei</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Richard</forename><surname>Socher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Li-Jia</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kai</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Li</forename><surname>Fei-Fei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2009 IEEE Conference on Computer Vision and Pattern Recognition</title>
+		<imprint>
+			<publisher>Ieee</publisher>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="page" from="248" to="255" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">The Mythos of Model Interpretability: In machine learning, the concept of interpretability is both important and slippery</title>
+		<author>
+			<persName><surname>Zachary C Lipton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Queue</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="31" to="57" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Manipulating and measuring model interpretability</title>
+		<author>
+			<persName><forename type="first">Forough</forename><surname>Poursabzi-Sangdeh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jake</forename><forename type="middle">M</forename><surname>Daniel G Goldstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jennifer</forename><surname>Hofman</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Wortman Wortman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hanna</forename><surname>Vaughan</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Wallach</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2021 CHI Conference on Human Factors in Computing Systems</title>
+		<meeting>the 2021 CHI Conference on Human Factors in Computing Systems</meeting>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+			<biblScope unit="page" from="1" to="52" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Model learning with personalized interpretability estimation (ML-PIE)</title>
+		<author>
+			<persName><forename type="first">Marco</forename><surname>Virgolin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrea</forename><forename type="middle">De</forename><surname>Lorenzo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Francesca</forename><surname>Randone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Medvet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mattias</forename><surname>Wahde</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2104.06060</idno>
+		<imprint>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<title level="m" type="main">Benchmarking state-of-the-art symbolic regression algorithms. Genetic Programming and Evolvable Machines</title>
+		<author>
+			<persName><forename type="first">Jan</forename><surname>Žegklitz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Petr</forename><surname>Pošík</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="1" to="29" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Where are we now? A large benchmark study of recent symbolic regression methods</title>
+		<author>
+			<persName><forename type="first">Patryk</forename><surname>Orzechowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">William</forename><surname>La Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jason</forename><forename type="middle">H</forename><surname>Moore</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3205455.3205539</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2018 Genetic and Evolutionary Computation Conference, GECCO &apos;18</title>
+		<meeting>the 2018 Genetic and Evolutionary Computation Conference, GECCO &apos;18</meeting>
+		<imprint>
+			<date type="published" when="2018-04">April 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">Martin</forename><surname>Fowler</surname></persName>
+		</author>
+		<ptr target="https://martinfowler.com/articles/continuousIntegration.html" />
+		<title level="m">Continuous Integration</title>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">An open source dataset collection for benchmarking machine learning methods</title>
+		<author>
+			<persName><forename type="first">Joseph</forename><forename type="middle">D</forename><surname>Romano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Trang</forename><forename type="middle">T</forename><surname>Le</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">William</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">La</forename><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">John</forename><forename type="middle">T</forename><surname>Gregg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniel</forename><forename type="middle">J</forename><surname>Goldberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Natasha</forename><forename type="middle">L</forename><surname>Ray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Praneel</forename><surname>Chakraborty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniel</forename><surname>Himmelstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Weixuan</forename><surname>Fu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jason</forename><forename type="middle">H</forename><surname>Moore</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2012.00058</idno>
+		<imprint>
+			<date type="published" when="2021-04">April 2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Scikit-learn: Machine learning in Python</title>
+		<author>
+			<persName><forename type="first">Fabian</forename><surname>Pedregosa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gaël</forename><surname>Varoquaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Alexandre</forename><surname>Gramfort</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Vincent</forename><surname>Michel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bertrand</forename><surname>Thirion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Olivier</forename><surname>Grisel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mathieu</forename><surname>Blondel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peter</forename><surname>Prettenhofer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Ron</forename><surname>Weiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Vincent</forename><surname>Dubourg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="2825" to="2830" />
+			<date type="published" when="2011-10">Oct. 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Age-fitness pareto optimization</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hod</forename><surname>Lipson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Genetic Programming Theory and Practice VIII</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="129" to="146" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">A probabilistic and multi-objective analysis of lexicase selection and epsilon-lexicase selection</title>
+		<author>
+			<persName><forename type="first">La</forename><surname>William</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lee</forename><surname>Helmuth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jason</forename><forename type="middle">H</forename><surname>Spector</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Moore</surname></persName>
+		</author>
+		<idno type="DOI">10.1162/evco_a_00224</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Evolutionary Computation</title>
+		<idno type="ISSN">1063-6560</idno>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="377" to="402" />
+			<date type="published" when="2019-09">September 2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Learning concise representations for regression by evolving networks of trees</title>
+		<author>
+			<persName><forename type="first">La</forename><surname>William</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Raj</forename><surname>Tilak</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">James</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Srinivas</forename><surname>Taggart</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jason</forename><forename type="middle">H</forename><surname>Suri</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Moore</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Learning Representations, ICLR</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">FFX: Fast, scalable, deterministic symbolic regression technology</title>
+		<author>
+			<persName><forename type="first">Trent</forename><surname>Mcconaghy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Genetic Programming Theory and Practice IX</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="235" to="260" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Improving model-based genetic programming for symbolic regression of small expressions</title>
+		<author>
+			<persName><forename type="first">Marco</forename><surname>Virgolin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tanja</forename><surname>Alderliesten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Cees</forename><surname>Witteveen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peter A N</forename><surname>Bosman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Evolutionary Computation</title>
+		<imprint>
+			<biblScope unit="page">page tba</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Interaction-Transformation Evolutionary Algorithm for Symbolic Regression</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">O</forename><surname>De Franca</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">S I</forename><surname>Aldeia</surname></persName>
+		</author>
+		<idno type="DOI">10.1162/evco_a_00285</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Evolutionary Computation</title>
+		<idno type="ISSN">1063-6560</idno>
+		<imprint>
+			<biblScope unit="page" from="1" to="25" />
+			<date type="published" when="2020-12">December 2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Multiple regression genetic programming</title>
+		<author>
+			<persName><forename type="first">Ignacio</forename><surname>Arnaldo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Krzysztof</forename><surname>Krawiec</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Una-May O'</forename><surname>Reilly</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2014 Annual Conference on Genetic and Evolutionary Computation</title>
+		<meeting>the 2014 Annual Conference on Genetic and Evolutionary Computation</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="page" from="879" to="886" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<title level="m" type="main">Parameter identification for symbolic regression using nonlinear least squares. Genetic Programming and Evolvable Machines</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Kommenda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bogdan</forename><surname>Burlacu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gabriel</forename><surname>Kronberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Affenzeller</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10710-019-09371-3</idno>
+		<imprint>
+			<date type="published" when="2019-12">December 2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Linear scaling with and within semantic backpropagation-based genetic programming for symbolic regression</title>
+		<author>
+			<persName><forename type="first">Marco</forename><surname>Virgolin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tanja</forename><surname>Alderliesten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">N</forename><surname>Peter</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Bosman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Genetic and Evolutionary Computation Conference</title>
+		<meeting>the Genetic and Evolutionary Computation Conference</meeting>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page" from="1084" to="1092" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">A Fast Elitist Non-dominated Sorting Genetic Algorithm for Multi-objective Optimization: NSGA-II</title>
+		<author>
+			<persName><forename type="first">Kalyanmoy</forename><surname>Deb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Samir</forename><surname>Agrawal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Amrit</forename><surname>Pratap</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Meyarivan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Parallel Problem Solving from Nature PPSN VI</title>
+		<editor>
+			<persName><forename type="first">Marc</forename><surname>Schoenauer</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Kalyanmoy</forename><surname>Deb</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Günther</forename><surname>Rudolph</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Xin</forename><surname>Yao</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Evelyne</forename><surname>Lutton</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Juan</forename><surname>Julian Merelo</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">Hans-Paul</forename><surname>Schwefel</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin Heidelberg; Berlin, Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2000">2000</date>
+			<biblScope unit="volume">1917</biblScope>
+			<biblScope unit="page" from="849" to="858" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">SPEA2: Improving the Strength Pareto Evolutionary Algorithm</title>
+		<author>
+			<persName><forename type="first">Eckart</forename><surname>Zitzler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Marco</forename><surname>Laumanns</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lothar</forename><surname>Thiele</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Eidgenössische Technische Hochschule Zürich</title>
+		<imprint>
+			<date type="published" when="2001">2001</date>
+		</imprint>
+		<respStmt>
+			<orgName>Institut für Technische Informatik und Kommunikationsnetze (TIK)</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Multiobjective genetic programming: Reducing bloat using SPEA2</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bleuler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brack</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Thiele</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Zitzler</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/CEC.2001.934438</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2001 Congress on Evolutionary Computation</title>
+		<meeting>the 2001 Congress on Evolutionary Computation</meeting>
+		<imprint>
+			<date type="published" when="2001">2001. 2001</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="536" to="543" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">ALPS: The age-layered population structure for reducing the problem of premature convergence</title>
+		<author>
+			<persName><forename type="first">Gregory</forename><forename type="middle">S</forename><surname>Hornby</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/1143997.1144142</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 8th Annual Conference on Genetic and Evolutionary Computation, GECCO &apos;06</title>
+		<meeting>the 8th Annual Conference on Genetic and Evolutionary Computation, GECCO &apos;06<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="page" from="815" to="822" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Coevolution of Fitness Predictors</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lipson</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/TEVC.2008.919006</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Evolutionary Computation</title>
+		<idno type="ISSN">1941-0026</idno>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1089" to="1778" />
+			<date type="published" when="2008-12">December 2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Behavioral program synthesis with genetic programming</title>
+		<author>
+			<persName><forename type="first">Raja</forename><surname>Muhammad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Atif</forename><forename type="middle">Krzysztof</forename><surname>Azad</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Krawiec</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10710-016-9283-7</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Genetic Programming and Evolvable Machines</title>
+		<idno type="ISSN">1389-2576</idno>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1573" to="7632" />
+			<date type="published" when="2017-03">March 2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Running programs backwards: Instruction inversion for effective search in semantic spaces</title>
+		<author>
+			<persName><forename type="first">Bartosz</forename><surname>Wieloch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Krzysztof</forename><surname>Krawiec</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 15th Annual Conference on Genetic and Evolutionary Computation</title>
+		<meeting>the 15th Annual Conference on Genetic and Evolutionary Computation</meeting>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="1013" to="1020" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Approximating geometric crossover by semantic backpropagation</title>
+		<author>
+			<persName><forename type="first">Krzysztof</forename><surname>Krawiec</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tomasz</forename><surname>Pawlak</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 15th Annual Conference on Genetic and Evolutionary Computation</title>
+		<meeting>the 15th Annual Conference on Genetic and Evolutionary Computation</meeting>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="941" to="948" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Semantic backpropagation for designing search operators in genetic programming</title>
+		<author>
+			<persName><forename type="first">Bartosz</forename><surname>Tomasz P Pawlak</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Krzysztof</forename><surname>Wieloch</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Krawiec</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Evolutionary Computation</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="326" to="340" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Faster genetic programming based on local gradient search of numeric leaf values</title>
+		<author>
+			<persName><forename type="first">Alexander</forename><surname>Topchy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">William</forename><forename type="middle">F</forename><surname>Punch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Genetic and Evolutionary Computation Conference (GECCO-2001)</title>
+		<meeting>the Genetic and Evolutionary Computation Conference (GECCO-2001)</meeting>
+		<imprint>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="page" from="155" to="162" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Nonlinear System Identification Using Coevolution of Models and Tests</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Bongard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lipson</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/TEVC.2005.850293</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Evolutionary Computation</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="361" to="384" />
+			<date type="published" when="2005-08">August 2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Effects of constant optimization by nonlinear least squares minimization in symbolic regression</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Kommenda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gabriel</forename><surname>Kronberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stephan</forename><surname>Winkler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Affenzeller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stefan</forename><surname>Wagner ; Christian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Enrique</forename><surname>Blum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Alba</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Daniele</forename><surname>Bartz-Beielstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Francisco</forename><surname>Loiacono</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Joern</forename><surname>Luna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gabriela</forename><surname>Mehnen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mike</forename><surname>Ochoa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Emilia</forename><surname>Preuss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Leonardo</forename><surname>Tantar</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Vanneschi</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/2464576.2482691</idno>
+	</analytic>
+	<monogr>
+		<title level="m">GECCO &apos;13 Companion: Proceeding of the Fifteenth Annual Conference Companion on Genetic and Evolutionary Computation Conference Companion</title>
+		<meeting><address><addrLine>Amsterdam, The Netherlands, 6</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<biblScope unit="page" from="1121" to="1128" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Operon C++ an efficient genetic programming framework for symbolic regression</title>
+		<author>
+			<persName><forename type="first">Bogdan</forename><surname>Burlacu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gabriel</forename><surname>Kronberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Kommenda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2020 Genetic and Evolutionary Computation Conference Companion</title>
+		<meeting>the 2020 Genetic and Evolutionary Computation Conference Companion</meeting>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="1562" to="1570" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">A greedy search tree heuristic for symbolic regression</title>
+		<author>
+			<persName><forename type="first">Fabrício</forename><surname>Olivetti De França</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information Sciences</title>
+		<imprint>
+			<biblScope unit="volume">442</biblScope>
+			<biblScope unit="page" from="18" to="32" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Scalable genetic programming by gene-pool optimal mixing and input-space entropy-based building-block learning</title>
+		<author>
+			<persName><forename type="first">Marco</forename><surname>Virgolin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tanja</forename><surname>Alderliesten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Cees</forename><surname>Witteveen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peter A N</forename><surname>Bosman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Genetic and Evolutionary Computation Conference</title>
+		<meeting>the Genetic and Evolutionary Computation Conference</meeting>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="1041" to="1048" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Simple statistical gradient-following algorithms for connectionist reinforcement learning</title>
+		<author>
+			<persName><forename type="first">Ronald</forename><forename type="middle">J</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine learning</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">3-4</biblScope>
+			<biblScope unit="page" from="229" to="256" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<author>
+			<persName><forename type="first">Joaquin</forename><surname>Vanschoren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jan</forename><forename type="middle">N</forename><surname>Van Rijn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bernd</forename><surname>Bischl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Luis</forename><surname>Torgo</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Openml</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/2641190.2641198</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Networked Science in Machine Learning</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="49" to="60" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lichman</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+		<respStmt>
+			<orgName>UCI Machine Learning Repository. University of California, Irvine, School of Information and Computer Sciences</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<author>
+			<persName><forename type="first">Richard</forename><forename type="middle">P</forename><surname>Feynman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">B</forename><surname>Leighton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Matthew</forename><surname>Sands</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The New Millennium Edition: Mainly Mechanics, Radiation, and Heat</title>
+		<imprint>
+			<publisher>Basic Books</publisher>
+			<date type="published" when="2015-09">September 2015</date>
+			<biblScope unit="volume">I</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<analytic>
+		<author>
+			<persName><forename type="first">H</forename><surname>Steven</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Strogatz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Chemistry, and Engineering</title>
+		<imprint>
+			<publisher>Westview press</publisher>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+	<note>Biology</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Inference of compact nonlinear dynamic models by epigenetic local search</title>
+		<author>
+			<persName><forename type="first">La</forename><surname>William</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kourosh</forename><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lee</forename><surname>Danai</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Spector</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.engappai.2016.07.004</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Engineering Applications of Artificial Intelligence</title>
+		<idno type="ISSN">0952-1976</idno>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="292" to="306" />
+			<date type="published" when="2016-10">October 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">Order of Nonlinearity as a Complexity Measure for Models Generated by Symbolic Regression via Pareto Genetic Programming</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Vladislavleva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Smits</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hertog</surname></persName>
+		</author>
+		<idno type="DOI">10.1109/TEVC.2008.926486</idno>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Evolutionary Computation</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="333" to="349" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">Evolving Simple Symbolic Regression Models by Multi-objective Genetic Programming</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Kommenda</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Gabriel</forename><surname>Kronberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Affenzeller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stephan</forename><forename type="middle">M</forename><surname>Winkler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bogdan</forename><surname>Burlacu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Genetic Programming Theory and Practice</title>
+		<meeting><address><addrLine>Ann Arbor, MI</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Learning a formula of interpretability to learn interpretable formulas</title>
+		<author>
+			<persName><forename type="first">Marco</forename><surname>Virgolin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Andrea</forename><forename type="middle">De</forename><surname>Lorenzo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Medvet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Francesca</forename><surname>Randone</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Parallel Problem Solving from Nature</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="79" to="93" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">Reza Abbasi-Asl, and Bin Yu. Definitions, methods, and applications in interpretable machine learning</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">James</forename><surname>Murdoch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Chandan</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Karl</forename><surname>Kumbier</surname></persName>
+		</author>
+		<idno type="DOI">10.1073/pnas.1900654116</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the National Academy of Sciences</title>
+		<meeting>the National Academy of Sciences</meeting>
+		<imprint>
+			<date type="published" when="2019-10-10">10 2019-10-29</date>
+			<biblScope unit="volume">116</biblScope>
+			<biblScope unit="page" from="22071" to="22080" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">Xgboost: A scalable tree boosting system</title>
+		<author>
+			<persName><forename type="first">Tianqi</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Carlos</forename><surname>Guestrin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 22nd Acm Sigkdd International Conference on Knowledge Discovery and Data Mining</title>
+		<meeting>the 22nd Acm Sigkdd International Conference on Knowledge Discovery and Data Mining</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="785" to="794" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<analytic>
+		<title level="a" type="main">Lightgbm: A highly efficient gradient boosting decision tree</title>
+		<author>
+			<persName><forename type="first">Guolin</forename><surname>Ke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Qi</forename><surname>Meng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Taifeng</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wei</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Weidong</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Qiwei</forename><surname>Ye</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Tie-Yan</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in neural information processing systems</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="3146" to="3154" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">Random forests</title>
+		<author>
+			<persName><forename type="first">Leo</forename><surname>Breiman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine learning</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="5" to="32" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<analytic>
+		<title level="a" type="main">The boosting approach to machine learning: An overview</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">E</forename><surname>Schapire</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Nonlinear Estimation and Classification</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="page" from="149" to="171" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b75">
+	<analytic>
+		<title level="a" type="main">Automated refinement and inference of analytical models for metabolic networks</title>
+		<author>
+			<persName><surname>Michael D Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Ravishankar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jerry</forename><forename type="middle">W</forename><surname>Vallabhajosyula</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jonathan</forename><forename type="middle">E</forename><surname>Jenkins</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Abhishek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">John</forename><forename type="middle">P</forename><surname>Soni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hod</forename><surname>Wikswo</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lipson</surname></persName>
+		</author>
+		<idno type="DOI">10.1088/1478-3975/8/5/055011</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Physical Biology</title>
+		<idno type="ISSN">1478-3975</idno>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page">55011</biblScope>
+			<date type="published" when="2011-10">October 2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b76">
+	<analytic>
+		<title level="a" type="main">Comparison of Tree and Graph Encodings As Function of Problem Complexity</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hod</forename><surname>Lipson</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/1276958.1277288</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 9th Annual Conference on Genetic and Evolutionary Computation, GECCO &apos;07</title>
+		<meeting>the 9th Annual Conference on Genetic and Evolutionary Computation, GECCO &apos;07<address><addrLine>New York, NY, USA</addrLine></address></meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="page" from="1674" to="1679" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b77">
+	<analytic>
+		<title level="a" type="main">Feature standardisation and coefficient optimisation for effective symbolic regression</title>
+		<author>
+			<persName><forename type="first">Grant</forename><surname>Dick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Caitlin</forename><forename type="middle">A</forename><surname>Owen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Peter</forename><forename type="middle">A</forename><surname>Whigham</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3377930.3390237</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2020 Genetic and Evolutionary Computation Conference, GECCO &apos;20</title>
+		<meeting>the 2020 Genetic and Evolutionary Computation Conference, GECCO &apos;20<address><addrLine>Cancún, Mexico</addrLine></address></meeting>
+		<imprint>
+			<publisher>Association for Computing Machinery</publisher>
+			<date type="published" when="2020-06">June 2020</date>
+			<biblScope unit="page" from="306" to="314" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b78">
+	<monogr>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Kearns</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Seth</forename><surname>Neel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Aaron</forename><surname>Roth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zhiwei</forename><forename type="middle">Steven</forename><surname>Wu</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1711.05144</idno>
+		<title level="m">Preventing Fairness Gerrymandering: Auditing and Learning for Subgroup Fairness</title>
+		<imprint>
+			<date type="published" when="2018-12">December 2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b79">
+	<analytic>
+		<title level="a" type="main">Genetic programming approaches to learning fair classifiers</title>
+		<author>
+			<persName><forename type="first">La</forename><surname>William</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jason</forename><forename type="middle">H</forename><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Moore</surname></persName>
+		</author>
+		<idno type="DOI">10.1145/3377930.3390157</idno>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 2020 Genetic and Evolutionary Computation Conference, GECCO &apos;20</title>
+		<meeting>the 2020 Genetic and Evolutionary Computation Conference, GECCO &apos;20</meeting>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b80">
+	<analytic>
+		<title level="a" type="main">Greedy function approximation: A gradient boosting machine</title>
+		<author>
+			<persName><surname>Jerome H Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of statistics</title>
+		<imprint>
+			<biblScope unit="page" from="1189" to="1232" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b81">
+	<analytic>
+		<title level="a" type="main">Statistical Comparisons of Classifiers over Multiple Data Sets</title>
+		<author>
+			<persName><forename type="first">Janez</forename><surname>Demšar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<idno type="ISSN">1533-7928</idno>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="1" to="30" />
+			<date type="published" when="2006-01">Jan. 2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b82">
+	<monogr>
+		<title level="m" type="main">Method Hyperparameters GPGOMEA {&apos;initmaxtreeheight&apos;: (4,), &apos;functions&apos;: (&apos;+_-_*_p/_plog_sqrt_sin_cos</title>
+		<imprint/>
+	</monogr>
+	<note>popsize&apos;: (1000,), &apos;linearscaling&apos;: (True,)}</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b83">
+	<monogr>
+		<title level="m" type="main">initmaxtreeheight&apos;: (6,), &apos;functions&apos;: (&apos;+_-_*_p/_plog_sqrt_sin_cos</title>
+		<imprint/>
+	</monogr>
+	<note>popsize&apos;: (1000,), &apos;linearscaling&apos;: (True,)}</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b84">
+	<monogr>
+		<title level="m" type="main">), &apos;functions&apos;: (&apos;+_-_*_p</title>
+		<imprint/>
+	</monogr>
+	<note>initmaxtreeheight&apos;: (4, popsize&apos;: (1000,), &apos;linearscaling&apos;: (True</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b85">
+	<monogr>
+		<title level="m" type="main">initmaxtreeheight&apos;: (6,), &apos;functions&apos;: (&apos;+_-_*_p</title>
+		<imprint/>
+	</monogr>
+	<note>popsize&apos;: (1000,), &apos;linearscaling&apos;: (True</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b86">
+	<monogr>
+		<title level="m" type="main">), &apos;functions&apos;: (&apos;+_-_*_p/_plog_sqrt_sin_cos</title>
+		<imprint/>
+	</monogr>
+	<note>initmaxtreeheight&apos;: (4, popsize&apos;: (1000,), &apos;linearscaling&apos;: (False,)}</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b87">
+	<monogr>
+		<title level="m" type="main">initmaxtreeheight&apos;: (6,), &apos;functions&apos;: (&apos;+_-_*_p/_plog_sqrt_sin_cos</title>
+		<imprint/>
+	</monogr>
+	<note>popsize&apos;: (1000,), &apos;linearscaling&apos;: (False,)}</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b88">
+	<monogr>
+		<title level="m" type="main">&apos;transfunctions&apos;: (&apos;[Id, Tanh, Sin, Cos, Log, Exp, SqrtAbs]&apos;,)} {&apos;exponents&apos;: ((-5, 5),), &apos;termlimit&apos;: ((2, 5),), &apos;transfunctions&apos;: (&apos;[Id, Tanh, Sin, Cos, Log, Exp, SqrtAbs]&apos;,)} {&apos;exponents&apos;: ((-5, 5),), &apos;termlimit&apos;: ((2, 15),), &apos;transfunctions&apos;: (&apos;[Id, Sin]&apos;,)} {&apos;exponents&apos;: ((0, 5),)</title>
+		<imprint/>
+	</monogr>
+	<note>ITEA {&apos;exponents&apos;: ((-5, 5 termlimit&apos;: ((2, 15 termlimit&apos;: ((2, 15 transfunctions&apos;: (&apos;[Id, Sin]&apos;,)} {&apos;exponents&apos;: ((0, 5),), &apos;termlimit&apos;: ((2, 5 transfunctions&apos;: (&apos;[Id, Sin } {&apos;exponents&apos;: ((0, 5),), &apos;termlimit&apos;: ((2, 15 transfunctions&apos;: (&apos;[Id, Tanh, Sin, Cos, Log, Exp, SqrtAbs</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b89">
+	<monogr>
+		<title/>
+		<author>
+			<persName><surname>Mrgp {'popsize</surname></persName>
+		</author>
+		<imprint>
+			<biblScope unit="page">1000</biblScope>
+		</imprint>
+	</monogr>
+	<note>250, &apos;rt_cross&apos;: 0.8, &apos;rt_mut&apos;: 0.2}</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b90">
+	<monogr>
+		<title level="m" type="main">max_length&apos;: (50,), &apos;allowed_symbols&apos;: (&apos;add,mul,aq,constant,variable&apos;,), &apos;local_iterations&apos;: (5,), &apos;offspring_generator&apos;: (&apos;basic&apos;,), &apos;tournament_size&apos;: (5,), &apos;reinserter&apos;: (&apos;keep-best&apos;,), &apos;max_evaluations&apos;: (500000,)} {&apos;population_size&apos;: (500,), &apos;pool_size&apos;: (500,), &apos;max_length&apos;: (25,), &apos;allowed_symbols&apos;: (&apos;add,mul,aq,exp,log,sin,tanh,constant,variable&apos;,), &apos;local_iterations&apos;: (5,), &apos;off-spring_generator&apos;: (&apos;basic</title>
+		<imprint/>
+	</monogr>
+	<note>Operon {&apos;population_size&apos;: (500,), &apos;pool_size&apos;: (500 tournament_size&apos;: (5,), &apos;reinserter&apos;: (&apos;keep-best max_evaluations&apos;: (500000</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b91">
+	<monogr>
+		<title level="m" type="main">pool_size&apos;: (500,), &apos;max_length&apos;: (25,), &apos;allowed_symbols&apos;: (&apos;add,mul,aq,constant,variable&apos;,), &apos;local_iterations&apos;: (5,), &apos;offspring_generator&apos;: (&apos;basic&apos;,), &apos;tournament_size&apos;: (5,), &apos;reinserter&apos;: (&apos;keep-best</title>
+		<idno>population_size&apos;: (500</idno>
+		<imprint/>
+	</monogr>
+	<note>max_evaluations&apos;: (500000</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b92">
+	<monogr>
+		<title level="m" type="main">pool_size&apos;: (100,), &apos;max_length&apos;: (50,), &apos;allowed_symbols&apos;: (&apos;add,mul,aq,constant,variable&apos;,), &apos;local_iterations&apos;: (5,), &apos;offspring_generator&apos;: (&apos;basic&apos;,), &apos;tournament_size&apos;: (3,), &apos;reinserter&apos;: (&apos;keep-best</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+		</imprint>
+	</monogr>
+	<note>max_evaluations&apos;: (500000</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b93">
+	<monogr>
+		<title level="m" type="main">pool_size&apos;: (100,), &apos;max_length&apos;: (25,), &apos;allowed_symbols&apos;: (&apos;add,mul,aq,exp,log,sin,tanh,constant,variable&apos;,), &apos;local_iterations&apos;: (5,), &apos;off-spring_generator&apos;: (&apos;basic&apos;,), &apos;tournament_size&apos;: (3,), &apos;reinserter&apos;: (&apos;keep-best</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+		</imprint>
+	</monogr>
+	<note>max_evaluations&apos;: (500000</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b94">
+	<monogr>
+		<title level="m" type="main">sqrt&apos;)} {&apos;population_size&apos;: 1000, &apos;generations&apos;: 500, &apos;function_set&apos;: (&apos;add&apos;, &apos;sub&apos;, &apos;mul&apos;, &apos;div&apos;, &apos;log&apos;, &apos;sqrt&apos;)} {&apos;population_size&apos;: 1000, &apos;generations&apos;: 500, &apos;function_set&apos;: (&apos;add&apos;, &apos;sub&apos;, &apos;mul&apos;, &apos;div&apos;, &apos;log&apos;, &apos;sqrt&apos;, &apos;sin&apos;, &apos;cos&apos;)} {&apos;population_size&apos;: 500, &apos;generations&apos;: 1000, &apos;function_set&apos;: (&apos;add&apos;, &apos;sub&apos;, &apos;mul&apos;, &apos;div&apos;, &apos;log&apos;, &apos;sqrt&apos;)} {&apos;population_size&apos;: 500, &apos;generations&apos;: 1000, &apos;function_set&apos;: (&apos;add&apos;, &apos;sub&apos;, &apos;mul&apos;, &apos;div&apos;, &apos;log&apos;, &apos;sqrt&apos;, &apos;sin&apos;, &apos;cos&apos;)} {&apos;population_size&apos;: 100, &apos;generations&apos;: 5000, &apos;function_set&apos;: (&apos;add&apos;, &apos;sub&apos;, &apos;mul&apos;, &apos;div&apos;, &apos;log&apos;, &apos;sqrt&apos;, &apos;sin&apos;, &apos;cos&apos;)} sembackpropgp {&apos;popsize&apos;: (1000,), &apos;functions&apos;: (&apos;+_-_*_aq_plog_sin_cos&apos;,), &apos;linearscaling&apos;: (False,), &apos;sbrdo&apos;: (0.9,), &apos;submut&apos;: (0.1,), &apos;tournament&apos;: (4,), &apos;maxsize&apos;: (250,), &apos;sblibtype&apos;: (&apos;p_6_9999&apos;,)} {&apos;popsize&apos;: (1000,), &apos;functions&apos;: (&apos;+_-_*_aq_plog_sin_cos&apos;,), &apos;linearscaling&apos;: (True,), &apos;sbrdo&apos;: (0.9,), &apos;submut&apos;: (0.1,), &apos;tournament&apos;: (4,), &apos;maxsize&apos;: (1000,)} {&apos;popsize&apos;: (1000,), &apos;functions&apos;: (&apos;+_-_*_aq_plog_sin_cos&apos;,), &apos;linearscaling&apos;: (True,), &apos;sbrdo&apos;: (0.9,), &apos;submut&apos;: (0.1,), &apos;tournament&apos;: (8,), &apos;maxsize&apos;: (1000,)} {&apos;popsize&apos;: (1000,), &apos;functions&apos;: (&apos;+_-_*_aq_plog_sin_cos&apos;,), &apos;linearscaling&apos;: (True,), &apos;sbrdo&apos;: (0.9,), &apos;submut&apos;: (0.1,), &apos;tournament&apos;: (4,), &apos;maxsize&apos;: (5000,)} {&apos;popsize&apos;: (1000,), &apos;functions&apos;: (&apos;+_-_*_aq_plog_sin_cos</title>
+		<imprint/>
+	</monogr>
+	<note>population_size&apos;: (100,), &apos;pool_size&apos;: (100 max_length&apos;: (25,), &apos;allowed_symbols&apos;: (&apos;add,mul,aq,constant,variable local_iterations&apos;: (5,), &apos;offspring_generator&apos;: (&apos;basic tournament_size&apos;: (3, ), &apos;reinserter&apos;: (&apos;keep-best max_evaluations&apos;: (500000,)} gplearn {&apos;population_size&apos;: 100, &apos;generations&apos;: 5000, &apos;function_set&apos;: (&apos;add&apos;, &apos;sub linearscaling&apos;: (True,), &apos;sbrdo&apos;: (0.9 submut&apos;: (0.1,), &apos;tournament&apos;: (8,), &apos;maxsize&apos;: (5000,)} {&apos;popsize&apos;: (10000,), &apos;functions&apos;: (&apos;+_-_*_aq_plog_sin_cos linearscaling&apos;: (False,), &apos;sbrdo&apos;: (0.9,), &apos;submut&apos;: (0.1,), &apos;tournament&apos;: (8,), &apos;maxsize&apos;: (250,), &apos;sblibtype&apos;: (&apos;p_6_9999</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

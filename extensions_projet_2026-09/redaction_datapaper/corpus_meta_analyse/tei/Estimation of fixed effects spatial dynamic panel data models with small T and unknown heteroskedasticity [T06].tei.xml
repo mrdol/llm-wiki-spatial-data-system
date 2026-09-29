@@ -1,0 +1,1037 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Estimation of Fixed Effects Spatial Dynamic Panel Data Models with Small T and Unknown Heteroskedasticity *</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2019-10-23">October 23, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Liyao</forename><surname>Li</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Economics</orgName>
+								<orgName type="institution">Singapore Management University</orgName>
+								<address>
+									<addrLine>90 Stamford Road</addrLine>
+									<postCode>178903</postCode>
+									<country key="SG">Singapore</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Zhenlin</forename><surname>Yang</surname></persName>
+							<email>zlyang@smu.edu.sg</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Economics</orgName>
+								<orgName type="institution">Singapore Management University</orgName>
+								<address>
+									<addrLine>90 Stamford Road</addrLine>
+									<postCode>178903</postCode>
+									<country key="SG">Singapore</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Estimation of Fixed Effects Spatial Dynamic Panel Data Models with Small T and Unknown Heteroskedasticity *</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-10-23">October 23, 2019</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">EE1495DF1D9E17F290E98B3D55113525</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Adjusted quasi score</term>
+					<term>Dynamic panels</term>
+					<term>Fixed effects</term>
+					<term>Initial-condition</term>
+					<term>Martingale difference</term>
+					<term>Short panels</term>
+					<term>Spatial effects</term>
+					<term>Unknown heteroskedasticity. JEL classifications: C10, C13, C21, C23, C15</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>We consider the estimation and inference of fixed effects (FE) spatial dynamic panel data (SDPD) models under small T and unknown heteroskedasticity by extending the M-estimation strategy for homoskedastic FE-SDPD model of Yang (2018, Journal of Econometrics). Unbiased estimating equations are obtained by adjusting the conditional quasi-score functions given the initial observations, leading to M-estimators that are free from the initial conditions and robust against unknown cross-sectional heteroskedasticity. Consistency and asymptotic normality of the proposed M-estimator are established.</p><p>The standard errors are obtained by representing the estimating equations as sums of martingale differences. Monte Carlo results show that the proposed M-estimators have good finite sample performance. The practical importance and relevance of allowing for heteroskedasticity in the model is illustrated using data on sovereign risk spillover.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>The spatial dynamic panel data (SDPD) models have become over the years more and more popular among the theoretical and applied researchers for being able to capture the dynamic effects as well as the effects of spatial interactions. Much attention has been paid *  We thank Co-Editor, Stephen Ross, and the two anonymous referees for their constructive comments that have led to improvements in the paper. Thanks are also due to the participants of the Conference on Frontier of New Economic Geography, Southeast University, China, Nov. 2018, and the Asian Meeting of the Econometrics Society, Xiamen University, China, June 2019, for their helpful comments. Zhenlin Yang gratefully acknowledges the financial support from Singapore Management University under Grant C244/MSS16E003.</p><p>† Corresponding Author: 90 Stamford Road, Singapore 178903. Phone: +65-6828-0852; Fax: +65-6828-0833. E-mail addresses: zlyang@smu.edu.sg.</p><p>to the SDPD models under large n and large T scenarios; see, e.g., <ref type="bibr" target="#b28">Mutl (2006)</ref>, <ref type="bibr">Yang et al. (2006)</ref>, <ref type="bibr" target="#b38">Yu et al. (2008)</ref>, <ref type="bibr" target="#b20">Korniotis (2010)</ref>, <ref type="bibr" target="#b23">Lee and Yu (2014)</ref>, <ref type="bibr" target="#b30">Shi and Lee (2017)</ref>, and Bai and Li (2018). Relatively lesser attention has been paid to the SDPD models under large n and small T setup: Elhorst (2010) considered the fixed effects (FE) SDPD model with spatial lag; <ref type="bibr" target="#b31">Su and Yang (2015)</ref> studied the quasi maximum likelihood (QML) estimation of the SDPD model with spatial errors and fixed or random effects, where the initial observations are modelled; <ref type="bibr" target="#b37">Yang (2018)</ref> proposed a unified M-estimation method for the FE-SDPD model with spatial lag, space-time lag as well as spatial error, which is free from the specification of initial conditions; Kuersteiner and Prucha (2018) considered GMM estimation of a model similar to that in <ref type="bibr" target="#b37">Yang (2018)</ref>, but allowing endogenous spatial weights, higher-order spatial effects, weakly exogenous covariates, interactive fixed effects, and heteroskedastic errors.</p><p>All of these estimators of the SDPD models are obtained under the assumption that the disturbances are homoskedastic, except the QML estimator of <ref type="bibr" target="#b7">Bai and Li (2018)</ref> and the GMM estimator of <ref type="bibr" target="#b21">Kuersteiner and Prucha (2018)</ref>. The former is under large n and large T setup and the latter is under large n and small T setup and hence is most closely related to the model we study in this paper under the alternative M-estimation approach, which could be simpler and more efficient. As it is well known, the majority of empirical microeconometric research involve panel data with a large number of cross-sectional units and a small number of time periods, called short panels. In spatial panels, the homoskedasticity assumption may not hold in many situations as spatial units are often heterogeneous in important characteristics such as size, location, population, number of neighbors and etc. <ref type="bibr" target="#b4">Anselin (1988)</ref> identifies that heteroskedasticity can occur due to the idiosyncrasies in the model specification that feeds to the disturbances. Different aggregations of data or mixture of a aggregated and non-aggregated data may also cause the errors to be heteroskedastic. Interactions between spatial units may further complicate the variance structure of the aggregated data. <ref type="foot" target="#foot_0">1</ref>This paper contributes to the literature by proposing estimation and inference methods for the FE-SDPD model with spatial lag (SL), space-time lag (STL), and spatial error (SE) under large n and small T setup, allowing for the existence of cross-sectional heteroskedasticity of unknown form in the idiosyncratic errors. We extend the M-estimation strategy for the homoskedastic FE-SDPD model of <ref type="bibr" target="#b37">Yang (2018)</ref> to give an M-estimator that is free from the initial conditions and robust against the unknown heteroskedasticity. To do so, a set of unbiased estimating equations, free from the initial conditions and robust against unknown heteroskedasticity, are first obtained by adjusting the conditional quasi-score functions given the initial observations. Consistency and asymptotic normality of the proposed M-estimator are established. For inferences, we extend the outer-product-of-martingale-differences (OPMD) method in <ref type="bibr" target="#b37">Yang (2018)</ref> to estimate the variance covariance (VC) matrix of the M-estimator.</p><p>The consistency of the VC matrix estimator is also proved. Our M-estimation method for estimating model parameters remains valid if T goes large with n, but the OPMD method for VC matrix estimation does not. In this case, the usual plug-in method based on the conditional variance of the adjusted quasi score functions, given the initial differences, can be used. Monte Carlo results show that the proposed M-estimators have good finite sample performance. The practical importance and relevance of allowing for heteroskedasticity in the model is illustrated using a data on sovereign risk spillovers.</p><p>The rest of paper is as follows. Section 2 introduces the FE-SDPD model with small T and unknown heteroskedasticity and presents the conditional QML estimation of it. Section 3 introduces the heteroskedasticity robust M-estimation for the model, studies the asymptotic properties of the proposed estimators, and presents the OPMD estimator of VC matrix.</p><p>Monte Carlo results are presented in Section 4. Section 5 empirically examines the sovereign risk spillover with a sample of 51 countries over the period of 2007 to 2012. Section 6 concludes the paper. Technical proofs are collected in Appendix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Model and Conditional QML Estimation</head><p>Consider the following general spatial dynamic panel data (SDPD) model with SL, STL and SE effects or in short STLE effects: y t = ρy t-1 + λ 1 W 1 y t + λ 2 W 2 y t-1 + X t β + Zγ + µ + α t 1 n + u t , (2.1) u t = λ 3 W 3 u t + v t , t = 1, 2, . . . , T, where y t = (y 1t , y 2t , . . . , y nt ) is an n×1 vector of response variables, {X t } are n×p matrices of time-varying exogenous regressors, Z is an n×q matrix of time-invariant exogenous variables, µ is an n × 1 vector of unobserved individual-specific effects, α t are time-specific effects with 1 n being an n × 1 vector of ones, and v t = (v 1t , v 2t , . . . , v nt ) is an n × 1 vector of idiosyncratic errors with its elements {v it } being independent and identically distributed (iid) across t for each i, and independent but not necessarily identically distribute (inid) across i for each t</p><p>such that E(v it ) = 0 and Var(v it ) = σ<ref type="foot" target="#foot_1">foot_1</ref> v h n,i , i = 1, . . . , n, where h n,i &gt; 0 and 1 n n i=1 h n,i = 1. Note that σ 2 v is the average of Var(v it ), which can be consistently estimated along with the other model parameters. The scalar parameter ρ characterizes the dynamic effect, λ 1 the spatial lag effect, λ 2 the space-time effect, and λ 3 the spatial error effect, β and γ are the usual regression coefficients, W r , r = 1, 2, 3, are the given n × n spatial weight matrices. 2   When µ is considered as fixed effects in the sense that it can be correlated with the timevarying regressors in an arbitrary manner, it is treated as a vector of parameters. As we assume n is large and T is small and fixed, we eliminate µ by taking first-difference in (2.1) to avoid the incidental parameters problem,</p><formula xml:id="formula_0">∆y t = ρ∆y t-1 + λ 1 W 1 ∆y t + λ 2 W 2 ∆y t-1 + ∆X t β + ∆α t 1 n + ∆u t ,<label>(2.2)</label></formula><p>∆u t = λ 3 W 3 ∆u t + ∆v t , t = 2, 3, . . . , T.</p><p>We note that the time-invariant variables Z is also differenced away. The parameters {α t } or {∆α t } are also considered as fixed effects. However, as T is fixed, they can be consistently estimated along with the other model parameters.</p><formula xml:id="formula_1">Define B r ≡ B r (λ r ) = I n -λ r W r , r = 1, 3 and B 2 ≡ B 2 (ρ, λ 2 ) = ρI n + λ 2 W 2 . Model (2.</formula><p>2) has reduced form: </p><formula xml:id="formula_2">∆y t = B -1 1 B 2 ∆y t-1 + B -1 1 (∆X t β + ∆α t 1 n ) + B -1 1 B -1 3 ∆v t , t = 2, . . . , T,<label>(2.3</label></formula><formula xml:id="formula_3">∆Y = B -1 1 B 2 ∆Y -1 + B -1 1 ∆Xβ + B -1 1 B -1 3 ∆v,<label>(2.4)</label></formula><p>where β = (α , β ) , and α = (∆α T , ∆α 2 -∆α T , . . . , ∆α T -1 -∆α T ) .</p><p>Let H = diag(h n,1 , h n,2 , . . . , h n,n ), where diag(•) forms a diagonal matrix based on the given the elements or based on the diagonal elements of a given matrix. It is easy to see that</p><formula xml:id="formula_4">Var(∆u) = σ 2 v [C ⊗ (B -1 3 HB -1 3 )],</formula><p>where C is a (T -1) × (T -1) constant matrix of the form,</p><formula xml:id="formula_5">C =         2 -1 0 • • • 0 0 0 -1 2 -1 • • • 0 0 0 . . . . . . . . . . . . . . . . . . . . . 0 0 0 • • • -1 2 -1 0 0 0 • • • 0 -1 2         . (2.5)</formula><p>Under homoskedasticity, H reduces to I n and the variance-covariance (VC) matrix of ∆u be-</p><formula xml:id="formula_6">comes Var(∆u) = σ 2 v [C ⊗ (B 3 B 3 ) -1 ] ≡ σ 2 v Ω. Denote ψ = (β , σ 2 v , ρ, λ</formula><p>) and λ = (λ 1 , λ 2 , λ 3 ) . The conditional quasi-Gaussian loglikelihood of ψ in terms of ∆y 2 , . . . , ∆y T treating ∆y 1 as exogenous and v it as normally distributed and homoskedastic is, ignoring the constant term,</p><formula xml:id="formula_7">ℓ STLE (ψ) = -n(T -1) 2 log(σ 2 v ) -1 2 log |Ω| + log |B 1 | -1 2σ 2 v ∆u(θ) Ω -1 ∆u(θ),<label>(2.6)</label></formula><p>where θ = (β , ρ, λ 1 , λ 2 ) , ∆u(θ) = B 1 ∆Y -B 2 ∆Y -1 -∆Xβ, and | • | denotes the determinant of a square matrix. Maximizing ℓ STLE (ψ) gives the conditional QML (CQML) estimator ψc of ψ. It is well known that the QML estimation of a dynamic panel data model with short panels faces the initial values problem: ∆y 1 is not exogenous but is treated so, and therefore ℓ STLE (ψ) cannot be a genuine loglikelihood function even if v it are homoskedastic and normal. Treating ∆y 1 as exogenous ignores useful information (about ψ) contained in ∆y 1 , when T is fixed the degree of such ignorance is unchanged as n goes large. Hence, the CQML method cannot give a consistent estimate of ψ. When T is also large, ignoring the information contained in ∆y 1 is asymptotically negligible, and the CQML estimator can be consistent. However, such consistency may not hold under unknown heteroskedasticity.</p><p>Assuming homoskedasticity, Yang (2018) proposed an initial-condition free approach to consistently estimate the model by adjusting the quasi score function. In this paper, we extend the idea of Yang (2018) to allow for cross-sectional heteroskedasticity of unknown forms.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">M-estimation of FE-SDPD Model with Heteroskedasticity</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">The Robust M-estimator</head><p>Recall ψ = (β , σ 2 v , ρ, λ ) where λ = (λ 1 , λ 2 , λ 3 ). Consider the conditional quasi score (CQS) function of ψ, S STLE (ψ) = ∂ ∂ψ ℓ STLE (ψ), where ℓ STLE (ψ) is given in (2.6),</p><formula xml:id="formula_8">S STLE (ψ) =                            1 σ 2 v ∆X Ω -1 ∆u(θ), 1 2σ 4 v ∆u(θ) Ω -1 ∆u(θ) -n(T -1) 2σ 2 v , 1 σ 2 v ∆u(θ) Ω -1 ∆Y -1 , 1 σ 2 v ∆u(θ) Ω -1 W 1 ∆Y -tr(B -1 1 W 1 ), 1 σ 2 v ∆u(θ) Ω -1 W 2 ∆Y -1 , 1 2σ 2 v ∆u(θ) (C -1 ⊗ A)∆u(θ) -(T -1)tr(W 3 B -1 3 ),<label>(3.1)</label></formula><p>where A = W 3 B 3 + B 3 W 3 , and tr(•) is the trace of a square matrix. A necessary condition for an extremum estimator such as QMLE to be consistent is: plim n→∞ 1 nT S STLE (ψ 0 ) = 0 at the true parameter ψ 0 (van der <ref type="bibr" target="#b34">Vaart, 1998)</ref>. This is always the case for the β and σ 2 v components of the score functions whether or not the errors are homoskedastic or the initial condition ∆y 1 is exogenous, but may not be the case for the ρ and λ components. We first derive the ρ and λ components of E[S STLE (ψ 0 )] under unknown heteroskedasticity H and show that their limits (upon dividing by nT ) are generally not zero but free from the initial conditions. Then based on these mean expressions, we find the adjustments to the quasi-score functions so that the adjusted quasi score function S * STLE (ψ 0 ) has a mean zero and plim n→∞ 1 nT S * STLE (ψ 0 ) = 0. Denote a parametric quantity evaluated at the true parameter values, ψ 0 , by adding a subscript 0, e.g., B 10 ≡ B 1 , Ω 0 ≡ Ω. The usual expectation, variance and covariance operators, 'E', 'Var' and 'Cov', correspond to the true parameter values. We do not differentiate H in true and general values as inferences concern only ψ 0 . As in Yang (2018), we have the following very minimum requirements on the process at and before time 0.</p><p>Assumption A: Under Model (2.1), (i) the processes started m periods before the start of data collection, the 0th period, and (ii) if m ≥ 1, ∆y 0 is independent of future errors {v t , t ≥ 1}; if m = 0, y 0 is independent of future errors {v t , t ≥ 1}.</p><p>Lemma 3.1. Suppose Assumption A holds. Assume further that, for i = 1, . . . , n and t = 0, 1, . . . , T , (i) the idiosyncratic errors {v it } are iid across t and inid across i with mean 0 and variance σ 2 v0 h n,i , where h n,i &gt; 0 and 1 n n i=1 h n,i = 1, (ii) the time-varying regressors X t are exogenous, and (iii) both B -1 10 and B -1 30 exist. We have,</p><formula xml:id="formula_9">E(∆Y -1 ∆v ) = -σ 2 v0 D -10 B -1 30 H, (3.2) E(∆Y ∆v ) = -σ 2 v0 D 0 B -1 30 H,<label>(3.3)</label></formula><p>where H = (I T -1 ⊗ H), and D -1 ≡ D -1 (ρ, λ 1 , λ 2 ) and D ≡ D(ρ, λ 1 , λ 2 ) defined as:</p><formula xml:id="formula_10">D -1 =        I n , 0, . . . 0, 0 B -2I n , I n , . . . 0, 0 . . . . . . . . . . . . . . . D T -4 , D T -5 , . . . B -2I n , I n        B -1 1 , D =        B -2I n , I n , . . . 0 D 0 , B -2I n , . . . 0 . . . . . . . . . . . . D T -3 , D T -4 , . . . B -2I n        B -1 1 ,</formula><p>where D t = B t (I n -B) 2 , B = B -1 1 B 2 , and both D -1 and D are n(T -1) × n(T -1).</p><p>Lemma 3.1 presents very useful results, which is obtained by recursive backward substitution on the reduced form (2.3). Using these results, we immediately obtain for (3.1):</p><formula xml:id="formula_11">E(∆u Ω -1 0 ∆Y -1 ) = -σ 2 v0 tr(HC b0 D -10 B -1 30 ), (3.4) E(∆u Ω -1 0 W 1 ∆Y ) = -σ 2 v0 tr(HC b0 W 1 D 0 B -1 30 ), (3.5) E(∆u Ω -1 0 W 2 ∆Y -1 ) = -σ 2 v0 tr(HC b0 W 2 D -10 B -1 30 ), (3.6) E ∆u (C -1 ⊗ A 0 )∆u = 2σ 2 v0 tr(HW 3 B -1 30 ),<label>(3.7)</label></formula><p>where C b = C -1 ⊗ B 3 , and the expression Ω = C ⊗ (B 3 B 3 ) -1 defined below (2.5) has been used. These results show that the ρ and λ components of plim n→∞ 1 nT S STLE (ψ 0 ) are not zero even under homoskedasticity, i.e., H = I n , and hence the CQMLE cannot be consistent even under homoskedasticity as shown by <ref type="bibr" target="#b37">Yang (2018)</ref>. Under homoskedasticity, the results in (3.4)-(3.7) reduce to functions of common parameters ψ 0 only and hence can directly be used to adjust S STLE (ψ 0 ) to give a set of unbiased estimating functions, The problem caused by the unknown H is that the results in (3.4)-(3.7) cannot be directly used to adjust S STLE (ψ 0 ). Instead of directly subtracting the expectation, we find quadratic terms (in ∆u) with expectations being identical to (3.4)-(3.7) (except the sign):</p><formula xml:id="formula_12">S STLE (ψ 0 ) = S STLE (ψ 0 ) -E[S STLE (ψ 0 )|H = I n ],</formula><formula xml:id="formula_13">E(∆u Ω -1 0 C -1 D -10 ∆u) = σ 2 v0 tr(HC b0 D -10 B -1 30 ), (3.8) E(∆u Ω -1 0 C -1 W 1 D 0 ∆u) = σ 2 v0 tr(HC b0 W 1 D 0 B -1 30 ), (3.9) E(∆u Ω -1 0 C -1 W 2 D -10 ∆u) = σ 2 v0 tr(HC b0 W 2 D -10 B -1 30 ), (3.10) E 2∆u C -1 ⊗ B 30 diag(W 3 B -1 30 )G 30 ∆u = 2σ 2 v0 tr(HW 3 B -1 30 ),<label>(3.11)</label></formula><p>where C -1 = C -1 ⊗ I n and G 3 = diag(B -1 3 ) -1 . Combining the terms inside the expectations in (3.4)-(3.7) with the corresponding terms inside the expectations in (3.8)-(3.11), we obtain a set of adjusted quasi score (AQS) functions for (ρ, λ), having zero expectations at ψ 0 even if the errors are heteroskedastic. The β and σ 2 v components of 1 nT S STLE (ψ 0 ) have zero expectation and zero probability limit under H, and hence do not need to be further adjusted.</p><p>We have a set of unbiased and robust estimating functions for ψ = (β , σ 2 v , ρ, λ ) :</p><formula xml:id="formula_14">S * STLE (ψ) =                            1 σ 2 v ∆X Ω -1 ∆u(θ), 1 2σ 4 v ∆u(θ) Ω -1 ∆u(θ) -n(T -1) 2σ 2 v , 1 σ 2 v ∆u(θ) Ω -1 ∆Y -1 + 1 σ 2 v ∆u(θ) E ρ ∆u(θ), 1 σ 2 v ∆u(θ) Ω -1 W 1 ∆Y + 1 σ 2 v ∆u(θ) E λ 1 ∆u(θ), 1 σ 2 v ∆u(θ) Ω -1 W 2 ∆Y -1 + 1 σ 2 v ∆u(θ) E λ 2 ∆u(θ), 1 2σ 2 v ∆u(θ) C -1 ⊗ (A -E λ 3 ) ∆u(θ), (3.12) where (E ρ , E λ 1 , E λ 2 ) = Ω -1 C -1 (D -1 , W 1 D, W 2 D -1 ), and E λ 3 = 2B 3 diag(W 3 B -1</formula><p>3 )G 3 . Solving the estimating equations, S * STLE (ψ) = 0, gives the robust M-estimator ψM . This can be done by first solving the equations for β and σ 2 v , given δ = (ρ, λ ) , to give</p><formula xml:id="formula_15">βM (δ) = (∆X Ω -1 ∆X) -1 ∆X Ω -1 (B 1 ∆Y -B 2 ∆Y -1 ), (3.13) σ2 v,M (δ) = 1 n(T -1) ∆û(δ) Ω -1 ∆û(δ),<label>(3.14)</label></formula><p>where ∆û(δ) = ∆u( β(δ), ρ, λ 1 , λ 2 ). Then, substituting βM (δ) and σ2 v,M (δ) back into the last four components of the AQS function in (3.12) gives the concentrated AQS functions:</p><formula xml:id="formula_16">S * c STLE (δ) =                  1 σ2 v,M (δ) ∆û(δ) Ω -1 ∆Y -1 + 1 σ2 v,M (δ) ∆û(δ) E ρ ∆û(δ), 1 σ2 v,M (δ) ∆û(δ) Ω -1 W 1 ∆Y + 1 σ2 v,M (δ) ∆û(δ) E λ 1 ∆û(δ), 1 σ2 v,M (δ) ∆û(δ) Ω -1 W 2 ∆Y -1 + 1 σ2 v,M (δ) ∆û(δ) E λ 2 ∆û(δ), 1 2σ 2 v,M (δ) ∆û(δ) C -1 ⊗ (A -E λ 3 ) ∆û(δ).</formula><p>(3.15) Note that σ2 v,M (δ) can be dropped from the expression for S * c STLE (δ). Solving the resulted concentrated estimating equations, S * c STLE (δ) = 0, we obtain the robust M-estimator δM of δ, which give the robust M-estimators of β and σ 2 v as βM ≡ βM ( δM ) and σ2 v,M ≡ σ2 v,M ( δM ). Thus, ψM = ( β M , σ2 v,M , ρM , λ M ) . 3 Many submodels can be easily obtained from Model (2.1) by setting one or two spatial parameters to zero. For example, setting λ 1 and λ 2 to zero, Model (2.1) reduces to an SDPD model with SE only, setting λ 2 and λ 3 to zero, Model (2.1) becomes an SDPD model with SL only, and setting λ 3 to zero, Model (2.1) reduces to an SDPD model with SL and STL. Estimation of these submodels proceeds simply by setting the specific parameters to zeros and excluding the corresponding components in the AQS functions.</p><p>An alternative way of adjusting the CQS functions is as follows. The (ρ, λ 1 , λ 2 ) components in the expected CQS functions given by (3.4)-(3.6) at ψ 0 can be rewritten as:</p><formula xml:id="formula_17">E(∆u Ω -1 0 ∆Y -1 ) = -σ 2 v0 tr diag(G ρ0 )H , (3.16) E(∆u Ω -1 0 W 1 ∆Y ) = -σ 2 v0 tr diag(G λ 1 0 )H , (3.17) E(∆u Ω -1 0 W 2 ∆Y ) = -σ 2 v0 tr diag(G λ 2 0 )H ,<label>(3.18)</label></formula><p>where</p><formula xml:id="formula_18">G ρ = C b D -1 B -1 3 , G λ 1 = C b W 1 DB -1 3 , and G λ 2 = C b W 2 D -1 B -1 3 . Let G c = diag -1 (C b )</formula><p>, the expectations of the following quadratic terms are the negative of the expectations of the (ρ, λ 1 , λ 2 ) components of the CQS functions at true parameter values,</p><formula xml:id="formula_19">E ∆u B 30 diag(G ρ0 )G c0 ∆u = σ 2 v0 tr (diag(G ρ0 )H) , (3.19) E ∆u B 30 diag(G λ 1 0 )G c0 ∆u = σ 2 v0 tr diag(G λ 1 0 )H , (3.20) E ∆u B 30 diag(G λ 2 0 )G c0 ∆u = σ 2 v0 tr diag(G λ 2 0 )H . (3.21)</formula><p>Therefore we obtain an alternative set of AQS functions which take similar forms as (3.12)</p><p>with</p><formula xml:id="formula_20">E ρ = B 3 diag(G ρ )G c , E λ 1 = B 3 diag(G λ 1 )G c , E λ 2 = B 3 diag(G λ 2 )G c</formula><p>, and E λ 3 remains.</p><p>The subsequent developments and the proofs of the results are based on the first set of AQS functions. However, the results and proofs can be easily modified to fit the second set of AQS functions. Monte Carlo experiments are conducted using both sets of modifications and the results show that their performances are almost the same.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Inconsistency of M-estimator.</head><p>Before moving into the formal study of the asymptotic properties of the proposed robust M-estimator, a final note is given to the M-estimator of Yang (2018) -it is generally not robust against unknown heteroskedasticity. To see this, 3 It is well known that when a linear regression model Y = Xβ + ε is estimated under homoskedasticity, the OLS estimator β is consistent whether ε is homoskedastic or heteroskedastic. The heteroskedasticity only alters the variance of β. This is because β solves linear equations. In our model, it is still that, if δ0 is given, β(δ0) defined in (3.13) solves a set of linear equations, and hence is consistent under unknown H. However, the ultimate estimate of β is β ≡ β( δ), of which consistency depends crucially on the consistency of δ. Take a simpler model where λ3 term is dropped for illustration. We have δ = (ρ, λ1, λ2) and Ω = C. From (3.13), β( δ) = β(δ0)-(∆X <ref type="bibr" target="#b0">(1)</ref>. If δ is the CQMLE or the M-estimator of Yang (2018), then plim n→∞ δ = δ0 under H, and therefore, plim n→∞ β = β0. The inconsistency of δ spills over to the estimation of β, making β( δ) inconsistent as well.</p><formula xml:id="formula_21">C -1 ∆X) -1 ∆X C -1 [W1∆Y, ∆Y-1, W2∆Y-1]( δ -δ0) = β0 -O(1)( δ -δ0)+op</formula><p>we further let G λ 3 = W 3 B -1</p><p>3 . Let g ,t = diag(G ,t ), for = ρ 0 , λ 10 , λ 20 , λ 30 , where G ,t is the tth diagonal block of G . Let h = (h 10 , . . . , h n0 ) . For the M-estimator to be consistent under unknown heteroskedasticity, it is necessary that plim n→∞ 1 n(T -1) S STLE (ψ 0 ) = 0, where S STLE (ψ 0 ) is defined below (3.7). Under mild conditions, we have <ref type="bibr" target="#b0">(1)</ref>. Under unknown H, it is easy to see from (3.16)-(3.18) that the -component of 1 n(T -1) S STLE (ψ 0 ) can be written as</p><formula xml:id="formula_22">1 n(T -1) S STLE (ψ 0 ) = 1 n(T -1) E[S STLE (ψ 0 )] + o p</formula><formula xml:id="formula_23">1 n(T -1) S STLE, (ψ 0 ) = 1 n(T -1) tr(HG 0 -G 0 ) + o p (1) = 1 T -1 T -1 t=1 Cov(g ,t , h) + o p (1),</formula><p>for = ρ 0 , λ 10 , λ 20 , λ 30 , where Cov(g ,t , h) is the sample covariance between the two vectors.</p><p>Therefore, the necessary conditions for the M-estimator to be consistent are</p><formula xml:id="formula_24">lim n→∞ Cov(g ,t , h) = 0, for = ρ 0 , λ 10 , λ 20 , λ 30 ; t = 1, . . . , T -1.</formula><p>Obviously, under a general unknown H these cannot be true for all terms in general, and therefore the M-estimator of Yang (2018) cannot be consistent in general. 4   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Asymptotic Properties of Robust M-estimators</head><p>In this section, we study the consistency and asymptotic normality of the proposed Mestimator for the FE-SDPD model with the general spatial dependence structure and unknown heteroskedasticity. Some general notations are followed: • denotes the Frobenius norm, γ min (•) and γ max (•) denote, respectively, the minimum and maximum eigenvalues of a real symmetric matrix, besides the notations used earlier: | • | for determinant, tr(•) for trace, and diag(•) for forming a diagonal matrix. The following assumptions are adapted from Yang (2018), allowing for cross-sectional heteroskedasticity of unknown form.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption B:</head><p>The innovations v it are (i) inid across i = 1, . . . , n and iid across</p><formula xml:id="formula_25">t = 0, 1, . . . , T with E(v it ) = 0 and Var(v it ) = σ 2 v h n,i , 0 &lt; h n,i ≤ c &lt; ∞ and 1 n n i=1 h n,i = 1; (ii) E|v it | 4+ 0 &lt; ∞ for some 0 &gt; 0.</formula><p>Assumption C: The space parameter space ∆ for δ is compact, and the true parameter δ 0 lies in its interior.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption D:</head><p>The time-varying regressors {X t , t = 0, 1, . . . , T } are exogenous, their values are uniformly bounded, and lim n→∞ 1 nT ∆X ∆X exists and is nonsingular. Assumption E: (i) For r = 1, 2, 3, the elements w r,ij of W r are at most of order ι -1 n , uniformly in all i and j, and w r,ii = 0 for all i; (ii) ι n /n → 0 as n → ∞; (iii) {W r , r = 1, 2, 3} 4 In fact, this condition may not hold even for the simplest term related to <ref type="bibr" target="#b5">Anselin (2003)</ref>, the diagonal elements of W r 3 , r ≥ 2, are inversely related to the elements kni of kn, the vector of number of neighbours for each unit. If</p><formula xml:id="formula_26">G λ 3 = IT -1 ⊗ (W3B -1 3 ). Note that W3B -1 3 = W3 +λ3W 2 3 +λ 2 3 W 3 3 +. . ., if λ3W3 &lt; 1. According to</formula><formula xml:id="formula_27">hi0 ∝ k -1</formula><p>ni and Var(kn) = O(1), then 1 <ref type="bibr" target="#b0">1)</ref>. The case of non-vanishing Var(kn) can occur in group interaction schemes where sizes of groups are of 'fixed' magnitude but number of groups increases with n. See Yang (2010) and <ref type="bibr" target="#b26">Liu and Yang (2015)</ref> for more discussions on this issue. and {B -1 r0 , r = 1, 3} are uniformly bounded in both row and column sums; (iv) For r = 1, 3, {B -1 r } are uniformly bounded in either row or column sums, uniformly in λ r in a compact parameter space Λ r , and</p><formula xml:id="formula_28">T -1 P T -1 t=1 Cov(g λ 3 , h) = Cov(g λ 3 , h) = O(</formula><formula xml:id="formula_29">0 &lt; c r ≤ inf λr∈Λr γ min (B r B r ) ≤ sup λr∈Λr γ max (B r B r ) ≤ cr &lt; ∞.</formula><p>Assumption F: For an n × n matrix Φ uniformly bounded in either row or column sums, with elements of uniform order ι -1 n , and an n × 1 vector φ with elements of uniform order ι</p><formula xml:id="formula_30">-1/2 n , (i) ιn n ∆y 1 Φ∆y 1 = O p (<label>1</label></formula><p>) and ιn n ∆y 1 Φ∆v 2 = O p (1); (ii) ιn n [∆y 1 -E(∆y 1 )] φ = o p (1); (iii) ιn n [∆y 1 Φ∆y 1 -E(∆y 1 Φ∆y 1 )] = o p (1), and (iv) ιn n [∆y 1 Φ∆v 2 -E(∆y 1 Φ∆v 2 )] = o p (1).</p><p>To establish the consistency of δM , and hence the consistency of βM and σ2 v,M , define the population AQS function:</p><formula xml:id="formula_31">S * STLE (ψ) = E[S * STLE (ψ)]. Given δ, S * STLE (ψ) = 0 is solved at βM (δ) = (∆X Ω -1 ∆X) -1 ∆X Ω -1 (B 1 E∆Y -B 2 E∆Y -1 ), (3.22) σ2 v,M (δ) = 1 n(T -1) E[∆ū(δ) Ω -1 ∆ū(δ)],<label>(3.23)</label></formula><p>where ∆ū(δ</p><formula xml:id="formula_32">) = ∆u(θ)| β= β(δ) = B 1 ∆Y -B 2 ∆Y -1 -∆X β(δ). Substituting βM (δ) and σ2 v,M (δ) back into the δ-component of S * STLE (ψ), we obtain S * c STLE (δ) =                  1 σ2 v,M (δ) E[∆ū(δ) Ω -1 ∆Y -1 ] + 1 σ2 v (δ) E[∆ū (δ)E ρ ∆ū(δ)], 1 σ2 v,M (δ) E[∆ū(δ) Ω -1 W 1 ∆Y ] + 1 σ2 v,M (δ) E[∆ū(δ) E λ 1 ∆ū(δ)], 1 σ2 v,M (δ) E[∆ū(δ) Ω -1 W 2 ∆Y -1 ] + 1 σ2 v,M (δ) E[∆ū(δ) E λ 2 ∆ū(δ)], 1 2σ 2 v,M (δ) E[∆ū(δ) C -1 ⊗ (A -E λ 3 ) ∆ū(δ)], (3.24)</formula><p>which gives the population counter part of the concentrated AQS function given in (3.15).</p><p>The M-estimator δM of δ 0 is a zero of S * c STLE (δ) and δ 0 is a zero of S * c STLE (δ) (as β(δ 0 ) = β 0 and σ2 v (δ 0 ) = σ 2 v0 ). Thus, by Theorem 5.9 of van der Vaart (1998), δM will be consistent for</p><formula xml:id="formula_33">δ 0 if sup δ∈∆ 1 n(T -1) S * c STLE (δ) -S * c STLE (δ)</formula><p>p -→ 0, and the following identification condition holds.</p><p>Assumption G: inf δ: d(δ,δ 0 )≥ε S * c STLE (δ) &gt; 0 for every ε &gt; 0, where d(δ, δ 0 ) is a measure of distance between δ 0 and δ. We have, as n → ∞, ψM p -→ ψ 0 .</p><p>To establish the asymptotic normality of ψM , by backward substitutions on the reduced form (2.3) we represent ∆Y and ∆Y -1 in terms of ∆y 1 = 1 T -1 ⊗ ∆y 1 and ∆v:</p><formula xml:id="formula_34">∆Y = R ∆y 1 + η + S∆v, (3.25) ∆Y -1 = R -1 ∆y 1 + η -1 + S -1 ∆v, (3.26) where R = blkdiag(B 0 , B 2 0 , . . . , B T -1 0 ), R -1 = blkdiag(I n , B 0 , . . . , B T -2 0 ), η = BB -1 10 ∆Xβ 0 , η -1 = B -1 B -1 10 ∆Xβ 0 , S = BB -1 10 B -1 30 , S -1 = B -1 B -1 10 B -1 30 , B =        I n 0 . . . 0 0 B 0 I n . . . 0 0 . . . . . . . . . . . . . . . B T -2 0 B T -3 0 . . . B 0 I n        , and B -1 =        0 0 . . . 0 0 I n 0 . . . 0 0 . . . . . . . . . . . . . . . B T -3 0 B T -4 0 . . . I n 0        .</formula><p>By representations (3.25) and (3.26), the AQS function at ψ 0 can be written as</p><formula xml:id="formula_35">S * STLE (ψ 0 ) =                        Π 1 ∆v, ∆v Φ 1 ∆v -n(T -1) 2σ 2 v0 , ∆v Ψ 1 ∆y 1 + Π 2 ∆v + ∆v Φ 2 ∆v, ∆v Ψ 2 ∆y 1 + Π 3 ∆v + ∆v Φ 3 ∆v, ∆v Ψ 3 ∆y 1 + Π 4 ∆v + ∆v Φ 4 ∆v, ∆v Φ 5 ∆v,<label>(3.27)</label></formula><p>where</p><formula xml:id="formula_36">Π 1 = 1 σ 2 v0 C b0 ∆X, Π 2 = 1 σ 2 v0 C b0 η -1 , Π 3 = 1 σ 2 v0 C b0 W 1 η, Π 4 = 1 σ 2 v0 C b0 W 2 η -1 , Φ 1 = 1 2σ 4 v0 C -1 , Φ 2 = 1 σ 2 v0 (C b0 S -1 + B -1 30 E ρ0 B -1 30 ), Φ 3 = 1 σ 2 v0 (C b0 W 1 S + B -1 30 E λ 10 B -1 30 ), Φ 4 = 1 σ 2 v0 (C b0 W 2 S -1 + B -1 30 E λ 20 B -1 30 ), Φ 5 = 1 2σ 2 v0 C -1 ⊗ B -1 30 (A 0 -E λ 30 )B -1 30 , Ψ 1 = 1 σ 2 v0 C b0 R -1 , Ψ 2 = 1 σ 2 v0 C b0 W 1 R, and Ψ 3 = 1 σ 2 v0 C b0 W 2 R -1 .</formula><p>Theorem 3.2. Assume Assumptions A-G hold. We have, as n → ∞,</p><formula xml:id="formula_37">n(T -1) ψM -ψ 0 D -→ N 0, lim n→∞ Σ * -1 STLE (ψ 0 )Γ * STLE (ψ 0 )Σ * -1 STLE (ψ 0 ) ,</formula><p>where</p><formula xml:id="formula_38">Σ * STLE (ψ 0 ) = -1 n(T -1) E[ ∂ ∂ψ S * STLE (ψ 0 )] and Γ * STLE (ψ 0 ) = 1 n(T -1) Var[S * STLE (ψ 0 )]</formula><p>, both assumed to exist and Σ * STLE (ψ 0 ) to be positive definite, for sufficiently large n.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Robust Estimation of VC Matrix</head><p>As Σ * STLE (ψ 0 ) is the expected negative Hessian, it can be consistently estimated by its observed counter part, Σ * STLE = -1 n(T -1) ∂ ∂ψ S * STLE (ψ) ψ= ψM , with the detailed expression and the proof of consistency being given in the proof of Theorem 3.3 in Appendix B.</p><p>However, the traditional methods of estimating Γ * STLE (ψ 0 ) are not applicable as (i) the initial differences ∆y 1 need to be 'specified' or modelled when T is fixed and small, of which a valid modelling strategy is unknown for the general FE-SDPD model, and (ii) the analytical expression of Γ * STLE (ψ 0 ), if it is available, cannot be used as it contains unobservables. We follow the idea of Yang (2018) to decompose the AQS function into a sum of vector martingale difference (MD) sequences so that the average of the outer products of the MDs (OPMD) gives a consistent estimate of the VC matrix of the AQS function.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>From (3.27) we see that the AQS function S *</head><p>STLE (ψ 0 ) contains three types of elements: Π ∆v, ∆v Φ∆v, and ∆v Ψ∆y 1 , where Π, Φ and Ψ are nonstochastic matrices (depending on ψ 0 ) with Π being n(T -1) × p or n(T -1) × 1, and Φ and Ψ being n(T -1) × n(T -1).</p><p>As our asymptotics depend only on n and the transformed errors remain independent across i, the above linear, quadratic and bilinear terms can be written as sums of n uncorrelated terms, so that their variance can be estimated by the averages of the outer products of the summands. For a square matrix A, let A u , A l and A d be, respectively, its uppertriangular, lower-triangular, and diagonal matrix such that A = A u + A l + A d . Denote by Π t , Φ ts and Ψ ts the submatrices of Π, Φ and Ψ partitioned according to t, s = 2, . . . , T . Let {G n,i } be the increasing sequence of σ-fields generated by (v j1 , . . . , v jT , j = 1, . . . , i), i = 1, . . . , n, n ≥ 1. Let F n,0 be the σ-field generated by (v 0 , ∆y 0 ), and define F n,i = F n,0 ⊗ G n,i . Clearly,</p><formula xml:id="formula_39">F n,i-1 ⊆ F n,i , i.e., {F n,i } n</formula><p>i=1 is an increasing sequence of σ-fields, for each n ≥ 1. First, for the terms linear in ∆v, we have,</p><formula xml:id="formula_40">Π ∆v = T t=2 Π t ∆v t = T t=2 n i=1 Π it ∆v it = n i=1 T t=2 Π it ∆v it ≡ n i=1 g Π,i . (3.28)</formula><p>Clearly, {g Π,i } are independent with mean zero, and thus form a vector M.D. sequence.</p><p>Second, the terms quadratic in ∆v are decomposed as follows, ∆v Φ∆v =</p><p>T t=2 T s=2 ∆v t Φ ts ∆v s = T t=2 T s=2 ∆v t (Φ u ts + Φ l ts + Φ d ts )∆v s = T t=2 T s=2 ∆v s Φ u ts ∆v t + ∆v t Φ l ts ∆v s + ∆v t Φ d ts ∆v s = T t=2 T s=2 ∆v s Φ u ts ∆v t + ∆v s Φ l ts ∆v t + ∆v t Φ d ts ∆v s = T t=2 T s=2 ∆v t (Φ u st + Φ l ts )∆v s + ∆v t Φ d ts ∆v s = T t=2 ∆v t ∆ξ t + T t=2 ∆v t ∆v * t = n i=1 T t=2 ∆v it ∆ξ it + ∆v it ∆v * it , where ∆ξ t = T s=2 (Φ u st + Φ l ts )∆v s and ∆v * t = T s=2 Φ d ts ∆v s . Letting {c ts } = C and {Φ ii,ts } = diag(Φ ts ), we have</p><formula xml:id="formula_41">E(∆v Φ∆v) = σ 2 v0 tr[(C ⊗ H)Φ] = σ 2 v0 T t=2 T s=2 tr(c ts Φ st H) = n i=1 σ 2 v0 h n,i T s=2 T s=2 (c ts Φ ii,st ) ≡ n i=1 T t=2 d Φ,it . Thus, ∆v Φ∆v -E(∆v Φ∆v) = n i=1 g Φ,i , where, g Φ,i = T t=2 (∆v it ∆ξ it + ∆v it ∆v * it -d Φ,it ), (3.29)</formula><p>{g Φ,i , G n,i } form an M.D. sequence as ∆ξ it is G n,i-1 -measurable,and E(g Φ,i |G n,i-1 ) = 0.</p><p>Finally, we decompose the terms bilinear in ∆v and ∆y 1 . First, we transform ∆y 1 into ∆y </p><formula xml:id="formula_42">= ∆v 2 Θ∆y • 1 + T t=3 ∆v t ∆y * 1t = ∆v 2 (Θ u + Θ l + Θ d )∆y • 1 + T t=3 ∆v t ∆y * 1t = ∆v 2 (Θ u + Θ l )∆y • 1 + ∆v 2 Θ d ∆y • 1 + T t=3 ∆v t ∆y * 1t = n i=1 ∆v 2i ∆ζ i + n i=1 Θ ii ∆v 2i ∆y • 1i + n i=1 T t=3 ∆v it ∆y * 1it ,</formula><p>where ∆y * 1t = Ψ t+ ∆y 1 and</p><formula xml:id="formula_43">{∆ζ i } = ∆ζ = (Θ u + Θ l )∆y • 1 .</formula><p>It can be easily seen that E(∆v 2i ∆ζ i |F n,i-1 ) = 0, therefore the first term is the sum of an M.D. sequence. The third term is the sum of n uncorrelated terms of mean zero as ∆y 1 is independent of ∆v t , t ≥ 3.</p><p>By Assumption A, ∆y 0 is independent of v t , t ≥ 1, so we have E(∆v 2 Θ d ∆y • 1 ) = -σ 2 v0 tr(ΘH). Therefore, ∆v Ψy 1 -E(∆v Ψy 1 ) = n i=1 g Ψ,i where,</p><formula xml:id="formula_44">g Ψ,i = ∆v 2i ∆ζ i + Θ ii (∆v 2i ∆y • 1i + σ 2 v0 h n,i ) + T t=3 ∆v it ∆y * 1it .</formula><p>(3.30) E(g Ψ,i |F n,i-1 ) = 0 and hence {g 3i , F n,i } form an M.D. sequence. It is then easy to see that</p><formula xml:id="formula_45">{(g Π,i , g Φ,i , g Ψ,i ) , F n,i } form a vector M.D. sequence.</formula><p>Using (3.28)-(3.30), S * STLE (ψ 0 ) can be written as a sum of vector M.D.s. For each Π r , r = 1, 2, 3, 4, in (3.27), define g Πr,i according to (3.28); for each Φ r , r = 1, . . . , 5, define g Φr,i according to (3.29); and for each Ψ r , r = 1, 2, 3, define g Ψr,i according to <ref type="bibr">(3.30)</ref>. Define</p><formula xml:id="formula_46">g i = (g Π1i , g Φ1i , g Ψ1i + g Π2i + g Φ2i , g Ψ2i + g Π3i + g Φ3i , g Ψ3i + g Π4i + g Φ4i , g Φ5i ) .</formula><p>Then, S * STLE (ψ 0 ) = n i=1 g i , and {g i , F n,i } form a vector M.D. sequence and Var[S * STLE (ψ 0 )] = n i=1 E(g i g i ). Therefore the OPMD estimator of Γ * STLE is given as:</p><formula xml:id="formula_47">Γ * STLE = 1 n(T -1) n i=1 ĝi ĝ i ,<label>(3.31)</label></formula><p>where ĝi is obtained by replacing ψ 0 , ∆v, and h n,i in g i by ψM , ∆v, and ĥn,i , noting that ∆y 1 is observed. Finally, to estimate {h n,i }, using the expression for Var(∆u) given below (2.4), we can write H = 1</p><formula xml:id="formula_48">σ 2 v C b E(∆u∆u )B 3</formula><p>, of which a natural estimator would be H = σ-2 v,M C b ∆u ∆u B 3 in line with the idea of <ref type="bibr" target="#b35">White (1980)</ref>, where ∆u is the residual vector from the robust M-estimation. Alternatively, h n,i can be simply estimated as follows. Noting that E[(∆v it ) 2 ] = 2σ 2 v h n,i , for t = 2, . . . , T , averaging over t gives ĥn,i = 1</p><formula xml:id="formula_49">2(T -1) σ-2 v,M T t=2 (∆v it ) 2 .</formula><p>Theorem 3.3. Under the assumptions of Theorem (3.1), we have, as n → ∞,</p><formula xml:id="formula_50">Γ * STLE -Γ * STLE (ψ 0 ) = 1 n(T -1) n i=1 ĝi ĝ i -E(g i g i ) p -→ 0, and hence, Σ * -1 STLE Γ * STLE Σ * -1 STLE -Σ * -1 STLE (ψ 0 )Γ * STLE (ψ 0 )Σ * -1 STLE (ψ 0 ) p -→ 0.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Monte Carlo Study</head><p>Monte Carlo experiments are carried out to investigate the finite sample performance of the proposed M-estimator of the FE-SDPD model with unknown heteroskedasticity and the finite sample performance of the corresponding VC matrix estimator. Further, the proposed robust M-estimator is compared with the M-estimator of Yang (2018) under homoskedasticity for efficiency purpose. It is also compared with the robust optimal GMM estimator of <ref type="bibr" target="#b21">Kuersteiner and Prucha (2018)</ref>. Finally, an investigation is given for a model with spatial Durbin terms. We use the following three data generating processes (DGPs):</p><formula xml:id="formula_51">DGP1: y t = ρy t-1 + λ 1 W 1 y t + λ 2 W 2 y t-1 + X t β + Zγ + µ + u t , DGP2: y t = ρy t-1 + λ 1 W 1 y t + λ 2 W 2 y t-1 + X t β + W d X t β d + Zγ + µ + u t , DGP3: y t = ρy t-1 + λ 1 W 1 y t + λ 2 W 2 y t-1 + X t β + Zγ + µ + v t ,</formula><p>where u t = λ 3 W 3 u t + v t for DGP1 and DGP2, µ is the vector of fixed effects and v t the vector of idiosyncratic errors.</p><p>The elements of X t are generated in a similar fashion as in Hsiao et al. (2002), <ref type="foot" target="#foot_2">5</ref> and the elements of Z are randomly generated from Bernoulli (0.5). The spatial weight matrices are generated according to group interaction schemes where group sizes change across the groups but not with respect to the sample size. <ref type="foot" target="#foot_3">6</ref> The idiosyncratic errors are generated as v t = σ 2 v He t . Similar to Lin and Lee (2010), the heteroskedasticity H is generated in two different ways: H-I, for each i, if the number of neighbors is smaller than the average number of neighbors, then h n,i equals to the number of its neighbors, otherwise it is the square of the inverse of the number of its neighbors; and H-II, for each i, if the number of neighbors is larger than the average number of neighbor, then h n,i equals to the number of its neighbors, otherwise it is the square of the inverse of the number of its neighbors. The variance structure is nonlinear in the number of neighbors. In the first case the error variance increases and then decreases with the number of neighbors, and in the second case the variance decreases and then increases with the number of neighbors. The h n,i 's are normalized to have mean one. The distribution of e t can be (i) normal, (ii) normal mixture with 10% of the values generated from N (0, 4) and 90% from N (0, 1), or (iii) chi-squared with degree of freedom of 3. In both (ii) and (iii), the generated errors are standardized to have mean zero and variance 1. We choose β = 1, β d = 0.2 and σ 2 v = 1. We use a set of values for ρ ranging from -0.9 to 0.9, a set of values for (λ 1 , λ 2 , λ 3 ) in the similar range, m = 10, T = 3 or 7, and N = 50, 100, 200 or 400. Each set of Monte Carlo results, corresponding to a combination of the values of (n, T, m, ρ, λ 1 , λ 2 , λ 3 ) is based on 2000 samples. Monte Carlo (empirical) means and standard deviations (sds) are reported for the CQML estimators (CQMLEs), the M-estimators, and the robust M-estimators. Empirical averages of the robust standard errors (rses) based on the VC matrix estimate Σ * -1 SDPD Γ * SDPD Σ * -1 SDPD are also reported for the robust M-estimators, which should be compared with the corresponding empirical sds. The ses of the M-estimator based only on Σ * SDPD or Γ * SDPD are also computed, and the results (unreported to conserve space) show that they are not robust. These results, together with additional unreported Monte Carlo results are available upon request.</p><p>Tables 1-3 present the results based on DGP1, the FE-SDPD model with all three types of spatial effects. Tables <ref type="table">1a</ref> and <ref type="table">1b</ref> present the results when H is generated by H-I and T = 3, with SNR being 1 and 3 (see Footnote 5), respectively. The results show that the proposed robust M-estimators perform quite well. The inconsistency of CQMLEs and M-estimators is shown clearly in Table <ref type="table">1a</ref>. The CQMLEs and M-estimators for ρ, λ 1 , λ 2 and λ 3 are severely biased, and they do not show a sign of convergence as n increases. Meanwhile, the robust M-estimators perform much better and show a clear sign of convergence. The rses are close to the corresponding Monte Carlo sds in general, showing the robustness and good finite sample performance of the proposed OPMD estimate of VC matrix. The rses of λ 3 is slightly biased.</p><p>However, this bias is reduced when SNR is larger. The results presented in Table <ref type="table">1b</ref> show clearly the biases of CQMLEs and M-estimators are reduced but still persistent, especially for the case of λ 3 . The robust M-estimators still perform very well, and the bias encountered in rses of λ 3 reduced. When T is set to 7, the results (unreported for brevity) show that the bias of the CQMLEs and M-estimators are reduced, but the pattern of inconsistency still remains, whereas the robust M-estimators and rses are nearly unbiased.</p><p>Tables <ref type="table">2a</ref> and <ref type="table">2b</ref> present the results when H is generated by H-II and T = 3, with SNR being 1 and 3, respectively. In this case, both the M-estimators and the robust M-estimators of ρ, λ 1 and λ 2 perform quite well, but the M-estimator of λ 3 has a larger bias. Comparing with the results in Table <ref type="table">1a</ref> and 1b we see that when sample size is not large, the CQMLEs and the M-estimators can be very sensitive to the way heteroskedasticity is generated and to the magnitude of SNR. The rses under H-II perform better than those under H-I and are generally quite close to the corresponding Monte Carlo sds, except that there is some bias in rses of σ2 M,v when error terms are not normally distributed.</p><p>Tables 3 presents the results when the idiosyncratic errors are homoskedastic (H = I n ).</p><p>In this case, both the M-estimation of Yang (2018) and the proposed robust M-estimator are consistent. As expected, the results show that the proposed robust M-estimator is less efficient than the M-estimator of Yang (2018). However, this efficiency loss is quite marginal.</p><p>Tables 4 presents the results based on DGP2, the FE-SDPD model with all three types of spatial effects and a spatial Durbin term, where H = H-I, T = 3 and SNR = 3. As discussed earlier, the spatial Durbin terms can simply be included in the model as additional exogenous regressors, and the proposed set of estimation and inference methods perform well. <ref type="foot" target="#foot_4">7</ref>Tables 5 presents the results based on DGP3, the FE-SDPD model with SL and STL, where H = H-I, T = 3 and SNR = 3. As the main focus of this set of Monte Carlo experiments is to compare the proposed robust M-estimator with the GMM estimator of Kuersteiner and Prucha (2018), we only report the empirical means and sds for these two estimators. <ref type="foot" target="#foot_5">8</ref> The results show clear convergence patterns of both estimators: as sample size grows both estimators become less biased and less variable. The robust M-estimator has a smaller bias than the GMM estimator for all sample sizes and all three different error distributions. The empirical sds show that the robust M-estimator is much more efficient than the GMM estimator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Empirical Application: Sovereign Risk Spillover</head><p>This section presents an empirical application of the proposed M-estimator for the FE-SDPD model under small T and unknown heteroskedasticity. We investigate international spillover of the sovereign bond spreads of 51 countries from 2007 to 2012, and we find that it is important to allow for heteroskedasticity in the estimation. All of these works are under the assumption that disturbances are homoskedastic. However, as different financial sectors vary greatly in size and depth, different countries vary greatly in so many aspects such as population, location, completeness of financial market, bureaucratic quality, government stability, openness to trade, and other social-economical characteristics, it is natural to think that we should allow the innovations to be heteroskedastic.</p><p>Our data covers 51 countries, including both advanced and emerging markets over six years from 2007 to 2012. The list of countries included in our analysis is presented in table E1. Bond yield spread, credit default swap and credit ratings are three commonly used measures of sovereign risk in the literature. We follow the main body of the literature to measure the sovereign risk by sovereign bond yields spreads. For advanced economies, the spread is computed as the difference between the 10-year bond yields on the secondary market and the 10-year US treasury bond yield. We obtain the data from Datastream. For emerging markets, we use Emerging Market Bond Index Global (EMBIG) obtained from Global Economic Monitor of the World Bank database to measure the spreads in order to have a consistent measure for both advanced and emerging economies as in Beirne and Frazscher The data for these variables are collected from IMF World Economic Outlook (WEO). We use yearly data because it is the original frequency for most of the variables we consider.</p><p>The original frequencies are daily for VIX and the bond yield spread, and monthly for real effective exchange rate. We use the average values over a year for those variables.</p><p>Table E1. List of Countries Argentina Australia Austria Belgium Brazil Bulgaria Canada Chile China Colombia Czech Republic Denmark Ecuador Egypt Finland France Germany Ghana Greece Hungary Indonesia Ireland Italy Jamaica Japan Kazakhstan Korea Malaysia Mexico Netherlands New Zealand Norway Pakistan Panama Peru Philippines Poland Portugal Russia Singapore South Africa Spain Sweden Switzerland Tunisia Turkey Ukraine United Kingdom Uruguay Venezuela Vietnam We fit the data to the general model (2.1) and several sub-models, and report the results corresponding to the following two models that best fit the data: the SDPD model with SL and STL: y t = ρy t-1 + λ 1 W y t + λ 2 W y t-1 + X t β + Zγ + µ + v t , and the SDPD model with SE only: y t = ρy t-1</p><formula xml:id="formula_52">+ X t β + Zγ + µ + u t , u t = λ 3 W 3 u t + v t .</formula><p>Both specifications are in fact widely used in empirical studies. In both models, y t is an n × 1 vector of government bond yields spreads, X t is an n × k matrix containing the observed time varying exogenous variables, Z is an n × k z matrix containing the observed time invariant variables, µ is an n × 1 vector of unobserved country-specific fixed effects, and the elements {v it } of v t are assumed to be iid across time but inid across country with mean zero and variance σ 2 v h i . We consider three different weight matrices to investigate three risk transmission channels. The first weight matrix, W trade , represents the real linkage between economies, and it is constructed using bilateral trade flow to measure the connectivity between countries. The (i, j) element of W trade,t is W ijt = M ijt +X ijt GDP it +GDP jt , where M ijt is the total import of country i from country j in year t represented in US Dollars, X ijt is the total export of country i to country j in year t, GDP it is the nominal gross domestic product for country Table <ref type="table">E2</ref> shows the estimation results when the data is fit to SL-STL model. We compare the results from the M-estimation of Yang (2018) and the proposed robust M-estimation in this paper under all three weight matrices. Under the robust M-estimation, the signs for all parameters are as expected and the parameter estimates for debt/GDP, CPI, VIX and real effective exchange rate are significant regardless of which weight matrix is used. The results are in line with the previous studies. Under the M-estimation, the sign of parameter estimate for CA/GDP is not as expected although insignificant, and only the parameters of debt/GDP and CPI are significant. The parameter of time-lag variable is estimated to be positive and significant under both methods but the magnitudes are much larger for robust Mestimates. Under the robust M-estimation, the parameter of spatial-lag variable is estimated to be positive and significant when W trade and W debt are used and insignificant when W deficit is used. Under the M-estimation, the parameter estimates for spatial-lag variable are positive but insignificant under all three weight matrices and the magnitudes are smaller than those of the robust M-estimates. Parameter estimates for space-time lag variable are negative and significant for all weight matrices under the robust M-estimation, whereas it is insignificant when W deficit is used under the M-estimation.</p><p>Table E2. Estimation Results of SDPD Model with SL and STL W trade W deficit W debt Variables M-Est RM-Est M-Est RM-Est M-Est RM-Est debt/GDP .1190(.060) .0782(.029) .1181(.059) .0671(.034) .1179(.057) .0675(.031) deficit/GDP -.0536(.089) -.1756(.126) -.0878(.098) -.1637(.155) -.0512(.097) -.2118(.173) CA/GDP .0130(.040) -.0266(.022) .0247(.035) -.0312(.025) .0271(.031) -.0110(.010) CPI .1519(.034) .1765(.088) .1627(.038) .2518(.119) .1751(.034) .2177(.109) GPD growth -.1867(.103) -.1411(.071) -.1494(.113) -.0317(.087) -.1589(.089) -.0770(.071) VIX .0443(.034) .0204(.009) .0466(.077) .0849(.036) .0707(.045) .0393(.017) Reer .0267(.021) .0340(.017) .0202(.020) .0309(.013) .0277(.021) .0381(.016) Yt-1 .1417(.059) .5490(.108) .2126(.046) .6739(.112) .1392(.061) .6207(.114) W Yt .1815(.266) .4955(.241) .3668(.432) .3441(.200) .0831(.399) .5767(.289) W Yt-1 -.5713(.291) -.5951(.194) -.6918(.347) -.4193(.176) -.4008(.165) -.8803(.422)</p><p>Table <ref type="table">E3</ref> shows the estimation results when the data is fit to SE model. First, we observe that the signs of parameter estimates for all variables stay the same and the magnitudes remain similar for both methods. The parameter estimate of debt/GDP becomes insignificant whereas the parameter estimate of deficit/GDP becomes significant under the robust Mestimation for all weight matrices. Under the M-estimation, both debt/GDP and deficit/GDP are insignificant in this model. The results for other variables are similar to those from STL model. The spatial error parameter and the dynamic parameter are estimated to be positive and significant by the robust M-estimation, but insignificant under the M-estimation.</p><p>Table E3. Estimation Results of SDPD Model with SE W trade W deficit W debt Variables M-Est RM-Est M-Est RM-Est M-Est RM-Est debt/GDP .1189(.191) .0731(.073) .1073(.760) .0687(.076) .1205(.376) .0681(.077) deficit/GDP -.0503(.057) -.1828(.093) -.0744(.361) -.2107(.085) -.0264(.026) -.1807(.091) CA/GDP .0182(.178) -.0170(.060) -.0047(.012) -.0339(.056) .0169(.035) -.0284(.055) CPI .1407(.071) .1859(.034) .1674(.083) .2149(.037) .1703(.085) .2187(.045) GPD growth -.1953(.784) -.1033(.132) -.1700(.234) -.0725(.150) -.1564(.651) -.0731(.136) VIX .1025(.049) .1356(.055) .0960(.047) .1739(.112) .0997(.047) .1323(.056) Reer .0248(.012) .0350(.018) .0157(.008) .0206(.019) .0264(.012) .0349(.018) Yt-1 .1249(.179) .5906(.257) .1678(.269) .6806(.277) .1142(.056) .6183(.284) W3ut .4727(.561) .5666(.124) .5693(.568) .7804(.164) .2588(.129) .4958(.194)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusion and Discussion</head><p>This paper considers the M-estimation and inference methods for the SDPD models with fixed effects and unknown heteroskedasticity, based on short panels. The estimation method extends the idea of <ref type="bibr" target="#b37">Yang (2018)</ref> to allow for unknown heteroskedasticity by using modification terms that are quadratic in disturbances. The modified quasi-score function gives unbiased estimating equations. The statistical inferences are based on the outer-product-ofmartingale-differences (OPMD) method proposed by <ref type="bibr" target="#b37">Yang (2018)</ref>. The asymptotic properties of the M-estimators and the estimators of VC matrix are studied. Monte Carlo experiments show that both the robust M-estimators and the estimators of standard errors perform very well and that ignoring the heteroskedasticity would cause significant bias. We apply our methods to investigate the international government risk spillover through both real linkage and information channels. The results show that allowing for heteroskedastic disturbances can be important. The proposed methods, therefore, provide a useful set of econometrics tools for applied researchers.</p><p>We have studied the case where the disturbances are heteroskedastic across individuals.</p><p>It would be interesting to further extend our method to allow for heteroskedasticity in both individual and time, and for serial correlation. It would also be interesting to extend our method to allow for endogenous regressors, interactive fixed effects, time varying weight matrices and time varying spatial parameters. These models would be more challenging and are beyond the scope of this paper, and will be studied in future works.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A: Some Basic Lemmas</head><p>The following lemmas are essential for the proofs of the main results in this paper, where Lemmas A.4 and A.5 extend those of Yang(2018) by allowing v it to be inid across i. Lemma A.3. <ref type="bibr" target="#b22">(Lee, 2004</ref><ref type="bibr">(Lee, , p.1918))</ref>: Let X n be an n × p matrix. If the elements X n are uniformly bounded and lim n→∞ 1 n X n X n exists and is nonsingular, then</p><formula xml:id="formula_53">P n = X n (X n X n ) -1</formula><p>X n and M n = I n -P n are uniformly bounded in both row and column sums.</p><p>Lemma A.4. (Yang, 2018) Let {A n } be a sequence of n × n matrices that are uniformly bounded in either row or column sums. Suppose that the elements a n,ij of A n are O(ι -1 ) uniformly in all i and j. Let v n be a random n-vector of inid elements satisfying Assumption B, and b n a constant n-vector of elements of uniform order O(ι -1/2 ).</p><formula xml:id="formula_54">Then (i) E(v n A n v n ) = O( n ιn ), (ii) Var(v n A n v n ) = O( n ιn ), (iii) Var(v n A n v n + b n v n ) = O( n ιn ), (iv) v n A n v n = O p ( n ιn ), (v) v n A n v n -E(v n A n v n ) = O p (( n ιn ) 1 2 ), (vi) v n A n b n = O p (( n ιn )<label>1 2 ),</label></formula><p>and (vii), the results (iii) and (vi</p><formula xml:id="formula_55">) remain valid if b n is a random n-vector independent of v n such that {E(b 2 ni )} are of uniform order O(ι -1 n ).</formula><p>Lemma A.5. (Yang, 2018, Central Limit Theorem for bilinear quadratic forms): Let {Φ n } be a sequence of n × n matrices with row and column sums uniformly bounded, and</p><formula xml:id="formula_56">elements of uniform order O(ι -1 n ). Let v n be a random n-vector satisfying Assumption B. Let b n = {b ni } be an n × 1 random vector, independent of v n , such that (i) {E(b 2 ni )} are of uniform order O(ι -1 n ), (ii) sup i E|b ni | 2+ 0 &lt; ∞, (iii) ιn n n i=1 [φ n,ii (b ni -Eb ni )] = o p (<label>1</label></formula><formula xml:id="formula_57">)</formula><p>where {φ n,ii } are the diagonal elements of Φ n , and (iv</p><formula xml:id="formula_58">) ιn n n i=1 [b 2 ni -E(b 2 ni )] = o p (1). Let H n = diag(h n1 , . . . , h nn ).</formula><p>Define the bilinear-quadratic form:</p><formula xml:id="formula_59">Q n = b n v n + v n Φ n v n -σ 2 v tr(Φ n H n ),</formula><p>and let σ 2 Qn be the variance of</p><formula xml:id="formula_60">Q n . If lim n→∞ ι 1+2/ 0 n /n = 0 and { ιn n σ 2 Qn } are bounded away from zero, then Q n /σ Qn d -→ N (0, 1). where Υ = 1 2 [C -1 ⊗ (A -E λ 3 )].</formula><p>With Assumption G, consistency of δM follows from: (a) sup δ∈∆</p><formula xml:id="formula_61">1 n(T -1) ∆û(δ) Ω -1 ∆Y -1 -E[∆ū(δ) Ω -1 ∆Y -1 ] = o p (1), (b) sup δ∈∆ 1 n(T -1) ∆û(δ) Ω -1 W 1 ∆Y -E[∆ū(δ) Ω -1 W 1 ∆Y ] = o p (1), (c) sup δ∈∆ 1 n(T -1) ∆û(δ) Ω -1 W 2 ∆Y -1 -E[∆ū(δ) Ω -1 W 2 ∆Y -1 ] = o p (1), (d) sup δ∈∆ 1 n(T -1) ∆û (δ)E ρ ∆û(δ) -E[∆ū (δ)E ρ ∆ū(δ)] = o p (1), (e) sup δ∈∆ 1 n(T -1) ∆û (δ)E λ 1 ∆û(δ) -E[∆ū (δ)E λ 1 ∆ū(δ)] = o p (1), (f ) sup δ∈∆ 1 n(T -1) ∆û (δ)E λ 2 ∆û(δ) -E[∆ū (δ)E λ 2 ∆ū(δ)] = o p (1), (g) sup δ∈∆ 1 n(T -1) ∆û(δ) Υ∆û(δ) -E[∆ū(δ) Υ∆ū(δ)] = o p (1).</formula><p>Proof of (a). By the expressions of ∆û * (δ) and ∆ū * (δ) given above, we can write</p><formula xml:id="formula_62">1 n(T -1) {∆û(δ) Ω -1 ∆Y -1 -E[∆ū(δ) Ω -1 ∆Y -1 ]} = (Q 1 -EQ 1 )+(Q 2 -EQ 2 )-Q 3 -Q 4 , (C.1) where Q 1 = 1 n(T -1) ∆Y B * 1 MΩ -1 2 W 1 ∆Y , Q 2 = 1 n(T -1) ∆Y -1 B * 2 MΩ -1 2 W 1 ∆Y , Q 3 = 1 n(T -1) tr[B * 1 PΩ -1 2 W 1 Var(∆Y )], Q 4 = 1 n(T -1) tr[B * 2 PΩ -1 2 W 1 Cov(∆Y, ∆Y -1 )].</formula><p>Let M * = Ω -1 2 MΩ -1 2 . Using (3.25), Q 1 can be decomposed into:</p><formula xml:id="formula_63">Q 1 = 1 n(T -1) [∆y 1 R B 1 M * W 1 R∆y 1 + 2∆y 1 R B 1 M * W 1 η + 2∆y 1 R B 1 M * W 1 S∆v +η B 1 M * W 1 η + 2η B 1 M * W 1 S∆v + ∆v S B 1 M * W 1 S∆v ≡ 6 ℓ=1 Q 1,ℓ ,</formula><p>and further using (3.26), Q 2 can be decomposed into:</p><formula xml:id="formula_64">Q 2 = 1 n(T -1) [∆y 1 R 1 B 2 M * W 1 R∆y 1 + ∆y 1 R 1 B 2 M * W 1 η + ∆y 1 R 1 B 2 M * W 1 S∆v +η 1 B 2 M * W 1 R∆y 1 + η 1 B 2 M * W 1 η + η 1 B 2 M * W 1 S∆v + ∆v S 1 B 2 M * W 1 R∆y 1 +∆v S 1 B 2 M * W 1 η + ∆v S 1 B 2 M * W 1 S∆v ≡ 9 ℓ=1 Q 2,ℓ .</formula><p>Thus, both Q 1 and Q 2 are sums of terms of the forms: ). Note that Ξ, Φ, Ψ, φ and ϕ depend on δ in general. Partition them according to t, s = 2, . . . , T , and denote the partitioned matrices/vectors by Ξ ts , Φ ts , Ψ ts , φ t and ϕ t . First, for the terms quadratic in ∆y 1 , they can be written as 1  n ∆y 1 Ξ ++ ∆y 1 , where Ξ ++ = 1 T -1 t s Ξ t,s . As Ξ is uniformly bounded in either row or column sums, we have Ξ ++ is uniformly bounded in either row or column sums for any δ ∈ ∆. The pointwise convergence of 1  n [∆y 1 Ξ ++ (δ)∆y 1 -E(∆y 1 Ξ ++ ∆y 1 )] thus follows from Assumption F(iii). Second, the terms quadratic in ∆v can be written as 1 n t,s v t Π ts v s . The pointwise convergence of 1 n [v t Π ts v s -E(v t Π ts v s )] follows from Lemma A.4 for each t, s = 1, . . . , T . Third, the pointwise convergence of bilinear terms 1 n [∆y 1 Ψ∆v -E(∆y 1 Ψ∆v)] follows by writing ∆y 1 Ψ∆v = s ∆y 1 Ψ +s v s and applying Lemma A.4 (v), Lemma A.4 (vi), and Assumption F (iv). Finally, the pointwise convergence of 1 n(T -1) [∆y 1 ϕ -E(∆y 1 ϕ)] follows from Assumption F(ii), and that of 1 n(T -1) ∆v φ from Chebyshev inequality. Thus, Q k,ℓ -E(Q k,ℓ ) p -→ 0, for each δ ∈ ∆, and all k and ℓ. Now, use notation Q k,ℓ (δ) and let δ 1 and δ 2 be in ∆. We have by the mean value theorem:</p><formula xml:id="formula_65">Q k,ℓ (δ 2 ) -Q k,ℓ (δ 1 ) = ∂</formula><p>∂δ Q k,ℓ ( δ)(δ 2 -δ 1 ), k = 1, 2, and all corresponding ℓ, where δ lies between δ 1 and δ 2 elementwise. It is easy to verify that sup δ∈∆ | ∂ ∂ω Q k,ℓ (δ)| = O p (1) for ω = ρ, λ 1 , λ 2 as Q k,ℓ (δ) is linear or quadratic in ρ, λ 1 and λ 2 , and thus the corresponding partial derivatives take simple forms. Only the matrix M * involves λ 3 and its derivative is d dλ 3 M * = M * Ω(C -1 ⊗A)ΩM * . Take Q 1,1 for example, noting that γ max (M) = 1, we have by definition of matrix C, Assumption E(iii) and Assumption F(i),</p><formula xml:id="formula_66">sup δ∈∆ | ∂ ∂λ 3 Q 1,1 (δ)| = sup δ∈∆ 1 n(T -1) |∆y 1 R B 1 M * Ω(C -1 ⊗ A)ΩM * W 1 R∆y 1 | ≤ sup δ∈∆ 1 n(T -1) |∆y 1 R B 1 (C -1 ⊗ A)W 1 R∆y 1 | ≤ γ -1 min (C)γ max (A)γ max (B 1 ) 1 n(T -1) |∆y 1 R W 1 R∆y 1 | = O(1) × O(1) × O(1) × O p (1).</formula><p>The results sup δ∈∆ | ∂ ∂λ 3 Q k,ℓ (δ)| = O p (1) can be proved similarly for all other cases. It follows that Q k,ℓ (δ) are stochastic equicontinuous, and by Theorem 1 of Andrews (1992), Q k,ℓ (δ) -EQ k,ℓ (δ) p -→ 0, uniformly in δ ∈ ∆. Thus, Q k (δ) -EQ k (δ) p -→ 0, uniformly in δ ∈ ∆, k = 1, 2. It left to show that Q k (δ) → 0, k = 3, 4, uniformly in δ ∈ ∆. We have,</p><formula xml:id="formula_67">Q 3 = 1 n(T -1) tr[B 1 Ω -1 ∆X(∆X Ω -1 ∆X) -1 ∆X Ω -1 W 1 Var(∆Y )] ≤ 1 n(T -1) γ max (Ω -2 )γ max (B 1 )γ max (W 1 )γ -1 min (∆X Ω -1 ∆X) tr[∆X Var(∆Y )∆X] ≤ 1 n(T -1) γ 2 max (Ω -1 )γ max (B 1 )γ max (W 1 )γ max (Var(∆Y ))γ -1 min ∆X Ω -1 ∆X n(T -1)</formula><p>tr[∆X ∆X] n(T -1) .</p><p>Recall Ω</p><formula xml:id="formula_68">-1 = C -1 ⊗ B 3 B 3 . By Assumption E(iv), we have, 0 &lt; c w ≤ inf λ 3 ∈Λ 3 γ min (Ω -1 ) ≤ sup λ 3 ∈Λ 3 γ max (Ω -1 ) ≤ cw &lt; ∞. By Assumption D, 0 &lt; c x ≤ inf λ 3 ∈Λ 3 γ min (Ω -1 )γ min ∆X ∆X n(T -1) ≤ γ min ∆X Ω -1 ∆X n(T -1) ≤ γ max ∆X Ω -1 ∆X n(T -1)</formula><p>≤ sup λ 3 ∈Λ 3 γ max (Ω -1 )γ max ∆X ∆X n(T -1) ≤ cx &lt; ∞. It follows that by the assumptions in Theorem 3.1 and Assumption D,</p><formula xml:id="formula_69">Q 3 ≤ 1 n(T -1) c2 w c x cy cb 1 cw 1 1 n(T -1) tr[∆X ∆X] = O(n -1 ).</formula><p>The convergence of Q 4 can be proved similarly. Therefore,</p><formula xml:id="formula_70">1 n(T -1) {∆û(δ) Ω -1 ∆Y -1 -E[∆ū(δ) Ω -1 ∆Y -1 ]} p -→ 0, uniformly in δ ∈ ∆,</formula><p>completing the proof of (a).</p><p>Proofs of (b)-(g). Using the expressions of ∆û(δ) and ∆ū(δ) given earlier, all the quantities inside | • | can be expressed in forms similar to (C.1). Then, using the expressions of ∆Y , and ∆Y 1 , all the quantities can be further decomposed into sums of terms linear, quadratic or bilinear in ∆v and ∆y 1 . The proofs of (b) to (g) thus follow that of (a).</p><p>Proof of Theorem 3.2: We have by the mean value theorem,</p><formula xml:id="formula_71">0 = 1 √ n(T -1) S * STLE ( ψSTLE ) = 1 √ n(T -1) S * STLE (ψ 0 ) + 1 n(T -1) ∂ ∂ψ S * STLE ( ψ) n(T -1)( ψM -ψ 0 ),</formula><p>where ψ lies elementwise between ψM and ψ 0 . The result of the theorem follows if (a)</p><formula xml:id="formula_72">1 √ n(T -1) S * STLE (ψ 0 ) D -→ N 0, lim n→∞ Γ * STLE (ψ 0 ) , (b) 1 n(T -1) ∂ ∂ψ S * STLE ( ψ) -∂ ∂ψ S * STLE (ψ 0 ) p -→ 0, and<label>(c)</label></formula><formula xml:id="formula_73">1 n(T -1) ∂ ∂ψ S * STLE (ψ 0 ) -E ∂ ∂ψ S * STLE (ψ 0 ) p -→ 0.</formula><p>Proof of (a). From ( <ref type="formula" target="#formula_8">3.27</ref>), we see that S * STLE (ψ 0 ) consists of three types of elements: Π ∆v, ∆v Φ∆v and ∆v Ψ∆y 1 , which can be written as Π ∆v = T t=1 Π * t v t , ∆vΦ∆v = T t=1 T s=1 v t Φ * ts v s , and ∆v Ψ∆y 1 = T t=1 v t Ψ * t ∆y 1 , where Π * t , Φ * ts and Ψ * t are formed by the elements of the partitioned Π, Φ and Ψ, respectively. By (2.1), y 1 = B -1 10 B 20 y 0 + η 1 + B -1 10 B -1 30 v 1 , leading to T t=1 v t Ψ * t ∆y 1 = T t=1 v t Ψ * * t y 0 + T t=1 v t Ψ * + t v 1 , for suitably defined non-stochastic quantities η 1 , Ψ * * t and Ψ * + t . These show that, for every non-zero (p + 5) × 1 vector of constants c, c S * STLE (ψ 0 ) can be expressed as</p><formula xml:id="formula_74">c S * STLE (ψ 0 ) = T t=1 T s=1 v t A ts v s + T t=1 v t B t v 1 + T t=1 v t g(y 0 ),</formula><p>for suitably defined non-stochastic matrices A ts and B t , and the function g(y 0 ) linear in y 0 .</p><p>As, {y 0 , v 1 , . . . , v T } are independent, the asymptotic normality of </p><formula xml:id="formula_75">H * ββ = -1 σ 2 v ∆X Ω -1 ∆X, H * βσ 2 v = -1 σ 4 v ∆X Ω -1 ∆u(θ), H * βρ = -1 σ 2 v ∆X Ω -1 ∆Y -1 , H * βλ1 = -1 σ 2 v ∆X Ω -1 W 1 ∆Y, H * βλ2 = -1 σ 2 v ∆X Ω -1 W 2 ∆Y -1 , H * βλ3 = 1 σ 2 v ∆X Ω-1 ∆u(θ), H * σ 2 v λ3 = 1 2σ 4 v ∆u(θ) Ω-1 ∆u(θ), H * σ 2 v ρ = -1 σ 4 v ∆Y -1 Ω -1 ∆u(θ), H * σ 2 v λ1 = -1 σ 4 v ∆Y W 1 Ω -1 ∆u(θ), H * σ 2 v λ2 = -1 σ 4 v ∆Y -1 W 2 Ω -1 ∆u(θ), H * σ 2 v σ 2 v = -1 σ 6 v ∆u(θ) Ω -1 ∆u(θ) + n(T -1) 2σ 4 v , H * ρλ3 = 1 σ 2 v ∆Y -1 Ω-1 ∆u(θ) + 1 σ 2 v ∆u (θ) Ėρλ3 ∆u(θ), H * λ1λ3 = 1 σ 2 v ∆Y W 1 Ω-1 ∆u(θ) + 1 σ 2 v ∆u (θ) Ėλ1λ3 ∆u(θ), H * λ2λ3 = 1 σ 2 v ∆Y -1 W 2 Ω-1 ∆u(θ) + 1 σ 2 v ∆u (θ) Ėλ2λ3 ∆u(θ), H * λ3λ3 = -1 2σ 2 v ∆u(θ) [C -1 ⊗ (2W 3 W 3 + Ėλ3λ3 )]∆u(θ), H * ρρ = -1 σ 2 v ∆Y -1 Ω -1 ∆Y -1 + 1 σ 2 v [∆u (θ) Ėρρ ∆u(θ) -∆Y -1 (E ρ + E ρ )∆u(θ)], H * ρλ1 = -1 σ 2 v ∆Y -1 Ω -1 W 1 ∆Y + 1 σ 2 v [∆u (θ) Ėρλ1 ∆u(θ) -∆Y W 1 (E ρ + E ρ )∆u(θ)], H * ρλ2 = -1 σ 2 v ∆Y -1 Ω -1 W 2 ∆Y -1 + 1 σ 2 v [∆u (θ) Ėρλ2 ∆u(θ) -∆Y -1 W 2 (E ρ + E ρ )∆u(θ)], H * λ1λ1 = -1 σ 2 v ∆Y W 1 Ω -1 W 1 ∆Y + 1 σ 2 v [∆u (θ) Ėλ1λ1 ∆u(θ) -∆Y W 1 (E λ1 + E λ1 )∆u(θ)], H * λ1λ2 = -1 σ 2 v ∆Y W 1 Ω -1 W 2 ∆Y -1 + 1 σ 2 v [∆u (θ) Ėλ1λ2 ∆u(θ) -∆Y -1 W 2 (E λ1 + E λ1 )∆u(θ)], H * λ2λ2 = -1 σ 2 v ∆Y -1 W 2 Ω -1 W 2 ∆Y -1 + 1 σ 2 v [∆u (θ) Ėλ2λ2 ∆u(θ) -∆Y -1 W 2 (E λ2 + E λ2 )∆u(θ)], where Ω-1 = ∂ ∂λ3 Ω -1 , Ėr,v = ∂ ∂v E r , r, v = ρ, λ 1 , λ 2 , λ 3 , and Ėρρ = Ω -1 C -1 Ḋ-1,ρ , Ėρλ1 = Ω -1 C -1 Ḋ-1,λ1 , Ėρλ2 = Ω -1 C -1 Ḋ-1,λ2 Ėρλ3 = Ω-1 C -1 D -1 , Ėλ1λ1 = Ω -1 C -1 W 1 Ḋλ1 , Ėλ1λ2 = Ω -1 C -1 W 1 Ḋλ2 , Ėλ1λ3 = Ω-1 C -1 W 1 D, Ėλ2λ2 = Ω -1 C -1 W 2 Ḋ-1,λ2 , Ėλ2λ3 = Ω-1 C -1 W 2 D -1 , Ėλ3λ3 = 2[B 3 diag(W 3 B -1 3 W 3 B -1 3 ) -W 3 diag(W 3 B -1 3 )]diag -1 (B -1 3 ) + 2B 3 diag(W 3 B -1 3 )d 3λ3 , d 3λ3 = d dλ3 diag -1 (B -1 3 ) = -diag -1 (B -1 3 )diag(B -1 3 W 3 B -1 3 )diag -1 (B -1 3 ).</formula><p>Noting that σ r v , r = 2, 4, 6 appears in H * STLE (ψ) multiplicatively, we have <ref type="bibr" target="#b0">1)</ref>. Therefore the proof of (b) is thus equivalent to the proof of</p><formula xml:id="formula_76">1 n(T -1) H * STLE ( ψ) = 1 n(T -1) H * STLE ( β, σ 2 v0 , ρ, λ) + o p (1), as σ2 v p -→ σ 2 v0 , σ-r v = σ -r v0 + o p<label>(</label></formula><formula xml:id="formula_77">1 n(T -1) H * STLE ( β, σ 2 v0 , ρ, λ) -H * STLE (ψ 0 ) p -→ 0. Writing ∆u(θ) = ∆u-(λ 1 -λ 10 )W 1 ∆Y -(ρ-ρ 0 )∆Y -1 -(λ 2 -λ 20 )W 2 ∆Y -1 -∆X(β-β 0 ),</formula><p>and ∆u = B -1 30 Fv, where F is the first-difference matrix. By expressions (3.26) and (3.25), we can represent all the random elements of H * STLE (φ) as linear combinations of terms quadratic in v :</p><p>(</p><formula xml:id="formula_78">-0 ) j (ω -ω 0 ) k v AG(δ)Bv, quadratic in ∆y 1 : ( -0 ) j (ω -ω 0 ) k ∆y 1 AG(δ)B∆y 1 , linear in v : ( -0 ) j v AG(δ)BZ, linear in ∆y 1 : ( -0 ) j ∆y 1 AG(δ)BZ, bylinear in v and ∆y 1 : ( -0 ) j (ω -ω 0 ) k v AG(δ)B∆y 1 ,</formula><p>for j, k = 0, 1, , ω = ρ, λ 1 , λ 2 , where A and B denote n(T -1) × n(T -1) nonstochastic matrices, and Z n(T -1) × k nonstochastic vector or matrices, free from parameters; and G(δ) can be Ω -1 , Ω-1 , D, D 1 , Ḋλ 1 , Ḋλ 2 , Ḋ-1ρ , Ḋ-1,λ 1 , Ḋ-1,λ 2 , and Ėλ 3 ,λ 3 .</p><p>Take a quadratic term of v for example. We have by MVT, </p><formula xml:id="formula_79">1 nT [v AG(ρ, λ )Bv -v AG(ρ 0 , λ 0 )Bv] = ρ-ρ 0 nT v A Ġρ * Bv + λ1 -λ 10 nT v A Ġλ * 1 Bv + λ2 -λ 20 nT v A Ġλ * 2 Bv + λ3 -λ 30 nT v A Ġλ</formula><formula xml:id="formula_80">1 n(T -1) n i=1 [ĝ i ĝ i -E(g i g i )] p -→ 0 follows from 1 n(T -1) n i=1 [ĝ i ĝ i -g i g i ] p -→ 0 and 1 n(T -1) n i=1 [g i g i -E(g i g i )]</formula><p>p -→ 0. The proof of the former is straightforward by applying MVT. We focus on the proof of the latter result. As the elements of S * STLE (ψ 0 ) are mixtures of terms of the forms Π ∆v = n i=1 g Πi , ∆v Φ∆v = n i=1 g Φi and ∆v Ψ∆y 1 = n i=1 g Ψi , it suffices to show that</p><formula xml:id="formula_81">1 n(T -1) n i=1 [g ωi g i -E(g ωi g i )] = o p (1), ω, = Π, Φ, Ψ. For each i,</formula><p>let ∆v i• and ∆ξ i• be vectors that pick the elements of {∆v it } and {∆ξ it } for t = 2, . . . , T , and ∆v i-and ∆y * 1i-be vectors that pick the elements of {∆v it } and {∆y * 1it } for t = 3, . . . , T . Then (3.28), (3.29) and (3.30) can be written as g Πi = Π i• ∆v i• , g Φi = ∆v i• ∆ξ i• +∆v i• ∆v * i• -1 T -1 d i• , and g Ψi = ∆v 2i ∆ζ i +Θ ii (∆v 2i ∆y • 1i +σ 2 v0 h n,i )+∆v i-∆y * 1i-. Without loss of generality, assume Π it is a scalar, then</p><formula xml:id="formula_82">1 n(T -1) n i=1 [g Πi g Πi -E(g Πi g Πi )]</formula><p>can be written as</p><formula xml:id="formula_83">1 n(T -1) n i=1 Π i• (∆v i• ∆v i• -σ 2 v0 h n,i C)Π i• ≡</formula><p>1 n(T -1) n i=1 U n,i , where C is defined in (2.5). The U n,i 's are independent across i as ∆v i• 's are. It is easy to verify that Var(U n,i ) ≤ K u &lt; ∞. Then we have 1 n(T -1) n i=1 U n,i p -→ 0 by Chebyshev's WLLN.</p><p>For g Φi , we can write</p><formula xml:id="formula_84">1 n(T -1) n i=1 [g 2</formula><p>Φi -E(g 2 Φi )] ≡ 5 r=1 H r , where</p><formula xml:id="formula_85">H 1 = 1 n(T -1) n i=1 (∆v i• ∆ξ i• ) 2 -E[(∆v i• ∆ξ i• ) 2 ] , H 2 = 2 n(T -1) n i=1 (∆v i• ∆ξ i• )(∆v i• ∆v * i• ), H 3 = 1 n(T -1) n i=1 (∆v i• ∆v * i• ) 2 -E[(∆v i• ∆v * i• ) 2 ] , H 4 = -2 n(T -1) n i=1 (1 T -1 d i• )(∆v i• ∆ξ i• ), H 5 = -2 n(T -1) n i=1 (1 T -1 d i• )[∆v i• ∆v * i• -E(∆v i• ∆v * i• )] .</formula><p>The first term can be written as:</p><formula xml:id="formula_86">H 1 = 1 n(T -1) n i=1 [∆ξ i• (∆v i• ∆v i• -σ 2 v0 h n,i C)∆ξ i• ]+ σ 2 v0 n(T -1) n i=1 [∆ξ i• Ch n,i ∆ξ i• -E(∆ξ i• Ch n,i ∆ξ i• )]. Let V n,i = ∆ξ i• (∆v i• ∆v i• -σ 2 v0 h n,i C)∆ξ i• .</formula><p>We have E(V n,i |G n,i-1 ) = 0 as ∆ξ i• is G n,i-1measurable. So, {V n,i , G n,i } form an M.D. array. It is easy to see that E|V 1+  n,i | ≤ K v &lt; ∞, for some &gt; 0. Thus, {V n,i } is uniformly integrable. The other two conditions of the WLLN for M.D. arrays of Davidson are satisfied. Therefore,</p><p>For the second term of H 1 , we can write ∆ξ i• Ch n,i ∆ξ i• = s t ∆ξ 2 it C ts h n,i where C ts is the (t, s) element of C. Recall that ∆ξ t = T s=2 (Φ u st + Φ l ts )∆v s , so we have, ∆ξ it = T s=2 i-1 j=1 (Φ js,it + Φ it,js )∆v js = i-1 j=1 T s=2 (Φ js,it + Φ it,js )∆v js = i-1 j=1 φ ijt ∆v j• ,</p><p>where φ ijt = (Φ j•,it + Φ it,j• ) and Φ it,j• is the (T -1) × 1 subvector that picks up the element from the it th row corresponding to s = 2, . . . , T . Thus we can write,</p><formula xml:id="formula_87">1 n(T -1) n i=1 {(∆ξ it ) 2 -E[(∆ξ it ) 2 ]} = 1 n(T -1) n i=1 i-1 j=1 [φ ijt (∆v j• ∆v j• -σ 2 v0 h n,i C)φ ijt ] +2 1 n(T -1) n-1 j=1 ∆v j• n i=j+1 j-1 k=1 φ ijt φ ikt ∆v k• .</formula><p>The first term is the 'average' of n -1 independent terms.</p><formula xml:id="formula_88">n i=j+1 j-1 k=1 φ ijt φ ikt ∆v k• is</formula><p>G n,j-1 -measurable so the second term is the 'average' of an M.D. array. Conditions of Theorem 19.7 of Davidson (1994) are easily verified, and hence 1 n(T -1) n i=1 {(∆ξ it ) 2 -E[(∆ξ it ) 2 ]} = o p (1). Similarly, it can be shown that 1 n(T -1) n i=1 {∆ξ it ∆ξ is -E[(∆ξ it ∆ξ is )]} = o p (1) for s = t. By the definition of C and Assumption B(i), C ts and h n,i are uniformly bounded. Thus, <ref type="bibr" target="#b0">(1)</ref>, and H 1 = o p (1). The proofs for H 2 to H 5 can be done in a similar manner as the proof for H 1 .</p><formula xml:id="formula_89">σ 2 v0 n(T -1) n i=1 [∆ξ i• h n,i C∆ξ i• -E(∆ξ i• h n,i C∆ξ i• )] = o p</formula><p>Finally, for g Ψi , we have,</p><formula xml:id="formula_90">1 n(T -1) n i=1 [g 2 Ψi -E(g 2 Ψi )] = 1 n(T -1) n i=1 [(∆v 2 2i -2σ 2 v0 h n,i )∆ζ 2 i ] + 2σ 2 v0 n(T -1) n i=1 h n,i Θ ii ∆v 2i ∆ζ i + 2σ 2 v0 n(T -1) n i=1 h n,i Θ 2 ii [∆v 2i ∆y • 1i -E(∆v 2i ∆y • 1i )] + 1 n(T -1) n i=1 Θ 2 ii [(∆v 2i ∆y • 1i ) 2 -E((∆v 2i ∆y • 1i ) 2 )] + 2 n(T -1) n i=1 Θ ii [∆v 2 2i ∆ζ i ∆y • 1i -E(∆v 2 2i ∆ζ i ∆y • 1i )] + 2σ 2 v0 n(T -1) n i=1 h n,i [∆ζ 2 i -E(∆ζ 2 i )] + 1 n(T -1) n i=1 [(∆v i-∆y * 1i-) 2 -E((∆v i-∆y * 1i-) 2 )] + 2σ 2 v0 n(T -1) n i=1 h n,i Θ ii [∆v i-∆y * 1i--E(∆v i-∆y * 1i-)] + 2 n(T -1) n i=1 [∆v 2i ∆ζ i (∆v i-∆y * 1i-) -E(∆v 2i ∆ζ i (∆v i-∆y * 1i-))] + 2 n(T -1) n i=1 Θ ii [(∆v 2i ∆y • 1i )(∆v i-∆y * 1i-) -E((∆v 2i ∆y • 1i )(∆v i-∆y * 1i-))]≡ 10 r=1 Q r .</formula><p>As {∆v 2i ∆ζ i , F n,i-1 } form an M.D sequence, the convergence of Q 1 and Q 2 immediately follow from WLLN for M.D. arrays. The convergence of Q 3 , Q 4 and Q 5 can be proved by using the expression ∆y Subsequently, the cross-product terms:</p><formula xml:id="formula_91">1 n(T -1) n i=1 [g Πi g Φi -E(g Πi g Φi )], 1 n(T -1) n i=1 [g Πi g Ψi -E(g Πi g Ψi )], and 1 n(T -1) n i=1 [g Φi g Ψi -E(g Φi g Ψi )]</formula><p>, can all be decomposed in a similar manner, and the convergence of each of the decomposed terms can be proved in a similar way.</p><p>Table 1a. Empirical Mean(sd)[rse] * of CQMLE, M-estimator, and Robust M-estimator, DGP1, T = 3, m = 10, H=H-I, SNR=1 ; Normal Error Normal Mixture Chi-Square n ψ CQMLE M-Est RM-Est CQMLE M-Est RM-Est CQMLE M-Est RM-Est 50 1 .9631(.081) .9482(.076) .9876(.053)[.090] .9658(.084) .9507(.080) .9849(.058)[.159] .9634(.084) .9491(.079) .9844(.061)[.085] Table 1b. Empirical Mean(sd)[rse] * of CQMLE, M-estimator, and Robust M-estimator, DGP1, T = 3, m = 10, H=H-I, SNR=3 ; Normal Error Normal Mixture Chi-Square n ψ CQMLE M-Est RM-Est CQMLE M-Est RM-Est CQMLE M-Est RM-Est Table 2a. Empirical Mean(sd)[rse] * of CQMLE, M-estimator, and Robust M-estimator, DGP1, T = 3, m = 10, H=H-II, SNR=1 ; Normal Error Normal Mixture Chi-Square n ψ CQMLE M-Est RM-Est CQMLE M-Est RM-Est CQMLE M-Est RM-Est Table 2b. Empirical Mean(sd)[rse] * of CQMLE, M-estimator, and Robust M-estimator, DGP1, T = 3, m = 10, H=H-II, SNR=3 ; Normal Error Normal Mixture Chi-Square n ψ CQMLE M-Est RM-Est CQMLE M-Est RM-Est CQMLE M-Est RM-Est </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>) Let ∆Y = {∆y 2 , . . . , ∆y T } , ∆Y -1 = {∆y 1 , . . . , ∆y T -1 } , and ∆X = {∆X 2 , . . . , ∆X T } . Define D = (I T -2 ⊗1 n , 0 (T -2) 0 n ) where 0 m is an m×1 vector of zeros, ∆X = (1 n(T -1) , D, ∆X), ∆v = {∆v 2 , . . . , ∆v T } , ∆u = {∆u 2 , . . . , ∆u T } , W r = I T -1 ⊗ W r , and B r = I T -1 ⊗ B r , r = 1, 2, 3, where ⊗ denotes the Kronecker product and I k an k × k identity matrix. The reduced form (2.3) can be written in matrix form:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>leading to the M-estimator of<ref type="bibr" target="#b37">Yang (2018)</ref>. This M-estimator is consistent under homoskedasticity, but not under unknown heteroskedas-ticity since the ρ and λ components of plim n→∞ 1 nT S STLE (ψ 0 ) are not zero in general as shown by the results in (3.4)-(3.7) (see the end of Sec. 3.1 for some formal arguments).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Theorem 3 . 1 .</head><label>31</label><figDesc>Suppose Assumptions A-G hold. Assume further that (i) γ max [Var(∆Y )] and γ max [Var(∆Y -1 )] are bounded, and (ii) inf δ∈∆ γ min Var(B 1 ∆Y -B 2 ∆Y -1 ) ≥ c y &gt; 0.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>• 1 =</head><label>1</label><figDesc>B 30 B 10 ∆y 1 = B 30 B 20 ∆y 0 + B 30 ∆X 1 β 0 + ∆v 1 . Letting Ψ t+ = T s=2 Ψ ts , t = 2, . . . , T , Θ = Ψ 2+ (B 30 B 10 ) -1 and {Θ ii } = diag(Θ) we have, ∆v Ψ∆y 1 = T t=2 T s=2 ∆v t Ψ ts ∆y 1 = T t=2 ∆v t T s=2 Ψ ts ∆y 1 = T t=2 ∆v t Ψ t+ ∆y 1</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>The increasing economic and financial integration worldwide has led to a continuous discussion of global transmission of risk in the past two decades, especially after the European sovereign debt crisis from 2010 to 2012. Many studies have applied the spatial econometrics frameworks to analyse risk spillovers.Saldías  (2013) uses a spatial error model to identify sector risk determinants. Favero (2013) uses a GVAR approach that incorporates the spacetime lag to model the government bond spreads in the Euro area. Keiler and Eder (2015) use a spatial lag model to model the credit default swap (CDS) spreads of financial institutions, whereas Tonzer (2015) uses a spatial lag model to analyse the banking sector risk. Blasques et al. (2016) model sovereign CDS spreads using spatial Durbin panel data model with timevarying spatial dependence parameter. Debarsy et al. (2018) use a spatial dynamic panel data model to measure sovereign risk spillover considering different channels of risk transmission.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>(</head><figDesc>2013) and<ref type="bibr" target="#b12">Debarsy et al. (2018)</ref>. In line with the literature, the set of exogenous explanatory variables we use contains debt-to-GDP ratio, deficit-to-GDP ratio, current account balance (CA) to GDP ratio, real GDP growth rate, inflation (CPI), real effective exchange rate and the volatility index (VIX). The first five variables control the macroeconomic and financial fundamentals of each country and the last variable controls the general market conditions.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>i</head><figDesc>in year t and W trade is the time average of W trade,t . The data for bilateral trade volume is collected from the World Integrated Trade Solution (WITS) database, and the data for GDP is available in the WEO database. The second and third weight matrices, W deficit and W debt , represent the information linkage between economies, and they are constructed using similarities in debt or deficit level to measure the connectivity of government risk. Elements of these two weight matrices are the time average of W ijt = 1 |A it -A jt |+1 , where A it is debt-to-GDP ratio or deficit-to-GDP ratio of country i at time t. See Favero (2013) and Debarsy et al. (2018) for more discussions on the transmission channels.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Lemma A. 1 . 1 1</head><label>11</label><figDesc>(Kelejian and Prucha, 1999; Lee, 2002): Let {A n } and {B n } be two sequences of n × n matrices that are uniformly bounded in both row and column sums. Let C n be a sequence of conformable matrices whose elements are uniformly O(ι -1 n ). Then (i) the sequence {A n B n } are uniformly bounded in both row and column sums, (ii) the elements of A n are uniformly bounded and tr(A n ) = O(n), and (iii) the elements of A n C n and C n A n are uniformly O(ι -1 n ).Lemma A.2. (Lee, 2004, p.1918): For W 1 and B 1 defined in Section 2, if W 1 and B -1 10 are uniformly bounded, where • is a matrix norm, then B -is uniformly bounded in a neighborhood of λ 10 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>1 n(T - 1 ) ∆y 1 1 n(T - 1 )</head><label>11111</label><figDesc>Ξ∆y 1 , ∆v Φ∆v, 1 n(T -1) ∆y 1 Ψ∆v, 1 n(T -1) ∆y 1 ϕ, and 1 n(T -1) ∆v φ, where the matrices Ξ, Φ and Ψ, and the vectors φ and ϕ are multiplicative in terms of R, R -1 , S, S -1 , η, η -1 , B 1 , B 2 , M * . Note that R, R -1 , S, S -1 , η and η -1 depend on true parameter values, and they are uniformly bounded in both row and column sums by Assumption E (iii), Lemma A.1 and Lemma A.3. B 1 depends on λ 1 , B 2 depends on ρ and λ 2 , and M depends on λ 3 . They are uniformly bounded in either row or column sums for each δ ∈ ∆ by Assumption E (iv), Lemma A.1 and Lemma A.3. Therefore, by Lemma A.1, we have for each δ ∈ ∆, Ξ, Φ and Ψ are uniformly bounded in either row or column sums, and the elements of φ and ϕ are of uniform order O(ι -1 2</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>1 √n(T - 1 )</head><label>11</label><figDesc>c S *STLE (ψ 0 ) follows from Lemma A.5. Finally, the Cramér-Wold devise leads to the joint asymptotic normality.Proof of (b). The Hessian matrix, H * STLE (ψ) = ∂ ∂ψ S * STLE (ψ), has the elements:</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>* 3</head><label>3</label><figDesc>Bv, where Ġρ and Ġλr are the partial derivatives of G evaluated at δ * , which lies between δ and δ 0 . From the expression of the Hessian matrix given earlier, we see that G is the multiplications and linear combinations of matrices B r , B -1 r and W r , r = 1, 2, 3. Therefore, its partial derivatives evaluated at δ are the multiplications and linear combinations of B r , B -1 r and W r , r = 1, 2, 3, and hence are uniformly bounded in both row and column sums for δ in a neighbourhood of δ 0 , by Assumption E(iv) and Lemma A.2. By applying Lemma A.4 (i) and using the consistency of ψM , we have 1 nT [v AG( δ)Bvv AG(δ 0 )Bv] p -→ 0. The convergence of all other terms can be shown similarly by using Lemma A.4, Assumption F, and the consistency of ψM . Proof of (c). First, for the terms involving only ∆u (linear or quadratic), the results follows Lemma A.4(v)-(vi). Second, by the representations (3.25) and (3.26) all the terms involving ∆Y and ∆Y -1 can be written as sums of the terms linear in ∆y, quadratic in ∆y, bilinear in ∆y and ∆v, or quadratic in ∆v. Thus, the results follow by repeatedly applying Lemma A.1, Lemma A.4, and Assumption F. Proof of Theorem 3.3: First, the result Σ * STLE ( ψM ) -Σ * STLE (ψ 0 ) p -→ 0 is implied by the result (b) in the proof of Theorem 3.2. The result</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>• 1 = 2 v0n(T - 1 ) [∆y 1</head><label>1211</label><figDesc>B 30 B 10 ∆y 0 + B 30 ∆x 1 β 0 + ∆v 1 , and Lemma A.4. Recall that ∆ζ = (Θ u + Θ l )∆y • 1 = (Θ u + Θ l )B 30 B 10 ∆y 1 . Then we can write Q 6 = 2σ A∆y 1 -E(∆y 1 A∆y 1 )] , where A = [(Θ u + Θ l )B 30 B 10 ] H[(Θ u + Θ l )B 30 B 10 ]. By Assumption E and Lemma 3.1, A is uniformly bounded in both row and column sums. Therefore we have Q 6 = o p (1) by Assumption F. The results for Q 7 and Q 8 are proved by the independence between ∆v i-and ∆y * 1i-and Assumption F. Finally, the results for Q 9 and Q 10 can be proved by further writing ∆y * 1t = Φ t+ ∆y 1 = Φ t+ (B 30 B 10 ) -1 ∆y • 1 ≡ q(∆y 0 , v 0 ) + Φ t+ (B 30 B 10 ) -1 v 1 and using Assumption F and Lemma A.4.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 4 .</head><label>4</label><figDesc>Empirical Mean(sd)[rse] of Robust M-estimator, DGP2 (Durbin), T = 3, m = 10, SNR=3</figDesc><table><row><cell></cell><cell></cell><cell>n = 100</cell><cell></cell><cell></cell><cell>n = 400</cell><cell></cell></row><row><cell>ψ</cell><cell>Normal Error</cell><cell>Normal Mixture</cell><cell>Chi-Square</cell><cell>Normal Error</cell><cell>Normal Mixture</cell><cell>Chi-Square</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>See Lin and Lee (2010), Kelejian and Prucha (2010), Liu and Yang (2015), Breitung and Wigger (2018), and Taspınar et al. (2919) for more discussions on heteroskedasticity based on spatial cross-sectional models, and Moscone and Tosetti (2011) based on static spatial panel data models.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>Spatial lags of time-varying regressors or spatial Durbin effects (Halleck Vega and Elhorst, 2015) can be added in the model, which are simply treated as additional exogenous regressors without additional technical complications. On the related parameter identification issue, see<ref type="bibr" target="#b15">Elhorst (2012)</ref> and<ref type="bibr" target="#b24">Lee and Yu (2016)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_2"><p>The detail is: Xt = µx + gt1n + ζt, (1 -φ1L)ζt = εt + φ2εt-1, εt ∼ N (0, σ2   1 In), µx = e + 1 T +m+1 P T t=-m εt, and e ∼ N (0, σ 2 2 In). Let θx = (g, φ1, φ2, σ1, σ2). Thus, σ1/σv represents the signal-to-noise ratio (SNR).</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="6" xml:id="foot_3"><p>It can be generated as follows, first generate a vector of possible group sizes randomly (m1, . . . , m k ) such that P k j=1 mj = n1. Then replicate the groups r times such that rn1 = n.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="7" xml:id="foot_4"><p>Halleck Vega and<ref type="bibr" target="#b17">Elhorst (2015)</ref> advocate spatial Durbin models. There can be issues of identification and overfitting with Durbin models, especially when all spatial terms are included in the model and the same spatial weight matrix is used for all. See<ref type="bibr" target="#b15">Elhorst (2012)</ref> and<ref type="bibr" target="#b24">Lee and Yu (2016)</ref> for more details.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="8" xml:id="foot_5"><p>To implement the GMM in Kuersteiner and Prucha (2018) we use the code provided by the authors at: http://econweb.umd.edu/%7Ekuersteiner/research_UMD.html</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_6"><p>n(T -1) n i=1 V n,i p -→ 0.</p></note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B: Proofs of Theoretical Results</head><p>Proof of Lemma 3.1: By ( <ref type="formula">2.3</ref>), ∆y t = B 0 ∆y t-1 + B -1 10 ∆X t + B -1 10 B -1 30 ∆v t , t = 2, . . . , T , backward substitution leads to E(∆y t ∆v t ) = -σ 2 v0 (B 0 -2I n )B -1 10 B -1 30 H, t = 2, . . . , T , E(∆y t ∆v t+1 ) = -σ 2 v0 B -1 10 B -1 30 H, t = 1, . . . , T -1, and E(∆y t ∆v s ) = 0 if s ≥ t + 2; and Proof of Theorem 3.1: Use ∆û(δ) defined below (2.6) and ∆ū(δ) defined below (3.23). Let B * r = Ω -1 2 B r , where Ω 1 2 is the square-root matrix of Ω. We can write ∆û * (δ) = Ω -1 2 ∆û(δ) = M(B * 1 ∆Y -B * 2 ∆Y -1 ) and ∆ū * (δ) = Ω -1 2 ∆ū(δ) = M(B * 1 ∆Y -B * 2 ∆Y -1 ) + P[B * 1 (∆Y -E(∆Y )) -B * 2 (∆Y -1 -E(∆Y -1 ))], where P = Ω -1 2 ∆X(∆X Ω -1 ∆X) -1 ∆X Ω -1 2 , and M = I n(T -1) -P. By (3.14) and (3.23), we have</p><formula xml:id="formula_92">E(∆y t ∆v s ) = B 0 E(∆y t-1 ∆v s ) = B 2 0 E(∆y t-2 ∆v s ) = • • • = B t-s 0 E(∆y s ∆v s ) + B t-s-1 0 B -1 10 B -1 30 E(∆v s+1 ∆v s ) = B t-s+1 0 E(∆y s-1 ∆v s ) + B t-s 0 B -1 10 B -1 30 E(∆v s ∆v s ) + B t-s-1 0 B -1 10 B -1 30 E(∆v s+1 ∆v s ) = B t-s+1 0 B -1 10 B -1 30 E(∆v s-1 ∆v s ) + B t-s 0 B -1 10 B -1 30 E(∆v s ∆v s ) + B t-s-1 0 B -1 10 B -1 30 E(∆v s+1 ∆v s ) = -B t-s+1 0 B -1 10 B -1 30 σ 2 v0 H + 2B t-s 0 B -1 10 B -1 30 σ 2 v0 H -B t-s-1 0 B -1 10 B -1 30 σ 2 v0 H = -σ 2 v0 B t-s-1 0 (B 0 -I n ) 2 B -1 10 B -1 30 H, if s ≤ t -1.</formula><formula xml:id="formula_93">σ2 v,M (δ) = 1 n(T -1) (B * 1 ∆Y -B * 2 ∆Y -1 ) M(B * 1 ∆Y -B * 2 ∆Y -1 ), σ2 v,M (δ) = 1 n(T -1) tr[Var(B * 1 ∆Y -B * 2 ∆Y -1 )] + 1 n(T -1) (B * 1 E∆Y -B * 2 E∆Y -1 ) M(B * 1 E∆Y -B * 2 E∆Y -1 ).</formula><p>The second term in σ2 v,M (δ) is nonnegative uniformly in δ ∈ ∆ as M is p.s.d. For the first term, by the definition of the matrix C, Assumption E(iv) and the assumption (ii) given in the theorem, <ref type="bibr" target="#b0">1)</ref>. Therefore, we can drop σ2 v,M (δ) in the concentrated AQS function (3.15) and σ2 v,M (δ) in its population counter part (3.24) and write:</p><formula xml:id="formula_94">1 n(T -1) tr[Ω -1 Var(B 1 ∆Y -B 2 ∆Y -1 )] ≥ 1 n(T -1) γ min (C -1 )γ min (B 3 B 3 )tr[Var(B 1 ∆Y - B 2 ∆Y -1 )] &gt; c &gt; 0, uniformly in δ ∈ ∆, implying inf δ∈∆ σ2 v,M (δ) &gt; c &gt; 0. It is easy to show that sup δ∈∆ |σ 2 v,M (δ) -σ2 v,M (δ)| = o p (</formula><formula xml:id="formula_95">S * c STLE (δ) -S * c STLE (δ) =            ∆û(δ) Ω -1 ∆Y -1 -E[∆ū(δ) Ω -1 ∆Y -1 ] + ∆û (δ)E ρ ∆û(δ) -E[∆ū (δ)E ρ ∆ū(δ)], ∆û(δ) Ω -1 W 1 ∆Y -E[∆ū(δ) Ω -1 W 1 ∆Y ] + ∆û(δ) E λ1 ∆û(δ) -E[∆ū(δ) E λ1 ∆ū(δ)], ∆û(δ) Ω -1 W 2 ∆Y -1 -E[∆ū(δ) Ω -1 W 2 ∆Y -1 ] + ∆û(δ) E λ2 ∆û(δ) -E[∆ū(δ) E λ2 ∆ū(δ)] ∆û(δ) Υ∆û(δ) -E[∆ū(δ) Υ∆ū(δ)],</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><figDesc>Summarizing above, we obtain the results of Lemma (3.1). Proofs of the theorems need the following matrix results: (i) the eigenvalues of a projection matrix are either 0 or 1; (ii) the eigenvalues of a positive definite (p.d.) matrix are strictly positive; (iii) γ min (A)tr(B) ≤ tr(AB) ≤ γ max (A)tr(B) for symmetric matrix A and positive semidefinite (p.s.d.) matrix B; (iv) γ max (A+B) ≤ γ max (A)+γ max (B) for symmetric matrices A and B; and (v) γ max (AB) ≤ γ max (A)γ max (B) for p.s.d. matrices A and B (Bernstein, 2009).</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Estimation of dynamic models with error components</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">W</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hsiao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="page" from="598" to="606" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Formulation and estimation of dynamic models using panel data</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">W</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hsiao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="47" to="82" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Generic uniform convergence</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W K</forename><surname>Andrews</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="241" to="257" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Cross-section regression with common shocks</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W K</forename><surname>Andrews</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="page" from="1551" to="1585" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>The Netherlands</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Press</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Spatial externalities, spatial multipliers, and spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="153" to="166" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Spatial panel econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Le Gallo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Jayet</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Econometrics of Panel Data: Fundamentals and Recent Developments in Theory and Practice</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Mátyás</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Sevestre</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="2008">2008</date>
+			<biblScope unit="page" from="625" to="660" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Spatial panel data models with common shocks</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Li</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The pricing of sovereign risk and contagion during the European sovereign debt crisis</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Beirne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fratzscher</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">JJournal of International Money and Finance</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="60" to="82" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">S</forename><surname>Bernstein</surname></persName>
+		</author>
+		<title level="m">Matrix Mathematics: Theory, Facts, and Formulas. 2nd edition</title>
+		<meeting><address><addrLine>Princeton</addrLine></address></meeting>
+		<imprint>
+			<publisher>Princeton University Press</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Spillover dynamics for systemic risk measurement using spatial financial time series models</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Blasques</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Koopman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Lucas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Schaumburg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">195</biblScope>
+			<biblScope unit="page" from="211" to="223" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Alternative GMM estimators for spatial regression models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Breitung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wigger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="148" to="170" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Measuring sovereign risk spillovers and assessing the role of transmission channels: A spatial econometrics approach</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Debarsy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Dossougoin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ertur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Y</forename><surname>Gnabo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Dynamics and Control</title>
+		<imprint>
+			<biblScope unit="volume">87</biblScope>
+			<biblScope unit="page" from="21" to="45" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">CDS Spreads and Contagion Amongst Systemically Important Financial InstitutionsA Spatial Econometric Approach</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Eder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Keiler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Finance &amp; Economics</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="291" to="309" />
+			<date type="published" when="2015">2015</date>
+			<pubPlace>Vancouver</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Dynamic panels with endogenous interaction effects when T is small</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="272" to="282" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Dynamic spatial panels: models, methods, and applications</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="5" to="28" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Modelling and forecasting government bond spreads in the euro area: a GVAR model</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Favero</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">177</biblScope>
+			<biblScope unit="page" from="343" to="356" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">The SLX model</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Halleck Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="339" to="363" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood estimation of fixed effects dynamic panel data models covering short time periods</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hsiao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Tahmiscioglu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="page" from="107" to="150" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Estimating panel models with internal and external habit formation</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Korniotis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business and Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="145" to="158" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Dynamic spatial panel models: Networks, common shocks, and sequential exogeneity</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">M</forename><surname>Kuersteiner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1802.01755</idno>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Efficient GMM estimation of spatial dynamic panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">180</biblScope>
+			<biblScope unit="page" from="174" to="197" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Identification of spatial Durbin panel models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="133" to="162" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial autoregressive models with unknown heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="34" to="52" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Modified QML estimation of spatial autoregressive models with unknown heteroskedasticity and nonnormality</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">F</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="50" to="70" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">GMM estimation of spatial panels with fixed effects and unknown heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Moscone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Tosetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="487" to="497" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<title level="m" type="main">Dynamic panel data models with spatially correlated disturbances</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mutl</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<pubPlace>College Park</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>University of Maryland</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">PhD Thesis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A market-based approach to sector risk determinants and transmission in the euro area</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Saldías</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Banking &amp; Finance</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="4534" to="4555" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Spatial dynamic panel data models with interactive fixed effects</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">197</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="323" to="347" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">QML estimation of dynamic panel data models with spatial errors</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">185</biblScope>
+			<biblScope unit="page" from="230" to="258" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Heteroskedasticity-consistent covariance matrix estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Taspınar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Doǧan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="241" to="268" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Cross-border interbank networks, banking risk and contagion</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Tonzer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Financial Stability</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="19" to="32" />
+			<date type="published" when="2015">2015</date>
+			<pubPlace>Vancouver</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Van Der Vaart</surname></persName>
+		</author>
+		<title level="m">Asymptotic Statistics</title>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">A heteroskedasticity-consistent covariance matrix estimator and a direct test for heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>White</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="817" to="838" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">A robust LM test for spatial error components</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">L</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="299" to="310" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Unified M-estimation of fixed-effects spatial dynamic models with short panels</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">L</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="page" from="423" to="447" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum likelihood estimators for spatial dynamic panel data with fixed effects when both n and T are large</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>De Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">146</biblScope>
+			<biblScope unit="page" from="118" to="134" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">Variances increase and then decrease with group size</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title level="m" type="main">W is generated according to fixed group scheme</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<title level="m" type="main">* [rse]: empirical average of rses, only for robust M-estimator</title>
+		<imprint>
+			<date>g, φ1, φ2, σ1, σ2) = (.01, .5, .5, 1, 1</date>
+			<biblScope unit="volume">9890</biblScope>
+		</imprint>
+	</monogr>
+	<note>Xt values are generated with θx =</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<monogr>
+		<title level="m" type="main">Variances increase and then decrease with group size</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<title level="m" type="main">W is generated according to fixed group scheme</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<title level="m" type="main">Xt values are generated with θx =</title>
+		<imprint>
+			<date>g, φ1, φ2, σ1, σ2</date>
+		</imprint>
+	</monogr>
+	<note>= (.01, .5, .5, 3, 1). * [rse]: empirical average of rses, only for robust M-estimator</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<title level="m" type="main">Variances decrease and then increase with group size</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">W is generated according to fixed group scheme</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<monogr>
+		<title level="m" type="main">* [rse]: empirical average of rses, only for robust</title>
+		<imprint>
+			<date>g, φ1, φ2, σ1, σ2) = (.01, .5, .5, 1, 1</date>
+		</imprint>
+	</monogr>
+	<note>Xt values are generated with θx =</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<monogr>
+		<title level="m" type="main">Variances decrease and then increase with group size</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<monogr>
+		<title level="m" type="main">W is generated according to fixed group scheme</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">* [rse]: empirical average of rses, only for robust M-estimator. Table 3. Empirical Mean(sd)[rse] * of CQMLE</title>
+	</analytic>
+	<monogr>
+		<title level="m">Xt values are generated with θx</title>
+		<imprint>
+			<publisher>H = In</publisher>
+			<date>1, φ2, σ1, σ2) = (.01, .5, .5, 3, 1</date>
+			<biblScope unit="page">1</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<monogr>
+		<title level="m" type="main">W is generated according to fixed group scheme</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+		</imprint>
+	</monogr>
+	<note>vit is homoskedastic</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<monogr>
+		<title level="m" type="main">Xt values are generated with θx =</title>
+		<imprint>
+			<date>g, φ1, φ2, σ1, σ2</date>
+		</imprint>
+	</monogr>
+	<note>= (.01, .5, .5, 3, 1). * [rse]: empirical average of rses, only for robust M-estimator</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<monogr>
+		<title level="m" type="main">W is generated according to fixed group scheme</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Table 5. Empirical Mean(sd) of Robust M-estimator and GMM-estimator DGP</title>
+	</analytic>
+	<monogr>
+		<title level="m">Xt values are generated with θx =</title>
+		<meeting><address><addrLine>H = H-I, SNR=3</addrLine></address></meeting>
+		<imprint>
+			<date>g, φ1, φ2, σ1, σ2) = (.01, .5, .5, 3, 1</date>
+			<biblScope unit="volume">10</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<monogr>
+		<title level="m" type="main">W is generated according to fixed group scheme</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<monogr>
+		<title level="m" type="main">Xt values are generated with θx = (g, φ1, φ2, σ1, σ2) = (.01</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -150,36 +150,51 @@ safe_id <- function(record_id) {
 #
 # Cat B : CRS 4326 declare mais coordonnees en systeme projete.
 #         Cles = safe_id(record_id) = nom du fichier .rds sans extension.
-#         Valeurs = EPSG reel (NA_integer_ = systeme local inconnu, pas de fix auto).
+#         Valeurs = EPSG reel (entier) ou chaine PROJ4 si aucun EPSG standard
+#         n'existe pour cette definition ; NA_integer_ = systeme local reellement
+#         inconnu, pas de fix possible (juste effacement de la fausse etiquette).
 #
 # CRS identifies par analyse des coordonnees brutes dans les GeoJSON sources :
-#   nydata     [357628, 4649538] -> UTM Zone 18N  (NY upstate ~75-77W, 42-43N)
-#   georgia    [627306, 3368056] -> UTM Zone 16N  (Georgia US ~81-86W, 30-35N)
-#   Ohiolung   [170384, 4251390] -> UTM Zone 17N  (Ohio ~80-85W, 38-42N)
-#   cincinnati [1392544, 410977] -> Ohio State Plane South ft (SW Ohio)
 #   Baltimore  [860, 506]        -> systeme local inconnu (pas de standard EPSG)
-#   eire       [-4, 5768]        -> CRS indefini (Undefined Cartesian SRS)
+#   eire       [-4, 5768]        -> UTM zone 30, ellipsoide Airy, unites km
+#                                   (voir verification 2026-09-18 ci-dessous)
 #
 # Sources verifiees via tools/get_source_crs.py (lecture .crs geopandas) :
-#   nydata     : WKT = UTM Zone 18 + Clarke 1866 -> NAD27/UTM18N = EPSG:26718
-#                (corriger 32618->26718 ; diff ~50m negligeable pour census tracts)
-#   cincinnati : WKT = LCC + GRS80 + US survey foot + datum inconnu
-#                GRS80 ≈ NAD83 -> Ohio South ftUS = EPSG:2835
-#                (3734 etait Ohio North/HARN -> faux)
-#   georgia    : non trouve dans libpysal examples local ; UTM16N confirme
-#                par inspection bbox (x[-85,-81] y[30,35]) ✓
-#   Ohiolung   : non trouve dans libpysal examples local ; UTM17N confirme
-#                par inspection bbox (x[-85,-80] y[38,42]) ✓
-#   Baltimore  : CRS=None dans geopandas (baltim.shp sans .prj) -> NA
-#   eire       : Undefined Cartesian SRS (unknown unit) -> NA
+#   Baltimore  : CRS=None dans geopandas (baltim.shp sans .prj) -> NA. Confirme
+#                2026-09-18 par la doc CRAN spData::baltimore et la doc GeoDa :
+#                "X,Y on Maryland grid, projection type unknown" -- aucun EPSG
+#                ne peut etre invente, on efface juste la fausse etiquette WGS84.
+#   eire       : Undefined Cartesian SRS (unknown unit) dans le fichier source
+#                actuel -- MAIS confirme 2026-09-18 via la doc officielle du
+#                package (wiki/datasets/r_package_docs/spData/topics/eire.md) :
+#                "polygons... in eire.polys.utm (coordinates in km, projection
+#                UTM zone 30)". Le GeoJSON source (crs=null, coordonnees
+#                [240.62, 5885.61] etc.) correspond exactement a cette echelle.
+#                Pas d'EPSG standard pour UTM zone 30 + ellipsoide Airy -> chaine
+#                PROJ4 directe (sf/PROJ l'acceptent nativement).
+#
+# RETIRES le 2026-09-18 (nydata, georgia, Ohiolung, cincinnati) : ces 4 entrees
+# supposaient des GeoJSON sources en coordonnees projetees (UTM/State Plane en
+# metres/pieds, ex. georgia [627306, 3368056]). Verification directe des
+# fichiers RAW actuels (data/downloads/software/python_datasets/geojson/*)
+# montre qu'ils sont TOUS desormais deja correctement declares en CRS84/WGS84
+# avec de vraies coordonnees en degres (ex. georgia : crs=CRS84, premiere
+# coordonnee [-82.43, 31.96], soit la vraie position de la Georgie US) --
+# la table a du etre ecrite contre une version anterieure des fichiers source
+# (probablement un shapefile UTM natif de libpysal/geoda, remplace depuis par
+# un re-telechargement en GeoJSON deja normalise). Appliquer ces overrides
+# desormais REINTERPRETE a tort des degres WGS84 comme des metres UTM et
+# reprojette vers un point degenere pres de l'origine de la projection (bbox
+# observe pour georgia avant correction : y in [0.00028, 0.00031], au lieu de
+# y in [30,35] reel). CRS_OVERRIDES ne doit plus les lister : sans entree, ces
+# 4 jeux passent par la voie normale (CRS deja geographique correctement
+# declare, aucune transformation necessaire). Si les fichiers RAW sont un jour
+# re-remplaces par une version projetee, revalider via tools/get_source_crs.py
+# avant de reintroduire une entree.
 # =============================================================================
 CRS_OVERRIDES <- list(
-  "Python_geodatasets_spdata.nydata"    = 26718L,  # NAD27 / UTM Zone 18N (Clarke 1866, verifie WKT)
-  "Python_libpysal_georgia"             = 32616L,  # UTM Zone 16N (WGS84, confirme bbox)
-  "Python_libpysal_Ohiolung"            = 32617L,  # UTM Zone 17N (WGS84, confirme bbox)
-  "Python_geodatasets_geoda.cincinnati" = 2835L,   # NAD83 / Ohio South (ftUS, LCC+GRS80 verifie WKT)
-  "Python_libpysal_Baltimore"           = NA_integer_,  # systeme local inconnu (CRS=None dans source)
-  "Python_geodatasets_spdata.eire"      = NA_integer_   # Undefined Cartesian SRS (unknown unit)
+  "Python_libpysal_Baltimore"      = NA_integer_,  # systeme local inconnu (CRS=None dans source)
+  "Python_geodatasets_spdata.eire" = "+proj=utm +zone=30 +ellps=airy +units=km"  # confirme via doc spData 2026-09-18
 )
 
 
@@ -431,6 +446,25 @@ coerce_to_sf <- function(obj, row) {
         if (is.data.frame(cand) && nrow(cand) == nrow(coord_tab)) { main <- cand; break }
       }
       df <- if (!is.null(main)) cbind(coord_tab[, 1:2], main) else coord_tab[, 1:2, drop = FALSE]
+      # Reviewed site-table joins only. Native ade4 documentation explicitly
+      # defines these rows as the same sites as xy; never join a species/trait
+      # table merely because it happens to have the same number of rows.
+      reviewed_tables <- list(doubs = c("env", "fish"), mafragh = c("env", "flo"))
+      tables <- if (identical(norm_space(row$package), "ade4")) reviewed_tables[[norm_space(row$dataset_name)]] else NULL
+      if (length(tables)) {
+        keys <- rownames(coord_tab)
+        if (is.null(keys) || anyDuplicated(keys)) return(fail("cles xy absentes ou dupliquees"))
+        df <- coord_tab[, 1:2, drop = FALSE]
+        for (table_name in tables) {
+          values <- obj[[table_name]]
+          if (!is.data.frame(values) || is.null(rownames(values)) || anyDuplicated(rownames(values)) || !setequal(keys, rownames(values))) {
+            return(fail(paste("jointure de sites non prouvee:", table_name)))
+          }
+          values <- values[match(keys, rownames(values)), , drop = FALSE]
+          names(values) <- paste(table_name, names(values), sep = "__")
+          df <- cbind(df, values)
+        }
+      }
       return(tryCatch(
         sf::st_as_sf(df, coords = c("x", "y"), crs = NA_integer_, remove = FALSE),
         error = function(e) fail("st_as_sf(liste ade4) a echoue")))
@@ -641,8 +675,7 @@ classify_value <- function(y) {
   if (is.numeric(y)) {
     entiers <- all(abs(y - round(y)) < 1e-9)
     if (all(y >= 0 & y <= 1) && !entiers) return(list(type = "proportion", continu = TRUE))
-    if (entiers && length(unique(y)) <= 10) return(list(type = "discret", continu = FALSE))
-    if (entiers) return(list(type = "comptage", continu = FALSE))
+    if (entiers) return(list(type = "inconnu", continu = NA)) # semantic evidence required; integer != count
     return(list(type = "continu", continu = TRUE))
   }
   list(type = "inconnu", continu = NA)
@@ -949,6 +982,40 @@ build_sf_datasets <- function(repo_root = find_repo_root(),
       keep_geometry <- !is.na(sf::st_geometry(sf_raw)) & !is.na(empty) & !empty
       sf_raw <- sf_raw[keep_geometry, , drop = FALSE]
       if (nrow(sf_raw) == 0) stop("toutes les geometries sont vides", call. = FALSE)
+
+      # -- Normalisation CRS (Cat B) AVANT derivation du point -----------------
+      # Doit s'appliquer a sf_raw, pas a unified : pour une famille
+      # polygone/grille/ligne, derive_point_geometry() utilise st_point_on_surface()
+      # / st_centroid(), qui passent par le moteur spherique s2 des qu'un CRS est
+      # marque geographique. Si le CRS est FAUSSEMENT marque WGS84 (Cat B) alors
+      # que les coordonnees sont en realite projetees (donc hors [-180,180]/[-90,90]),
+      # s2 produit un point derive incoherent (confirme 2026-09-18 sur georgia,
+      # Ohiolung, cincinnati et eire : bbox du point actif effondree ou aberrante
+      # malgre une geom_origine correcte). Appliquer la correction ici, sur
+      # sf_raw, avant tout calcul geometrique, evite ce silent corruption.
+      step <- "normalisation_crs_precoce"
+      file_key <- safe_id(rid)
+      if (file_key %in% names(CRS_OVERRIDES)) {
+        true_epsg <- CRS_OVERRIDES[[file_key]]
+        if (!is.na(true_epsg)) {
+          cat(sprintf("    [CRS override] %s : set_crs(%s) + transform(4326)\n",
+                      file_key, as.character(true_epsg)))
+          sf_raw <- sf::st_set_crs(sf_raw, true_epsg)
+          sf_raw <- tryCatch(
+            sf::st_transform(sf_raw, 4326),
+            error = function(e) {
+              warning(sprintf("st_transform(4326) echoue pour %s : %s",
+                              file_key, e$message))
+              sf_raw
+            }
+          )
+        } else {
+          cat(sprintf("    [CRS override] %s : systeme local inconnu, effacement de la fausse etiquette\n",
+                      file_key))
+          sf_raw <- sf::st_set_crs(sf_raw, NA)
+        }
+      }
+
       step <- "famille_geometrie"
       famille <- geom_family(sf_raw, loaded$grille)
       if (famille == "autre") stop("type de geometrie non exploitable", call. = FALSE)
@@ -974,31 +1041,16 @@ build_sf_datasets <- function(repo_root = find_repo_root(),
       explicatives_presentes <- match_columns(names(attrs), explicatives_catalogue)
 
 
-      # -- Normalisation CRS avant sauvegarde ----------------------------------
-      # Cat B (CRS_OVERRIDES) : st_set_crs(epsg_reel) + st_transform(4326)
-      # Cat A (est_projete)   : st_transform(4326) directement
+      # -- Normalisation CRS avant sauvegarde (Cat A uniquement) ---------------
+      # Cat B (CRS_OVERRIDES) est deja applique plus haut, sur sf_raw, avant la
+      # derivation du point (voir step "normalisation_crs_precoce"). Ne pas la
+      # reappliquer ici sur unified : sf_raw est deja dans le bon CRS (4326 ou
+      # NA), donc unified (derive de sf_raw) l'a deja herite -- une deuxieme
+      # application romprait ou re-projetterait a tort des donnees deja correctes.
       step <- "normalisation_crs"
       file_key <- safe_id(rid)
 
-      if (file_key %in% names(CRS_OVERRIDES)) {
-        true_epsg <- CRS_OVERRIDES[[file_key]]
-        if (!is.na(true_epsg)) {
-          cat(sprintf("    [CRS override] %s : set_crs(%d) + transform(4326)\n",
-                      file_key, true_epsg))
-          unified <- sf::st_set_crs(unified, true_epsg)
-          unified <- tryCatch(
-            sf::st_transform(unified, 4326),
-            error = function(e) {
-              warning(sprintf("st_transform(4326) echoue pour %s : %s",
-                              file_key, e$message))
-              unified
-            }
-          )
-        } else {
-          cat(sprintf("    [CRS override] %s : systeme local inconnu, pas de correction\n",
-                      file_key))
-        }
-      } else if (isTRUE(est_projete)) {
+      if (!(file_key %in% names(CRS_OVERRIDES)) && isTRUE(est_projete)) {
         # Cat A : CRS projete correctement declare
         unified <- tryCatch(
           sf::st_transform(unified, 4326),

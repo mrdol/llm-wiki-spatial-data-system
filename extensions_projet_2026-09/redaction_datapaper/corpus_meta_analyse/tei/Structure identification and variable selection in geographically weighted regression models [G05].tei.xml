@@ -1,0 +1,732 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Structure identification and variable selection in geographically weighted regression models</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Wentao</forename><surname>Wang</surname></persName>
+							<email>wtwang@hotmail.com</email>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country>People&apos;s Republic of China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country>People&apos;s Republic of China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Dengkui</forename><surname>Li</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Statistics</orgName>
+								<orgName type="department" key="dep2">School of Mathematics and Statistics</orgName>
+								<orgName type="institution">Xi&apos;an Jiaotong University</orgName>
+								<address>
+									<settlement>Xi&apos;an</settlement>
+									<country>People&apos;s Republic of China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Structure identification and variable selection in geographically weighted regression models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">5719E11120672458007E5FEE954ADDDA</idno>
+					<idno type="DOI">10.1080/00949655.2017.1311896</idno>
+					<note type="submission">Received 2 January 2017 Accepted 23 March 2017</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-08-10T15:04+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Geographically weighted regression</term>
+					<term>spatial non-stationarity</term>
+					<term>adaptive group lasso</term>
+					<term>structure identification</term>
+					<term>variable selection</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Geographically weighted regression (GWR) is an important tool for exploring spatial non-stationarity of a regression relationship, in which whether a regression coefficient really varies over space is especially important in drawing valid conclusions on the spatial variation characteristics of the regression relationship. This paper proposes a so-called GWGlasso method for structure identification and variable selection in GWR models. This method penalizes the loss function of the local-linear estimation of the GWR model by the coefficients and their partial derivatives in the way of the adaptive group lasso and can simultaneously identify spatially varying coefficients, nonzero constant coefficients and zero coefficients. Simulation experiments are further conducted to assess the performance of the proposed method and the Dublin voter turnout data set is analysed to demonstrate its application.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Geographically weighted regression (GWR) <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b1">2]</ref> has been a very popular local modelling method that seeks to discover potential patterns of spatial non-stationarity in a regression relationship. In this methodology, the spatially varying coefficient model</p><formula xml:id="formula_0">y i = p j=1 β j (u i , v i )x ij + ε i , i = 1, . . . , n,<label>(1)</label></formula><p>is calibrated by the kernel smoothing technique, where y i and x i1 , x i2 , . . . , x ip are respectively the observations of the response variable Y and those of the explanatory variables X 1 , X 2 , . . . , X p at the geographical location (u i , v i ), ε i is the random error term associated with (u i , v i ) and β j (u, v) (j = 1, . . . , p) are unknown regression coefficients to be estimated. Generally, X 1 = 1 is assumed to make the model include a spatially varying intercept. The model (1) with its calibration method is henceforth called GWR model as usual.</p><p>In the GWR literature, non-stationarity of the regression relationship is uncovered and explained by spatial variation patterns of the coefficient estimates. As a local modelling method, however, GWR always produces for each coefficient a set of local estimates which are generally different from one location to another no matter whether the coefficient is actually spatially varying or not. In some practical problems, however, it is possible that certain explanatory variables influencing the dependent variable are global in nature, whilst others are local <ref type="bibr" target="#b2">[3]</ref>, which leads to the consequence that some coefficients in the GWR model are constant and the others are spatially varying. Furthermore, it is also possible that constant coefficients are zero, indicating that the corresponding explanatory variables are irrelevant to the dependent variable. As pointed out by Wheeler <ref type="bibr" target="#b3">[4]</ref>, including some irrelevant explanatory variables in the model will degrade the estimation efficiency. In order to avoid a misleading explanation on non-stationarity of the underlying regression relationship, it is essential to know which coefficients in the GWR model really vary over the space and which coefficients are nonzero constant or zero, which belongs to structure identification and variable selection in a GWR model.</p><p>In fact, since the inception of GWR, much effort has been paid to the study of structure identification or model specification from the perspective of hypotheses testing. In the pioneering papers on GWR <ref type="bibr" target="#b0">[1,</ref><ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b5">6]</ref>, a permutation test was proposed to check whether the coefficients in a GWR model are constant over the space. Furthermore, a residual sum of squares based test with the null distribution of the test statistics approximated by an F-distribution was also suggested by Brunsdon et al. <ref type="bibr" target="#b2">[3]</ref> and Leung et al. <ref type="bibr" target="#b6">[7]</ref> to check whether a GWR model or an ordinary linear model is appropriate for a given geo-referenced data set. However, it should be noted that the aforementioned kinds of tests focus on identifying global stationarity of the regression relationship. After introducing the mixed GWR model with its back-fitting calibration procedure, Brunsdon et al. <ref type="bibr" target="#b2">[3]</ref> extended the residual sum of squares based test to identify constant coefficients in the GWR model. Furthermore, based on the same type of the test statistic and with the improved calibration method of a mixed GWR model in Fotheringham et al. <ref type="bibr" target="#b1">[2]</ref> (Chapter 3), Mei et al. <ref type="bibr" target="#b7">[8]</ref> proposed a bootstrap test to check whether some constant coefficients in a mixed GWR model are zero. Recently, considering some shortcomings of the residual sum of squares based test in the F-distribution approximation to the null distribution of the test statistic and normality assumption on the model error term, Mei et al. <ref type="bibr" target="#b8">[9]</ref> suggested a bootstrap procedure to calculate the p-value of the test and the simulation study showed that the bootstrap method performs well. The above tests can be used to achieve the tasks of structure identification in a GWR model and variable selection in a mixed GWR model. In practice, however, there is generally not enough priori information for the analysts to know that which coefficients should be chosen to be tested for constants or zero. As a result, all possible combinations of the coefficients should be considered and a series of the tests should be performed, which is not an easy task especially when the number of the explanatory variables is large. Based on the sample variance of each estimated coefficient at all of the locations, Leung et al. <ref type="bibr" target="#b6">[7]</ref> proposed an F-distribution to approximate the null distribution of the test statistic. Although this test can identify the constant coefficients in a GWR model one by one, as demonstrated in Mei et al. <ref type="bibr" target="#b8">[9]</ref>, it suffers from very high type I error. Therefore, it is worthwhile to develop some alternative methods for structure identification and variable selection in a GWR model in view of their importance in validly exploring spatial non-stationarity of the regression relationship.</p><p>The regularization or shrinkage methods developed in statistical learning have great potential to be used in regression models for model specification and variable selection. In the GWR literature, Wheeler <ref type="bibr" target="#b3">[4]</ref> proposed a geographically weighted lasso method for simultaneous coefficient penalization and model selection mainly for alleviating the effect of collinearity among the explanatory variables on the coefficient estimates. This method performs local model selection by shrinking the coefficient estimates to zero at some locations and cannot be directly used for variable selection or constant coefficient identification. In the statistical literature on varying coefficient models, however, much attention has been paid to using the penalization methods for model structure identification and variable selection and many approaches with their own high spots have been developed <ref type="bibr" target="#b9">[10]</ref><ref type="bibr" target="#b10">[11]</ref><ref type="bibr" target="#b11">[12]</ref><ref type="bibr" target="#b12">[13]</ref><ref type="bibr" target="#b13">[14]</ref><ref type="bibr" target="#b14">[15]</ref>. Especially, based on the local-linear estimation and the smoothly clipped absolute deviation (SCAD, <ref type="bibr" target="#b15">[16]</ref>) penalty, Ma and Zhang <ref type="bibr" target="#b16">[17]</ref> recently proposed a new method for identifying varying coefficients, nonzero constant coefficients and zero coefficients in a varying coefficient model. In this method, the values of each coefficient and those of its derivative at all of the designed points are respectively grouped and taken as the penalty terms of the residual sum of squares of the local-linear estimation to make the coefficients and their derivatives shrink towards to zero. As a result, the varying, nonzero constant and zero coefficients can be simultaneously identified according to the penalized estimates of the coefficients.</p><p>Motivated by the methodology in Ma and Zhang <ref type="bibr" target="#b16">[17]</ref> and based on the local-linear estimation of the GWR model <ref type="bibr" target="#b17">[18]</ref> in which the estimates of coefficients and their partial derivatives can be obtained at any a focal location, we propose in this paper a so-called GWGlasso method to achieve the task of the structure identification and variable selection in GWR models. In the method, the values of each coefficient and those of its partial derivatives are respectively grouped and the adaptive group lasso method <ref type="bibr" target="#b18">[19,</ref><ref type="bibr" target="#b19">20]</ref> is employed to penalize the residual sum of squares of the local-linear estimation of the GWR model. In this way, it is expected that, for the nonzero constant coefficients, their partial derivatives will shrink to zero, while for the zero coefficients, both the coefficients themselves and their partial derivatives will shrink to zero with which the nonzero constant and zero coefficients can be adaptively identified.</p><p>The remainder of this paper is organized as follows. In Section 2, the local-linear estimation method for GWR models is briefly described to facilitate the subsequent discussions. In Section 3, the GWGlasso methodology is introduced in detail and an iterative algorithm is formulated to compute the penalized estimates of the coefficients and their partial derivatives. A simulation experiment is conducted in Section 4 to assess the performance of the proposed method and a real-life data set is analysed in Section 5 to demonstrate its application. The paper is concluded with a brief summary and some possible extensions of the proposed method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Local-linear estimation of the GWR model</head><p>As the basis of the forthcoming GWGlasso method, the local-linear estimation of the GWR model proposed by Wang et al. <ref type="bibr" target="#b17">[18]</ref> is briefly described with the notations used in the current paper in order to facilitate the subsequent discussions.</p><p>Assume that the coefficients β j (u, v) (j = 1, . . . , p) in model (1) have continuous partial derivatives with respect to u and v which we denote by β (u) j (u, v) and β (v) j (u, v), respectively. Given a designed location (u k , v k ), let d ki be the Euclidean distance between (u k , v k ) and the ith observation location (u i , v i ). According to Wang et al. <ref type="bibr" target="#b17">[18]</ref>, the local-linear estimates of the coefficients and their partial derivatives are the minimizer of the following objective function:</p><formula xml:id="formula_1">L h (u k , v k ) = n i=1 ⎧ ⎨ ⎩ y i - p j=1 [β j (u k , v k ) + β (u) j (u k , v k )(u k -u i ) + β (v) j (u k , v k )(v k -v i )]x ij ⎫ ⎬ ⎭ 2 K h (d ki ),<label>(2)</label></formula><p>where K h (•) = K(•/h) with K(•) being a kernel function and h being a bandwidth. Let</p><formula xml:id="formula_2">X = ⎛ ⎜ ⎜ ⎜ ⎝ x 11 x 12 • • • x 1p x 21 x 22 • • • x 2p . . . . . . . . . . . . x n1 x n2 • • • x np ⎞ ⎟ ⎟ ⎟ ⎠ , y = ⎛ ⎜ ⎜ ⎜ ⎝ y 1 y 2 . . . y n ⎞ ⎟ ⎟ ⎟ ⎠ , (<label>3</label></formula><formula xml:id="formula_3">)</formula><formula xml:id="formula_4">W h (u k , v k ) = Diag[K h (d k1 ), K h (d k2 ), . . . , K h (d kn )], U(u k ) = Diag[u 1 -u k , u 2 -u k , . . . , u n -u k ], V(v k ) = Diag[v 1 -v k , v 2 -v k , . . . , v n -v k ], a T r (k) = [β 1 (u k , v k ), β 2 (u k , v k ), . . . , β p (u k , v k )], b T r (k) = [β (u) 1 (u k , v k ), β (u) 2 (u k , v k ), . . . , β (u) p (u k , v k )], b T r (n + k) = [β (v) 1 (u k , v k ), β (v) 2 (u k , v k ), . . . , β (v) p (u k , v k )].<label>(4)</label></formula><p>The objective function in Equation ( <ref type="formula" target="#formula_1">2</ref>) can be rewritten as</p><formula xml:id="formula_5">L h (u k , v k ) = (y -Xa r (k) -U(u k )Xb r (k) -V(v k )Xb r (n + k)) T • W h (u k , v k )(y -Xa r (k) -U(u k )Xb r (k) -V(v k )Xb r (n + k)).<label>( 5 )</label></formula><p>Taking the potential derivatives of L h (u k , v k ) with respect to the vectors a r (k), b r (k) and b r (n + k) respectively, letting each of them to be zero, and solving the equation, we can obtain the minimizer</p><formula xml:id="formula_6">of L h (u k , v k ) as [â T r (k), bT r (k), bT r (n + k)] T = Ph (u k , v k )y,<label>( 6 )</label></formula><p>where</p><formula xml:id="formula_7">Ph (u k , v k ) is ⎛ ⎜ ⎜ ⎜ ⎝ X T W (0,0) h (k)X X T W (1,0) h (k)X X T W (0,1) h (k)X X T W (1,0) h (k)X X T W (2,0) h (k)X X T W (1,1) h (k)X X T W (0,1) h (k)X X T W (1,1) h (k)X X T W (0,2) h (k)X ⎞ ⎟ ⎟ ⎟ ⎠ -1 ⎛ ⎜ ⎜ ⎜ ⎝ X T W (0,0) h (k) X T W (1,0) h (k) X T W (0,1) h (k) ⎞ ⎟ ⎟ ⎟ ⎠ (<label>7</label></formula><formula xml:id="formula_8">)</formula><p>and</p><formula xml:id="formula_9">W (γ ,ψ) h (k) = Diag[(u 1 -u k ) γ (v 1 -v k ) ψ K h (d 1k ), (u 2 -u k ) γ (v 2 -v k ) ψ K h (d 2k ), . . . , (u n -u k ) γ (v n -v k ) ψ K h (d nk )]<label>( 8 )</label></formula><p>with γ , ψ = 0, 1, 2. The optimal size of the bandwidth h can be selected by some data-driven procedures such as the CV and AIC c criterions. Here, we give a detailed description of the CV criterion which will be used in the subsequent section.</p><p>Let x T i = (x i1 , x i2 , . . . , x ip ) be the ith row of X defined in Equation <ref type="bibr" target="#b2">(3)</ref>. The fitted values of the response variable Y at the n locations can be computed by</p><formula xml:id="formula_10">ŷ = (ŷ 1 , ŷ2 , . . . , ŷn ) T = L(h)y, (<label>9</label></formula><formula xml:id="formula_11">)</formula><p>where</p><formula xml:id="formula_12">L(h) = ⎛ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎜ ⎝ (x T 1 , 0 1×(2p) ) Ph (u 1 , v 1 ) (x T 2 , 0 1×(2p) ) Ph (u 2 , v 2 ) . . . (x T n , 0 1×(2p) ) Ph (u n , v n ) ⎞ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎟ ⎠ , (<label>10</label></formula><formula xml:id="formula_13">)</formula><p>with 0 1×(2p) being a zero matrix of order 1 × (2p).</p><p>It is observed from Equation (9) that the local-linear estimation method for the GWR model is a linear smoother. As well known, the CV score can be computed by</p><formula xml:id="formula_14">CV(h) = 1 n n i=1 y i -ŷi 1 -l ii (h) 2 , (<label>11</label></formula><formula xml:id="formula_15">)</formula><p>where l ii (h) is the ith element in the diagonal of L(h). The optimal size, say h o , of h is then</p><formula xml:id="formula_16">h o = arg min h&gt;0 CV(h). (<label>12</label></formula><formula xml:id="formula_17">)</formula><p>3. GWGlasso method for structure identification and variable selection in the GWR model</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Penalized estimation of the coefficients and their partial derivatives via the adaptive group lasso</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.1.">The penalized objective function Let</head><p>A = [a T r (1), a T r (2), . . . , a T r (n)] T = [a c (1), a c (2), . . . , a c (p)],</p><p>where the kth row a T r (k) of A, as shown in Equation ( <ref type="formula" target="#formula_4">4</ref>), is the values of the p coefficients in the GWR model (1) at the location (u k , v k ) and the jth column</p><formula xml:id="formula_19">a c (j) = [β j (u 1 , v 1 ), β j (u 2 , v 2 ), . . . β j (u n , v n )] T , (<label>14</label></formula><formula xml:id="formula_20">)</formula><p>consists of the values of the jth coefficient at the n designated locations. Similarly, let</p><formula xml:id="formula_21">B = [b T r (1), . . . , b T r (n), b T r (n + 1), . . . , b T r (2n)] T = [b c (1), b c (2) . . . , b c (p)],<label>(15)</label></formula><p>where the kth row b T r (k) of B, as shown in Equation ( <ref type="formula" target="#formula_4">4</ref>), is the values of the partial derivatives of the p coefficients at location (u k , v k ) with respect to u (1 ≤ k ≤ n) and v (n + 1 ≤ k ≤ 2n), respectively, and the jth column</p><formula xml:id="formula_22">b c (j) = [β (u) j (u 1 , v 1 ), . . . , β (u) j (u n , v n ), β (v) j (u 1 , v 1 ), . . . , β (v) j (u n , v n )] T , (<label>16</label></formula><formula xml:id="formula_23">)</formula><p>consists of the values of the two partial derivatives of the jth coefficient at the n designed locations.</p><p>In what follows, we denote by â(0) r (k), b(0) r (k) and â(0) r (n + k) the local-linear estimates of a r (k), b r (k) and a r (n + k) obtained by Equation (6) with the bandwidth h set to be its optimal value in Equation <ref type="bibr" target="#b10">(11)</ref>. Let k = 1, 2, . . . , n, respectively, we can obtain the estimates of A and B which we denote by Â(0) and B(0) . The jth column of Â(0) and B(0) , that is, the estimates of a c (j) and b c (j) is denoted by a (0) c (j) and b (0) c (j), respectively. According to the principle of the adaptive group lasso <ref type="bibr" target="#b18">[19,</ref><ref type="bibr" target="#b19">20]</ref>, we formulate the objective function of the penalized estimation of the GWR model in Equation (1) as</p><formula xml:id="formula_24">L h,λ (A, B) = n k=1 L h (u k , v k ) + 2λ ⎛ ⎝ p j=1 w 1j a c (j) + p j=1 w 2j b c (j) ⎞ ⎠ , (<label>17</label></formula><formula xml:id="formula_25">)</formula><p>where • is the Euclidean norm of a vector, that is,</p><formula xml:id="formula_26">a c (j) = n i=1 (β j (u i , v i )) 2 1/2 , b c (j) = n i=1 [(β (u) j (u i , v i )) 2 + (β (v) j (u i , v i )) 2 ] 1/2 , (<label>18</label></formula><formula xml:id="formula_27">)</formula><p>w 1j and w 2j are the weights given by</p><formula xml:id="formula_28">w 1j = √ n â(0) c (j) , w 2j = √ 2n b(0) c (j) , j = 1, 2, . . . , p, (<label>19</label></formula><formula xml:id="formula_29">)</formula><p>with â(0) c (j) and b(0) c (j) being the aforementioned estimates of a c (j) and b c (j), and λ is the penalization parameter. In the objective function L h,λ (A, B), the penalty terms p j=1 w 1j a c (j) and p j=1 w 1j b c (j) are used to cause shrinkage of the values of each coefficient and their two partial derivatives at all of the designed locations towards zero. Therefore, if the coefficient β j (u, v) is zero over space, the estimates of both a c (j) and b c (j) should be shrunk to zero; if β j (u, v) is nonzero constant, the estimates of only b c (j) should be shrunk to zero. As a result, the shrunken estimates of a c (j) and b c (j) from L h,λ (A, B), provide the evidence for identifying whether β j (u, v) is zero, nonzero constant, or varying over space.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.2.">Local quadratic approximation of the penalty terms and an iterative algorithm for the penalized estimation</head><p>It is noted that the penalty terms in the objective function L h,λ (A, B) are not differentiable in the origin, which makes the common derivative-based algorithm unusable for obtaining the solutions of L h,λ (A, B). However, as done in many papers (see, <ref type="bibr" target="#b10">[11,</ref><ref type="bibr" target="#b14">15,</ref><ref type="bibr" target="#b16">17]</ref>), the local quadratic approximation proposed by Fan and Li <ref type="bibr" target="#b15">[16]</ref> can be used to locally approximate the penalty terms. In our cases, this approximation shows, for each j = 1, 2, . . . , p, that</p><formula xml:id="formula_30">a c (j) ≈ â(m) c (j) + a c (j) 2 -â(m) c (j) 2 2 â(m) c (j) ; b c (j) ≈ b(m) c (j) + b c (j) 2 - b(m) c (j) 2 2 b(m) c (j) , (<label>20</label></formula><formula xml:id="formula_31">)</formula><p>where â(m) c (j) and b(m) c (j) are two known vectors with their norms being close to those of a c (j) and b c (j), respectively. In what follows, an iterative algorithm will be derived to compute the estimates of a c (j) and b c (j), in which â(m) c (j) and b(m) c (j) are set to be the latest estimates of a c (j) and b c (j).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.3.">An iterative algorithm for solving the objective function and identification of the types of the coefficients</head><p>With the quadratic approximation of the penalty terms in Equation ( <ref type="formula" target="#formula_30">20</ref>), the objective function in Equation ( <ref type="formula" target="#formula_24">17</ref>) can be approximated by</p><formula xml:id="formula_32">L h,λ (A, B) ≈ n k=1 L h (u k , v k ) + 2λ ⎛ ⎝ p j=1 w 1j a c (j) 2 â(m) c (j) + p j=1 w 2j b c (j) 2 b(m) c (j) ⎞ ⎠ + c(m),<label>(21)</label></formula><p>where</p><formula xml:id="formula_33">c(m) = -λ( p j=1 w 1j â(m) c (j) + p j=1 w 2j b(m) c (j) )</formula><p>is irrelevant to the elements of A and B. From Equations ( <ref type="formula" target="#formula_4">4</ref>) and ( <ref type="formula" target="#formula_19">14</ref>), we obtain that</p><formula xml:id="formula_34">p j=1 w 1j â(m) c (j) a c (j) 2 = p j=1 w 1j â(m) c (j) n k=1 β 2 j (u k , v k ) = n k=1 ⎡ ⎣ p j=1 w 1j â(m) c (j) β 2 j (u k , v k ) ⎤ ⎦ = n k=1 a T r (k)D (m) 1 a r (k), (<label>22</label></formula><formula xml:id="formula_35">)</formula><p>where</p><formula xml:id="formula_36">D (m) 1 = Diag w 11 â(m) c (1) , w 12 â(m) c (2) , . . . , w 1p â(m) c (p) . (<label>23</label></formula><formula xml:id="formula_37">)</formula><p>Similarly, we have</p><formula xml:id="formula_38">p j=1 w 2j b(m) c (j) b c (j) 2 = n k=1 b T r (k)D (m) 2 b r (k) + n k=1 b T r (n + k)D (m) 2 b r (n + k), (<label>24</label></formula><formula xml:id="formula_39">)</formula><p>where</p><formula xml:id="formula_40">D (m) 2 = Diag w 21 b(m) c (1) , w 22 b(m) c (2) , . . . , w 2p b(m) c (p) . (<label>25</label></formula><formula xml:id="formula_41">)</formula><p>Therefore, the objective function L h,λ (A, B) is of the form</p><formula xml:id="formula_42">L h,λ (A, B) = n k=1 L h (u k , v k ) + λ n k=1 [a T r (k)D (m) 1 a r (k) + b T r (k)D (m) 2 b r (k) + b T r (n + k)D (m) 2 b r (n + k)] + c(m). (<label>26</label></formula><formula xml:id="formula_43">)</formula><formula xml:id="formula_44">Substituting L h (u k , v k )</formula><p>in Equation ( <ref type="formula" target="#formula_5">5</ref>) into the expression of L h,λ (A, B) and with the similar operation for deriving Equation ( <ref type="formula" target="#formula_7">7</ref>), we obtain the following formula for iteratively computing the penalized estimates of a r (k), b r (k) and b r (n</p><formula xml:id="formula_45">+ k) as [[â (m) r (k)] T , [ b(m) r (k)] T , [ br (n + k)] T ] T = ⎛ ⎜ ⎜ ⎜ ⎝ X T W (0,0) h (k)X + λD (m) 1 X T W (1,0) h (k)X X T W (0,1) h (k)X X T W (1,0) h (k)X X T W (2,0) h (k)X + λD (m) 2 X T W (1,1) h (k)X X T W (0,1) h (k)X X T W (1,1) h (k)X X T W (0,2) h (k)X + λD (m) 2 ⎞ ⎟ ⎟ ⎟ ⎠ -1 • ⎛ ⎜ ⎜ ⎜ ⎝ X T W (0,0) h (k) X T W (1,0) h (k) X T W (0,1) h (k) ⎞ ⎟ ⎟ ⎟ ⎠ y, (<label>27</label></formula><formula xml:id="formula_46">)</formula><p>where W (γ ,ψ) h (k) (γ , ψ = 0, 1, 2) are shown in Equation ( <ref type="formula" target="#formula_9">8</ref>), and D (m) 1 and D (m) 2 are defined in Equations <ref type="bibr" target="#b22">(23)</ref> and <ref type="bibr" target="#b24">(25)</ref>. In the above iterative algorithm, only D (m) 1 and D (m) 2 should be updated in each iteration. Once the bandwidth h, the penalization parameter λ and the initial values of A and B (or a r (k), b r (k) and b r (n + k) for k = 1, 2, . . . , n) are specified. Then penalized estimates of a r (k), b r (k) and b r (n + k) for k = 1, 2, . . . , n, and therefore those of A and B can be obtained by performing the iterations until convergence. Let Â(m) and B(m) be the estimates of A and B in the mth iteration, the convergence criterion here is defined by</p><formula xml:id="formula_47">Â(m) B(m) - Â(m+1) B(m+1) F &lt; τ, (<label>28</label></formula><formula xml:id="formula_48">)</formula><p>where • F indicates the Frobenius norm of a matrix which is equal to the squared root of sum of squares of all the elements of the matrix, and τ is a pre-specified threshold value. When the convergence criterion is reached, we take Â(m) and B(m) as the final estimates of A and B, which we denote in what follows as Âh,λ and Bh,λ , respectively. Consequently, the final estimates of a c (j) and b c (j) for j = 1, 2, . . . , p are obtained, which we denote by âc (j) and bc (j) (j = 1, 2, . . . , p) hereafter.</p><p>Theoretically, if the coefficient β j (u, v) is zero, both the estimates âc (j) and bc (j) should be shrunk exactly to zero; if it is a nonzero constant, only bc (j) is shrunk exactly to zero. However, with the local quadratic approximation of the objective function L h,λ (A, B) and the iterative algorithm, âc (j) and bc (j) may not be exactly zero when the convergence criterion in Equation ( <ref type="formula" target="#formula_47">28</ref>) is reached. As done in the literature on structure identification and variable selection of varying coefficient models (see, e.g. <ref type="bibr" target="#b12">[13,</ref><ref type="bibr" target="#b14">15,</ref><ref type="bibr" target="#b16">17]</ref>), a small threshold δ &gt; 0 should be designated to judge whether âc (j) and bc (j) have been shrunk to zero. Specifically, for 1 ≤ j ≤ p, let</p><formula xml:id="formula_49">âc (j) = [ βj (u 1 , v 1 ), βj (u 2 , v 2 ), . . . , βj (u n , v n )] T , (<label>29</label></formula><formula xml:id="formula_50">)</formula><formula xml:id="formula_51">bc (j) = [ β(u) j (u 1 , v 1 ), . . . , β(u) j (u n , v n ), β(v) j (u 1 , v 1 ), . . . , β(v) j (u n , v n )] T . (<label>30</label></formula><formula xml:id="formula_52">) Given each j = 1, 2, . . . , p, if | βj (u i , v i )| &lt; δ for all i = 1, 2, . . . , n, we set âc (j) = 0; if | β(u) j (u i , v i )| &lt; δ and | β(v) j (u i , v i )| &lt; δ for all i = 1, 2, . . . , n, we set bc (j) = 0.</formula><p>With this reset estimates of a c (j) and b c (j), the corresponding coefficient β j (u, v) is identified to be zero, nonzero constant or spatially varying in the following way:</p><p>(1) If both âc (j) = 0 and bc (j) = 0, then β j (u, v) = 0;</p><p>(2) if only bc (j) = 0, then β j (u, v) = β j , where β j is a nonzero constant;</p><p>(3) if otherwise, β j (u, v) is identified to be spatially varying.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.4.">Selection of the bandwidth h, the initial estimates of A and B, and the penalization parameter λ</head><p>In order to implement the aforementioned algorithm, the sizes of the bandwidth h and the penalization parameter λ should be properly selected and initial estimates A and B have to be designated. Ideally, the optimal sizes of h and λ should be simultaneously selected by some data-driven criterion. However, to do so is very computationally expensive. Following the way in Wang and Xia <ref type="bibr" target="#b10">[11]</ref>, Hu and Xia <ref type="bibr" target="#b13">[14]</ref>, and Ma and Zhang <ref type="bibr" target="#b16">[17]</ref>, we separately select the optimal sizes of h and λ in the following way.</p><p>The optimal size of the bandwidth h is taken to be h o which is selected by the CV procedure in Equation <ref type="bibr" target="#b11">(12)</ref>. The aforementioned matrices Â(0) and B(0) resulted from the local-linear estimates of âr (k), br (k) and br (n + k) (k = 1, 2, . . . , n) are set to be the initial estimates of A and B for running the iterative algorithm in Equation <ref type="bibr" target="#b25">(26)</ref>. For the penalization parameter λ, its optimal size is chosen by the BIC-type criterion proposed by Hu and Xia <ref type="bibr" target="#b13">[14]</ref>. Specifically, given λ &gt; 0 and the selected bandwidth h o , run the iterative algorithm in Equation <ref type="bibr" target="#b25">(26)</ref> and yields the estimates Âh o ,λ and Bh o ,λ of A and B with which the varying coefficients in the model is identified by the criterion described in the end of the last subsection. Let df h o ,λ be the number of the varying coefficients and</p><formula xml:id="formula_53">RSS h o ,λ = n k=1 n i=1 {y i -x i [â r (k) + br (k)(u i -u k ) + br (n + k)(v i -v k )]} 2 K h o (d ki ), (<label>31</label></formula><formula xml:id="formula_54">)</formula><p>be the residual sum of squares computed by Âh o ,λ and Bh o ,λ , where each row of Âh o ,λ and Bh o ,λ is still denoted by âr (k), br (k) and br (n + k) for notational simplicity. According to Hu and Xia <ref type="bibr" target="#b13">[14]</ref>, define the BIC-type criterion</p><formula xml:id="formula_55">BIC(λ) = log 1 n 2 RSS h o ,λ + df λ log(nh) nh + (p -df λ ) log n n . (<label>32</label></formula><formula xml:id="formula_56">)</formula><p>The optimal size λ o of the penalization parameter is selected by</p><formula xml:id="formula_57">λ o = arg min λ&gt;0 BIC(λ). (<label>33</label></formula><formula xml:id="formula_58">)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Implementation steps of the GWGlasso method</head><p>In order to facilitate the implementation of the GWGlasso method on computers, we summarize the basic steps in what follows. Input: Spatial data set {y i ; x i1 , . . . , x ip ; (u i , v i )} n i=1 ; the values of τ and δ; and the candidate sets of the bandwidth h and penalization parameter λ which are denoted by H = {h m } M m=1 and = {λ l } L l=1 , respectively.</p><p>Output: The index sets of the varying coefficients, nonzero constant coefficients and zero coefficients which are denoted by A V , A C and A Z , respectively.  <ref type="formula" target="#formula_18">13</ref>) and ( <ref type="formula" target="#formula_21">15</ref>) as well as the weights {w 1j , w 2j } p j=1 according to Equation <ref type="bibr" target="#b18">(19)</ref>. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step</head><formula xml:id="formula_59">A V = {j : j / ∈ A Z or j / ∈ A C }.</formula><p>Remark: In general, the GWGlasso method leads to a mixed GWR model when the irrelevant explanatory variables (if any) are removed. With the above notations, the mixed GWR model is of the form</p><formula xml:id="formula_60">y i = j∈A V β j (u i , v i )x ij + j∈A C β j x ij + ε i , i = 1, 2, . . . , n. (<label>34</label></formula><formula xml:id="formula_61">)</formula><p>The GWGlasso method can also yield the shrunk estimates of the spatially varying coefficients and the nonzero constant coefficients. Specially, denote</p><formula xml:id="formula_62">Âh o ,λ o = [â c (1), âc (2), . . . âc (p)], (<label>35</label></formula><formula xml:id="formula_63">)</formula><p>with âc (j) = [ βj (u 1 , v 1 ), βj (u 2 , v 2 ), . . . , βj (u n , v n )] T for j = 1, 2, . . . , p.</p><p>(i) If j ∈ A V , then the elements in âc (j) are the shrunk estimates of β j (u, v) at the n designed locations.</p><p>(ii) If j ∈ A C , the nonzero constant coefficient β j can be estimated by averaging the shrunk estimates { βj (u i , v i )} n i=1 over the n locations. That is,</p><formula xml:id="formula_64">β j = (1/n) n i=1 { βj (u i , v i )} n i=1 .</formula><p>As well known, shrinkage estimation methodologies can well deal with the impact of collinearity among the explanatory variables. Therefore, if the collinearity is diagnosed to be serious, the GWGlasso method can simultaneously yield better estimates for both spatially varying coefficients and nonzero constant coefficients. However, a recent paper by Fotheringham and Oshan <ref type="bibr" target="#b20">[21]</ref> have empirically demonstrated that the GWR method is not more seriously influenced by collinearity among the explanatory variables except in the extreme circumstances and the collinearity in a GWR model should be treated the same as in any regression framework. Therefore, when the collinearity is thought to be not so serious, the two-steps estimation method in Fotheringham et al. <ref type="bibr" target="#b1">[2,</ref><ref type="bibr">Chapter 3]</ref> would better be used to calibrate the mixed GWR model because extra bias will be introduced to the shrunk estimates of the coefficients in order to lower their variance.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Simulation study</head><p>In this section, the simulation study is to show that the GWGlasso method is a better computational procedure than the residual-based bootstrap test of Mei et al. <ref type="bibr" target="#b8">[9]</ref>. Concerning the bootstrap test, Mei et al. <ref type="bibr" target="#b8">[9]</ref> have proposed two types of the residual-based bootstrap tests. The first bootstrap test is to detect the constant coefficients in a GWR model. Furthermore, the second bootstrap test is developed for judging whether some of constant coefficients are zero in a mixed GWR model. Therefore, we implement these two types of the bootstrap tests for the purpose of identifying zero, nonzero constant and varying coefficients in a GWR model, and denote the first and second bootstrap test by T 1 and T 2 respectively. Compared with the bootstrap tests, the GWGlasso method is a shrinkage method and able to achieve the purpose of identifying zero, nonzero constant and varying coefficients simultaneously. Therefore, we conduct the simulation study to assess the performance of the GWGlasso method in Section 4.2. Under the same design of experiment, the simulation results of the two type of the bootstrap tests are reported in Section 4.3. Furthermore, the deficiency and benefit of the above two methods are analysed and discussed in Section 4.4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Design of the experiment</head><p>(i) The spatial layout. The spatial region for the experiment is taken to be a unit square. A Cartesian coordinate system is built in such a way that its origin locates at the bottom-left corner of the square and the two axes coincide with the mutually orthogonal two sides of the square. The sampling locations are m × m lattice points with their coordinates under the Cartesian coordinate system being</p><formula xml:id="formula_65">(u i , v i ) = 1 m -1 mod i -1 m , 1 m -1 int i -1 m , i = 1, . . . , m 2 , (<label>36</label></formula><formula xml:id="formula_66">)</formula><p>where mod(a/b) and int(a/b) are the remainder and the integer part on a divided by b, respectively.</p><p>In the experiment, we take m = 21 which results in the sample size n = m 2 = 441.</p><p>(ii) The models. The following three GWR models are considered in the experiment.</p><formula xml:id="formula_67">(I) : y i = 3(u i + v i )x i1 + (1 + v 2 i )x i2 + 1.5x i3 + αx i4 + 0x i5 + 0x i6 + 0x i7 + 0x i8 + 0.5ε i , (<label>37</label></formula><formula xml:id="formula_68">) (II) : y i = 3(u i + v i )x i1 + (1 + αv 2 i )x i2 + 1.5x i3 + 1x i4 + 2x i5 + 0x i6 + 0x i7 + 0x i8 + 0.5ε i , (<label>38</label></formula><formula xml:id="formula_69">) (III) : y i = exp(u i + v i )x i1 + 6u 2 i x i2 + 2α sin(2πv i )x i3 + 1.5x i4 + 1x i5 + 2x i6 + 0x i7 + 0x i8 + 0.5ε i ,<label>(39)</label></formula><p>where for each i = 1, 2, . . . , n, x i1 = 1; (x i2 , . . . , x i8 ) T are drawn from the multivariate normal distribution N(0, ) with the covariance matrix = (ρ |j-k| ) 2≤j, k≤8 , and ε i is independently drawn from the standard normal distribution N(0, 1).</p><p>In the models, the parameter α controls the variation degree of the coefficient. By designating different values of α, we can evaluate the ability of the proposed GWGlasso method in solving three types of structure identification problems: (I) selection of nonzero constant and zero coefficients; (II) separation of varying and nonzero constant coefficients; (III) identification of varying and zero coefficients. The degree of collinearity among the explanatory variables is reflected by the parameter ρ in the covariance matrix which we use to assess the impact of the collinearity on the performance of the GWGlasso method. In the experiment, α was set to be 0.5 and 1, respectively; ρ was taken to be 0, 0.5, 0.9, respectively, indicating the cases that the explanatory variables are independent with each other, moderately correlated and highly correlated.</p><p>(iii) The kernel function and candidate sets of the bandwidth h and penalization parameter λ. Throughout the simulation, the Gaussian kernel K(t) = (1/ √ 2π) exp(-t 2 /2) was used, the candidate sets of the bandwidth h and the penalization parameter λ were set to be H = {h m : h m = 0.05 + 0.05 × m} 20  m=1 and = {λ l : λ l = 0.2 × l} 20 l=1 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Simulation analysis of the GWGlasso method</head><p>In each experimental setting, 200 replications were conducted. Tables 1-3 report the frequencies of each coefficient identified to be spatially varying, nonzero constant or zero in the 200 replications. Throughout the simulation, we set τ = 10 -4 and δ = 10 -2 be the stopping criterion and the judging threshold, respectively.</p><p>From Table <ref type="table">1</ref>, it can be seen that for selecting the nonzero constant coefficients, the GWGlasso method works well in every case, with high frequency, it can correctly separate the varying, nonzero constant and zero coefficients. Since α is designed in model (I), the frequency of the GWGlasso method in cases α = 1 is slightly higher than that of in cases α = 0.5, which indicates that the Table <ref type="table">1</ref>. Frequencies of each coefficient identified to be spatially varying (V), nonzero constant (C) or zero (Z) in Model (I).</p><formula xml:id="formula_70">α = 0.5 α = 1 Coefficient V C Z V C Z ρ = 0 β 1 (u, v) 200 0 0 200 0 0 β 2 (u, v) 200 0 0 200 0 0 β 3 = 1.5 2 198 0 2 198 0 β 4 = α 4 196 0 1 199 0 β 5 = 0 2 0 198 0 3 197 β 6 = 0 0 0 200 0 1 199 β 7 = 0 0 2 198 0 1 199 β 8 = 0 1 1 198 0 1 199 ρ = 0.5 β 1 (u, v) 200 0 0 200 0 0 β 2 (u, v) 200 0 0 200 0 0 β 3 = 1.5 3 197 0 3 197 0 β 4 = α 2 198 0 3 197 0 β 5 = 0 0 0 200 1 3 196 β 6 = 0 1 4 195 1 0 199 β 7 = 0 0 3 197 0 2 198 β 8 = 0 0 2 198 0 0 200 ρ = 0.9 β 1 (u, v) 200 0 0 200 0 0 β 2 (u, v</formula><p>) 195 5 0 186 14 0 β 3 = 1.5 21 179 0 2 1 179 0 β 4 = α 8 192 0 5 195 0 β 5 = 0 5 3 192 1 2 197 β 6 = 0 3 3 194 0 4 196 β 7 = 0 0 1 199 1 2 197 β 8 = 0 0 2 198 0 2 198 Note: The significance of bold values presents the frequencies of the underlying coefficient correctly identified into the final model. proposed method is stable to separate the nonzero constant and zero coefficients. As one can see from Table <ref type="table" target="#tab_0">2</ref>, the performance of the proposed method in cases α = 1 remarkably outperforms than the cases α = 0.5, which indicates that the GWGlasso method is sensitive to separate varying and nonzero constant coefficients and detect the changes in the amplitude of variation of the spatially varying coefficients. Specially, for the separation results of β 2 (u, v) the separation of varying and nonzero constant coefficients of the proposed method in cases α = 0.5 is getting gradually worse with the increase of ρ. To investigate the performance of the GWGlasso method for identifying of varying and zero coefficients, we have carried out the simulation in model (III). For Table <ref type="table" target="#tab_1">3</ref>, it can be observed that the identification results β 3 (u, v) of the proposed method in cases α = 1 are better than that of the cases α = 0.5, which suggests that the proposed method is sensitive to identify the coefficients between varying and zero coefficients. Moreover, the proposed method is robust to the moderately correlated collinearity among the explanatory variables even when the highly correlated cases. Therefore, all the results reported in Tables 1-3 demonstrate the favourable performance of the proposed method, especially, the ability for variable selection and structure identification in GWR models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3.">Simulation analysis of the residual-based bootstrap tests</head><p>In this subsection, we briefly describe the two types of the residual-based bootstrap tests proposed by Mei et al. <ref type="bibr" target="#b8">[9]</ref>. For T 1 , we focus on testing for constant coefficients in the GWR model  and formulate a residual-based bootstrap test for the hypotheses. That is, T 1 can be viewed as a structure identification procedure. And the detailed bootstrap procedure for calculating the p-value of the test is given in Section 3.2 in Mei et al. <ref type="bibr" target="#b8">[9]</ref>.</p><p>For T 2 , we aim at detecting for zero coefficients in the mixed GWR model H 0 : some constant coefficients in the mixed GWR model are zero versus H 1 : all the coefficients in the mixed GWR model are nonzero.</p><p>As an extension of T 1 , T 2 is to test the hypothesis of one mixed GWR model against another mixed GWR model. Therefore, T 2 can be regarded as a variable selection procedure. Then, the related computational strategy of the p-value can be obtained from Mei et al. <ref type="bibr" target="#b7">[8]</ref> and the Section 3.3 in Mei et al. <ref type="bibr" target="#b8">[9]</ref>.</p><p>Under the same experimental settings, 200 replications are conducted. For each replication, 1000 bootstrap samples are drawn to compute the p-value. Based on the spatial data set</p><formula xml:id="formula_71">{y i ; x i1 , . . . , x ip ; (u i , v i )} n</formula><p>i=1 , the GWR model in Equation ( <ref type="formula" target="#formula_0">1</ref>) is fitted according to the basic GWR technique and the alternative model of the mixed GWR model is calibrated by the two-step estimation in Fotheringham et al. <ref type="bibr" target="#b1">[2]</ref>. As suggested by Mei et al. <ref type="bibr" target="#b8">[9]</ref>, the Gaussian kernel K(t) = (1/ √ 2π) exp(-t 2 /2) is used and the optimal bandwidth size is selected by AIC c criterion throughout the simulation of test.</p><p>For each of the experimental settings, the null and the alternative hypotheses of T 1 and T 2 are known in advance, where T 1 and T 2 are designed for testing the constant coefficients in GWR models and the zero coefficients in mixed GWR models. All the cases of the experimental settings are listed in Table <ref type="table">4</ref>. Under the null hypotheses of T 1 and T 2 for each of the experimental settings, we compute</p><p>Table 4. The null and alternative hypothesis of the stages T 1 and T 2 in the Models (I), (II) and (III).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Model</head><p>Stage H 0 H 1 (I) T 1 β j (u, v) = β j , j = 3, 4, 5, 6, 7, 8. All coefficients vary over the space. T 2 β j (u, v) = β j , j = 3, 4, 5, 6, 7, 8 β j (u, v) = β, j = 3, 4, 5, 6, 7, 8. and β j = 0, j = 5, 6, 7, 8. (II) T 1 β j (u, v) = β j , j = 3, 4, 5, 6, 7, 8. All coefficients vary over the space. T 2 β j (u, v) = β j , j = 3, 4, 5, 6, 7, 8 β j (u, v) = β, j = 3, 4, 5, 6, 7, 8. and β j = 0, j = 6, 7, 8. (III) T 1 β j (u, v) = β j , j = 4, 5, 6, 7, 8. All coefficients vary over the space. T 2 β j (u, v) = β j , j = 4, 5, 6, 7, 8 β j (u, v) = β, j = 4, 5, 6, 7, 8. and β j = 0, j = 7, 8. the rate of rejecting the null hypothesis among 200 replications at the significance level of .05. The rejection rate is an estimator of the type I error of the test under the given setting and significance level. Then, the related rejection rate was calculated for both T 1 and T 2 and the results are reported in Table <ref type="table" target="#tab_2">5</ref>. It can be observed from Table <ref type="table" target="#tab_2">5</ref> that the bootstrap test performs well to detect the constant coefficients in GWR models and identify the zero constant coefficients in mixed GWR models when the null hypotheses and the alternative of T 1 and T 2 can be accurately known in advance. The rejection rates under the null hypothesis are reasonable smaller than the pre-specific significance level in all of the experimental settings, indicating that the bootstrap test yields a small value of the type I error. Additionally, although the collinearity among the variables may lead to spurious correlation between the GWR estimator of the varying coefficients, which is discussed in Mei et al. <ref type="bibr" target="#b8">[9]</ref> and further explored in Fotheringham and Oshan <ref type="bibr" target="#b20">[21]</ref>, it does not perform significant impact on the rejection rates, which suggests that the bootstrap test is rather robust to do structure identification and variable selection in the presence of the collinearity among the explanatory variables.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4.">Comparison and discussion</head><p>In summary, the simulation study demonstrates that both the GWGlasso method and the residualbased bootstrap tests perform well for structure identification and variable selection in GWR models. As one of the important statistical inference method in GWR literature, the bootstrap tests are applicable to the case that the expressions of the null hypotheses of T 1 and T 2 are provided necessarily for the given data. In practice, however, there is generally not enough priori information for the analysts to know that which coefficients should be chosen to be tested for zero, constant or varying. Intuitively, all possible combinations of the coefficients should be considered and a series of the tests should be performed, which is not an easy task especially when the number of the explanatory variables is large. Although Mei et al. <ref type="bibr" target="#b8">[9]</ref> (Section 3.3) have introduced a simplified algorithm of the bootstrap test to compute the p-value of the test statistic for reducing the computational complexity, it still involves an exhaustive search over 2 p+1 candidate models to identify the varying, constant and zero coefficients consistently, which is quite demanding when p is large. Furthermore, how to create the selection criterion and choose the best model among all possible candidate models is still necessary to be further investigated. From a computational point of view, the GWGlasso method dominates the residualbased bootstrap test of Mei et al. <ref type="bibr" target="#b8">[9]</ref>. Interestingly, the bootstrap test is much more robust than the GWGlasso method under the impact of the collinearity. Nevertheless, the GWGlasso method is the primary shrinkage method to tackle the structure identification and variable selection problem in GWR models, which has the notable improvement in computation and explanation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Analysis of Dublin voter turnout data set</head><p>To further illustrate the usefulness of the GWGlasso algorithm, we apply the method to the Dublin voter turnout data set, which has been analysed by Kavanagh et al. <ref type="bibr" target="#b21">[22]</ref> and Gollini et al. <ref type="bibr" target="#b22">[23]</ref>, and is publicly available in the R package called GWmodel. The data set includes the nine percentage variables which measures the voter turnout in the Irish 2004 Dáil elections and eight characteristics of social structures in 322 Electoral Divisions of Greater Dublin. Following Gollini et al. <ref type="bibr" target="#b22">[23]</ref>, we take GEI (the proportion of the electorate who turned out on voting night to cast their vote in the 2004 General Election in Ireland) as the response variable, the geographical locations (u, v) as the index variable, and the following variables as the explanatory variables:</p><formula xml:id="formula_72">•</formula><p>MDA: one year migrants, that is, moved to a different address one year ago; • LAR: local authority renters; • SCO: social class one; • UEP: unemployed; • LOE: without any formal educational; • AGY: age group 18-24; • AGM: age group 25-44; • AGO: age group 45-64.</p><p>The eight explanatory variables reflect measures of migration, public housing, high social class, unemployment, educational attainment and three adult age groups. As pointed out in Gollini et al. <ref type="bibr" target="#b22">[23]</ref>, although the eight explanatory variables measured on the same scale, the variables are not of a similar magnitude. Therefore, before applying our method, all the explanatory variables are transformed so that their marginal distribution is approximately N(0, 1). Moreover, the normalized procedure here is same to other variable selection methods, such as Wang and Xia <ref type="bibr" target="#b10">[11]</ref>; Hu and Xia <ref type="bibr" target="#b13">[14]</ref> and Ma and Zhang <ref type="bibr" target="#b16">[17]</ref>. Using the Dublin voter turnout data set, we consider the following GWR model</p><formula xml:id="formula_73">GEI = β 0 (u, v) + β 1 (u, v)MDA + β 2 (u, v)LAR + β 3 (u, v)SCO + β 4 (u, v)UEP + β 5 (u, v)LOE + β 6 (u, v)AGY + β 7 (u, v)AGM + β 8 (u, v)AGO + ε. (<label>40</label></formula><formula xml:id="formula_74">)</formula><p>Based on the data set, the GWR model is calibrated by the local-linear estimation to capture the spatial variations of coefficients estimates. Here, the Gaussian kernel is used and the bandwidth size is selected by the cross-validation method without penalization defined by Equation <ref type="bibr" target="#b11">(12)</ref>. The optimal bandwidth size of local-linear estimation for the above GWR model is h o = 0.78 of 10 km (A scale may indicate that 1 m equals 10 km), which is selected from H = {h m : h m = 0.7 + 0.02m} 20  m=1 . Then the local-linear estimation is used to provide the initial coefficients estimates and the adaptive weights in the global loss function in Equation <ref type="bibr" target="#b20">(21)</ref>. Similar preliminary processing has been extensively applied by many researchers, such as Wang and Xia <ref type="bibr" target="#b10">[11]</ref>; Hu and Xia <ref type="bibr" target="#b13">[14]</ref> and Ma and Zhang <ref type="bibr" target="#b16">[17]</ref>.</p><p>By the judging threshold defined in Section 3.1.3, it is evident that the judging threshold δ is vital in determining whether the coefficient estimates is zero, nonzero constant or varying over space. Therefore, it is necessary to investigate several levels of the judging thresholds in analysing the structure information in the above GWR model. With the stopping criterion τ = 10 -4 , we consider several levels of the judging thresholds to be δ = 0.1, 0.05, 0.01, 0.005, 0.001. Then, the proposed algorithm is implemented, the optimal penalized parameter is selected by the BIC criterion in Equation (32). Concretely, we select the optimal penalized parameter from the following set = {λ l : λ l = 0.2 × l} 20  l=1 . Although the optimal penalization parameter selected from may be a local minima, the role played by the range of is rather limited, which can be verified by results of the simulation study. Then the identification results are listed in Table <ref type="table" target="#tab_3">6</ref>.</p><p>In can be obtained from Table <ref type="table" target="#tab_3">6</ref> that the large size δ leads to identify more zero coefficients, whereas the small value δ tends to choose more varying coefficients. Nevertheless, the identification results of δ = 0.01 are likely to be persuasiveness. The resulting GWGlasso estimation with the threshold δ = 0.01 suggests that INT, MDA, LAR, SCO, UEP, AGY, AGM and AGO are all relevant variables, whereas LOE is not. Furthermore, they all suggest that the coefficient functions of INT, MDA, LAR, SCO, UEP, LOE, AGM and AGO are spatially varying coefficients, and the coefficient of AGY is constant. By deleting the irrelevant variable and reordering the spatially varying coefficients and the constant coefficients, we obtained a mixed GWR model for Dublin voter turnout data</p><formula xml:id="formula_75">GEI = β 0 (u, v) + β 1 (u, v)MDA + β 2 (u, v)LAR + β 3 (u, v)SCO + β 4 (u, v)UEP + β 5 (u, v)AGM + β 6 (u, v)AGO + β 7 AGY + ε. (<label>41</label></formula><formula xml:id="formula_76">)</formula><p>The Dublin voter turnout data set has been analysed for fitting GWR model and addressing the local collinearity problem in Gollini et al. <ref type="bibr" target="#b22">[23,</ref><ref type="bibr">Section 7,</ref><ref type="bibr" target="#b23">[24]</ref><ref type="bibr" target="#b24">[25]</ref><ref type="bibr" target="#b25">[26]</ref><ref type="bibr" target="#b26">[27]</ref><ref type="bibr">[28]</ref><ref type="bibr">[29]</ref><ref type="bibr">[30]</ref><ref type="bibr">[31]</ref><ref type="bibr">[32]</ref><ref type="bibr">[33]</ref><ref type="bibr">[34]</ref><ref type="bibr">[35]</ref><ref type="bibr">[36]</ref>. For the local collinearity issues, penalized regression methods (such as geographically weighted ridge regression model <ref type="bibr" target="#b23">[24]</ref> the geographically weighted lasso <ref type="bibr" target="#b3">[4]</ref>) have been proposed to shrink regression coefficients to alleviate the effect of collinearity. As a penalized method, GWGlasso also has the ability to shrink the spatially varying coefficients to zero. To illustrate the shrinkage effect of GWGlasso, we present a comparison of all the coefficients estimates between the local-linear estimation and the GWGlasso estimation for the GWR model in (40). Moreover, the boxplots of the coefficients estimates of all the variables based on the unpenalized local-linear estimation and the GWGlasso estimation are illustrated in Figure <ref type="figure" target="#fig_0">1</ref>. The constant coefficient estimates of AGY is -0.9750. Figure <ref type="figure" target="#fig_0">1</ref> shows that the GWGlasso method has a shrinkage effect on the coefficient estimates. Furthermore, the GWGlasso method shrinks the coefficient estimation of LOE to zero and identifies the coefficient estimation of AGY to be constant. It can also shrink the varying coefficients estimation to be a small scope.</p><p>To verify whether the coefficients are varying or not, we can provide some evidences from Table <ref type="table" target="#tab_3">6</ref> and Figure <ref type="figure" target="#fig_0">1</ref>. If the judging threshold is set to be large values δ = 0.1, 0.05, MDA, LAR, LOE and AGY are irrelevant variables demonstrated in Table <ref type="table" target="#tab_3">6</ref>, which can be verified that the median of the coefficients estimates of these variables are much smaller than that of the other variables in Figure <ref type="figure" target="#fig_0">1</ref>. When the judging threshold is set to be the value δ = 0.01, 0.005, INT, MDA, LAR, SCO, UEP, AGY, AGM </p><formula xml:id="formula_77">V Z Z V C Z Z V V 0.05 V Z Z V C Z Z V V 0.01 V V V V V Z C V V 0.005 V V V V V Z C V V 0.001 V V V V V V C V V</formula><p>Note: The coefficient of explanatory variable identified to be spatially varying (V), nonzero constant (C) or zero (Z). INT is the intercept. and AGO are relevant explanatory variables. Figure <ref type="figure" target="#fig_0">1</ref> depicts that the medians of coefficients estimation of LOE is likely to be zero and the scope of LOE and AGY are relative small compared with that of other variables. It can be obtained from case δ = 0.001 in Table <ref type="table" target="#tab_3">6</ref>, all the explanatory variables are relevant to the response and only AGY has constant effect, which indicates that the coefficients estimations of all the variables are likely to be spatially varying coefficients when the judging threshold is set to be small. These findings corroborate the identification results of the GWGlasso method very well.</p><p>In addition, to further understand the impact of the choice of the different kernels on the identification results, we have conducted the GWGlasso method with other kernels for the Dublin voter turnout data analysis. Among various kernels, the Bi-square kernel K(t) = [(1t 2 ) + ] 2 and the Epanechnikov kernel K(t) = 0.75(1t 2 ) + are frequently used in application. Respectively, the optimal bandwidth sizes of the local-linear estimation for the GWR model (40) with the Bi-square kernel and the Epanechnikov kernel are h o = 9 and h o = 12 of 10 km, which are selected from H = {h m : h m = 5 + 0.5m} 20  m=1 by the CV criterion. With the stopping criterion τ = 10 -4 , several levels of the judging thresholds are set to be δ = 1, 0.5, 0.1, 0.05, 0.01. For both the Bi-square kernel and the Epanechnikov kernel, the resulting GWGlasso estimation with these two kernels are similar. And the identification results of δ = 0.5 are likely to be reasonable, which both suggest that the coefficient functions of INT, MDA, LAR, SCO, UEP, LOE, AGM and AGO are spatially varying coefficients, and the coefficients of LOE and AGY are zero constant.</p><p>Compared with the coefficient of AGY identified to be nonzero constant for the Gaussian kernel, the trivial difference of the resulting GWGlasso estimation with the Bi-square kernel and the Epanechnikov kernel is that the coefficient of AGY identified with these kernels is zero. Furthermore, although the different kernels may lead to the differences among the local-linear GWR estimators of varying coefficients with the different optimal bandwidth sizes, it does not bring about obvious influence on the identification results, which indicates that the GWGlasso method is rather robust to the choice of different kernels. Notice that the optimal judging threshold δ is intimate with the kernel function and should be selected carefully. Because of the limited space, the detailed results are omitted here, but those identification results are attached as a <ref type="url" target="http://dx.doi.org/10.1080/00949655.2017.1311896">supplementary material</ref>. In summary, the Dublin voter turnout data analysis further confirms that the GWGlasso method is a promising shrinkage method for structure identification and variable selection in GWR models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusions</head><p>Variable selection and structure identification of the GWR model is important for exploring spatial non-stationarity in geo-referenced data analysis. As a local fitting technique, however, the GWR estimator of each coefficient varies with the local location regardless of whether the hidden coefficient is zero, nonzero constants or varies over the space. Therefore, identifying the spatially coefficients in a GWR model is vital to validly explain spatially non-stationarity of the regression relationship. To achieve the goal, we propose the GWGlasso algorithm to identify zero, nonzero constant or varying coefficients in a GWR model. Numerical experiments and real data analysis indicated that the proposed method is very effective. Moreover, GWGlasso provides a useful way of building a possible mixed GWR model for a geo-referenced data set. Finally, the R code of the GWGlasso algorithm and the residual-based bootstrap tests used in Sections 4 and 5 is provided in the <ref type="url" target="http://dx.doi.org/10.1080/00949655.2017.1311896">supplemental material</ref>.</p><p>To conclude the paper, we would like to discuss some possible topics for future study. Firstly, our proposal is based on the group lasso method due to its simplicity. Similar ideas can be extend to other useful shrinkage methods, such as the group SCAD method, the group MCP method and other group selection methods <ref type="bibr" target="#b24">[25]</ref>. Secondly, it will it can profitably to explore the proposed method in generalized GWR models such as the geographically weighted Poisson regression <ref type="bibr" target="#b25">[26]</ref>, the geographically weighted logistic regression <ref type="bibr" target="#b26">[27]</ref> and so on. Furthermore, how to do variable selection and structure identification for generalized GWR model is an interesting topic for future research.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>1 :</head><label>1</label><figDesc>Compute the initial matrices Â(0) and B(0) of A and B as well as the weights {w 1j , w 2j } p j=1 . Step 1.1: Given each h m ∈ H, compute the estimates â(0) r (k), b(0) r (k) and â(0) r (n + k) of a (0) r (k), b (0) r (k) and a (0) r (n + k) according to Equation (7) for k = 1, 2, . . . , n; then compute CV(h m ) by Equation (11); Step 1.2: Select h o = arg min 1≤m≤M CV(h m ) and the estimates â(0) r (k), b(0) r (k) and â(0) r (n + k) (k = 1, 2, . . . , n) corresponding to the bandwidth size h o obtained in Step 1.1; and then formulate Â(0) and B(0) according to Equations (</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Step 2 : 1 . 3 :</head><label>213</label><figDesc>Select the optimal size λ o and corresponding estimates Âh o ,λ o and Bh o ,λ o of A and B. Step 2.1: For each λ l ∈ and with Â(0) , B(0) and {w 1j , w 2j } p j=1 obtained in Step 1, run the iterative formula in Equation (27) for each k = 1, 2, . . . , n until the convergence criterion in Equation (28) is met and consequently obtain the estimates Âh o ,λ l and Bh o ,λ l ; then determine df h o ,λ l according to the identification criterion described in the end of Section 3.1.3 and compute BIC(λ l ) by Equation (32). Step 2.2: Select λ o = arg min 1≤l≤L BIC(λ l ) and output the corresponding estimates Âh o ,λ l and Bh o ,λ l in Step 2.StepReset each column of Âh o ,λ l and Bh o ,λ l according to the identification criterion in the end of Section 3.1.3 on which final results are obtained by A Z = {j : the jth column of both Âh o ,λ o and Bh o ,λ o is reset to be a zero vector}; A C = {j : the jth column of only Bh o ,λ o is reset to be a zero vector};</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>H 0 :</head><label>0</label><figDesc>some coefficients in model (1) are constant versus H 1 : all the coefficients in model (1) vary over the space</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1.The boxplots of the spatially varying coefficients estimation based on the local-linear estimation and the GWGlasso estimation. The boxplots of intercept are illustrated left, and the boxplots of the coefficients of all the variables are depicted right.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 .</head><label>2</label><figDesc>Frequencies of each coefficient identified to be spatially varying (V), nonzero constant (C) or zero (Z) in Model (II).</figDesc><table><row><cell></cell><cell></cell><cell>α = 0.5</cell><cell></cell><cell></cell><cell>α = 1</cell><cell></cell></row><row><cell>Coefficient</cell><cell>V</cell><cell>C</cell><cell>Z</cell><cell>V</cell><cell>C</cell><cell>Z</cell></row><row><cell>ρ = 0</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1 (u, v) β 2 (u, v) β 3 = 1.5</cell><cell>200 186 3</cell><cell>0 14 197</cell><cell>0 0 0</cell><cell>200 200 2</cell><cell>0 0 198</cell><cell>0 0 0</cell></row><row><cell>β 4 = 1 β 5 = 2</cell><cell>7 4</cell><cell>193 196</cell><cell>0 0</cell><cell>2 2</cell><cell>198 198</cell><cell>0 0</cell></row><row><cell>β 6 = 0</cell><cell>1</cell><cell>1</cell><cell>198</cell><cell>0</cell><cell>1</cell><cell>199</cell></row><row><cell>β 7 = 0 β 8 = 0</cell><cell>0 0</cell><cell>2 1</cell><cell>198 199</cell><cell>0 0</cell><cell>0 0</cell><cell>200 200</cell></row><row><cell>ρ = 0.5</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1 (u, v) β 2 (u, v) β 3 = 1.5</cell><cell>200 178 10</cell><cell>0 22 190</cell><cell>0 0 0</cell><cell>200 200 1</cell><cell>0 0 199</cell><cell>0 0 0</cell></row><row><cell>β 4 = 1 β 5 = 2</cell><cell>9 7</cell><cell>191 193</cell><cell>0 0</cell><cell>2 1</cell><cell>198 199</cell><cell>0 0</cell></row><row><cell>β 6 = 0</cell><cell>1</cell><cell>1</cell><cell>198</cell><cell>1</cell><cell>2</cell><cell>197</cell></row><row><cell>β 7 = 0 β 8 = 0</cell><cell>0 0</cell><cell>2 2</cell><cell>198 198</cell><cell>0 1</cell><cell>1 0</cell><cell>199 199</cell></row><row><cell>ρ = 0.9</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1 (u, v) β 2 (u, v) β 3 = 1.5</cell><cell>200 117 38</cell><cell>0 83 162</cell><cell>0 0 0</cell><cell>200 187 1 8</cell><cell>0 13 182</cell><cell>0 0 0</cell></row><row><cell>β 4 = 1 β 5 = 2</cell><cell>1 5 5</cell><cell>185 195</cell><cell>0 0</cell><cell>1 4</cell><cell>199 196</cell><cell>0 0</cell></row><row><cell>β 6 = 0</cell><cell>2</cell><cell>2</cell><cell>196</cell><cell>1</cell><cell>3</cell><cell>196</cell></row><row><cell>β 7 = 0 β 8 = 0</cell><cell>1 0</cell><cell>1 0</cell><cell>198 200</cell><cell>0 0</cell><cell>1 3</cell><cell>199 197</cell></row></table><note><p>Note: The significance of bold values presents the frequencies of the underlying coefficient correctly identified into the final model.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3 .</head><label>3</label><figDesc>Frequencies of each coefficient identified to be spatially varying (V), nonzero constant (C) or zero (Z) in Model (III).</figDesc><table><row><cell></cell><cell></cell><cell>α = 0.5</cell><cell></cell><cell></cell><cell>α = 1</cell><cell></cell></row><row><cell>Coefficient</cell><cell>V</cell><cell>C</cell><cell>Z</cell><cell>V</cell><cell>C</cell><cell>Z</cell></row><row><cell>ρ = 0</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1 (u, v) β 2 (u, v) β 3 (u, v)</cell><cell>192 171 102</cell><cell>8 2 12</cell><cell>0 2 7 86</cell><cell>192 169 141</cell><cell>8 1 3</cell><cell>0 3 0 5 6</cell></row><row><cell>β 4 = 1.5 β 5 = 1</cell><cell>0 0</cell><cell>200 200</cell><cell>0 0</cell><cell>5 2</cell><cell>195 198</cell><cell>0 0</cell></row><row><cell>β 6 = 2</cell><cell>0</cell><cell>200</cell><cell>0</cell><cell>3</cell><cell>197</cell><cell>0</cell></row><row><cell>β 7 = 0 β 8 = 0</cell><cell>0 0</cell><cell>0 0</cell><cell>200 200</cell><cell>8 4</cell><cell>0 0</cell><cell>192 196</cell></row><row><cell>ρ = 0.5</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1 (u, v) β 2 (u, v) β 3 (u, v)</cell><cell>195 170 98</cell><cell>5 1 4</cell><cell>0 2 9 9 8</cell><cell>193 169 145</cell><cell>7 5 6</cell><cell>0 2 6 4 9</cell></row><row><cell>β 4 = 1.5 β 5 = 1</cell><cell>6 4</cell><cell>194 196</cell><cell>0 0</cell><cell>1 2 5</cell><cell>188 193</cell><cell>0 2</cell></row><row><cell>β 6 = 2</cell><cell>5</cell><cell>195</cell><cell>0</cell><cell>6</cell><cell>194</cell><cell>0</cell></row><row><cell>β 7 = 0 β 8 = 0</cell><cell>9 1</cell><cell>0 1</cell><cell>191 198</cell><cell>9 4</cell><cell>0 0</cell><cell>191 196</cell></row><row><cell>ρ = 0.9</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>β 1 (u, v) β 2 (u, v) β 3 (u, v)</cell><cell>196 164 104</cell><cell>4 5 5</cell><cell>0 3 1 9 1</cell><cell>190 162 160</cell><cell>10 7 7</cell><cell>0 3 1 3 3</cell></row><row><cell>β 4 = 1.5 β 5 = 1</cell><cell>56 4 8</cell><cell>134 121</cell><cell>10 31</cell><cell>58 63</cell><cell>138 116</cell><cell>4 21</cell></row><row><cell>β 6 = 2</cell><cell>5 4</cell><cell>145</cell><cell>1</cell><cell>6 0</cell><cell>139</cell><cell>1</cell></row><row><cell>β 7 = 0 β 8 = 0</cell><cell>5 2 2 1</cell><cell>0 0</cell><cell>148 179</cell><cell>53 35</cell><cell>0 0</cell><cell>147 165</cell></row></table><note><p>Note: The significance of bold values presents the frequencies of the underlying coefficient correctly identified into the final model.</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 5 .</head><label>5</label><figDesc>Rejection rates of N = 200 replications of the testing procedure under the significance level of .05.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>α = 1</cell><cell></cell><cell></cell><cell>α = 0.5</cell><cell></cell></row><row><cell>Model</cell><cell>Stage</cell><cell>ρ = 0</cell><cell>ρ = 0.5</cell><cell>ρ = 0.9</cell><cell>ρ = 0</cell><cell>ρ = 0.5</cell><cell>ρ = 0.9</cell></row><row><cell>(I)</cell><cell>T 1</cell><cell>0.000</cell><cell>0.015</cell><cell>0.020</cell><cell>0.040</cell><cell>0.015</cell><cell>0.020</cell></row><row><cell></cell><cell>T 2</cell><cell>0.015</cell><cell>0.010</cell><cell>0.010</cell><cell>0.025</cell><cell>0.010</cell><cell>0.010</cell></row><row><cell>(II)</cell><cell>T 1</cell><cell>0.010</cell><cell>0.010</cell><cell>0.020</cell><cell>0.010</cell><cell>0.010</cell><cell>0.010</cell></row><row><cell></cell><cell>T 2</cell><cell>0.030</cell><cell>0.005</cell><cell>0.020</cell><cell>0.010</cell><cell>0.005</cell><cell>0.020</cell></row><row><cell>(III)</cell><cell>T 1</cell><cell>0.000</cell><cell>0.015</cell><cell>0.000</cell><cell>0.010</cell><cell>0.015</cell><cell>0.005</cell></row><row><cell></cell><cell>T 2</cell><cell>0.025</cell><cell>0.025</cell><cell>0.010</cell><cell>0.000</cell><cell>0.010</cell><cell>0.010</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 6 .</head><label>6</label><figDesc>The structure identification and variable selection results with the GWR model of the Dublin voter turnout data.</figDesc><table><row><cell>δ</cell><cell>INT</cell><cell>MDA</cell><cell>LAR</cell><cell>SCO</cell><cell>UEP</cell><cell>LOE</cell><cell>AGY</cell><cell>AGM</cell><cell>AGO</cell></row><row><cell>0.1</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>The authors thank the Associate Editor and the referee for their many insightful and inspiring comments and suggestions which greatly improved the paper, and also thank <rs type="person">Professor Jingxiao Zhang</rs> for beneficial discussions.</p></div>
+			</div>
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure statement</head><p>No potential conflict of interest was reported by the authors.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geograph Anal</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression -the analysis of spatial varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>John Wiley</publisher>
+			<pubPlace>Chichester</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Some notes on parametric significance tests for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Regional Sci</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: modelling spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Statistician</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a natural evolution of the expansion method for spatial data analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1905" to="1927" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Testing for spatial autotregression among the residuals of the geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W-X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="871" to="890" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Testing the importance of the expalanatory variables in a mixed geographically weighted regression model</title>
+		<author>
+			<persName><forename type="first">C-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W-X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="587" to="598" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">A bootstrap test for constant coefficients in geographically weighted regression models</title>
+		<author>
+			<persName><forename type="first">C-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int J Geogr Inf Sci</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1622" to="1643" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Variable selection in nonparametric varying coefficient models for analysis of repeated measurements</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J-Z</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="issue">484</biblScope>
+			<biblScope unit="page" from="1556" to="1569" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Shrinkage estimation of the varying coefficient model</title>
+		<author>
+			<persName><forename type="first">H-S</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y-C</forename><surname>Xia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="issue">486</biblScope>
+			<biblScope unit="page" from="747" to="757" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">New efficient estimation and variable selection methods for semiparametric varying-coefficient partially linear models</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Kai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Stat</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="305" to="332" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A unified variable selection approach for varying coefficient models</title>
+		<author>
+			<persName><forename type="first">Y-L</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z-Y</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Sinica</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="601" to="628" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Adapative semi-varying coefficient model selection</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y-C</forename><surname>Xia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statist Sinica</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="575" to="599" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Robust structure identification and variable selection in partial linear varying coefficient models</title>
+		<author>
+			<persName><forename type="first">K-N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Plan Inference</title>
+		<imprint>
+			<biblScope unit="volume">174</biblScope>
+			<biblScope unit="page" from="153" to="168" />
+			<date type="published" when="2016">2016. 2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Variable selection via nonconcave penalized likelihood and its oracle properties</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="issue">456</biblScope>
+			<biblScope unit="page" from="1348" to="1360" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">A new variable selection approach for varying coefficient models</title>
+		<author>
+			<persName><forename type="first">X-J</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J-X</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Metrika</title>
+		<imprint>
+			<biblScope unit="volume">79</biblScope>
+			<biblScope unit="page" from="59" to="72" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Local linear estimation of spatially varying coefficient models: an improvement on the geographically weighted regression technique</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C-L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X-D</forename><surname>Yan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environ Plan A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="986" to="1005" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Model selection and estimation in regression with grouped variables</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc B</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="49" to="67" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A note on adaptive group lasso</title>
+		<author>
+			<persName><forename type="first">H-S</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C-L</forename><surname>Leng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput Stat Data Anal</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="5277" to="5286" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression and multicollinearity: dispelling the myth</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Geogr Syst</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="303" to="329" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">A geographically weighted regression analysis of the election specific turnout behaviour in the Republic of Ireland. Paper presented at: In elections, public opinion and parties conference</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kavanagh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006-09-08">2006 September 8-10</date>
+			<pubPlace>Nottingham</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">GW model: an R package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Softw</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="1" to="50" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">An assessment of coefficient accuracy in linear regression models with spatially varying coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Geogr Syst</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A selective review of group selection in high-dimensional models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Breheny</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ma</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sci</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="481" to="499" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Geographically weighted Poisson regression for disease association mapping</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Med</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="2695" to="2717" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Exploring the relations between riverbank erosion and geomorphological controls using geographically weighted logistic regression</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Atkinson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>German</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Sear</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geograph Anal</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="58" to="82" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

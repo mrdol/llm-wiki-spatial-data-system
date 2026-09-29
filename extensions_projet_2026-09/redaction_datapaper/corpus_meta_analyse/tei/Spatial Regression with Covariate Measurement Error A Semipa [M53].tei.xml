@@ -1,0 +1,752 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial Regression with Covariate Measurement Error: A Semiparametric Approach</title>
+				<funder ref="#_SeXGWZU">
+					<orgName type="full">University of Technology Sydney</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">ARC Centre of Excellence for Mathematical and Statistical Frontiers</orgName>
+					<orgName type="abbreviated">ACEMS</orgName>
+				</funder>
+				<funder ref="#_tFdXkyc">
+					<orgName type="full">National Science Foundation</orgName>
+					<orgName type="abbreviated">NSF</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">NSW Ministry of Health</orgName>
+				</funder>
+				<funder ref="#_ttXwnew">
+					<orgName type="full">National Cancer Institute</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><roleName>Md</roleName><forename type="first">Hamidul</forename><surname>Huque</surname></persName>
+							<email>mdhamidul.huque@student.uts.edu.au</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Mathematical and Physical Sciences</orgName>
+								<orgName type="institution">University of Technology Sydney</orgName>
+								<address>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Howard</forename><forename type="middle">D</forename><surname>Bondell</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">North Carolina State University</orgName>
+								<address>
+									<addrLine>2311 Stinson Drive Campus</addrLine>
+									<postBox>Box 8203</postBox>
+									<postCode>27695-8203</postCode>
+									<settlement>Raleigh</settlement>
+									<region>NC</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Raymond</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">Texas A&amp;M University College Station</orgName>
+								<address>
+									<addrLine>447 Blocker Building</addrLine>
+									<postCode>77843-3143</postCode>
+									<region>TX</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Louise</forename><forename type="middle">M</forename><surname>Ryan</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Mathematical and Physical Sciences</orgName>
+								<orgName type="institution">University of Technology Sydney</orgName>
+								<address>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<address>
+									<postCode>2007</postCode>
+									<settlement>Broadway Ultimo</settlement>
+									<region>NSW</region>
+									<country key="AU">Australia</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial Regression with Covariate Measurement Error: A Semiparametric Approach</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">105668A80E02564E54C8D6D760EA620D</idno>
+					<idno type="DOI">10.1111/biom.12474</idno>
+					<note type="submission">Received May 2015. Revised November 2015. Accepted November 2015.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Bivariate smoothing</term>
+					<term>Geoadditive models</term>
+					<term>Penalized least squares</term>
+					<term>Regression calibration</term>
+					<term>Socio-economic indexes for areas</term>
+					<term>Spatial linear model</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial data have become increasingly common in epidemiology and public health research thanks to advances in GIS (Geographic Information Systems) technology. In health research, for example, it is common for epidemiologists to incorporate geographically indexed data into their studies. In practice, however, the spatially defined covariates are often measured with error. Naive estimators of regression coefficients are attenuated if measurement error is ignored. Moreover, the classical measurement error theory is inapplicable in the context of spatial modeling because of the presence of spatial correlation among the observations. We propose a semiparametric regression approach to obtain bias-corrected estimates of regression parameters and derive their large sample properties. We evaluate the performance of the proposed method through simulation studies and illustrate using data on Ischemic Heart Disease (IHD). Both simulation and practical application demonstrate that the proposed method can be effective in practice.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>With the rapid growth of Geographic Information Systems (GIS), it is now common for epidemiologists to incorporate spatially indexed data into their studies <ref type="bibr" target="#b6">(Elliott and Wartenberg, 2004)</ref>. Analysis of such data, however, is complicated by correlations among neighboring observations. Although there are well-known statistical methods to adjust for spatial correlation, relatively little has been done in the context of spatial modeling when the covariate of interest is measured with error. In the case study that motivates this study, Australian researchers explored the relationship between the SEIFA index (an area-based measure of socio-economic status produced by the Australian Bureau of Statistics) and acute hospitalization for Ischemic Heart Disease (IHD) in New South Wales, Australia <ref type="bibr" target="#b2">(Burden et al., 2005)</ref>. Multivariate regression models suggest a significantly negative association between SEIFA and IHD, implying that heart disease rates increase with social disadvantages. However, the strength of association might be attenuated due to the fact that the SEIFA index is constructed using principal component analysis, therefore, is highly likely to be measured with error <ref type="bibr" target="#b9">(Huque et al., 2014)</ref>.</p><p>Many articles have appeared in the literature over the years on covariate measurement error in the context of independent data <ref type="bibr" target="#b7">(Fuller, 1987;</ref><ref type="bibr" target="#b3">Carroll et al., 2006)</ref>. However, relatively few have addressed the specific context of spatial modeling. <ref type="bibr" target="#b0">Bernadinelli et al. (1997)</ref> and <ref type="bibr" target="#b24">Xia and Carlin (1998)</ref> presented a spatio-temporal analysis of spatially correlated data with errors in covariates, in the context of disease mapping. They empirically studied several alternative measurement error models using a Gibbs algorithm. <ref type="bibr" target="#b11">Li et al. (2009)</ref> derived asymptotic bias expressions for estimated regression coefficients in the context of a spatial linear mixed model. They showed that the regression estimates obtained from naive use of an error-prone covariate are attenuated, while variance component estimates are inflated.</p><p>Recently, <ref type="bibr" target="#b9">Huque et al. (2014)</ref> confirmed the findings of <ref type="bibr" target="#b11">Li et al. (2009)</ref> showing that the amount of attenuation depends on the degree of spatial correlation in both the covariate of interest and the assumed random error from the regression model and derived expressions for the bias when measurement error is ignored. They proposed two different strategies for obtaining consistent estimates: (i) correcting the estimate using an estimated attenuation factor; and (ii) using an appropriate transformation of the error-prone covariate. They showed that both bias correction methods work reasonably well, however, the standard error is underestimated in the case when measurement error variances are estimated from the data. Moreover, their approach is fully parametric. Indeed, <ref type="bibr" target="#b18">Ruppert et al. (2009)</ref> argued that penalized splines are the most effective method for correcting the covariate measurement error in case of independent data. So it is of natural interest to extent the spatial regression model with measurement error to a semiparametric framework.</p><p>In this article, we propose a joint modeling approach to assess the relationship between a covariate with measurement error and a spatially correlated outcome in a semiparametric regression context. Our approach contrasts with what is commonly assumed in the measurement error context, namely that some form of validation data are available. Underlying our approach is the critical assumption that the true, but unobserved covariate is smooth and that any random fluctuations from this smooth surface represent measurement error. This assumption makes our model identifiable by representing the unknown true covariate with a linear combination of spline basis functions <ref type="bibr" target="#b26">(Yu and Ruppert, 2002;</ref><ref type="bibr" target="#b25">Xun et al., 2013)</ref>. We use penalized least squares which makes the estimation of parameters and inference straightforward. We develop asymptotic theory for the estimated parameters and provide both model-based and simulation-based standard error estimates. Our simulation results reveal that the proposed method works well in obtaining consistent estimates of the true regression coefficient in the presence of measurement error. Our approach is computationally efficient and stable and can be implemented using standard nonlinear least squares software.</p><p>The structure of the article is as follows: Section 2 describes our model formulation, estimation, and inference procedures.</p><p>Section 3 presents the data-generation process and results from the simulation study. In Section 4, we present an application of the proposed method to data on Ischemic Heart Disease (IHD). We conclude with general discussion in Section 5. The Web Appendix (http:<ref type="url" target="www.tibs.org/biometrics">www.tibs.org/biometrics</ref>) gives detailed proofs, as needed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Model</head><p>Suppose that X i represents the true covariate of interest measured at geographical location, S i ∈ R 2 , i = 1, ..., n and suppose that X i is related to an outcome Y i , according to a spatial linear model:</p><formula xml:id="formula_0">Y i = β 0 + β 1 X i + G 1 (S i ) + i ,<label>(1)</label></formula><p>where = ( 1 , .... n ) T ∼ N(0, σ 2 ) and {G 1 (S i ) : S i ∈ R 2 } is an unknown function that captures the spatial correlation, for now kept arbitrary. Further assume that i and G 1 (S i ) are independent of each other and of the true covariate X i <ref type="bibr" target="#b4">(Cressie, 1993)</ref>. In practice, the outcome might also be related to other covariates and it is straight forward to extent model (1) to include these. However, for simplicity, we only consider a single covariate in model ( <ref type="formula" target="#formula_0">1</ref>).</p><p>In the presence of measurement error, measurements on the true covariate X are not observed directly, instead an errorcontaminated version is available. Let W i be the observed covariate for location S i ∈ R 2 , i = 1, ..., n, related to the true covariate X i according to a classical measurement error model:</p><formula xml:id="formula_1">W i = X i + U i ,<label>(2)</label></formula><p>where U i ∼ N (0, σ 2 u ). Note that a consistent estimate of the true regression coefficient β 1 can be obtained if either the measurement error variance is known or can be estimated using a validation data set on the true covariate (X) without measurement error <ref type="bibr" target="#b3">(Carroll et al., 2006)</ref>. However, in the spatial epidemiology setting such validation data are relatively rare. We develop an alternative approach assuming that the true covariate X is smooth and can be modeled by a second smooth function, G 2 (S i ).</p><p>Many different choices of smoothers have been discussed in the literature, including locally weighted running line smoothers (loess), Kernel smoothers or splines <ref type="bibr" target="#b8">(Hastie and Tibshirani, 1990)</ref>. In general, techniques based on regression splines are robust in approximating the true underling smooth functions and are relatively straight forward from a computational perspective, but have rigorous mathematical properties <ref type="bibr" target="#b19">(Ruppert et al., 2003;</ref><ref type="bibr" target="#b23">Wood, 2006)</ref>. In this article, we also adopt such a technique, specifically, cubic thin plate splines <ref type="bibr" target="#b23">(Wood, 2006)</ref>.</p><p>Within this framework, the unknown smooth functions, G j (S i ), for j = 1, 2 are represented by linear combination of thin plate spline basis functions, i.e., G j (S i ) = B T j (S i )θ j . Here, B 1 (S i ) and B 2 (S i ) are two sets of thin plate splines basis functions with dimensions (q 1 + 3) × 1 and (q 2 + 3) × 1, respectively, where q 1 and q 2 are the corresponding number of knots and θ 1 and θ 2 are vectors of corresponding basis coefficients.</p><p>Under the above specifications model ( <ref type="formula" target="#formula_0">1</ref>) and ( <ref type="formula" target="#formula_1">2</ref>) can be rewritten as</p><formula xml:id="formula_2">Y i = B T 2 (S i )θ 2 β 1 + B T 1 (S i )θ 1 + i ;<label>(3)</label></formula><formula xml:id="formula_3">W i = B T 2 (S i )θ 2 + U i .<label>(4)</label></formula><p>Since these equations are linear with respect to a set of unknown parameters, we use penalized least squares techniques for estimation <ref type="bibr" target="#b26">(Yu and Ruppert, 2002;</ref><ref type="bibr" target="#b25">Xun et al., 2013)</ref>. In this method, the data, (Y, W), are fitted to two different sets of spline basis functions B 1 (S i ) and B 2 (S i ) by least squares where parameters are estimated by minimizing the usual sum of squares plus roughness penalties. That is, we minimize</p><formula xml:id="formula_4">J(β, θ 1 )=n -1 n i=1 {Y i -B T 2 (S i )θ 2 β 1 -B T 1 (S i )θ 1 } 2 + δ 1 θ T 1 D 1 θ 1 ; (<label>5</label></formula><formula xml:id="formula_5">) J(θ 2 ) = n -1 n i=1 {W i -B T 2 (S i )θ 2 } 2 + δ 2 θ T 2 D 2 θ 2 ,<label>(6)</label></formula><p>where the terms δ 1 θ T 1 D 1 θ 1 and δ 2 θ T 2 D 2 θ 2 are roughness penalties associated with models (3) and (4). These involve unknown regression coefficients θ j , j = 1,2, penalty parameters δ j and penalty matrices D j of dimension (q j + 3) × (q j + 3). The penalty matrices map the spline basis functions to the data, whereas the penalty parameters control the amount of smoothing <ref type="bibr" target="#b19">(Ruppert et al., 2003;</ref><ref type="bibr" target="#b23">Wood, 2006)</ref>. Given knot locations {x * j(i) : 1, 2, ..., q j }, penalty matrices have zeroes everywhere except in its lower right q j × q j block with</p><formula xml:id="formula_6">D j(ik) = x * j(i) -x * j(k)</formula><p>2 log x * j(i)x * j(k) , for i, k ≤ q j . Note that the intercept term β 0 in the model (1) is set to 0 in (3), because it is not identifiable in the presence of a nonparametric function G 1 (•). Even so, the parameters of these models are not completely identifiable without some additional assumptions outlined in the next section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Identifiability</head><p>From the above models (3) and (4), it is evident that if B 1 (•) ≡ B 2 (•), then these models are not identifiable because in this case (3) becomes</p><formula xml:id="formula_7">Y i = B T 2 (S i )(θ 2 β 1 + θ 1 ) + i .</formula><p>Thus, we can identify only θ 2 and θ 2 β 1 + θ 1 , and cannot separate out β 1 and θ 1 . To make these models identifiable, we assume that the asymptotic variability, 1 and 2 of two sets of basis functions B 1 (.) and B 2 (.), respectively, is different. The asymptotic variability j for j = 1, 2, are the limiting values of nj , where</p><formula xml:id="formula_8">nj = {n -1 n i=1 B j (S i )B T j (S i ) -δ j D j } -1 . (<label>7</label></formula><formula xml:id="formula_9">)</formula><p>In practice, this requirement can be easily achieved by ensuring that the numbers of knots q 1 and q 2 are unequal.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Parameter Estimation</head><p>In addition to the assumption that 1 = 2 , we also assume that the penalty parameters are small relative to the sample size, i.e., n 1/2 δ j → 0 for j = 1, 2. This means that with large sample sizes, the estimated regression coefficients obtained using penalized least squares will be close to the OLS estimates. Thus, minimizing the penalized sum of squares (6) and solving for θ 2 , we have</p><formula xml:id="formula_10">θ 2 = n2 n -1 n i=1 B 2 (S i )W i , (<label>8</label></formula><formula xml:id="formula_11">)</formula><p>where n2 is defined in equation ( <ref type="formula" target="#formula_8">7</ref>). A detailed derivation of θ 2 along with it's asymptotic distribution is given in Web Appendix A.1. Similarly, we can estimate θ 1 and β 1 by minimizing the corresponding penalized sum of squares (5). This yields (see the Web Appendix A.2 and A.3)</p><formula xml:id="formula_12">θ 1 = V n -R n θ 2 β 1 (<label>9</label></formula><formula xml:id="formula_13">)</formula><formula xml:id="formula_14">β 1 = n -1 n i=1 Y i {B T 2 (S i ) -B T 1 (S i )R n } θ 2 θ T 2 (T n -R T n -1 n1 R n ) θ 2 , (<label>10</label></formula><formula xml:id="formula_15">)</formula><p>where</p><formula xml:id="formula_16">V n = n1 n -1 n i=1 B 1 (S i )Y i ; R n = n1 n -1 n i=1 B 1 (S i )B T 2 (S i ); T n = n -1 n i=1 B 2 (S i )B T 2 (S i ).</formula><p>Although the above estimator of β 1 was estimated using pseudolikelihood, it is consistent for β 1 . In the next section, we will establish the asymptotic properties of the estimator.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Asymptotic Theory</head><p>Asymptotic theory for the estimators β 1 is based on treating the spatial locations S i ∈ R 2 as fixed constants. Following <ref type="bibr" target="#b26">Yu and Ruppert (2002)</ref>, if δ j → 0 as n → ∞, then the bias also tends to 0 and consistency can be established. Asymptotic normality is established by the following theorem, whose proof appears in Web Appendix A.4.</p><p>Theorem 1. Assume that the smoothing parameters are small relative to the sample size, i.e., n 1/2 δ j → 0, and the spatial correlation G 1 (.) and unknown covariate X are correctly represented by a finite number of splines basis functions. Then, the estimate of β 1 is consistent and asymptotically normally distributed with</p><formula xml:id="formula_17">n 1/2 β 1 -β 1 d -→ N 0, σ 2 , (<label>11</label></formula><formula xml:id="formula_18">)</formula><p>where</p><formula xml:id="formula_19">σ 2 = lim n→∞ n -1 n i=1 (σ 2 G 2 ni + σ 2 u H 2 ni ); G ni = D ni (θ T 2 C n θ 2 ) -1 ; H ni = A n n2 B 2 (S i )(θ T 2 C n θ 2 ) -1 -A n θ 2 F ni (θ T 2 C n θ 2 ) -2 ; A n = n -1 n i=1 {G 2 (S i )β 1 + G 1 (S i )}{B 2 (S i ) -R T n B 1 (S i )} T ; C n = T n -R T n -1 n1 R n ; D ni = {B 2 (S i ) -R T n B 1 (S i )} T θ 2 ; F ni = θ T 2 C 2 n2 B 2 (S i ) + B T 2 (S i ) n2 C n θ 2 . R n = n1 n -1 n i=1 B 1 (S i )B T 2 (S i ); T n = n -1 n i=1 B 2 (S i )B T 2 (S i ).<label>(12)</label></formula><p>Using this asymptotic expression, we can also estimate the standard error of the estimated regression coefficient β 1 . The next section will discuss two such options.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4.">Estimating the Standard Error of β 1</head><p>We first consider a model-based estimate of the standard error of β 1 using the asymptotic theorem discussed in the previous section and then suggest a more robust estimate of standard error using simulation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4.1.">Model-based standard error.</head><p>The model-based standard errors of the estimated β 1 can be estimated by substituting corresponding consistent estimates of σ 2 and σ 2 u (defined below) into expression (12). Specifically,</p><formula xml:id="formula_20">σ 2 = n i=1 {Y i -B 2 (S i ) θ 2 β 1 -B 1 (S i ) θ 1 } 2 n -2trace{L 1 (δ 1 , δ 2 )} + trace{L 1 (δ 1 , δ 2 )L T 1 (δ 1 , δ 2 )} σ 2 u = n i=1 {W i -B 2 (S i ) θ 2 β 1 } 2 n -2trace{L 2 (δ 2 )} + trace{L 2 (δ 2 )L T 1 (δ 2 )} ,</formula><p>where the denominators are the residual degrees of freedom associated with model (3) and model (4) with smoother matrices L 1 (δ 1 , δ 2 ) and L 2 (δ 2 ), respectively <ref type="bibr" target="#b19">(Ruppert et al., 2003)</ref>. Define B j = {B j (S 1 ), ..., B j (S n )} T for j = 1,2 and D n = {D n1 , ..., D nn )} T . Then, the smoother matrices have the following expressions (see Web Appendix A.5)</p><formula xml:id="formula_21">L 1 (δ 1 , δ 2 ) = n -1 D n D T n ( θ T 2 C n θ 2 ) -1 + B 1 n1 B T 1 (<label>13</label></formula><formula xml:id="formula_22">) L 2 (δ 2 ) = n -1 B 2 n2 B T 2 . (<label>14</label></formula><formula xml:id="formula_23">)</formula><p>2.4.2. Simulated standard error. From (10), the expression for β 1 can be written as (see the Web Appendix A.4)</p><formula xml:id="formula_24">β 1 = A n θ 2 + n -1 n i=1 {A n n2 B 2 (S i )U i + D ni i } θ T 2 C n θ 2 + n -1 n i=1 F ni U i + o p (n -1/2 ),</formula><p>where i and U i are the random errors defined in models (1) and ( <ref type="formula" target="#formula_1">2</ref>). Since these quantities are not directly observed, we can estimate the variance of β 1 by a residual bootstrap <ref type="bibr" target="#b3">(Carroll et al., 2006)</ref>.</p><p>Let M be a fairly large number, say 100, and for b = 1, . . . , M, generate independent random samples bi ∼ Normal(0, σ 2 ) and U bi ∼ Normal(0, σ 2 u ) for i = 1, 2,...n. Define the b'th bootstrap estimates of β 1 as</p><formula xml:id="formula_25">β b 1 = A n θ 2 + n -1 n i=1 { A n n2 B 2 (S i )U bi + D ni bi } θ T 2 C n θ 2 + n -1 n i=1 F ni U bi ,</formula><p>where A n , D n , C n , and F ni can be estimated by substituting the appropriate quantities into expression (12). These estimated quantities preserve the underlying spatial structure. Therefore, the sample variance of β 1 1 , ..., β M 1 is a consistent estimate of the variance of β 1 <ref type="bibr" target="#b5">(Efron and Tibshirani, 1993)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5.">Smoothing Parameter Selection</head><p>Our main objective is to obtain a consistent estimate of the regression parameter β 1 such that it accounts for the measurement error in the covariate. However, selecting a suitable combination of the smoothing parameters (δ 1 , δ 2 ) is a prerequisite to a good model fit. All discussion so far has assumed that these parameters are fixed and known.</p><p>To choose smoothing parameters that attempt to minimize the mean square error (prediction error), three common approaches have been discussed in the literature <ref type="bibr" target="#b19">(Ruppert et al., 2003)</ref> (i) Generalized Cross Validation (GCV); (ii) Mallow's C p ; and (iii) Akaike Information Criterion (AIC). Among these methods, minimization of GCV scores is more attractive because of being invariant and computationally efficient <ref type="bibr" target="#b23">(Wood, 2006)</ref>. We use the GCV criterion to estimate the smoothing parameters (δ 1 , δ 2 ) in a two-step procedure <ref type="bibr" target="#b23">(Wood, 2006)</ref>. We first obtain an optimum value of δ 2 by minimizing the GCV score based on model (2) and then substitute this estimated value of δ 2 into (8) to obtain an estimate of θ 2 . We then use these estimates of δ 2 and θ 2 in (13) to obtain an expression for the smoothing matrix, L 1 (δ 1 , δ 2 ). Finally, we minimize the following GCV score associated with the outcome model to get an optimum value of δ 1 :</p><formula xml:id="formula_26">GCV(δ 1 ) = n -1 n i=1 {Y i -Y i } 2 {1 -n -1 trace{L 1 (δ 1 , δ 2 )}} 2 ,</formula><p>where L 1 is defined in Section 2.4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Simulation Study</head><p>In this section, we discuss a simulation study designed to evaluate the finite sample properties of our proposed method in the presence of covariate measurement error in spatial linear regression.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Data Generation</head><p>We simulate n sample locations randomly within a square, where n is the sample size. Specifically, the ith random sample location S i is generated by simulating two coordinates (e.g., latitude and longitude) from a Uniform[0,1] distribution.</p><p>Given a set of simulated S i 's, the unobserved true covariate X is generated using a bivariate bump function. Specifically, the bivariate bump function is generated using the product of two univariate bump functions generated separately for each coordinate. That is, for each coordinate, k, we generate X ik = 1 1+a ik + 3e -50(a ik -0.3) 2 + 2e -25(a ik -0.7) 2 , k = 1, 2, where a i1 and a i2 are the first and second coordinates of simulated ith sample location, respectively. The observed errorcontaminated versions, W, of the true covariate are generated by adding independent Gaussian noise with varying the measurement error variance σ 2 U as 0, 0.25, and 0.50 to X. The contour plot associated with the true and error-prone covariate is given in Figure <ref type="figure" target="#fig_0">1</ref>.</p><p>As shown in the Figure <ref type="figure" target="#fig_0">1</ref>, presence of measurement error adds noises to the true distribution of the smooth covariate. As a result, the underlying true covariate distribution becomes obscured for higher degrees of measurement error.</p><p>The smooth spatial surface, G 1 (S i ), is generated to have a normal distribution with mean 0 and variance-covariance matrix σ 2 G 1 R, where σ 2 G 1 = 0.2 and R has an exponential correlation structure with range parameter τ G 1 <ref type="bibr" target="#b15">(Pinheiro and Bates, 2000)</ref>. This implies that the correlation between two observations with distance h units apart is exp(-h/τ G 1 ). We considered three different range parameters (τ G 1 = 0.1, 0.3, and 0.5) resulting in minimal, moderate, and high correlation among the values of G 1 's.</p><p>Outcome data, Y , were then generated according to equation (1), with intercept and slope parameters are (β 0 , β 1 ) T = (1, 2) T and the variance parameter for the independent residual error assumed to be 0.5. We used the nlme package <ref type="bibr" target="#b14">(Pinheiro et al., 2013)</ref> in R to generate exponential spatial correlation for our simulated data and in model fitting. The R code for the simulation and implementation of the proposed method is available with this article at the Biometrics website on Wiley Online Library.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Generating Bi-Variate Splines Basis Functions</head><p>We now describe the steps used to fit our proposed semiparametric model. We generated two sets of basis functions B 1 (•) and B 2 (•) using bivariate thin plate spline regression basis with 125 and 150 knots for response and covariate models, respectively. We choose thin plate splines because they are not sensitive to knot locations, perform reasonably well for a basis of any given lower rank, are computationally efficient and more importantly rotationally invariant <ref type="bibr" target="#b19">(Ruppert et al., 2003;</ref><ref type="bibr" target="#b23">Wood, 2006)</ref>. Unequal number of knots were chosen for B 1 (.) and B 2 (.) to make the model identifiable, (see Section 2.1). The number of knots for the response model (1) was analogous to the default number of knots [max{20,min(n/4,150)}] suggested by <ref type="bibr" target="#b19">Ruppert et al. (2003)</ref>. For the covariate model (2), we increased the default number of knots by 20%. Knot positions were automatically selected using the cluster separation method "clara" <ref type="bibr" target="#b10">(Kaufman and Rousseeuw, 2005)</ref> in R (R Core Team, 2013).</p><p>Of course, one could select the number of knots by another algorithm such as space filling algorithm <ref type="bibr" target="#b12">(Nychka and Saltzman, 1998)</ref>. However, implementation of this algorithm is computationally intensive. <ref type="bibr">Nychka and Saltzman (1998,page-169)</ref> argued that the number of knots is flexible in the context of geo-spatial model and one needs to select large enough knots to accurately represent the underlying function while keeping the computational burden as low as possible. Furthermore, <ref type="bibr" target="#b17">Ruppert (2002)</ref> suggest that given the GCV criteria, the number of knots is not crucial for penalized regression splines once it reaches a certain minimum value.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Simulation Results</head><p>The average of estimated regression coefficients along with their estimated standard errors based on 1000 simulation runs is presented in Table <ref type="table" target="#tab_0">1</ref>, assuming a sample size of 500 and varying the measurement error variance σ 2 U between 0, 0.25, and 0.50. We estimated three different standard errors of the estimated regression coefficients, including, (i) empirical standard errors obtained by taking the standard deviation of the 1000 simulated regression coefficient estimates, (ii) the average of model-based standard errors, and (iii) the average of simulated standard errors defined in Section (2.4). We considered three different range parameters (τ G 1 = 0.1, 0.3, and 0.5) to represent minimal, moderate, and high level of spatial correlation in G 1 (S i ). The first column of Table <ref type="table" target="#tab_0">1</ref> specifies the range parameter used in that particular simulation. The next four columns list the estimated regression coefficient using ordinary least squares (OLS), linear mixed models with spatial correlation structure (LME), generalized additive models (GAM), and our proposed method when the true covariate is measured without error. The second and thirds sets of four columns also list estimates obtained using the above four methods (OLS, LME, GAM, and proposed method) with measurement error variances 0.25 and 0.50, respectively. Except for our proposed method, all of these methods produce naive estimates of regression coefficient.</p><p>In the absence of measurement error, OLS, LME, GAM, and our method all give similar answers. As the degree of measurement error increases, OLS, LME, and GAM all exhibit bias, though the degree of bias varies. All naive standard error estimates ignoring covariate measurement error severely underestimate the empirical standard errors. In con-trast, our proposed bias correction method performs well even if the degree of bias for generalized additive model with errorprone covariate varies (range: 0.99-1.32) with the strength of the spatial correlation structure. Both model-based and simulation-based estimates of the standard error appear to be working well. In all cases, the average of the estimated measurement error variances is very similar to the true values (not shown in the table).</p><p>To evaluate the performance of the proposed method under small sample settings, we also conducted simulations with sample sizes of 250 and 100 assuming a measurement error variance σ 2 U of 0.5. The results are given in Table <ref type="table" target="#tab_1">2</ref>. With the size of 250 samples, our proposed method still provides reliable estimates of the true regression coefficient. However, with small sample sizes (say, n = 100) the variance of estimated regression coefficients tends to be slightly inflated. To explore the impact of number of knots on our proposed method, we conducted additional simulation study by varying the number of knots for covariate model as 130, 140, and 170 with measurement error 0.025, sample size of 500, and varying range parameters, where the number of knots for the residual error model was fixed as 125. The results are presented in the Web Table <ref type="table" target="#tab_0">1</ref> in the Supplementary Materials available at the Biometrics website on Wiley Online Library. These results indicate that the proposed methods are robust for the selection of number of knots for covariates models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Application</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Analysis of Ischemic Heart Disease Data</head><p>We applied our proposed methodology to reanalyze data on Ischemic Heart Disease (IHD). One of the key objectives of the analysis is to assess the relationship between IHD rates and area level measures of socio-economic status. These data were collected from all hospitals in New South Wales, Australia between July 1, 1994 to June 30, 2002. A detailed description of the data has been given elsewhere <ref type="bibr" target="#b2">(Burden et al., 2005)</ref>. Briefly, patients who were admitted to the hospitals    <ref type="bibr" target="#b1">(Breslow and Day, 1987)</ref>. The results of our analysis are given in Table <ref type="table" target="#tab_2">3</ref>.</p><p>The naive analysis ignoring spatial correlation and measurement error suggests a significant protective effect associated with higher SEIFA values ( βOLS = -0.062, SE = 0.014). Similarly, analysis via a Generalized Additive model ignoring measurement error but accounting for spatial correlation also suggests that the effect is very strong ( β GAM = -0.145, SE = 0.014). Our proposed semiparametric approach that accounts for measurement error in the covariates results in an estimated slope parameter β 1 of -0.273 with measurement error variance estimated as 0.52. We choose 145 knots to represent the spatial correlation in the outcome model and 180 knots to represent the covariate model. The model-and simulation-based standard errors were estimated as 0.045 and 0.045, respectively. Thus, accounting for the measurement error in the covariate reflects a high magnitude of protective effect of higher SEIFA scores on IHD rates, compared with naive analysis.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Discussion</head><p>In this article, we develop a semiparametric framework to obtain a consistent estimate of the true regression coefficients when covariates are measured with error in spatial regression modeling settings. Asymptotic theory establishes that our approach yields consistent, asymptotically normal estimates for the regression coefficient. The theory provides both modelbased and simulation-based standard error estimates. Our empirical simulation results confirm that ignoring measurement error and conducting naive analysis using both generalized additive model and linear mixed model attenuates the estimated regression coefficient toward the null hypothesis of no effect. Our results also confirm the results of <ref type="bibr" target="#b9">Huque et al. (2014)</ref> that the degree of measurement error bias depends on the assumed correlation structure. It is interesting that the bias appears to be least with OLS. This is likely because the covariate spatial structure and residual spatial structure compete to explain the variability in the response <ref type="bibr" target="#b22">(Waller and Gotway, 2004)</ref>. Our proposed semiparametric bias correction method performs very well and provides comparable estimates of the regression parameters to the parametric methods described by <ref type="bibr" target="#b9">Huque et al. (2014)</ref> when applied to Ischemic Heart Disease (IHD) data. Our approach is computationally efficient and stable because it involves direct estimation using least squares and can be implemented using standard nonlinear least squares software.</p><p>Although <ref type="bibr" target="#b9">Huque et al. (2014)</ref> and <ref type="bibr" target="#b11">Li et al. (2009)</ref> reported similar results for the bias associated with covariate measurement error in spatial regression settings, their approaches require correct specification of the true covariate measurement error variance. In addition, <ref type="bibr" target="#b9">Huque et al. (2014)</ref> reported under estimation of standard error when measurement error variances are estimated from the data. In contrast, our approach is robust because it neither assumes that the covariate measurement error is known nor depends on any particular kind of spatial correlation structure. Our method is analogous to the popular regression calibration method where we estimate the true underlying covariate following smoothing assumption and replace the error-prone covariate with this estimate in the outcome model.</p><p>Measurement error theory makes it very clear that without some kind of information regarding the magnitude of measurement error, models will not be identifiable. Broadly speaking there are two possibilities: (i) measurement error variance is known or can be estimated using some form of validation data; (ii) assumptions are made regarding the nature of the measurement error process. By assuming that the true unobserved covariate is smooth, our article is using the second approach. Because our approach is assumption based and not an empirical measurement error adjustment, our solution will not be robust to this particular assumption. Nevertheless, because we use a semiparametric approach to quantifying the spatial correlation in our regression model, our approach should be more robust than parametric alternatives, such as those proposed by <ref type="bibr" target="#b9">Huque et al. (2014)</ref>. In practice, there will often be situations where it makes sense that spatially defined covariates are smooth. Air pollution epidemiology might be a good example. In general, however, we recommend that our pro-posed method be used in the spirit of sensitivity analysis to assess the impact of measurement error.</p><p>One of the additional assumptions required by our approach is that the basis functions for the covariate and the spatial residual term are unequal. In practice, this can be achieved through ensuring more knots for the basis function representing covariate than the spatial residuals. This ensures estimation of variability in covariate in a smaller scale than the residual error. In many spatial epidemiology contexts, measurement error becomes an increasing concern at small scales because of limitations in measurement resources. As a result, the covariate measurement bias reduction relies in estimating variability in covariate at scale smaller than the residual error <ref type="bibr">(Paciorek, 2010)</ref>.</p><p>In our simulation, we have considered only a single covariate measured with error in a spatial linear mixed model with Gaussian error. It would be of interest to explore the effect of covariate measurement error in the presence of multiple covariates and also omitted covariates. Future work should also consider extensions of our formulation to the setting of spatial-generalized linear mixed model with non-Gaussian outcomes. However, such explorations are beyond the scope of this present article.</p><p>Our heart disease example demonstrated a substantial increase in the rates of IHD as the level of SEIFA measured at the postcode level decreased, with the magnitude of the effect increasing after adjustment for measurement error. Our results are consistent with broader literature suggesting a relationship between low socio-economic status and adverse health outcomes (see systematic review by <ref type="bibr" target="#b13">Pickett and Pearl, 2001)</ref>.</p><p>Because the SEIFA Index is measured at a group level, it is tempting to think that Berkson measurement error theory should be in operation. However, this argument does not apply since we are considering measurement error in a grouplevel covariate applied at a group-level analysis. It is also important to note that our results can only be interpreted at a group level. Interpretation at the individual level may result in ecological bias <ref type="bibr" target="#b20">(Sheppard, 2003)</ref>. While it might be ideal to use individual-level data, in many research areas, grouplevel data are the only available source for analysis. Air pollution epidemiology provides a classic example, because individual measurements of air pollution studies are rarely collected, instead, they are estimated based on neighborhood monitoring and other sources <ref type="bibr" target="#b21">(Sheppard et al., 2012)</ref>. Consequently, air pollution exposures are typically measured with error.</p><p>In spatial data settings, for example, in environmental epidemiology, with the increasing popularity of the semiparametric/multilevel models to account for the observed data correlations, it is important that practitioners be aware of the consequences of measurement error. Furthermore, it is useful to quantify its potential effect on the estimating exposureoutcome relationship. The approach presented in this article provides one way of achieving this.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Supplementary Materials</head><p>Web Appendix A, referenced in Section 2, Web Table <ref type="table" target="#tab_0">1</ref>, referenced in Section 3.3, and a version of R codes for implement-ing the proposed method are available with this article at the Biometrics website on Wiley Online Library.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Contour plots of covariates (X and W) with different specification of measurement error variance.</figDesc><graphic coords="5,71.82,74.68,491.88,209.40" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1</head><label>1</label><figDesc>Simulation results using different combinations of range parameters and measurement error variance. Reported numbers are averaged over 1000 simulations with 500 observations per simulation.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>No</cell><cell></cell><cell></cell><cell cols="3">Measurement error variance,</cell><cell></cell><cell cols="3">Measurement error variance,</cell></row><row><cell>Range*</cell><cell cols="3">measurement error</cell><cell></cell><cell></cell><cell></cell><cell>σ 2 u = 0.25</cell><cell></cell><cell></cell><cell></cell><cell>σ 2 u = 0.5</cell><cell></cell></row><row><cell>(τ G 1 )</cell><cell cols="7">OLS LME GAM Proposed OLS LME GAM</cell><cell>Proposed</cell><cell cols="3">OLS LME GAM</cell><cell>Proposed</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="2">Estimated coefficient</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.1</cell><cell cols="3">2.001 2.001 2.002</cell><cell>1.991</cell><cell cols="3">1.928 1.439 1.332</cell><cell>2.066</cell><cell cols="2">1.858 1.274</cell><cell>0.986</cell><cell>2.034</cell></row><row><cell>0.3</cell><cell cols="3">1.999 1.999 1.999</cell><cell>1.988</cell><cell cols="3">1.927 1.574 1.327</cell><cell>2.096</cell><cell cols="2">1.858 1.343</cell><cell>0.987</cell><cell>2.036</cell></row><row><cell>0.5</cell><cell cols="3">2.001 2.001 2.001</cell><cell>1.991</cell><cell cols="3">1.926 1.599 1.312</cell><cell>2.064</cell><cell cols="2">1.857 1.389</cell><cell>0.999</cell><cell>2.035</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="4">Empirical standard error</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.1</cell><cell cols="3">0.029 0.028 0.040</cell><cell>0.029</cell><cell cols="3">0.032 0.609 0.216</cell><cell>0.056</cell><cell cols="2">0.035 0.751</cell><cell>0.216</cell><cell>0.069</cell></row><row><cell>0.3</cell><cell cols="3">0.035 0.030 0.030</cell><cell>0.032</cell><cell cols="3">0.036 0.554 0.211</cell><cell>0.045</cell><cell cols="2">0.038 0.730</cell><cell>0.219</cell><cell>0.058</cell></row><row><cell>0.5</cell><cell cols="3">0.031 0.027 0.026</cell><cell>0.029</cell><cell cols="3">0.035 0.543 0.223</cell><cell>0.051</cell><cell cols="2">0.039 0.712</cell><cell>0.210</cell><cell>0.052</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="4">Average of estimated standard errors</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.1</cell><cell cols="3">0.014 0.021 0.030</cell><cell>0.015</cell><cell cols="3">0.022 0.040 0.058</cell><cell>0.051</cell><cell cols="2">0.027 0.037</cell><cell>0.057</cell><cell>0.053</cell></row><row><cell>0.3</cell><cell cols="3">0.014 0.020 0.026</cell><cell>0.014</cell><cell cols="3">0.022 0.035 0.057</cell><cell>0.041</cell><cell cols="2">0.027 0.035</cell><cell>0.056</cell><cell>0.052</cell></row><row><cell>0.5</cell><cell cols="3">0.014 0.018 0.023</cell><cell>0.014</cell><cell cols="3">0.022 0.034 0.057</cell><cell>0.049</cell><cell cols="2">0.026 0.034</cell><cell>0.056</cell><cell>0.051</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="4">Average of simulated standard errors</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.1</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.015</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.050</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.068</cell></row><row><cell>0.3</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.014</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.041</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.052</cell></row><row><cell>0.5</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.014</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.049</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.051</cell></row><row><cell></cell><cell>τ G</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note><p>1 : values of the range parameter following exponential correlation in G 1 (s i ).</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2</head><label>2</label><figDesc>Simulation results using different combinations of range parameters and sample sizes. Reported numbers are averaged over 1000 simulations with measurement error variance 0.5.</figDesc><table><row><cell>Range*</cell><cell></cell><cell cols="2">Sample size 250</cell><cell></cell><cell></cell><cell cols="2">Sample Size 100</cell><cell></cell></row><row><cell>(τ G 1 )</cell><cell>OLS</cell><cell>LME</cell><cell>GAM</cell><cell>Proposed</cell><cell>OLS</cell><cell>LME</cell><cell>GAM</cell><cell>Proposed</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell>Estimated coefficient</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.1</cell><cell>1.860</cell><cell>1.511</cell><cell>0.976</cell><cell>1.952</cell><cell>1.859</cell><cell>1.831</cell><cell>1.037</cell><cell>1.947</cell></row><row><cell>0.3</cell><cell>1.861</cell><cell>1.495</cell><cell>0.975</cell><cell>1.951</cell><cell>1.859</cell><cell>1.824</cell><cell>1.045</cell><cell>1.948</cell></row><row><cell>0.5</cell><cell>1.860</cell><cell>1.522</cell><cell>0.980</cell><cell>1.950</cell><cell>1.860</cell><cell>1.831</cell><cell>1.036</cell><cell>1.949</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="2">Empirical standard error</cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.1</cell><cell>0.045</cell><cell>0.536</cell><cell>0.217</cell><cell>0.046</cell><cell>0.066</cell><cell>0.088</cell><cell>0.344</cell><cell>0.069</cell></row><row><cell>0.3</cell><cell>0.047</cell><cell>0.541</cell><cell>0.207</cell><cell>0.048</cell><cell>0.067</cell><cell>0.099</cell><cell>0.349</cell><cell>0.072</cell></row><row><cell>0.5</cell><cell>0.046</cell><cell>0.530</cell><cell>0.209</cell><cell>0.046</cell><cell>0.066</cell><cell>0.095</cell><cell>0.342</cell><cell>0.068</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="3">Average of estimated standard errors</cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.1</cell><cell>0.038</cell><cell>0.051</cell><cell>0.083</cell><cell>0.046</cell><cell>0.061</cell><cell>0.064</cell><cell>0.132</cell><cell>0.099</cell></row><row><cell>0.3</cell><cell>0.038</cell><cell>0.051</cell><cell>0.081</cell><cell>0.045</cell><cell>0.060</cell><cell>0.064</cell><cell>0.130</cell><cell>0.099</cell></row><row><cell>0.5</cell><cell>0.037</cell><cell>0.050</cell><cell>0.081</cell><cell>0.045</cell><cell>0.060</cell><cell>0.063</cell><cell>0.130</cell><cell>0.098</cell></row><row><cell></cell><cell></cell><cell></cell><cell cols="3">Average of simulated standard errors</cell><cell></cell><cell></cell><cell></cell></row><row><cell>0.1</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.046</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.101</cell></row><row><cell>0.3</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.046</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.101</cell></row><row><cell>0.5</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.045</cell><cell>-</cell><cell>-</cell><cell>-</cell><cell>0.099</cell></row><row><cell></cell><cell>τ G</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table><note><p>1 : values of the range parameter following exponential correlation in G 1 (s i ).</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3</head><label>3</label><figDesc>Analysis of Ischemic Heart Disease Data under different specification of measurement error</figDesc><table><row><cell>Estimates for SEIFA</cell><cell></cell></row><row><cell>Model based</cell><cell>Simulated</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>The authors thank the coeditor and the associated editor for constructive comments which led to considerable improvement of the manuscript. HDB was partially supported as a visitor at the <rs type="institution">School of Mathematical and Physical Sciences, University of Technology Sydney</rs>, and by grants <rs type="funder">NSF</rs> <rs type="grantNumber">DMS-1308400</rs> and <rs type="grantNumber">NIH P01-CA142538</rs>. RC was partially supported by the <rs type="funder">National Cancer Institute</rs> grant <rs type="grantNumber">U01-CA057030</rs>. LR and HH were supported by the <rs type="funder">University of Technology Sydney</rs> and by the <rs type="funder">ARC Centre of Excellence for Mathematical and Statistical Frontiers (ACEMS)</rs>. The authors thank the <rs type="funder">NSW Ministry of Health</rs> for making the data available.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_tFdXkyc">
+					<idno type="grant-number">DMS-1308400</idno>
+				</org>
+				<org type="funding" xml:id="_ttXwnew">
+					<idno type="grant-number">NIH P01-CA142538</idno>
+				</org>
+				<org type="funding" xml:id="_SeXGWZU">
+					<idno type="grant-number">U01-CA057030</idno>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Disease mapping with errors in covariates</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bernadinelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Pascutto</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Best</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Gilks</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="741" to="752" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Statistical Methods in Cancer Research. Volume II-The Design and Analysis of Cohort Studies</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Breslow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Day</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1987">1987</date>
+			<publisher>Oxford University Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Spatio-temporal analysis of acute admissions for ischemic heart disease in NSW</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Burden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Guha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Morgan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Ryan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Sparks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Young</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Australia. Environmental and Ecological Statistics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="427" to="448" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Stefanski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Crainiceanu</surname></persName>
+		</author>
+		<title level="m">Measurement Error in Nonlinear Models: A Modern Perspective</title>
+		<meeting><address><addrLine>Florida</addrLine></address></meeting>
+		<imprint>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Statistics for Spatial Data. Wiley series in probability and mathematical statistics: Applied probability and statistics</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A C</forename><surname>Cressie</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<title level="m" type="main">An Introduction to the Bootstrap</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>Chapman &amp; Hall</publisher>
+			<pubPlace>Florida</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Spatial epidemiology: Current approaches and future challenges</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Elliott</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wartenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Health Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="page" from="998" to="1006" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<author>
+			<persName><forename type="first">W</forename><surname>Fuller</surname></persName>
+		</author>
+		<title level="m">Measurement Error Models. Wiley Series in Probability and Statistics</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Generalized Additive Models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">CRC Monographs on Statistics &amp; Applied Probability</title>
+		<imprint>
+			<date type="published" when="1990">1990</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<pubPlace>Florida</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">On the impact of covariate measurement error on spatial regression modelling</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Huque</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">D</forename><surname>Bondell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Ryan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="560" to="570" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Finding Groups in Data: An Introduction to Cluster Analysis</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kaufman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Rousseeuw</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Wiley Series in Probability and Statistics</title>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<pubPlace>New Jersey</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Spatial linear mixed models with covariate measurement errors</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="1077" to="1093" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">The importance of scale for spatialconfounding bias and precision of spatial regression estimators</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Saltzman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Case Studies in Environmental Statistics</title>
+		<editor>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">W</forename><surname>Piegorsch</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Cox</surname></persName>
+		</editor>
+		<meeting><address><addrLine>U.S.A. Paciorek, C. J.</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1998">1998. 2010</date>
+			<biblScope unit="volume">132</biblScope>
+			<biblScope unit="page" from="107" to="125" />
+		</imprint>
+	</monogr>
+	<note>Design of air-quality monitoring networks Lecture Notes in Statistics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Multilevel analyses of neighbourhood socioeconomic context and health outcomes: A critical review</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">E</forename><surname>Pickett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pearl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Epidemiology &amp; Community Health</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="111" to="122" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinheiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Debroy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sarkar</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Team</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="1" to="109" />
+		</imprint>
+	</monogr>
+	<note>nlme: Linear and Nonlinear Mixed Effects Models. R package version</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Pinheiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Bates</surname></persName>
+		</author>
+		<title level="m">Mixed-Effects Models in S and S-PLUS</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">R: A Language and Environment for Statistical Computing</title>
+		<author>
+			<persName><forename type="first">Team</forename><surname>Core</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">R Foundation for Statistical Computing</title>
+		<meeting><address><addrLine>Vienna, Austria</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Selecting the number of knots for penalized splines</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="735" to="757" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Semiparametric regression during 2003-2007</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="1193" to="1256" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Wand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Carroll</surname></persName>
+		</author>
+		<title level="m">Semiparametric Regression. Cambridge Series in Statistical and Probabilistic Mathematics</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sheppard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Insights on bias and information in group-level studies</title>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="265" to="278" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Confounding and exposure measurement error in air pollution epidemiology</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sheppard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">T</forename><surname>Burnett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">A</forename><surname>Szpiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-Y</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jerrett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Iii</forename><surname>Pope</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Air Quality, Atmosphere &amp; Health</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="203" to="216" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<monogr>
+		<title level="m" type="main">Applied Spatial Statistics for Public Health Data</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<biblScope unit="volume">368</biblScope>
+			<pubPlace>New Jersey</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Generalized Additive Models: An Introduction with R</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wood</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<publisher>Chapman and Hall/CRC</publisher>
+			<pubPlace>Florida</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Spatio-temporal models with errors in covariates: Mapping Ohio lung cancer mortality</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Xia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="page" from="2025" to="2043" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Parameter estimation of partial differential equation models</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Xun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Cao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">K</forename><surname>Mallick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Maity</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Carroll</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">108</biblScope>
+			<biblScope unit="page" from="1009" to="1020" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Penalized spline estimation for partially linear single-index models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ruppert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="page" from="1042" to="1054" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

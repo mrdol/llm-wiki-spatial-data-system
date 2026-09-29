@@ -1,0 +1,1947 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Construction motion data library: an integrated motion dataset for on-site activity recognition</title>
+				<funder ref="#_SUHVadJ">
+					<orgName type="full">General Research Fund of the University Grants Committee of Hong Kong</orgName>
+					<orgName type="abbreviated">UGC</orgName>
+				</funder>
+				<funder ref="#_pj3G4SF">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Yuanyuan</forename><surname>Tian</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Architecture and civil engineering</orgName>
+								<orgName type="institution">city University of Hong Kong</orgName>
+								<address>
+									<country>Hong Kong SAR, china</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Heng</forename><surname>Li</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Building &amp; Real estate</orgName>
+								<orgName type="institution">the Hong Kong Polytechnic University</orgName>
+								<address>
+									<settlement>Hong Kong SAR</settlement>
+									<country key="CN">china</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Hongzhi</forename><surname>Cui</surname></persName>
+							<affiliation key="aff2">
+								<orgName type="department">college of civil and transportation engineering</orgName>
+								<orgName type="institution">Shenzhen University</orgName>
+								<address>
+									<settlement>Shenzhen</settlement>
+									<country key="CN">china</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Jiayu</forename><surname>Chen</surname></persName>
+							<email>jiayuchen@tsinghua.edu.cn</email>
+							<affiliation key="aff3">
+								<orgName type="department">School of civil engineering</orgName>
+								<orgName type="institution">tsinghua University</orgName>
+								<address>
+									<settlement>Beijing</settlement>
+									<country key="CN">china</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Construction motion data library: an integrated motion dataset for on-site activity recognition</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">9EB2FB0D34ECD00C41FFC4558C618693</idno>
+					<idno type="DOI">10.1038/s41597-022-01841-1</idno>
+					<note type="submission">Received: 3 December 2021; Accepted: 14 November 2022;</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Identifying workers' activities is crucial for ensuring the safety and productivity of the human workforce on construction sites. Many studies implement vision-based or inertial-based sensors to construct</head><p>3D human skeletons for automated postures and activity recognition. Researchers have developed enormous and heterogeneous datasets for generic motion and artificially intelligent models based on these datasets. However, the construction-related motion dataset and labels should be specifically designed, as construction workers are often exposed to awkward postures and intensive physical tasks. this study developed a small construction-related activity dataset with an in-lab experiment and implemented the datasets to manually label a large-scale construction motion data library (CML) for activity recognition. The developed CML dataset contains 225 types of activities and 146,480 samples; among them, 60 types of activities and 61,275 samples are highly related to construction activities. To verify the dataset, five widely applied deep learning algorithms were adopted to examine the dataset, and the usability, quality, and sufficiency were reported. The average accuracy of models without tunning can reach 74.62% to 83.92%.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Background &amp; Summary</head><p>Monitoring workers' activities is essential for ensuring safety and tracking productivity of construction projects, as nearly 80% of fatal and nonfatal injuries are caused by unsafe behaviors on site <ref type="bibr" target="#b0">1</ref> . In addition, activities associated with awkward postures, repetitive motions, and forceful exertions have imperceptible but grievous outcomes to construction workers' long-term health, such as work-related musculoskeletal disorders (WMSDs) <ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b2">3</ref> . Conventional behavior-based safety management approaches <ref type="bibr" target="#b3">4</ref> rely on self-report, manual observation, and direct-measurement to identify unsafe behaviors <ref type="bibr" target="#b4">[5]</ref><ref type="bibr" target="#b5">[6]</ref><ref type="bibr" target="#b6">[7]</ref> . Similar approaches are also popular for the assessment of labor productivity <ref type="bibr" target="#b7">8</ref> . Due to its high time and effort cost <ref type="bibr" target="#b8">9</ref> , automated and computational solutions with low-cost and easy-to-use sensors have been proposed by researchers. Human activities can be represented as sequences of 3D skeleton models, which usually can be constructed from motion capturing datasets. With deep learning and trajectory-based methods <ref type="bibr" target="#b9">10,</ref><ref type="bibr" target="#b10">11</ref> , the sensing outputs, such as RBG videos, RGB-depth (RGBD) videos, and inertial signals, can be translated into human postures and activities <ref type="bibr" target="#b11">12</ref> . These methods have been successfully implemented in various industries, such as healthcare <ref type="bibr" target="#b12">13</ref> , sports <ref type="bibr" target="#b13">14</ref> , gaming <ref type="bibr" target="#b14">15</ref> , and cooking <ref type="bibr" target="#b15">16</ref> . For the construction industry, researchers also proposed several models for RGB vision-based activity classification <ref type="bibr" target="#b16">17</ref> and inertial measurement units (IMU) based fall detection <ref type="bibr" target="#b17">18</ref> .</p><p>Vision-based construction activity recognition is available and affordable. Researchers mainly rely on RGB and RGBD cameras. For example, Yang et al. <ref type="bibr" target="#b18">19</ref> utilized RGB video to classify 11 common construction activities. Roberts et al. <ref type="bibr" target="#b19">20</ref> used 317 annotated videos to analyze bricklaying and plastering worker's operations. Khosrowpour et al. proposed a supervised machine approach to predict worker activities with RGB-D cameras and reported a recognition accuracy of 76% <ref type="bibr" target="#b20">21</ref> . Another popular technical path is using wearable sensing systems, such as IMU sensors <ref type="bibr" target="#b17">18,</ref><ref type="bibr" target="#b21">22,</ref><ref type="bibr" target="#b22">23</ref> , smartphones <ref type="bibr" target="#b23">24,</ref><ref type="bibr" target="#b24">25</ref> , sports watches <ref type="bibr" target="#b25">26,</ref><ref type="bibr" target="#b26">27</ref> , and wearable insole pressure systems <ref type="bibr" target="#b27">[28]</ref><ref type="bibr" target="#b28">[29]</ref><ref type="bibr" target="#b29">[30]</ref> . For example, Yang et al. <ref type="bibr" target="#b17">18</ref> developed a semi-supervised learning algorithm to detect the near-miss falls of ironworkers with IMU systems. Antwi-Afari et al. <ref type="bibr" target="#b30">31</ref> assessed three types of recurrent neural networks for automated recognition and classification of construction workers' awkward working postures using wearable insole sensors.</p><p>Given the importance and usefulness of these activity recognition algorithms, researchers have developed enormous and reliable datasets to support further theoretical development, such as the HDM05 Motion Capture (mocap) Dataset <ref type="bibr" target="#b31">32</ref> , and the Berkeley MHAD Dataset <ref type="bibr" target="#b32">33</ref> , the NTU + RGBD 120 Dataset <ref type="bibr" target="#b33">34</ref> , and the CAD60 Dataset <ref type="bibr" target="#b34">35</ref> . However, most of these datasets were designed for generic activity recognition but not specially designed for construction activities, resulting in high recognition errors and incorrect interpretations. This can be attributed to two reasons: first, exposure to awkward postures. Construction tasks involve complicated activities and heavily rely on manual operation. The physically demanding tasks make most construction workers suffer from work-related musculoskeletal disorders (WMSDs) <ref type="bibr" target="#b35">36</ref> and long-term ergonomic injuries. These injuries and WMSD are often attributed to awkward work postures <ref type="bibr" target="#b36">37</ref> . Awkward posture refers to body postures that deviate significantly from normal and comfortable positions and can potentially lead to muscle disorders and trauma <ref type="bibr" target="#b37">38</ref> . Awkward postures in construction activities are often associated with long-term muscle force exposure and body joint rotations near extreme due to various working tasks, such as load carrying, kneeling, bending, squatting, and twisting. The second reason is unique motion labels. The skeleton joint positions of many construction-related working activities in the context of the construction environment are often similar to generic operations of completely different tasks. For example, the skeleton posture of waving in daily life is identical to the motion of a construction worker painting drywall. Therefore, labels should be properly and specifically assigned. Due to the cost and time of constructing a new dataset, researchers tend to develop generic datasets for validating generic algorithms but neglect the unique data features and patterns of a specific industry. However, professional and specially designed datasets provide higher relevancy, accuracy, efficiency, and reliability for specific implementation <ref type="bibr" target="#b38">39</ref> . To fill this gap, this study aims to develop a motion data library that is suitable for the development of activity recognition and task management in the construction industry by integrating a small, manually collected construction motion dataset with large-scale public datasets, aligning all datasets as one suitable, united, and properly labelled dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Workflow of dataset development.</head><p>To develop a construction motion dataset, a large-scale experiment to capture the major construction activities is necessary. However, given that many research teams have developed abundant generic motion datasets, this study combines both the existing datasets with the in-lab experiment dataset to compile an integrated construction motion dataset with specifically designed label systems. Doing so can translate generic motions to relevant construction activities through selection and annotation. This approach avoids repetitive motion capturing experiments, enlarges the construction motion dataset, and saves a significant amount of time and effort. However, combining existing public datasets and construction-specific datasets into one single integrated dataset has four major challenges as shown in Fig. <ref type="figure" target="#fig_1">1</ref>. (a) Equipment Difference. Human motion can be captured through two streams of technologies: RGB/RGBD-based video processing and IMUbased wearable sensing. The choice of technology will result in differences in the final data format (as pictures or inertial signals) and data sampling rate. (b) Frame Difference. Different individuals can conduct the same activities with different durations. Also, due to the variation in sampling rates, even the same activity, and same duration can result in a different number of frames. (c) Coordinates Difference. With different equipment setups and coordination systems, the same activity can be represented differently by local or global coordination systems with different quantitative values. (d) Label Difference. The label used for the same activity can be different in different datasets, for example, "jump" also can be labelled as "leap" or "hop. "</p><p>Apart from aligning all public datasets in the same data format with the same skeleton model, this study also conducted an in-lab experiment to capture the predefined construction-related activities for further data annotation. The guidelines for study procedures complied with all relevant ethical regulations and approved by Human Subjects Ethics Committee of City University of Hong Kong. The informed consent was obtained from all participants. Before the in-lab experiment, 60 types of construction-related activities were predefined based on ergonomics analysis. The captured results were used as the standard posture sequences with other activity frames. The variations of joint movements of the skeleton models were computed. Then public datasets' samples will be compared with standardized activities, and the label with the lowest variation or differences will be used to annotate the sample. The in-lab experiment utilized the Noitom Perception Neuron motion capture system and 10 subjects participated in the process of data collection.</p><p>In summary, this study developed a formal workflow to process the manually collected in-lab experiment dataset and the public datasets (as shown in Fig. <ref type="figure">2</ref>). To ensure the data format is consistent, all images, video frames, and inertial serial signals will be converted to 3D body skeletons. All skeleton data will be processed in four major steps, including uniform data extraction, skeleton structure alignment, resampling, and coordination transformation. Then all the aligned skeleton data will be manually annotated into four activity categories and assigned with labels. The final Construction Motion Library (CML) Dataset will be verified using the in-lab benchmarking data and tested with five popular deep learning algorithms. Table <ref type="table" target="#tab_0">1</ref> summarizes the public skeleton motion datasets that were used in the study for the development of the construction motion dataset. Some public motion datasets focus on specific industries and have low relevancy to this study, so they were excluded from the study. For example, the Hollywood 3D Dataset <ref type="bibr" target="#b39">40</ref> was designed for performance activities.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Dataset alignment.</head><p>To overcome the four technical challenges, this study developed a processing protocol for all datasets. The protocol has six major steps: (1) Skeleton Generation and Uniform Data Extraction. This step aims to design a uniform skeleton model and clean up the original datasets. (2) Skeletal Structure Alignment. This step ensures all the datasets using the same skeleton model and all the joints' movements will be aligned in the same setting. (3) Resampling. This study aims to ensure all data sample follows the same timestamp system and have the same number of frames in unit time.   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Label Validation</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data Segmentation</head><p>Fig. <ref type="figure">2</ref> The workflow of the construction motion dataset development.</p><p>Segmentation. This step ensures the activity with the same label has the same frame length, which is easier for future usage. (6) Data Format of the CML Dataset. All the samples will be saved in the same data format for easier processing. The following paragraphs have a more detailed explanation of each step.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Skeleton generation and uniform data extraction.</head><p>To align all datasets, both vision-based and IMU-based data formats were translated as 3D skeleton postures. A typical skeleton posture's data form is in the Bio-Vision Hierarchy (BVH) format. The BVH data format can store both the joint connectivity and joint motions in a single file. As a widely used data format, all major motion files can be extracted as BVH motion files. Existing datasets usually store activity as separate files. However, many files have different enclosures, resulting in many labelled files having more than one activity and only having a rough tag. Therefore, to make all extracted files uniform, all data files with multiple activities were manually divided into short and independent activities and saved separately with a single label. Also, irrelevant motion frames were removed for clarity. For example, the original CMU Mocap Dataset has 2,605 activity sequences, and after data extraction and cleaning, the processed dataset has 172 activity types and 2,928 samples. Another issue is many activity files have multiple human subjects and null values. Null value samples are motion files whose skeleton joints' motion is filled with zeros or partly missing some content. For example, in the UT-Kinect-Action3D Dataset, the "carry" activity has one sample full of zeros. In the NTU-RGB + D 120 Dataset, the activities of A1-A60 have 165 files filled with zeros, and the activities of A61-A120 have 191 files full of zeros. This study directly removed both the null value samples and samples with multiple human objects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Skeletal structure alignment.</head><p>Prevalent motion capturing devices have their unique skeleton structures and technical configurations. As a result, the same motion may have different data structures in different datasets because of capturing devices, such as OpenNI (15 joints), Microsoft Kinect V1 (20 joints), Microsoft Kinect V12 (25 joints), RGB Mocap (17 joints), and Noitom Perception Neuron (29 + 2 joints). Figure <ref type="figure" target="#fig_3">3</ref> shows joint structures captured by five typical devices and the simplified 15/20-joint system for skeleton alignment. This study developed a 15-20 skeletons system, which can accommodate and be compatible with all other skeletal models. The system provides two joint structures, and the 20-joint model has more joints to quantify the motion with high resolution. The motion data of the same joints of the developed system and other skeleton models will remain the same. The missing joint will be computed with neighbor joint interpolation. The nonlinear interpolation utilized the multi-layer perceptron (MLP) model of the scikit-learn package (the validation error is 0.0961).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Resampling.</head><p>The sampling rate of existing datasets ranges between 15 to 480 frames per second (fps). This results in high inconsistency in reading the proper inputs for posture recognition. For example, the Berkeley MHAD Dataset has a sampling rate of 480 fps, and the UTKinect-Action3D Dataset and MSR Action3D Dataset have a sampling rate of 15 fps.</p><p>This study converts all samples to 30 fps, which is the sampling rate of most devices (such as Kinect v1/v2 and Vicon). For datasets that have a sampling rate higher than 30 Hz, the redundant frames will be truncated; for datasets that have a sampling rate lower than 30 Hz, the missing frames' data will be filled with the interpolated average results. In addition, as the datasets used different units, such as inch, centimeter, millimeter, and meter, all samples' units will be converted into meters. In addition, some datasets have an z-axis calibration value to reflect the differences in subjects' heights (such as the CMU Mocap Dataset having a scale length of 0.45 and the SBU Dataset having a z scaler of 7.8125). In this study, all samples' z values will be adjusted according to their scaler.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Coordination transformation.</head><p>Different file formats not only result in various skeleton models but also introduce inconsistency in the coordination systems. The conversion of coordination systems needs to define proper rotation matrices (R R R , ,</p><p>x y z ) and translation matrices (T). The skeleton-based motion files, such as .ASF/AMC and .BVH, define the recorded motion signals as a local system. Thus, to align the systems, each joint needs to be translated to the global system. Usually, all joints will be translated to the system at the hip joint through the multiplication of connected joints' transformation matrices (M i ). M i can be computed with a relevant rotation matrix and translation matrix. Figure <ref type="figure" target="#fig_0">4</ref> shows such a transformation process for different coordination systems. As shown in the figure, the coordinates at the global system (V g ) can be computed with ′ M s i and local coordinates V l . Similarly, different mocap devices also introduce various coordination systems. For example, the Kinect defines the origin of the coordination system at the center of its infrared sensor. X grows to the sensor's left; Y grows up to the sensor's tilt; Z grows out in the direction the sensor is facing. The values of x, y, and z can be negative or positive and depend on the relative locations of the sensing subjects to the sensor. Most datasets with Kinect technologies directly have their skeleton joint positions under the device coordinate system. By implementing the vectorized transformation process shown in Fig. <ref type="figure" target="#fig_0">4</ref>, these datasets can be translated to the subject coordinate system or the global coordinate system. In addition, depending on the definition of the x, y, and z orientations, the cartesian system may have different setups, such as XYZ, YXZ, or ZYX. Through multiplying proper rotation matrices, all coordination systems can be aligned as XYZ setups for the ease of data processing in the future.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data segmentation.</head><p>Each dataset has its unique separation of activities and one obvious consequence is the length of samples is different, even in the same dataset. Many quantitative implementations require the input</p><p>OpenNI Microsoft Kinect V2 RGB MoCap Noitom Perception neuron Microsoft Kinect V1 15 Joints System 20 Joints System 1 -&gt; HEAD 2 -&gt; NECK 3 -&gt; SPINE (TORSO) 4 -&gt; LEFT_SHOULDER 5 -&gt; LEFT_ELBOW 6 -&gt; LEFT_HAND 7 -&gt; RIGHT_SHOULDER 8 -&gt; RIGHT_ELBOW 9 -&gt; RIGHT_HAND 10 -&gt; LEFT_HIP 11 -&gt; LEFT_KNEE 12 -&gt; LEFT_FOOT 13 -&gt; RIGHT_HIP 14 -&gt; RIGHT_KNEE 15 -&gt; RIGHT_FOOT 1 -&gt; HEAD 2 -&gt; NECK 3 -&gt; SPINE (TORSO) 4 -&gt; LEFT_SHOULDER 5 -&gt; LEFT_ELBOW 6 -&gt; LEFT_HAND 7 -&gt; RIGHT_SHOULDER 8 -&gt; RIGHT_ELBOW 9 -&gt; RIGHT_HAND 10 -&gt; LEFT_HIP 11 -&gt; LEFT_KNEE 12 -&gt; LEFT_FOOT 13 -&gt; RIGHT_HIP 14 -&gt; RIGHT_KNEE 15 -&gt; RIGHT_FOOT 16 -&gt; HIP_CENTER 17 -&gt; LEFT_WRIST 18 -&gt; LEFT_ANKLE 19 -&gt; RIGHT_WRIST 20 -&gt; RIGHT_ANKLE data have the same length or size for ease of practical use. Therefore, the CML dataset needs proper data segmentation. After resampling, this study utilized a sliding window to align and count the length of all samples in the datasets. The average frame length of all construction-related activities was counted for the in-lab experiment dataset (around 92 to 96.9 frames). Then a standardized frame number, such as 100 and 120, was chosen for different activities. However, people may perform the same activity at a different speed. Therefore, the standardized frame number needs to cover at least 80% of activity postures. If the activity finishes early, the rest of the frames will remain the same as the last motion frame. Following this principle, the proper frame number for each activity was selected and the data segmentation was manually conducted with the proper frame length.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data format of the cml dataset.</head><p>To allow efficient data query and easier data sharing, this study chose to export the CML Dataset as JavaScript Object Notation (JSON) files. JSON is a lightweight data format that can be directly accessed online and stored and queried with NoSQL databases, such as MongoDB. It can be conveniently accessed and imported with major computational and programming tools and converted to other conventional data formats, such as ASF/AMC, c3d, BVH, TXT, and CSV.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Dataset annotation.</head><p>The conventional rule to group human activities is based on their complexity. For example, Aggarwal and Ryoo categorized activities as gestures, actions, interactions, and group activities <ref type="bibr" target="#b40">41</ref> . Gestures are elementary movements of a person's body part, which label a person's activities as "rotating two arms," "raising a leg," etc. Activities are continuous motions that are composed of multiple postures, such as "catching," "pulling," and "carrying." Interactions are activities involving one person and another person or a person and an object. Unsafe behaviors are the major cause (over 80%) of accidents <ref type="bibr" target="#b41">42</ref> and quantitative skeleton postures can be used for activity recognition <ref type="bibr" target="#b42">43,</ref><ref type="bibr" target="#b43">44</ref> . Another career health factor, which is closely related to WMSDs is long-time awkward posture during task execution <ref type="bibr" target="#b44">45</ref> . For regular working activities, researchers highlighted the workers' activities as "productive mode", "semi-productive mode", and" non-productive mode" <ref type="bibr" target="#b45">46,</ref><ref type="bibr" target="#b46">47</ref> . Therefore, all activities in our dataset are divided into two broader groups, construction-related activities (production activities, unsafe activities, and awkward activities) and non-construction-related activities (common activities and other activities). Production activities are directly related to construction tasks and unique activities related to the industry. They could be used to identify workers' working status and efficiency. Unsafe activities are activities that expose workers to high risks and potentially cause accidents. Awkward activities may not be directly related to accidents, but they are associated with long-term, work-related musculoskeletal disorders (WMSDs), which are harmful to the long-term health of workers. Common activities are general activities that are similar to activities in daily life, such as "sitting, " "standing, " and "walking. " To annotate the samples in the dataset, this study captured the three types of predefined construction activities. The labels are typical construction activities and whether the label belongs to unsafe or awkward activities were determined by existing ergonomic theories and models, for example, the rapid entire body assessment (REBA) <ref type="bibr" target="#b47">48</ref> , the Rapid Upper Limb Assessment (RULA) <ref type="bibr" target="#b48">49</ref> , Ovako Working Posture Assessment System (OWAS) <ref type="bibr" target="#b49">50</ref> , the Manual Handling Assessment Chart (MAC) <ref type="bibr" target="#b50">51</ref> , Posture, Activity, Tools and Handling (PATH) <ref type="bibr" target="#b51">52</ref> , Washington State's ergonomics rule (WAC 296-62-051) <ref type="bibr" target="#b52">53</ref> .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Production activities.</head><p>Much existing research has identified the major production activities and introduced the concept of using them to define and measure productivity in construction projects <ref type="bibr" target="#b53">54</ref> . Also, production activities can be used to evaluate the working state of workers <ref type="bibr" target="#b54">55</ref> . However, some activities have similar posture sequences as nonproduction activities. For example, "moving with hands empty" and "transporting rebar" may have similar skeleton motions. Therefore, to ensure proper labeling, this study only labeled activities as production activities when they had clear relevance to building materials, tools, or construction equipment, like "welding, " "drilling, " "nailing, " "bolting, " and "sawing. " Unsafe activities. Many studies have reported that 80-90% of accidents are associated with workers' unsafe activities <ref type="bibr" target="#b55">56,</ref><ref type="bibr" target="#b56">57</ref> . The Occupational Safety and Health Administration (OSHA) defined the most critical unsafe activities based on reported accident statistics <ref type="bibr" target="#b57">58</ref> . Extending OSHA's statistics and reports, many researchers have clearly defined typical unsafe behaviors. For example, Han and Lee <ref type="bibr" target="#b58">59</ref> derived six construction crew unsafe activity categories, including falls, transportation, contact with objects and equipment, exposure to harmful substances/environments, assaults and violent acts, fires, and explosions. Hinze et al. <ref type="bibr" target="#b59">60</ref> attributed accidents to 20 possible unsafe activities, including falls from elevation, falls from ground level, electrocution (power lines), electrocution (building power), electrocution (faulty facility wiring), electrocution (faulty construction tool/ wiring), electrocution (other), struck by equipment, struck by falling material, struck by material (other than falling material), caught in/between equipment, caught in/between material, cave-in, explosion, fire, explosion/ fire, asphyxiation, drowning, natural causes, and other. Choudhry et al. <ref type="bibr" target="#b60">61</ref> reported that a lack of any of five construction resources may result in unsafe activities for the construction crew. These resources include personal protective equipment, housekeeping, access to heights, plant and equipment, and scaffolding. Based on these studies, this study labels unsafe behavior when relevant to the following activities or events: (1) falling from different levels or ladders, including slipping, tripping, climbing/jumping ladders/stairs, and reaching; (2) taking off personal protective equipment, including hard hats, gloves, vests, shoes, and glasses; (3) being close to fires and explosions, including smoking; (4) being exposed to assaults and violent acts, including hitting, kicking, and beating. Finally, 36 unsafe activities were identified and used to annotate the final CML Dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Awkward activities.</head><p>Musculoskeletal disorders account for 33% of all newly reported occupational illnesses and 77% of those of construction workers, making them the single largest cause of work-related illness <ref type="bibr" target="#b61">62</ref> . As the major cause of these disorders, this study lists a separate awkward activity category. Based on the ergonomic analysis, many researchers have proposed quantitative definitions of the awkward activities of construction workers. For example, Jaffar et al. <ref type="bibr" target="#b62">63</ref> proposed seven generic awkward postures and activities, including leaning sideways, bending down, reaching overhead, flaring the elbows out to the side, bending the wrist, bending the neck down, and twisting part of the body. James et al. <ref type="bibr" target="#b63">64</ref> suggested postures that deviate from the neutral position, such as gripping, kneeling, lifting, bending, working overhead, twisting, using vibrating equipment, squatting, and overreaching. Based on these studies, this study developed 11 awkward activity labels.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Common activities.</head><p>Besides the above construction-related activities, generic activities, such as walking, sitting, and standing, are categorized as common activities. These activities are supplementary to or part of more complicated activities.</p><p>Other activities. In addition to the four major types of activities related to construction, irrelevant activities are labelled as "other, " such as "moonwalking" or "applying cream to the face. " protocol of manual annotation. Due to distinctive experiment designs, the descriptive labels for the same activities may be different. For example, the activity of jogging in the MSRAction3D Dataset was labelled as "jogging, " but in the UTD-MHAD3 Dataset, it is "jogging in place. " The labels "approaching" and "departing" in the SBU Kinect Interaction Dataset have a walking direction due to the experiment design. Therefore, to ensure the consistency of all labels, the manual annotation of the CML Dataset follows three rules.</p><p>• Simple and representative. The name of the label should be simple, short, and representative of the nature of an activity. For example, "jogging in place" and "jogging slowly" will be labelled as "jogging"; "walking forward" and "departing" will be labelled as "walking. " • Nondirectional. As the coordination systems of all datasets are translated into the subject's coordinates, the directional labels will be merged as the same label. For example, "walking to east" and "walking forward" will be labelled as "walking. " • Clear and conservative. To avoid potential mistakes, ambiguous activity data samples will not be labelled and will be removed.</p><p>As shown in Table <ref type="table" target="#tab_1">2</ref>, all labels are predesigned activities based on the literature review. All dataset are publicly accessible and useable with proper citation. For the Licenses listed as "--"in table, the dataset owner does not specify the type of licenses. The in-lab experiment collected the standard posture frames for all construction-related activities. The samples from the public dataset were compared with all standard activities and annotated as the one that has the highest similarity (lowest differences in skeleton joint movements). When two activities are similar to each other, the "label" in the categories of construction-related activities and unsafe activities has a higher priority. Table <ref type="table" target="#tab_2">3</ref> shows a sample of merged labels.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data Records</head><p>The final CML dataset has been stored in the FigShare repository <ref type="bibr" target="#b64">65</ref> . The relevant public datasets' doi can be found in Table <ref type="table" target="#tab_0">1</ref> and their URLs can be found in Table <ref type="table" target="#tab_1">2</ref>. Table <ref type="table">4</ref>, Table <ref type="table">5</ref>, and Table <ref type="table" target="#tab_3">6</ref> list the data statistics and data structures of the dataset.</p><p>Table <ref type="table">4</ref> summarizes the statistics of the final CML Dataset. In total, there were 146,480 samples extracted from the original public datasets and in-lab experiment datasets. Originally, there were 225 classes of activities labelled for all activities. After aggregation, only 73 labels were regarded as related to construction activities, and only 61,275 samples were suitable for future development. The size of all JSON files in the CML Dataset was more than 10 gigabytes. Figure <ref type="figure">5</ref> shows the boxplot of the frame numbers of all activities. The average frame number for construction-related activities and all activities were 92 and 96.9. Due to the public dataset license requirements, this study only shared the processed data sample from datasets that allow redistribution and sharing. In summary, the shared dataset has 6,131 samples (among them, 4,333 samples are construction-related activities). Since the rest of the datasets are publicly available, this study provides a code repository that allows users to construct the complete datasets with a bvh parser and the skeleton converter.</p><p>The CML data format for storage is JSON for easier importing, assessing, and sharing. The file can be divided into two parts. The first "meta-data" part only stores the information related to the data summary, the original dataset source, and the joint structure and includes all the keys except "tdata" and "bdata." The second "formal-data" part only includes "tdata" (an object encloses frames of all joints over time) and "bdata" (an object includes time-series data of each joint). All "formal-data" is stored at a standardized frame rate/sampling rate of 30 Hz. The detailed data structure is listed in Table <ref type="table">5</ref>.</p><p>Table <ref type="table" target="#tab_3">6</ref> shows all labels that are annotated in the CML Dataset. The first four categories are construction-related activities, and the last category is irrelevant activities. To maintain the completeness of the dataset, the "other activities" are kept in the CML Dataset, but for future development, researchers can only use the first four activity categories. label No. Trail Original label in the source datasets "Jogging" 62 MSR jogging; UTD-MHAD3 jogging in place "Walking" 5,416 CMU backward; CMU sideways; CMU walk; CMU walk with arms out; HDM05 deposit; HDM05 walk; NTU+RGBD 120 step on foot; NTU+RGBD 120 walking apart; NTU+RGBD 120 walking towards; SBU approaching; SBU departing; UTKA walk; UTD-MHAD3 forward lunge (left foot forward); UTD-MHAD3 walking in place Table 4. Data Structure of the JSON Dataset.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>technical Validation</head><p>Dataset samples for testing. This section intends to validate the developed dataset and ensure its usability and reliability in practice. This study selected five widely accepted deep learning models to examine the performance of the developed CML Dataset. By doing so, it can demonstrate how the unified datasets can be easily used as the standardized inputs for complex networks. Also, the training and recognition results are comparable to other datasets and can be found tuned by other pre-trained models. In addition, the validation results can clearly show the trade-off between computational cost and recognition accuracy of using the CML dataset. The selected algorithms include (1) long short-term memory (LSTM), (2) bidirectional LSTM networks 66 , (3) LeNet-5 67 , (4) AlexNet <ref type="bibr" target="#b67">68</ref> , and (5) ResNet-50 <ref type="bibr" target="#b68">69</ref> . LSTM is the most widely used recurrent neural network that models the temporal and context relationships of input data by implementing an additional forgetting gate and internal memory cell. Bidirectional LSTM networks extend the LSTM model by introducing bi-directional relationships among samples. In this study, the bidirectional LSTM network is stacked with two layers with 90 neurons and a 0.5 dropout rate, followed by two fully connected layers with the activation function ReLU <ref type="bibr" target="#b69">70</ref> . LeNet-5 is a classical convolutional neural network (CNN) but incorporates spatial relationships among high-dimensional data. AlexNet extends LeNet-5 and shows higher accuracies on large-scale image and video datasets. ResNet-50 is a residual network and has an additional identity mapping capability. The detailed network structures and parameters of the all five testing algorisms are summarized in Table <ref type="table">7</ref>. The input sizes are different for the 15-joint and 20-joint systems. For example, for AlexNet, the sizes are 3 by 100 by 90 and 3 by 100 by 120 for the 15-joint and 20-joint systems, respectively.</p><p>Due to the complexity of activities and individual differences in experiment subjects, the sequence length T of each activity sample may differ. This study utilized the sparse sampling strategy to unify the sequence length T for different full-length, ensuring all samples can be fed into networks with the same dimensions. For CNN-based networks, the body skeleton is ∈ × x R t N 3 , where N represents the number of joints and 3 is the dimension of coordinates. At each time step t ∈ T, t is the index of frames. Therefore, the input for CNN-based networks is the skeleton sequences X R N T 3 ∈ × × , and for LSTM-based networks, the input size is ∈</p><formula xml:id="formula_0">× X R N T 3 .</formula><p>The dataset was tested with the different number of iterations and proportion/size of the dataset. The iteration test was designed to examine the efficiency of using the CML Dataset to achieve a sufficiently accurate model. The different sample size test intends to examine if there is sufficient data quantity and efficient data size to reach an acceptable accuracy. The examined sample sizes are listed in Table <ref type="table" target="#tab_4">8</ref>.</p><p>All algorithms were programmed with Python language with the Pytorch package. The testing desktop computer was configured with Intel i7-11700@ 2.50GHz CPU (8 core, 16 threads) and GeForce GTX 3060Ti GPU. Based on the sparse sampling strategy, each training batch had 256-1024 sequences, and the total training epoch was 10,000. The learning rate was set as 0.00001, and the Adaptive Moment Estimation (ADAM) algorithm <ref type="bibr" target="#b70">71</ref> with a decay rate of 0.001 was adapted to optimize the cross-entropy loss.</p><p>Validation results. Figure <ref type="figure" target="#fig_5">6</ref> and Table <ref type="table">9</ref> show the performance of five deep learning models' accuracy of development over epochs. Most algorithms convert at 1,000 epochs. The final 10,000-epoch run only slightly increased the recognition accuracy. When the epoch number is more than 4,000, the loss begins to increase, and the recognition accuracy becomes fluctuated. Therefore, the developed CML Dataset is able to generate acceptable and usable learning models quickly at 1,000 epoch runs. The average model training time is less than one hour.</p><p>Figure <ref type="figure" target="#fig_6">7</ref> shows the recognition accuracies and losses with different sample sizes. The accuracies and losses were averaged from multiple shuffled training tests. The training dataset used only a proportion of the whole CML Dataset as shown in Table <ref type="table" target="#tab_4">8</ref>. The testing samples were unused samples, so smaller training samples had larger testing samples. The aim of this test was to ensure the sufficiency of data for activity recognition. Due to the large and changing testing sample size, the loss of a model indicates the data sufficiency when the sample size</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Key</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data Type Sample Data Description</head><p>"data source" String "CMU" Source of the dataset "original label" String "back somersault" Original label of the raw dataset "source file" String "88_01_01.txt" The filename of the original raw dataset "label" String "kicking" New label in the integrated dataset "frames" Number 101 Total number of frames in one data sample "coordinates" Enumerate "x y z" The coordination system of the data sample &lt;String&gt; "activity type" Enumerate 0 "0" -other activities; "1" -unsafe activities; "2" -awkward activities; "3" -production activities; "4" -common activities &lt;Number&gt; "joints" Enumerate 15 "15" -15-joint skeleton model; "20" -20-joint skeleton model &lt;Number&gt; "calibrated" Boolean TRUE Indicates whether joints data are interpolated and computed "bones" Array ['Head' , …,] The list of joints/bones "tdata" Object {"Frame_ID": [Data…], …} An object with each frame and its corresponding data array "bdata" Object {"Bone_name": [Data…], …} An object with each joint and its corresponding temporal data array Table <ref type="table">5</ref>. The Labels of Each Activity Category.</p><p>was relatively small. As can be seen, the loss converges around 25,000 samples, suggesting the developed CML Dataset is sufficient to train a reliable activity recognition model. Conventional activity recognition methods classify construction activities into few types. For example, Gong et al. <ref type="bibr" target="#b16">17</ref> used characterized images to classify construction activity into five categories traveling, transporting, bending down, aligning, and nailing. Escorcia et al. <ref type="bibr" target="#b71">72</ref> used bag-of-poses represented color and depth data from Kinect sensor to recognize 5 types of drywall construction activities. Yang et al. <ref type="bibr" target="#b18">19</ref> proposed a dense trajectories representation method to recognize 11 common construction activities from videos. Recently, Akhavian and Behzadan <ref type="bibr" target="#b23">24</ref> compared various classification algorithms and reported that neural network models provide higher accuracy and allow more types of activities to be recognized. However, neural network models, especially deep learning models, highly rely on datasets that have a large quantity of data and comprehensive labels. The CML dataset developed by this study not only composed a dataset with 60 construction-related activity</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Category Activity Type Labels</head><p>Unsafe Activities 1 "back pain": 0, "beating": 1, "calling phone": 2, "chest pain": 3, "climb down": 4, "climb up": 5, "cough": 6, "dialing phone": 7, "dropping": 8, "ducking": 9, "falling": 10, "hanging": 11, "headache": 12, "hitting": 13, "jogging": 14, "jumping": 15, "kicking": 16, "lean back": 17, "neck pain": 18, "pick up and throw": 19, "punching": 20, "running": 21, "smoking": 22, "staggering": 23, "stair down": 24, "stair up": 25, "step over": 26, "swing": 27, "take off a hat and cap": 28, "take off a shoe": 29, "take off glasses": 30, "take off jacket": 31, "throwing": 32, "vomiting": 33, "walk on uneven terrain": 34, "wrestle": 35 Awkward Activities 2 "arm curl": 0, "bending": 1, "carrying": 2, "crawling": 3, "elbow to knee": 4, "hand catch": 5, "pulling": 6, "pushing": 7, "squats": 8, "twists": 9, "weight lifting": 10 Production Activities 3 "bolt tightening or loosening": 0, "coiling a rope": 1, "cutting nails": 2, "digging": 3, "drawing": 4, "driving": 5, "dynamic calibration": 6, "exchanging objects": 7, "hammer": 8, "knocking": 9, "moving object": 10, "poking ground": 11, "sawing": 12 Common Activities 4 "get up from floor": 0, "lay down": 1, "picking up": 2, "put on a hat and cap": 3, "put on a shoe": 4, "sit down and stand up": 5, "sitting": 6, "stand up": 7, "standing": 8, "turning": 9, "walking": 10, "wearing clothes": 11, "wearing glasses": 12</p><p>Other Activities 0 "apply cream on face", "apply cream on hand", "backflip", "ball up paper", "baseball action", "baseball swing", "basketball dribbling", "basketball shooting", "basketball signals", "blow nose", "bowing", "bowling", "brushing hair", "brushing teeth", "capitulate", "carry suitcase", "cartwheel", "change weapon", "checking time", "cheer up", "chopping wood", "clap above head", "clapping", "close a box", "closing umbrella", "cooking", "counting money", "cross arms on the chest", "cross hands in front", "cross toe touch", "curtsy", "cutting paper", "dance", "direct traffic", "drinking water", "eating", "fan self ", "fishing", "fold paper", "golf swing", "greeting", "had enough", "hand signals", "hanging a picture", "high five", "hit head", "holding a baby", "hopping", "hugging", "hushing", "imitating animals", "jumping jack", "laugh", "lift open window", "look around", "make OK sign", "make victory sign", "making dough", "marching", "mixing water", "moonwalk", "mopping", "nod head and bow", "nursery rhyme", "open a box", "open bottle", "opening pill container", "opening umbrella", "pat on back", "placing golf ball", "placing golf tee", "planting a flower", "play magic cube", "playing drums", "playing piano", "playing violin", "pointing finger", "posing", "pouring", "purchases", "put object into bag", "put on bag", "put on headphones", "put palms together", "put something inside pocket", "puts hands on B's shoulders", "reading", "relaxing", "rinsing mouth with water", "rock-paper-scissors", "rotate arms", "rub shoulder", "rub two hands", "salute", "sewing", "shake head", "shaking hands", "shaving", "shelter someone from harm", "shooting", "skateboard", "skier", "snap fingers", "sneaking", "sniff and smell", "soccer", "spin", "spray deodorant", "stand mixing batter", "stand slicing object", "staple book", "start system", "story", "stretches", "support somebody", "sweeping", "swimming", "swordplay", "T-Pose", "table tennis", "tai chi", "take object out of bag", "take off bag", "take off headphones", "take out something from pocket", "taking a selfie", "taking photo", "tear up paper", "tennis serve", "tennis swing", "throw and catch ball", "thumb down", "thumb up", "toss a coin", "vacuuming", "vault", "waiting", "walking dog", "wash self ", "wash windows", "waving", "wearing contact lenses", "whisper", "wield knife", "wind it up", "wipe floor", "wiping face", "working on computer", "writing", "writing on whiteboard", "yawn", "yoga" Table 7. Sample Sizes of the Validation Tests.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Sample 1 Sample 2 Sample 3 Sample 4 Sample 5 Sample 6</head><p>Proportion of total samples 10% 30% 50% 70% 90% 100%</p><p>Total samples 6,128 18,382 30,637 42,893 55,147 61,275 Training samples 3,676 11,029 18,382 25,735 33,088 36,723 Validation samples 2,452 7,353 12,255 17,158 22,059 24,552  Epochs Recognition Accuracy LSTM Bi-LSTM LeNet-5 Alex Net Resnet</p><p>10 13.48% 21.91% 17.94% 8.85% 70.81% 100 52.06% 58.72% 46.36% 38.08% 75.76% 1,000 73.00% 74.58% 75.46% 64.31% 83.56% 2,000 74.67% 75.12% 79.45% 69.92% 84.06% 4,000 74.77% 75.36% 79.73% 72.82% 84.32% 6,000 74.43% 75.00% 79.44% 73.50% 83.56% 8,000 74.46% 74.64% 79.86% 74.87% 83.26% 10,000 74.62% 75.24% 79.04% 72.99% 83.92%</p><p>Table 9. Recognition Performance of Algorithms Over Epochs.</p><p>labels but also constructed a standardized large-scale dataset based on public datasets with more than 100 non-construction-related activities. Such enrichment in the data source can greatly improve the performance of activity recognition models and can be expanded to other usage domains. In the technical validation case, the average action recognition accuracy of the five algorithms obtained an accuracy of 74.62 to 83.92%. Given the large number of different labels, the CML dataset can make a significant contribution to the industry.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Usage Notes</head><p>Accurate motion recognition algorithms depend on reliable and ample datasets. Although activity recognition is vital to managing construction tasks and avoiding injuries, a dataset specifically designed for the construction industry is still lacking. At the same time, modern machine learning models have high requirements for the quality and quantity of datasets; accessible and lightweight is the premise of implementing artificial intelligence in a specific industry. The CML Dataset was developed to serve the above purposes and provide a data infrastructure for the development of sophisticated models and tools. All data has been properly aligned and cleaned for ready usage and was stored in the most compatible format. All relevant labels have been manually validated and annotated to ensure their correctness. The validation tests suggest the developed CML Dataset is sufficiently large and rich to train accurate and agile learning models. It is also versatile enough to be implemented in both vision-based and IMU-based motion capturing systems with different devices and equipment. The developed CML Dataset can be used in the development of safety and productivity assessment models and toolsets. Through recognizing production activities, the task load and its physical demands and human worker capacities can be assessed. This can be utilized in productivity computation and in organizing construction schedules. Given the unsafe and awkward activities recognition, project management platforms can provide early warnings and proper training programs to construction workforces. Also, the intensity of awkward activities can be used to evaluate long-term chronic harm to workers who potentially suffer from WMSDs. In addition, activity recognition can be extended to coordinate human-robot collaboration in the future. Therefore, the CML Dataset plays an essential role in sustaining these applications and the development of the construction industry.</p><p>The CML Dataset mingled both vision-based and IMU-based mocap datasets to assure its generality and versatility. However, the joints represented by both systems are not perfectly aligned; for example, vision-based systems tend to predict the skeleton joints as the geometric center of body parts, but IMU-based systems recorded joint movements at the point where the sensors were attached. This results in some slight inconsistency in postures. In addition, construction activities are highly tool-dependent, which may result in different activities but the same skeleton movements. Therefore, the motion labels annotated by this study are generic and imprecise. High-resolution activity recognition requires inputs from other sensing sources.</p><p>The CML Dataset has predefined 60 labels for construction-related activities, but there are many more different types of activities in practice. Therefore, the 60 labels are designed to be generic to encompass similar activities. Given the complexity and variety in construction tasks and process organization to further differentiate more professional activities, additional information (such as tools and equipment used by workers, working environment, site context, etc.) is necessary. (<ref type="url" target="https://github.com/YUANYUAN2222/Integrated-public-3D-skeleton-form-CML-library">https://github.com/YUANYUAN2222/Integrated-public-3D-skeleton-form-CML-library</ref>), which allow all readers and potential users to process the source dataset by themselves.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Number of Training Samples</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>( 4 )</head><label>4</label><figDesc>Coordination Transformation. This step ensures all samples have the sample local coordinate system and the same postures have the same quantitative values.(5) </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Inconsistencies in MoCap datasets.</figDesc><graphic coords="3,158.51,46.37,303.50,338.18" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>,61,275 samples)   </figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 3</head><label>3</label><figDesc>Fig.3Typical skeletal body joints models and the simplified 15/20 joints system.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Fig. 4</head><label>4</label><figDesc>Fig. 4 Conversion of coordination systems.</figDesc><graphic coords="6,200.27,63.67,154.58,128.90" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Fig. 6</head><label>6</label><figDesc>Fig.6 Different deep-learning models' recognition accuracies and losses over epochs.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Fig. 7</head><label>7</label><figDesc>Fig.7Different deep-learning models' recognition accuracies and losses with different sample sizes.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Public Datasets of Generic Motions Used in This Study.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="2">Size of Datasets</cell><cell></cell><cell></cell></row><row><cell></cell><cell>Dataset Name</cell><cell cols="2">File Format Frame Rate</cell><cell cols="3">Sample Subjects Classes</cell><cell>Joints</cell></row><row><cell>0</cell><cell>In-lab Experiment</cell><cell>.bvh .raw</cell><cell>120 Hz</cell><cell>--</cell><cell>10</cell><cell>60</cell><cell>31</cell></row><row><cell>1</cell><cell>CMU Mocap 72</cell><cell>.asf .amc</cell><cell>120 Hz</cell><cell>2,605</cell><cell>144</cell><cell>172</cell><cell>31</cell></row><row><cell>2</cell><cell>HMD05 Mocap 32</cell><cell>.asf .amc</cell><cell>120 Hz</cell><cell>2,286</cell><cell>5</cell><cell>26</cell><cell>31</cell></row><row><cell>3</cell><cell>Berkeley MHAD 33</cell><cell>.bvh</cell><cell>480 Hz</cell><cell>671</cell><cell>12</cell><cell>11</cell><cell>30</cell></row><row><cell>4</cell><cell>NTU+RGBD 120 34</cell><cell>.txt</cell><cell>30 Hz</cell><cell cols="2">114,480 40</cell><cell>120</cell><cell>25</cell></row><row><cell>5</cell><cell>SBU Kinect Interaction Dataset 73</cell><cell>.txt</cell><cell>30 Hz</cell><cell>248</cell><cell>7</cell><cell>8</cell><cell>15</cell></row><row><cell>6</cell><cell>MSR Action3D Dataset 74</cell><cell>.txt</cell><cell>15 Hz</cell><cell>567</cell><cell>10</cell><cell>20</cell><cell>20</cell></row><row><cell>7</cell><cell>CAD60 Dataset 35</cell><cell>.txt</cell><cell>30 Hz</cell><cell>64</cell><cell>4</cell><cell>12</cell><cell>15</cell></row><row><cell>8</cell><cell>UTKinect-Action3D Dataset 75</cell><cell>.txt</cell><cell>15 Hz</cell><cell>200</cell><cell>10</cell><cell>10</cell><cell>20</cell></row><row><cell>9</cell><cell>UCF Dataset 76</cell><cell>.ske</cell><cell>30 Hz</cell><cell>1,280</cell><cell>16</cell><cell>16</cell><cell>15</cell></row><row><cell cols="2">10 Microsoft Research Cambridge-12 77</cell><cell>.csv</cell><cell>30 Hz</cell><cell>594</cell><cell>30</cell><cell>12</cell><cell>20</cell></row><row><cell cols="2">11 Human 3.6M 78</cell><cell>json</cell><cell>30 Hz</cell><cell>210</cell><cell>11</cell><cell>15</cell><cell>17</cell></row><row><cell cols="2">12 PKU_MMD 79</cell><cell>.txt</cell><cell>30 Hz</cell><cell>20,780</cell><cell>66</cell><cell>51</cell><cell>25</cell></row><row><cell cols="2">13 SYSU 3D 80</cell><cell>.txt</cell><cell>30 Hz</cell><cell>480</cell><cell>40</cell><cell>12</cell><cell>20</cell></row><row><cell cols="3">14 UTD Multimodal Human Action Dataset (UTD MHAD1) 81 .mat</cell><cell>30 Hz</cell><cell>300</cell><cell>6</cell><cell>10</cell><cell>25</cell></row><row><cell cols="2">15 UTD MHAD2 81</cell><cell>.mat</cell><cell>30 Hz</cell><cell>900</cell><cell>5</cell><cell>6</cell><cell>25</cell></row><row><cell cols="2">16 UTD MHAD3 81</cell><cell>.mat</cell><cell>30 Hz</cell><cell>861</cell><cell>8</cell><cell>27</cell><cell>20</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>A Label Sample of the Manual Annotation.</figDesc><table><row><cell></cell><cell>Dataset Name</cell><cell>License</cell><cell>URL</cell></row><row><cell>0</cell><cell>In-lab Experiment</cell><cell>Own</cell><cell></cell></row><row><cell>1</cell><cell>CMU Mocap</cell><cell>Permitted</cell><cell>http://mocap.cs.cmu.edu/</cell></row><row><cell>2</cell><cell>HMD05 Mocap</cell><cell>CC BY SA 3.0</cell><cell>http://resources.mpi-inf.mpg.de/HDM05/</cell></row><row><cell>3</cell><cell>Berkeley MHAD</cell><cell>BSD-2</cell><cell>https://tele-immersion.citris-uc.org/berkeley_mhad</cell></row><row><cell>4</cell><cell>NTU+RGBD 120</cell><cell>Not Permitted</cell><cell>https://rose1.ntu.edu.sg/dataset/actionRecognition/</cell></row><row><cell>5</cell><cell>SBU Kinect Interaction Dataset</cell><cell>ODbL</cell><cell>https://www.kaggle.com/datasets/dasmehdixtr/two-person-interaction-kinect-dataset</cell></row><row><cell>6</cell><cell>MSR Action3D Dataset</cell><cell>--</cell><cell>https://sites.google.com/view/wanqingli/data-sets/msr-action3d</cell></row><row><cell>7</cell><cell>CAD60 Dataset</cell><cell>CC BY 4.0</cell><cell>http://pr.cs.cornell.edu/humanactivities/data.php</cell></row><row><cell>8</cell><cell>UTKinect-Action3D Dataset</cell><cell>--</cell><cell>http://cvrc.ece.utexas.edu/KinectDatasets/HOJ3D.html</cell></row><row><cell>9</cell><cell>UCF Dataset</cell><cell>--</cell><cell>http://www.syedzainmasood.com/research.html</cell></row><row><cell>10</cell><cell>Microsoft Research Cambridge-12</cell><cell>--</cell><cell>https://www.microsoft.com/en-us/download/details.aspx?id=52283</cell></row><row><cell>11</cell><cell>Human 3.6</cell><cell>--</cell><cell>http://vision.imar.ro/human3.6m/description.php</cell></row><row><cell>12</cell><cell>PKU_MMD</cell><cell>--</cell><cell>https://www.icst.pku.edu.cn/struct/Projects/PKUMMD.html?aimglfkfkfcjmopp</cell></row><row><cell>13</cell><cell>SYSU 3D</cell><cell>--</cell><cell>https://www.isee-ai.cn/~hujianfang/ProjectJOULE.html</cell></row><row><cell>14</cell><cell>UTD Multimodal Human Action Dataset (UTD MHAD1)</cell><cell>--</cell><cell>https://personal.utdallas.edu/~kehtar/UTD-MHAD.html</cell></row><row><cell>15</cell><cell>UTD MHAD2</cell><cell>--</cell><cell>https://personal.utdallas.edu/~kehtar/UTD-MHAD.html</cell></row><row><cell>16</cell><cell>UTD MHAD3</cell><cell>--</cell><cell>https://personal.utdallas.edu/~kehtar/UTD-MHAD.html</cell></row><row><cell></cell><cell>Activity</cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Statistics of the CML Dataset.</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell cols="3">Construction-related activities</cell><cell></cell></row><row><cell></cell><cell>All</cell><cell>Other</cell><cell>Unsafe</cell><cell>Awkward</cell><cell>Production</cell><cell>Common</cell></row><row><cell></cell><cell>activities</cell><cell>activities</cell><cell>activities</cell><cell>activities</cell><cell>activities</cell><cell>activities</cell></row><row><cell>Number of labels</cell><cell>225</cell><cell>152</cell><cell>38</cell><cell>10</cell><cell>12</cell><cell>13</cell></row><row><cell cols="2">Number of samples 146,480</cell><cell>85,205</cell><cell>36,778</cell><cell>5,101</cell><cell>5,105</cell><cell>14,291</cell></row><row><cell>File size</cell><cell>23.93 GB</cell><cell>13.40 GB</cell><cell>5.98 GB</cell><cell>0.69 GB</cell><cell>0.72 GB</cell><cell>3.14 GB</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 6 .</head><label>6</label><figDesc>The Structure of Four Deep Learning Models.Frame number statistics of samples in each activity category.</figDesc><table><row><cell>150 200 Number of frames 250</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>100</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>50</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>0</cell><cell>Unsafe</cell><cell>Awkward</cell><cell>Production</cell><cell>Common</cell><cell>Other</cell><cell>All</cell></row><row><cell></cell><cell>Activities</cell><cell>Activities</cell><cell>Activities</cell><cell>Activities</cell><cell>Activities</cell><cell>Activities</cell></row><row><cell>Fig. 5</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 8 .</head><label>8</label><figDesc>Recognition Performance of Algorithms Over Epochs.</figDesc><table><row><cell>10์</cell><cell>10ํ</cell><cell>10๎</cell><cell>10๏</cell></row><row><cell></cell><cell></cell><cell></cell><cell>Epochs</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Scientific Data | (2022) 9:726 | https://doi.org/10.1038/s41597-022-01841-1</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>acknowledgements</head><p>This work was financially supported by the <rs type="funder">General Research Fund of the University Grants Committee of Hong Kong (UGC)</rs>, #<rs type="grantNumber">11209620</rs> and the <rs type="institution">Talent Introduction Fund of Tsinghua University</rs>, #<rs type="grantNumber">533314002</rs>. Any opinions, findings, conclusions, or recommendations expressed in this paper are those of the authors and do not necessarily reflect the views of <rs type="institution">UGC</rs> and <rs type="institution">Tsinghua University</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_SUHVadJ">
+					<idno type="grant-number">11209620</idno>
+				</org>
+				<org type="funding" xml:id="_pj3G4SF">
+					<idno type="grant-number">533314002</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Code availability</head><p>This study utilized Mathwork Matlab 2020a to parse and export the ASF/AMC and BVH files. The open-source code used for parsing these files can be obtained from <ref type="url" target="https://github.com/lawrennd/mocap">https://github.com/lawrennd/mocap</ref>.</p><p>This study utilized Python 3.7.6 and extended a 17-joint BVH conversion package, video-to-pose3D (<ref type="url" target="https://github.com/HW140701/VideoTo3dPoseAndBvh">https://  github.com/HW140701/VideoTo3dPoseAndBvh</ref>), to generate BVH files. The newly developed package can transform 15 or 20-joint models' JSON files into BVH files. The developed code can be accessed with the following URL: <ref type="url" target="https://github.com/YUANYUAN2222/GIT_json_to_BVH">https://github.com/YUANYUAN2222/GIT_json_to_BVH</ref>. Meanwhile, the code could be used to retag and process different datasets (i.e., Resampling and Skeletal structure alignment) is made public on the GitHub</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Competing interests</head><p>The authors declare no competing interests.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>author contributions</head><p>Yuanyuan Tian -Data acquisition, Data Labelling, Data Processing, Dataset Preparation. Heng Li -Data Validation, Proof Reading. Hongzhi Cui -Data Validation, Data Calibration. Jiayu Chen -Project Conception, Data Processing, Data Validation, Proof Reading.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Proactive behavior-based safety management for construction safety improvement</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-C</forename><surname>Hsu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Saf. Sci</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="107" to="117" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Construction Operation Simulation Reflecting Workers&apos; Muscle Fatigue</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Seo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Moon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Computing in Civil Engineering</title>
+		<imprint>
+			<publisher>American Society of Civil Engineers</publisher>
+			<date type="published" when="2015">2015. 2015</date>
+			<biblScope unit="page" from="515" to="522" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Risk Assessment of Work-Related Musculoskeletal Disorders in Construction: State-of-the-Art Review</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Ning</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Constr. Eng. Manag</title>
+		<imprint>
+			<biblScope unit="volume">141</biblScope>
+			<biblScope unit="page">4015008</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A unified tree-based framework for joint action localization, recognition and segmentation</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Jiang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">S</forename><surname>Davis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput. Vis. Image Underst</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page" from="1345" to="1355" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Comparison of self-report, video observation and direct measurement methods for upper extremity musculoskeletal disorder physical risk factors</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Spielholz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Silverstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Morgan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Checkoway</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kaufman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ergonomics</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="588" to="613" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Behavior-based safety on construction sites: A case study</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Choudhry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Accid. Anal. Prev</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="14" to="23" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A continuous Behavior-Based Safety strategy for persistent safety improvement in construction industry</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Fang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="101" to="107" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Productivity in construction</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">P</forename><surname>Dozzi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Abourizk</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<pubPlace>National Research Council Ottawa</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">A Big-Data-based platform of workers&apos; behavior: Observations from the field</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">Y</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">Y</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">B</forename><surname>Luo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">Y</forename><surname>Jiang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Accid. Anal. Prev</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="page" from="299" to="309" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Joint Distance Maps Based Action Recognition With Convolutional Neural Networks</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Signal Process. Lett</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="624" to="628" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Action Recognition Based on Joint Trajectory Maps Using Convolutional Neural Networks</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 24th ACM international conference on Multimedia</title>
+		<meeting>the 24th ACM international conference on Multimedia</meeting>
+		<imprint>
+			<publisher>ACM</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="102" to="106" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Effective 3D action recognition using EigenJoints</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Tian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Vis. Commun. Image Represent</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="2" to="11" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Skeleton-based human activity recognition for elderly monitoring systems</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hbali</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hbali</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Ballihi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sadgal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IET Comput. Vis</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="16" to="26" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Optical motion capture dataset of selected techniques in beginner and advanced Kyokushin karate athletes</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Szczęsna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Błaszczyszyn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pawlyta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sci. Data</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page">13</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">D: A gaming action dataset and real time action recognition evaluation framework</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Bloom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Makris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Argyriou</surname></persName>
+		</author>
+		<author>
+			<persName><surname>G3</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2012 IEEE Computer Society Conference on Computer Vision and Pattern Recognition Workshops</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="page" from="7" to="12" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Human hand kinematic data during feeding and cooking tasks</title>
+		<author>
+			<persName><forename type="first">Roda-Sales</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Vergara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Sancho-Bru</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Gracia-Ibáñez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Jarque-Bou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sci. Data</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page">167</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Learning and classifying actions of construction workers and equipment using Bag-of-Video-Feature-Words and Bayesian network models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Caldas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Gordon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Eng. Informatics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="771" to="782" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Semi-supervised near-miss fall detection for ironworkers with a wearable inertial measurement unit</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Ahn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Vuran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Aria</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="194" to="202" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Vision-based action recognition of construction workers using dense trajectories</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Eng. Informatics</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="327" to="336" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Vision-Based Construction Worker Activity Analysis Informed by Body Posture</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Roberts</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Torres Calderon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Golparvar-Fard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Comput. Civ. Eng</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page">4020017</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Vision-based workface assessment using depth images for activity analysis of interior construction operations</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Khosrowpour</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Niebles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Golparvar-Fard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="74" to="87" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">ANN-based automated scaffold builder activity recognition through wearable EMG and IMU sensors</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Bangaru</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Busam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Aghazadeh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">126</biblScope>
+			<biblScope unit="page">103653</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Construction worker&apos;s awkward posture recognition through supervised motion tensor decomposition</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Qiu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ahn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="page" from="67" to="81" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Smartphone-based construction workers&apos; activity recognition and classification</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Akhavian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Behzadan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="page" from="198" to="209" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A Smartphone-based Detection of Fall Portents for Construction Workers</title>
+		<author>
+			<persName><forename type="first">Y.-C</forename><surname>Fang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R.-J</forename><surname>Dzeng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Procedia Eng</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="147" to="156" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Automated Action Recognition Using an Accelerometer-Embedded Wristband-Type Activity Tracker</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ryu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Seo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Jebelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Constr. Eng. Manag</title>
+		<imprint>
+			<biblScope unit="volume">145</biblScope>
+			<biblScope unit="page">4018114</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Action Recognition Using a Wristband-Type Activity Tracker: Case Study of Masonry Work</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ryu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Seo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">T</forename><surname>Haas</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Construction Research Congress</title>
+		<imprint>
+			<publisher>American Society of Civil Engineers</publisher>
+			<date type="published" when="2016">2016. 2016</date>
+			<biblScope unit="page" from="790" to="799" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Deep learning-based networks for automated recognition and classification of awkward working postures in construction using wearable insole sensor data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Antwi-Afari</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">136</biblScope>
+			<biblScope unit="page">104181</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Wearable insole pressure system for automated detection and classification of awkward working postures in construction workers</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Antwi-Afari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="page" from="433" to="441" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Quantifying workers&apos; gait patterns to identify safety hazards in construction using a wearable insole pressure system</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Antwi-Afari</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Saf. Sci</title>
+		<imprint>
+			<biblScope unit="volume">129</biblScope>
+			<biblScope unit="page">104855</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Deep learning-based networks for automated recognition and classification of awkward working postures in construction using wearable insole sensor data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Antwi-Afari</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">136</biblScope>
+			<biblScope unit="page">104181</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><surname>Müller</surname></persName>
+		</author>
+		<ptr target="http://resources.mpi-inf.mpg.de/HDM05/" />
+		<title level="m">Documentation mocap database HDM05</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<author>
+			<persName><forename type="first">F</forename><surname>Ofli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Chaudhry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Kurillo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Vidal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bajcsy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mhad</forename><surname>Berkeley</surname></persName>
+		</author>
+		<ptr target="https://tele-immersion.citris-uc.org/berkeley_mhad" />
+		<title level="m">A comprehensive Multimodal Human Action Database</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Shahroudy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T.-T</forename><surname>Ng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Rgb+d</surname></persName>
+		</author>
+		<ptr target="https://rose1.ntu.edu.sg/dataset/actionRecognition/" />
+		<title level="m">A Large Scale Dataset for 3D Human Activity Analysis</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Sung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ponce</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Selman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Saxena</surname></persName>
+		</author>
+		<ptr target="http://pr.cs.cornell.edu/humanactivities/data.php" />
+		<title level="m">Human Activity Detection from RGBD Images</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">The effectiveness of a joint labor-management program in controlling awkward postures of the trunk, neck, and shoulders: Results of a field study</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">M</forename><surname>Keyserling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brouwer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Silverstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Ind. Ergon</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="51" to="65" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m">International Encyclopedia of Ergonomics and Human Factors -3 Volume Set</title>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<author>
+			<persName><forename type="first">W</forename><surname>Karwowski</surname></persName>
+		</author>
+		<title level="m">International Encyclopedia of Ergonomics and Human Factors</title>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="volume">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Automatic Human Action Recognition from Video Using Hidden Markov Model</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Afsar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Cortez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Santos</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2015 IEEE 18th International Conference on Computational Science and Engineering</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="page" from="105" to="109" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Hollywood 3D: Recognizing Actions in 3D Natural Scenes</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hadfield</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bowden</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2013 IEEE Conference on Computer Vision and Pattern Recognition</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="volume">3398</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Human activity analysis: A review</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Aggarwal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Ryoo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ACM Comput. Surv</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="1" to="43" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Vision-Based Detection of Unsafe Actions of a Construction Worker: Case Study of Ladder Climbing</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Peña-Mora</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Comput. Civ. Eng</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="635" to="644" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Image-and-Skeleton-Based Parameterized Approach to Real-Time Identification of Construction Workers&apos; Unsafe Behaviors</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Skitmore</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Constr. Eng. Manag</title>
+		<imprint>
+			<biblScope unit="volume">144</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">An experimental study of real-time identification of construction workers&apos; unsafe behaviors</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Ding</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Skitmore</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="page" from="193" to="206" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Ergonomic analysis of construction worker&apos;s body postures using wearable mobile sensors</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">D</forename><surname>Nath</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Akhavian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Behzadan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Appl. Ergon</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page" from="107" to="117" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Towards efficient and objective work sampling: Recognizing workers&apos; activities in site surveillance videos with twostream convolutional networks</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Luo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="page" from="360" to="370" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Measuring Bridge Construction Efficiency Using the Wireless Real-Time Video Monitoring System</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Huan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Manag. Eng</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="120" to="126" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Rapid Entire Body Assessment (REBA)</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hignett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Mcatamney</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Appl. Ergon</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="201" to="205" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">RULA: a survey method for the investigation of work-related upper limb disorders</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Mcatamney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Nigel Corlett</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Appl. Ergon</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="91" to="99" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Observing working postures in industry: Examples of OWAS application</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Karhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Härkönen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Sorvali</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Vepsäläinen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Appl. Ergon</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="13" to="17" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<ptr target="http://www.hse.gov.uk/msd/mac/" />
+		<title level="m">Health and Safety Executive (HSE). Manual Handling Assessment Chart</title>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">PATH: A work sampling-based approach to ergonomic job analysis for construction and other non-repetitive work</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Buchholz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Paquet</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Punnett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Moir</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Appl. Ergon</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="177" to="187" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<monogr>
+		<idno>WAC 296-62-051</idno>
+		<ptr target="http://www.humanics-es.com/ergorulewithappendices.pdf" />
+		<title level="m">Ergonomics Rule Documents</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+		<respStmt>
+			<orgName>Washington State Department of Labor &amp; Industries</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Trade-Level Productivity Measurement: Critical Challenges and Solutions</title>
+		<author>
+			<persName><forename type="first">B.-G</forename><surname>Hwang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Soh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Constr. Eng. Manag</title>
+		<imprint>
+			<biblScope unit="volume">139</biblScope>
+			<biblScope unit="page">4013013</biblScope>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">Construction Craft Workers&apos; Perceptions of the Factors Affecting Their Productivity</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Goodrum</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">F</forename><surname>Maloney</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Constr. Eng. Manag</title>
+		<imprint>
+			<biblScope unit="volume">135</biblScope>
+			<biblScope unit="page" from="217" to="226" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<monogr>
+		<title level="m" type="main">Occupational health and safety in construction project management</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lingard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Rowlinson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2004">2004</date>
+			<publisher>Routledge</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Risk Perception and Risk-Taking Behavior of Construction Site Dumper Drivers</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bohm</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Int. J. Occup. Saf. Ergon</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="55" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">B</forename><surname>Statistics</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<publisher>Workplace Injuries &amp; Illnesses, U.S. Department of Labor</publisher>
+			<pubPlace>Washington, DC</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">A vision-based motion capture and recognition framework for behavior-based safety management</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Autom. Constr</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="131" to="141" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Identifying Root Causes of Construction Injuries</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hinze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Pedersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fredley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Constr. Eng. Manag</title>
+		<imprint>
+			<biblScope unit="volume">124</biblScope>
+			<biblScope unit="page" from="67" to="71" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Implementation of BBS and the Impact of Site-Level Commitment</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Choudhry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Prof. Issues Eng. Educ. Pract</title>
+		<imprint>
+			<biblScope unit="volume">138</biblScope>
+			<biblScope unit="page" from="296" to="304" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Work-related musculoskeletal disorders: the epidemiologic evidence and the debate</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Punnett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">H</forename><surname>Wegman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Electromyogr. Kinesiol</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="13" to="23" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">A Literature Review of Ergonomics Risk Factors in Construction Industry</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Jaffar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Abdul-Tharim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">F</forename><surname>Mohd-Kamar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Lop</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Procedia Eng</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="89" to="97" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<monogr>
+		<title level="m" type="main">Simple Solutions Ergonomics for Construction Workers</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>James</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Cheryl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2007">2007. 2007</date>
+			<publisher>DHHS Publ</publisher>
+			<biblScope unit="volume">122</biblScope>
+			<biblScope unit="page">92</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<monogr>
+		<title level="m" type="main">Construction motion data library: an integrated motion dataset for on-site activity recognition</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Tian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Cui</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chen</surname></persName>
+		</author>
+		<idno type="DOI">10.6084/m9.figshare.20480787.v3</idno>
+		<ptr target="https://doi.org/10.6084/m9.figshare.20480787.v3" />
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<analytic>
+		<title level="a" type="main">Co-occurrence feature learning for skeleton based action recognition using regularized deep LSTM networks</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the AAAI conference on artificial intelligence</title>
+		<meeting>the AAAI conference on artificial intelligence</meeting>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">30</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Gradient-based learning applied to document recognition</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lecun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bottou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bengio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Haffner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proc. IEEE</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="page" from="2278" to="2324" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title level="a" type="main">Imagenet classification with deep convolutional neural networks</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Krizhevsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Sutskever</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">E</forename><surname>Hinton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Adv. Neural Inf. Process. Syst</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="1097" to="1105" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">Deep Residual Learning for Image Recognition</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Sun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2016 IEEE Conference on Computer Vision and Pattern Recognition (CVPR)</title>
+		<imprint>
+			<publisher>IEEE</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="page" from="770" to="778" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Deep Sparse Rectifier Neural Networks</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Glorot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bordes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Deep</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Fourteenth International Conference on Artificial Intelligence and Statistics</title>
+		<meeting>the Fourteenth International Conference on Artificial Intelligence and Statistics</meeting>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page">275</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">A method for stochastic optimization</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Kingma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ba</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">3rd International Conference on Learning Representations, ICLR 2015</title>
+		<meeting><address><addrLine>San Diego, CA, USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2015">May 7-9, 2015. 2015</date>
+		</imprint>
+	</monogr>
+	<note>Conference Track Proceedings</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">Automated Vision-Based Recognition of Construction Worker Actions for Building Interior Construction Operations Using RGBD Cameras</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Escorcia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Dávila</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Golparvar-Fard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Niebles</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Construction Research Congress</title>
+		<imprint>
+			<publisher>American Society of Civil Engineers</publisher>
+			<date type="published" when="2012">2012. 2012</date>
+			<biblScope unit="page" from="879" to="888" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<monogr>
+		<title level="m" type="main">Two-person interaction detection using body-pose features and multiple instance learning</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Yun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Honorio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Chattopadhyay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">L</forename><surname>Berg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Samaras</surname></persName>
+		</author>
+		<ptr target="https://www.kaggle.com/datasets/dasmehdixtr/two-person-interaction-kinect-dataset" />
+		<imprint>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<monogr>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<ptr target="https://sites.google.com/view/wanqingli/data-sets/msr-action3d" />
+		<title level="m">Action recognition based on a bag of 3d points</title>
+		<imprint>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<monogr>
+		<title level="m" type="main">View invariant human action recognition using histograms of 3d joints</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Xia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-C</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Aggarwal</surname></persName>
+		</author>
+		<ptr target="http://cvrc.ece.utexas.edu/KinectDatasets/HOJ3D.html" />
+		<imprint>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b75">
+	<monogr>
+		<title level="m" type="main">Exploring the trade-off between accuracy and observational latency in action recognition</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ellis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">Z</forename><surname>Masood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Tappen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Laviola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Sukthankar</surname></persName>
+		</author>
+		<ptr target="http://www.syedzainmasood.com/research.html" />
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b76">
+	<monogr>
+		<title level="m" type="main">Instructing people for training gestural interactive systems</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fothergill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Mentis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kohli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Nowozin</surname></persName>
+		</author>
+		<ptr target="https://www.microsoft.com/en-us/download/details.aspx?id=52283" />
+		<imprint>
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b77">
+	<monogr>
+		<title level="m" type="main">Human3. 6m: Large scale datasets and predictive methods for 3d human sensing in natural environments</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ionescu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Papava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Olaru</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sminchisescu</surname></persName>
+		</author>
+		<ptr target="http://vision.imar.ro/human3.6m/description.php" />
+		<imprint>
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b78">
+	<monogr>
+		<author>
+			<persName><forename type="first">C</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Pku-Mmd</surname></persName>
+		</author>
+		<ptr target="https://www.icst.pku.edu.cn/struct/Projects/PKUMMD.html?aimglfkfkfcjmopp" />
+		<title level="m">A large scale benchmark for continuous multi-modal human action understanding</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b79">
+	<monogr>
+		<title level="m" type="main">Jointly learning heterogeneous features for RGB-D activity recognition</title>
+		<author>
+			<persName><forename type="first">J.-F</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W.-S</forename><surname>Zheng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhang</surname></persName>
+		</author>
+		<ptr target="https://www.isee-ai.cn/~hujianfang/ProjectJOULE.html" />
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

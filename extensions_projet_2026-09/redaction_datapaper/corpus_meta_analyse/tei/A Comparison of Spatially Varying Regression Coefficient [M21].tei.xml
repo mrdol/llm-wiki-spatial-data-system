@@ -1,0 +1,730 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A Comparison of Spatially Varying Regression Coefficient Estimates Using Geographically Weighted and Spatial-Filter-Based Techniques</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Taylor</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+							<email>toshan@asu.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">A</forename><forename type="middle">Stewart</forename><surname>Fotheringham</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<settlement>Tempe</settlement>
+									<region>AZ</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A Comparison of Spatially Varying Regression Coefficient Estimates Using Geographically Weighted and Spatial-Filter-Based Techniques</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">04C4E2431A67390B0D9843DC1BCFE68D</idno>
+					<idno type="DOI">10.1111/gean.12133</idno>
+					<note type="submission">Submitted: May 11, 2016. Revised version accepted: May 14, 2017.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:19+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Geographically weighted regression (GWR) is a technique that explores spatial nonstationarity in data-generating processes by allowing regression coefficients to vary spatially. It is a widely applied technique across domains because it is intuitive and conforms to the well-understood framework of regression. An alternative method to GWR that has been suggested is spatial filtering, which it has been argued provides a superior alternative to GWR by producing spatially varying regression coefficients that are not correlated with each other and which display less spatial autocorrelation. It is, therefore, worthwhile to examine these claims by comparing the output from both methods. We do this by using simulated data that represent two sets of spatially varying processes and examining how well both techniques replicate the known local parameter values. The article finds no support that spatial filtering produces local parameter estimates with superior properties. The results indicate that the original spatial filtering specification is prone to overfitting and is generally inferior to GWR, while an alternative specification that minimizes the mean square error (MSE) of coefficient estimates produces results that are similar to GWR. However, since we generally do not know the true coefficients, the MSE minimizing specification is impractical for applied research.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Introduction</head><p>Nonstationarity in data-generating processes goes largely undetected in traditional global models. Hence, local models are necessary to capture the effects of spatially heterogenous processes. While many local statistical techniques exist <ref type="bibr" target="#b7">(Fotheringham and Brunsdon 1999)</ref>, one method that has become particularly popular is geographically weighted regression (GWR), which explicitly allows regression coefficients to vary over space using a relatively simple extension of a global ordinary least-squares estimator. Location-specific coefficients are particularly useful because they can be mapped so that nonstationary processes can be explored visually and analytically <ref type="bibr" target="#b8">(Fotheringham, Brunsdon, and Charlton 2002)</ref>. Furthermore, GWR inherits traditional regression diagnostics, such as standard errors and t-values, making it simple to understand and apply. As a result, GWR has been used to model many different phenomena, including crime patterns <ref type="bibr" target="#b4">(Cahill and Mulligan 2007)</ref>, health risks <ref type="bibr" target="#b13">(Gilbert and Chakraborty 2011)</ref>, house prices <ref type="bibr" target="#b9">(Fotheringham, Crespo, and Yao 2015)</ref>, climate change <ref type="bibr" target="#b3">(Brown et al. 2011)</ref>, and species distribution <ref type="bibr" target="#b20">(Miller and Hanham 2011)</ref>.</p><p>One critique of GWR is that it is highly susceptible to multicollinearity <ref type="bibr" target="#b28">(Wheeler and Tiefelsdorf 2005)</ref>, whereby it is suggested that multicollinearity among explanatory variables causes intolerable levels of correlation among GWR coefficients. While Wheeler and Tiefelsdorf make the point that there may be locally induced multicollinearity, even when none or little is detected in the global data set, their assertion that low-to-moderate levels of global multicollinearity implies problematic levels of local multicollinearity may be highly exaggerated. First, in their initial experiments either the true coefficient values are unknown and cannot be assessed or their synthetic data and models are inappropriately specified. Second, subsequent results show that GWR is robust to high levels of multicollinearity, when the sample size is large <ref type="bibr" target="#b22">(P aez, Farber, and Wheeler 2011;</ref><ref type="bibr" target="#b10">Fotheringham and Oshan 2016)</ref>. While a method for explicitly determining when a sample size is sufficiently large or insufficiently small has yet to be developed, several global regression modeling tools, such as multicollinearity measures, visualizations, and regularized regression have been extended to diagnose or mitigate the effects that may arise from small sample sizes and high multicollinearity <ref type="bibr" target="#b26">(Wheeler 2007</ref><ref type="bibr" target="#b27">(Wheeler , 2010))</ref>. However, these tools can be relatively complex compared to their global regression counterparts.</p><p>A general critique of the work of <ref type="bibr" target="#b28">Wheeler and Tiefelsdorf (2005)</ref> is that they use the term multicollinearity to refer to several different correlation phenomena and do not always clearly distinguish between them. Following <ref type="bibr" target="#b10">Fotheringham and Oshan (2016)</ref>, we distinguish between three types of correlation that can be observed in GWR: (1) between explanatory variables; (2) between location-specific coefficient estimates of different coefficient surfaces; and (3) between coefficient estimates within a single coefficient surface (i.e., spatial autocorrelation). It is well known that extreme levels of multicollinearity among explanatory variables in global regression can cause issues such as unstable coefficients, counter-intuitive coefficient signs, artificially high R 2 diagnostics despite few or no significant estimates, and inflated standard errors of the coefficient estimates <ref type="bibr" target="#b0">(Belsey, Kuh, and Welsch 1980;</ref><ref type="bibr" target="#b21">Obrien 2007</ref>). An outcome of this scenario is a type-II error problem, which has also been demonstrated in GWR <ref type="bibr" target="#b10">(Fotheringham and Oshan 2016)</ref>.</p><p>However, attributing the correlation between coefficient estimate surfaces solely to correlation between explanatory variables is an overly simplistic characterization of relationships in local models. Correlation between coefficient estimate surfaces may also be caused by concurvity, a concept from the generalized additive modeling literature, which describes correlation between functionally transformed variables, and has been shown to be an issue more generally within local modeling <ref type="bibr">(Ramsay, Burnett, and Krewski 2003a,b)</ref>. In GWR, conurvity may be likely due to the fact that the same kernel function and spatial dimensions are often used to weight several variables. Furthermore, when this kernel is parameterized with a single bandwidth, the risk of concurvity may be greater since the kernel functions will be more similar than if they were each parameterized with a unique bandwidth. Specifications proposing different distance metrics and multiple bandwidths <ref type="bibr" target="#b19">(Lu et al. 2015;</ref><ref type="bibr">Fotheringham Yang, and Kang, in press</ref>) may be useful for mitigating concurvity within a GWR framework, though concurvity in GWR remains an under-explored issue. Finally, correlation across sets of local coefficient estimates may be due to the fact the data-generating processes that are represented by the true local coefficients may themselves be correlated.</p><p>Spatial autocorrelation within a set of GWR coefficient estimates may be caused by the smoothing nature of the continuous kernel functions used. However, it is possible to explain much of the spatial autocorrelation observed in GWR parameter estimates as desirable properties and not as undesirable properties. The essence of GWR is to leverage Tobler's first law of geography, which states that nearer things will be more related, such that autocorrelated data can been seen as the product of autocorrelated processes, which are represented by spatially autocorrelated model coefficients. Hence, there is nothing inherently wrong with spatial autocorrelation among estimated local coefficients.</p><p>An eigenvector spatial-filter-based local regression (SFLR) has been suggested <ref type="bibr" target="#b15">(Griffith 2008)</ref> as an alternative to GWR to reduce or remove multicollinearity effects described by <ref type="bibr" target="#b28">Wheeler and Tiefelsdorf (2005)</ref>. This technique creates synthetic variables by interacting the explanatory variables with the eigenvectors of a spatial weight matrix. A subset of the synthetic variables is then selected using a stepwise regression procedure, whereby local coefficients can be obtained by combining the global explanatory variable coefficients with the coefficients for the selected interaction terms that correspond to each explanatory variable. The SFLR technique is touted as superior to GWR in one empirical application in that it accounts for more autocorrelation in the residuals, produces less spatial autocorrelation within sets of coefficients, and displays less multicollinearity across sets of location-specific coefficients <ref type="bibr" target="#b15">(Griffith 2008)</ref>. However, the true properties of the local coefficients were unknown and without knowledge of the true local coefficients it is impossible to claim superiority of one technique over another by comparing predicted coefficients. In addition, it is alarming that GWR and SFLR, which are claimed to be approximately equivalent methods, seemingly produce contrasting coefficient estimate values <ref type="bibr" target="#b15">(Griffith 2008)</ref>. The SFLR method has been applied infrequently <ref type="bibr" target="#b15">(Griffith 2008)</ref>, while GWR has produced agreeable results in many studies. Therefore, the primarily goal of this article is to explore this incongruence by employing simulated data in order to test which of the techniques can more reliably estimate the true coefficients of nonstationary processes. The results of the two approaches are compared with particular attention to the levels of correlation within and between the true coefficient surfaces and the estimated coefficient surfaces. An alternative computational routine is then investigated which illuminates the true relationship between the GWR and SFLR frameworks. Furthermore, several issues of generalizability and replicability of the SFLR framework are discussed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Background</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Geographically weighted regression</head><p>A basic GWR model may be specified as</p><formula xml:id="formula_0">y i 5b i0 1 X p k51 b ik x ik 1e i ; i51; . . . ; n;<label>(1)</label></formula><p>where y i is the dependent variable at location i, b i0 is the intercept coefficient at location i, x ik is the kth explanatory variable at location i, b ik is the kth local regression coefficient for the kth explanatory variable at location i, and e i is the random error term associated with location i.</p><p>Using a weighted least squares estimation routine, this specification produces a set of coefficients for each explanatory variable at every location. In matrix form this is given by</p><formula xml:id="formula_1">bðiÞ5½X 0 WðiÞX 21 X 0 WðiÞy (<label>2</label></formula><formula xml:id="formula_2">)</formula><p>where X is a matrix of explanatory variables, WðiÞ5diag½w 1 ðiÞ; . . . ; w n ðiÞ is the diagonal weights matrix that weights each observation based on its distance from location i, bðiÞ is a vector of coefficients, y is a vector of observations of the dependent variable, and 0 denotes the matrix transpose operation. A kernel function is applied to the distances between observations and calibration locations to calculate the weights matrix. The bi-square function is a common kernel function for placing emphasis on observations that are closer in space to calibrations points and is given by</p><formula xml:id="formula_3">w j ðiÞ5 ½12ð d ij b Þ 2 2 ; if j 2 fN i g; 0; if j = 2 fN i g (<label>(3)</label></formula><p>where d ij is the distance between i and j, b is the distance to the Nth nearest neighbor, and fN i g is the set of all observations that are no more than b distance from i. An observation at location i would have a weight of 1 whereas those observations which are farther than distance d will have a weight of zero. Prior to fitting a GWR model, an optimal number of number of nearest neighbors must be selected, which in turn defines b in the above bi-square kernel, also called the bandwidth. We opt to use an AIC minimization routine to select the kernel bandwidth throughout this research as it provides a useful trade-off between goodness-of-fit and degrees of freedom or model complexity <ref type="bibr" target="#b8">(Fotheringham, Brunsdon, and Charlton 2002)</ref>. A GWRspecific AIC is calculated as <ref type="bibr">(4)</ref> with n denoting the sample size, r defined as the standard deviation of the error term, and trðSÞ being the trace of the hat matrix. After the bandwidth is selected, the weights can be computed using equation (3) and finally, the GWR model can be fitted at each calibration location using equation (2) to obtain a set of local coefficients. An overall R 2 for a GWR model can be obtained by taking the average of the local R 2 values for each calibration location.</p><formula xml:id="formula_4">AIC c 52nlog e ðrÞ1nlog e ð2pÞ1n<label>n1trðSÞ n222trðSÞ</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Spatial-filter-based local regression</head><p>Eigenvector spatial filters are based on the interpretation that the eigenvectors of a modified connectivity matrix are the set of possible orthogonal and uncorrelated map patterns (i.e., degree of spatial autocorrelation) <ref type="bibr" target="#b14">(Griffith 1996</ref><ref type="bibr" target="#b16">(Griffith , 2011))</ref>. Further, the first eigenvector, E 1 , is the set of real numbers that produces the map pattern with the largest achievable Moran's I correlation coefficient (MC), the second eigenvector, E 2 , is the set of real numbers that produces the map pattern with the largest achievable MC while remaining uncorrelated with E 1 , and continues on such that E n , achieves the largest negative MC and is uncorrelated with the preceding ðn21Þ eigenvectors. The modified connectivity matrix, 1 W, is most frequently defined as</p><formula xml:id="formula_5">ðI211 0 =nÞC n ðI211 0 =nÞ (<label>5</label></formula><formula xml:id="formula_6">)</formula><p>where I is an n 3 n identity matrix, 1 is an n31 vector of 1 0 s, and C n is the original binary connectivity matrix for n mutually exclusive and exhaustive spatial units that partition the study space.</p><p>By selecting a subset of the eigenvectors derived from W and creating a linear combination, it is possible to produce a synthetic variable that accounts for spatial autocorrelation in the residuals, which can be incorporated into a linear regression model as</p><formula xml:id="formula_7">y5b 0 11 X P p51 X p b p 1 X K k51 E k b E k 1e<label>(6)</label></formula><p>where the first two terms give a traditional linear regression specification (i.e., the intercept and a combination of coefficient and explanatory variable pairs), and the third term represents the spatial filter. Here, E k is a potential eigenvector in the total set of K selected eigenvectors. Griffith posits that the specification in ( <ref type="formula" target="#formula_7">6</ref>) should also include an interaction term between each explanatory variable and each selected eigenvector in order to create local coefficients. He further postulates that adding the new terms will provide a specification that is approximately equal to a GWR model such that</p><formula xml:id="formula_8">ŷgwr % ðb 0 11 X K 0 k 0 51 E k 0 b k 0 Þ1 X P p51 ðb p 11 X K p k p 51 E k p b k p Þ Á X p 1e<label>(7)</label></formula><p>where ŷ is the vector of predicted values of a GWR model, Á denotes element-wise matrix multiplication (i.e., Hadamard matrix multiplication), and k p represents an eigenvector from the set of K p eigenvectors that describe explanatory variable p. According to <ref type="bibr" target="#b15">Griffith (2008)</ref>, when the first and third term in (6) are combined in (7) they become the GWR intercept coefficients, which will be explored in more detail in subsequent sections. Finally, by distributing the X p across their premultiplied sums in equation ( <ref type="formula" target="#formula_8">7</ref>) and re-arranging the terms, the following specification is achieved</p><formula xml:id="formula_9">y5b 0 11 X P p51 X p Á 1b p 1 X K k51 E k b E k 1 X P p51 X K k51 X p Á E k b pE k 1e<label>(8)</label></formula><p>where the first term is the regression intercept, the second term represents the explanatory variables with their global coefficients, and the third and fourth terms denote the global eigenvectors and the interaction terms between explanatory variables and eigenvectors, respectively. Importantly, the global explanatory variables are required in this specification in order to construct the interaction terms, which ultimately allow the construction of local coefficients. Once eigenvectors and interaction terms are selected and equation ( <ref type="formula" target="#formula_9">8</ref>) is estimated, the local coefficients for each explanatory variable can be obtained through an additive combination of the coefficient associated with each global explanatory variable, p and those coefficients associated with the interaction terms based on the corresponding global explanatory variable, unlike the GWR framework. However, it is not clear how hypothesis testing regarding local coefficients from spatial filtering is performed, nor how a correction for multiple hypothesis testing can be applied.</p><p>An important step in the spatial-filter-based framework is selecting a subset of the eigenvectors and interaction terms. The methodology entails a forward stepwise regression variable selection algorithm among all interaction terms and global eigenvectors based on statistical significance. To begin, only eigenvectors displaying moderate to high spatial autocorrelation (i.e., Moran's I coefficient (MC) approximately greater than 0.25) are selected. Then, for each iteration of the stepwise routine, each candidate variable is tested in the model. The variable that produces the smallest P-value is selected, and if any other variables become insignificant (Pvalue greater than 0.1), they are removed from the model. The algorithm continues until no variable can be added to the model that also produces an associated P-value of less than 0.1001, at which point the routine terminates and the local coefficients can be processed <ref type="bibr" target="#b15">(Griffith 2008)</ref>. In a later section, this specification is compared to two alternative mean-square-errorminimization (MSE) selection variations of this stepwise selection routine developed as part of this research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Simulating nonstationarity and multicollinearity</head><p>Two processes were used to simulate data with known properties in order to reliably compare local modeling methods. Process (I) relies on neither the GWR or SFLR specification while process (II) explicitly relies on the SFLR specification.</p><p>Agnostic simulated data-process I To begin, 2,500 observations were generated for the cells of a 50 by 50 grid, where each cell is considered a spatial unit. The observations within the cells were generated using the following equation</p><formula xml:id="formula_10">Y i 5b 0i 1b 1i X 1i 1b 2i X 2i 1e i (<label>9</label></formula><formula xml:id="formula_11">)</formula><p>where Y is the generated observation, b 0 , b 1 , and b 2 are known locally varying coefficients, X 1 and X 2 are variables drawn from random normal distributions (mean of 50 and variance of 75), e is a random normal error term (mean of 0 and variance of 15), and i is the index for each of the 2,500 locations. The spatial distributions of b 0 , b 1 , and b 2 for process I are illustrated in Fig. <ref type="figure" target="#fig_0">1</ref>. b 0 has a gradual regional trend, with values generally increasing from the north-west to the south-east; b 1 is distributed in a checker-board manner generally with the lowest values in the north-west, higher values in the south-east, and medium values in the north-east and south-west; and b 2 is also distributed with a checker-board pattern but a more complex one, where smaller values form a cross and larger values are found in each of the four corners. b 1 and b 2 were derived by sampling from different multivariate normal distributions depending on discrete localities. These surfaces were then smoothed using a uniform filter to remove rigid boundaries between locales and subsequently resampled from a normal distribution with the smoothed value as the mean and the original locale-specific variance in order to generate the speckled patterns observed in Fig. <ref type="figure" target="#fig_0">1</ref>. Since these surfaces are based on local processes, they result in MC values that signify very strong spatial autocorrelation (0.982, 0.947, and 0.912 for b 0 , b 1 , and b 2 , respectively). 2 There is strong correlation between b 0 and b 1 (Pearson's r 5 0.88), though there is virtually no correlation among b 0 and b 2 or b 1 and b 2 (Pearson's r &lt; 0.1). Moderate collinearity between X 1 and X 2 was generated using the formula</p><formula xml:id="formula_12">X 2 5r Ã X 1 1 ffiffiffiffiffiffiffiffiffiffi ffi 12r 2 p Ã X 2 (<label>10</label></formula><formula xml:id="formula_13">)</formula><p>where r is the approximate level of correlation desired between X 1 and X 2 and was specified at 0.5 to created the observed values denoted by Y i . Even though this simulated data set is not based upon either GWR or SFLR, it is impossible to know if the data may favor one of the specifications over the other. Therefore, a second set of simulated data is generated that is in accordance with the SFLR methodology, and is, therefore, certainly not biased against the SFLR methodology. This removes any potential ambiguity from whether or not the observed results are due to the methodology or from an unfavorable data-generating process. SFLR-based simulated data-process II The same 50 by 50 tessellation was used to derive a first order binary contiguity spatial weight matrix, which was then transformed according to equation ( <ref type="formula" target="#formula_5">5</ref>) and subsequently decomposed into eigenvalues and corresponding eigenvectors. Observations were then generated using a simplified version of equation ( <ref type="formula" target="#formula_9">8</ref>) where one eigenvector was selected to interact with each of the variables. This yields the following formula</p><formula xml:id="formula_14">Y i 5b 0 1X 1i b 1 1X 2i b 2 1E 2i b E 2 1ðX 1i E 3i Þb E 1;3 1ðX 2i E 10i Þb E 2;10 1e i<label>(11)</label></formula><p>where X 1 , X 2 , and e i are as defined in process I, E 2i ; E 3i , and E 10i are the eigenvectors associated with eigenvalues 2, 3, and 10, and b</p><formula xml:id="formula_15">0 , b 1 , b 2 , b E 2 ; b E 1;3 ; b E 2;</formula><p>10 are scalar coefficients given by 10, 0.5, 0.6, 2200.0, 210.0, and 10.0, respectively. The first three terms of equation ( <ref type="formula" target="#formula_14">11</ref>) are the main effects that form a basic global regression, while the second three terms are interaction terms that allow spatially local deviations from the global model. Summing the global coefficients from each of the main effects with any associated coefficients from an interaction term multiplied by its corresponding eigenvectors yields local coefficient surfaces (Fig. <ref type="figure" target="#fig_0">1</ref>). Coefficient values and eigenvectors were chosen by trial and error in order to create surfaces which were similar in their general pattern and magnitude to those from process I. It should be noted that these coefficient surfaces for process II are smooth by nature, unlike those from process I, which is evident in their higher MC values of 1.016, 1.013, and 1.003 for b 0 , b 1 , and b 2 , respectively. Since the coefficients are derived from eigenvectors that are orthogonal, it follows that there is no correlation between any of the three coefficient surfaces for process II.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Exploring the spatial-filter-based local regression framework</head><p>Since there is no existing software for carrying out the SFLR method, custom code was developed. 3 SFLR models were then calibrated using data from process I and process II, where the candidate eigenvector terms were limited to the first 750 eigenvectors and their interaction with each of the explanatory variables, X 1 and X 2 , for a total set of 2, 225 synthetic variable candidates. A cut-off of the first 750 eigenvectors was chosen because these eigenvectors showed moderate to high levels of positive spatial autocorrelation (MC greater than 0.25), which approximately corresponds to the original methodology <ref type="bibr" target="#b15">(Griffith 2008)</ref>. A subset of the candidates was selected using <ref type="bibr" target="#b15">Griffith's (2008)</ref> forward stepwise routine, whereby model fit statistics (adjusted R 2 and AIC) and accuracy statistics (MSE of b1 and b2 ) were collected at each iteration of the algorithm. Overall, the SFLR results for process I and process II (Fig. <ref type="figure" target="#fig_1">2</ref>) show similar trends where model fit increases with more iterations. More specifically, the model fit in terms of both adjusted R 2 and AIC for both sets of variables increases rapidly at first, as the number of iterations increases, but then levels off, showing only modest gains for additional iterations. Interestingly, the MSE associated with the local estimated coefficient surfaces quickly reaches a minimum before increasing as more model terms are selected at higher iterations. This trend is less apparent for process II where the minimum MSE is reached within the first few iterations, though in both cases this implies that as model fit increases the accuracy of the coefficients decreases. It should be noted that while the SLFR model for process II terminated after 350 iterations (315 selected candidates, implying 37 selected terms were removed from the model after becoming insignificant), the SFLR model for process I did not terminate naturally.</p><p>Instead, the routine stopped after 405 iterations (355 selected candidates with 50 being removed for insignificance) due to the inability of the regression calibration to converge to a solution for the coefficient estimates. 4  The local b 1 and b 2 coefficients estimated for both process I and process II (Fig. <ref type="figure" target="#fig_2">3</ref>) display similar spatial distributions in which the overall patterns of the known coefficients are discernible, though they are obfuscated by what appears to be random perturbations. This is especially striking for the coefficient estimates from process II because the true coefficients are known to be smooth. An important effect of this is that the local coefficient estimate distributions are all wider than the corresponding known coefficients, often with negative coefficient estimates where none should exist. This signals that the noisy pattern that is observed is likely due to overfitting. Essentially, the model fit is increased at the expense of coefficient accuracy and considerable computation time. Comparing geographically weighted regression and spatial-filter-based local regression <ref type="bibr">Griffith (2008, 2,768)</ref> claims that the SFLR framework is superior to GWR because the estimated coefficients from SFLR "remain unbiased, yield a better global model fit, are polluted with considerably lower levels of spatial autocorrelation, and, for the most part, display little relationship to the GWR coefficients." Of note is that these conclusions are reached without using known coefficients to assess the results and are drawn based on only a single example. That means that it is simply not possible to comment on the appropriate level of spatial autocorrelation to expect in the coefficient estimates, on whether or not the coefficient estimates are unbiased, or on which of the methods produces more accurate coefficient estimates. Therefore, we provide a comparison of the ability of SLFR and GWR frameworks to replicate local parameters, where the true values are known.</p><p>A GWR model was calibrated using a bi-square nearest neighbor bandwidth by minimizing the AICc measure given in (4) for both process I and process II. The resulting coefficient estimates are presented in Fig. <ref type="figure" target="#fig_3">4</ref>. It is apparent that the surfaces of GWR coefficient estimates are similar to those of the known coefficients. This is further demonstrated in Fig. <ref type="figure" target="#fig_4">5</ref>, which shows a strong linear correlation between the GWR coefficient estimates and the known values for both processes showing that GWR satisfactorily replicates the known local coefficients. Of course, the GWR model results are not perfect. The coefficient estimate surfaces for process I are more smooth than the known coefficients while the coefficient estimates for process II are slightly less smooth than the known coefficients. Despite this, the GWR coefficient estimates (Fig. <ref type="figure" target="#fig_4">5</ref>) for both processes show stronger linear relationships with the known coefficients than the SFLR coefficient estimates. The GWR coefficient estimates and the SFLR coefficient estimates from the previous section are compared in Fig. <ref type="figure" target="#fig_5">6</ref>, whereby Griffith's postulation that the two methods produce different results is not supported. The local coefficient estimates for b 1 and b 2 from both methods are clearly positively correlated for both process I and process II. The b 0 estimates have much less of a trend for both processes, but this is expected since the error structure for GWR and SFLR are inherently different. A similar conclusion is reached by comparing the MSE values of the estimated coefficient surfaces (Table <ref type="table" target="#tab_0">1</ref>), where GWR consistently achieves more accurate coefficient estimates (i.e., lower MSE values) than SFLR for both process I and process II. The SFLR methodology does produce lower levels of spatial autocorrelation among the estimated parameter surfaces and better model fit, as <ref type="bibr" target="#b15">Griffith (2008)</ref> claimed, though this is because of overfitting and should be seen as undesirable properties of the model. Clearly, these lower levels of spatial autocorrelation are departures from the known coefficients. The spatial autocorrelation as indicated by the MC values for the GWR estimates are consistently closer to the known values than for the SFLR estimates.</p><p>One final observation is the Pearson's correlation coefficients between coefficient estimate surfaces (Table <ref type="table" target="#tab_0">1</ref>). For GWR, these are all as expected with strong correlation between b 0 and b 1 for process I and very low correlation between all other coefficient surfaces. For SFLR, the correlation coefficients are all as expected, except rð b0 ; b1 Þ50:14 for process I, which is substantially lower than its true value of 0.88. This indicates that it may not necessarily be desirable to always have coefficient surfaces that display less correlation between themselves and is a potential drawback to SFLR. In practical applications, it is possible to employ local correlation coefficients to explore potential spatial variation of correlation between coefficient estimates <ref type="bibr" target="#b26">(Wheeler 2007)</ref>, though this does not necessarily indicate whether variation is naturally occurring or due to other factors. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Optimal stepwise routines for spatial-filter-based local regressions</head><p>Given the results showing that the original SFLR routine hits minimum MSE values well before the significance-based stepwise routine terminates, two new stepwise routines which incorporate a MSE-minimization criterion are now introduced to explore what the results would look like if the SFLR methodology was accurately replicating the coefficient surfaces. In the first routine (A), the variable that achieves the lowest additive MSE between b1 and b2 is selected at each iteration. The algorithm continues until no further reduction in MSE can be achieved 5 . In contrast, the second routine (B) selects the variable with the lowest P-value, similar to the original routine, though the algorithm is terminated when new variables no longer decrease the MSE, similarly to algorithm one. In both new algorithms, variables that become insignificant (i.e., P-value greater than 0.1001) at each iteration are still removed.</p><p>Each algorithm was used to carry out the estimation of a model for process I and process II to assess the results and compare them to GWR. Figs. <ref type="figure" target="#fig_6">7</ref> and <ref type="figure" target="#fig_7">8</ref> provide the resulting estimated coefficient surfaces alongside their respective known coefficient surfaces. It is clear that these surfaces are much more representative of the spatial patterns associated with the known coefficient surfaces than those from the original SFLR routine. Unsurprisingly, the MSE-minimizing SFLR algorithms almost perfectly reproduce the known coefficients for process II, which are generated using an SFLR specification. The only exception is a small amount of noise in algorithm A where it appears that the spatially patterned b 2 has been confounded with the random error inherent in the data. This may occur because in SFLR the error term is specified globally in conjunction with the mean effect of each explanatory variable. In contrast, a GWR model assumes a global error term, although in practice it utilizes an independent error term for each estimation location. The superiority of the MSE-minimizing algorithms are supported in Fig. <ref type="figure" target="#fig_8">9</ref>, which indicates a stronger linear trend between the estimated coefficients from both new algorithms and the known coefficients than there is between the estimated coefficients from the original SFLR algorithm and the known coefficients (Fig. <ref type="figure" target="#fig_4">5</ref>). Again, it is not surprising that there is a perfect linear trend for the majority of the scatter plots for the MSE-minimized SFLR coefficient estimates and similar results would be expected for GWR if the data were simulated     using an explicit GWR specification. Interestingly, both SFLR-A and SFLR-B create "ribbons" in the coefficient estimated for b 0 , which is theorized to be a problematic feature of GWR indicative of multicollinearity issues by <ref type="bibr" target="#b28">Wheeler and Tiefelsdorf (2005)</ref>. In contrast, Fotheringham and Oshan (2016) suggest these patterns are due to spatial patterns inherent in the true coefficients and this study provides additional evidence toward this hypothesis and extends it to show that it is can occur irrespective of the local modeling method being used.</p><formula xml:id="formula_16">0 MSE b 1 MSE b 2 MC b 0 MC b 1 MC b 2 Adj. R 2 AIC rðb 0 ; b 1 Þ rðb 0 ; b 2 Þ rðb 1 ; b 2 Þ Known-</formula><p>Another unexpected outcome is that the new MSE-minimizing algorithms produce coefficient estimate surfaces that are smoother than the originally proposed SFLR algorithm. The coefficient estimate surfaces for process II are generally as smooth as the known coefficient surfaces, while the coefficient estimate surface for process I are more smooth than the known coefficient surfaces, which is similar to the results from GWR (Fig. <ref type="figure" target="#fig_3">4</ref>). This is corroborated by the linear trends between the MSE-minimized SFLR coefficient estimates and the GWR coefficient estimates (Fig. <ref type="figure" target="#fig_9">10</ref>). The only exception to this pattern of smooth surfaces is the coefficient estimate surface for b 2 for process II using SFLR-A, though this textured pattern indicates a deviation from the known coefficients and is, therefore, undesirable.</p><p>Overall, the model fit, coefficient accuracy, and spatial autocorrelation statistics (Table <ref type="table" target="#tab_1">2</ref>) from the SFLR coefficients using the MSE-minimized stepwise selection routines are all similar to those produced by GWR. The optimal values for these metrics are varied across different models, data sets, and selection routines. Therefore, it is likely that when an MSE-minimizing algorithm, or one that approximates it, is used, then SFLR and GWR produce similar results. Finally, according to Table <ref type="table" target="#tab_1">2</ref>, both GWR and MSE-minimizing SFLR yield coefficient estimate surfaces with similar levels of between-set correlation. For process I, little to no correlation exists between the estimated coefficient surfaces between b 0 and b 2 and b 1 and b 2 for any of the models. In addition, high correlation is maintained between b 0 and b 1 across the models, though the correlation is generally underestimated rather than overestimated. For process II, the estimated coefficient surfaces for all of the models maintain that there is virtually no correlation between any of the coefficient estimate surfaces.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Issues with the spatial-filter-based methodology</head><p>These new results strongly indicate that the original SFLR method is prone to overfitting. This observation mirrors additional results where the SFLR method was tested using an AIC selection criterion within a genetic algorithm optimization framework <ref type="bibr" target="#b17">(Helbich and Griffith 2016)</ref>. Though SFLR achieved a very low in-sample prediction error in this study, its out-of-sample prediction error was very high, which is another indicator of overfitting. Therefore, overfitting appears to be a general problem of the SFLR method that is not particular to the simulated data used here and raises the important question, "why is the spatial-filter-based regression method prone to overfitting?".</p><p>Adding interaction terms to a linear model, as in SFLR, and local regression, such as GWR, are both more flexible than a basic linear model because they can approximate more complex relationships. More flexible models are known to be more susceptible to overfitting, especially for higher dimensional model data sets (i.e., when there are a large number of variables). Increasing the dimensionality typically increases the chance of overfitting because there are more opportunities for one or more of the dimensions to be statistically significant by random chance even though they may actually just be "noise" <ref type="bibr" target="#b12">(Gareth et al. 2013)</ref>. For example, if an additional interaction term increases the model fit even slightly, then the SFLR method may select it despite the errors that could be induced in the local coefficients. Therefore, a solution to the overfitting issue might be obtained by either reducing the dimensionality or restricting the structure of the model to be less flexible.</p><p>A simple method for decreasing the dimensionality might be to decrease the number of interaction terms. The SFLR method only arbitrarily filters the interaction terms to include those eigenvectors that have moderate-to-high spatial autocorrelation. The cut-off for  </p><formula xml:id="formula_17">0 MSE b 1 MSE b 2 MC b 0 MC b 1 MC b 2 Adj. R 2 AIC rðb 0 ; b 1 Þ rðb 0 ; b 2 Þ rðb 1 ; b 2 Þ Known-I - - - 0.</formula><p>982 0.947 0.912 --0.884 0.0496 0.0940 GWR-I 3.239 0.00129 0.00401 0.980 0.994 0.994 0.888 21149.363 0.787 20.0497 0.116 SFLR-I-A 7.498 0.00170 0.00380 1.013 1.010 1.002 0.906 21250.258 0.697 0.0362 0.108 SFLR-I-B 11.086 0.00254 0.00458 1.011 1.008 1.002 0.906 21239.453 0.721 0.0 0.0 Known-II ---1.016 1.013 1.003 --0.0 0.0 0.0 GWR-II 16.039 0.0686 0.0757 0.988 1.006 0.996 0.953 20971.251 20.0234 0.0335 0.0208 SFLR-II-A 11.396 0.0727 0.0800 0.990 1.013 1.003 0.962 20614.742 0.0 0.0 0.0 SFLR-II-B 10.524 0.0724 0.0802 1.016 1.013 1.003 0.962 20618.327 0.0 0.0 0.0 eigenvector selection used in this research was a Moran's I correlation coefficient value of 0.25 or greater, which roughly corresponds to the value used in the initial SFLR application <ref type="bibr" target="#b15">(Griffith 2008)</ref>. Certainly, a different cut-off could be used, though if this is an important aspect of the SFLR method, it will likely vary for different spatial systems because each system will yield a different set of eigenvectors. For instance, as the number of spatial units, n increases, so does the number of eigenvectors and hence, so does the number of interaction terms, p. This is problematic because when there is more than one explanatory variable, p will always grow faster than n, guaranteeing very high dimensionality, unless a substantially reduced set of the eigenvectors are selected. However, it seems unwarranted that SFLR essentially filters the data twice. First to subset the pool of eigenvectors and then subsequently to select an even smaller subset of interaction terms. Rather, an alternative method for reducing dimensionality may be to employ a method that progressively narrows the entire candidate pool of interaction terms based on an exogenous factor. For example, restricted regression, which limits new variables to those that are orthogonal to previously included explanatory variables <ref type="bibr" target="#b18">(Hodges and Reich 2010)</ref>, may offer an efficient strategy for reducing the dimensionality. SFLR could also potentially be made less prone to overfitting by enforcing a "strong hierarchy" structure. The interaction terms in SFLR have a hierarchical structure where the interaction effects are interpreted as local deviations from main effects. Despite this, SFLR currently requires that only the explanatory variables be forced into the model as main effects and not the corresponding eigenvectors. It is well known that interaction terms should be based on main effects, therefore, a method that enforces this hierarchy, which has been developed in a LASSO framework, could be useful for the SFLR methodology <ref type="bibr" target="#b1">(Bien, Taylor, and Tibshirani 2013)</ref>.</p><p>Using a selection criterion that can better balance model fit and model complexity would certainly be beneficial for the SFLR method. One way of doing this has been demonstrated that considers the mean square error of the local coefficients. However, this method is not practical for applied work, since we generally do not know what the true coefficients are and therefore cannot compute the mean square error between the true coefficients and the coefficient estimates. In GWR there is the AICc, which penalizes the fit statistic based on the effective degrees of freedom and is expected to be larger than the degrees of freedom for a corresponding global model. SFLR may benefit from a similar correction.</p><p>Another serious issue of the SFLR framework is that of replicability. Since eigenvectors are not necessarily unique to eigenvalues, different algorithms may produce different eigenvectors so it is necessary to be aware of which software was employed for a given study. One example of this limitation was discovered first hand when trying to validate the SFLR methodology. Two different algorithms for extracting eigenvectors produced eigenvectors with opposite signs. While these are equivalent and do not effect the stepwise regression routine, it may affect future researchers' ability to reproduce results if they are unaware of this issue. More seriously, when testing the methodology on another data set not reported here, some of the eigenvectors were completely different depending on whether R or Python code was used, which can lead to different results.</p><p>Finally, there is the issue of regression diagnostics and hypothesis testing. While GWR extends diagnostics found in global models, no such extensions have yet been produced for the SFLR method. In particular, it is unclear how a significance test for a local parameter estimate from SFLR may be computed or how one can deal with the issue of multiple hypothesis testing, which has been addressed in GWR <ref type="bibr" target="#b6">(da Silva and Fotheringham 2015)</ref>. A significance test customized for the SFLR method will be necessary in order to evaluate the robustness of the estimated coefficients produced by the method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conclusion</head><p>In its original conception, SFLR does not appear to produce superior results to GWR. Using <ref type="bibr" target="#b15">Griffith's (2008)</ref> stepwise selection routine results in overfitted models where there is a severe loss of estimated coefficient accuracy in return for modest gains in model fit and inaccurately low levels of spatial autocorrelation. For the simulated data presented in this research, GWR is able to better capture the non-stationarity in local parameter estimates, and more accurately replicate the known coefficients when compared to Griffith's SFLR framework. Furthermore, GWR does so in a fraction of the time. Despite, Griffith's claim that SFLR and GWR produce substantially different outputs, the two sets of local parameter estimates are generally similar, albeit that the SFLR ones are generally not as accurate. This discrepancy seems to be due to an inherent flaw in the original SFLR methodology that causes overfitting and can require lengthy compute times of up to several days on a standard notebook computer.</p><p>It turns out that the SFLR framework can be approximately equivalent to GWR, however, when a MSE-minimizing stepwise selection routine is employed to select a subset of candidate synthetic variables. By doing so, the SFLR framework then produces local coefficient estimates that are similar to those from GWR in magnitude, overall accuracy, spatial autocorrelation, and that yield a similar model fit. The computing time is also drastically reduced from days to only minutes, which is comparable to GWR. It seems then that the SFLR framework can provide a sort of discrete spatial weighting mechanism in the form of a subset of eigenvectors and interaction terms, somewhat akin to GWR's continuously defined spatial weighting mechanism. However, GWR's spatial weighting mechanism produces a parameter representative of the scale at which processes occur and no such feature is available through the SFLR method. Given the potential of both GWR and SFLR to produce such similar results, this provides strong evidence that there is no a priori disadvantage to displaying spatial autocorrelation within a local coefficient surface or multicollinearity between surfaces. Even where local coefficient estimates may be artificially smoothed, such as in GWR, it does not necessarily greatly impact their accuracy. Further explorations of these conclusions are needed using simulated coefficients from different types of local processes that arise from more complex spatial relationships.</p><p>The analysis in this article has demonstrated the importance of differentiating between different types and sources of collinearity. In the case of SFLR, a narrow view of collinearity made it difficult to notice that the method could be severely susceptible to overfitting. Future investigations of local modeling techniques should be sure to more clearly define collinearity, why it arises, and how it effects different aspects of the modeling framework. It is possible that SFLR may be useful when the sample size is small and there is very high multicollinearity or there are very influential outliers. However, this will remain unknown unless the issue of overfitting can be remedied, perhaps with some of the suggestions proposed in this article. Despite the encouraging results using the MSE minimization criterion, we typically do not have access to the true coefficients that are needed to compute the MSE, so this criterion is only useful for theoretical work. Therefore, until SFLR can be specified with a feasible selection criterion that is robust to overfitting, it is not a viable framework for applied research, whereas GWR remains an effective method for capturing nonstationarity.</p><p>Notes 1 While equation ( <ref type="formula" target="#formula_5">5</ref>) is the most commonly found transformed connectivity matrix, others have been defined <ref type="bibr" target="#b25">(Tiefelsdorf and Griffith 2007)</ref> and employed <ref type="bibr" target="#b5">(Chun 2008)</ref>. In addition, C may be standardized using coding schemes, such as the W-coding scheme, which is also known as the row-sum standardization <ref type="bibr" target="#b2">(Boots 1999</ref>). 2 For all MC values reported throughout this article, the null hypothesis that there is no spatial autocorrelation could be rejected based on significance tests using random permutations. The resulting z-scores were always greater than 50. 3 Validation of the routine was carried out by replicating the results presented in <ref type="bibr" target="#b15">Griffith (2008)</ref> using the Georiga data set originally described by <ref type="bibr" target="#b8">Fotheringham, Brunsdon, and Charlton (2002)</ref>. Code was written in the Python programming language (version 2.7) using the numerical computation libraries, numpy (version 1.11.1) and scipy (0.18.0). 4 To be exact, it was the singular value decomposition operation that could not converge, which underlies the ordinary least squares solver in the statsmodels package of the Python programming language. 5 The algorithm terminates after two iterations without a reduction in the MSE, which helps reduce the chance of getting stuck in a local minimum, but does not guarantee a global minimum.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Simulated coefficient surfaces generated using normally distributed random variables for process I (left) and process II (right). b 0 represents the coefficients associated with the intercept, while b 1 and b 2 represent the coefficients associated with the simulated explanatory variables X 1 and X 2 , respectively. Low coefficient values are shaded lighter while high values are shaded darker.</figDesc><graphic coords="7,93.03,54.26,300.24,388.80" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Adjusted R-squared, AIC, and MSE for b1 and b2 estimated via SFLR for various numbers of stepwise regression iterations for both process I and process II.</figDesc><graphic coords="9,56.69,54.26,372.93,380.47" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Known coefficients and estimated coefficients using SFLR for process I and process II. Low coefficient values are shaded lighter while high values are shaded darker.</figDesc><graphic coords="10,57.03,54.26,372.24,233.76" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Known coefficients and estimated coefficients using GWR for process I and process II. Low coefficient values are shaded lighter while high values are shaded darker.</figDesc><graphic coords="11,57.03,54.26,372.24,233.92" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Scatter plots of GWR and SFLR coefficient estimates for process I and process II against corresponding known coefficient values.</figDesc><graphic coords="12,57.03,54.26,372.24,465.60" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Scatter plots of SFLR coefficient estimates against the GWR coefficient estimates for process I and process II.</figDesc><graphic coords="13,57.03,54.26,372.24,258.88" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Known coefficients and coefficients estimated using MSE-minimizing SFLR algorithm A for process I and process II. Low coefficient values are shaded lighter while high values are shaded darker.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Known coefficients and coefficients estimated using MSE-minimizing SFLR algorithm B for process I and process II. Low coefficient values are shaded lighter while high values are shaded darker.</figDesc><graphic coords="15,57.03,365.44,372.24,234.88" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Scatter plots of MSE-minimized SFLR coefficient estimates against known coefficients for algorithm A and B on process I and process II.</figDesc><graphic coords="16,64.80,54.26,356.76,553.44" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. Scatter plots of MSE-minimized SFLR coefficient estimates against GWR coefficient estimates for algorithm A and B on process I and process II.</figDesc><graphic coords="18,57.03,54.26,372.24,469.92" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Comparison of MSE, Spatial Autocorrelation, Model Fit, and Pearson's Correlation Coefficients for GWR and SFLR Models Using</figDesc><table><row><cell>Data from Process I and Process II</cell><cell>MSE b</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Comparison of MSE, Spatial Autocorrelation, Model Fit, and Pearson's Correlation Coefficients for GWR and SFLR Using MSE-</figDesc><table><row><cell>Minimization Routines A and B on Data from Process I and Process II</cell><cell>MSE b</cell></row></table></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Regression Diagnostics: Identifying Influential Data and Sources of Collinearity</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Belsey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Kuh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Welsch</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1980">1980</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">A Lasso for Hierarchical Interactions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bien</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Taylor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1111" to="1141" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">A Variance-Stabilizing Coding Scheme for Spatial Link Matrices</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Boots</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="165" to="180" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Assessment of Spatiotemporal Varying Relationships Between Rainfall, Land Cover and Surface Water Area Using Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">L</forename><surname>Versace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Laurenson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ierodiaconou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fawcett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Salzman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Modeling &amp; Assessment</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="241" to="254" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Using Geographically Weighted Regression to Explore Local Crime Patterns</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cahill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mulligan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science Computer Review</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="174" to="193" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Modeling Network Autocorrelation Within Migration Flows by Eigenvector Spatial Filtering</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chun</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="317" to="344" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">The Multiple Testing Issue in Geographically Weighted Regression: The Multiple Testing Issue in GWR</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Da Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="233" to="247" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Local Forms of Spatial Analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="340" to="358" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>West Sussex</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Geographical and Temporal Weighted Regression (GTWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression and Multiocollinearity: Dispelling the Myth</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geograpical Systems</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="303" to="329" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<title level="m">Mutliscale GWR: A Model to Quantify Scale in Spatial Processes. The Annals of the Association of American Geographers</title>
+		<imprint/>
+	</monogr>
+	<note>in press</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gareth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Witten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<title level="m">An Introduction to Statistical Learning: With Applications in R</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Using Geographically Weighted Regression for Environmental Justice Analysis: Cumulative Cancer Risks from Air Toxics in Florida</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gilbert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chakraborty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science Research</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="273" to="286" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Spatial Autocorrelation and Eigenfunctions of the Geographic Weights Matrix Accompanying Geo-Referenced Data</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Geographer/Le Gographe Canadien</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="351" to="367" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Spatial-Filtering-Based Contributions to a Critique of Geographically Weighted Regression (GWR)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2751" to="2769" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Visualizing Analytical Spatial Autocorrelation Components Latent in Spatial Interaction Data: An Eigenvector Spatial Filter Approach</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="140" to="149" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Spatially Varying Coefficient Models in Real Estate: Eigenvector Spatial Filtering and Alternative Approaches</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Helbich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Adding Spatially-Correlated Errors Can Mess Up the Fixed Effect You Love</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="325" to="334" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Calibrating a Geographically Weighted Regression Model with Parameter-specific Distance Metrics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Procedia Environmental Sciences</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="109" to="114" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">Q</forename><surname>Hanham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Nonstationarity and the Scale of Species-Environment Relationships in the Mojave Desert</title>
+		<meeting><address><addrLine>California, USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="423" to="438" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A Caution Regarding Rules of Thumb for Variance Inflation Factors</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Obrien</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Quality &amp; Quantity</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="673" to="690" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">A Simulation-Based Study of Geographically Weighted Regression as a Method for Investigating Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="2992" to="3010" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Exploring Bias in a Generalized Additive Model for Spatial Air Pollution Data</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ramsay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Burnett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Krewski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Health Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1283" to="1288" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+	<note>a)</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">The Effect of Concurvity in Generalized Additive Models Linking Mortality to Ambient Particulate Matter</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">O</forename><surname>Ramsay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">T</forename><surname>Burnett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Krewski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="18" to="23" />
+			<date type="published" when="2003">2003b</date>
+		</imprint>
+	</monogr>
+	<note>)</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Semiparametric Filtering of Spatial Autocorrelation: The Eigenvector Approach</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1193" to="1221" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Diagnostic Tools and a Remedial Method for Collinearity in Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="2464" to="2481" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Visualizing and Diagnosing Coefficients from Geographically Weighted Regression Models</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Geospatial Analysis and Modelling of Urban Structure and Dynamics</title>
+		<editor>
+			<persName><forename type="first">B</forename><surname>Jiang</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">X</forename><surname>Yao</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Dordrecht; Netherlands</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="volume">99</biblScope>
+			<biblScope unit="page" from="415" to="436" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and Correlation Among Local Regression Coefficients in Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

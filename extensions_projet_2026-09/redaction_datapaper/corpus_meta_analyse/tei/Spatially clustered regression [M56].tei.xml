@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatially Clustered Regression</title>
+				<funder ref="#_AFubEV5 #_8YgJ5EH">
+					<orgName type="full">Japan Society for the Promotion of Science (KAK-ENHI)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2021-04-28">28 Apr 2021</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Shonosuke</forename><surname>Sugasawa</surname></persName>
+							<email>sugasawa@csis.u-tokyo.ac.jp</email>
+							<affiliation key="aff0">
+								<orgName type="department">Center for Spatial Information Science</orgName>
+								<orgName type="institution">The University of Tokyo</orgName>
+							</affiliation>
+							<affiliation key="aff2">
+								<address>
+									<addrLine>Address: 5-1-5</addrLine>
+									<postCode>2778568</postCode>
+									<settlement>Kashiwanoha Kashiwa</settlement>
+									<region>Chiba</region>
+									<country>JAPAN Email</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Daisuke</forename><surname>Murakami</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Data Science</orgName>
+								<orgName type="institution">The Institute of Statistical Mathematics</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatially Clustered Regression</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2021-04-28">28 Apr 2021</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">18849C9F35DAAD945B193D717245D431</idno>
+					<idno type="arXiv">arXiv:2011.01493v2[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Geographically weighted regression</term>
+					<term>K-means algorithm</term>
+					<term>Penalized likelihood</term>
+					<term>Potts model</term>
+					<term>Spatially varying parameters</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial regression or geographically weighted regression models have been widely adopted to capture the effects of auxiliary information on a response variable of interest over a region. In contrast, relationships between response and auxiliary variables are expected to exhibit complex spatial patterns in many applications. This paper proposes a new approach for spatial regression, called spatially clustered regression, to estimate possibly clustered spatial patterns of the relationships. We combine Kmeans-based clustering formulation and penalty function motivated from a spatial process known as Potts model for encouraging similar clustering in neighboring locations. We provide a simple iterative algorithm to fit the proposed method, scalable for large spatial datasets. Through simulation studies, the proposed method demonstrates its superior performance to existing methods even under the true structure does not admit spatial clustering. Finally, the proposed method is applied to crime event data in Tokyo and produces interpretable results for spatial patterns. The R code is available at <ref type="url" target="https://github.com/sshonosuke/SCR">https://github.com/sshonosuke/SCR</ref>.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatial heterogeneity, which is often referred to as the Second Law of Geography <ref type="bibr" target="#b16">(Goodchild, 2004)</ref>, is ubiquitous in spatial science. Geographically weighted regression (GWR; <ref type="bibr" target="#b6">Brunsdon et al., 1998;</ref><ref type="bibr" target="#b11">Fotheringham et al., 2002)</ref>, which is a representative approach for modeling spatial heterogeneity, has widely been adopted for modeling possibly spatially varying regression coefficients; its applications cover social science (e.g. <ref type="bibr" target="#b18">Hu et al., 2016)</ref>, epidemiology (e.g. <ref type="bibr" target="#b23">Nakaya et al., 2005)</ref> and environmental science (e.g. <ref type="bibr">Zhou et al., 2019)</ref>.</p><p>Despite the success, GWR is known to be numerically unstable and may produce extreme estimates of coefficients (e.g. <ref type="bibr" target="#b30">Wheeler and Tiefelsdorf, 2005;</ref><ref type="bibr" target="#b7">Cho et al., 2009)</ref>.</p><p>To address the drawback, a wide variety of regularized GWR approaches have been developed (e.g. <ref type="bibr" target="#b31">Wheeler, 2007</ref><ref type="bibr" target="#b32">Wheeler, , 2009;;</ref><ref type="bibr" target="#b1">Bárcena et al., 2014)</ref>. More recently, <ref type="bibr" target="#b8">Comber et al. (2016)</ref> considered local regularization to enhance accuracy and stability. Still, it is less clear how to regularize GWR to improve stability while maintaining its computational efficiency. Bayesian spatially varying coefficient model <ref type="bibr" target="#b14">(Gelfand et al., 2003;</ref><ref type="bibr" target="#b10">Finley, 2011)</ref> is another popular approach for modeling spatial heterogeneity in regression coefficients. While <ref type="bibr" target="#b33">Wheeler and Waller (2009)</ref> and <ref type="bibr" target="#b34">Wolf et al. (2018)</ref> among others have suggested its stability and estimation accuracy, this approach can be computationally very intensive for large samples, limiting applications of spatial regression techniques to modern large spatial datasets. Therefore, an alternative method that has stable estimation performance, as well as computational efficiency under large datasets, is strongly required. This paper proposes a new effective approach for spatial regression with possibly spatially varying coefficients or non-stationarity. Our fundamental idea is a combination of regression modeling and clustering; we assume all the geographical locations can be divided into a finite number of groups, where locations in the same groups share the same regression coefficients. Hence, possibly smoothed surfaces of varying regression coefficients are approximated by step functions. Owing to the clustering technique, the estimation results would be numerically stable and more accessible to interpret than GWR. The idea to incorporate spatial clustering into regression is not new. There have been some two-stage procedures (e.g. <ref type="bibr" target="#b0">Anselin, 1990;</ref><ref type="bibr" target="#b3">Billé et al., 2017;</ref><ref type="bibr" target="#b20">Lee et al., 2017;</ref><ref type="bibr" target="#b24">Nicholson et al., 2019)</ref>, but they tend to be ad-hoc combinations of clustering and regression. In contrast, the proposed method carries out regression and clustering simultaneously, which can produce reasonable spatial clustering depending on regression structures.</p><p>To introduce such a spatial clustering nature, we employ indicators showing the group to which the corresponding location belongs, and we estimate the grouping parameters and group-wise regression models simultaneously. For estimating group memberships, it would be reasonable to impose that the geographically neighboring locations are likely to belong to the same groups. To this end, we introduce a penalty function to encourage such spatially clustered structures motivated from the hidden Potts model <ref type="bibr" target="#b26">(Potts, 1952)</ref> that was originally developed for modeling spatially correlated integers. We will demonstrate that the proposed objective function can be easily optimized by a simple iterative algorithm similar to K-means clustering. In particular, updating steps in each iteration do not require computationally intensive manipulations, so that the proposed algorithm is much more scalable than GWR.</p><p>For selecting the number of groups G, we employ an information criterion. Moreover, the proposed approach allows substantial extensions to include variable selection or semiparametric additive modeling, which cannot be achieved by existing techniques such as GWR.</p><p>Recently, sophisticated statistical methods combining regression modeling and clustering have been studied in the literature. In the context of spatial regression, <ref type="bibr" target="#b21">Li and Sang (2019)</ref> and Zhao and Bondell (2020) adopted a fused lasso approach to shrink regression coefficients in neighboring areas toward 0, which results in spatially clustered regression coefficients. However, the computation cost under large datasets is substantial, and the performance is not necessarily reasonable, possibly because the method does not take account of spatially heterogeneous variances, which will be demonstrated in our numerical studies. On the other hand, in the context of panel data analysis, clustering approaches using grouping indicators like the proposed method have been widely studied (e.g. <ref type="bibr" target="#b5">Bonhomme and Manresa, 2015;</ref><ref type="bibr" target="#b29">Wang et al., 2018;</ref><ref type="bibr" target="#b19">Ito and Sugasawa, 2020)</ref>. Still, the existing works did not take account of spatial similarities among the grouping indicators. This paper is organized as follows. In Section 2, we introduce the proposed methods, estimation algorithms and discuss some related issues. In Section 3, we evaluate the numerical performance of the proposed methods together with some existing methods through simulation studies. In Section 4, we demonstrate the proposed method through spatial regression modeling of the number of crimes in the Tokyo metropolitan area. Finally, we give some discussions in Section 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Spatially Clustered Regression</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Models and estimation algorithm</head><p>Let y i be a response variable and x i is a vector of covariates in the ith location, for i = 1, . . . , n, where n is the number of samples. We suppose we are interested in the conditional distribution f (y i |x i ; θ i , ψ), where θ i and ψ are vectors of unknown parameters. Here θ i may change over different locations and represent spatial heterogeneity while ψ is assumed constant in all the areas. For example,</p><formula xml:id="formula_0">f (y i |x i ; θ i , ψ) = φ(y i ; x t i1 θ i + x t i2 γ, σ 2 ) with x i = (x i1 , x i2</formula><p>) and ψ = (γ, σ 2 ). We assume that location information s i (e.g. longitude and latitude) is also available for the ith location. In what follows, we assume that there is no static parameter ψ for simplicity, and all the results given above can be easily extended to the case.</p><p>Without any structures for θ i , we cannot identify these parameters since a repeated measurement on the same location is rarely available in practice. Hence, we assume that n locations are divided into G groups, and locations in the same group share the same parameter values of θ i . For a while, we treat G as a fixed value, but a data-dependent selection of G will be discussed later. We introduce g i ∈ {1, . . . , G}, an unknown group membership variable for the ith location, and let θ i = θ g i . Then, the distinct values of θ i 's reduce to θ 1 , . . . , θ G , where θ = (θ t 1 , . . . , θ t G ) t is the set of unknown parameters. Therefore, the unknown parameters in the model is the structural parameter θ and the membership parameter g = (g 1 , . . . , g n ) t .</p><p>Regarding the membership parameter, it would be reasonable to consider that the membership in neighboring locations is likely to have the same memberships, which means that the fitted conditional distributions are likely to be the same in the adjacent locations. To encourage such a structure, we introduce a penalty function motivated by a spatial process for discrete space known as the Potts model <ref type="bibr" target="#b26">(Potts, 1952)</ref>. The same penalty function is first adopted in Sugasawa (2020) in mixture modeling. The joint probability function of the Potts model is given by</p><formula xml:id="formula_1">π(g 1 , . . . , g n |φ) ∝ exp   φ i&lt;j w ij I(g i = g j )   ,</formula><p>where</p><formula xml:id="formula_2">w ij = w(s i , s j ) ∈ [0, 1], w(•,</formula><p>•) is a weighting function, and φ controls strength of spatial correlation. Note that the normalizing constant in the above distribution is not tractable. Still, we treat φ as a fixed tuning parameter rather than an unknown parameter so that we do not have to deal with the normalizing constant in the following argument. Since the conditional distribution of g i given other variables is the same form as one given above, the conditional distribution put more weights on w ij I(g i = g j ) as φ is larger. Then, we propose the following penalized likelihood:</p><formula xml:id="formula_3">Q(θ, g) ≡ n i=1 log f (y i |x i ; θ g i ) + φ i&lt;j w ij I(g i = g j ).<label>(1)</label></formula><p>The above objective function can be regarded as the logarithm of the joint distribution function of y 1 , . . . , y n , and g. We define the estimator of θ and g as the maximizer of the objective function Q(θ, g). 2. Update the current parameter values θ (k) and g (k) as follows:</p><p>-Update the group-wise parameter θ g separately for g = 1, . . . , G:</p><formula xml:id="formula_4">θ (k+1) g = arg max θg n i=1 I(g (k) i = g) log f (y i |x i ; θ g ).</formula><p>-Update the membership variable:</p><formula xml:id="formula_5">g (k+1) i = arg max g∈{1,...,G} log f (y i |x i ; θ (k+1) g ) + φ n j=1;j =i w ij I(g = g (k) j ) .</formula><p>3. Repeat the step 2 until convergence.</p><p>Note that the updating step for θ g is easy when f (y i |x i ; θ g ) is a standard regression model . For example, when f (y i |x i ; θ g ) is a Gaussian linear regression model, the updating process for θ g are obtained in closed forms. On the other hand, for updating g i , we just need to calculate values of the penalized likelihood function for all g ∈ {1, . . . , G}, separately for each i, which is not computationally intensive as long as G is moderate. Therefore, each updating step is relatively easy to carry out and computationally less intensive. The convergence in the algorithm is monitored by the difference between the current values and updated values. The algorithm should be terminated when the difference is smaller than the user-specified tolerance value ε, where we used ε = 10 -6 in our numerical studies.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Fuzzy clustered regression</head><p>Although Algorithm 1 produce interpretable results due to its clustering property, the spatially clustered structure could be restrictive in terms of estimation accuracy when region-wise constant functions cannot reasonably approximate the underlying structure. To overcome the difficulty, we consider the smoothed version of the proposed method by incorporating fuzzy clustering, which allows the uncertainty of clustering by introducing smoothed weight determined by the likelihood function. Specifically, we consider the following synthetic probability that the ith location belongs to group g given the other group membership variables:</p><formula xml:id="formula_6">π ig = f (y i |x i ; θ g ) exp{φ n j=1;j =i w ij I(g = g j )} δ G g =1 f (y i |x i ; θ g ) exp{φ n j=1;j =i w ij I(g = g j )} δ ,</formula><p>where δ controls the degree of fuzziness. As δ → ∞, the maximum probability among {π i1 , . . . , π iG } converges to 1, resulting in the same hard clustering as in SCR. We use δ = 1 as a default choice since π ig can be seen as the conditional probability of</p><formula xml:id="formula_7">g i = g</formula><p>given the data. The iterative algorithm is given as follows.</p><p>Algorithm 2. (Spatially fuzzy clustered regression)</p><p>1. Set initial values θ (0) and g (0) .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Compute the following weights for</head><formula xml:id="formula_8">i = 1, . . . , n and g = 1, . . . , G. π (k) ig = f (y i |x i ; θ (k) g ) exp φ n j=1;j =i w ij I(g = g (k) j ) δ G g =1 f (y i |x i ; θ (k) g ) exp φ n j=1;j =i w ij I(g = g (k) j ) δ .</formula><p>3. Update the current parameter values θ (k) and g (k) as follows:</p><p>-Update the group-wise parameter θ g separately for g = 1, . . . , G:</p><formula xml:id="formula_9">θ (k+1) g = arg max θg n i=1 π (k) ig log f (y i |x i ; θ g ).</formula><p>-Update the membership variable:</p><formula xml:id="formula_10">g (k+1) i = argmax g∈{1,...,G} π (k) ig .</formula><p>4. Repeat the steps 2 and 3 until convergence.</p><p>Note that the updating step for θ g corresponds to maximizing the weighted objective function, which is easy for typical regression models. The updating processes for π ig and g i can also be easily carried out without any computational difficulty. Based on the outputs from Algorithm 2, we can compute the smoothed estimator of θ i as</p><formula xml:id="formula_11">θ i = G g=1 π ik θ g .</formula><p>Although this smoothed estimator does not hold a clustering nature due to area-wise mixing rates π ik , it can flexibly adapt to local changes of underlying spatially varying parameters.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Selection of tuning parameters</head><p>In the proposed method, we have two tuning parameters, G, the number of groups, and φ controlling the strength of spatial dependence of g i s. Since we found that the specific choice of φ is not very sensitive as long as φ is strictly positive, thereby we simply recommend setting φ = 1. Although the number of groups, G, could be determined according to the prior information regarding the dataset, a data-dependent method can be employed by using the following information criterion:</p><formula xml:id="formula_12">IC(G) = -2 n i=1 log f (y i |x i ; θ ĝi ) + c n dim(θ),<label>(2)</label></formula><p>where c n is a constant depending on the sample size n and dim(θ) denotes the dimension of θ which depends on G. Specifically, we use c n = log n, which leads to a BIC-type criterion. We select a suitable value of</p><formula xml:id="formula_13">G as G = argmin G∈{G 1 ,...,G L } IC(G),</formula><p>where G 1 , . . . , G L are candidates of G.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">Estimation in locations without samples</head><p>Suppose we want to estimate θ r at some location r without samples. Since there is no data point at location r, there is no likelihood based on the data, and the grouping parameter g r under SCR can be simply estimated as</p><formula xml:id="formula_14">g r = arg max g∈{1,...,G} n i=1 w ri I(g = g i ),</formula><p>which results in θ r = θ gr . In a similar way, estimation in location r without samples under SFCR can be performed as θ r = G g=1 π rg θ g , where</p><formula xml:id="formula_15">π rg = exp φ n i=1 w ij I(g = g i ) δ G g =1 exp φ n i=1 w ij I(g = g i ) δ .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.5">Computation of standard errors</head><p>For evaluating the uncertainty of the final estimator θ i , we here propose two approaches. The first approach is a somewhat crude method that computes the standard errors of θ g based on the model f (y|x; θ g ) using samples with g i = g, which is easily performed as long as the model is tractable. However, this procedure ignores the estimation error in g i ; thereby, the calculated standard errors may underestimate the true ones.</p><p>The second procedure is a computationally demanding but valid procedure using the parametric bootstrap. We first generate bootstrap samples y * i from the estimated model, f (•|x i ; θ g i ), and apply SCR or SFCR to the bootstrap samples to get the bootstrap estimators, θ * g and g * i . Since the bootstrap procedure requires fitting SCR or SFCR to each replication of the bootstrap samples, it can be computationally intensive under large spatial data. However, the parametric bootstrap would be feasible in practice due to the efficient and scalable optimization algorithm.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Simulation Studies</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Simulation settings</head><p>We present simulation studies to illustrate the performance of the proposed spatially clustered regression (SCR) and spatially fuzzy clustered regression (SFCR) methods under two scenarios for underlying structures of regression coefficients. In both scenarios, we uniformly generated n = 1000 spatial locations s 1 , . . . , s n in the domain</p><formula xml:id="formula_16">{s = (s 1 , s 2 ) | s 1 ∈ [-1, 1], s 2 ∈ [0, 2], s 2 1 + 0.5s 2 2 &gt; (0.5) 2 }.</formula><p>Then, we generated two covariates from spatial processes, following <ref type="bibr" target="#b21">Li and Sang (2019)</ref>. Let z 1 (s i ) and z 2 (s i ) be the two independent realizations of a spatial Gaussian process with mean zero and a covariance matrix defined from an isotropic exponential function:</p><p>Cov(z k (s i ), z k (s j )) = exp(-s i -s j /η), k = 1, 2, where η is the range parameter. We considered three cases of the parameter, η = 0.2, 0.6, 1, which are referred to as weak, moderate, and strong spatial correlation. Then, we define two covariates x 1 (s i ) and</p><formula xml:id="formula_17">x 2 (s i ) via linear transformations x 1 (s i ) = z 1 (s i ) and x 2 (s i ) = rz 1 (s i ) + √ 1 -r 2 z 2 (s i )</formula><p>with r = 0.75, which allows dependence between x 1 (s i ) and x 2 (s i ). Then, the response at each location is generated from the following model:</p><formula xml:id="formula_18">y(s i ) = β 0 (s i ) + β 1 (s i )x 1 (s i ) + β 2 (s i )x 2 (s i ) + σ(s i )ε(s i ), i = 1, . . . , n,</formula><p>where ε(s i )'s are mutually independent and ε(s i ) ∼ N (0, 1). Regarding the settings of the regression coefficients and error variance, we considered the following two scenarios:</p><p>-(Scenario 1: Spatially clustered parameters) The sampled domain is</p><formula xml:id="formula_19">divided into 6 regions D jk = {s | g 1j &lt; s 1 ≤ g 1,j+1 , g 2k &lt; s 2 ≤ g 2,k+1</formula><p>} for j = 0, 1 and k = 0, 1, 2, where g 1j = -1 + j and g 2k = 2k/3. Regression coefficients and error variance for locations in D jk are set as follows:</p><formula xml:id="formula_20">β 0 (s i ) = 2(g 1j + g 2k ), β 1 (s i ) = g 2 1j + g 2 2k , β 2 (s i ) = -g 1j -g 2k , σ(s i ) = 0.5 + 0.2|g 1j -g 2k |,</formula><p>thereby the regression coefficients and error variance are constant within the region D jk .</p><p>-(Scenario 2: Spatially smoothed parameters) Each regression coefficient was independently generated from a Gaussian spatial process. We set that all the processes have a zero mean and isotropic exponential function given by</p><formula xml:id="formula_21">Cov(β k (s i ), β k (s j )) = τ 2 exp - s i -s j ψ k , k = 0, 1, 2,</formula><p>where ψ k is the range parameter and τ 2 is the variance parameter. We fix τ 2 = 2 and ψ k = k+1 in our study. Regarding the error variance, we set σ(s i ) = 0.2 exp(u(s i )), where u(s i ) is a zero mean Gaussian spatial process with the same isotropic exponential function Cov(u k (s i ), u k (s j )) = (0.5) 2 exp(-s i -s j /3).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Methods</head><p>For the simulated dataset, we applied the proposed SCR with φ = 1 and the number of groups G selected among {5, 10, . . . , 30} by using the BIC-type criterion (2). We also applied SFCR with δ = 1 and the same selected value of G in SCR. Regarding the weight w ij , we adopted two cases; five nearest neighbor (for the ith location we set w ij = 1 for the five nearest locations and w ij = 0 otherwise) and exponential weight function, namely, w ij = exp(-s i -s j 2 /(0.1) 2 ), which are denoted by -n and -e, respectively. For competitors, we adopted two methods. The first one is geographically weighted regression (GWR) as the most standard method in spatial regression. Although spatially varying coefficient models <ref type="bibr" target="#b14">(Gelfand et al., 2003)</ref> are also standard methods, previous studies suggest that spatially varying coefficient models tend to produce similar results to those of GWR <ref type="bibr" target="#b10">(Finley, 2011)</ref> since they can be regarded as a model-based version of GWR. Therefore, we only adopted GWR in this study. The bandwidth parameter in GWR was chosen via cross-validation, and all the estimation procedure was carried out via R package "spgwr" <ref type="bibr" target="#b4">(Bivand and Yu, 2020)</ref>, in which Gaussian kernel is used as the spatial weight function. We also applied the multiscale GWR <ref type="bibr" target="#b12">(Fotheringham et al., 2017)</ref>, which estimates the bandwidth parameter for each covariate, as an advanced version of GWR by using R package "GWmodel" <ref type="bibr" target="#b15">(Gollini et al., 2015)</ref>. The second competitor is a more advanced and recent regularization technique called spatial homogeneity pursuit (SHP) proposed in <ref type="bibr" target="#b21">Li and Sang (2019)</ref>. In this method, we first constructed a minimum spanning tree connecting all the locations using R package "ape" <ref type="bibr" target="#b25">(Paradis and Schliep, 2019)</ref>, and then lasso regularized estimation is applied using the R package "glmnet" <ref type="bibr" target="#b13">(Friedman et al., 2010)</ref>. Following <ref type="bibr" target="#b21">Li and Sang (2019)</ref>, the tuning parameter in the regularized estimation was selected by the BIC-type criterion.</p><p>The estimation performance is evaluated based on the mean squared error (MSE)</p><p>given by</p><formula xml:id="formula_22">MSE = 1 np n i=1 p-1 k=0 β k (s i ) -β k (s i ) 2 ,</formula><p>where p = 3 and β k (s i ) is the estimated value of β k (s i ). We also evaluate the performance in terms of spatial interpolation (estimation in locations without samples) by generating m = 100 additional locations and true regression coefficients. Using GWR, SCR, and SFCR, we obtained estimates in the locations without samples and assessed the performance via the same MSE except for n replaced with m.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Results</head><p>We first show the result using a single simulated dataset with η = 0.2. In</p><p>Table 1, we reported the computation time (second) of each method, where the program was run on a PC with a 3 GHz 8-Core Intel Xeon E5 8 Core Processor with approximately 16GB RAM. It is observed that the proposed method is computationally comparable with GWR, whereas SHP is computationally much more intensive than the other methods. In the SHP method, we found that computation time for the minimum spanning tree accounts for a large portion of the total computation time of SHP. The spatial patterns of the true and estimated parameter values are presented in Figures 1 and 2. In scenario 1, the proposed method can successfully capture the underlying clustered structures of the regression coefficients and detects the abrupt changes across the boundaries of adjacent clusters. Note that the selected number of groups was G = 10, which is the smallest choice among candidates that are larger than the true number of clusters. On the other hand, GWR does not provide estimates having clustered structures and produces poor estimates in some locations. Although SHP can capture similar clustered structures, the proposed SCR can more precisely capture the structure. In scenario 2, it is observed that GWR can precisely estimate the spatially smoothed regression coefficients while SCR can also produce reasonable estimates by allowing a large number of groups. In fact, the largest number (G = 30)</p><p>among the candidates was selected in this scenario. Moreover, SFCR produces more smoothed estimates than SCR, which are more similar to ones by GWR. In contrast, the results of SHP are not necessarily satisfactory compared with the other methods.</p><p>We next report the estimation performance based on 1000 simulated datasets under weak (η = 0.2), moderate (η = 0.6) and strong (η = 1) spatial correlation in covariates. The boxplots of MSE are given in Figure <ref type="figure">3</ref>.</p><p>In scenario 1, SCR works better than GWR regardless of the strength of spatial correlation due to the underlying clustered structures of regression coefficients. Although SHP takes account of clustered structures, the performance is not necessarily preferable to the other methods, possibly because SHP implicitly assumes that the error variance is spatially homogeneous. It is also observed that the performance of GWR under moderate or strong spatial correlation in covariates is not satisfactory. In scenario 2, the proposed methods (SCR and SFCR) and GWR are quite comparable when the spatial correlation in covariates is weak, whereas the proposed methods tend to perform better than GWR as the spatial correlation increases. Although the performance of SHP is not preferable under a weak spatial correlation, the relative performance gets improved as the spatial correlation increases. Comparing SCR (hard clustering version) and SFCR (fuzzy clustering version), SFCR can provide slightly better estimates than SCR since the true spatial patterns are smooth.</p><p>Finally, we show the results of spatial interpolation (estimation in locations without samples). The boxplots of the MSE values based on 200 replications are shown in Figure <ref type="figure">4</ref>. It is confirmed that the proposed methods provide better interpolation than GWR, especially when the correlation is moderate or strong in both scenarios.</p><p>It should be worth noting that the proposed methods perform better than GWR even when the underlying spatial distribution of the regression coefficient is smooth.</p><p>In summary, the proposed method can produce spatially varying estimates that are more precise or as precise as those of the existing methods, while the computation time is comparable with GWR and is much shorter than SHP. Hence, the proposed method would be a preferable alternative for flexible spatial regression under a large spatial dataset. Finally, we evaluated the scalability of the proposed method under large spatial datasets. As benchmark methods, we adopted the standard GWR and the recently proposed scalable version of GWR <ref type="bibr" target="#b22">(Murakami et al., 2020)</ref>, denoted by SGWR.</p><p>In this study, we set η = 0 (no spatial correlations in covariates), scenario 1 for the regression coefficients, and considered five cases of the sample size, namely, n ∈ {1000, 3000, 5000, 10000, 20000}. For each n, we generated 20 datasets and applied GWR, SGWR, SCR, and SFCR, where the tuning parameter was selected in the same way as in Section 3.2. The averaged value of computation times over 20 replications and error bars representing double standard deviations are shown in Figure <ref type="figure">5</ref>.</p><p>The results reveal that the computation time of GWR rapidly increases as n increases.</p><p>Although the computation time of the scalable version (SGWR) is relatively shorter than the original GWR, especially under large n situations, the proposed SCR and SFCR provide consistently shorter computation time than SGWR.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Application to crime risk modeling</head><p>Here we apply the proposed methods to a dataset of the number of police-recorded crime in the Tokyo metropolitan area, provided by the University of Tsukuba and publicly available online ("GIS database of the number of police-recorded crime at O-aza, chome in Tokyo, 2009-2017", available at <ref type="url" target="https://commons.sk.tsukuba.ac.jp/data_en">https://commons.sk.tsukuba</ref>.</p><p><ref type="url" target="https://commons.sk.tsukuba.ac.jp/data_en">ac.jp/data_en</ref>). In this study, we focus on the number of violent crimes in n = 2, 855 local towns in the Tokyo metropolitan area in 2015. For auxiliary information about each town, we adopted area (km 2 ), entire population density (PD), day-time population density (DPD), the density of foreign people (FD), percentage of single-person households (SH), and average year of living (AYL). Let y i be the observed count of violent crimes, s i be a two-dimensional vector of longitude and litigate of the center, a i be area (km 2 ) and x i be the vector of standardized auxiliary information in the ith local town. For estimating the structure of the number of crimes explained by the covariates, we employed the following spatially clustered negative binomial model:</p><formula xml:id="formula_23">y i ∼ NB(a i exp(x t i β g i ), ν g i ), i = 1, . . . , n,<label>(3)</label></formula><p>where β g i is a vector of unknown regression coefficients, ν g i is an overdispersion parameter, and NB(µ, r) is the negative binomial distribution with mean µ and dispersion r. Under the model ( <ref type="formula" target="#formula_23">3</ref>), the expectation of y i /a i is exp(x t i β g i ), so the regression term can be interpreted as the crime risk per unit km 2 .</p><p>We first apply the proposed SCR and SFCR. We obtained the spatial contingency matrix based on the geographical information by choosing the five nearest locations for each location. Then, we set φ = 1 and selected the number of groups G from G ∈ {1, . . . , 15} based on the BIC-type criterion (2), and we obtained G = 7 as the optimal choice. With the selected G, we apply SCR and SFCR with δ = 1. To check the sensitivity of δ in SFCR, we tried three other choices of δ (δ = 0.5, 2 and 5), but the estimation results did not change very much. For comparisons, we applied the geographically weighted negative binomial regression (da Silva and Rodrigues, 2014), denoted by GWNB. The Gaussian kernel is used for the weighting function, and the bandwidth is selected via cross-validation.</p><p>In Figure <ref type="figure">6</ref>, we reported the estimated spatially varying regression coefficients for all the covariates. It is observed that GWNB produces estimates that change drastically over the space, and the change tends to be more drastic around the edge of the space. In particular, the estimated coefficients of PD or ALY are not very smooth;</p><p>thereby, the interpretation of the results is not straightforward. On the other hand, the proposed SCR method provides reasonable spatial clustering results and estimates of group-wise regression coefficients, and the results are highly interpretable compared with those of GWNB, while the overall spatial trend obtained from both methods is relatively similar. Comparing SCR and SFCR, SFCR tends to provide slightly more smoothed estimates than SCR, especially around the boundaries between clusters.</p><p>Focused on SCR and SFCR, their coefficients on PD take large values in the south and east areas while those on DPD in the northeast areas. These areas are residential areas. These results suggest high crime risk in densely populated districts (e.g., shopping districts) in these residential areas. On the other hand, the coefficients on ALY have large positive values in the central area. It is known that people tend to commit crimes in an area where they lived for a long time because they are familiar with that area <ref type="bibr" target="#b2">(Bernasco and Kooistra, 2010)</ref>. Based on the coefficients on ALY, such a tendency is strong in the central area.</p><p>We next investigate the performance of the models in terms of prediction. To this end, we first randomly eliminated m = 200 locations, which are kept as "test data". Using the remained training data, we estimated the regression coefficients in the omitted locations based on SCR, SFCR, and GWNB, where the same values of the number of groups or bandwidth parameters were adopted. Then, we predicted y i using the information of x i and a i , and the prediction accuracy was assessed via the following two measures:</p><formula xml:id="formula_24">MAPE = 1 m j∈D |ŷ j -y j | y j + 1 , RMSE =    1 m j∈D (ŷ j -y j ) 2    , 1/2</formula><p>where ŷj is the predicted value, and D is the index set for the test data. The results are shown in Table <ref type="table" target="#tab_1">2</ref>, which shows that the proposed methods tend to produce more stable spatial prediction than GWNB.</p><p>Finally, we consider another design of weight, w ij , in the proposed methods. In addition to the spatial contingency matrix (denoted by w 1ij ), we construct another contingency matrix (denoted by w 2ij ) by choosing the five nearest neighbors in terms of distance of the covariate information x i . Then, we define w ij = (w 1ij + w 2ij )/2, which takes account of not only geographical closeness but also covariate similarities.</p><p>The proposed SCR and SFCR methods with the covariate-dependent weight design are denoted by SCR-cd and SFCR-cd. The performance of SCR-cd and SFCR-cd are investigated through the spatial prediction using MAPE and RMSE, where the results are given in Table <ref type="table" target="#tab_1">2</ref>. The results show that the prediction performance can be successfully improved by introducing the covariate-dependent design. </p><formula xml:id="formula_25">n i=1 log f (y i |x i ; θ g i ) + φ i&lt;j w ij I(g i = g j ) -λ G g=1 p k=1 pen(θ gk ), (<label>4</label></formula><formula xml:id="formula_26">)</formula><p>where λ is a tuning parameter and pen(•) is a penalty function, e.g. pen(x) = |x| for Lasso regularization <ref type="bibr" target="#b28">(Tibshirani, 1996)</ref>. Under the formulation, the updating step for θ in Algorithm 1 is changed as follows:</p><formula xml:id="formula_27">θ (k+1) g = arg max θg n i=1 I(g (k) i = g) log f (y i |x i ; θ g ) -λ p k=1</formula><p>pen(θ gk ) .</p><p>The above objective function is the same as the penalized log-likelihood based only on the samples classified in the gth group; thereby, existing efficient computation algorithms could be applied to update θ g . It should be noted that the use of the objective function ( <ref type="formula" target="#formula_25">4</ref>) leads to different selected variables in each group. Thus (4) does not necessarily induce variable selection of the p variables in x i . It might be more beneficial to determine the variable which is not used in all the G models in practice. To this end, we also suggest using a grouped penalty function p k=1 pen(θ 1k , . . . , θ Gk ) instead of the element-wise penalty adopted in (4), where pen(θ 1k , . . . , θ Gk ) is the simultaneous penalty on G regression coefficients of the kth variable. A standard choice would be grouped lasso penalty <ref type="bibr" target="#b35">(Yuan and Lin, 2006)</ref> given by pen(θ 1k , . .</p><formula xml:id="formula_28">. , θ Gk ) = G g=1 θ 2 gk .</formula><p>Following <ref type="bibr">Zhou et al. (2007)</ref>, we can modify the information criterion (2) to select the tuning parameter λ, that is, we replace dim(θ) with the degrees of freedom G g=1 p k=1 I( θ gk = 0) in (2). In this case, the information criterion is a function of both G and λ.</p><p>The second extension is to handle semiparametric structures for the regression part. Suppose the conditional distribution is expressed as f (y i |x i ; H g i , γ g i ), where H g = {h g1 , . . . , h gp } is a collection of unknown p functions and γ is a dispersion parameter. For example, the linear additive model is expressed as</p><formula xml:id="formula_29">y i ∼ N ( p k=1 h g i k (x ik ), σ 2 g i ), so that E[y i |x i ] = p k=1 h g i k (x ik ).</formula><p>In the model, the additive effect of each covariate can be different among G groups, and the model can be seen as a semiparametric version of the model discussed in Section 2. The estimation of the model can be done via a slight modification of Algorithms 1 and 2. The updating step for θ g is replaced with one for H g , given by</p><formula xml:id="formula_30">H (k+1) g = arg max Hg n i=1 I(g (k) i = g) log f (y i |x i ; H g , γ (k) g ).</formula><p>The above optimization step is nothing but fitting the generalized additive models for observations assigned to the gth group, so that standard techniques such as sequential fitting (e.g. <ref type="bibr" target="#b17">Hastie and Tibshirani, 1986</ref>) can be adopted to obtain H (k+1) g</p><p>. The dispersion parameter γ g can be updated in the same manner. The two extensions, as mentioned above, would be helpful in practice, but the detailed theoretical and numerical investigation is left to future works. -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 True Latitude Longitude -4 -2.25 -0.5 1.25 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 GWR Latitude Longitude -4 -2.25 -0.5 1.25 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SHP Latitude Longitude -4 -2.25 -0.5 1.25 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SCR Latitude Longitude -4 -2.25 -0.5 1.25 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SFCR Latitude Longitude -4 -2.25 -0.5 1.25 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 True Latitude Longitude -2 -0.25 1.5 3.25 5 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 GWR Latitude Longitude -2 -0.25 1.5 3.25 5 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SHP Latitude Longitude -2 -0.25 1.5 3.25 5 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SCR Latitude Longitude -2 -0.25 1.5 3.25 5 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SFCR Latitude Longitude -2 -0.25 1.5 3.25 5 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 True Latitude Longitude -5 -3 -1 1 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 GWR Latitude Longitude -5 -3 -1 1 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SHP Latitude Longitude -5 -3 -1 1 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SCR Latitude Longitude -5 -3 -1 1 3 -1.0 -0.5 0.0 0.5 1.0 1.5 0.0 0.5 1.0 1.5 2.0 SFCR Latitude Longitude -5 -3 -1 1 3 </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>For</head><figDesc>maximizing the objective function (1), we can employ a simple iterative algorithm similar to K-means clustering, which iteratively updates the membership variables g and the other parameters. Each updating step is straightforward since the maximization of the objective function (1) given g is the same as maximizing the log-likelihood function based on samples classified to each group. The detailed algorithm is given as follows: Algorithm 1. (Spatially clustered regression) 1. Set initial values θ (0) and g (0) .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 :Figure 2 :Figure 3 :Figure 4 :Figure 5 :</head><label>12345</label><figDesc>Figure1: Scenario 1: spatial patterns of true and estimated regression coefficients based on GWR, SHP and SCR in one simulation with the spatial range parameter η = 0.2 for covariates. The left, center and right columns correspond to β 0 , β 1 and β 2 , respectively.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Computation time (seconds) of the four methods in one simulation.</figDesc><table><row><cell></cell><cell cols="4">GWR SHP SCR SFCR</cell></row><row><cell>scenario 1</cell><cell>4.1</cell><cell>93.0</cell><cell>3.5</cell><cell>-</cell></row><row><cell>scenario 2</cell><cell>4.3</cell><cell>87.0</cell><cell>1.4</cell><cell>2.2</cell></row><row><cell cols="3">3.4 Computation time under large spatial data</cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Two performance measures, MAPE and RMSE, of the five methods.</figDesc><table><row><cell></cell><cell cols="5">GWNB SCR SFCR SCR-cd SFCR-cd</cell></row><row><cell>MAPE</cell><cell>0.959</cell><cell cols="2">0.830 0.870</cell><cell>0.781</cell><cell>0.639</cell></row><row><cell>RMSE</cell><cell>6.31</cell><cell>4.26</cell><cell>11.80</cell><cell>4.89</cell><cell>4.16</cell></row><row><cell cols="2">5 Concluding remarks</cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="6">This paper proposes a new spatial regression technique, called spatially clustered re-</cell></row><row><cell cols="6">gression (SCR), accounting for spatial heterogeneity in model parameters by explicitly</cell></row><row><cell cols="6">introducing grouping parameters. By employing a penalty function motivated by the</cell></row><row><cell cols="6">Potts model, we formulated the penalized likelihood function easily maximized via</cell></row><row><cell cols="6">a simple iterative algorithm. We also developed a fuzzy version of the method that</cell></row><row><cell cols="6">can produce more spatially smoothed estimates and considered straightforward but</cell></row><row><cell cols="6">essential extensions of the main idea. Compared with the most standard technique,</cell></row><row><cell cols="6">GWR, we numerically confirmed that SCR performs better than or as well as GWR</cell></row><row><cell cols="6">in terms of parameter estimation, and the computational cost of SCR is much smaller</cell></row><row><cell cols="4">than that of GWR under large spatial data.</cell><cell></cell><cell></cell></row><row><cell cols="6">We finally discuss two meaningful extensions of the proposed method. The first</cell></row><row><cell cols="6">one is variable selection by incorporating regularization techniques into the objective</cell></row><row><cell>function (1), given by</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>This work was supported by the <rs type="funder">Japan Society for the Promotion of Science (KAK-ENHI)</rs> Grant Numbers <rs type="grantNumber">18K12757</rs> and <rs type="grantNumber">18H03628</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_AFubEV5">
+					<idno type="grant-number">18K12757</idno>
+				</org>
+				<org type="funding" xml:id="_8YgJ5EH">
+					<idno type="grant-number">18H03628</idno>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data Analysis 142, 106821.</head><p>Zhou, H., T. Hastie, and R. Tibshirani (2007). On the "degrees of freedom" of the lasso. The Annals of Statistics 35, 2173-2192. Zhou, Q., C. Wang, and S. Fang (2019). Application of geographically weighted regression (gwr) in the analysis of the cause of haze pollution in china. Atmospheric Pollution Research 10 (3), 835-846.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0" /><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 6 :</head><label>6</label><figDesc>Estimates of spatially varying coefficients for the five covariates, PD, DPD, FD, SH, and AYL based on geographically weighted negative binomial regression (GWNB), spatially clustered regression (SCR), and spatially fuzzy clustered regression (SFCR).</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Spatial dependence and spatial structural instability in applied regression analysis</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional science</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="185" to="207" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Alleviating the effect of collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Bárcena</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Menéndez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Palacios</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Tusell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="441" to="466" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Effects of residential history on commercial robbers&apos; crime location choices</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Bernasco</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kooistra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Criminology</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="251" to="265" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">A two-step approach to account for unobserved spatial heterogeneity</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Billé</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Benedetti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Postiglione</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Economic Analysis</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="452" to="471" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">spgwr: Geographically Weighted Regression. R package version 0</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Yu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="page" from="6" to="33" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Grouped pattens of heterogeneity in panel data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bonhomme</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Manresa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="page" from="1147" to="1184" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression -modelling spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series D</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="431" to="443" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Extreme coefficients in geographically weighted regression and their effects on mapping</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Cho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Lambert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">G</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">GIScience &amp; Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="273" to="288" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Local variation in hedonic house price, hanoi: a spatial analysis of sqto theory</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Quan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Chi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Phe</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on GIScience: Short paper proceedings</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="54" to="59" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Geographically weighted negative binomial regression-incorporating overdispersion</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Da Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C V</forename><surname>Rodrigues</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics and Computing</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="769" to="783" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Comparing spatially-varying coefficients models for analysis of ecological data with non-stationary and anisotropic residual dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<title level="m">Geographically Weighted Regression</title>
+		<meeting><address><addrLine>West Sussex</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (mgwr)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Paths for generalized linear models via coordinate descent</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient prosseses</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal oof the American Statistical Associatiion</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Gwmodel: An r package for exploring spatial heterogeneity using geographically weighted models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<date type="published" when="2015">2015. i17</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">The validity and usefulness of laws in geographic information science and geography</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Goodchild</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="300" to="303" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Generalized additive models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="297" to="310" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Spatially non-stationary relationships between urban residential land price and impact factors in wuhan city, china</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Xu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Geography</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="48" to="56" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<author>
+			<persName><forename type="first">T</forename><surname>Ito</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sugasawa</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2006.06180</idno>
+		<title level="m">Clustered GEE analysis for longitudinal data</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Cluster detection of spatial regression coefficients</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Gangnon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in medicine</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1118" to="1133" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Spatial homogeneity pursuit of regression coefficients for large datasets</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="page" from="1050" to="1062" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Scalable gwr: A linear-time algorithm for large-scale geographically weighted regression with polynomial kernels</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Tsutsumida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Yoshida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Geographically weighted poisson regression for disease association mapping</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nakaya</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in medicine</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="2695" to="2717" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A spatial regression and clustering method for developing place-specific social vulnerability indices using census and social media data</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nicholson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><forename type="middle">A</forename><surname>Vanli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Jung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">E</forename><surname>Ozguven</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Disaster Risk Reduction</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page">101224</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">ape 5.0: an environment for modern phylogenetics and evolutionary analyses in R</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Paradis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Schliep</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="526" to="528" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Some generalized order-disorder transformations</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Potts</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Proceedings of the Cambridge Philosophical Society</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="106" to="109" />
+			<date type="published" when="1952">1952</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Grouped heterogeneous mixture modeling for clustered data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Sugasawa</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note>to appear</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Regression shrinkage and selection via the lasso</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="267" to="288" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Homogeneity pursuit in panel data models: Theory and application</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C B</forename><surname>Phillips</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Economics</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="797" to="815" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Diagnostic tools and a remedial method for collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="2464" to="2481" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and planning A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Comparing spatially varying coefficient models: a case study examining violent crime rates and their relationships to alcohol outlets and illegal drug arrests</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Single and multiscale models of process spatial heterogeneity</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="223" to="246" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Model selection and estimation in regression with grouped variables</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Lin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="49" to="67" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

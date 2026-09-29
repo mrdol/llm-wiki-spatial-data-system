@@ -35,6 +35,18 @@ PAPERS = [
      ["https://europepmc.org/backend/ptpmcrender.fcgi?accid=PMC6991288&blobtype=pdf",
       "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6991288/pdf/main.pdf"],
      "us_sdoh, chicagoSDOH"),
+    ("Harris_2011_GWPCA_IJGIS.pdf",
+     ["https://mural.maynoothuniversity.ie/id/eprint/5759/1/MC_Geog%20weighted.pdf"],
+     "GWmodel::DubVoter (reference secondaire GWPCA, DOI 10.1080/13658816.2011.554838) -- URL verifiee via recherche web 2026-09-15, depot institutionnel MURAL, licence CC BY-NC-SA"),
+    # Les 4 suivants n'ont pas de copie en libre acces trouvee (recherche web
+    # 2026-09-15) : editeurs payants (Wiley/Taylor & Francis/JSTOR-RSS) sans
+    # depot institutionnel repere. URLs laissees vides intentionnellement --
+    # a recuperer manuellement (bibliotheque/ILL) si besoin un jour.
+    # - Foley, P. & Demsar, U. (2013), IJGIS 27(4):633-661, DOI 10.1080/13658816.2012.722638
+    # - Pebesma, Duin & Burrough (2005), Environmetrics 16(6):573-587, DOI 10.1002/env.723 (fulmar)
+    # - Pebesma & Duin (2005), book chapter, DOI 10.1007/3-540-26535-x_31 (pcb)
+    # - Haslett & Raftery (1989), Applied Statistics 38:1-50, DOI 10.2307/2347679 (wind.loc)
+    # - Kavanagh, A. (2004), Journal of Irish Urban Studies 3(2):1-22, pas de DOI (DubVoter, etude originale)
 ]
 
 UA = {"User-Agent": "Mozilla/5.0 (compatible; llm-wiki-karpathy/1.0)"}

@@ -1,0 +1,1101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">A geographically weighted artificial neural network</title>
+				<funder ref="#_Qce42B3">
+					<orgName type="full">European Research Council</orgName>
+					<orgName type="abbreviated">ERC</orgName>
+				</funder>
+				<funder ref="#_QjaPgmy">
+					<orgName type="full">unknown</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2021-02-08">08 Feb 2021.</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Julian</forename><surname>Hagenauer</surname></persName>
+							<email>julian.hagenauer@gmx.de</email>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Human Geography and Spatial Planning</orgName>
+								<orgName type="department" key="dep2">Faculty of Geosciences</orgName>
+								<orgName type="institution">Utrecht University</orgName>
+								<address>
+									<settlement>Utrecht</settlement>
+									<country key="NL">The Netherlands</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Human Geography and Spatial Planning</orgName>
+								<orgName type="department" key="dep2">Faculty of Geosciences</orgName>
+								<orgName type="institution">Utrecht University</orgName>
+								<address>
+									<settlement>Utrecht</settlement>
+									<country key="NL">The Netherlands</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Human Geography and Spatial Planning</orgName>
+								<orgName type="department" key="dep2">Faculty of Geosciences</orgName>
+								<orgName type="institution">Utrecht University</orgName>
+								<address>
+									<settlement>Utrecht</settlement>
+									<country key="NL">The Netherlands</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Marco</forename><surname>Helbich</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Human Geography and Spatial Planning</orgName>
+								<orgName type="department" key="dep2">Faculty of Geosciences</orgName>
+								<orgName type="institution">Utrecht University</orgName>
+								<address>
+									<settlement>Utrecht</settlement>
+									<country key="NL">The Netherlands</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Department of Human Geography and Spatial Planning</orgName>
+								<orgName type="department" key="dep2">Faculty of Geosciences</orgName>
+								<orgName type="institution">Utrecht University</orgName>
+								<address>
+									<settlement>Utrecht</settlement>
+									<country key="NL">The Netherlands</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">A geographically weighted artificial neural network</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">Print</idno>
+						<imprint>
+							<date type="published" when="2021-02-08">08 Feb 2021.</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">22470F4C33790A5E3A486FCD3B64ACCB</idno>
+					<idno type="DOI">10.1080/13658816.2021.1871618</idno>
+					<note type="submission">Received 10 April 2020 Accepted 31 December 2020</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:19+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Geographically weighted regression</term>
+					<term>artificial neural network</term>
+					<term>spatial heterogeneity</term>
+					<term>nonlinear relationships</term>
+					<term>spatial prediction</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>While recent developments have extended geographically weighted regression (GWR) in many directions, it is usually assumed that the relationships between the dependent and the independent variables are linear. In practice, however, it is often the case that variables are nonlinearly associated. To address this issue, we propose a geographically weighted artificial neural network (GWANN). GWANN combines geographical weighting with artificial neural networks, which are able to learn complex nonlinear relationships in a data-driven manner without assumptions. Using synthetic data with known spatial characteristics and a real-world case study, we compared GWANN with GWR. While the results for the synthetic data show that GWANN performs better than GWR when the relationships within the data are nonlinear and their spatial variance is high, the results based on the real-world data demonstrate that the performance of GWANN can also be superior in a practical setting.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Spatial heterogeneity of relationships (i.e. spatial nonstationarity) is an important issue in spatial data analysis <ref type="bibr" target="#b0">(Anselin 1989)</ref>. It refers to the notion that for a spatial process, the relationships between variables depend to some degree on the location where the relationships are observed <ref type="bibr" target="#b12">(Fotheringham et al. 2002)</ref>. If spatial heterogeneity is not appropriately taken into account when calibrating a model, the estimation of the coefficients is likely to be biased, which can lead to inappropriate conclusions <ref type="bibr">(Páez et al. 2008, LeSage and</ref><ref type="bibr" target="#b24">Pace 2009)</ref>.</p><p>Several approaches have been proposed to model spatially varying relationships. Notable examples include the expansion method <ref type="bibr" target="#b7">(Casetti 1972)</ref>, weighted spatial adaptive filtering <ref type="bibr" target="#b16">(Gorr and Olligschlaeger 1994)</ref>, Eigenvector spatial filtering <ref type="bibr" target="#b17">(Griffith 2003)</ref>, and geographically weighted regression (GWR) <ref type="bibr" target="#b4">(Brunsdon et al. 1999)</ref>. Of these approaches, GWR has received the most attention and is employed across many disciplines, for example, real estate economics <ref type="bibr">(Bitter et al. 2007, Helbich and</ref><ref type="bibr" target="#b22">Griffith 2016)</ref>, ecology <ref type="bibr" target="#b29">(Nelson et al. 2007)</ref>, criminology <ref type="bibr" target="#b39">(Waller et al. 2007</ref><ref type="bibr" target="#b38">, Troy et al. 2012)</ref>, health <ref type="bibr" target="#b8">(Choi and Kim 2017)</ref>, and land-use science <ref type="bibr">(Yu et al. 2011, Hagenauer and</ref><ref type="bibr" target="#b19">Helbich 2018)</ref>.</p><p>GWR is an extension of ordinary least squares (OLS), which estimates for each location a weighted least squares regression, where observations that are closer to the regression location are given a higher weight than those farther away. The weighting is determined by a distance-decay kernel function and a bandwidth parameter.</p><p>Several extensions and modifications of GWR have been proposed. While in basic GWR all relationships are assumed to vary spatially, in mixed GWR <ref type="bibr" target="#b4">(Brunsdon et al. 1999</ref>) only a subset of the coefficients are subject to geographical weighting; the kernel function and bandwidth for each spatially varying coefficient are identical. The latter restriction was addressed by <ref type="bibr" target="#b15">Fotheringham et al. (2017)</ref>, who proposed a multiscale GWR that uses individual bandwidths for the coefficients to model different scales of spatial heterogeneity. Furthermore, while basic GWR is based on Euclidean distances between observations, the application of different distance metrics has been proposed. <ref type="bibr" target="#b28">Lu et al. (2011)</ref>, for example, showed that non-Euclidean distance metrics can improve the fit of GWR, whereas <ref type="bibr" target="#b13">Fotheringham et al. (2015)</ref> suggested the use of a spatio-temporal distance metric. <ref type="bibr" target="#b27">Lu et al. (2017)</ref> combined multiscale GWR with individual distance metrics per coefficient.</p><p>GWR has also been criticized for artificially introducing multicollinearity between coefficient pairs <ref type="bibr" target="#b42">(Wheeler and Tiefelsdorf 2005)</ref>, which was recently refuted <ref type="bibr" target="#b14">(Fotheringham and Oshan 2016)</ref>. To counteract this criticism, penalized forms of GWR were proposed (e.g. geographically weighted lasso <ref type="bibr" target="#b41">(Wheeler 2009)</ref>, ridge <ref type="bibr" target="#b41">(Wheeler 2009)</ref>, ridge <ref type="bibr" target="#b40">(Wheeler 2007</ref><ref type="bibr" target="#b1">, Bárcena et al. 2014)</ref>, and elastic net regression <ref type="bibr" target="#b26">(Li and Lam 2018)</ref>). Another extension is geographically neural network weighted regression <ref type="bibr" target="#b11">(Du et al. 2020</ref>), which utilizes an artificial neural network (ANN) to find appropriate geographical weights when estimating the coefficients of a GWR model.</p><p>Despite these efforts, some restrictions of GWR have not yet been addressed. For instance, because GWR resembles a collection of local models where data from neighboring local models are reused, its inferential properties are inferior to a single nonstationary model <ref type="bibr" target="#b9">(Comber et al. 2020)</ref>. Also, analogous to OLS, when using GWR in its simplest form it is assumed that the relationships between dependent and independent variables are linear. This assumption, however, typically does not hold for complex spatial prediction tasks <ref type="bibr">(Anselin 1989, Leuenberger and</ref><ref type="bibr" target="#b25">Kanevski 2015)</ref>.</p><p>To address this issue, we propose a geographically weighted artificial neural network (GWANN), which combines geographical weighting with an ANN. Similar to GWR, GWANN uses a distance-decay kernel function and a bandwidth parameter to geographically weight observations when building the model. However, in contrast to GWR, GWANN is also able to model nonlinear functions in a data-driven manner without making any assumptions.</p><p>The rest of this article is structured as follows. Section 2 describes GWR and ANN and introduces GWANN. Next, section 3 presents experiments that were carried out to compare GWANN with GWR. Finally, section 4 gives concluding remarks and proposes future work.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Methods</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Artificial neural network</head><p>An artificial neural network (ANN) consists of a set of neurons and unidirectional connections between them, which enables the imitation of the brain's ability to detect patterns and learn relationships within data <ref type="bibr" target="#b20">(Haykin 2008)</ref>. Associated with each neuron i is an activation function ϕ i and each connection between two neurons i,j has a weight w ij assigned that controls the influence of neuron i on neuron j. While the neurons represent the basic computation units of an ANN, the weighted connections between them allow the modeling of complex relationships.</p><p>The neurons are typically organized in layers, and each neuron in a layer has directed connections to the neurons in the subsequent layer (Figure <ref type="figure" target="#fig_0">1</ref>). The first layer is termed 'input layer' and the last layer 'output layer,' while all layers in between are 'hidden layers'. The input data are passed from the input layer to the first hidden layer, where it is aggregated and transformed as follows:</p><formula xml:id="formula_0">net j ¼ X i2P j w ij o i (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where w ij is the weight of the connection between neuron i and j, o i the output of neuron i, and P j the set of neurons that have an outgoing connection to neuron j. The output of a neuron i is calculated as follows:</p><formula xml:id="formula_2">o i ¼ ϕðnet i Þ<label>(2)</label></formula><p>Hidden layer</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Input layer</head><p>Output layer where ϕ is the activation function of neuron i. A common activation function is the hyperbolic tangent function, which is defined as f ðxÞ ¼ e x À e À x e x þe À x . This function is particularly useful because it is continuous and differentiable; both are necessary conditions for calculating the network's error gradient <ref type="bibr" target="#b32">(Rojas 2013)</ref>.</p><p>The output of each neuron is then passed on to the neurons in the next layer. For each subsequent layer, this procedure is repeated until the output layer of the network is reached. The output of the output layer represents the total output of the network.</p><p>In order to model nonlinear relationships, the connection weights of an ANN must be adjusted. This is typically done using a two-step procedure. In the first step, the error signal of each neuron for a given observation is calculated using backpropagation <ref type="bibr" target="#b34">(Rumelhart et al. 1986)</ref>. The error signal depends on the error function. In the case of regression, the error function is defined as</p><formula xml:id="formula_3">E ¼ 1 2 P n i¼1 ðt i À o i Þ 2</formula><p>where t i is the target value, o i the output of the output neuron i, and n the number of the target values. Given this error function, the error signal is calculated as follows:</p><formula xml:id="formula_4">δ j ¼ ϕ 0 ðnet j Þðo j À t j Þ if j is an output neuron ϕ 0 ðnet j Þ P k δ k w jk otherwise �<label>(3)</label></formula><p>where o j is the output of neuron j, t j the target value of neuron j, w jk the connection weight between neuron j and k, δ k the error signal for neuron k, net j the network input to neuron j, and ϕ 0 the derivative of the activation function.</p><p>In the second step, the connection weights are adjusted using gradient descent:</p><formula xml:id="formula_5">Δw ij ¼ À η @E @w ij ¼ À ηδ j o i (<label>4</label></formula><formula xml:id="formula_6">)</formula><p>where w ij is the connection weight between neuron i and j, E the error function, o i the output of neuron i, and δ j the error signal of neuron j. Both steps are repeated until a terminating condition is reached (e.g. the error rate is below a predetermined threshold value). Several extensions and variants of gradient descent have been proposed to improve the training of the network. To make the training more robust to noise, the error gradients are in practice summed over a subset of observations, termed a 'mini-batch'. The connection weights are then updated using the accumulated changes. Also, using Nesterov's accelerated gradient <ref type="bibr" target="#b30">(Nesterov 1983</ref>) when adjusting the connection weights can substantially improve the training performance <ref type="bibr" target="#b37">(Sutskever et al. 2013)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Geographically weighted regression</head><p>Geographically weighted regression (GWR) <ref type="bibr" target="#b5">(Brunsdon et al. 1996)</ref> estimates for each location a separate local model. Assuming that there are n locations and each location has an observation assigned to it, the GWR model for the location i 2 1; 2; . . . ; n is:</p><formula xml:id="formula_7">y i ¼ X m j¼0 β ij x ij þ 2 i (<label>5</label></formula><formula xml:id="formula_8">)</formula><p>where y i is the dependent variable, x ij the independent variable j, β ij the coefficient for the independent variable j, and 2 i the error term, which is assumed to be independent and identically distributed. GWR weights the observations by their spatial distance when estimating the local coefficients; close observations are given more weight than observations farther away. The estimation is typically done using weighted least squares, the matrix expression of which is:</p><formula xml:id="formula_9">βi ¼ ðX T W i XÞ À 1 X T W i y (<label>6</label></formula><formula xml:id="formula_10">)</formula><p>where X is the design matrix, y the dependent variable, and W i a column vector of the spatial weights matrix W for location i. To calculate W, a kernel function is applied to the distances between observations and regression locations. Widely used kernels are Gaussian, bisquare, tricube, and boxcar kernels <ref type="bibr" target="#b4">(Brunsdon et al. 1999)</ref>. The Gaussian kernel, for instance, is defined as</p><formula xml:id="formula_11">v ij ¼ e À 0:5ð d ij h Þ 2</formula><p>, where d ij is the distance between locations i and j and h is the kernel bandwidth. The bandwidth determines the degree of variation in the local coefficient estimates and is considered to be more important for the performance of GWR than the choice of the kernel function <ref type="bibr" target="#b12">(Fotheringham et al. 2002)</ref>. The bandwidth can be either fixed or adaptive, where the latter refers to the distance to the knearest neighbor of each observation <ref type="bibr" target="#b6">(Brunsdon et al. 2007</ref><ref type="bibr" target="#b18">, Guo et al. 2008)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Geographically weighted artificial neural network</head><p>A geographically weighted artificial neural network (GWANN) is a variant of an ANN that incorporates geographical weighting of connection weights. The principle idea is as follows. A basic ANN consists of an input, a hidden, and an output layer. The connection weights of a basic ANN from the hidden to the output layer can be interpreted as the coefficients of a linear model of nonlinearly transformed variables, namely the outputs of the hidden neurons. Thus, when the connection weights between the hidden and the output layer are estimated by utilizing a geographically weighted error function, these weights can be interpreted as a GWR model.</p><p>The architecture of GWANN is identical to that of a basic ANN, except that each output neuron of GWANN is assigned to a location in geographic space (Figure <ref type="figure" target="#fig_1">2</ref>). This allows to calculate the spatial distances between the observations and the locations of the output neurons.</p><p>Besides the network architecture, the main difference between GWANN and a basic ANN is that GWANN uses a geographic weighted error function instead of the basic quadratic error function in order to calculate an error signal. In the case of regression, the geographically weighted error function is defined as</p><formula xml:id="formula_12">E ¼ 1 2 P n i¼1 v i ðt i À o i Þ 2 ,</formula><p>where t i is the target value, o i the output of output neuron i, v i the geographically weighted distance between the observation and the location of output neuron i, and n the number of target values/output neurons. Following this definition, the difference between the output neurons' output and the target values is weighted by the spatial distance between output neurons' location and the observation; when the output neurons' location and observation are close, the difference is given more weight than when they are farther apart. Note that the number of target values must be identical to the number of output neurons. In particular, in a practical example where one wants to calculate the value of the geographic error function for a single target value but multiple output neurons with typically different locations, it is necessary to replicate the target value for each output neuron.</p><p>Following the definition of the geographically weighted error function, the calculation of the error signal of backpropagation is modified as follows:</p><formula xml:id="formula_13">δ j ¼ ϕ 0 ðnet j Þv j ðo j À t j Þ if j is an output neuron ϕ 0 ðnet j Þ P k δ k w jk otherwise �<label>(7)</label></formula><p>where o j is the output of neuron j, t j the target value of neuron j, w jk the connection weight between neuron j and k, δ k the error signal for neuron k, net j the network input to neuron j, ϕ 0 the derivative of the activation function, and v j the geographically weighted distance between the observation and the location of output neuron j. Geographical weighting is only used for calculating the error signal of the output neurons, whereas all other neurons backpropagate the error signal of the neurons of the next layer. Like ANN, the connection weights of GWANN are adjusted using gradient descent (Equation ( <ref type="formula" target="#formula_5">4</ref>)).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Experiments</head><p>To compare GWR with GWANN, we used four synthetic datasets and one real-world dataset from real-estate economics. The synthetic datasets gave us full control over the characteristics of the data, in particular the nature of the relationships and spatial heterogeneity, which contributed to a better understanding of the different properties of the models. The real-world data allowed us to assess the models in a practical use case. For all experiments, we scaled the input variables to have zero mean and unit variance to make them comparable. We used Nesterov's accelerated gradient with a momentum coefficient of 0:900 when adjusting the connection weights. We set the learning rate η of GWANN to 0:010 and the mini-batch size to 50. While in principle the number of hidden layers of an ANN is arbitrary, we chose networks with a single hidden layer. Given enough hidden neurons, ANNs with a single hidden layer are able to arbitrary well approximate any continuous function on closed and bounded subsets of n-dimensional Euclidean space <ref type="bibr" target="#b10">(Cybenko 1989)</ref>. For each experiment, we tested different numbers of hidden neurons. A bias neuron is always added to the input and the hidden layer, but we did not include them when reporting the number of neurons. The hyperbolic tangent function is used as activation function for the hidden neurons.</p><p>We used a Gaussian kernel with GWR and GWANN for geographical weighting. When using an adaptive bandwidth, a grid search is performed to determine an appropriate bandwidth. When using a fixed bandwidth, the following local search approach is used to determine an appropriate bandwidth. The approach initially selects half of the largest distance between two observations as the current bandwidth. Then, a grid search is performed within the neighborhood of the current bandwidth for a bandwidth that results in a better mean performance. When one is found, the process is repeated within a smaller neighborhood of the newly found bandwidth until convergence.</p><p>The performance within the bandwidth search is estimated using 10-fold crossvalidation (CV). This procedure randomly partitions the data into 10 disjoint subsets. One subset at a time is then used to test the model, while the others are used to build it. Then, the mean performance over all folds is reported. We used the root mean square error (RMSE) as a performance measure.</p><p>The number of training iterations of GWANN was also determined using 10-fold CV. Within each fold, the models are trained until the performance for the test data of the current fold does not improve for 1,000 iterations. The purpose of the additional iterations is to give the networks a chance to escape from local minima. This approach, commonly termed 'early stopping with patience', substantially reduces the risk of overfitting the training data <ref type="bibr" target="#b2">(Bengio 2012)</ref>. Then, the iteration for which the best mean performance over all folds has been obtained as well as the obtained performance value are reported.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Experiment 1: synthetic data</head><p>The purpose of this experiment was to investigate the differences between GWR and GWANN when modeling processes with different spatial characteristics. In particular, we were interested in how the model performance depends on the linearity and spatial variation of the relationships. We also examined the visualization of GWANN's connection weights between the hidden and output neurons as surfaces.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.1.">Data generating process</head><p>We created four artificial datasets. The spatial layout of the datasets was given by a grid of size 25 � 25. The following functions were used to create the datasets:</p><formula xml:id="formula_14">y i ¼ β 0 þ β 1 ðu i ; v i Þx i1 þ β 1 2 ðu i ; v i Þx i2 þ 2 i (<label>8</label></formula><formula xml:id="formula_15">)</formula><formula xml:id="formula_16">y i ¼ β 0 þ β 1 ðu i ; v i Þx i1 þ β 2 2 ðu i ; v i Þx i2 þ 2 i (<label>9</label></formula><formula xml:id="formula_17">)</formula><formula xml:id="formula_18">y i ¼ β 0 þ 4 tanhð β 1 ðu i ; v i Þx i1 3 Þ þ 4 tanhð β 1 2 ðu i ; v i Þx i2 3 Þ þ 2 i (<label>10</label></formula><formula xml:id="formula_19">)</formula><formula xml:id="formula_20">y i ¼ β 0 þ 4 tanhð β 1 ðu i ; v i Þx i1 3 Þ þ 4 tanhð β 2 2 ðu i ; v i Þx i2 3 Þ þ 2 i (<label>11</label></formula><formula xml:id="formula_21">)</formula><p>For all functions, ðu i ; v i Þ denotes the position of grid cell i, 2 i the error term drawn from Nð0; 0:25Þ, x i a random variable drawn Nð0; 1Þ, and β 0 , β 1 ðu i ; v i Þ, and β 1 2 ðu i ; v i Þ and β 2 2 ðu i ; v i Þ, respectively, the coefficients for grid cell i. While the first two functions (Equations ( <ref type="formula" target="#formula_14">8</ref>) and ( <ref type="formula" target="#formula_16">9</ref>)) model linear relationships between the dependent and independent variables, the third and fourth functions (Equations ( <ref type="formula" target="#formula_18">10</ref>) and ( <ref type="formula" target="#formula_20">11</ref>)) use the hyperbolic tangent function to represent nonlinear relationships.</p><p>The coefficients were designed to represent different characteristics of spatial heterogeneity. They were calculated as follows:</p><formula xml:id="formula_22">β 0 ¼ 1 (<label>12</label></formula><formula xml:id="formula_23">)</formula><formula xml:id="formula_24">β 1 ðu i ; v i Þ ¼ 1 þ u i þ v i 12 (<label>13</label></formula><formula xml:id="formula_25">)</formula><formula xml:id="formula_26">β 1 2 ðu i ; v i Þ ¼ 1 þ 2ðcosð πu i 24 Þ cosð πv i 24 ÞÞ (<label>14</label></formula><formula xml:id="formula_27">)</formula><formula xml:id="formula_28">β 2 2 ðu i ; v i Þ ¼ 1 þ 2ðcosð πu i 12 Þ cosð πv i 12 ÞÞ (<label>15</label></formula><formula xml:id="formula_29">)</formula><p>For all coefficients, ðu i ; v i Þ denotes the position of grid cell i. β 0 represents a constant surface with no spatial heterogeneity. β 1 is a linear trend surface. β 1 2 and β 2 2 vary nonlinearly with location; the spatial variation of β 2 2 is higher than that of β 1 2 . In terms of scale, β 1 2 represents small-scale spatial heterogeneity, and β 2 2 large-scale spatial heterogeneity. Figure <ref type="figure" target="#fig_2">3</ref> shows the coefficients' surfaces.</p><p>Following the definition of the coefficients, the first and third functions (Equations ( <ref type="formula" target="#formula_14">8</ref>) and ( <ref type="formula" target="#formula_18">10</ref>)) represent processes with low spatial variance, while the second and fourth functions (Equations ( <ref type="formula" target="#formula_16">9</ref>) and ( <ref type="formula" target="#formula_20">11</ref>)) represent processes with high spatial variance of coefficients.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.2.">Experimental setup</head><p>For all datasets, we used the variable y as the dependent variable and the variables x 1 and x 2 as independent variables. We used fixed bandwidths for GWR and GWANN. This allowed a finer control of the bandwidths when the observations were uniformly arranged in a grid and thus only a few distance classes were present.</p><p>To investigate the performance of GWR and GWANN, we used 10-fold CV with 90% of the data to determine an appropriate bandwidth for GWR and GWANN as well as an appropriate number of iterations for GWANN. Then, we used the same data to build a GWR and GWANN model with the hyperparameters determined and used the remaining data to obtain an independent estimate of their performance. We repeated the procedure for 100 random replications of each of the four toy datasets and reported the mean results.</p><p>The estimated coefficients of GWR can be visualized as surfaces to explore the spatial variation of the relationships. Analogously to GWR, it is also possible to visualize GWANN's connection weights between the hidden and the output neurons as surfaces. Each surface then refers to a hidden neuron's output, which is a nonlinearly transformed linear combination of the input variables.</p><p>To investigate and compare the visualization of the coefficient surfaces of GWR and the connection weight surfaces of GWANN, we built a GWR and a GWANN model using an exemplary replication of the dataset that was created using Equation (11). This dataset is the most complex one because of the nonlinearity of the relationships and the high spatial variance of the coefficients. The number of hidden neurons of GWANN was set to five because this allowed a comprehensive visualization while providing a good model fit. Since we wanted to visualize the coefficient weights for every observation, the number of output neurons equaled the total number of observations, and each output neuron was assigned the location of an observation. Due to randomness in the data generating process and in the training of GWANN, a different bandwidth and different number of training iterations were determined for most replications. We chose the bandwidth and number of iterations corresponding to the replication for which the median RMSE over all replications had been obtained.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.3.">Results &amp; discussion</head><p>Figure <ref type="figure" target="#fig_3">4</ref> shows the mean number of training iterations GWANN until convergence. The mean number of training iterations of GWANN does not change with the number of hidden neurons when the relationships are nonlinear and the spatial variance of the coefficients is low; otherwise, it decreases with the number of hidden neurons.</p><p>Figure <ref type="figure">5</ref> shows the obtained mean bandwidths. The mean bandwidth of GWANN always decreases with the number of hidden neurons; the decrease, however, is small when the relationships are nonlinear. The mean bandwidth of GWANN is larger than that of GWR when the relationships are linear, whereas it is lower when the relationships are nonlinear. Also, the mean bandwidths of GWANN and GWR are generally higher when the spatial variance of the coefficients is low.</p><p>Figure <ref type="figure">6</ref> shows the mean RMSE of the models for the independent hold-out test datasets (for the proportion of explained variance, see Figure <ref type="figure" target="#fig_0">S1</ref> in the supplementary materials). The mean RMSE of GWR is lower than the mean RMSE of GWANN when the relationships are linear. However, when the relationships are nonlinear, the mean RMSE of GWR is substantially higher than the mean RMSE of GWANN. This is not unexpected, because unlike GWANN, GWR is not inherently capable of modeling nonlinear relationships. The mean RMSE of GWANN is substantially lower than the mean RMSE of GWR when the relationships are nonlinear and the spatial variance of the coefficient is high. The mean RMSE of GWANN generally decreases with the number of hidden neurons when the relationships are linear; the decrease is stronger, however, when the spatial variance of the coefficients is high. When the relationships are nonlinear and the spatial variance of the coefficients is low, then the mean RMSE of GWANN only decrease with the number of hidden neurons if that number is low; otherwise, the RMSE remains the same. No correlation between the number hidden neurons and mean RMSE is observable when the relationships are nonlinear and the spatial variance of the coefficients is high. Nonlinear High variance Nonlinear Low variance Linear High variance Linear Low variance 10 20 30 40 10 20 30 40 0.3 0.5 0.7 0.9 1.1 0.3 0.5 0.7 0.9 1.1 Hidden neurons Mean RMSE GWANN GWR Figure 6. Estimated prediction error (RMSE).</p><p>In general, the performance of all tested models depends on the nature of the underlying process. When the relationships in the data are nonlinear and the spatial variance of the coefficients is high (i.e. large-scale spatial heterogeneity), GWANN performs substantially better than GWR. In practice, however, the characteristics of the data generating process are usually not known beforehand and therefore it is necessary to empirically assess the performance of the competing models.</p><p>Using an exemplary replication of the dataset that was created using Equation ( <ref type="formula" target="#formula_20">11</ref>), we trained GWANN for 5; 610 iterations with a bandwidth of 1:801 and fitted a GWR model with a bandwidth of 2:000. Figure <ref type="figure" target="#fig_5">7</ref> shows the coefficient surfaces of GWR. The coefficient surfaces roughly resemble the coefficients of the original dataset (see Figure <ref type="figure" target="#fig_2">3</ref>). We calculated Pearson's correlation coefficient between the surfaces of GWR and the coefficients of the dataset to quantify their similarity. The linear trend of β 1 from bottom left to top right is observable for the surface of β1 (r ¼ 0:871, p � 0:05) as well as the hill and valley patterns of β 2 2 for the surface of β2 2 (r ¼ 0:708, p � 0:05). However, all surfaces of the estimated coefficients show irregularities and noise.</p><p>Figure <ref type="figure" target="#fig_6">8</ref> shows the connection weights between the hidden neurons (including the bias neuron) and the output neurons of GWANN as surfaces. Some surfaces of GWANN show patterns that correspond to the coefficients of the original dataset. The linear trend of β 1 from bottom left to top right is visible for the surfaces of neurons 2 (Pearson's correlation coefficient r ¼ À 0:906, p � 0:05) and 5 (r ¼ À 0:779, p � 0:05), whereas the hill and valley patterns of β 2 2 are noticeable for the surfaces of neuron 4 (r ¼ 0:960, p � 0:05). The surfaces of neuron 1 and 3 and the bias neuron, however, do not resemble any of the coefficient surfaces. Also, none of the neurons' surfaces shows the pattern of β 0 and all surfaces of GWANN exhibit substantial traces of irregularities and noise. With the exception of β 0 , we can identify for each coefficient at least one surface of GWANN's connection weights with which it is more correlated than it is with any surface of GWR's estimated coefficient.</p><p>While for this experiment the visualization of GWANN's surfaces provided evidence that the model learned the spatial relationships of the dataset, a detailed interpretation of the surfaces is difficult due to the complexity of the computations performed within the network. For instance, the surfaces of neurons 1 and 3 do not reveal how the neurons relate to the input data or how they contribute to the overall output of the network. Moreover, the computations performed within the network become less traceable the more input and hidden neurons the network consists of, which further limits the usefulness of GWANN's surfaces for explorative spatial data analysis in a practical setting.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Experiment 2: house prices in Austria</head><p>In this experiment, we assessed the differences in the predictive performance of GWR and GWANN using real-world data. We also investigated the effect of different distance matrices on the predictions of GWR and GWANN and evaluated the spatial distribution of the residuals. We chose housing as a case study because in real-estate economics, regression-based house price assessments are vital <ref type="bibr" target="#b35">(Sopranzetti 2010)</ref>. Hedonic theory assumes that a property represents a heterogeneous good that can be decomposed into its utility-bearing characteristics, and that the resulting benefit is reflected in the property price <ref type="bibr" target="#b33">(Rosen 1974)</ref>. Both the physical characteristics of a property (e.g. floor area) and the neighborhood characteristics (i.e. a dwelling's surroundings) contribute to the overall price. It is well established in housing research that transaction prices vary spatially and thus hedonic house price models that consider spatial heterogeneity are increasingly applied (e.g. <ref type="bibr" target="#b3">Bitter et al. 2007</ref><ref type="bibr" target="#b36">, Sunding and Swoboda 2010</ref><ref type="bibr" target="#b28">, Lu et al. 2011</ref><ref type="bibr" target="#b22">, Helbich and Griffith 2016)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.1.">Data</head><p>Data on 3;887 geocoded single-family houses in Austria were provided by UniCredit Bank Austria AG <ref type="bibr" target="#b21">(Helbich et al. 2014)</ref>. Individual transaction prices of house purchases recorded in euros were collected from 1998 to 2009, along with 11 structural properties of the houses and two temporal variables. Descriptive statistics are listed in Table <ref type="table">S1</ref> in the supplementary materials.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2.">Experimental setup</head><p>We used the log-transformed transaction prices as the dependent variable and the structural properties and temporal variables as independent variables. We used an adaptive bandwidth for GWANN and GWR, because of the uneven distribution of the housing locations (Figure <ref type="figure" target="#fig_10">12</ref>). We applied two different distance metrics for geographical weighting, namely Euclidean distance (ED) and travel time distance by car (TTD). TTDs were computed using the Open Source Routing Machine <ref type="bibr" target="#b23">(Huber and Rust 2016)</ref> with OpenStreetMap data.</p><p>To investigate the performance of GWR and GWANN, we used 10-fold CV to obtain robust estimates of the performance of the models (outer 10-fold CV). Note that within each fold, 10fold CV was also used to determine an appropriate bandwidth for GWR and GWANN and number of iterations for GWANN (inner 10-fold CV).</p><p>To investigate the predictions and residuals in detail, we built the models using the complete dataset. We chose the number of the networks' hidden neurons according to the number of hidden neurons for which the lowest mean RMSE had been obtained. Since we wanted to predict house prices for the complete dataset, the number of output neurons of GWANN equaled the total number of observations and each output neuron was assigned the location of an observation. Due to randomness in the (outer) 10-fold CV procedure and in the training of GWANN, a different bandwidth and a different number of training iterations were determined for most folds. We chose the bandwidth and number of iterations corresponding to the fold for which the median RMSE over all folds had been obtained.</p><p>If a model is unable to take into account the spatial properties of the data, its residuals tend to be spatially autocorrelated. We tested for residual spatial autocorrelation of the models using Moran's I. We calculated the test statistics using inverse EDs and evaluated the significance by means of 999 Monte-Carlo simulation runs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.3.">Results &amp; discussion</head><p>Figure <ref type="figure" target="#fig_7">9</ref> shows the mean number of training iterations of GWANN until convergence. GWANN generally requires fewer iterations to converge when using TTDs rather than EDs. The mean number of training iterations of GWANN when using EDs and TTDs decreases with the number of hidden neurons; the larger the number of hidden neurons, though, the smaller the decrease.</p><p>Figure <ref type="figure" target="#fig_8">10</ref> shows the obtained mean bandwidths for GWANN and GWR. While the mean bandwidth of GWANN is independent of the number of hidden neurons, the mean bandwidth is smaller when it uses TTDs rather than EDs. Similarly, the mean bandwidth of GWR is smaller when TTDs are used rather than EDs. Generally, the mean bandwidth of GWANN is considerably smaller than that of GWR, independent of the used distance metric and the number of hidden neurons. This result suggests that GWANN is generally able to model spatial variations in the data on a smaller scale than GWR.</p><p>Figure <ref type="figure" target="#fig_9">11</ref> shows the models' mean RMSEs obtained by means of (outer) 10-fold CV (for the proportion of explained variance, see Figure <ref type="figure" target="#fig_1">S2</ref>). While the mean RMSE of GWANN is lower when using EDs rather than TTDs, the difference in mean RMSE between the   distance metrics for GWR is barely observable. This confirms the results of <ref type="bibr" target="#b27">Lu et al. (2017)</ref>, who also found no substantial difference in the goodness-of-fit of GWR between EDs and TTDs, and also indicates that the predictive performance of GWANN depends more on the choice of the distance metric than is the case with GWR. Moreover, with the exception of GWANN consisting of fewer than 30 hidden neurons and using TTDs, the mean RMSE of GWANN is always lower than that of GWR, independent of the distance metric used for model building. The overall lowest mean RMSE is obtained by GWANN when using EDs and 60 hidden neurons. The results demonstrate that GWANN can make better predictions than GWR when dealing with spatially heterogeneous relationships in a practical setting.</p><p>Using the complete dataset, we built GWR and GWANN using the following hyperparameters. When using EDs, GWR was fitted with a bandwidth of 53 and GWANN was trained with 50 hidden neurons and a bandwidth of 27 for 2,304 iterations. When using TTDs, GWR was fitted with a bandwidth of 36 and GWANN was trained with 60 hidden neurons and a bandwidth of 15 for 2,478 iterations.</p><p>To compare the influence of the chosen distance metric on the predictions, Figure <ref type="figure" target="#fig_10">12</ref> shows the differences in predicted house prices when using TTDs and EDs for GWANN and GWR. When using EDs rather than TTDs, GWANN predicts higher house prices for the city of Linz. For the Graz region, a stark contrast between the city and its surroundings is observable: GWANN predicts higher house prices for the city itself but lower house prices for the surroundings when using EDs rather than TTDs. For the metropolitan areas of Vienna, it can be seen that GWANN predicts higher prices in the eastern surroundings of the city and lower prices in the western surroundings when using EDs rather than TTDs. For the city of Salzburg, no differences in predicted house prices are observable. However, in the northern surroundings of Salzburg, substantially lower house prices are predicted when GWANN uses EDs rather than TTDs. For GWR the differences in predicted house prices resulting from the use of either EDs or TTDs are generally small and no spatial patterns are observable. These results demonstrate that in contrast to GWR, for GWANN the choice of the distance metric has a substantial effect on the spatial distribution of the predictions.</p><p>Figure <ref type="figure" target="#fig_11">13</ref> shows the Moran's I statistics of the models' residuals. For GWR the Moran's I values are smaller when using EDs rather than TTDs, while for GWANN they are smaller when using TTDs rather than EDs. Independent of the distance metric, the Moran's I values of GWANN are smaller than those of GWR. However, the residuals of both models do not reach statistical significance (p &gt; 0:05), suggesting that both models take into account the spatial properties of the data appropriately.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Conclusion</head><p>We introduced GWANN -a method that combines ANNs and geographical weighting for modeling spatially heterogeneous relationships. We used synthetic and real-world data to compare GWANN with GWR. The results of the synthetic data showed that GWANN can have a better predictive performance than GWR when the relationships within the data are nonlinear and their spatial variance is high. The results based on the real-world data demonstrated that the predictive performance of GWANN can also be superior to that of the competing models in a practical setting.</p><p>Notwithstanding these promising results, this study had some limitations that should be considered when interpreting the findings or applying GWANN. First, the results depended on the choice of the models' hyperparameters. While we followed common practices when choosing the hyperparameters and did careful sensitivity analysis, it cannot be guaranteed that we chose the most appropriate hyperparameters. Comprehensive sensitivity analysis is part of future analysis. Second, while the coefficient surfaces of GWR are useful for analyzing the modeled relationships, the complexity of the computations performed within the network of GWANN makes the interpretation of its surfaces difficult if not impossible. Third, in most practical applications GWANN consists of many output neurons (i.e. one output neuron for each location for which a prediction is to be made). Hence, because each output neuron is connected to each hidden neuron, the number of connection weights can be very large and the adjustment of the connection weights during the training require substantial computational resources. This is particularly a concern when searching for an appropriate bandwidth, which involves training and comparing numerous GWANNs with different bandwidths. More efficient heuristics for finding an appropriate bandwidth have the potential to mitigate this issue. Fourth, in the context of GWR, <ref type="bibr" target="#b15">Fotheringham et al. (2017)</ref> showed that it is useful to model spatial heterogeneity at different scales by using individual bandwidths for the coefficients. While such an approach also has the potential to improve the predictive performance of GWANN, it remains open to further research as to whether and, if so, how it can be transferred to GWANN.</p><p>the European Union's Horizon 2020 research and innovation program <ref type="bibr">[Grant Agreement No. 714993]</ref>. The funders had no role in the study design, data collection and analysis, interpretation, or dissemination.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Notes on contributors</head><p>Julian Hagenauer is a data scientist at Daimler AG, Stuttgart. His research intestests are spatial machine learning, spatial data analysis, and how these can be used to solve geospatial problems.</p><p>Marco Helbich is associate professor in the Department of Human Geography and Spatial Planning, Utrecht University. His research deals with how the built and natural environments affect human behavior and health outcomes. His research interests focus on geocomputational techniques and spatio-temporal analytics to address human-environment relations in cities.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. ANN with three layers.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. GWANN with three layers. The rectangle indicates that the output neurons are assigned to locations on a plane. Note that although each hidden neuron typically has connections to all output neurons, for the sake of clarity the outgoing connections are shown for a single hidden neuron only.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Coefficients' surfaces with different characteristics of spatial heterogeneity.</figDesc><graphic coords="10,84.03,53.20,326.93,334.61" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Number of iterations until convergence.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .Figure 6 .</head><label>56</label><figDesc>Figure 5. Determined bandwidths (fixed).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Estimated coefficient surfaces of GWR.</figDesc><graphic coords="13,79.29,518.32,332.21,98.21" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Connection weights between the hidden neurons (including the bias neuron) and the output neurons of GWANN as surfaces.</figDesc><graphic coords="14,79.53,66.75,333.65,214.61" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Number of iterations until convergence.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. Determined bandwidths (adaptive).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 11 .</head><label>11</label><figDesc>Figure 11. Estimated prediction error (RMSE).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 12 .</head><label>12</label><figDesc>Figure 12. Difference in predicted house prices when using EDs and TTDs for GWR and GWANN. Gray lines demarcate the federal states of Austria.</figDesc><graphic coords="17,67.84,53.11,340.85,351.65" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 13 .</head><label>13</label><figDesc>Figure 13. Moran's I statistics of the residuals.</figDesc></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>J. HAGENAUER AND M. HELBICH</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgments</head><p>We thank the anonymous reviewers for their constructive comments, which greatly improved this article. We also acknowledge <rs type="institution">UniCredit Bank Austria AG</rs>, in particular <rs type="person">Wolfgang Brunauer</rs>, for providing the housing dataset. The opinions expressed by the authors do not reflect the official viewpoint of <rs type="institution">UniCredit Bank Austria AG</rs>.</p></div>
+			</div>
+			<div type="funding">
+<div><head>Funding</head><p>This research is an outcome of the first author's research stay at <rs type="institution">Utrecht University</rs> in the course of the <rs type="projectName">NEEDS</rs> project. The <rs type="projectName">NEEDS</rs> project was funded by the <rs type="funder">European Research Council (ERC)</rs> under</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funded-project" xml:id="_QjaPgmy">
+					<orgName type="project" subtype="full">NEEDS</orgName>
+				</org>
+				<org type="funded-project" xml:id="_Qce42B3">
+					<orgName type="project" subtype="full">NEEDS</orgName>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Note 1. Two additional experiments are given in the supplemental materials. The first one uses housing benchmark data to predict house prices and the second one traffic and land-use data to predict nitrogen dioxide concentrations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data and codes availability statement</head><p>An R package that provides an implementation of GWANN, the source code, and the synthetic datasets can be downloaded from <ref type="url" target="https://github.com/jhagenauer/gwann">https://github.com/jhagenauer/gwann</ref>. The real-estate dataset cannot be shared publicly due to data protection restrictions.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Disclosure statement</head><p>No potential conflict of interest was reported by the author(s).</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">What is special about spatial data? Alternative perspectives on spatial data analysis</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1989">1989</date>
+			<publisher>National Center for Geographic Information and Analysis</publisher>
+			<pubPlace>Santa Barbara</pubPlace>
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Alleviating the effect of collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Bárcena</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-014-0199-6</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="441" to="466" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Practical recommendations for gradient-based training of deep architectures</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Bengio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Neural networks: tricks of the trade</title>
+		<editor>
+			<persName><forename type="first">G</forename><surname>Montavon</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">G</forename><forename type="middle">B</forename><surname>Orr</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">K.-R</forename><surname>Müller</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2012">2012</date>
+			<biblScope unit="page" from="437" to="478" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Incorporating spatial variation in housing attribute prices: a comparison of geographically weighted regression and the spatial expansion method</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bitter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Mulligan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dall'erba</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-006-0028-7</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="7" to="27" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Some notes on parametric significance tests for geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/0022-4146.00146</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="497" to="524" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression: a method for exploring spatial nonstationarity</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.1996.tb00936.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="281" to="298" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Geographically weighted discriminant analysis</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.2007.00709.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="376" to="396" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Generating models by the expansion method: applications to geographical research</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Casetti</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.1972.tb00458.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="81" to="91" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Analysis of the relationship between community characteristics and depression using geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Choi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kim</surname></persName>
+		</author>
+		<idno type="DOI">10.4178/epih.e2017025</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Epidemiology and Health</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<date type="published" when="2017">2017. 2017025</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Distance metric choice can both reduce and induce collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Comber</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning B: Urban Analytics and City Science</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="489" to="507" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Approximation by superpositions of a sigmoidal function</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Cybenko</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/BF02551274</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematics of Control, Signals, and Systems</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="303" to="314" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Geographically neural network weighted regression for the accurate estimation of spatial non-stationarity</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Du</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="1353" to="1377" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Geographically weighted regression: the analysis of spatially varying relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Chichester, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Geographical and temporal weighted regression (GTWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12071</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression and multi-collinearity: dispelling the myth</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-016-0239-5</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="303" to="329" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2017.1352480</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Weighted spatial adaptive filtering: monte Carlo studies and application to illicit drug market modeling</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">L</forename><surname>Gorr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Olligschlaeger</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1538-4632.1994.tb00311.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="67" to="87" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<title level="m" type="main">Spatial autocorrelation and spatial filtering: gaining understanding through theory and scientific visualization</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<pubPlace>Berlin, Heidelberg</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Comparison of bandwidth selection in application of geographically weighted regression: a case study</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Guo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhang</surname></persName>
+		</author>
+		<idno type="DOI">10.1139/X08-091</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Canadian Journal of Forest Research</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="2526" to="2534" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Local modelling of land consumption in Germany with RegioClust</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hagenauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Helbich</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jag.2017.10.003</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Applied Earth Observation and Geoinformation</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="46" to="56" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Haykin</surname></persName>
+		</author>
+		<title level="m">Neural networks: a comprehensive foundation. 3rd</title>
+		<meeting><address><addrLine>Upper Saddle River, NJ</addrLine></address></meeting>
+		<imprint>
+			<publisher>Prentice Hall</publisher>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Spatial heterogeneity in hedonic house price models: the case of Austria</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Helbich</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0042098013492234</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Urban Studies</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="390" to="411" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Spatially varying coefficient models in real estate: eigen-vector spatial filtering and alternative approaches</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Helbich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.compenvurbsys.2015.12.002</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Computers, Environment and Urban Systems</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="1" to="11" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Calculate travel time and distance with OpenStreetMap data using the open source routing machine (OSRM)</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Huber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rust</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/1536867X1601600209</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Stata Journal</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="416" to="423" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">Introduction to spatial econometrics. Statistics: A Series of Textbooks and Monographs</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>CRC Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Extreme learning machines for spatial environmental data</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Leuenberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kanevski</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.cageo.2015.06.020</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Geosciences</title>
+		<imprint>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="64" to="73" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Geographically weighted elastic net: A variable-selection and modeling method under the spatially nonstationary condition</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Lam</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2018.1425129</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">108</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1582" to="1600" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression with parameter-specific distance metrics</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2016.1263731</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="982" to="998" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Geographically weighted regression using a non-Euclidean distance metric with a study on london house price data</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringhama</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.proenv.2011.07.017</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Procedia Environmental Sciences</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="92" to="97" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Multi-scale correlations between topography and vegetation in a hillside catchment of Honduras</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Nelson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oberthür</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Cook</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658810600852263</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="174" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A method for solving the convex programming problem with convergence rate O(1/k 2 )</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">E</forename><surname>Nesterov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Doklady Akademii Nauk SSSR</title>
+		<imprint>
+			<biblScope unit="volume">269</biblScope>
+			<biblScope unit="page" from="543" to="547" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Moving window approaches for hedonic price estimation: an empirical comparison of modelling techniques</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Long</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Farber</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0042098008091491</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Urban Studies</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="1565" to="1581" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<title level="m" type="main">Neural networks: a systematic introduction</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Rojas</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<pubPlace>Berlin, Heidelberg</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Hedonic prices and implicit markets: product differentiation in pure competition</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Rosen</surname></persName>
+		</author>
+		<idno type="DOI">10.1086/260169</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Political Economy</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="34" to="55" />
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Learning representations by back-propagating errors</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">E</forename><surname>Rumelhart</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">E</forename><surname>Hinton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Williams</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/323533a0</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">323</biblScope>
+			<biblScope unit="issue">6088</biblScope>
+			<biblScope unit="page" from="533" to="536" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Hedonic regression analysis in real estate markets: a primer</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Sopranzetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of quantitative finance and risk management</title>
+		<meeting><address><addrLine>Berlin, Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="1201" to="1207" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Hedonic analysis with locally weighted regression: an application to the shadow cost of housing regulation in Southern California</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Sunding</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">M</forename><surname>Swoboda</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2010.07.002</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="550" to="573" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">On the importance of initialization and momentum in deep learning</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Sutskever</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 30thInternational conference on machine learning</title>
+		<meeting>the 30thInternational conference on machine learning<address><addrLine>Atlanta, Georgia</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="1139" to="1147" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">The relationship between tree canopy and crime rates across an urban-rural gradient in the greater Baltimore region</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Troy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Grove</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O'</forename><surname>Neil-Dunne</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename></persName>
+		</author>
+		<idno type="DOI">10.1016/j.landurbplan.2012.03.010</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Landscape and Urban Planning</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="262" to="270" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Quantifying geographic variations in associations between alcohol distribution and violence: a comparison of geographically weighted regression and spatially varying coefficient models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s00477-007-0139-9</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Stochastic Environmental Research and Risk Assessment</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="573" to="588" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Diagnostic tools and a remedial method for collinearity in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a38325</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment &amp; Planning A</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="2464" to="2481" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Simultaneous coefficient penalization and model selection in geographically weighted regression: the geographically weighted lasso</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a40256</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment &amp; Planning A</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="722" to="742" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and correlation among local regression coefficients in geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-005-0155-6</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Analyzing and modeling land use land cover change (LUCC) in the Daqing City</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.apgeog.2010.11.019</idno>
+	</analytic>
+	<monogr>
+		<title level="j">China. Applied Geography</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="600" to="608" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

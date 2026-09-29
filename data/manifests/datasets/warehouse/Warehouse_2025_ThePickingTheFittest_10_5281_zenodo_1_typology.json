@@ -1,0 +1,129 @@
+{
+  "dataset_id": "Warehouse_2025_ThePickingTheFittest_10_5281_zenodo_1",
+  "package": "warehouse:figshare_or_zenodo:Warehouse_2025_ThePickingTheFittest_10_5281_zenodo_1",
+  "dataset": "Picking the fittest: AI patents and regional tech policy in China",
+  "source_lang": "python",
+  "conversion_method": "name_join:GADM_CHN_ADM1(NAME_1 dissolved + alias Inner Mongolia/Ningxia/Xinjiang, verified 30/30)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2025_ThePickingTheFittest_10_5281_zenodo_1.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "Region",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 30,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Year",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2006, 2021]",
+        "n_unique": 16,
+        "pct_na": 0.0
+      },
+      {
+        "name": "AIpat/Pop",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 11.4953]",
+        "n_unique": 439,
+        "pct_na": 0.0
+      },
+      {
+        "name": "RTA ICT",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.9444, 0.4444]",
+        "n_unique": 468,
+        "pct_na": 0.0
+      },
+      {
+        "name": "AIzone",
+        "class": "int64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "HTRDexp/GDP",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-9.1422, 0.6466]",
+        "n_unique": 480,
+        "pct_na": 0.0
+      },
+      {
+        "name": "HTRDpers/Emp",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-9.9311, -0.0288]",
+        "n_unique": 480,
+        "pct_na": 0.0
+      },
+      {
+        "name": "GDP/Pop",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[5.1824, 7.1791]",
+        "n_unique": 480,
+        "pct_na": 0.0
+      },
+      {
+        "name": "FDI/GDP",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-5.3619, 1.4938]",
+        "n_unique": 480,
+        "pct_na": 0.0
+      },
+      {
+        "name": "IV RTA ICT",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.0087]",
+        "n_unique": 450,
+        "pct_na": 6.2
+      },
+      {
+        "name": "Robustness AIpat/Pop",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 2.9112]",
+        "n_unique": 213,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 30,
+    "T": 16,
+    "T_var": "Year",
+    "k": 11,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_petit_T_grand"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": 73.557701,
+      "ymin": 18.159306,
+      "xmax": 134.773926,
+      "ymax": 53.56086
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "Geometrie jointe par nom de province contre GADM 4.1 Chine ADM1 (dissous par NAME_1), avec alias explicite (Nei Mongol->Inner Mongolia, Ningxia Hui->Ningxia, Xinjiang Uygur->Xinjiang) et correction de 2 fautes de frappe evidentes si presentes (Fujiang->Fujian, Sichuang->Sichuan). 0 ligne non appariee."
+  }
+}

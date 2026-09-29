@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Quantile Regression for Partially Linear Varying Coefficient Spatial Autoregressive Models</title>
+				<funder>
+					<orgName type="full">Project of Ministry of Education</orgName>
+				</funder>
+				<funder ref="#_DRkdk6G">
+					<orgName type="full">National Natural Science Foundation of China</orgName>
+				</funder>
+				<funder ref="#_MFhQTCw">
+					<orgName type="full">Specialized Research Fund for the Doctoral Program of Higher Education of China</orgName>
+				</funder>
+				<funder>
+					<orgName type="full">Fundamental Research Funds for the Central Universities</orgName>
+				</funder>
+				<funder ref="#_n45gUQc">
+					<orgName type="full">Key Program of National Philosophy and Social Science Foundation</orgName>
+				</funder>
+				<funder ref="#_tjts24J">
+					<orgName type="full">Research Funds of Renmin University of China</orgName>
+				</funder>
+				<funder ref="#_Gq2TGeE">
+					<orgName type="full">Major Program of Beijing Philosophy and Social Science Foundation of China</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2016-08-08">August 8, 2016</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Xiaowen</forename><surname>Dai</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Center for Applied Statistics</orgName>
+								<orgName type="department" key="dep2">School of Statistics</orgName>
+								<orgName type="institution">Renmin University of China</orgName>
+								<address>
+									<postCode>100872</postCode>
+									<settlement>Beijing</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Shaoyang</forename><surname>Li</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Center for Applied Statistics</orgName>
+								<orgName type="department" key="dep2">School of Statistics</orgName>
+								<orgName type="institution">Renmin University of China</orgName>
+								<address>
+									<postCode>100872</postCode>
+									<settlement>Beijing</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Maozai</forename><surname>Tian</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department" key="dep1">Center for Applied Statistics</orgName>
+								<orgName type="department" key="dep2">School of Statistics</orgName>
+								<orgName type="institution">Renmin University of China</orgName>
+								<address>
+									<postCode>100872</postCode>
+									<settlement>Beijing</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">School of Statistics</orgName>
+								<orgName type="institution">Lanzhou University of Finance and Economics Lanzhou</orgName>
+								<address>
+									<postCode>730101</postCode>
+									<settlement>Gansu</settlement>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Quantile Regression for Partially Linear Varying Coefficient Spatial Autoregressive Models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2016-08-08">August 8, 2016</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">BCFCE3DDC1EED79DB72DE11A55F83919</idno>
+					<idno type="arXiv">arXiv:1608.01739v1[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:18+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial autoregressive model</term>
+					<term>Varying coefficient</term>
+					<term>Partially linear</term>
+					<term>Quantile regression</term>
+					<term>Instrumental variables</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper considers the quantile regression approach for partially linear spatial autoregressive models with possibly varying coefficients. B-spline is employed for the approximation of varying coefficients. The instrumental variable quantile regression approach is employed for parameter estimation. The rank score tests are developed for hypotheses on the coefficients, including the hypotheses on the non-varying coefficients and the constancy of the varying coefficients. The asymptotic properties of the proposed estimators and test statistics are both established. Monte Carlo simulations are conducted to study the finite sample performance of the proposed method. Analysis of a real data example is presented for illustration.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Spatial econometric models have been widely used in many areas (e.g., economics, political science and public health) to deal with spatial interaction effects among geographical units (e.g., jurisdictions, regions, and states). Many of the early studies have been summarized in <ref type="bibr" target="#b1">Anselin (1988)</ref>, <ref type="bibr" target="#b2">Anselin and Bera (1998)</ref>, <ref type="bibr" target="#b26">LeSage (1999)</ref> and <ref type="bibr" target="#b27">LeSage and Pace (2009)</ref>. Recently, there are a large number of literature concerning on the spatial econometric models. For instance, <ref type="bibr" target="#b22">Lee (2007)</ref> studied the generalized method of moments (GMM) applied to the Spatial autoregressive model. <ref type="bibr" target="#b23">Lee (2004)</ref> studied asymptotic properties of the quasi-maximum likelihood estimator of the Spatial autoregressive model. <ref type="bibr" target="#b25">Lee and Yu (2010)</ref> proposed the maximum likelihood (ML) estimator for the spatial autoregressive (SAR) panel model with both spatial lag and spatial disturbances. <ref type="bibr" target="#b7">Dai, et al. (2015</ref><ref type="bibr" target="#b6">Dai, et al. ( , 2016</ref>) respectively studied the local influence and outlier detection in the general spatial model which includes the spatial autoregressive model and the spatial error model as two special cases. <ref type="bibr" target="#b37">Xu and Lee (2015)</ref> considered the instrumental variable (IV) and MLE estimators for spatial autoregressive model with a nonlinear transformation of the dependent variable. Qu and Lee (2015) provided three estimation methods for the spatial autoregressive model with an endogenous spatial weight matrix, including two-stage instrumental variable (2SIV) method, quasi-maximum likelihood estimation (QMLE) approach, and generalized method of moments (GMM). Zhang and Shen (2015) investigated the GMM estimation approach for the partially linear varying coefficient spatial autoregressive panel data models with random effects. <ref type="bibr" target="#b19">Jin, et al. (2016)</ref> studied oulier detection in the spatial autoregressive model.</p><p>However, in some practical applications, a linear model might not be flexible enough to capture the underlying complex dependence structure. And a purely nonparametric model may suffer from the so-called "curse of dimensionality" problem, the practical implementation might not be easy, and the visual display may not be useful for the exploratory purposes. To deal with the aforementioned problems, some dimension reduction modeling methods have been proposed in the literature. For example, <ref type="bibr" target="#b15">He et al. (1998)</ref>, <ref type="bibr" target="#b14">He and Ng (1999)</ref>, <ref type="bibr" target="#b16">He and Portnoy (2000)</ref>, De Gooijer and Zerom (2003), Yu and Lu (2004) considered the additive quantile regression models for iid data. <ref type="bibr" target="#b18">Honda (2004)</ref> and <ref type="bibr" target="#b3">Cai and Xu (2008)</ref> proposed the varying coefficient quantile regression models for time series data. <ref type="bibr" target="#b17">He and Shi (1996)</ref>, <ref type="bibr" target="#b13">He and Liang (2000)</ref>, and <ref type="bibr" target="#b24">Lee (2003)</ref> considered the partially linear quantile regression models for iid data. <ref type="bibr" target="#b0">Ahmad, Leelahanon and Li (2005)</ref> and <ref type="bibr" target="#b9">Fan and Huang (2005)</ref> considered the partially linear varying coefficient models for cross-sectional data. <ref type="bibr" target="#b31">Sun and Wu (2005)</ref> and Fan, Huang and Li (2007) considered the partially linear varying coefficient models for longitudinal data.</p><p>In this paper, we investigate the quantile regression approach for partially linear varying coefficient spatial autoregressive models, since the partially linear varying coefficient model is a good balance between flexibility and parsimony. We employ B-spline for the approximation of varying coefficients. Due to the presence of endogenous variable, we employ the instrumental variable quantile regression (IVQR) method to attenuate the bias. The focus of this paper is to estimate the conditional quantile curves without any specification of the error distribution.</p><p>The rest of the paper is organized as follows. Section 2 introduces the partially linear varying coefficient spatial autoregressive models. Section 3 proposes the IVQR estimation procedure. Section 4 proposes the inference procedures for testing the non-varying coefficients and the constancy of the varying coefficients. The asymptotic properties of the estimators and test statistics are also discussed. Proofs of the theorems in Sections 3 and 4 are given in the Appendix. Section 5 reports a simulation study for assessing the finite sample performance of the proposed estimators. An empirical illustration is considered in Section 6. Section 7 concludes the paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">The Models</head><p>Consider the following partially linear varying coefficient spatial autoregressive model</p><formula xml:id="formula_0">y i = ρ n j=1 w ij y j + X ⊤ i β + Z ⊤ i γ(U i ) + ε i , (2.1)</formula><p>where y i is the dependent variable, X i is a p × 1 vector, Z i is a q × 1 vector. w ij is the (i, j)th element of the spatial weight matrix W . The parameter ρ is a coefficient on the spatial lagged dependent variable W y, β is a p × 1 parameter vector, γ(U i ) comprises q unknown smooth functions, U i is the smoothing variable. Here, we only consider one-dimensional smoothing</p><formula xml:id="formula_1">variable U i ∈ R.</formula><p>Matrix form of model (2.1) is</p><formula xml:id="formula_2">y = ρW y + Xβ + Zγ(U ) + ε,<label>(2.2)</label></formula><p>where</p><formula xml:id="formula_3">y = (y 1 , • • • , y n ) ⊤ , X = [X 1 , • • • , X n ] ⊤ , X i = [X i1 , • • • , X ip ] ⊤ , Z = [e 1 ⊗Z ⊤ 1 , • • • , e n ⊗Z ⊤ n ], Z i = [Z i1 , • • • , Z iq ] ⊤ , U = (U 1 , • • • , U n ) ⊤</formula><p>, e i is an n × 1 vector with the ith element equal to 1 and the rest equal to 0,</p><formula xml:id="formula_4">γ(U ) = (γ ⊤ (U 1 ), • • • , γ ⊤ (U n )) ⊤ is an nq × 1 vector, ε = (ε 1 , • • • , ε n ) ⊤ .</formula><p>Here, we can denote Z * = [Z 1 , • • • , Z n ] ⊤ . Due to the presence of endogenous variable d i = n j=1 w ij y j , we employ the instrumental variable quantile regression (IVQR) method to attenuate the bias. The endogenous variable d i is related to a vector of instruments ω i which are independent of ε i . Then we can define the following conditional instrumental quantile relationship:</p><formula xml:id="formula_5">Q τ (y i |F -i , X i , Z i , U i ) = ρ(τ )d i + X ⊤ i β(τ ) + Z ⊤ i γ(τ, U i ) + ω i ζ(τ ), (2.3)</formula><p>where Q τ (y i |F -i , X i , Z i , U i ) is the conditional τ -quantile of y i given F -i , X i , Z i and U i , F -i is the σ-field of {y j : j = i}, ζ is the coefficient corresponding to the instrumental variable ω i ,</p><formula xml:id="formula_6">Q τ (ε i |F -i , X i , Z i , U i ) = 0.</formula><p>3 The proposed method</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Instrumental Variable Quantile Regression Estimator (IVQR)</head><p>In this section, we employ B-spline for estimation. Without loss of generality, we assume that U i ∈ [0, 1] for all i throughout.</p><p>We employ normalized B-splines of order h + 1 to approximate the γ l (τ, u), l = 1, • • • , q. We consider a sequence of positive integers {k n }, n ≥ 1, and an extended partition of [0, 1] by k n quasi-uniform internal knots. Let π kn (u) = (B 1 (u), • • • , B kn+h+1 (u)) ⊤ denote a set of B-spline basis functions. We approximate each γ l (τ, u) by a linear combination of normalized B-spline basis functions</p><formula xml:id="formula_7">γ l (τ, u) ≈ kn+h+1 s=1 B s (u)θ l,s (τ ) = π kn (u) ⊤ θ l (τ ), where θ l (τ ) = (θ l,1 (τ ), • • • , θ l,kn+h+1 (τ )) ⊤</formula><p>is the spline coefficient vector. For details on the construction of B-spline basis functions, the readers are referred to <ref type="bibr" target="#b30">Schumaker (1981)</ref>. With the B-spline basis, model (2.3) can be approximated by</p><formula xml:id="formula_8">Q τ (y i |F -i , X i , Z i , U i ) ≈ ρ(τ )d i + p l=1 X i,l β l (τ ) + q l=1 kn+h+1 s=1 Z i,l B s (U i )θ l,s (τ ) + ω i ζ(τ ), = ρ(τ )d i + X ⊤ i β(τ ) + Π ⊤ i Θ(τ ) + ω i ζ(τ ), (3.1)</formula><p>where</p><formula xml:id="formula_9">Π i = (Z i1 π ⊤ kn (U i ), • • • , Z iq π ⊤ kn (U i )) ⊤ ∈ R q kn , Θ(τ ) = (θ l,s (τ )) ∈ R q kn , q kn = q(k n + h + 1).</formula><p>Then we can define the following objective function:</p><formula xml:id="formula_10">R IV (τ, ρ, β, Θ, ζ) = n i=1 ρ τ (y i -ρd i -X ⊤ i β -Π ⊤ i Θ -ω i ζ). (3.2)</formula><p>Following <ref type="bibr">Chernozhukov and</ref><ref type="bibr">Hansen (2006, 2008)</ref> and <ref type="bibr" target="#b11">Galvao (2011)</ref>, and assuming the availability of instrumental variables ω i , we can derive the IVQR estimator via the following three steps:</p><p>• Step 1: For a given quantile τ , define a suitable set of values {ρ j , j = 1, • • • , J; |ρ| &lt; 1}.</p><p>One then minimizes the objective function for β, Θ, ζ to obtain the ordinary QR estimators of β, Θ, ζ:</p><formula xml:id="formula_11">( β(ρ, τ ), Θ(ρ, τ ), ζ(ρ, τ )) = arg min β,Θ,ζ R IV (τ, ρ, β, Θ, ζ).<label>(</label></formula><p>3.3) • Step 2: Choose ρ(τ ) among {ρ j , j = 1, • • • , J} which makes a weighted distance function defined on ζ closest to zero:</p><formula xml:id="formula_12">ρ(τ ) = arg min ρ∈R ζ(ρ, τ ) ⊤ Â(τ ) ζ(ρ, τ ) ,<label>(3.4)</label></formula><p>where A is a positive definite matrix, R = [-1, 1].</p><p>• Step 3: The estimation of β, Θ can be obtained, which is respectively β(ρ(τ ), τ ) and Θ(ρ(τ ), τ ). Accordingly, the polynomial spline estimator γl (τ, u) is given by π kn (u) ⊤ θl (τ ) for each l, l = 1, • • • , q.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark 1.</head><p>Throughout the paper, we use the cubic spline in the B-spline approximation.</p><p>For the objective function (3.2), the knots k n are chosen as the minimizer to the following Schwarz-type Information Criterion:</p><formula xml:id="formula_13">SIC(k n ) = log n i=1 ρ τ y i -ρ(kn) n j=1 w ij y j -X ⊤ i β(kn) -Π ⊤ i Θ(kn) -ω i ζ(kn) + log n 2n (2 + p + q kn ).</formula><p>where ρ(kn) , β(kn) , Θ(kn) , ζ(kn) are the τ th quantile estimators with k n knots. More details can be found in <ref type="bibr" target="#b20">Kim (2003)</ref>.</p><p>Remark 2. For an IVQR estimation, we need instruments for the endogenous variable D = W y. In practice, we can choose W X, [X, Z * ], [W X, W Z * ], etc. as instrumental variable matrix.</p><p>In this paper, [W X, W Z * ] is chosen as instrumental variable matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Asymptotic theory</head><p>The following are sufficient conditions for the proposed IVQR estimator based on polynomial spine approximation. Assumption 2 (i) γ l (u) ∈ V, where V denotes the class of varying coefficient functions. For some r ≥ 1,</p><formula xml:id="formula_14">γ l (u) ∈ H r , l = 1, • • • , q.</formula><p>Here, we say function g(u) belongs to the class of varying coefficient functions V if g(u) = z ⊤ h(u) and E g(u) 2 &lt; ∞. And H r denote the collection of all functions on [0, 1] whose mth order derivative satisfies the Hölder condition of order ν with r ≡ m+ν. That is, for any h ∈ H r , |h (m) (s)h (m) (t)| ≤ c|s -t| ν , for any s, t ∈ [0, 1] and c &gt; 0.</p><p>(ii) For any varying coefficient function g(u) defined on U , sup u∈U g(u)-z ⊤ h(u) = O((k n + h + 1) -r ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 3</head><p>(i) For all τ ∈ T , (ρ(τ ), β(τ ), Θ(τ, u)) is in the interior of the set R × B × S, and R × B × S is compact and convex.</p><formula xml:id="formula_15">(ii) Let Φ(ρ, β, Θ, ζ, τ ) = E[(τ -I(y &lt; Dρ + Xβ + ΠΘ + Eζ)) X], (3.5) Φ(ρ, β, Θ, τ ) = E[(τ -I(y &lt; Dρ + Xβ + ΠΘ)) X], (3.6) where X = [X, Π, E], D = W y, E = (ω 1 , • • • , ω n ) ⊤ . The Jacobian matrices ∂Φ(ρ,β,Θ,τ ) ∂(ρ,β,Θ)</formula><p>and</p><formula xml:id="formula_16">∂Φ(ρ,β,Θ,ζ,τ ) ∂(β,Θ,ζ)</formula><p>are continuous and have full rank uniformly over R × B × S × Z × T . The parameter space R × B × S is a connected set and the image of R × B × S under the map (ρ, β, Θ) → Φ(ρ, β, Θ, τ ) is simply connected.</p><p>(iii) Denote Ω = diag(f i (ξ i (τ ))), where</p><formula xml:id="formula_17">ξ i (τ ) = ρ(τ )d i + X ⊤ i β(τ ) + Π ⊤ i Θ(τ ) + ω i ζ(τ ). Let η = (β ⊤ , Θ ⊤ , ζ) ⊤ .</formula><p>Then, the following matrices are positive definite:</p><formula xml:id="formula_18">J η = lim n→∞ 1 n</formula><p>X⊤ Ω X, (3.7)</p><formula xml:id="formula_19">J ρ = lim n→∞ 1 n X⊤ ΩD, (3.8) S = lim n→∞ τ (1 -τ ) n X⊤ X. (3.9) Let [ J⊤ β , J⊤ Θ , J⊤ ζ ] be a conformable partition of J -1 η and H = J⊤ ζ A Jζ . Hence, J η is invertible and J ⊤ ρ HJ ρ is also invertible. (iv) max y i = O( √ n), max X i = O( √ n), max Z i = O( √ n), max ω i = O( √ n),<label>and</label></formula><formula xml:id="formula_20">max Π i = O( √ k n + h + 1).</formula><p>Theorem 3.1 (Uniformly Convergence) Under Assumptions 1-3, ρ(τ ), β(τ ), Θ(τ ) are consistently estimable. And if r ≥ 1, then</p><formula xml:id="formula_21">sup l∈{1,••• ,q} sup u∈U γl (u, τ )) -γ l (u, τ ) = O p ((k n + h + 1) -r ).</formula><p>Theorem 3.2 (Asymptotic Distribution) (i) Under Assumptions 1-3, for a given τ ∈ (0, 1), θ(τ ) = (ρ(τ ), β⊤ (τ ), Θ⊤ (u, τ )) ⊤ converges to a Gaussian distribution:</p><formula xml:id="formula_22">√ n( θ(τ ) -ϑ(τ )) d → N (0, J ⊤ SJ),<label>(3.10)</label></formula><p>where</p><formula xml:id="formula_23">S = lim n→∞ τ (1-τ ) n X⊤ X, X = [X, Π, E], J = (K ⊤ , L ⊤ 1 , L ⊤ 2 ), Ω = diag(f i (ξ i (τ ))), J ρ = lim n→∞ 1 n X⊤ ΩD, J η = lim n→∞ 1 n X⊤ Ω X, L 1 = J⊤ β M , L 2 = J⊤ Θ M , M = I-J ρ K, K = (J ⊤ ρ HJ ρ ) -1 J ⊤ ρ H, H = J⊤ ζ A Jζ and [ Jβ , JΘ , Jζ ] is a conformable partition of J -1 η . (ii) Consequently, under Assumptions 1-3, for a given τ ∈ (0, 1), γl (u, τ ), l = 1, • • • , q converges to a Gaussian distribution: √ n(γ l (u, τ ) -γ l (u, τ )) d → N (0, L (l) 3 SL (l)⊤<label>3</label></formula><p>), (3.11)</p><p>where</p><formula xml:id="formula_24">L (l) 3 = Π (l) L (l) 2 , Π (l) = [Π (l)⊤ 1 , • • • , Π (l)⊤ n ] ⊤ , Π (l) i = Z il π ⊤ kn (U i ), L 2 is divided as L 2 = [L (1)⊤ 2 , • • • , L (q)⊤ 2 ] ⊤ .</formula><p>The confidence intervals for the coefficients are considered, which are given in the following Theorem.</p><p>Theorem 3.3 (Confidence Interval) (i) Under Assumptions 1-3, for a given τ ∈ (0, 1), a</p><formula xml:id="formula_25">100(1 -α)% confidence interval for the constant coefficient β(τ ) is [ β(τ ) - Z α/2 n σ β , β(τ ) + Z α/2 n σ β ].</formula><p>where</p><formula xml:id="formula_26">σ β = (Λ 1/2 β11 , • • • , Λ 1/2 βpp ) ⊤ , Λ βii is the ith diagonal element of Λ β , Λ β = L 1 SL 1 . (ii) Under Assumptions 1-3, for a given τ ∈ (0, 1) and u ∈ U , a 100(1 -α)% confidence interval for the varying coefficient γ l (u, τ ), l = 1, • • • , q is [γ l (u, τ ) - Z α/2 n σ (l) γ , γl (u, τ ) + Z α/2 n σ (l) γ ],</formula><p>where</p><formula xml:id="formula_27">σ (l) γ = (Λ (l)1/2 γ11 , • • • , Λ (l)1/2 γnn ) ⊤ , Λ (l) γii is the ith diagonal element of Λ (l) γ , Λ<label>(l)</label></formula><formula xml:id="formula_28">γ = L (l) 3 SL (l)⊤ 3 .</formula><p>4 Rank score test</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Inference on nonvarying coefficients</head><p>In this section, we propose a large sample inference procedures for testing the nonvarying coefficients β. We partition the original model as</p><formula xml:id="formula_29">Q τ (y|X, Z, U ) = ρ(τ )D + X 1 β 1 (τ ) + X 2 β 2 (τ ) + Zγ(u, τ ), (4.1) ≈ ρ(τ )D + X 1 β 1 (τ ) + X 2 β 2 (τ ) + ΠΘ(τ ), (4.2) = X 1 β 1 (τ ) + X * φ(τ ),<label>(4.3)</label></formula><p>where β are partitioned into two parts β 1 ∈ R p 1 and β 2 ∈ R p 2 with p 1 + p 2 = p, X 1 and X 2 are respectively n × p 1 and n × p 2 design matrices corresponding to β 1 and β 2 , X * = (D, X 2 , Π), φ = (ρ, β ⊤ 2 , Θ ⊤ ) ⊤ . Suppose we want to test H 0 : β 1 (τ ) = 0, the quantile rank score test can be employed (see, <ref type="bibr" target="#b12">Gutenbrunner, et al., 1990)</ref>. Denote φ(τ ) be the IVQR estimates of φ(τ ) obtained under H 0 .</p><p>The rank score test statistic takes the form:</p><formula xml:id="formula_30">RS n = S ⊤ n Q -1 n S n ,<label>(4.4)</label></formula><p>where</p><formula xml:id="formula_31">S n = n -1 2 n i=1 G i ψ τ (ε i ), Q n = n -1 n i=1 G i ψ 2 τ (ε i )G ⊤ i , G = (I -P )X 1 = [G 1 , • • • , G n ] ⊤ , ψ τ (ε) = (ψ τ (ε 1 ), • • • , ψ τ (ε n )) ⊤ , P = B 1 2 X * (X * ⊤ BX * ) -1 X * ⊤ B 1 2 , B = diag( f1 (0), • • • , fn (0)), ε(τ ) = y -X * φ(τ ).</formula><p>We modify Assumption 2(i) as Assumption 2(i) * and add an Assumption 4 for deriving the asymptotic distribution of the rank score statistic RS n : Assumption 2(i) * There exists some r &gt; 2 such that γ l (u) ∈ H r , l = 1, • • • , q.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 4</head><p>The minimum eigenvalue of Q n is bounded away from zero for sufficient large n.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 4.1 Under Assumptions 1-4 and Assumption 2(i)</head><formula xml:id="formula_32">* , suppose n 1/(4r) ≪ k n ≪ n 1/4 ,</formula><p>then RS n has an asymptotic χ 2 (p 1 ) distribution under the null hypothesis H 0 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Constancy of varying coefficients</head><p>In this section, we also employ the rank score test for testing whether one or some of the varying coefficients is constant. Without loss of generality, we consider testing whether the first 1 ≤ q 1 ≤ q coefficients functions γ l (•) are constant:</p><formula xml:id="formula_33">H 0 : γ l (τ, u) = γ l (τ ), l = 1, • • • , q 1 ,</formula><p>For this purpose, we may consider the quantile regression under null hypothesis</p><formula xml:id="formula_34">Q τ (y|X, Z, U ) = ρ(τ )D + Xβ(τ ) + Z * 1 γ * 1 (τ ) + Z * 2 γ * 2 (u, τ ), ≈ ρ(τ )D + Xβ(τ ) + Z * 1 γ * 1 (τ ) + Π 2 Θ 2 (τ ), = Xϕ(τ ) + Z * 1 γ * 1 (τ ),<label>(4.5)</label></formula><p>where γ are partitioned into two parts γ * 1 ∈ R q 1 and γ 2 (u) * ∈ R nq 2 with q 1 + q 2 = q, Z * 1 and Z * 2 are respectively n × q 1 and n × nq 2 design matrices corresponding to γ * 1 and</p><formula xml:id="formula_35">γ * 2 , Π 2i = (Z iq 1 +1 πkn (U i ) ⊤ , • • • , Z iq πkn (U i ) ⊤ ) ⊤ , X = (D, X, Π 2 ), ϕ = (ρ, β, Θ 2 ).</formula><p>Then we propose the test procedure as follows:</p><p>• Step 1: Obtain the IVQR estimation of γ * 1 (τ ) under model (4.5) (i.e., null hypothesis H 0 ).</p><p>• Step 2: We can estimate the varying coefficients γ * 2 (u, τ ) by considering quantile regression of y -Z * 1 γ * 1 (τ ) on X.</p><p>• Step 3: The quantile rank score test can be employed (see, <ref type="bibr" target="#b12">Gutenbrunner, et al., 1990)</ref>.</p><p>Denote φ(τ ) be the IVQR estimates of ϕ obtained under H 0 . Then the rank score test statistic takes the form:</p><formula xml:id="formula_36">RS * n = S * ⊤ n Q * -1 n S * n ,<label>(4.6)</label></formula><p>where</p><formula xml:id="formula_37">S * n = n -1 2 n i=1 G * i ψ τ (ε i ), Q * n = n -1 n i=1 G * i ψ 2 τ (ε i )G * ⊤ i , ψ τ (ε) = (ψ τ (ε 1 ), • • • , ψ τ (ε n )) ⊤ , G * = (I-P * )Z * 1 = [G * 1 , • • • , G * n ] ⊤ , P * = B 1 2 X( X⊤ B X) -1 X⊤ B 1 2 , B = diag( f1 (0), • • • , fn (0)), ε = y -Z * 1 γ * 1 (τ ) -X φ(τ ).</formula><p>We modify Assumption 4 as Assumption 4 * for deriving the asymptotic distribution of the rank score statistic RS * n : Assumption 4 * The minimum eigenvalue of Q * n is bounded away from zero for sufficient large n. Theorem 4.2 (i) If k n = k is bounded corresponding to model (4.5), then under Assumptions 1-3, Assumption 2(i) *  and Assumption 4 * , suppose n 1/(4r) ≪ k n ≪ n 1/4 , then RS * n has an asymptotic χ 2 (q 1 ) distribution under the null hypothesis H 0 .</p><p>(ii) For growing k n as the sample size n becomes larger, then under Assumptions 1-3, Assumption 2(i) *  and Assumption 4 * , h ≥ 3, suppose the number of knots satisfies n 1/(2r+2) ≪ k n ≪ n 1/5 , then under H * 0 , we have</p><formula xml:id="formula_38">RS * n -q 1 √ 2q 1 d → N (0, 1) as k n → ∞.</formula><p>(4.7)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Monte Carlo simulations</head><p>In this section, we conduct Monte Carlo simulations to investigate the finite sample performance of the proposed estimation and inference methods. The Monte Carlo simulations are repeated 1000 times for each sample size n = 100, 200, 500, 800. The quantile regression based estimators are calculated for quantiles τ = (0.25, 0.5, 0.75).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Example 1.</head><p>The samples are generated as follows:</p><formula xml:id="formula_39">y i = ρ n i=1 w ij y j + X i β + Z 1i γ 1 (U i ) + Z 2i γ 2 (U i ) + ε i , i = 1, • • • , n,<label>(5.1)</label></formula><p>where ρ = 0.5, β = 1, γ 1 (U ) = 1 -0.5U , γ 2 (U ) = 1 + sin( √ 2πU ), ε i = e i -F -1 (τ ), F is the common CDF of e i . Therefore, the random errors ε i are centered to have zero τ th quantile. Here, U, X, Z 1 , Z 2 , e respectively follow the U [0, 2], N (0, 1), U [-2, 2], N (1, 1) and N (0, 1) distributions.</p><p>Example 2. The samples are generated as follows:</p><formula xml:id="formula_40">y i = ρ n i=1 w ij y j + X i β + Z 1i γ 1 (U i ) + Z 2i γ 2 (U i ) + (1 + 0.5Z 1i )ε i , i = 1, • • • , n,<label>(5.2)</label></formula><p>where ρ = 0.5,</p><formula xml:id="formula_41">β = 1, γ 1 (U ) = 1 -0.5U , γ 2 (U ) = 0.5U 2 -U + 1, ε i = e i -F -1 (τ )</formula><p>, F is the common CDF of e i . Therefore, the random errors ε i are centered to have zero τ th quantile.</p><p>In this example, U, X, Z 1 , Z 2 , e respectively follow the U [0, 2], N (0, 1), N (0, 1), U [-2, 2] and N (0, 1) distributions.</p><p>Following <ref type="bibr" target="#b6">Dai, et al. (2016)</ref>, the spatial weight matrix W = (w ij ) in the two examples is generated based on mechanism that w ij = r |i-j| I(i = j), where r = 0.3, 0 &lt; i, j &lt; n. A standardized transformation then is used to convert the matrix W to have row-sums of unit.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Estimation</head><p>Firstly, we compare the performance of the partially linear varying coefficient spatial autoregressive model to the spatial autoregressive model. In example 1, the spatial autoregressive model is of the form</p><formula xml:id="formula_42">y i = ρ n i=1 w ij y j + X i β + Z 1i γ 1 + Z 2i γ 2 + ε i , i = 1, • • • , n,<label>(5.3)</label></formula><p>where γ 1 = 1, γ 2 = 1, the rest variables are the same as those defined in model (5.1). In example 2, the spatial autoregressive model is given by</p><formula xml:id="formula_43">y i = ρ n i=1 w ij y j + X i β + Z 1i γ 1 + Z 2i γ 2 + (1 + 0.5Z i )ε i , i = 1, • • • , n,<label>(5.4)</label></formula><p>where γ 1 = 1, γ 2 = 1, the rest variables are the same as those defined in model (5.2).</p><p>Table 1 gives the comparison results of bias and RMSE of the PLVCSAR model and SAR model at τ = {0.25, 0.5, 0.75} and n = 100. ρP LV C and βP LV C denote the IVQR estimates in PLVCSAR models, and ρSAR and βSAR denote the IVQR estimates in SAR models. From Table 1, we can see that when data is generated from the PLVCSAR model, fitting SAR model leads to less efficient estimations in two examples, the bias and RMSE of ρP LV C and βP LV C is smaller than those of ρSAR and βSAR . When data is generated from the SAR model, fitting PLVCSAR model and SAR model have similar performance in homoscedastic case; in heteroscedastic case, fitting PLVCSAR model still does not lose much efficiency. Thus the PLVCSAR model is efficient and more flexible than the SAR model.</p><p>Table 2 summarizes the comparison results of QR and IVQR estimators with homoscedastic error term. Table 3 reports the comparison results of QR and IVQR estimators with heteroscedastic error term. Table 2 and 3 show that the IVQR estimator of ρ has much smaller bias and RMSE than QR estimator on the whole, and the IVQR estimators of β and γ have similar bias and RMSE as QR estimators.</p><p>The confidence intervals of the varying coefficients are also considered. The results are reported in Figure </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Inference on β</head><p>To study the size and power of test statistics RS n and RS n , we vary β in model (5.1) and ( <ref type="formula" target="#formula_39">5</ref>.2) from 0 to 1.5. The result is listed in the left 5 columns of Table <ref type="table">4</ref>, from which we can see that the size of test statistics RS n is much close to the nominal significant level 0.05 compared with test statistics RS n . The power of test statistics RS n and RS n are not clearly different.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Inference on the constancy of γ(U)</head><p>To test whether γ 1 (U ) is constant, we generate γ 1 (U ) from γ 1 (U ) = 1 -0.5 * η * U, where η varies from 0 to 1.5. The results of size and power of test statistics RS * n and RS * IV n are reported in the right 5 columns of Table <ref type="table">4</ref>.</p><p>Table 4 shows that the size of test statistics RS * IV n is much close to the nominal significant level 0.05 compared with test statistics RS * n . The power of test statistics RS * n and RS * IV n are not clearly different.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Illustration</head><p>In this section, we apply the proposed estimation method to the Boston housing price data,    <ref type="table" target="#tab_3">5</ref>. From Table <ref type="table" target="#tab_3">5</ref>, we can see that the effect of X 2 is varying at quantile 0.2-0.9, the effect of X 3 is varying at quantile 0.6, the effect of X 5 is varying at quantile 0.4-0.8, and the coefficients of the other two variables are constant at all quantile levels.</p><p>It is noted that the result is a little different from <ref type="bibr" target="#b32">Sun, et al. (2014)</ref>. In which, coefficients of </p><formula xml:id="formula_44">Q τ (y i |F -i , X 1i , • • • , X 5i ) = ρ(τ ) n j=1 w ij y j + X i1 β 1 (τ ) + X i2 β 2 (U i , τ ) + X i3 β 3 (τ ) + X i4 β 4 (τ ) + X i5 β 5 (U i , τ ),<label>(6.1)</label></formula><p>where w ij is the (i, j)th element of W , W is the spatial weight matrix generated by the longitude and latitude of the 506 observations (LeSage, 1999, p68).</p><p>Table <ref type="table">7</ref> reports the estimates of the constant coefficients ρ, γ 1 , γ 3 and γ 4 , which shows the per capita crime rate by town (X 1 ) and full-value property-tax rate per $10,000 dollar (X 4 ) has negative impact on house price, the index of accessibility to radial highways (X 3 ) has positive impact on house price. Besides, the coefficient of spatial correlation is 0.1 at τ = 0.1, 0.3, 0.7, 0.05 at τ = 0.5, and -0.25 at τ = 0.9, which indicates the house prices in a neighborhood do affect each other. Table 4: Size and power for testing H 0 : β = 0 and H 0 : γ 1 (u) = γ 1 at τ = 0.5 and n = 200.</p><p>Here the nominal significance level is 0.05.</p><formula xml:id="formula_45">H0 : β = 0 H0 : γ1(u) = γ1</formula><p>Example 1 Example 2 Example 1 Example 2 β QR IVQR QR IVQR η QR IVQR QR IVQR 0 0.0619 0.0530 0.0548 0.0486 0 0.0400 0.0440 0.0602 0.0534 0.25 0.8680 0.7570 0.4730 0.4530 0.25 0.2460 0.2710 0.3320 0.3440 0.5 0.9990 0.9970 0.8990 0.8820 0.5 0.7940 0.8242 0.7610 0.7570 0.75 1.0000 1.0000 0.9900 0.9910 0.75 0.9920 0.9920 0.9490 0.9430 1 1.0000 1.0000 0.9998 1.0000 1 0.9970 1.0000 0.9930 0.9840 1.25 1.0000 1.0000 1.0000 1.0000 1.25 1.0000 1.0000 0.9996 1.0000 1.5 1.0000 1.0000 1.0000 1.0000 1.5 1.0000 1.0000 1.0000 1.0000</p><p>per dwelling on house price is positive and is varying over location. The impact γ 5 (u, τ ) of the percentage of the lower status of the population on house price is also varying over location.   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusion</head><p>In this paper, we consider IVQR estimation of partially linear varying coefficient spatial autoregressive model. The varying coefficients are approximated by B-spline basis. Rank score tests are employed for inference on β and γ(u). The asymptotic properties of estimators and test statistics are studied. The proposed methodology in this paper does not need any specification of error distribution. Monte Carlo results are provided to show that the IVQR estimation method can significantly reduce estimation bias. The example analysis shows the effectiveness of our estimator and test. Besides, the confidence interval of constant coefficients and varying coefficients are also given.</p><p>Table <ref type="table">7</ref>: Estimates of the constant coefficients at quantile τ = 0.1, 0.3, 0.5, 0.7, 0.9.   </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix: Proofs</head><p>To prove Theorems 3.1 and 3.2, we first state a lemma whose proof is similar as that of Lemma <ref type="formula" target="#formula_2">2 in Galvao (2011</ref>  </p><formula xml:id="formula_46">δ =         δ ρ δ β δ Θ δ ζ         =         √ n(ρ(τ ) -ρ(τ )) √ n( β(τ ) -β(τ )) √ n( Θ(τ ) -Θ(τ )) √ n( ζ(τ ) -ζ(τ ))         . (8.1)</formula><p>Under Assumptions 1-3, we have</p><formula xml:id="formula_47">sup ϑ * 1 n n i=1 ρ τ ε i (τ ) - d i δ ρ √ n - X i δ β √ n - Π i δ Θ √ n - ω i δ ζ √ n -ρ τ (ε i (τ )) -E ρ τ ε i (τ ) - d i δ ρ √ n - X i δ β √ n - Π i δ Θ √ n - ω i δ ζ √ n -ρ τ (ε i (τ )) = o p (1).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Proof of Theorem 3.1</head><p>Proof. Firstly, following <ref type="bibr" target="#b4">Chernozhukov and Hansen (2006)</ref>, ϑ * 1 (τ ) = (ρ(τ ), β(τ ), Θ(τ )) uniquely solves the problem for each τ . To prove the consistency of the parameter, we need to show that under Assumptions 1-3, θ * 1 (τ ) = ϑ * 1 (τ ) + o p (1). Let P : ϑ * 1 → ρ τ (y -ρD -Xβ -ΠΘ), and P is continuous. Under condition Lemma 8.1, we have that θ * (ρ, τ )ϑ * (ρ, τ ) P → 0 for ϑ * = (ρ, β, Θ, ζ), which implies that ζ(ρ, τ )ζ(ρ, τ ) P → 0. By Corollary 3.2.3 in van der Vaart and Wellner (1996), we have ρ(τ )ρ(τ ) P → 0. Therefore, β(ρ(τ ), τ )β(τ ) P → 0, Θ(ρ(τ ), τ ) -Θ(τ ) P → 0, and ζ(ρ(τ ), τ ) -0 P → 0. Hence, θ * (τ )ϑ * (τ ) P → 0. Using Minkowski inequality, Assumptions 2(ii) and 3(iv), we know sup u∈U γ(u, τ )-ΠΘ(τ ) = O((k n + h + 1) -r ), hence sup u∈U </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Proof of Theorem 3.2</head><p>For any ρ(τ ) P → ρ(τ )(δ ρ P → 0), we can write the objective function defined in equation ( <ref type="formula" target="#formula_12">3</ref>.2) as</p><formula xml:id="formula_48">R IV = n i=1 ρ τ ε i (τ ) - d i δ ρ √ n - X i δ β √ n - Π i δ Θ √ n - ω i δ ζ √ n -ρ τ (ε i (τ )</formula><p>where</p><formula xml:id="formula_49">ε i (τ ) = y i -ξ i (τ ), ξ i (τ ) = ρ(τ )d i + X i β(τ ) + Π i Θ(τ ) + ω i ζ(τ ),<label>and</label></formula><formula xml:id="formula_50">δ =         δ ρ δ β δ Θ δ ζ         =         √ n(ρ(τ ) -ρ(τ )) √ n( β(τ ) -β(τ )) √ n( Θ -Θ) √ n( ζ(τ ) -ζ(τ ))         .</formula><p>Let ϕ τ (u) = τ -I(u &lt; 0) and</p><formula xml:id="formula_51">G(δ ρ , δ β , δ Θ , δ ζ ) = -1 √ n ⊤ t=1 ϕ τ ε i (τ ) - d i δ ρ √ n - X i δ β √ n - Π i δ Θ √ n - ω i δ ζ √ n . Let sup G(δ ρ , δ β , δ Θ , δ ζ ) -G(0, 0, 0, 0) -E[G(δ ρ , δ β , δ Θ , δ ζ ) -G(0, 0, 0, 0)] = o p (1).</formula><p>Expanding G, we obtain</p><formula xml:id="formula_52">E[G(δ ρ , δ β , δ Θ , δ ζ ) -G(0, 0, 0, 0)] = 1 √ n n i=1 X⊤ i f i (ξ i (τ )) d i δ ρ √ n + X i δ β √ n + Π i δΘ √ n + ω i δ ζ √ n + o p (1).</formula><p>where X = [X, Π, E]. Obviously, G( δρ , δβ , δΘ , δζ ) → 0, E[G(δ ρ , δ β , δ Θ , δ ζ ) -G(0, 0, 0, 0)] = -G(0, 0, 0, 0), i.e., the last equation has the following equivalent expression:</p><formula xml:id="formula_53">1 √ n n i=1 X⊤ i ϕ τ (ε i (τ )) = 1 √ n n i=1 X⊤ i f i (ξ i (τ )) d i δ ρ √ n + X i δ β √ n + Π i δΘ √ n + ω i δ ζ √ n + o p (1).</formula><p>Letting δ η = (δ ⊤ β , δ ⊤ Θ , δ ζ ) ⊤ , we write the equation above as:</p><formula xml:id="formula_54">1 √ n n i=1 X⊤ i f i (ξ i (τ )) d i δ ρ √ n + Xi δ η √ n = 1 √ n n i=1 X⊤ i ϕ τ (ε i (τ )).</formula><p>Alternatively, using more convenient notation, we write the last expression as:</p><formula xml:id="formula_55">J ρ δ ρ + J η δ η = J φ ,</formula><p>where J η = lim n→∞ X⊤ Ω X, J ρ = lim n→∞ X⊤ ΩD, J φ is a mean zero r.v. with covariance τ (1-τ ) X⊤ X, Ω = diag(f i (ξ i (τ ))) and Φ τ is a N T -vector (φ τ (ε i (τ ))).</p><p>Letting [ Jβ , JΘ , Jη ] be a conformable partition of J -1 η as in <ref type="bibr" target="#b11">Galvao (2011)</ref> and Chernozhukov and Hansen (2006) yields δβ = J⊤ β (J φ -J ρ δ ρ ), δΘ = J⊤ Θ (J φ -J ρ δ ρ ), and δη = J⊤ η (J φ -J ρ δ ρ ). Letting H = J⊤ η A Jη as in <ref type="bibr" target="#b4">Chernozhukov and Hansen (2006)</ref> gives δρ = KJ φ , where</p><formula xml:id="formula_56">K = (J ⊤ ρ HJ ρ ) -1 J ⊤ ρ H. Replacing it in the previous expression, δη = J⊤ η (J φ -J ρ δ ρ ) = J⊤ η (I - J ρ (J ⊤ ρ HJ ρ ) -1 J ⊤ ρ H)J φ = J⊤ η M J φ , where M = I -J ρ (J ⊤ ρ HJ ρ ) -1 J ⊤ ρ H.</formula><p>Due to the invertibility of J ρ Jη , δη = 0 × O p (1) + o p (1). Similarly, substituting back δ ρ , we obtain that δβ = J⊤ β M J φ and δΘ = J⊤ Θ M J φ . By the regularity conditions, we have that</p><formula xml:id="formula_57">     δρ (ρ n , τ ) δβ (ρ n , τ ) δΘ (ρ n , τ )      =      √ n(ρ(ρ n , τ ) -ρ(τ )) √ n( β(ρ n , τ ) -β(τ )) √ n( Θ(ρ n , τ ) -Θ(τ ))      N (0, J ⊤ SJ).</formula><p>where</p><formula xml:id="formula_58">J = (K ⊤ , L ⊤ 1 , L ⊤ 2 ), L 1 = J⊤ β M , L 2 = J⊤ Θ M . Divide L 2 as [L (1)⊤ 2 , • • • , L (q)⊤ 2 ] ⊤ . Let Π (l) = [Π (l)⊤ 1 , • • • , Π (l)⊤ n ] ⊤ , where Π (l) i = Z il π ⊤</formula><p>kn (U i ). Then we have δγl = γl (u, τ )γ l (u, τ ) = Π (l)  δθl + Π (l) θ l (τ )γ l (u, τ ) ≈ Π (l) δθl = Π (l) L (l) 2 J φ . By the regularity conditions, we have that</p><formula xml:id="formula_59">√ n(γ l (ρ n , u, τ ) -γ(u, τ )) N (0, L<label>(l) 3 SL (l)⊤ 3</label></formula><p>).</p><p>where L </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Assumption 1 (</head><label>1</label><figDesc>i) (y i , U i , D i ) are independent and identically distributed (i.i.d.) for each fixed i with conditional distribution function F for i = 1, • • • , n. (ii) The conditional distribution of U given Z = z has a bounded density f U |Z , which satisfies 0 &lt; c 1 ≤ f U |Z (u|z) ≤ c 2 &lt; ∞ uniformly in z and u for some constants c 1 , c 2 &gt; 0. (iii) Uniformly over i, ε i has a bounded density function f i that is continuously differentiable in the neighbourhood of 0 with first derivative bounded.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>1 .</head><label>1</label><figDesc>The x-axis presents the smoothing variables, and y-axis presents the estimations of the varying coefficients at quantile 0.5 and sample size 200 (red lines) and their corresponding confidence intervals (blue lines) at significance level 0.05. Figure1(a)-(b) and (c)-(d) respectively gives the confidence intervals of γ 1 , γ 2 in Example 1 (with homoscedastic error term) and Example 2 (with heteroscedastic error term).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><figDesc>which has been analyzed by many authors (see,<ref type="bibr" target="#b27">LeSage, 2009;</ref><ref type="bibr" target="#b33">Tang, et al., 2013;</ref><ref type="bibr" target="#b32">Sun, et al., 2014;</ref><ref type="bibr" target="#b6">Dai, et al., 2016)</ref>. The data set contains 14 variables with 506 observations. The latitude and longitude coordinates are also provided. Sun, et al. (2014) chose the following five variables as explanatory variables, such as the per capita crime rate by town (X 1 ), average number of rooms per dwelling (X 2 ), index of accessibility to radial highways (X 3 ), full-value property-tax rate per $10,000 dollar (X 4 ) and the percentage of the lower status of the population (X 5 ), and the dependent variable y is the median value of owner-occupied homes in $1000s. They employed</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>a</head><figDesc>partially linear varying coefficient spatial autoregressive model (SAR) to analyze this data set in the mean regression framework, and applied BIC coupled with backward elimination to do the model selection and identify the constancy of the coefficients. In this section, we first employ the proposed method for testing the constancy of the coefficients. We consider a set of quantiles with τ = {0.1, 0.2, • • • , 0.9}. At each quantile τ , We consider five null hypothesis, H 0i : γ i (u, τ ) is constant, i = 1, • • • , 5. The results are summarized in Table</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: (a)-(b) Confidence intervals of γ 1 and γ 2 in Example 1 (homoscedastic case) at τ = 0.5 and n = 200. (c)-(d) Confidence intervals of γ 1 and γ 2 in Example 2 (heteroscedastic case) at τ = 0.5 and n = 200. The areas represent 95% point-wise confidence intervals.</figDesc><graphic coords="16,159.12,108.72,279.00,294.60" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 2 (</head><label>2</label><figDesc>Figure 2(a)-(b) plot the surface of the estimated γ 2 and γ 5 . The x-axis presents the quantiles, y-axis presents the smoothing variables, and z-axis presents the estimations of the varying coefficients. From Figure 2, we can see the impact γ 2 (u, τ ) of the average number of rooms</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 3 (</head><label>3</label><figDesc>Figure3(a)-(c) and Figure4(a)-(f) present a complete analysis, which considers many other quantiles of the conditional boston house price distribution. The x-axis presents the quantiles and y-axis presents the estimations of parameters (red lines) and their corresponding confidence intervals (blue lines) at significance level 0.05. Figure3(a)-(c) present the results of constant coefficient γ 1 , γ 3 and γ 4 , from which we can find that the estimates of the per capita crime rate by town (X 1 ) are smaller at the middle quantiles than those at other quantiles. The estimates of the index of accessibility to radial highways (X 3 ) are increasing as quantile becomes larger.And the estimates of full-value property-tax rate per $10,000 dollar (X 4 ) generally does not vary with quantiles.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 4 (</head><label>4</label><figDesc>Figure4(a)-(c) present the results of varying coefficient γ 2 (u) at u = 0.5, 1 and 1.5. On the whole, the estimates of average number of rooms per dwelling (X 2 ) is ascending as quantile becomes larger. Figure4(d)-(f) present the results of varying coefficient γ 5 (u) at u = 0.5, 1 and 1.5. From Figure4(d)-(f), we can see that at u = 0.5, the estimates of the percentage of the lower status of the population (X 5 ) decease at quantile 0.1-0.3, then ascend at quantile 0.3-0.65, and then descends at high quantiles. At u = 1, γ5 (u, τ ) is larger at extreme quantiles. At u = 1.5, γ5 (u, τ ) is descending at quantile 0.1-0.35, and then increases at quantiles 0.3-0.85 and then suddenly deceases.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><figDesc>IVQR τ = 0.1 τ = 0.3 τ = 0.5 τ = 0.7 τ = 0γ4 -0.0163 -0.0107 -0.0078 -0.0131 -0.0056</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: The estimated varying coefficient surface.</figDesc><graphic coords="19,114.36,226.44,368.40,171.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: (a)-(c) Quantile effects of the per capita crime rate by town (X 1 ), index of accessibility to radial highways (X 3 ) and full-value property-tax rate per $10,000 dollar (X 4 ). The areas represent 95% point-wise confidence intervals.</figDesc><graphic coords="20,91.08,109.06,415.69,122.06" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><figDesc>).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Lemma 8 . 1</head><label>81</label><figDesc>Denote ε i (τ ) = y iξ i (τ ), and let ϑ * = (ρ, β, Θ, ζ) be a parameter vector in R × B × S × Z. Let</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: (a)-(c) Quantile effects of average number of rooms per dwelling (X 2 ) at u = 0.5, 1 and 1.5. (d)-(f) Quantile effects of the percentage of the lower status of the population (X 5 ) at u = 0.5, 1 and 1.5. The areas represent 95% point-wise confidence intervals.</figDesc><graphic coords="21,88.80,108.87,419.63,254.25" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><figDesc>be easily proved, and proofs of Theorem 4.1 and 4.2 are similar as those of Theorem 3 and 4 in Wang et al. (2009). Thus proofs of Theorem 3.3, 4.1 and 4.2 are omitted here.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Comparison results of SAR and PLVCSAR models. The table shows the bias and RMSE (in parentheses) for ρ, β at τ = {0.25, 0.5, 0.75} quantile and n = 100.</figDesc><table><row><cell cols="2">Example Parameter</cell><cell cols="3">Underlying model: PLVCSAR τ = 0.25 τ = 0.50 τ = 0.75</cell><cell cols="3">Underlying model: SAR τ = 0.25 τ = 0.50 τ = 0.75</cell></row><row><cell>1</cell><cell>ρP LV C</cell><cell>0.0021</cell><cell>0.0065</cell><cell>0.0077</cell><cell>-0.0012</cell><cell>0.0042</cell><cell>0.0037</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1302) (0.1246) (0.1311)</cell><cell cols="3">(0.1144) (0.1011) (0.1133)</cell></row><row><cell></cell><cell>ρSAR</cell><cell>0.0089</cell><cell>0.0158</cell><cell>0.0239</cell><cell>0.0046</cell><cell>0.0048</cell><cell>0.0035</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1777) (0.1577) (0.1562)</cell><cell cols="3">(0.1119) (0.1014) (0.1132)</cell></row><row><cell></cell><cell>βP LV C</cell><cell>-0.0021</cell><cell>-0.0006</cell><cell>-0.0086</cell><cell>-0.0010</cell><cell>0.0002</cell><cell>-0.0062</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1516) (0.1408) (0.1523)</cell><cell cols="3">(0.1524) (0.1334) (0.1464)</cell></row><row><cell></cell><cell>βSAR</cell><cell>-0.0139</cell><cell>-0.0060</cell><cell>-0.0093</cell><cell>-0.0044</cell><cell>-0.0039</cell><cell>-0.0087</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.2032) (0.1854) (0.1842)</cell><cell cols="3">(0.1423) (0.1305) (0.1463)</cell></row><row><cell>2</cell><cell>ρP LV C</cell><cell>0.0070</cell><cell>0.0011</cell><cell>0.0009</cell><cell>0.0069</cell><cell>0.0037</cell><cell>0.0044</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1289) (0.1197) (0.1289)</cell><cell cols="3">(0.0943) (0.0973) (0.1099)</cell></row><row><cell></cell><cell>ρSAR</cell><cell>0.0074</cell><cell>0.0080</cell><cell>0.0398</cell><cell>0.0015</cell><cell>0.0067</cell><cell>0.0016</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1340) (0.1383) (0.1630)</cell><cell cols="3">(0.0855) (0.0814) (0.1042)</cell></row><row><cell></cell><cell>βP LV C</cell><cell>-0.0074</cell><cell>0.0014</cell><cell>-0.0026</cell><cell>0.0021</cell><cell>-0.0031</cell><cell>-0.0022</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1326) (0.1155) (0.1325)</cell><cell cols="3">(0.1259) (0.1211) (0.1238)</cell></row><row><cell></cell><cell>βSAR</cell><cell>-0.0078</cell><cell>-0.0081</cell><cell>-0.0047</cell><cell>-0.0003</cell><cell>-0.0020</cell><cell>-0.0077</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1365) (0.1225) (0.1447)</cell><cell cols="3">(0.1124) (0.1038) (0.1136)</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Monte Carlo results for τ = {0.25, 0.5, 0.75} quantile and homoscedastic error term. The table shows the bias and RMSE (in parentheses) for ρ, β, and the MADE [in brackets] for γ 1 , γ 2 .</figDesc><table><row><cell>Sample size</cell><cell></cell><cell cols="3">QR τ = 0.25 τ = 0.50 τ = 0.75</cell><cell cols="3">IVQR τ = 0.25 τ = 0.50 τ = 0.75</cell></row><row><cell>n = 100</cell><cell>ρ</cell><cell>0.0214</cell><cell>0.0373</cell><cell>0.0528</cell><cell>0.0037</cell><cell>0.0025</cell><cell>0.0021</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0516) (0.0700) (0.0993)</cell><cell cols="3">(0.1315) (0.1186) (0.1329)</cell></row><row><cell></cell><cell>β</cell><cell>-0.0063</cell><cell>-0.0036</cell><cell>-0.0149</cell><cell>-0.0065</cell><cell>-0.0030</cell><cell>0.0041</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1440) (0.1334) (0.1460)</cell><cell cols="3">(0.1431) (0.1364) (0.1508)</cell></row><row><cell></cell><cell>γ1</cell><cell>[0.2203]</cell><cell>[0.1973]</cell><cell>[0.2207]</cell><cell>[0.2202]</cell><cell>[0.2031]</cell><cell>[0.2200]</cell></row><row><cell></cell><cell>γ2</cell><cell>[0.2038]</cell><cell>[0.1930]</cell><cell>[0.2002]</cell><cell>[0.2139]</cell><cell>[0.1971]</cell><cell>[0.2145]</cell></row><row><cell>n = 200</cell><cell>ρ</cell><cell>0.0198</cell><cell>0.0341</cell><cell>0.0569</cell><cell>0.0016</cell><cell>0.0008</cell><cell>-0.0011</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0372) (0.0527) (0.0804)</cell><cell cols="3">(0.0853) (0.0761) (0.0859)</cell></row><row><cell></cell><cell>β</cell><cell>-0.0054</cell><cell>-0.0044</cell><cell>-0.0171</cell><cell>0.0003</cell><cell>-0.0016</cell><cell>0.0021</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1010) (0.0930) (0.1035)</cell><cell cols="3">(0.1009) (0.0918) (0.0966)</cell></row><row><cell></cell><cell>γ1</cell><cell>[0.1479]</cell><cell>[0.1379]</cell><cell>[0.1491]</cell><cell>[0.1520]</cell><cell>[0.1377]</cell><cell>[0.1515]</cell></row><row><cell></cell><cell>γ2</cell><cell>[0.1533]</cell><cell>[0.1425]</cell><cell>[0.1452]</cell><cell>[0.1513]</cell><cell>[0.1423]</cell><cell>[0.1530]</cell></row><row><cell>n = 500</cell><cell>ρ</cell><cell>0.0213</cell><cell>0.0384</cell><cell>0.0572</cell><cell>0.0025</cell><cell>-0.0006</cell><cell>0.0009</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0297) (0.0463) (0.0672)</cell><cell cols="3">(0.0539) (0.0462) (0.0520)</cell></row><row><cell></cell><cell>β</cell><cell>-0.0008</cell><cell>-0.0103</cell><cell>-0.0106</cell><cell>-0.0011</cell><cell>-0.0002</cell><cell>-0.0010</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0600) (0.0590) (0.0635)</cell><cell cols="3">(0.0599) (0.0600) (0.0635)</cell></row><row><cell></cell><cell>γ1</cell><cell>[0.0925]</cell><cell>[0.0862]</cell><cell>[0.0921]</cell><cell>[0.0919]</cell><cell>[0.0857]</cell><cell>[0.0914]</cell></row><row><cell></cell><cell>γ2</cell><cell>[0.1066]</cell><cell>[0.1083]</cell><cell>[0.1044]</cell><cell>[0.1040]</cell><cell>[0.1027]</cell><cell>[0.1041]</cell></row><row><cell>n = 800</cell><cell>ρ</cell><cell>0.0226</cell><cell>0.0362</cell><cell>0.0599</cell><cell>-0.0002</cell><cell>-0.0006</cell><cell>-0.0004</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0280) (0.0413) (0.0660)</cell><cell cols="3">(0.0405) (0.0385) (0.0402)</cell></row><row><cell></cell><cell>β</cell><cell>-0.0038</cell><cell>-0.0064</cell><cell>-0.0116</cell><cell>-0.0029</cell><cell>-0.0020</cell><cell>0.0005</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0486) (0.0451) (0.0485)</cell><cell cols="3">(0.0478) (0.0443) (0.0476)</cell></row><row><cell></cell><cell>γ1</cell><cell>[0.0721]</cell><cell>[0.0675]</cell><cell>[0.0722]</cell><cell>[0.0711]</cell><cell>[0.0674]</cell><cell>[0.0701]</cell></row><row><cell></cell><cell>γ2</cell><cell>[0.0981]</cell><cell>[0.0956]</cell><cell>[0.0947]</cell><cell>[0.0741]</cell><cell>[0.0892]</cell><cell>[0.0924]</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>Monte Carlo results for τ = {0.25, 0.5, 0.75} quantile and heteroscedastic error term. The table shows the bias and RMSE (in parentheses) for ρ, β, and the MADE [in brackets] for γ 1 , γ 2 .X 1 , X 2 and X 4 are chosen as varying-coefficient. To demonstrate our results, we compare the SIC values in the following four models: PLVCSAR model1 (with varying coefficients X 2 and X 5 ), PLVCSAR model2 (with varying coefficients X 2 , X 3 and X 5 ), PLVCSAR model3 (with varying coefficients X 1 , X 2 and X 4 ), and constant coefficient SAR model. The comparison results are summarized in Table6. Generally speaking, PLVCSAR model1 (with varying coefficients X 2 and X 5 ) has the smallest SIC values. Thus the following model is considered:</figDesc><table><row><cell></cell><cell></cell><cell></cell><cell>QR</cell><cell></cell><cell></cell><cell>IVQR</cell><cell></cell></row><row><cell></cell><cell></cell><cell cols="3">τ = 0.25 τ = 0.50 τ = 0.75</cell><cell cols="3">τ = 0.25 τ = 0.50 τ = 0.75</cell></row><row><cell>n = 100</cell><cell>ρ</cell><cell>0.0477</cell><cell>0.0861</cell><cell>0.0560</cell><cell>0.0070</cell><cell>0.0011</cell><cell>0.0009</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0835) (0.1252) (0.0915)</cell><cell cols="3">(0.1289) (0.1197) (0.1289)</cell></row><row><cell></cell><cell>β</cell><cell>-0.0147</cell><cell>-0.0204</cell><cell>-0.0101</cell><cell>-0.0074</cell><cell>0.0014</cell><cell>-0.0026</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.1298) (0.1222) (0.1309)</cell><cell cols="3">(0.1326) (0.1155) (0.1325)</cell></row><row><cell></cell><cell>γ1</cell><cell>[0.2257]</cell><cell>[0.1892]</cell><cell>[0.2323]</cell><cell>[0.2317]</cell><cell>[0.1989]</cell><cell>[0.2405]</cell></row><row><cell></cell><cell>γ2</cell><cell>[0.1953]</cell><cell>[0.1782]</cell><cell>[0.1982]</cell><cell>[0.2004]</cell><cell>[0.1775]</cell><cell>[0.2030]</cell></row><row><cell>n = 200</cell><cell>ρ</cell><cell>0.0445</cell><cell>0.0874</cell><cell>0.0531</cell><cell>-0.0004</cell><cell>0.0036</cell><cell>-0.0007</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0638) (0.1049) (0.0723)</cell><cell cols="3">(0.0801) (0.0740) (0.0907)</cell></row><row><cell></cell><cell>β</cell><cell>-0.0114</cell><cell>-0.0177</cell><cell>-0.0133</cell><cell>-0.0029</cell><cell>0.0008</cell><cell>-0.0056</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0837) (0.0786) (0.0827)</cell><cell cols="3">(0.0819) (0.0736) (0.0839)</cell></row><row><cell></cell><cell>γ1</cell><cell>[0.1337]</cell><cell>[0.1093]</cell><cell>[0.1421]</cell><cell>[0.1406]</cell><cell>[0.1139]</cell><cell>[0.1403]</cell></row><row><cell></cell><cell>γ2</cell><cell>[0.1231]</cell><cell>[0.1141]</cell><cell>[0.1244]</cell><cell>[0.1256]</cell><cell>[0.1117]</cell><cell>[0.1235]</cell></row><row><cell>n = 500</cell><cell>ρ</cell><cell>0.0433</cell><cell>0.0804</cell><cell>0.0510</cell><cell>-0.0013</cell><cell>0.0009</cell><cell>-0.0001</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0512) (0.0878) (0.0585)</cell><cell cols="3">(0.0440) (0.0429) (0.0517)</cell></row><row><cell></cell><cell>β</cell><cell>-0.0104</cell><cell>-0.0140</cell><cell>-0.0117</cell><cell>0.0008</cell><cell>0.0008</cell><cell>-0.0001</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0466) (0.0464) (0.0473)</cell><cell cols="3">(0.0476) (0.0420) (0.0484)</cell></row><row><cell></cell><cell>γ1</cell><cell>[0.0789]</cell><cell>[0.0548]</cell><cell>[0.0906]</cell><cell>[0.0757]</cell><cell>[0.0582]</cell><cell>[0.0766]</cell></row><row><cell></cell><cell>γ2</cell><cell>[0.0703]</cell><cell>[0.0643]</cell><cell>[0.0691]</cell><cell>[0.0706]</cell><cell>[0.0628]</cell><cell>[0.0715]</cell></row><row><cell>n = 800</cell><cell>ρ</cell><cell>0.0417</cell><cell>0.0776</cell><cell>0.0495</cell><cell>0.0013</cell><cell>0.0013</cell><cell>-0.0000</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0462) (0.0823) (0.0545)</cell><cell cols="3">(0.0326) (0.0340) (0.0380)</cell></row><row><cell></cell><cell>β</cell><cell>-0.0083</cell><cell>-0.0174</cell><cell>-0.0081</cell><cell>-0.0042</cell><cell>-0.0009</cell><cell>-0.0014</cell></row><row><cell></cell><cell></cell><cell cols="3">(0.0367) (0.0381) (0.0347)</cell><cell cols="3">(0.0358) (0.0317) (0.0346)</cell></row><row><cell></cell><cell>γ1</cell><cell>[0.0657]</cell><cell>[0.0408]</cell><cell>[0.0762]</cell><cell>[0.0582]</cell><cell>[0.0402]</cell><cell>[0.0585]</cell></row><row><cell></cell><cell>γ2</cell><cell>[0.0522]</cell><cell>[0.0502]</cell><cell>[0.0530]</cell><cell>[0.0521]</cell><cell>[0.0483]</cell><cell>[0.0526]</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 5 :</head><label>5</label><figDesc>Rank Score statistics and corresponding cut-off value for identifying single varying coefficient. H 0l represents testing the constancy of β l (u, τ ), l = 1, • • • , 5. Here the nominal significance level is 0.05. Values marked with * correspond to rejection of null hypothesis.</figDesc><table><row><cell>τ</cell><cell>H01</cell><cell>H02</cell><cell>H03</cell><cell>H04</cell><cell>H05</cell></row><row><cell cols="2">0.1 0.0001</cell><cell>1.3179</cell><cell>0.0332</cell><cell>0.2787</cell><cell>1.4386</cell></row><row><cell cols="3">0.2 0.0002 10.5218 *</cell><cell>0.0428</cell><cell>0.7629</cell><cell>2.8423</cell></row><row><cell cols="3">0.3 0.0001 22.1575 *</cell><cell>0.0013</cell><cell>0.9900</cell><cell>1.5555</cell></row><row><cell cols="2">0.4 0.0716</cell><cell>5.5943 *</cell><cell>0.6882</cell><cell cols="2">0.0000 10.2199 *</cell></row><row><cell cols="2">0.5 0.2178</cell><cell>9.8951 *</cell><cell>1.0426</cell><cell>0.0029</cell><cell>6.8899 *</cell></row><row><cell cols="5">0.6 0.8100 13.6297 * 4.8560 * 0.0318</cell><cell>6.0768 *</cell></row><row><cell cols="2">0.7 0.6145</cell><cell>8.4320 *</cell><cell>0.8975</cell><cell>0.0923</cell><cell>7.3477 *</cell></row><row><cell cols="2">0.8 0.8827</cell><cell>4.0135 *</cell><cell>0.0649</cell><cell>0.0203</cell><cell>4.9928 *</cell></row><row><cell cols="2">0.9 0.0001</cell><cell>4.0135 *</cell><cell>0.0218</cell><cell>0.0014</cell><cell>1.4386</cell></row><row><cell></cell><cell></cell><cell cols="3">Cut-off value : 3.8415</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 6 :</head><label>6</label><figDesc>SIC values of three models. (X 2 , X 5 ) represents the PLVCSAR model1 with varying coefficients X 2 and X 5 , (X 2 , X 3 , X 5 ) represents the PLVCSAR model2 with varying coefficients X 2 , X 3 and X 5 , (X 1 , X 2 , X 4 ) represents the PLVCSAR model3 with varying coefficients X 1 , X 2 and X 4 , SAR model represents the constant coefficient spatial autoregressive model.</figDesc><table><row><cell>Models</cell><cell cols="8">τ = 0.1 τ = 0.2 τ = 0.3 τ = 0.4 τ = 0.5 τ = 0.6 τ = 0.7 τ = 0.8 τ = 0.9</cell></row><row><cell>(X2, X5)</cell><cell cols="3">10.4175 10.4659 10.4624</cell><cell>8.8761</cell><cell>8.1486</cell><cell>9.7401</cell><cell>9.7439</cell><cell>10.3754</cell><cell>8.9282</cell></row><row><cell cols="4">(X2, X3, X5) 11.5136 10.7574 10.2324</cell><cell>9.2940</cell><cell>8.6772</cell><cell cols="3">10.4068 10.9622 10.6783 11.9817</cell></row><row><cell cols="5">(X1, X2, X4) 11.4568 11.1219 10.3938 10.1365</cell><cell>9.3265</cell><cell cols="3">10.5849 10.3927 10.9940 11.4164</cell></row><row><cell>SAR model</cell><cell>9.8621</cell><cell>8.1950</cell><cell>9.6300</cell><cell cols="5">10.2494 10.7568 11.4899 11.8461 12.1130 12.4325</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head n="8">Acknowledgements</head><p>The work was partially supported by <rs type="funder">National Natural Science Foundation of China</rs> (No.<rs type="grantNumber">11271368</rs>), Project supported by the <rs type="funder">Major Program of Beijing Philosophy and Social Science Foundation of China</rs> (No. <rs type="grantNumber">15ZDA17</rs>), <rs type="funder">Project of Ministry of Education</rs> supported by the <rs type="funder">Specialized Research Fund for the Doctoral Program of Higher Education of China</rs> (Grant No. <rs type="grantNumber">20130004110007</rs>), The <rs type="funder">Key Program of National Philosophy and Social Science Foundation</rs> Grant (No. <rs type="grantNumber">13AZD064</rs>), The <rs type="funder">Fundamental Research Funds for the Central Universities</rs>, and the <rs type="funder">Research Funds of Renmin University of China</rs> (No. <rs type="grantNumber">15XNL008</rs>), and The Project of <rs type="grantName">Flying Apsaras Scholar</rs> of <rs type="affiliation">Lanzhou University of Finance &amp; Economics</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_DRkdk6G">
+					<idno type="grant-number">11271368</idno>
+				</org>
+				<org type="funding" xml:id="_Gq2TGeE">
+					<idno type="grant-number">15ZDA17</idno>
+				</org>
+				<org type="funding" xml:id="_MFhQTCw">
+					<idno type="grant-number">20130004110007</idno>
+				</org>
+				<org type="funding" xml:id="_n45gUQc">
+					<idno type="grant-number">13AZD064</idno>
+				</org>
+				<org type="funding" xml:id="_tjts24J">
+					<idno type="grant-number">15XNL008</idno>
+					<orgName type="grant-name">Flying Apsaras Scholar</orgName>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Efficient estimation of a semiparametric partially linear varying coefficient model</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Ahmad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Leelahanon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="258" to="283" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>The Netherlands</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in linear regression models with an introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Applied Economic Statistics</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Marcel Dekker</publisher>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="page" from="237" to="290" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Nonparametric quantile estimations for dynamic smooth coefficient models</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Xu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">103</biblScope>
+			<biblScope unit="page" from="1595" to="1608" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Instrumental quantile regression inference for structural and treatment effect models</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Chernozhukov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hansen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">132</biblScope>
+			<biblScope unit="page" from="491" to="525" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Instrumental variable quantile regression: A robust inference approach</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Chernozhukov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hansen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">142</biblScope>
+			<biblScope unit="page" from="379" to="398" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">W</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">B</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">Q</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Shi</surname></persName>
+		</author>
+		<title level="m">Outlier Detection and Accommodations in General Spatial Models. Statistical Methods and Applications</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Local influence analysis for General Spatial Models</title>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">W</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">B</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">P</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">Z</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Advances in Statistical Analysis. (Online)</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">On additive conditional quantiles with high dimensional covariates</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>De Gooijer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Zerom</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="page" from="135" to="146" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Profile likelihood inferences on semiparametric varying coefficient partially linear models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bernoulli</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="1031" to="1057" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Analysis of longitudinal data with semiparametric estimation of covariance function</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Amer. Statist. Assoc</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="page" from="632" to="641" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Quantile regression for dynamic panel data with fixed effects</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">F</forename><surname>Galvao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">164</biblScope>
+			<biblScope unit="page" from="142" to="157" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Tests of linear hypotheses based on regression rank scores</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Gutenbrunner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Jurečková</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Koenker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Portnoy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Nonparametric Statistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="307" to="331" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Quantile regression estimates for a class of linear and partially linear errors-in-variables models</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Liang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="page" from="129" to="140" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Quantile splines with several covariates</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="343" to="352" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Bivariate quantile smoothing splines</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Ng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Portnoy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society B</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="page" from="537" to="550" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Some asymptotic results on bivariate quantile splines</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Portnoy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="page" from="341" to="349" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Bivariate tensor-product B-splines in a partly linear model</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Shi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="162" to="181" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Quantile regression in varying coefficient models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Honda</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inferences</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="page" from="113" to="125" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Detection of Outliers in Mixed Regressive-Spatial Autoregressive Models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">B</forename><surname>Jin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">W</forename><surname>Dai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">Q</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Shi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Communications in Statistics-Theory and Methods. (Online)</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<monogr>
+		<title level="m" type="main">Quantile regression in a varying coefficient model</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Kim</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<pubPlace>Urbana-Champaign</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Univ. Illinois at</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Ph.D. dissertation</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Quantile regression with varying coefficients</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="92" to="108" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">GMM and 2SLS estimation of mixed regressive, spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">137</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimators for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Efficient semiparametric estimation of partially linear quantile regression model</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="1" to="31" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Estimation of spatial autoregressive panel data models with fixed effects</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">154</biblScope>
+			<biblScope unit="page" from="165" to="185" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<title level="m" type="main">The theory and practice of spatial econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<pubPlace>Toledo, Ohio</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>University of Toledo</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">Introduction to spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Estimating spatial quantile regression with functional coefficients: A robust semiparametric framework</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">D</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><forename type="middle">G</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">S</forename><surname>Cheng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bernoulli</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="page" from="164" to="189" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A spatial autoregressive model with a nonlinear transformation of the dependent variable</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Qu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page" from="209" to="232" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">L</forename><surname>Schumaker</surname></persName>
+		</author>
+		<title level="m">Spline Functions: Basic Theory</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Semiparametric time-varying coefficients regression model for longitudinal data</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Scand. J. Statist</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="page" from="21" to="47" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A Semiparametric Spatial dynamic model</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">D</forename><surname>Lu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="700" to="727" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Variable selection in highdimensional quantile varying coefficient models</title>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">L</forename><surname>Tang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">Y</forename><surname>Song</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">X</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">Y</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">122</biblScope>
+			<biblScope unit="page" from="115" to="132" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Van Der Vaart</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Wellner</surname></persName>
+		</author>
+		<title level="m">Weak Convergence and Empirical Processes</title>
+		<meeting><address><addrLine>New York, New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag Press</publisher>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Quantile regression in partially linear varying coefficient models</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">X</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">Y</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Zhou</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="3841" to="3866" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Conditional growth charts (with discussion)</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Wei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>He</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann. Statist</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="2069" to="2097" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">A spatial autoregressive model with a nonlinear transformation of the dependent variable</title>
+		<author>
+			<persName><forename type="first">X</forename><forename type="middle">B</forename><surname>Xu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">186</biblScope>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Estimation of semi-parametric varying-coefficient spatial panel models with random-effects</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Shen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inferences</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="64" to="80" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Composite quantile regression and the oracle model selection theory</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Yuan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="1108" to="1126" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

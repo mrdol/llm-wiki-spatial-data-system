@@ -178,6 +178,47 @@ extract_spmoran_predictions <- function(pred) {
   as.numeric(pred)
 }
 
+#' Work around a spmoran::esf() bug on very sparse spatial eigenstructures
+#'
+#' spmoran::esf()'s default stepwise eigenvector selection (`fn = "r2"`)
+#' removes each candidate eigenvector from its pool as it's evaluated at
+#' every step (`sf <- sf[, -Obj_ind]`), regardless of `vif` -- `vif` only
+#' gates whether a candidate is *accepted* into the running model at each
+#' step, not whether the depleting search itself runs (confirmed by reading
+#' esf.R: the `while` loop that does this is guarded only by `fn != "all"`).
+#' When there are very few candidate eigenvectors to begin with (confirmed
+#' down to 2 on a dataset with tightly clustered coordinates,
+#' paper_snake_home_range) and the stepwise search ends up exhausting all of
+#' them, esf()'s own "all selected" branch (esf.R, `if (i == ne)`) rebuilds
+#' its output table from that now-emptied pool instead of the eigenvectors
+#' actually chosen, ending up short a column and crashing with "'names'
+#' attribute [10] must be the same length as the vector [9]" (exact numbers
+#' vary with `ne`/covariate count). Root-caused 2026-09-13 by reproducing the
+#' failing near_prediction folds directly and walking the call stack into
+#' spmoran's own source -- confirmed entirely inside spmoran::esf(), not in
+#' how we call it. `vif = NULL` alone does NOT avoid this (verified
+#' empirically: same crash) -- only `fn = "all"` does, since it skips the
+#' stepwise `while` loop entirely and keeps every eigenvector directly.
+#'
+#' @keywords internal
+spmoran_esf_with_vif_fallback <- function(y, x, meig, vif) {
+  tryCatch(
+    spmoran::esf(y = y, x = x, meig = meig, vif = vif),
+    error = function(e) {
+      if (!grepl("'names' attribute", conditionMessage(e), fixed = TRUE)) stop(e)
+      warning(
+        "spmoran::esf() hit a known upstream bug in its stepwise eigenvector ",
+        "selection (too few candidate spatial eigenvectors for the stepwise ",
+        "search to leave any unselected) -- falling back to fn = \"all\" ",
+        "(keeps every eigenvector, skips the buggy stepwise code path). ",
+        "Original error: ", conditionMessage(e),
+        call. = FALSE
+      )
+      spmoran::esf(y = y, x = x, meig = meig, vif = vif, fn = "all")
+    }
+  )
+}
+
 #' Internal spmoran fit function for parsnip
 #'
 #' @keywords internal
@@ -201,7 +242,7 @@ spmoran_fit_impl <- function(formula, data, coords, model_type = "ESF",
   meig <- spmoran_build_meigen(coords_mat, enum = enum)
 
   fit <- switch(model_type,
-    ESF = spmoran::esf(y = matrices$y, x = matrices$x, meig = meig, vif = vif),
+    ESF = spmoran_esf_with_vif_fallback(y = matrices$y, x = matrices$x, meig = meig, vif = vif),
     RESF = spmoran::resf(y = matrices$y, x = matrices$x, meig = meig),
     stop("`model_type` must be 'ESF' or 'RESF'.", call. = FALSE)
   )

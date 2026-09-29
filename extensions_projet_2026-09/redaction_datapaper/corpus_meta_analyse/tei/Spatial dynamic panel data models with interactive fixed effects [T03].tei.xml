@@ -1,0 +1,1007 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial dynamic panel data models with interactive fixed effects</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Wei</forename><surname>Shi</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Institute for Economic and Social Research</orgName>
+								<orgName type="institution">Jinan University</orgName>
+								<address>
+									<postCode>510632</postCode>
+									<settlement>Guangzhou</settlement>
+									<region>Guangdong</region>
+									<country key="CN">China</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Lung-Fei</forename><surname>Lee</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">The Ohio State University</orgName>
+								<address>
+									<postCode>43210</postCode>
+									<settlement>Columbus</settlement>
+									<region>Ohio</region>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="institution">Shanghai University of Finance</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial dynamic panel data models with interactive fixed effects</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">8D9008D16B09BA9AFDF4946D127062C8</idno>
+					<idno type="DOI">10.1016/j.jeconom.2016.12.001</idno>
+					<note type="submission">Received date: 31 December 2014 Revised date: 23 December 2016 Accepted date: 23 December 2016</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-17T13:17+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial panel</term>
+					<term>dynamics</term>
+					<term>multiplicative individual and time effects JEL classification: C13</term>
+					<term>C23</term>
+					<term>C51</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper studies the estimation of a dynamic spatial panel data model with interactive individual and time effects with large n and T . The model has a rich spatial structure including contemporaneous spatial interaction and spatial heterogeneity. Dynamic features include individual time lag and spatial diffusion. The interactive effects capture heterogeneous impacts of time effects on cross sectional units. The interactive effects are treated as parameters, so as to allow correlations between the interactive effects and the regressors. We consider a quasi-maximum likelihood estimation and show estimator consistency and characterize its asymptotic distribution. The Monte Carlo experiment shows that the estimator performs well and the proposed bias correction is effective. We illustrate the empirical relevance of the model by applying it to examine the effects of house price dynamics on reverse mortgage origination rates in the US.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Spatial interaction is present in many economic problems. When a state determines its tax rate, it takes into account not only its domestic constituent, but also what neighboring states might do (e.g., <ref type="bibr" target="#b15">Han and Lee (2016)</ref>). Fluctuations in one industrial sector can spill to other sectors if the sectors are "close" in terms of using similar production technology, using similar inputs, etc (e.g., <ref type="bibr" target="#b13">Conley and Dupor (2003)</ref>). Early contributions to spatial econometrics include <ref type="bibr" target="#b12">Cliff and Ord (1973)</ref> and <ref type="bibr" target="#b5">Anselin (1988)</ref>. <ref type="bibr" target="#b20">Kelejian and Prucha (2010)</ref> examine the GMM for estimation of spatial models. <ref type="bibr">Lee (2004a)</ref> establishes asymptotic properties of the quasi-maximum likelihood (QML) estimator of a spatial autoregressive (SAR) model. A spatial panel can take into account dynamics and control for unobserved heterogeneity. Dynamic spatial panel data models with fixed individual and/or time effects where spatial effects appear as lags in time and in space have been studied in <ref type="bibr" target="#b43">Yu et al. (2008)</ref> and <ref type="bibr">Lee and Yu (2010b)</ref>. <ref type="bibr" target="#b40">Su and Yang (2015)</ref> examine QML estimation of dynamic panel data models with spatial effects in the errors. <ref type="bibr" target="#b26">Lee and Yu (2013)</ref> is a recent survey on spatial panel data models.</p><p>On the other hand, individual units can be differently affected by common factors. The factor loading quantifies the magnitude of the effect of a time varying factor on an individual unit. In the example of industrial sectors above, common factors like interest rate, demographic trend, etc., can simultaneously affect various industrial sectors, but magnitudes of the impact can be different across sectors. A few possibly unobserved common factors may drive much essential comovement between sectors although those sectors are far from each other according to economic distance measures. Essentially, a factor induces a time fixed effect which may affect individuals differently. <ref type="bibr" target="#b7">Bai (2009)</ref> labels this an interactive effect.</p><p>In recent years, much progress has been made in the estimation and inference of panel data models with interactive effects. When interactive effects are viewed as fixed parameters, the model can be estimated by nonlinear least squares (NLS) method involving principal components. <ref type="bibr" target="#b7">Bai (2009)</ref> systematically studies asymptotic properties of the NLS estimator. The estimation is iterative where in each iteration, slope parameters are estimated given factors, and then factors are estimated by principal components given the estimated slope parameters. <ref type="bibr">Moon and Weidner (2015b)</ref> show that, under additional assumptions, the limiting distribution of the NLS estimator does not depend on the number of factors assumed in the estimation, as long as it does not fall below the true number of factors. They analyze asymptotic properties of the NLS estimator by perturbation method from <ref type="bibr" target="#b18">Kato (1995)</ref>, where the objective function is expanded involving its approximated gradient vector and Hessian matrix. Assuming that factors and factor loadings are random and factors enter regressors linearly, <ref type="bibr" target="#b37">Pesaran (2006)</ref> proposes the common correlated effects (CCE) estimator.</p><p>His idea is that variations due to factors can be captured by cross sectional averages of the dependent and explanatory variables. <ref type="bibr">Ahn et al. (2013)</ref> propose a GMM estimator for fixed T case. The interactive effects can be eliminated by a transformation involving the factors and then GMM can be applied. Spatial interaction and common factors are two specifications explored in the literature where individuals' activities and outcomes are not independently distributed. In this paper, an individual can be influenced by its neighbors' actions or outcomes which is modeled by the SAR specification. Individuals are also exposed to unobserved common factors which are modeled as interactive effects following <ref type="bibr" target="#b7">Bai (2009)</ref>. By treating interactive effects as parameters to be estimated, this approach allows flexible correlation between the interactive effects and the regressors. As a data generating process involves spatial spillovers and interactive effects, both should be taken into account for estimators to be consistent. This paper jointly models spatial interactions and interactive effects in a panel data with large n and T .</p><p>We consider spatial interaction in the dependent variable where the degree of spatial correlation is of interest, in which case the CCE estimator is not directly applicable. The spatial panel model under consideration is a general dynamic spatial panel data model where spatial effects can appear both in the form of lags and errors.</p><p>In addition to contemporaneous spatial interaction, time lagged dependent variables, diffusion and spatially correlated and heterogeneous disturbances are included to allow a rich specification of the state dependence and guard against spurious spatial correlation. We do not impose specific structures on how interactive effects affect the regressors. The interactive effects are treated as nuisance parameters and are concentrated out in the estimation. <ref type="bibr">Moon and Weidner (2015b)</ref> show how to derive the approximated gradient vector and the Hessian matrix of the concentrated NLS objective function of a regression panel. In spatial panel setting, the log of the sum of squared residuals from the regression panel is a component of the likelihood function, and we adapt their approach to that component. We provide conditions for identification and show that the QML estimation method works well. The estimator is shown to be consistent and asymptotically normal. Asymptotic biases of order 1 √ nT exist due to incidental parameters, and a bias correction method is proposed.</p><p>Existing literature on factor models <ref type="bibr" target="#b6">(Bai (2003)</ref>, <ref type="bibr" target="#b14">Forni et al. (2004)</ref>, <ref type="bibr" target="#b39">Stock and Watson (2002)</ref>) ignores spatial interactions. Literature on spatial interactions <ref type="bibr">(Lee and Yu (2010a)</ref>, <ref type="bibr" target="#b26">Lee and Yu (2013)</ref>) has mostly not considered unobserved interactive effects. To the best of our knowledge, there are only a few papers that jointly model spatial correlation and interactive effects. <ref type="bibr" target="#b38">Pesaran and Tosetti (2011)</ref> model different forms of error correlation, including spatial error correlation and common factor, and show that the CCE estimator continues to work well. A recent work by <ref type="bibr" target="#b8">Bai and Li (2015)</ref> has a related model specification but their model and estimation method are different from ours. Their model specification has a different feature on heterogeneous variances. Our model has richer dynamics, which include spatial time lags (diffusion), contemporaneous spatial lags, spatial errors and individual time lags, while <ref type="bibr" target="#b8">Bai and Li (2015)</ref> consider them one at a time. The usefulness of the richer dynamics structure of our model has been discussed in <ref type="bibr" target="#b27">Lee and Yu (2015)</ref> for dynamic panel models with additive effects. The objective function in <ref type="bibr" target="#b8">Bai and Li (2015)</ref> features a large number of incidental parameters due to factor loadings and heteroskedastic variances over one dimension (the cross section). We show that the factor loadings can be further concentrated out, and the objective function only needs to be maximized with respect to the finite dimensional parameter vector of interest if homoskedasticity is assumed.</p><p>The paper is organized as follows. Section 2 presents the model and discusses assumptions and identification. We prove consistency and derive the limiting distribution of the QML estimator in Section 3.</p><p>We then illustrate the empirical relevance of the theory by demonstrating the estimator's good finite sample performance and applying the model to analyze the effect of house price dynamics on reverse mortgage origination rates in the U.S. Section 6 concludes. Proofs of the main results are collected in the appendix. A supplementary file is available online which has detailed proofs on relevant useful lemmas.</p><p>In this paper, here are some essential notations. For a vector η, η</p><formula xml:id="formula_0">1 = ∑ k |η k | and η 2 = ∑ k |η k | 2 .</formula><p>Let µ i (M) denote the i-th largest eigenvalue of a symmetric matrix M of dimension n with eigenvalues listed in a decreasing order such that µ n (M) ≤ µ n-1 (M) ≤ • • • ≤ µ 1 (M). For a real matrix A, its spectral norm is For a real number x, x is the smallest integer greater than or equal to x. "wpa 1" stands for "with probability approaching 1".</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">The Spatial Dynamic Panel Data (SDPD) Model with Interactive Effects</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">The Model</head><p>There are n individual units and T time periods. The SDPD model has the following specification,</p><formula xml:id="formula_1">Y nt = λW n Y nt + γY n,t-1 + ρW n Y n,t-1 + X nt β + Γ n f t +U nt , and U nt = α Wn U nt + ε nt ,<label>(1)</label></formula><p>where Y nt is an n-dimensional column vector of observed dependent variables and X nt is an n×(K -2) matrix of exogenous regressors, so that the total number of variables in Y n,t-1 , W n Y n,t-1 and X nt is K. The model accommodates two types of cross sectional dependences, namely, local dependence and global (strong)</p><p>dependence. Individual units are impacted by potentially time varying unknown common factors f t , which captures global (strong) dependence. The effects of the factors can be heterogeneous on the cross section units, as described by the factor loading parameter matrix Γ n . For example, in an earnings regression where Y nt is the wage rate, each row of Γ n may correspond to a vector of an individual's skills and f t is the skill premium which may be time varying. The number of unobserved factors is assumed to be a fixed constant r that is much smaller than n and T . <ref type="foot" target="#foot_0">1</ref> The matrix of n × r factor loading Γ n and the T × r factors</p><formula xml:id="formula_2">F T = ( f 1 , f 2 , • • • , f T )</formula><p>are not observed and are treated as parameters. The fixed effects approach is flexible and allows unknown correlation between the common factor components and the regressors. The n × n spatial weights matrices W n and Wn in Eqs. (1) are used to model spatial dependences. The term λW n Y nt describes the contemporaneous spatial interactions. There are also dynamics in model (1). γY n,t-1 captures the pure dynamic effect. ρW n Y n,t-1 is a spatial time lag of interactions, which captures diffusion <ref type="bibr" target="#b26">(Lee and Yu (2013)</ref>). 2 The idiosyncratic error U nt with elements of ε it being i.i.d. (0, σ 2 ) also possesses a spatial structure Wn , which may or may not be the same as W n .</p><p>The specification in ( <ref type="formula" target="#formula_1">1</ref>) is general and encompasses many models of empirical interest. In particular, additive fixed individual and time effects is a special case of the factor structure, as can be seen in the following.</p><p>•</p><formula xml:id="formula_3">Y nt = λW n Y nt + γY n,t-1 + ρW n Y n,t-1 + X nt β + ζ n + ℓ n ξ t + ε nt ,<label>(2)</label></formula><p>where Eq. ( <ref type="formula" target="#formula_3">2</ref>) is a special case of Eq. ( <ref type="formula" target="#formula_1">1</ref>) with</p><formula xml:id="formula_4">ζ n = ζ 1 ζ 2 • • ζ n</formula><formula xml:id="formula_5">Γ n =   ζ 1 ζ 2 • • ζ n 1 1 • • 1   and F T =   1 1 • • 1 ξ 1 ξ 2 • • ξ T   . Define A n = S -1 n (γI n + ρW n ), where S n = I n -λW n . From Eq. (1), Y nt = A n Y n,t-1 + S -1 n (X nt β + Γ n f t +U nt ). Continuous substitution gives Y n,t = ∑ ∞ h=0 A h n S -1 n (X n,t-h β + Γ n f t-h +U n,t-h ), assuming that the series con- verges. With A n 2 &lt; 1, A h n ∞</formula><p>h=0 is absolutely summable and the initial condition Y n,0 does not affect the asymptotic analysis when T → ∞. <ref type="bibr" target="#b26">Lee and Yu (2013)</ref> discuss the parameter space of γ, ρ and λ and regularity conditions that guarantee A n 2 &lt; 1. Let ϖ ni denote an eigenvalue of W n and d ni the corresponding eigenvalue of A n , we then have</p><formula xml:id="formula_6">d ni = γ+ρϖ ni 1-λ ϖ ni .</formula><p>If the spatial weights matrix W n is row normalized from a sym-metric matrix (as in <ref type="bibr" target="#b36">Ord (1975)</ref>),<ref type="foot" target="#foot_2">foot_2</ref> all eigenvalues of W n are real. Furthermore, if tr (W n ) = 0, the condition 1 ϖ n,min &lt; λ &lt; 1 = ϖ n,max implies that I n -λW n is invertible, where ωn,min and ωn,max are, respectively, the smallest and largest eigenvalues of W n . Stationarity further requires |d ni | &lt; 1 for all i. <ref type="bibr" target="#b26">Lee and Yu (2013)</ref> show that with a row normalized W n , the parameter space for A n 2 &lt; 1 can be characterized as a region enclosed by four linear hyperplanes</p><formula xml:id="formula_7">R s = {(λ , γ, ρ) : γ + (ρ -λ )ϖ n,min &gt; -1, γ + ρ + λ &lt; 1, γ + ρ -λ &gt; -1, γ + (λ + ρ)ϖ n,min &lt; 1} .</formula><p>Elements in R s already imply that -1 &lt; γ &lt; 1 and 1</p><formula xml:id="formula_8">ϖ n,min &lt; λ &lt; 1. Because |ϖ n,i | &lt; 1, a sufficient condition for A n 2 &lt; 1 is |λ | + |γ| + |ρ| &lt; 1.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Estimation Method</head><p>The parameters for the model (1) are θ = (δ , λ , α) with δ = (γ, ρ, β ) , σ 2 , Γ n and F T . It is convenient to collect the predetermined variables and exogenous regressors by the n×K matrix Z nt = (Y n,t-1 ,W n Y n,t-1 , X nt ), where K = k + 2, with k being the number of exogenous regressors in X nt . Denote S n (λ ) = I n -λW n and R n (α) = I n -α Wn . The sample averaged quasi-log likelihood function is</p><formula xml:id="formula_9">Q nT (θ , σ 2 , Γ n , F T ) = - 1 2 log 2π - 1 2 log σ 2 + 1 n log |S n (λ )R n (α) | - 1 2σ 2 nT T ∑ t=1 (S n (λ )Y nt -Z nt δ -Γ n f t ) R n (α) R n (α) (S(λ )Y nt -Z nt δ -Γ n f t ) .</formula><p>(3) Concentrating out σ 2 from the objective function (3) and dropping the overall constant term for simplicity,</p><formula xml:id="formula_10">Q nT (θ , Γ n , F T ) = 1 n log |S n (λ )R n (α)| - 1 2 log 1 nT T ∑ t=1 (S n (λ )Y nt -Z nt δ -Γ n f t ) R n (α) R n (α) (S n (λ )Y nt -Z nt δ -Γ n f t )</formula><p>is a concentrated sample averaged log likelihood function of θ , Γ n and F T . In view of the unobserved nature of the common factor component, we shall make minimal assumptions on their structures. The number of factors is set at r in the estimation, which does not necessarily equal to the true number of factors r 0 . Later sections will show that consistency requires r ≥ r 0 while the results on limiting distribution require r = r 0 .</p><p>Because for our estimation method, no restriction is imposed on Γ n and R n (α) is assumed invertible for α in its parameter space, optimizing with respect to Γ n ∈ R n×r is equivalent to optimizing with respect to the transformed Γn with Γn = R n (α)Γ n . The objective function can be equivalently written as</p><formula xml:id="formula_11">Q nT (θ , Γn , F T ) = 1 n log |S n (λ )R n (α)| - 1 2 log 1 nT T ∑ t=1 R n (α) (S n (λ )Y nt -Z nt δ ) -Γn f t R n (α) (S n (λ )Y nt -Z nt δ ) -Γn f t .<label>(4)</label></formula><p>As the sample expands, the number of parameters in the factors and their loadings also increases. Because the parameter of interest is θ and it is easier to optimize with respect to a finite dimensional vector, we concentrate out factors and their loadings using the principal component theory: for an n × T matrix H nT , min</p><formula xml:id="formula_12">F T ∈R T ×r , Γn ∈R n×r tr H nT -Γn F T H nT -Γn F T = min F T ∈R T ×r tr H nT M F T H nT = n ∑ i=r+1 µ i H nT H nT ,</formula><p>where for the second equality, the j-th column of FT is the eigenvector corresponding to the j-th largest eigenvalue of H nT H nT . Because Γn F T cannot be separately identified from Γn MM -1 F T for an invertible matrix M, the identification conditions that F T F T = I r and Γ n Γn is diagonal have been imposed. The estimated factors and factor loadings will be rotations of their true values. However, the asymptotic distribution of our QML estimator is unaffected by the normalizations because the space spanned by the factors and their loadings do not change. The concentrated log likelihood is</p><formula xml:id="formula_13">Q nT (θ ) = max Γn ∈R n×r ,F T ∈R T ×r Q nT θ , Γn , F T = 1 n log |S n (λ )R n (α)| - 1 2 log L nT (θ ),<label>(5)</label></formula><p>with</p><formula xml:id="formula_14">L nT (θ ) = 1 nT ∑ n i=r+1 µ i R n (α) S n (λ ) -∑ K k=1 Z k δ k S n (λ ) -∑ K k=1 Z k δ k R n (α)</formula><p>. The QML estimator is θnT = arg max θ ∈Θ Q nT (θ ). The estimate for Γn can be obtained as the eigenvectors associated with</p><formula xml:id="formula_15">the first r largest eigenvalues of R n (α) S n (λ ) -∑ K k=1 Z k δ k S n (λ ) -∑ K k=1 Z k δ k R n (α)</formula><p>. By switching n and T , the estimate for F T can be similarly obtained. Note that the estimated Γn and F T are not unique, as Γn HH -1 F T is observationally equivalent to Γn F T for any invertible r × r matrix H. However, the column spaces of Γn and F T are invariant to H, hence the projectors M Γn and M F T are uniquely determined.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Assumptions</head><p>The true values of θ , Γn and F T are denoted by θ 0 , Γn0 and F T 0 . Note that the dimensions of Γn and F T are n × r and T × r, and may not equal to the dimensions of Γn0 and F T 0 which are n × r 0 and</p><formula xml:id="formula_16">T × r 0 respectively. Denote ε = ε n1 ε n2 • • ε nT , a n × T matrix.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption E</head><p>1. The disturbances ε it are independently distributed across i and over t with Eε it = 0, Eε 2 it = σ 2 0 &gt; 0 and has uniformly bounded moment E |ε it | 4+η for some η &gt; 0.</p><p>2. The disturbances in ε are independently distributed from regressors X k and the factors F T 0 and Γ n0 .</p><p>The disturbances of the model have a spatial structure. From Eq. ( <ref type="formula" target="#formula_1">1</ref>), U = R n (α 0 ) -1 ε. Its spatial heterogeneity is captured by Wn and coefficient α. In panels with factors, many estimation methods allow idiosyncratic errors to be cross sectionally correlated and heteroskedastic in an unknown form, up to a degree <ref type="bibr" target="#b7">(Bai (2009)</ref>, <ref type="bibr" target="#b37">Pesaran (2006)</ref>). However, when a spatial autoregressive model is estimated by QML assuming homoskedastic error, the QMLE is generally inconsistent if errors are in fact heteroskedastic but ignored, as shown by <ref type="bibr" target="#b29">Lin and Lee (2010)</ref> in the cross sectional setup. In the panel setup, <ref type="bibr" target="#b8">Bai and Li (2015)</ref> allow heteroskedastic disturbances along the cross section but invariant over time by treating individual variances as additional parameters<ref type="foot" target="#foot_3">foot_3</ref> . In our current setting, consistency of the QMLE requires this stronger homoskedastic assumption in ε. <ref type="bibr" target="#b21">Latala (2005)</ref> shows that, under Assumption E, ε 2 = O P max(n, T ) .</p><p>To have more simplified notations, define n × n matrices</p><formula xml:id="formula_17">S n = S n (λ 0 ), G n = W n S -1 n , R n = R n (α 0 ), Gn = Wn R -1 n and n × T matrices Z K+1 = G n Z n1 δ 0 • • G n Z nT δ 0 = ∑ K k=1 δ 0k G n Z k , Y = Y n1 • • Y nT and Y -1 = Y n0 • • Y nT -1 . In the case of nonnormal disturbance, denote µ (3) = Eε 3</formula><p>it and µ (4) = Eε 4 it .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption R</head><p>1. The parameter θ 0 is in the interior of Θ, where Θ is a compact subset of R K+1 . We use Θ χ to denote the parameter space for parameter χ, χ = λ , α, etc.</p><p>2. The spatial weights matrices W n and Wn are non-stochastic. W n , S -1 n , Wn and R -1 n are uniformly bounded in absolute value in both row and column sums (UB). S n (λ ) and R n (α) are invertible for any λ ∈ Θ λ and α ∈ Θ α . Furthermore, lim inf n,T →∞ inf λ ∈Θ λ |S n (λ )| &gt; 0 and lim inf n,T →∞ inf α∈Θ α |R n (α)| &gt; 0.</p><p>3. The elements of X nt have uniformly bounded 4-th moments.</p><p>4. The number of factors is constant r 0 , and elements of Γ n0 and F T 0 have uniformly bounded 4-th moments.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">∑ ∞</head><p>h=1 abs A h n is UB, where [abs (A n )] i j = A n,i j . In addition, there exists a constant b &lt; 1 and n 0 , such that A n 2 ≤ b for all n ≥ n 0 .</p><p>Assumption R1 is standard. The sum ∑ ∞ ℓ=0 (λW n ) ℓ is convergent if λW n &lt; 1 for some norm • . 5 In this situation, S n (λ ) is invertible and S n (λ ) -1 = ∑ ∞ ℓ=0 (λW n ) ℓ is Neumann's series. Therefore a sufficient condition for the invertibility of S n (λ ) is |λ | &lt; 1 W n . Similar properties hold for R n (α). There are several limit concepts, such as sequential, pathwise, and simultaneous. In this paper, the asymptotics consider both n and T going to infinity, and simultaneous limit is used. A simultaneous limit does not restrict n and T to grow along a fixed path. In deriving the asymptotic distribution of the QML estimator, proportional n and T is assumed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4.">Identification</head><p>The following Assumptions ID1 and ID2 are used to show that θ 0 , Γ n0 F T 0 and the number of factors can be uniquely recovered from the distribution of data on Y and Z. Their sample counterparts are the subsequent Assumptions NC1 and NC2. Assumptions ID1 and NC1 require Z 1 , • • • , Z K+1 be linearly independent, while Assumptions ID2 and NC2 relax this, but impose more restrictions on the variance structure. The linear independence conditions can fail if G n Z nt δ 0 is linearly dependent on Z nt for all t = 1, • • • , T . This can happen in a pure SAR model with no regressors in which case δ 0 = 0.</p><formula xml:id="formula_18">Assumption ID1 1. Let z = vec (Z 1 ) • • • vec (Z K+1</formula><p>) , which is an nT × (K + 1) matrix of regressors. The (K + 1) × (K + 1) matrix E z M F T 0 ⊗ R n (α) M Γn R n (α) z is positive definite for any α ∈ Θ α and Γn ∈ R n×r with some r ≥ r 0 where r 0 is the true number of factors, M F T 0 = I T -F T 0 (F T 0 F T 0 ) † F T 0 and M Γn =</p><formula xml:id="formula_19">I n -Γn Γ n Γn † Γ n . 2. For any α = α 0 , R n (α) R n (α) is linearly independent of R n R n . Assumption ID1(2) implies that 1 n tr R -1 n R n (α) R n (α)R -1 n -R -1 n R n (α) R n (α)R -1 n 1 n</formula><p>&gt; 0, by the inequality of arithmetic and geometric means. A sufficient condition for ID1(2) is that I n , Wn + W n and W n Wn are linearly independent. 6 Assumption ID1 generalizes those in <ref type="bibr" target="#b28">Lee and Yu (2016)</ref> on the identification of spatial panel models with additive individual and time effects.</p><formula xml:id="formula_20">Assumption ID2 1. Let z = vec (Z 1 ) • • • vec (Z K ) , which is nT ×K. The K ×K matrix E z M F T 0 ⊗ R n (α) M Γn R n (α) z</formula><p>is positive definite for any α ∈ Θ α and Γn ∈ R n×r with some r ≥ r 0 where r 0 is the true number of 5 This condition does not depend on the type of norm used, since all norms in R n×n are equivalent and therefore convergence of a series does not depend on a specific type of norm.</p><p>6 Let c 1 and c 2 be two scalars. For</p><formula xml:id="formula_21">α = α 0 , c 1 R n (α) R n (α) + c 2 R n R n = (c 1 + c 2 )I n -(c 1 α + c 2 α 0 ) Wn + W n + (c 1 α 2 + c 2 α 2 0 ) W n Wn = 0 only if c 1 = c 2 = 0 because I n , Wn + W n</formula><p>and W n Wn are assumed to be linearly independent. Therefore for any α = α 0 , R n (α) R n (α) is linearly independent of R n R n . Notice that Wn can be symmetric. factors, M F T 0 = I T -F T 0 (F T 0 F T 0 ) † F T 0 and M Γn = I n -Γn Γ n Γn † Γ n .</p><p>2. For any λ ∈ Θ λ and α ∈ Θ α , if λ = λ 0 or α = α 0 , then S n (λ ) R n (α) R n (α)S n (λ ) is linearly independent of S n R n R n S n . 7   Assumption ID2(2) is equivalent to for any λ ∈ Θ λ and α ∈ Θ α , if λ = λ 0 or α = α 0 ,</p><formula xml:id="formula_22">1 n tr R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n -R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n 1 n &gt; 0.</formula><p>Assumption ID requires that the regressors be not linearly dependent. For parameter identification, we need the concentrated expected objective function to be uniquely maximized at the truth. We assume that the number of factors used in the concentrated expected objective function is not smaller than the true number of factors. Given that the number of latent factors is small in many empirical applications, it is reasonable to assume that an upper bound of the factor number is known. The estimated Γ n and F T need not have full column rank and the true number of factors, r 0 , can be recovered from the rank of Γ n F T , as the following proposition shows.</p><p>Proposition 1. Under Assumptions E, R and ID1 (or ID2), θ 0 , Γ n0 F T 0 and r 0 are identified.</p><p>The proof is in Appendix B. Assumptions NC below are sample counterparts of Assumptions ID. They are specifically needed for the consistency of the proposed estimator. They can be slightly weakened, but will then involve the unobserved factors, as in Assumption A of <ref type="bibr" target="#b7">Bai (2009)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption NC1</head><p>1. There exists a positive constant b, such that min</p><formula xml:id="formula_23">η∈B K+1 ,α∈Θ α ∑ n i=2r+1 µ i 1 nT R n (α) (η • Z) (η • Z) R n (α) ≥ b &gt; 0 wpa 1 as n, T → ∞, where B K+1 is the unit ball of the (K + 1)-dimensional Euclidean space; η is a (K + 1) × 1 nonzero vector with η 2 = √ η η = 1; η • Z ≡ ∑ K+1 k=1 η k Z k is a convex linear combination of those n × T matrices Z k 's. 2. For any α ∈ Θ α , α = α 0 , lim inf n,T →∞ 1 n tr R -1 n R n (α) R n (α)R -1 n -R -1 n R n (α) R n (α)R -1 n 1 n &gt; 0.</formula><p>Assumption NC1(1) requires no perfect collinearity between regressors and sufficient variations for each regressor. Notice that this excludes constant regressors, because they are constant along i or t, and 7 A sufficient condition is that the following 9 matrices are linearly independent,</p><formula xml:id="formula_24">I n , W n + W n , Wn + W n , W n Wn + W n + Wn + W n W n , W n Wn , W n W n , W n Wn W n + W n W n Wn , W n Wn + W n W n</formula><p>and W n W n Wn W n , for the case that Wn = W n . In the event that Wn = W n , Assumption ID2(2) can only give local identification for λ 0 and α 0 in the sense that (λ 0 , α 0 ) can not be distinguished from (α 0 , λ 0 ). The latter situation is similar to the identification issue of a pure spatial autoregressive with spatial error process</p><formula xml:id="formula_25">Y n = λW n Y n +U n with U n = αW n U n + ε n . ∑ n i=2r+1 µ i 1 nT R n (α) (η • Z) (η • Z) R n<label>(</label></formula><p>α) is 0 for them. Such regressors will be absorbed into the common factor component and examples include those that do not vary over time, e.g., gender, race, and those that are common across individuals, e.g., common time effects. An analogy is in an additive fixed effects model, the time invariant or individual invariant regressors would be captured respectively in the individual and time dummies. To estimate the effect of the constant regressors, one may impose additional identifying assumptions (see <ref type="bibr" target="#b10">Bai and Ng (2008)</ref>) to separate the time factors from the factor loadings, and then estimate the effects of the constant regressors on time factors or the factor loadings. In the context of additive fixed effects panel model, <ref type="bibr" target="#b17">Hausman and Taylor (1981)</ref> propose a similar two-step method to estimate the effect of time-invariant characteristics, and instrumental variables can be used if the constant regressors are endogenous. Alternatively, the constant regressors can be included in the model if one is willing to assume that they are not collinear after projecting out the unobserved true factors and loadings, see <ref type="bibr">Moon and Weidner (2015a)</ref> for the linear panel model. However the consistency proof would require new assumptions on the relationship between the constant regressors and the unobserved factors and loadings, and new arguments will also be needed. Because these assumptions involve the structure of the unobserved factors and therefore may be difficult to verify in empirical studies, and the asymptotic distribution of our estimator will still have similar forms, these are not pursued in this paper.</p><p>It is desirable to understand more about the condition in NC1(1) in terms of regressors implied by the</p><formula xml:id="formula_26">SAR model. Define n × (K + 1) matrices Z nt = (Z nt,1 , • • • , Z nt,K , G n Z nt δ 0 ) = (Z nt , G n Z nt δ 0 ) for t = 1, • • • , T ; and the overall n × (K + 1)T matrix Z nT = [Z n1 , • • • , Z nT ]. We have R n (α)(η • Z) = K+1 ∑ k=1 η k R n (α)Z k = R n (α) K ∑ k=1 η k Z n1,k Z n2,k • • • Z nT,k + η K+1 G n Z n1 δ 0 G n Z n2 δ 0 • • • G n Z nT δ 0 =R n (α)[ K ∑ k=1 Z n1,k η k + (G n Z n1 δ 0 )η K+1 , • • • , K ∑ k=1 Z nT,k η k + (G n Z nT δ 0 )η K+1 ] =R n (α) Z n1 η Z n2 η • • • Z nT η = R n (α)Z nT (I T ⊗ η), where η = (η 1 , • • • , η K+1 ) . So the NC1(1) condition concerns about the smallest (n -2r) eigenvalues of the n × n matrix 1 nT R n (α)(η • Z)(η • Z) R n (α) = 1 nT R n (α)Z nT (I T ⊗ η)(I T ⊗ η )Z nT R n (α)</formula><p>for each η ∈ B K+1 and α ∈ Θ α . Because these matrices are nonnegative definite, their eigenvalues are nonnegative but some can be zero. If there were an α ∈ Θ α and η ∈ B K+1 with the n -2r smallest eigenvalues of</p><formula xml:id="formula_27">1 nT R n (α)(η • Z)(η • Z) R n (α)</formula><p>being all zero, then the NC1 assumption would not be satisfied. So we need some sufficient conditions to rule out such cases.</p><formula xml:id="formula_28">Proposition 2. If ∑ n i=2r+1+KT µ i ( 1 nT Z nT Z nT ) &gt; 0, i.e.</formula><p>, the sum of the smallest n -2r -1 -KT eigenvalues of 1 nT Z nT Z nT is positive, and µ n (R n (α) R n (α)) &gt; 0 for all α ∈ Θ α , with probability approaching 1 as n, T → ∞, then Assumption NC1(1) is satisfied.</p><p>The proof is in Appendix B. In order for Proposition 2 to hold, it is necessary that Z nT has rank at least as large as KT + 2r + 1, that in turn, requires (2r + 1 + KT ) ≤ min{n, (K + 1)T } because Z nT is a n × (K + 1)T matrix. As the problem under consideration has both n and T tend to infinity and r is finite, the latter requires n T &gt; K for large enough n and T . The above analysis can be generalized to the case where</p><formula xml:id="formula_29">G n Z nt δ 0 is linearly dependent on Z nt for all t = 1, • • • , T , such that G n Z nt δ 0 = Z nt C for a constant vector C. As pointed out preceding Assumption ID1, this can happen in a pure SAR model. In this case, let η * = (η 1 , • • • , η K ) . Here, R n (α)η • Z = R n (α)[Z n1 η * + (G n Z n1 δ 0 )η K+1 , • • • , Z nT η * + (G n Z nT δ 0 )η K+1 ] = R n (α)[Z n1 , • • • , Z nT ](I T ⊗ η), where η = η * + η K+1 C. The previous result can now be applied to the n × KT matrix Z * nT = [Z n1 , • • • , Z nT ].</formula><p>In such case, we have an alternative set of conditions that guarantee consistency, as follows.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption NC2</head><p>1. Suppose that G n Z nt δ 0 = Z nt C for a constant vector C for all t = 1, • • • , T . There exists a positive</p><formula xml:id="formula_30">constant b, such that min η∈B K ,α∈Θ α ∑ n i=2r+1 µ i 1 nT R n (α) (η • Z) (η • Z) R n (α) ≥ b &gt; 0 wpa 1 as n, T → ∞, where B K is the unit ball of the K-dimensional Euclidean space; η is a K × 1 nonzero vector with η 2 = √ η η = 1; η • Z ≡ ∑ K k=1 η k Z k . 2. For any λ ∈ Θ λ and α ∈ Θ α , if λ = λ 0 or α = α 0 , lim inf n,T →∞ 1 n tr R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n -R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n 1 n &gt; 0.</formula><p>When G n Z nt δ 0 is linearly dependent on Z nt for all t, NC1(1) will not be satisfied. The additional condition</p><p>(2) of NC2 on the variance structure will make up for it, as will be clear in Proposition 3 below.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Asymptotic Theory</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Consistency</head><p>Standard argument for consistency of an extremum estimator consists of showing that, for any τ &gt; 0, lim sup n,T →∞ max θ ∈ Θ(θ 0 ,τ) EQ nT (θ ) -EQ nT (θ 0 ) &lt; 0, where Θ(θ 0 , τ) is the complement of an open neighborhood of θ 0 in Θ with radius τ (i.e., identification uniqueness); and Q nT (θ ) -EQ nT (θ ) converges to zero uniformly on its parameter space Θ.</p><p>In many situations, the objective function with a finite number of parameters contains averages, and LLN follows with regularity assumptions (e.g. <ref type="bibr" target="#b3">Amemiya (1985)</ref>). If smoothness condition holds, uniform LLN would also follow <ref type="bibr" target="#b4">(Andrews (1987)</ref>). In our model, the concentrated likelihood function (Eq. ( <ref type="formula" target="#formula_13">5</ref>))</p><p>involves sum of certain eigenvalues of a random matrix and is not in the direct form of sample averages, nor is it necessarily smooth. Furthermore, the number of parameters in Γ n and F T increases to infinity as n (and T ) tends to infinity. It turns out that for consistency proof, it is relatively easier to work with the objective function without concentrating out Γ n and F T . The idea is to respectively find an upper bound and a lower bound of the objective function, and then to show that the former for any θ that is outside the τ-neighborhood of θ 0 for any τ &gt; 0 is strictly less than the latter at θ 0 , as n and T increase. Since we are maximizing the objective function, the upper bound at θnT must be not smaller than the lower bound at θ 0 , which implies that the distance between θnT and θ 0 is collapsing to 0 as n and T increase. Lemma 1 of <ref type="bibr" target="#b42">Wu (1981)</ref> demonstrates this idea formally. Using this method, <ref type="bibr">Moon and Weidner (2015b)</ref> show consistency of an NLS estimator for a regression panel model with interactive effects. We adapt these arguments to the spatial panel setting. The proof is in Appendix B. Note that we do not need to know the exact number of factors for the consistency result. It is enough that the true number of factors is less than or equal to the number of factors assumed in estimation. Intuitively, if the number of factors used is not fewer than the true number of factors, variations due to factors can be accounted for. This feature has been observed in <ref type="bibr">Moon and Weidner (2015b)</ref> for the panel regression model. This property turns out to hold also for spatial panels. A step in the consistency proof is based on the following inequality (Eq. B.9),</p><formula xml:id="formula_31">Q nT (θ 0 ) = 1 n log |S n | - 1 2 log min Γ n ∈R n×r ,F T ∈R T ×r 1 nT T ∑ t=1 (Γ n0 f t0 +U nt -Γ n f t ) R n R n (Γ n0 f t0 +U nt -Γ n f t ) ≥ 1 n log |S n | - 1 2 log 1 nT T ∑ t=1 n ∑ i=1 ε 2 it ,</formula><p>which together with an upper bound of Q nT θnT justifies the condition of Eq. (B.10). This inequality trivially holds if the true number of factors is at most r, but might not hold if the number of factors in the estimation is smaller than the number of true factors.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Limiting Distribution</head><p>In this section, we derive the limiting distribution of the QML estimator θnT . Recall that Γn = R n Γ n .</p><p>Because F T and Γn are concentrated out in estimation, only the true factor and loading will be needed via the analysis of first and second order derivatives of the concentrated objective function. Therefore, as no confusion will arise, in subsequent sections F T and Γn refer to the true factor and loading with the subscript '0' omitted for simplicity. For the limiting distribution of θnT , additional assumptions on limiting behaviors of Γn and F T are needed.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption SF</head><p>The number of factors, r 0 , is constant and known. plim n,T →∞ 1 n Γ n Γn and plim n,T →∞ 1 T F T F T exist and are positive definite.</p><p>The above assumption implies that for large enough n and T , all the eigenvalues of plim n,T →∞ 1 n Γ n Γn and plim n,T →∞ 1 T F T F T are bounded away from zero and are bounded from above. For deriving the limiting distribution, the number of factors needs to be exact in order for asymptotic analysis to be tractable. 8   Define</p><formula xml:id="formula_32">d 2 min ( Γn , F T ) = 1 nT µ r 0 ( Γn F T F T Γ n ) and d 2 max ( Γn , F T ) = 1 nT µ 1 ( Γn F T F T Γ n ).</formula><p>Notice that 1 nT Γn F T F T Γ n has at most r 0 positive eigenvalues. As a consequence of Assumption SF, plim n,T →∞ d 2 min ( Γn , F T ) &gt; 0 and plim n,T →∞ d 2 max ( Γn , F T ) &lt; ∞. 9 The total variation in Y is 1 nT tr (YY ), and its component 1 nT tr Γn F T F T Γ n is due to common factors. Assumption SF guarantees that each of the r 0 factors has a nontrivial contribution towards 1  nT tr Γn F T F T Γ n . Similar assumption is in <ref type="bibr" target="#b6">Bai (2003</ref><ref type="bibr" target="#b7">Bai ( , 2009))</ref>. <ref type="bibr">Moon and Weidner (2015b)</ref> label this "strong factor assumption".</p><p>In deriving the limiting distribution of θnT , we need to express L nT (θ ) around θ 0 , where</p><formula xml:id="formula_33">L nT (θ ) = 1 nT ∑ n i=r 0 +1 µ i R n (α) S n (λ )Y -∑ K k=1 Z k δ k S n (λ )Y -∑ K k=1 Z k δ k R n (α)</formula><p>. The perturbation theory of linear operators is used. The technical details of perturbation are in Appendix C and the supplementary file.</p><p>We now provide the limiting distribution of θnT . The detailed proofs are in Appendix D. Let C nT denote the sigma algebra generated by</p><formula xml:id="formula_34">X n1 , • • • , X nT , Γn and F T . Define the n × T matrices Zk = E (Z k |C nT ), Z k ≡ M Γn R n Zk M F T + M Γn R n (Z k -Zk ), k = 1, • • • , K + 1 and the n × T matrix of lagged disturbances εh = ε n,1-h • • ε n,T -h , h ≥ 1,</formula><p>where we drop subscripts n and T for those matrices for simplicity. Using 8 In <ref type="bibr">Moon and Weidner (2015b)</ref>, they show that with additional assumptions on regressors and error distribution, the additional term does not change the limiting distribution of the estimator. However, those additional assumptions are rather strong. In spatial models, relevant assumptions remain to be seen. 9 This is so because the n × n matrix 1 nT Γn F T F T Γ n and the r 0 × r 0 matrix 1 n Γ n Γn 1 T F T F T have the same nonzero eigenvalues, counting multiplicity. For large n and T , <ref type="bibr" target="#b44">Zhang (2011)</ref>, which shows that for Hermitian and positive semidefinite n × n matrices A and B,</p><formula xml:id="formula_35">d 2 max ( Γn , F T ) = µ 1 ( 1 n Γ n Γn 1 T F T F T ) ≤ µ 1 1 n Γ n Γn µ 1 1 T F T F T &lt; ∞, and d 2 min ( Γn , F T ) = µ r 0 1 n Γ n Γn 1 T F T F T ≥ µ r 0 1 n Γ n Γn µ r 0 1 T F T F T &gt; 0. See Theorem 8.12 (2) in</formula><formula xml:id="formula_36">µ i (A)µ n (B) ≤ µ i (AB) ≤ µ i (A)µ 1 (B).</formula><p>the reduced form of the dynamic equation in (1), we have</p><formula xml:id="formula_37">Z 1 -Z1 = ∑ ∞ h=1 A h-1 n S -1 n R -1 n εh , Z 2 -Z2 = W n ∑ ∞ h=1 A h-1 n S -1 n R -1 n εh , Z k -Zk = 0 for k = 3, • • • , K, Z K+1 -ZK+1 = (γ 0 G n + ρ 0 G n W n ) ∑ ∞ h=1 A h-1 n S -1 n R -1 n εh .<label>(6)</label></formula><p>Theorems 1 and 3 characterize the asymptotic distribution, asymptotic bias and asymptotic variance of θnT .</p><p>Theorem 1. Assume that n T → κ 2 &gt; 0 and Assumptions NC1 (or NC2), E, R and SF hold, then</p><formula xml:id="formula_38">√ nT ( θnT -θ 0 ) -σ 2 0 D nT -1 ϕ nT = σ 2 0 D nT -1 1 √ nT ν nT + o P (1),<label>(7)</label></formula><p>where D nT is defined in Eq. ( <ref type="formula" target="#formula_46">9</ref>) and is assumed to be positive definite,</p><formula xml:id="formula_39">ϕ nT = ϕ nT,γ , ϕ nT,ρ , 0 1×(K-2) , ϕ nT,λ , ϕ nT,α with ϕ nT,γ = - σ 2 0 √ nT ∑ T -1 h=1 tr J 0 P F T J h tr A h-1 n S -1 n , ϕ nT,ρ = - σ 2 0 √ nT ∑ T -1 h=1 tr J 0 P F T J h tr W n A h-1 n S -1 n , ϕ nT,λ = - σ 2 0 √ nT ∑ T -1 h=1 tr J 0 P F T J h tr (γG n + ρG n W n ) A h-1 n S -1 n + T n σ 2 0 r 0 n tr (G n ) -tr P Γn R n G n R -1 n and ϕ nT,α = T n σ 2 0 r 0 n tr Gn -tr P Γn Gn . J h = 0 T ×(T -h) , I T , 0 T ×h ,<label>and</label></formula><formula xml:id="formula_40">ν nT = tr Z 1 ε , • • • , tr Z K ε , tr Z K+1 ε + 1 √ nT tr R n G n R -1 n εε - 1 √ nT tr εε 1 n tr (G n ) , 1 √ nT tr Gn εε - 1 √ nT tr εε 1 n tr Gn .</formula><p>To derive the joint distribution of v nT , Cramér-Wold device can be used. Let c ∈ R K+2 , and <ref type="figure">A</ref> </p><formula xml:id="formula_41">c ν nT = tr K+1 ∑ k=1 c k Z k ε + c K+1 tr R n G n R -1 n εε - 1 n tr (G n ) tr εε + c K+2 tr Gn εε - 1 n tr Gn tr εε = vec K+1 ∑ k=1 c k Z k vec (ε) + vec (ε) c K+1 I T ⊗ R n G n R -1 n + Gn - 1 n tr G n + Gn vec (ε) = b c nT vec (ε) + ω c nT vec(ε) + vec (ε) A c nT vec (ε) , where b c nT = ∑ K+1 k=1 c k vec M Γn R n Zk M F T , ω c nT = vec ∑ ∞ h=1 P c nh εh with P c nh = B c n A h-1 0n S -1 n R -1 n , and B c n = M Γn R n (c 1 I n + c 2 W n + c K+1 (γ 0 G n + ρ 0 G n W n )) ,</formula><formula xml:id="formula_42">c nT = 1 2 A c1 nT + A c1</formula><p>nT is an nT × nT symmetric matrix with</p><formula xml:id="formula_43">A c1 nT = c K+1 H K+1 + c K+2 H K+2 , H K+1 = I T ⊗ R n G n R -1 n - 1 n tr (G n ) , and H K+2 = I T ⊗ Gn - 1 n tr Gn .</formula><p>Under Assumptions R and SF, elements of b c nT have uniformly bounded 4-th moments;</p><formula xml:id="formula_44">A c nT , B c n , ∑ ∞ h=1 abs A h-1 0n , S -1</formula><p>n and R -1 n are UB. Together with Assumption E, the CLT of the martingale difference array for linearquadratic form <ref type="bibr" target="#b19">(Kelejian and Prucha (2001)</ref> and <ref type="bibr" target="#b43">Yu et al. (2008)</ref> Lemma 13) are applicable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Theorem 2. Under Assumptions E, R and SF,</head><formula xml:id="formula_45">Ec v nT = σ 2 0 tr (A c nT ) = 0, var c ν nT =T σ 4 0 Etr ∞ ∑ h=1 P c nh P c nh + σ 2 0 Eb c nT b c nT + 2σ 4 0 tr A c nT 2 + 2µ (3) E nT ∑ i=1 [b c nT ] i [A c nT ] ii + µ (4) -3σ 4 0 nT ∑ i=1 [A c nT ] 2 ii =nT σ 4 0 c (D nT + Σ nT + o P (1)) c,<label>(8)</label></formula><p>where the (K + 2) × (K + 2) matrix D nT is</p><formula xml:id="formula_46">D nT = 1 nT σ 2 0 X nT X nT +        0 • • • 0 0 . . . . . . . . . 0 • • • 0 0 0 0 • • • 0 ψ K+1,K+1 ψ K+1,K+2 0 • • • 0 ψ K+1,K+2 ψ K+2,K+2        ,<label>(9)</label></formula><p>where</p><formula xml:id="formula_47">X nT = X 1 • • • X K+1 0 , with X k = vec M Γn R n Z k M F T , k = 1, • • • , K + 1; ψ K+1,K+1 = 1 n tr R n G n R -1 n R -1 n G n R n + 1 n tr(G 2 n )-2 1 n tr (G n ) 2 , ψ K+1,K+2 = 1 n tr G n Gn + 1 n tr R n G n R -1 n G n - 2 n 2 tr(G n )tr( Gn ) and ψ K+2,K+2 = 1 n tr Gn G n + 1 n tr( G2 n ) -2 1 n tr Gn 2</formula><p>; and furthermore</p><formula xml:id="formula_48">Σ nT = µ (3) σ 4 0         Σ 1,K+1 nT,A Σ 1,K+2 nT,A 0 K×K . . . . . . Σ K,K+1 nT,A Σ K,K+2 nT,A Σ 1,K+1 nT,A • • • Σ K,K+1 nT,A 2Σ K+1,K+1 nT,A Σ K+1,K+2 nT,A Σ 1,K+2 nT,A • • • Σ K,K+2 nT,A Σ K+1,K+2 nT,A 0         + µ (4) -3σ 4 0 σ 4 0        0 0 0 K×K . . . . . . 0 0 0 • • • 0 Σ K+1,K+1 nT,B Σ K+1,K+2 nT,B 0 • • • 0 Σ K+1,K+2 nT,B Σ K+2,K+2 nT,B        , (<label>10</label></formula><formula xml:id="formula_49">) where Σ k 1 ,k 2 nT,A = 1 nT ∑ nT i=1 [vec M Γn R n Zk 1 M F T ] i H k 2 ,ii for k 1 = 1, • • • , K +1 and k 2 = K +1 or K +2; Σ K+1,K+1 nT,B = 1 nT ∑ nT i=1 (H K+1,ii ) 2 ; Σ K+2,K+2 nT,B = 1 nT ∑ nT i=1 (H K+2,ii ) 2 ; and Σ K+1,K+2 nT,B = 1 nT ∑ nT i=1 H K+1,ii H K+2,ii .</formula><p>Theorem 3. Assume that T n → κ 2 &gt; 0; D = plim n,T →∞ D nT is positive definite; Σ = p lim n,T →∞ Σ nT ; ϕ = p lim n,T →∞ ϕ nT ; and suppose that Assumptions NC1 (or NC2), E, R and SF hold, then √ nT θnTθ 0 -</p><formula xml:id="formula_50">σ 2 0 D -1 ϕ d → N 0, D -1 (D + Σ) D -1 .</formula><p>Theorem 3 shows that the limiting distribution of θnT may not center at θ 0 , with an asymptotic bias term</p><formula xml:id="formula_51">σ 2 0 D -1 ϕ.</formula><p>For a regression panel with factors, <ref type="bibr">Moon and Weidner (2015a)</ref> show that leading order biases are due to the correlation between the predetermined regressors with the disturbances, and heteroskedastic disturbances. In our model, the biases arise from the predetermined regressors and the interaction between the spatial effects and the factor loadings. As the time factors and loadings contain infinite number of parameters when sample sizes n and T go to infinity, the asymptotic bias must be due to the incidental parameter problem. In the next subsection, a bias corrected estimator will be proposed. The variance matrix in the limiting distribution has a sandwich form to accommodate possible non-normal disturbances. When disturbances in the model are normally distributed, Σ = 0 and the limiting variance will be D -1 in a single matrix form.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.">Bias Correction</head><p>This section proposes a method to correct the bias ϕ in the limiting distribution. The bias depends on θ , P Γn , P F T , σ 2 0 and D -1 . The parameter θ can be estimated by θnT . The projectors P Γn and P F T can be estimated as follows. From Eq. ( <ref type="formula" target="#formula_13">5</ref>), let BΓ n denote the n × r 0 matrix of the eigenvectors associated with the largest r</p><formula xml:id="formula_52">0 eigenvalues of 1 nT R n ( α) S n λ Y -∑ K k=1 Z k δk S n λ Y -∑ K k=1 Z k δk R n ( α)</formula><p>, where the subscripts nT of parameter estimates are dropped for simplicity, then</p><formula xml:id="formula_53">P Γn = BΓ n B Γn , M Γn = I n -P Γn .</formula><p>Interchanging the role of n and T , the factors P FT and M FT can be similarly estimated. Let BF T denote the T × r 0 matrix of the eigenvectors associated with the largest r</p><formula xml:id="formula_54">0 eigenvalues of 1 nT S n λ Y -∑ K k=1 Z k δk R n ( α) R n ( α) S n λ Y -∑ K k=1 Z k δk , and P FT = BF T B F T , M FT = I T -P FT . Lemma 11 in Appendix C shows that under the assumptions of Theorem 3, M Γn -M Γn 2 = P Γn -P Γn 2 = O P ( 1 √ n ) and M FT -M F T 2 = P FT -P F T 2 = O P ( 1 √ n ). The variance σ 2 0 can be estimated by σ 2 = L nT ( θnT ) = 1 nT n ∑ i=r 0 +1 µ i R n ( α) S n ( λ )Y - K ∑ k=1 Z k δk S n ( λ )Y - K ∑ k=1 Z k δk R n ( α) .<label>(11)</label></formula><p>Finally, DnT is an estimate of D nT (see Eq. ( <ref type="formula" target="#formula_46">9</ref>)) with estimated θnT , P Γn , P FT and σ 2 , and hence DnT also estimates D. The bias ϕ can then be estimated by plugging in these estimated elements. The following theorem shows that the bias corrected estimator θ c nT is asymptotically normal and centered at θ 0 .</p><p>Theorem 4. Assume that T n → κ 2 &gt; 0; D = plim n,T →∞ D nT is positive definite; Σ = lim n,T →∞ Σ nT ; and suppose that Assumptions NC1 (or NC2), E, R and SF hold, the bias corrected estimator is</p><formula xml:id="formula_55">θ c nT = θnT - σ 2 nT DnT -1 1 √ nT φnT . Then √ nT θ c nT -θ 0 d → N 0, D -1 (D + Σ) D -1 .</formula><p>Section 4 investigates the finite sample performance of the QML estimators in a Monte Carlo study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.4.">The number of factors</head><p>As long as the number of factors specified is not fewer than the true number of factors, the QML estimator is consistent. However, the limiting distribution is under the premise that the number of factors is correctly specified. Although <ref type="bibr">Moon and Weidner (2015b)</ref> show that, under certain conditions, the limiting distribution of the NLS estimator for a regression panel is invariant to the inclusion of redundant factors, its finite sample performance may suffer, as <ref type="bibr" target="#b32">Lu and Su (2016)</ref>  tent determination of the number of factors cannot be separated from consistent estimation of the regression coefficients. Our strategy is to first consistently estimate the regression coefficients and then determine the number of factors from the residuals.</p><p>Suppose that it is known that the number of factors does not exceed r max , which is typical and consistent with the assumption that the number of factors is finite and small relative to the sample size. Denote θnT = δ nT , λnT , αnT the QML estimator with the number of factors set at r max . The residuals are</p><formula xml:id="formula_56">DnT = S n λnT Y - K ∑ k=1 Z k δnT,k = Γ n F T + ȆnT ,<label>(12)</label></formula><p>where </p><formula xml:id="formula_57">ȆnT = R -1 n ε + ∑ K k=1 Z k δ 0k -δnT,k + Z K+1 + G n Γ n F T + G n R -1 n ε λ 0 -λnT .</formula><formula xml:id="formula_58">PC (r) = V (r) + r • g(n, T ), IC(r) = log (V (r)) + r • g(n, T ), where V (r) = 1 nT ∑ n i=r+1 µ i S n λnT Y -∑ K k=1 Z k δnT,k S n λnT Y -∑ K k=1 Z k δnT,k</formula><p>and g(n, T ) is a positive penalty function of n and T . The following theorem provides conditions on g(n, T ) that ensures the consistent determination of the factor number.</p><p>Theorem 5. Assuming that r 0 ≤ r max , Assumptions NC1, E, R, SF hold, and (1) g(n, T ) → 0, (2) c nT • g(n, T ) → ∞ where c nT = min (n, T ), then lim n,T →∞ Pr (r = r 0 ) = 1 with r = arg min 0≤r≤r max PC(r) or r = arg min 0≤r≤r max IC(r).</p><p>The proof can be found in Appendix D. In order for the number of factors to be determined consistently, the penalty term needs to vanish at an appropriate rate so that both underestimation and overestimation of the number of factors can be ruled out. Note that the case with no factors (r 0 = 0) is covered. In <ref type="bibr" target="#b9">Bai and Ng (2002)</ref>, the following 6 criteria are proposed.</p><formula xml:id="formula_59">PC 1 (r) = V (r) + r • L nT θnT n + T nT log nT n + T , PC 2 (r) = V (r) + r • L nT θnT n + T nT log c nT , PC 3 (r) = V (r) + r • L nT θnT c -1 nT log c nT , IC 1 (r) = logV (r) + r • n + T nT log nT n + T , IC 2 (r) = logV (r) + r • n + T nT log c nT , IC 3 (r) = logV (r) + r • c -1 nT log c nT .<label>(13)</label></formula><p>While all of the criteria satisfy the conditions in Theorem 5, the penalty g(n, T ) differs and they may have different finite sample performances. Other criteria that satisfy the conditions can also be formulated. We will test finite sample performances of the criteria above using Monte Carlo simulations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Monte Carlo simulations</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">Design</head><p>We study the finite sample performance of the QML estimator and the accuracy of the factor number selection in samples of different sizes, different degrees of spatial interaction, and different ratios between the variances of the idiosyncratic error and the factors. We also illustrate finite sample biases due to misspecification when the DGP has either spatial or interactive effects but they are ignored.</p><p>The DGP is</p><formula xml:id="formula_60">Y nt = λ 0 W n Y nt + γ 0 Y n,t-1 + ρ 0 W n Y n,t-1 + X nt β 0 + Γ n0 f t0 + U nt , with U nt = α 0 W n U nt + ε nt .</formula><p>The dependent variable is affected by 2 unobserved factors</p><formula xml:id="formula_61">F T 0 = f 10 f 20 • • • f T 0 which is T × 2 and their n × 2 loadings matrix Γ n0 = γ 10 γ 20 • • • γ n0 . X nt = X nt,1 X nt,2</formula><p>is a n × 2 matrix of two regressors, which are generated according to X nt,1i = 0.25 γ i0 f t0 + (γ i0 f t0 ) 2 + ℓ γ i0 + ℓ f t0 + η it,1 and X nt,2i = η it,2 , where ℓ = 1 1 . Elements of γ i0 , f t0 , η it,1 and η it,2 are generated from independent standard normal variables. We see that X nt,1i is correlated with the common component γ i0 f t , its square, and the factors and loadings separately. X nt,2i is not affected by the factors. The spatial weights matrix W n is generated from a rook matrix. Individual units are arranged row by row on a √ n × √ n chessboard where neighbors are defined as those who share a common border. Units in the interior of the chessboard have 4 neighbors, and units on the border and corner have respectively 3 and 2 neighbors. This design of the spatial weights matrix is motivated by the observation that regions in most observed regional structures have similar connectivity as units in the rook matrix. Define n × n matrix Mn , such that Mn,i j = 1 if and only if individuals i and j are neighbors on the chessboard, and Mn,i j = 0 otherwise. Then the spatial weights matrix W n is defined as a row normalized Mn . ε it 's are generated from independent normal (0, ϑ ) distributions. Elements of the common factor components and the idiosyncratic errors have the same variances when ϑ = 1, and the latter has more variation when ϑ &gt; 1. For each Monte Carlo experiment, X nt , Γ n0 and F T 0 are generated according to the above specification for T +1000 time periods and the last T periods are taken as our sample.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Monte Carlo results</head><p>1000 Monte Carlo replications are carried out for each design. The numerical maximization routine starts at multiple values, because the objective function is not concave and multiple local maxima might exist. The baseline specification is θ a 0 = (0.3, 0.3, 0.3, 0.3, 1, 1) for θ = (λ , γ, ρ, α, β 1 , β 2 ). We then consider the cases with negative spatial interaction (θ b 0 = (-0.3, 0.3, 0.3, 0.3, 1, 1)), no spatial correlation in disturbances (θ c 0 = (0.3, 0.3, 0.3, 0, 1, 1)), and no contemporaneous spatial interaction (θ d 0 = (0, 0.3, 0.3, 0.3, 1, 1)). We use combinations of n = 25, 49, 81 and T = 25, 49, 81. The Monte Carlo designs cover panels with small and moderate n and T . The θnT rows in Tables <ref type="table" target="#tab_0">1</ref> and <ref type="table" target="#tab_1">2</ref> report the Monte Carlo results for the QML estimators in specifications θ a 0 and θ b 0 respectively. The magnitude of biases generally decreases as n and T increase. The coverage probability (CP) is calculated using the asymptotic variance covariance matrix and the nominal coverage probability is set at 95%. The estimates for α have noticeable biases in finite sample, and as a result, their CPs are well below 95%. The CPs for other parameter estimates are also generally below 95% and therefore hypothesis tests will have over-rejection. The Monte Carlo results of the bias corrected estimators are reported in the θ c nT rows in the same tables. The biases have been reduced significantly, especially for α. The CPs also improve which indicate a more reliable statistical inference based on the bias corrected estimator. Due to limited space, Monte Carlo results for θ c 0 and θ d 0 are reported in the supplementary file. <ref type="bibr">Moon and Weidner (2015b)</ref> show that in regression panel, the limiting distribution of the QML estimator does not change when the number of factors is overspecified. Such a result is not available for the spatial panel considered in this paper, but consistency is still possible as argued. In Table <ref type="table" target="#tab_2">3</ref>, we report the performance of the bias corrected estimators when the number of factors is over-specified by 1, i.e. r = 3 while the true r 0 = 2. Although estimates are still consistent, α has noticeable bias in small sample that is not removed by the bias correction procedure. Tables S.5 and S.6 in the supplementary file report additional Monte Carlo results with more redundant factors. As the number of redundant factors increases, the CP deteriorates. Note that the biases and CP improve in large samples (e.g., n = 81 and T = 81), and this is consistent with the results of <ref type="bibr">Moon and Weidner (2015b)</ref>. Therefore for valid inference in small sample, it is important that a correct number of factors is chosen. The estimators are less sensitive to redundant factors in large samples.</p><p>We now check finite sample performances of the factor number selection criteria in Subsection 3.4. We report the percentages of underestimation (r &lt; r 0 ), correct estimation (r = r 0 ), and overestimation (r &gt; r 0 ) in 1000 simulations for different ratios of the variance of the error to the variance of the factor components, i.e. ϑ = 1, 4, 9. In addition to the criteria in Eq.( <ref type="formula" target="#formula_59">13</ref>) where we have proved their consistency, we also report   0 = (0.3, 0.3, 0.3, 0.3, 1, 1), θ b 0 = (-0.3, 0.3, 0.3, 0.3, 1, 1), and θ = (λ , γ, ρ, α, β 1 , β 2 ). ϑ = 1. The DGP is the same as described in the text. The true number of factors is 2 and the estimation assumes 3 factors. θ is the bias corrected QML estimator assuming 3 factors.</p><p>the accuracies of the eigenvalue ratio (ER) and eigenvalue growth ratio (GR) criteria of <ref type="bibr" target="#b1">Ahn and Horenstein (2013)</ref>, and the edge distribution (ED) criterion of <ref type="bibr" target="#b35">Onatski (2010)</ref>. Because ER, GR and ED criteria impose structures on the idiosyncratic errors and the residuals from our spatial panel regression have complicated forms, their theoretical justification remains to be studied. Figure <ref type="figure" target="#fig_5">1</ref> shows that the performances of IC1 and IC2 criteria are generally comparable to those of ER, GR and ED. The selection accuracies of IC1 and IC2 approach 100% with moderate sample sizes, for example n = 49 and T = 25. PC1, PC2 and IC3 perform less well in smaller samples and PC3 tends to overestimate the factor numbers. With higher ϑ , factors become relatively weaker, and we find that as a result, the selection errors increase in Figures <ref type="figure" target="#fig_6">2</ref> and <ref type="figure" target="#fig_2">3</ref>. Underestimation becomes more frequent when factors become weaker. However, the selection accuracy quickly improves as sample size increases, and close to 100% accuracy is achieved in the sample with n = 100 and T = 100 for IC1. Based on the simulations, IC1 performances better in finite samples than other criteria in Eq.( <ref type="formula" target="#formula_59">13</ref>).</p><p>For misspecification issues, Tables S.3 and S.4 in the supplementary file show that estimators might not be consistent as the biases are substantial if factors or spatial effects are ignored in the estimation but in fact they exist. Such biases are rather severe for the estimates ρ and α.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Empirical application: spatial spillovers in mortgage originations</head><p>Our empirical application is motivated by <ref type="bibr" target="#b16">Haurin et al. (2016)</ref>, which analyzes the effect of house prices on state-level origination rates of the Home Equity Conversion Mortgage (HECM), but does not consider spatial spillovers. HECM is the predominant type of reverse mortgages which enable senior homeowners to withdraw their home equity without home sale or monthly payments. HECMs are insured and regulated by the federal government, although the private market originates the loans. The insurance is provided by the Federal Housing Administration through the mutual mortgage insurance fund, which guarantees that the borrower can have access to the loan fund in the future even when the lender is no longer in business, and the lender can be fully repaid when the loan terminates even if the house value is less than the loan balance.</p><p>The borrower pays mortgage insurance premium both at loan closing and monthly over the lifetime of the loan. <ref type="bibr" target="#b16">Haurin et al. (2016)</ref> find that states with past volatile house prices and current house price levels above long term norms have higher origination rates. This is consistent with the hypothesis that households use HECMs to insure against house price declines and therefore the mortgage insurance should take into account this behavioral response to house price dynamics, as the insurance fund will face higher claim risk when the insured HECMs concentrate disproportionately in areas that more likely see house price declines.</p><p>Observing that the origination rates exhibit spatial clustering, it is of interest to quantify the spatial True parameter values: θ a 0 = (0.3, 0.3, 0.3, 0.3, 1, 1), where θ = (λ , γ, ρ, α, β 1 , β 2 ). ϑ = 1. True number of factors: 2. Initial estimates assume 8 factors. True parameter values: θ a 0 = (0.3, 0.3, 0.3, 0.3, 1, 1), where θ = (λ , γ, ρ, α, β 1 , β 2 ). ϑ = 4. True number of factors: 2. Initial estimates assume 8 factors. True parameter values: θ a 0 = (0.3, 0.3, 0.3, 0.3, 1, 1), where θ = (λ , γ, ρ, α, β 1 , β 2 ). ϑ = 9. True number of factors: 2. Initial estimates assume 8 factors. Figure 5: Average House Price Deviations and Volatility by US Regions spillover effect. If spatial effects are present, the HECM activity in a state can be affected by developments in the neighboring states. In addition to contemporaneous spatial lag and spatial error, spatial time lag</p><p>or diffusion is also included, which can arise due to partial adjustment (see <ref type="bibr" target="#b41">Tao and Yu (2012)</ref> for the theoretical setup that can give rise to our empirical specification). Our data covers 51 states and 52 quarters from 2001 to 2013. Let y it denote the HECM origination rate, defined as the number of newly originated HECM loans in state i at quarter t as a percentage of the senior population (age 65 plus) in state i from the 2010 census. The n × n spatial weights matrices is W n and W n,i j = 1 if states i and j share the same border and w 1,i j = 0 otherwise. House price dynamic variables are constructed using the Federal Housing Finance Agency's quarterly all-transactions house price indexes (HPI) deflated by the CPI, and include deviations from the previous 9 year averages (hpi_dev), standard deviations of house price changes in the previous 9 years (hpi_v) and the interaction between the two. Figures <ref type="figure" target="#fig_8">4</ref> and <ref type="figure">5</ref> show the averages of these variables by U.S. regions in our sample period. It is likely that the origination rates are affected by some macroeconomic factors which are captured by the time factors f yt . It is also likely that macroeconomic factors have different impacts in different states, as captured by state-specific factor loadings. Note that the factor loadings may be spatially correlated, capturing the residual spatial effects not directly modeled. The interactive effects include additive individual and time effects as special cases, hence state time invariant variables and time variables invariant across states are not included. The model consists of</p><formula xml:id="formula_62">y it =λ n ∑ j=1 W n,i j y jt + γy i,t-1 + ρ n ∑ j=1 W n,i j y j,t-1 + hpi_dev it β 1 + hpi_v it β 2 + (hpi_dev it × hpi_v it ) β 3 + Γ n,i f t + u it , u it =α n ∑ j=1 W n,i j u jt + ε it .</formula><p>The preliminary estimates use 8 factors. Based on the factor number selection criteria, we estimate 1 unob- served factor in y it . Table <ref type="table" target="#tab_3">4</ref> reports the estimation results with one unobserved factor.</p><p>The results reveal interesting spatial patterns. Higher HECM activity in a state negatively influences neighboring states (λ ). This is consistent with the hypothesis that lenders shift resources towards states with higher activity, resulting in lower activity in the neighboring states. On the other hand, spatial error (α) has a positive sign, reflecting spatially correlated demand and supply effects. The own time lag (γ) has positive effect, capturing serially correlated effects. Note that λ and diffusion (ρ) have opposite signs, which is consistent with partial adjustment. Because it takes time for loan originations to complete, the observed HECM origination rate in a quarter may reflect a partial adjustment to some target level from the origination rate in the last quarter. <ref type="bibr" target="#b41">Tao and Yu (2012)</ref> shows that this implies a nonlinear restriction ρ + γλ = 0, and λ and ρ will have opposite signs with positive γ. Intuitively, given the origination rate in the current quarter, a higher origination rate in the last quarter means a downward adjustment. If the adjustment is only partial, the target rate should be lower than the observed rate. With negative spillovers (λ &lt; 0), this implies a positive correction (ρ &gt; 0). In addition, the results show that states with high past house price volatilities and current house prices above long term averages have higher origination rates, consistent with the findings of <ref type="bibr" target="#b16">Haurin et al. (2016)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">Conclusion</head><p>Dynamic spatial panels with interactive effects are of practical interest. Outcomes of spatial units are correlated due to spatial interactions and common factors. The model under consideration has a rich spatial structure, which includes contemporaneous spatial interaction, spatial diffusion and spatial disturbances.</p><p>Unobserved interactive effects of individual loadings and time factors account for additional cross sectional dependence and may correlate with observed regressors. This paper shows that the QML method provides consistent and asymptotically normal estimators. There are asymptotic biases arising from the predeter-mined regressors and the interaction between the spatial effects and the factor loadings, but bias correction is possible. The Monte Carlo study shows that the proposed bias correction is effective in reducing bias.</p><p>Consistency of estimators may still hold when the number of factors is overspecified. There are various criteria which can determine the number of factors in a sample. An application of the model to reverse mortgage originations reveals interesting spatial patterns.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A. Some Matrix Algebra and Useful Lemmas</head><p>This section lists some results in matrix algebra used frequently throughout the paper. All matrices are real. Lemma 1 on the uniform boundedness of some matrices is in <ref type="bibr" target="#b23">Lee (2004b)</ref>.</p><p>Lemma 1. Supposing that W n and S -1 n are uniformly bounded for some matrix norm • , where S n =</p><formula xml:id="formula_63">I n -λ 0 W n . Then S n (λ ) -1 is uniformly bounded for |λ -λ 0 | &lt; 1 c 2 , where S n (λ ) = I n -λW n and c = max lim sup n W n , lim sup n S -1 n .</formula><p>The following results on matrix norms are standard, see <ref type="bibr" target="#b11">Bernstein (2009)</ref>. Let µ i (M) denote the i-th</p><formula xml:id="formula_64">largest eigenvalue of a symmetric matrix M, µ n (M) ≤ µ n-1 (M) ≤ • • • ≤ µ 1 (M).</formula><p>Lemma 2. A is a n × m matrix, B is a m × p matrix, and C and D are n × n matrices. Then</p><formula xml:id="formula_65">1. A 2 ≤ A F ≤ A 2 rank(A) 1 2 ; and A 2 2 ≤ A 1 A ∞ ; 2. AB F ≤ A F B 2 ≤ A F B F ; and |tr (AB)| ≤ A F B F , if n = p; 3. |tr(C)| ≤ rank(C) C , where • is an induced matrix norm; 4. µ i (C)µ 1 (D) ≥ µ i (CD) ≥ µ i (C)µ n (D), where C, D are n × n symmetric positive semidefinite matrices.</formula><p>We have following results on matrix norms for the n × T dimensional explanatory variables, of which proofs are in the supplementary file.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 3. Under Assumptions E and R, Z k</head><formula xml:id="formula_66">2 = O P √ nT , Z k F = O P ( √ nT ), and tr (A n Z k ) ε = O P √ nT for k = 1, • • • , K + 1, where A n is an n × n nonstochastic UB matrix. Lemma 4. Define Zk = E (Z k |C nT )</formula><p>where the conditioning set C nT is the sigma algebra generated by X n1 , • • • , X nT and Γn and F T . Under Assumptions E, R and SF, we have (1</p><formula xml:id="formula_67">) P Γn ,F T 2 = O P 1 √ nT , where P Γn ,F T = Γn Γ n Γn -1 (F T F T ) -1 F T ; P Γn εP F T 2 = O P (1); (2) For k = 1, • • • , K + 1, Z k -Zk 2 = O P max √ n, √ T ; and Z k ε P Γn 2 = O P (max (n, T )).</formula><p>Lemma 5. Under Assumptions E, R and SF,</p><formula xml:id="formula_68">1 √ nT [tr (Q n (Z k -Zk ) P F T ε ) -E (tr (Q n (Z k -Zk ) P F T ε ) |C nT )] = O P ( 1 √ T ) for all k = 1, • • • , K + 1, where Q n is any n × n UB matrix.</formula><p>Lemma 6. Under Assumptions E, R and SF, we have (1)</p><formula xml:id="formula_69">1 √ nT tr P Γn εε -σ 2 0 Tr 0 = O P 1 √ n . (2) 1 √ nT tr P Γn R n G n R -1 n εε -σ 2 0 T tr P Γn R n G n R -1 n = O P 1 √ n ; 1 √ nT tr R n G n R -1 n P Γn εε -σ 2 0 T tr P Γn R n G n R -1 n = O P 1 √ n ; and 1 √ nT tr P Γn R n G n R -1 n P Γn εε -σ 2 0 T tr P Γn R n G n R -1 n = O P 1 √ n . (3) 1 √ nT tr P Γn Gn εε -σ 2 0 T tr P Γn Gn = O P 1 √ n ; 1 √ nT tr Gn P Γn εε -σ 2 0 T tr P Γn Gn = O P 1 √ n ; and 1 √ nT tr P Γn Gn P Γn εε -σ 2 0 T tr P Γn Gn = O P 1 √ n .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B. Identification and Consistency: Proof of Propositions 1-3</head><p>Proof of Proposition 1.</p><p>Dropping constant terms, the expected objective function is equivalent to</p><formula xml:id="formula_70">Q nT (θ , Γn , F T ) = 1 n log |S n (λ )R n (α)| - 1 2 log E 1 nT tr R n (α) S n (λ )Y - K ∑ k=1 Z k δ k -Γn F T R n (α) S n (λ )Y - K ∑ k=1 Z k δ k -Γn F T , with Γn = R n (α)Γ n , Γn ∈ R n×r , because no restriction is imposed on Γ n and R n (α) is invertible for α ∈ Θ α . Denote Γn0 = R n Γ n0 . Thus, Q nT (θ 0 , Γn0 , F T 0 ) = 1 n log |S n R n | -1 2 log σ 2 0 . Substituting in the DGP of Y , R n (α) S n (λ )Y - K ∑ k=1 Z k δ k -Γn F T =R n (α) S n (λ )S -1 n Γ n0 F T 0 + S n (λ )S -1 n U + K+1 ∑ k=1 Z k (θ k0 -θ k ) -Γn F T ,</formula><p>where for simplicity,</p><formula xml:id="formula_71">θ k = δ k , for k = 1, • • • , K, θ K+1 = λ , and Z K+1 = G n ∑ K k=1 Z k θ k0 .</formula><p>Under Assumption E, as the idiosyncratic disturbances are independent from the interactive effects and regressors,</p><formula xml:id="formula_72">Q nT (θ , Γn , F T ) ≤ 1 n log |S n (λ )R n (α)| - 1 2 log σ 2 0 n tr R n (α)S n (λ )S -1 n R -1 n R -1 n S -1 n S n (λ ) R n (α) + E 1 nT tr M Γn R n (α) S n (λ )S -1 n Γ n0 F T 0 + K+1 ∑ k=1 Z k (θ k0 -θ k ) S n (λ )S -1 n Γ n0 F T 0 + K+1 ∑ k=1 Z k (θ k0 -θ k ) R n (α) M Γn ≤ 1 n log |S n (λ )R n (α)| - 1 2 log σ 2 0 n tr R n (α)S n (λ )S -1 n R -1 n R -1 n S -1 n S n (λ ) R n (α) +E 1 nT tr M Γn R n (α) K+1 ∑ k=1 Z k (θ k0 -θ k ) M F T 0 K+1 ∑ k=1 Z k (θ k0 -θ k ) R n (α) M Γn = 1 n log |S n (λ )R n (α)| - 1 2 log σ 2 0 n tr R n (α)S n (λ )S -1 n R -1 n R -1 n S -1 n S n (λ ) R n (α) + E 1 nT K+1 ∑ k 1 ,k 2 =1 vec (Z k 1 ) M F T 0 ⊗ R n (α) M Γn R n (α) vec (Z k 2 ) (θ k 1 0 -θ k 1 ) (θ k 2 0 -θ k 2 ) .</formula><p>• Case 1: Assumption ID1 holds.</p><formula xml:id="formula_73">If δ = δ 0 or λ = λ 0 , because Ez M F T 0 ⊗ R n (α) M Γn R n (α) z with z = vec (Z 1 ) • • • vec (Z K+1 ) is pos- itive definite, Q nT (θ , Γn , F T ) &lt; 1 n log |S n (λ )R n (α)| - 1 2 log σ 2 0 n tr R n (α)S n (λ )S -1 n R -1 n R -1 n S -1 n S n (λ ) R n (α) ≤ 1 n log |S n (λ )R n (α)| - 1 2 log σ 2 0 R n (α)S n (λ )S -1 n R -1 n R -1 n S -1 n S n (λ ) R n (α) 1 n = - 1 2 log σ 2 0 + 1 n log |S n R n | = Q nT (θ 0 , Γn0 , F T 0 ).</formula><p>Therefore δ 0 and λ 0 are identified. At δ = δ 0 and λ = λ 0 ,</p><formula xml:id="formula_74">Q nT (θ , Γn , F T ) ≤ 1 n log |S n | + 1 n log |R n (α)| - 1 2 log σ 2 0 R n (α)R -1 n R -1 n R n (α) 1 n = Q nT (θ 0 , Γn0 , F T 0 ).</formula><p>If α = α 0 , this inequality will be strict by Assumption ID1(2). Therefore α 0 is identified.</p><p>• Case 2: Assumption ID2 holds.</p><formula xml:id="formula_75">Because z M F 0T ⊗ R n (α) M Γn R n (α) z with z = vec (Z 1 ) • • • vec (Z K+1 ) is positive semi-definite, Q nT (θ , Γn , F T ) ≤ 1 n log |S n (λ )R n (α)| - 1 2 log σ 2 0 R n (α)S n (λ )S -1 n R -1 n R -1 n S -1 n S n (λ ) R n (α) 1 n = - 1 2 log σ 2 0 + 1 n log |S n R n | = Q nT (θ 0 , Γn0 , F T 0 ).</formula><p>λ and α are identified, because this inequality holds strictly for λ = λ 0 or α = α 0 under Assumption ID2(2).</p><p>With λ = λ 0 , δ is then identified, because this inequality is also strict for δ = δ 0 , due to E z M F T 0 ⊗ R n (α) M Γn R n (α) z with z = vec (Z 1 ) • • • vec (Z K ) being positive definite under Assumption ID2(1).</p><p>Therefore δ 0 , λ 0 and α 0 are identified under either Assumption ID1 or ID2. With δ = δ 0 , λ = λ 0 , and</p><formula xml:id="formula_76">α = α 0 , Q nT (θ 0 , Γn , F T ) = 1 n log |S n R n | -1 2 log σ 2 0 + 1 nT tr Γn0 F T 0 -Γn F T Γn0 F T 0 -Γn F T , which is strictly less than Q nT (θ 0 , Γn0 , F T 0 ) unless Γn F T = Γn0 F T 0 .</formula><p>As a result, the number of factors r 0 is identified from the rank of Γn0 F T 0 = R n Γ n0 F T 0 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Proposition 2.</head><p>Instead of considering the positive eigenvalues of</p><formula xml:id="formula_77">1 nT R n (α)(η • Z)(η • Z) R n (α) , one may consider the rel- evant eigenvalues of 1 nT (η • Z) R n (α) R n (α)(η • Z).</formula><p>Because these two matrices have the same nonzero eigenvalues, counting multiplicity. <ref type="foot" target="#foot_5">11</ref> There are T eigenvalues of</p><formula xml:id="formula_78">1 nT (η • Z) R n (α) R n (α)(η • Z) = 1 nT (I T ⊗ η )Z nT R n (α) R n (α)Z nT (I T ⊗ η). Because η ∈ B K+1 , (I T ⊗ η) (I T ⊗ η) = ||η|| 2 2 I T = I T . By the Poincaré interlacing theorem, µ i+KT ( 1 nT Z nT R n (α) R n (α)Z nT ) ≤ µ i ( 1 nT (I T ⊗ η )Z nT R n (α) R n (α)Z nT (I T ⊗ η)), for i = 1, • • • , T . 12 Because ( 1 nT Z nT R n (α) R n (α)Z nT )</formula><p>is of dimension (T + KT ) × (T + KT ), its T smallest eigenvalues (including multiplicity) are less than or equal to the T corresponding eigenvalues of 1 nT (I T ⊗ η )Z nT R n (α) R n (α)Z nT (I T ⊗ η) uniformly in η ∈ B K+1 . A way to see this is the following:</p><formula xml:id="formula_79">1. For each η, let n η be the number of positive eigenvalues of 1 nT R n (α)(η • Z)(η • Z) R n (α) . Sup- pose n η ≥ 2r + 1, then ∑ n i=2r+1 µ i ( 1 nT R n (α)(η • Z)(η • Z) R n (α) ) = ∑ n η i=2r+1 µ i ( 1 nT R n (α)(η • Z)(η • Z) R n (α) ). 2. There are n η positive eigenvalues of 1 nT (η • Z) R n (α) R n (α)(η • Z) and µ i ( 1 nT (η • Z) R n (α) R n (α)(η • Z)) = µ i ( 1 nT R n (α)(η • Z)(η • Z) R n (α) ) for i = 1, • • • , n η . The remaining T -n η eigenvalues of 1 nT (η • Z) R n (α) R n (α)(η • Z) are zero. Note that it is necessary that n η ≤ min{n, T }. 3. Because µ i+KT ( 1 nT Z nT R n (α) R n (α)Z nT ) ≤ µ i ( 1 nT (I T ⊗η )Z nT R n (α) R n (α)Z nT (I T ⊗η)) = µ i ( 1 nT (η • Z) R n (α) R n (α)(η • Z)) for i = 2r + 1, • • • , n η , it follows that T +KT ∑ i=2r+1+KT µ i ( 1 nT Z nT R n (α) R n (α)Z nT ) ≤ T ∑ i=2r+1 µ i ( 1 nT (η • Z) R n (α) R n (α)(η • Z)) = n η ∑ i=2r+1 µ i ( 1 nT (η • Z) R n (α) R n (α)(η • Z)).</formula><p>Because 1 nT Z nT R n (α) R n (α)Z nT and 1 nT Z nT Z nT R n (α) R n (α) have the same positive eigenvalues, counting multiplicity,</p><formula xml:id="formula_80">T +KT ∑ i=2r+1+KT µ i ( 1 nT Z nT R n (α) R n (α)Z nT ) = n ∑ i=2r+1+KT µ i ( 1 nT Z nT Z nT R n (α) R n (α)) ≥ n ∑ i=2r+1+KT µ i ( 1 nT Z nT Z nT )µ n R n (α) R n (α) ,</formula><p>where the last inequality is due to Lemma 2(4). Therefore, a set of sufficient conditions for Assumption</p><formula xml:id="formula_81">NC1(1) is ∑ n i=2r+1+KT µ i ( 1 nT Z nT Z nT ) &gt; 0 and µ n (R n (α) R n (α)) &gt; 0 wpa 1 as n, T → ∞.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Proposition 3.</head><p>Maximizing Eq. ( <ref type="formula" target="#formula_11">4</ref>) with respect to Γ n and F T is equivalent to min</p><formula xml:id="formula_82">Γ n ∈R n×r ,F T ∈R T ×r 1 nT T ∑ t=1 S n (λ )S -1 n (Z nt δ 0 +U nt ) -Z nt δ + S n (λ )S -1 n Γ n0 f t0 -Γ n f t R n (α) R n (α) × S n (λ )S -1 n (Z nt δ 0 +U nt ) -Z nt δ + S n (λ )S -1 n Γ n0 f t0 -Γ n f t ≥ min Γn ∈R n×2r , FT ∈R T ×2r 1 nT T ∑ t=1 R n (α) S n (λ )S -1 n (Z nt δ 0 +U nt ) -Z nt δ -Γn ft × R n (α) S n (λ )S -1 n (Z nt δ 0 +U nt ) -Z nt δ -Γn ft = min Γn ∈R n×2r 1 nT T ∑ t=1 S n (λ )S -1 n (Z nt δ 0 +U nt ) -Z nt δ R n (α) M Γn R n (α) S n (λ )S -1 n (Z nt δ 0 +U nt ) -Z nt δ (B.1) ≥ min Γn ∈R n×2r tr 1 nT T ∑ t=1 R n (α) S n (λ )S -1 n Z nt δ 0 -Z nt δ S n (λ )S -1 n Z nt δ 0 -Z nt δ R n (α) M Γn + 2 nT T ∑ t=1 S n (λ )S -1 n Z nt δ 0 -Z nt δ R n (α) R n (α) S n (λ )S -1 n U nt + 1 nT T ∑ t=1 S n (λ )S -1 n U nt R n (α) R n (α) S n (λ )S -1 n U nt -max Γn ∈R n×2r tr 2 nT T ∑ t=1 R n (α)S n (λ )S -1 n U nt S n (λ )S -1 n Z nt δ 0 -Z nt δ R n (α) P Γn -max Γn ∈R n×2r tr 1 nT T ∑ t=1 R n (α)S n (λ )S -1 n U nt S n (λ )S -1 n U nt R n (α) P Γn . (B.</formula><p>2)</p><p>The first inequality above follows because the value of the minimization problem can be no less than the case where we were also able to optimally choose S n (λ )S -1 n Γ n0 and F T 0 . Eq. (B.1) is obtained by concentrating out the factor f t . Because there is no restriction on Γn ∈ R n×2r , optimization with respect to R n (α) Γn is equivalent to optimization with respect to Γn in Eq. (B.1). Now we examine the terms in Eq. (B.2) one by</p><formula xml:id="formula_83">one. Denote η = δ 0 -δ , λ 0 -λ . Then min Γn ∈R n×2r tr 1 nT T ∑ t=1 R n (α) S n (λ )S -1 n Z nt δ 0 -Z nt δ S n (λ )S -1 n Z nt δ 0 -Z nt δ R n (α) M Γn = n ∑ i=2r+1 µ i 1 nT R n (α) (η • Z) (η • Z) R n (α) ≥ b||η|| 2 1 , (B.3)</formula><p>for some constants b &gt; 0 wpa 1 as n, T → ∞, by Assumption NC1. When G n Z nt δ 0 = Z nt C for a constant vector C, then Assumption NC2 can be used in (B.3). In this case,</p><formula xml:id="formula_84">S n (λ )S -1 n Z nt δ 0 -Z nt δ = Z nt (δ 0 -δ ) + Z nt C(λ 0 -λ ) = Z nt η * , where η * = δ 0 -δ +C(λ 0 -λ ). Denote η * • Z * = ∑ K k=1 η * k Z k , by Assumption NC2, min Γn ∈R n×2r tr 1 nT T ∑ t=1 R n (α) S n (λ )S -1 n Z nt δ 0 -Z nt δ S n (λ )S -1 n Z nt δ 0 -Z nt δ R n (α) M Γn = n ∑ i=2r+1 µ i 1 nT R n (α) (η * • Z * ) (η * • Z * ) R n (α) ≥ b||η * || 2 1 .</formula><p>for some constant b ≥ 0 wpa 1 as n, T → ∞. Consider the next term,</p><formula xml:id="formula_85">2 nT T ∑ t=1 S n (λ )S -1 n Z nt δ 0 -Z nt δ R n (α) R n (α) S n (λ )S -1 n U nt = 2 nT K+1 ∑ k=1 η k tr R -1 n S -1 n S n (λ ) R n (α) R n (α)Z k ε = O P η 1 c -1 nT , (B.4)</formula><p>by Lemma 3. For the next term, by using a law of large numbers for quadratic form (Lemma 9 in <ref type="bibr" target="#b43">Yu et al. (2008)</ref>),</p><formula xml:id="formula_86">1 nT T ∑ t=1 S n (λ )S -1 n U nt R n (α) R n (α) S n (λ )S -1 n U nt = σ 2 0 n tr R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n + O P c -1 nT . (B.5)</formula><p>From Lemma 2 (3), for an n × n matrix A, |tr (A)| ≤ rank(A) A , where • is an induced matrix norm,</p><formula xml:id="formula_87">2 nT max Γn ∈R n×2r tr T ∑ t=1 R n (α) S n (λ )S -1 n U nt S n (λ )S -1 n Z nt δ 0 -Z nt δ R n (α) P Γn ≤ 4r nT K+1 ∑ k=1 |η k | R n (α)S n (λ )S -1 n R -1 n εZ k R n (α) 2 = O P η 1 c -1 2 nT . (B.6)</formula><p>The last equality is due to the sub-multiplicative property of • 2 matrix norm, and that for a matrix A,</p><formula xml:id="formula_88">A 2 2 ≤ A 1 A ∞ ; furthermore, Assumptions E and R guarantee that ε 2 = O P ( max(n, T )) and Z k 2 = O P ( √ nT ). Similarly, 1 nT max Γn ∈R n×2r tr T ∑ t=1 R n (α) S n (λ )S -1 n U nt S n (λ )S -1 n U nt R n (α) P Γn = O P c -1 nT . (B.</formula><p>7) Under Assumption NC1, by substituting Eqs. (B.3)-(B.7) into Eq. (B.2),</p><formula xml:id="formula_89">Q nT (θ ) ≤ 1 n log |S n (λ )R n (α)| - 1 2 log σ 2 0 n tr R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n + b||η|| 2 1 + O P η 1 c -1 2 nT + O P c -1 nT ≡ QnT (θ ) . (B.8) At θ = θ 0 , Q nT (θ 0 ) = 1 n log |S n R n | - 1 2 log min Γ n ∈R n×r ,F T ∈R T ×r 1 nT T ∑ t=1 (Γ n0 f t0 +U nt -Γ n f t ) R n R n (Γ n0 f t0 +U nt -Γ n f t ) ≥ 1 n log |S n R n | - 1 2 log 1 nT T ∑ t=1 ε nt ε nt = 1 n log |S n R n | - 1 2 log σ 2 0 + O P c -1 nT ≡ Q ∼ nT (θ 0 ) . (B.9)</formula><p>Lemma 1 in <ref type="bibr" target="#b42">Wu (1981)</ref> provides a criterion for the consistency of θnT = arg max θ ∈Θ Q nT (θ ). To show that</p><formula xml:id="formula_90">θnT -θ 0 1 p → 0, it is sufficient to show that for all τ &gt; 0, lim inf n,T →∞ P inf θ ∈Θ, θ -θ 0 1 ≥τ (Q nT (θ 0 ) -Q nT (θ )) &gt; 0 =</formula><p>1. From Eqs. (B.8) and (B.9), </p><formula xml:id="formula_91">Q nT (θ 0 ) -Q nT (θ ) ≥ Q ∼ nT (θ 0 ) -QnT (θ ) = 1 2 log b||η|| 2 1 + O P η 1 c -1 2 nT + O P c -1 nT + σ 2 0 n tr R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n - 1 2 log σ 2 0 R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n 1 n + O P c -1 nT ≥ 1 2 log b||η|| 2 1 + O P η 1 c -1 2 nT + O P c -1 nT + σ 2 0 n tr R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n - 1 2 log σ 2 0 n tr R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n + O P c -1 nT , (B.10) because 1 n tr R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n ≥ R -1 n S -1 n S n (λ ) R n (α) R n (α)S n (λ )S -1 n R -1 n 1 n</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix C. Perturbation Theory and Series Expansion of the Concentrated Log Likelihood Function</head><p>Kato (1995) has a systematic presentation of perturbation theory. <ref type="bibr">Moon and Weidner (2015b)</ref> applies the perturbation theory to a regression panel with common factors. Here we show specifically how to expand <ref type="bibr">Moon and Weidner (2015b)</ref>, for the NLS estimator of a factor panel regression, only the similar term Γ n F T + ∑ K k=0 ε k V k appears. For our model, ξ K+1 , V K+1 , ξ K+2 , V K+2 and V k 1 k 2 are extra terms due to the contemporaneous spatial lag and spatial disturbances.</p><formula xml:id="formula_92">L nT (θ 0 ) itself and L nT (θ ) around θ 0 . Firstly, R n (α) S n (λ )Y - K ∑ k=1 Z k δ k = R n + (α 0 -α) Wn Γ n F T + R -1 n ε + K ∑ k=1 Z k (δ 0k -δ k ) + Z K+1 + G n Γ n F T + G n R -1 n ε (λ 0 -λ ) = Γn F T + K+2 ∑ k=0 ξ k V k + K+2 ∑ k 1 =0,k 2 =0 ξ k 1 ξ k 2 V k 1 k 2 , (C.1) where Γn = R n Γ n , ξ 0 = ε 2 √ nT , ξ k = δ 0k -δ k for k = 1, • • • , K, ξ K+1 = λ 0 -λ , ξ K+2 = α 0 -α, V 0 = √ nT ε ε 2 , V k = R n Z k for k = 1, • • • , K, V K+1 = R n (Z K+1 + G n R -1 n Γn F T ), and V K+2 = Wn R -1 n Γn F T ; and also, V k 1 k 2 = R n G n R -1 n √ nT ε ε 2 for k 1 = 0, k 2 = K + 1; V k 1 k 2 = Gn √ nT ε ε 2 for k 1 = 0, k 2 = K + 2; V k 1 k 2 = Wn Z k 1 for k 1 = 1, • • • , K, k 2 = K + 2; V k 1 k 2 = Wn (Z K+1 + G n R -1 n Γn F T + G n R -1 n ε) for k 1 = K + 1, k 2 = K + 2; and V k 1 k 2 = 0 otherwise. All the V k and V k 1 k 2 above are n × T matrices. In</formula><p>In addition, our objective function (Eq. ( <ref type="formula" target="#formula_13">5</ref>)) has the Jacobian term log |S n (λ )R n (α)|.</p><p>For our spatial model, the part L nT (θ ) of the objective function without the Jacobian term is</p><formula xml:id="formula_93">L nT (ξ ) = n ∑ i=r 0 +1 µ i 1 nT T (0) + 1 nT K+2 ∑ k 1 =0 ξ k 1 T (1) k 1 + 1 nT K+2 ∑ k 1 =0 K+2 ∑ k 2 =0 ξ k 1 ξ k 2 T (2) k 1 k 2 + 1 nT K+2 ∑ k 1 =0 K+2 ∑ k 2 =0 K+2 ∑ k 3 =0 ξ k 1 ξ k 2 ξ k 3 T (3) k 1 k 2 k 3 + 1 nT K+2 ∑ k 1 =0 K+2 ∑ k 2 =0 K+2 ∑ k 3 =0 K+2 ∑ k 4 =0 ξ k 1 ξ k 2 ξ k 3 ξ k 4 T (4) k 1 k 2 k 3 k 4 , (C.2)</formula><p>where</p><formula xml:id="formula_94">T (0) = Γn F T F T Γ n , T<label>(1)</label></formula><formula xml:id="formula_95">k 1 = V k 1 F T Γ n + Γn F T V k 1 , T<label>(2)</label></formula><formula xml:id="formula_96">k 1 k 2 = V k 1 k 2 F T Γ n + Γn F T V k 1 k 2 +V k 1 V k 2 , T<label>(3)</label></formula><formula xml:id="formula_97">k 1 k 2 k 3 = V k 1 k 2 V k 3 + V k 3 V k 1 k 2 , and T (4) k 1 k 2 k 3 k 4 = V k 1 k 2 V k 3 k 4 ,</formula><p>with k j = 0, • • • , K + 2 and j = 1, 2, 3, 4. In our model, T (0) is the unperturbed operator and it has exactly nr 0 zero eigenvalues and the rest r 0 eigenvalues are strictly positive. Therefore, if there is no perturbation, i.e., ξ k = 0 for k = 0, • • • , K + 2, L nT (ξ = 0) = 0. The objective is to expand L nT (ξ ) around L nT (ξ = 0) = 0 in terms of ξ , T (1) , T (2) , T (3) and T (4) using the formula in <ref type="bibr" target="#b18">Kato (1995)</ref></p><formula xml:id="formula_98">. Define b nT = max    K+2 ∑ k 1 =0 |ξ k 1 | T (1) k 1 nT 2 1 d 2 max ( Γn , F T ) , K+2 ∑ k 1 ,k 2 =0 |ξ k 1 | |ξ k 2 | T (2) k 1 k 2 nT 2 1 2 1 d 2 max ( Γn , F T ) 1 2 , K+2 ∑ k 1 ,k 2 ,k 3 =0 |ξ k 1 | |ξ k 2 | |ξ k 3 | T (3) k 1 k 2 k 3 nT 2 1 3 1 d 2 max ( Γn , F T ) 1 3 , K+2 ∑ k 1 ,k 2 ,k 3 ,k 4 =0 |ξ k 1 | |ξ k 2 | |ξ k 3 | |ξ k 4 | T (4) k 1 k 2 k 3 k 4 nT 2 1 4 1 d 2 max ( Γn , F T ) 1 4    . (C.3) Because T (1) k 1 2 = O P (nT ), T (2) k 1 k 2 2 = O P (nT ), T (3) k 1 k 2 k 3 2 = O P (nT ), T (4) k 1 k 2 k 3 k 4 2</formula><p>= O P (nT ), and d 2 max ( Γn , F T ) is converging to some positive constant, b nT = O P ( ξ 1 ). The following lemma provides an expansion of L nT (ξ ) as a power series in ξ . The expansion is valid if ξ is small such that the condition on b nT in Lemma 7 below holds. We list the expansion below for its use, but the detailed derivation of this lemma and bound on the remainder can be found in the supplementary file.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Lemma 7.</head><p>Under Assumption SF and assume that</p><formula xml:id="formula_99">d 2 min ( Γn ,F T ) 16d 2 max ( Γn ,F T ) -b nT &gt; 0, then L nT (ξ ) has a convergent series expansion L nT (ξ ) = 1 nT ∑ ∞ g=1 ∑ K+2 k 1 =0 ∑ K+2 k 2 =0 • • • ∑ K+2 k g =0 ξ k 1 ξ k 2 • • • ξ k g tr T (g) k 1 k 2 •••k g ,</formula><p>where</p><formula xml:id="formula_100">T (g) k 1 k 2 •••k g = - g ∑ p= g 4 (-1) p ∑ v 1 +v 2 +•••+v p =g m 1 +•••+m p+1 =p-1 ν j =1,••• ,4, m j =0,1,••• S (m 1 ) T (v 1 ) k 1 ••• S (m 2 ) • • • S (m p ) T (v p ) •••k g S (m p+1 ) with S (0) = -M Γn , S (m) = S m 0 for m ≥ 1 where S 0 = Γn ( Γ n Γn ) -1 (F T F T ) -1 ( Γ n Γn ) -1 Γ n . 13 For g ≥ 5, 1 nT K+2 ∑ k 1 ,••• ,k g =0 ξ k 1 • • • ξ k g tr T (g) k 1 k 2 •••k g ≤ 16r 0 d 2 max ( Γn , F T )d 2 min ( Γn , F T ) 16d 2 max ( Γn , F T ) -d 2 min ( Γn , F T ) 16d 2 max ( Γn , F T )b nT d 2 min ( Γn , F T ) g .</formula><p>When the series expansion is truncated at an order G ≥ 4,</p><formula xml:id="formula_101">L nT (ξ ) - 1 nT G ∑ g=1 K+2 ∑ k 1 =0 K+2 ∑ k 2 =0 • • • K+2 ∑ k g =0 ξ k 1 ξ k 2 • • • ξ k g tr T (g) k 1 k 2 •••k g ≤ 16r 0 d 2 max ( Γn , F T )d 2 min ( Γn , F T ) 16d 2 max ( Γn , F T ) -d 2 min ( Γn , F T ) 1 -16d 2 max ( Γn ,F T )b nT d 2 min ( Γn ,F T ) 16d 2 max ( Γn , F T )b nT d 2 min ( Γn , F T ) G+1 = O P ( ξ G+1<label>1</label></formula><p>).</p><p>The condition on b nT can be satisfied wpa 1 </p><formula xml:id="formula_102">L nT (θ 0 ) = 1 nT n ∑ i=r 0 +1 µ i Γn F T + ε Γn F T + ε = 1 nT tr M Γn εM F T ε - 2 nT tr M Γn εM F T ε P Γn ,F T ε + J nT + O P ε 2 √ nT 5 (C.4) =σ 2 0 + O P (min(n, T ) -1 ), (C.5)</formula><p>where in Eq. (C.4), the series expansion is truncated at order 4 with</p><formula xml:id="formula_103">J nT = - 1 nT tr S (0) T (2) 00 S (1) T (2) 00 S (0) + 1 nT tr S (0) T (2) 00 S (0) T (1) 0 S (2) T (1) 0 S (0) + 1 nT tr S (0) T (2) 00 S (1) T (1) 0 S (1) T (1) 0 S (0) + 1 nT tr S (1) T (1) 0 S (0) T (2) 00 S (0) T (1) 0 S (1) 13 Notice that v 1 + • • • + v p = g. When v = 1, T (v) k has a single k subscript; when v = 2, T<label>(v)</label></formula><p>kk has two subscripts, k, k . For example, when g = 4, and in a particular summand,</p><formula xml:id="formula_104">v 1 = 1, v 2 = 2, v 3 = 1, a typical term in the summand is S (m 1 ) T (1) k 1 S (m 2 ) T (2) k 2 k 3 S (m 3 ) T (1) k 4 . + 1 nT tr S (0) T (1) 0 S (1) T (2) 00 S (1) T (1) 0 S (0) + 1 nT tr S (0) T (1) 0 S (2) T (1) 0 S (0) T (2) 00 S (0) + 1 nT tr S (0) T (1) 0 S (1) T (1) 0 S (1) T (2) 00 S (0) - 1 nT tr S (0) T (1) 0 S (2) T (1) 0 S (0) T (1) 0 S (1) T (1) 0 S (0) - 1 nT tr S (0) T (1) 0 S (1) T (1) 0 S (0) T (1) 0 S (2) T (1) 0 S (0) - 1 nT tr S (1) T (1) 0 S (0) T (<label>1</label></formula><formula xml:id="formula_105">) 0 S (1) T (1) 0 S (0) T (<label>1</label></formula><formula xml:id="formula_106">) 0 S (1) - 1 nT tr S (0) T (<label>1</label></formula><formula xml:id="formula_107">) 0 S (1) T (<label>1</label></formula><formula xml:id="formula_108">) 0 S (1) T (<label>1</label></formula><formula xml:id="formula_109">) 0 S (1) T (1) 0 S (0) . (C.6) It follows that 1 L nT (θ 0 ) = 1 σ 2 0 + O P (min(n, T ) -1 ).</formula><p>For the derivation of the asymptotic distribution of the QMLE, it is sufficient to consider the series expansion of L nT (θ ) truncated at order G = 4. Define the following (K + 2) × 1 vectors,</p><formula xml:id="formula_110">C (1) = 1 √ nT tr M Γn R n Z 1 M F T ε , • • • 1 √ nT tr M Γn R n Z K M F T ε , 1 √ nT tr M Γn R n Z K+1 M F T ε , 0 (C.7) C (2) =             -1 √ nT tr M Γn εM F T ε P Γn ,F T Z 1 R n -1 √ nT tr M Γn εM F T Z 1 R n P Γn ,F T ε -1 √ nT tr M Γn R n Z 1 M F T ε P Γn ,F T ε . . . -1 √ nT tr M Γn εM F T ε P Γn ,F T Z K R n -1 √ nT tr M Γn εM F T Z K R n P Γn ,F T ε -1 √ nT tr M Γn R n Z K M F T ε P Γn ,F T ε -1 √ nT tr M Γn εM F T ε P Γn ,F T Z K+1 R n -1 √ nT tr M Γn εM F T Z K+1 R n P Γn ,F T ε -1 √ nT tr M Γn R n Z K+1 M F T ε P Γn ,F T ε 0             , (C.8) C (3) = 0, • • • 0, 1 √ nT tr M Γn R n G n R -1 n M Γn εM F T ε , 1 √ nT tr M Γn Gn M Γn εM F T ε ,<label>(C.9)</label></formula><p>where P Γn ,F T = Γn ( Γ n Γn ) -1 (F T F T ) -1 F T . Define the following (K + 2) × (K + 2) matrices,</p><formula xml:id="formula_111">C 1 =            1 nT tr M Γn R n Z 1 M F T Z 1 R n • • • 1 nT tr M Γn R n Z 1 M F T Z K R n 1 nT tr M Γn R n Z 1 M F T Z K+1 R n 0 . . . . . . . . . . . . 1 nT tr M Γn R n Z 1 M F T Z K R n • • • 1 nT tr M Γn R n Z K M F T Z K R n 1 nT tr M Γn R n Z K M F T Z K+1 R n 0 1 nT tr M Γn R n Z 1 M F T Z K+1 R n • • • 1 nT tr M Γn R n Z K M F T Z K+1 R n 1 nT tr M Γn R n Z K+1 M F T Z K+1 R n 0 0 • • • 0 0 0            , C 2 =            0 • • • 0 0 0 . . . . . . . . . . . . 0 0 0 0 • • • 0 σ 2 0 n tr R n G n R -1 n R -1 n G n R n σ 2 0 n tr G n Gn + σ 2 0 n tr R n G n R -1 n G n 0 • • • 0 σ 2 0 n tr G n Gn + σ 2 0 n tr R n G n R -1 n G n σ 2 0 n tr Gn G n            ,<label>and</label></formula><formula xml:id="formula_112">C = C 1 +C 2 . (C.10)</formula><p>Lemma 8. Assume that n T → κ 2 &gt; 0, Assumptions NC1 (or NC2), E, R and SF hold, then with θ = Recall that Z k = M Γn R n Zk M F T + M Γn R n (Z k -Zk ) for k = 1, • • • , K + 1. Notice that Z k,it is independent from ε it . The concentrated likelihood function is</p><formula xml:id="formula_113">Q nT ( θnT ) = 1 n log S n ( λnT )R n ( αnT ) - 1 2 log L nT ( θnT ) = 1 n log S n ( λnT )R n ( αnT ) - 1 2 log L nT (θ 0 ) - 2 √ nT θnT -θ 0 C (1) +C (2) +C (3) + θnT -θ 0 C θnT -θ 0 + L rem nT ( θnT ) = Q nT (θ 0 ) - 1 n tr (G n ) ( λnT -λ 0 ) - 1 2n tr G 2 n ( λnT -λ 0 ) 2 + O( λnT -λ 0 3 ) - 1 n tr Gn ( αnT -α 0 ) - 1 2n tr G2 n ( αnT -α 0 ) 2 + O(| αnT -α 0 | 3 ) - 1 2 log      1 - 2 √ nT θnT -θ 0 C (1) +C (2) +C (3) L nT (θ 0 ) + θnT -θ 0 C L nT (θ 0 ) θnT -θ 0 + L rem nT ( θnT ) L nT (θ 0 ) x      , (D.1)</formula><p>where the Taylor expansions of log S n ( λnT ) and log |R n ( αnT )| are used. From Lemma 9 and by using log(1</p><formula xml:id="formula_114">+ x) = x -x 2 2 + O(x 3 ) with x = - 2 nT L nT (θ 0 ) tr M Γn R n G n R -1 n M Γn εε λnT -λ 0 + tr M Γn Gn M Γn εε ( αnT -α 0 ) + O P θnT -θ 0 1 (nT ) -1 2 + O P θnT -θ 0 2 1 (nT ) -1 4 + O P θnT -θ 0 2 1 + O P (nT ) -5 4 , Q nT ( θnT ) = Q nT (θ 0 ) - 1 n tr (G n ) ( λnT -λ 0 ) - 1 2n tr G 2 n ( λnT -λ 0 ) 2 - 1 n tr Gn ( αnT -α 0 ) - 1 2n tr G2 n ( αnT -α 0 ) 2 + 1 √ nT θnT -θ 0 C (1) +C (2) +C (3) L nT (θ 0 ) - 1 2 θnT -θ 0 C L nT (θ 0 ) θnT -θ 0 + 1 (nT ) 2 ( λnT -λ 0 ) 2 tr M Γn R n G n R -1 n M Γn εε 2 L nT (θ 0 ) 2 + 1 (nT ) 2 ( αnT -α 0 ) 2 tr M Γn Gn M Γn εε 2 L nT (θ 0 ) 2 + 2 (nT ) 2 ( λnT -λ 0 )( αnT -α 0 ) tr M Γn R n G n R -1 n M Γn εε tr M Γn Gn M Γn εε L nT (θ 0 ) 2 - L rem nT ( θnT ) 2L nT (θ 0 ) + O P θnT -θ 0 2 1 (nT ) -1 2 + O P θnT -θ 0 3 1 (nT ) -1 4 + O P θnT -θ 0 3 1 + O P (nT ) -5 2 . = Q nT (θ 0 ) + 1 √ nT θnT -θ 0 C (1) +C (2) +C (3) L nT (θ 0 ) -D (1) - 1 2 θnT -θ 0 D nT θnT -θ 0 + Q rem nT ( θnT ), (D.2)</formula><p>where</p><formula xml:id="formula_115">D (1) = 0, • • • 0, T n tr (G n ) , T n</formula><p>tr Gn is a (K + 2) × 1 vector and the (K + 2) × (K + 2) matrix D nT is the one in Eq. ( <ref type="formula" target="#formula_46">9</ref>). The remainder term is</p><formula xml:id="formula_116">Q rem nT ( θnT ) = O P (nT ) -5 4 1 + nT θnT -θ 0 2 1 + 2 √ nT θnT -θ 0 1 + O P θnT -θ 0 3 1 (D.3) = o P (nT ) -1 1 + √ nT θnT -θ 0 1 2 . (D.4) In Eq. (D.3), O P θnT -θ 0 3 1 = o P ( θnT -θ 0 2 1</formula><p>), because θnTθ 0 1 = o P (1). Lemma 9 shows that C (1) +C ( <ref type="formula" target="#formula_3">2</ref></p><formula xml:id="formula_117">) +C (3) L nT (θ 0 ) -D (1) = O P (1). Define γ = 1 √ nT D -1 nT C (1) +C (2) +C (3) L nT (θ 0 ) -D (1) which is O P 1 √</formula><p>nT . The rest of the proof is similar to Corollary 4.3 of <ref type="bibr">Moon and Weidner (2015b)</ref>. Completing the squares in Eq.</p><formula xml:id="formula_118">(D.2), Q nT ( θnT ) = Q nT (θ 0 ) -1 2 θnT -θ 0 -γ D nT θnT -θ 0 -γ + 1 2 γ D nT γ + Q rem nT<label>(</label></formula><p>θnT ). Consider the following two cases, θnT = θ = arg max Q nT (θ ) and θnT = θ 0 +γ. Notice that both θ and θ 0 +γ satisfy the condition that θnTθ 0 1 = o P (1). As Q nT ( θnT</p><formula xml:id="formula_119">) = Q nT (θ 0 )-1 2 θnT -θ 0 -γ D nT θnT -θ 0 -γ + 1 2 γ D nT γ + Q rem nT ( θnT ), Q nT (θ 0 + γ) = Q nT (θ 0 ) + 1 2 γ D nT γ + Q rem nT (θ 0 + γ), and Q nT ( θnT ) ≥ Q nT (θ 0 + γ), it follows that θnT -θ 0 -γ D nT θnT -θ 0 -γ ≤ 2Q rem nT ( θnT )-2Q rem nT (θ 0 +γ). Using Eq. (D.4), Q rem nT ( θnT )- Q rem nT (θ 0 + γ) ≤ o P (nT ) -1 1 + √ nT θnT -θ 0 1 + 1 + √ nT γ 1 2 . Because D nT is assumed to be positive definite, √ nT θnT -θ 0 -γ 1 ≤ o P 1 + √ nT θnT -θ 0 1 + o P 1 + √ nT γ 1 = o P 1 + √ nT θnT -θ 0 -γ 1 + o P 1 + √ nT γ 1 . Because γ = O P ( 1 √ nT ), o P (1+ √ nT γ 1 ) = o P (1), therefore √ nT θnT -θ 0 -γ 1 = o P (1), and √ nT θnT -θ 0 - √ nT γ = o P (1), which implies √ nT θnT -θ 0 = D -1 nT C (1) +C (2) +C (3) L nT (θ 0 ) -D (1) + o P (1). Because L nT (θ 0 ) = σ 2 0 + O P 1 n , √ nT ( θnT -θ 0 ) =D -1 nT C (1) +C (2) +C (3) L nT (θ 0 ) -D (1) + o P (1) = (L nT (θ 0 )D nT ) -1 C (1) +C (2) +C (3) -D (1) L nT (θ 0 ) + o P (1) = (L nT (θ 0 )D nT ) -1 C (1) +C (2) +C (3) -D (1) σ 2 0 + (L nT (θ 0 )D nT ) -1 D (1) σ 2 0 -L nT (θ 0 ) + o P (1) = σ 2 0 D nT -1 C (1) +C (2) +C (3) -D (1) σ 2 0 + σ 2 0 D nT -1 D (1) σ 2 0 - 1 nT tr εε + 1 nT tr P Γn εε + 1 nT tr εP F T ε + O P (n -3 2 ) + o P (1)      . (D.8)</formula><p>From (D.6) it is clear that the limiting distribution is not centered but with the bias σ 2 0 D nT -1 1 nT ∆nT . The bias arises from the predetermined regressors (D.7) and the interactions between spatial effects and the factor loadings (D.8). The bias terms would disappear if all regressors were strictly exogenous and no spatial effects were present.</p><formula xml:id="formula_120">     + o P (1).</formula><p>Proof of Theorem 2.</p><p>The object of interest is c ν nT = b c nT vec(ε)+ω c nT vec(ε)+vec(ε) A c nT vec(ε), where ω c nT = vec ∑ ∞ h=1 P c nh εh and A c nT is a nonstochastic symmetric matrix. From Yu et al. (2008), p.128, Ec ν nT = σ 2 0 tr (A c nT ) = 0, var c ν nT = T σ 4 0 Etr ∞ ∑ h=1 P c nh P c nh + σ 2 0 Eb c nT b c nT + 2σ 4 0 tr A c nT 2</p><formula xml:id="formula_121">+ 2µ (3) E nT ∑ i=1 [b c nT ] i [A c nT ] ii + µ (4) -3σ 4 0 nT ∑ i=1 [A c nT ] 2 ii . Explicitly, 1 nT var (c ν nT ) = σ 4 0 c ( DnT + Σ nT + o(<label>1</label></formula><p>)) c, where DnT = p lim n,T →∞ DnT , and</p><formula xml:id="formula_122">DnT = 1 σ 2 0            1 nT tr M Γn R n Z1 M F T Z 1 R n • • • 1 nT tr M Γn R n Z1 M F T Z K R n 1 nT tr M Γn R n Z1 M F T Z K+1 R n 0 . . . . . . . . . . . . 1 nT tr M Γn R n ZK M F T Z 1 R n • • • 1 nT tr M Γn R n ZK M F T Z K R n 1 nT tr M Γn R n ZK M F T Z K+1 R n 0 1 nT tr M Γn R n ZK+1 M F T Z 1 R n • • • 1 nT tr M Γn R n ZK+1 M F T Z K R n 1 nT tr M Γn R n ZK+1 M F T Z K+1 R n 0 0 • • • 0 0 0            +                   φ 1,1 φ 1,2 0 • • • φ 1,K+1 0 φ 1,2 φ 2,2 0 • • • φ 2,K+1<label>0</label></formula><formula xml:id="formula_123">0 0 0 • • • 0 0 . . . . . . . . . . . . . . . 0 0 0 0 0 0</formula></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>||A|| 2 , i.e., A 2 = µ 1 (A A). In addition,||A|| 1 = max 1≤ j≤n ∑ m i=1 |A i j | is its maximum column sum norm, ||A|| ∞ = max 1≤i≤m ∑ n j=1 |A i j |is its maximum row sum norm, and A F = tr(AA ) is its Frobenius norm. I n stands for an n × n identity matrix. Denote the projection matrices P A = A(A A) -1 A and M A = I -P A . In cases where A might not have full rank, we use (A A) † to denote the Moore-Penrose generalized inverse of A A.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>are individual effects, and ξ t are time effects with ℓ n = 1 1 • • 1 .</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Proposition 3 .</head><label>3</label><figDesc>Under Assumptions NC1 (or NC2), E and R, and assuming that the number of factors is not underestimated, i.e., r ≥ r 0 , then θnTθ 0 1 = o P (1). Furthermore, under Assumptions NC1, E, R, and r ≥ r 0 , δnTc nT = min (n, T ).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>emphasize. If factors are interpreted as omitted variables, their detection is a first step in trying to measure them. Several factor number selection methods have been proposed in the literature, including Bai and Ng (2002)'s PC and IC criteria, Onatski (2010)'s Edge Distribution estimator, and Ahn and Horenstein (2013)'s eigenvalue ratio tests. In our model, consis-</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>it follows that ȆnT 2 = O P max √ n, √ T . We now demonstrate how the factor number can be consistently determined using criteria similar to those in Bai and Ng (2002) 10 . Consider the following criteria for r = 1, • • • , r max ,</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Percentages of r &lt; r 0 , r = r 0 and r &gt; r 0 , ϑ = 1.</figDesc><graphic coords="26,69.93,262.80,476.44,310.31" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 2 :</head><label>2</label><figDesc>Figure 2: Percentages of r &lt; r 0 , r = r 0 and r &gt; r 0 , ϑ = 4.</figDesc><graphic coords="27,69.93,263.09,476.44,309.72" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: Percentages of r &lt; r 0 , r = r 0 and r &gt; r 0 , ϑ = 9.</figDesc><graphic coords="28,69.93,146.00,476.45,310.49" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 4 :</head><label>4</label><figDesc>Figure 4: Average HECM Origination Rates by US Regions</figDesc><graphic coords="28,183.78,550.84,227.70,165.60" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><figDesc>by the inequality of arithmetic and geometric means. Under Assumption NC1, whenδδ 0 1 ≥ τ or |λ -λ 0 | ≥ τ, b &gt; 0 and lim inf n,T →∞ P inf θ ∈Θ, θ -θ 0 1 ≥τ (Q nT (θ 0 ) -Q nT (θ )) &gt; 0 = 1 holds.In addition, (B.10) is strict when α = α 0 even if λ = λ 0 , as guaranteed by Assumption NC1(2). In either case, consistency follows from Lemma 1 of<ref type="bibr" target="#b42">Wu (1981)</ref>.When Assumption NC2 holds instead of NC1, the inequality in (B.10) is strict when α = α 0 or λ = λ 0 from Assumption NC2(2), and even with λ = λ 0 , b||η|| 2 1 &gt; 0 when δδ 0 1 ≥ τ. Therefore consistency follows from lim inf n,T →∞ P inf θ ∈Θ, θ -θ 0 1 ≥τ (Q nT (θ 0 ) -Q nT (θ )) &gt; 0 = 1. Now considerthe QML estimator θnT = δ nT , λnT , αnT . By definition, Q nT θnT -Q nT (θ 0 ) ≥ 0. From Eq.(B.10), it follows that b|| ηnT || 2 ηnT = δ 0 -δ nT , λ 0 -λnT . Completing the squares, b 1 2 ηnT 1 + a nT 2 + O P c -1 nT ≤ 0 for a nT = O P c</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><figDesc>for n, T → ∞, because b nT = O P ( ξ 1 ), |ξ 0 | = O P ( θ 0 1 = o P (1) by Proposition 3. At θ 0 , L nT (θ 0 ) has the perturbation ξ 0 = ε 2 √ nT while other ξ k , k = 1, • • • , K + 2 are zero. L nT (θ 0 ) has an expansion in terms of ξ 0 as,</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Performance of the QML and Bias Corrected Estimators, θ a</figDesc><table><row><cell>0</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Performance of the QML and Bias Corrected Estimators, θ b</figDesc><table><row><cell>0</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>Performance of the Bias Corrected Estimator When the Number of Factors is Overspecified by 1</figDesc><table><row><cell cols="2">θ 0 n</cell><cell>T</cell><cell>λ</cell><cell>γ</cell><cell>ρ</cell><cell>α</cell><cell>β1</cell><cell>β2</cell></row><row><cell>θ a 0</cell><cell cols="8">25 25 Bias -0.00001 -0.00178 0.00040 0.00327 0.00221 -0.00208 CP 0.875 0.882 0.875 0.829 0.894 0.874</cell></row><row><cell></cell><cell cols="2">25 49 Bias</cell><cell cols="6">0.00054 -0.00088 -0.00068 0.00597 -0.00027 0.00013</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.896</cell><cell>0.890</cell><cell>0.903</cell><cell>0.872</cell><cell>0.879</cell><cell>0.891</cell></row><row><cell></cell><cell cols="2">25 81 Bias</cell><cell cols="6">0.00062 -0.00051 -0.00031 0.00692 0.00061 -0.00073</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.904</cell><cell>0.914</cell><cell>0.907</cell><cell>0.863</cell><cell>0.912</cell><cell>0.907</cell></row><row><cell></cell><cell cols="8">49 25 Bias -0.00025 -0.00125 0.00043 -0.00111 -0.00030 -0.00115</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.891</cell><cell>0.905</cell><cell>0.892</cell><cell>0.880</cell><cell>0.900</cell><cell>0.902</cell></row><row><cell></cell><cell cols="2">49 49 Bias</cell><cell cols="6">0.00015 -0.00038 -0.00006 0.00425 -0.00089 0.00033</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.930</cell><cell>0.917</cell><cell>0.911</cell><cell>0.902</cell><cell>0.929</cell><cell>0.916</cell></row><row><cell></cell><cell cols="8">49 81 Bias -0.00026 -0.00001 -0.00009 0.00165 0.00073 0.00077</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.928</cell><cell>0.915</cell><cell>0.935</cell><cell>0.919</cell><cell>0.924</cell><cell>0.933</cell></row><row><cell></cell><cell cols="8">81 25 Bias -0.00025 0.00000 -0.00043 -0.00082 0.00030 -0.00096</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.909</cell><cell>0.916</cell><cell>0.903</cell><cell>0.885</cell><cell>0.902</cell><cell>0.928</cell></row><row><cell></cell><cell cols="2">81 49 Bias</cell><cell cols="6">0.00020 0.00018 -0.00081 -0.00115 0.00022 0.00067</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.936</cell><cell>0.929</cell><cell>0.941</cell><cell>0.935</cell><cell>0.919</cell><cell>0.918</cell></row><row><cell></cell><cell cols="8">81 81 Bias -0.00036 -0.00019 0.00028 0.00081 0.00025 -0.00018</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.919</cell><cell>0.937</cell><cell>0.908</cell><cell>0.914</cell><cell>0.929</cell><cell>0.947</cell></row><row><cell>θ b 0</cell><cell cols="2">25 25 Bias CP</cell><cell cols="6">0.00322 -0.00240 -0.00164 0.00509 0.00270 -0.00157 0.869 0.898 0.882 0.829 0.882 0.889</cell></row><row><cell></cell><cell cols="2">25 49 Bias</cell><cell cols="6">0.00167 -0.00156 -0.00218 0.00738 -0.00004 0.00037</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.901</cell><cell>0.896</cell><cell>0.898</cell><cell>0.879</cell><cell>0.880</cell><cell>0.892</cell></row><row><cell></cell><cell cols="2">25 81 Bias</cell><cell cols="6">0.00212 -0.00041 -0.00031 0.00643 0.00093 -0.00028</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.905</cell><cell>0.916</cell><cell>0.897</cell><cell>0.855</cell><cell>0.913</cell><cell>0.903</cell></row><row><cell></cell><cell cols="2">49 25 Bias</cell><cell cols="6">0.00138 -0.00143 -0.00064 -0.00027 -0.00026 -0.00097</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.902</cell><cell>0.904</cell><cell>0.913</cell><cell>0.889</cell><cell>0.898</cell><cell>0.911</cell></row><row><cell></cell><cell cols="2">49 49 Bias</cell><cell cols="6">0.00091 -0.00042 -0.00042 0.00458 -0.00079 0.00054</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.934</cell><cell>0.922</cell><cell>0.924</cell><cell>0.909</cell><cell>0.932</cell><cell>0.918</cell></row><row><cell></cell><cell cols="2">49 81 Bias</cell><cell cols="6">0.00011 -0.00019 -0.00041 0.00190 0.00064 0.00080</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.937</cell><cell>0.926</cell><cell>0.934</cell><cell>0.918</cell><cell>0.925</cell><cell>0.936</cell></row><row><cell></cell><cell cols="2">81 25 Bias</cell><cell cols="6">0.00005 -0.00035 -0.00112 0.00004 0.00017 -0.00101</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.917</cell><cell>0.909</cell><cell>0.913</cell><cell>0.889</cell><cell>0.903</cell><cell>0.924</cell></row><row><cell></cell><cell cols="2">81 49 Bias</cell><cell cols="6">0.00051 0.00005 -0.00058 -0.00080 0.00017 0.00081</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.922</cell><cell>0.927</cell><cell>0.934</cell><cell>0.935</cell><cell>0.919</cell><cell>0.918</cell></row><row><cell></cell><cell cols="8">81 81 Bias -0.00014 -0.00023 0.00010 0.00093 0.00015 -0.00019</cell></row><row><cell></cell><cell></cell><cell>CP</cell><cell>0.919</cell><cell>0.933</cell><cell>0.923</cell><cell>0.917</cell><cell>0.931</cell><cell>0.951</cell></row><row><cell>θ a</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 4 :</head><label>4</label><figDesc>Estimation of State-Level Origination RatesThe sample size is n = 51 and T = 52. Bias corrected estimates are reported. * * * p &lt; 0.01, * * p &lt; 0.05, * p &lt; 0.1. σ = 0.0063.</figDesc><table><row><cell></cell><cell>Coefficient</cell><cell>SD</cell></row><row><cell>Contemporaneous Spatial Effect λ Own Time Lag γ Spatial Diffusion ρ Spatial Effect in Disturbances α House Price Deviation β 1 House Price Volatility β 2 Deviation × Volatility β 3</cell><cell cols="2">-0.05527  *  *  *  0.01426 0.01263 0.68981  *  *  *  0.00998 0.05405  *  *  *  0.00808 0.12180  *  *  *  0.00055 -0.00025 0.00153 0.01346  *  *  *  0.03203  *  *  *  0.00847</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>In many empirical studies, the number of factors is much smaller than the dimension of the dataset. For example, in<ref type="bibr" target="#b39">Stock and Watson (2002)</ref>, 6 factors are used to model</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="215" xml:id="foot_1"><p>macroeconomic time series.2  In general, the spatial weights matrices for the contemporaneous spatial interactions and for the diffusion can be different. However it is straightforward to extend this paper's analysis to such cases. QMLE is still consistent and asymptotically normal under assumptions that will be introduced in Section 2.3. Assuming identical spatial weights simplifies the notation.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_2"><p>This paper does not require W n be row normalized, see Assumption R2. Although it is convenient to work with a row normalized spatial weights matrix, in some applications row normalization is not appropriate. For example, in the analysis of social interactions where the effect of network structure (for example, centrality) is of interest or there are individuals who influence others but are not influenced by others, row normalization might not be appropriate, see<ref type="bibr" target="#b31">Liu and Lee (2010)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_3"><p>Consistent estimation methods remain to be studied if variances depend on individual explanatory variables or vary across both units and time, where one may adjust the score vector from the principle component approach following the strategy in<ref type="bibr" target="#b30">Liu and Yang (2015)</ref> for the cross sectional case. This is an interesting research topic and is beyond the scope of this paper.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="10" xml:id="foot_4"><p>Note that this does not preclude the use of the methods of<ref type="bibr" target="#b35">Onatski (2010)</ref> or<ref type="bibr" target="#b1">Ahn and Horenstein (2013)</ref>. Rather it is for the easy of exposition, as the composite error ȆnT here has complicated structures which do not directly satisfy their error assumptions.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="11" xml:id="foot_5"><p>See Theorem 2.8 in<ref type="bibr" target="#b44">Zhang (2011)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="12" xml:id="foot_6"><p>See<ref type="bibr" target="#b44">Zhang (2011)</ref>, Theorem 8.10 and p.271</p></note>
+		</body>
+		<back>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>and Economics, the 2015 MEA Annual Meeting, New York Camp Econometrics X, and the 11th World Congress of the Econometric Society for many valuable comments. We appreciate receiving valuable comments and suggestions from referees, an associate editor and a coeditor of this journal. The usual disclaimer applies.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>δ , λ , α in a small neighborhood of θ 0 , L nT (θ ) = L nT (θ 0 ) -2 √ nT (θθ 0 ) C (1) +C ( <ref type="formula" target="#formula_124">2</ref>) +C ( <ref type="formula">3</ref>) + (θθ 0 ) C(θθ 0 ) + L rem nT (θ ), where C (1) , C (2) , C (3) and C are defined in Eqs. (C.7)-(C.10), and the remainder term is L rem nT (θ ) = O P θθ 0 3 1 + O P θθ 0 2 1 (nT ) -1 4 + O P θθ 0 1 (nT ) -3 4 + O P (nT ) -5 4 .</p><p>Lemma 8 is an application of Lemma 7 by rearrangement.</p><p>Lemma 9. Under Assumptions E, R and SF, and assuming that n T → κ &gt; 0, we have C = O P (1); also for k = 1, • • • , K, K + 1,</p><formula xml:id="formula_124">C (1) k = 1 √ nT tr Z k ε - 1 √ nT tr M Γn R n (Z k -Zk ) P F T ε = O P (1), C<label>(2)</label></formula><formula xml:id="formula_125">k = o P (1),<label>and</label></formula><formula xml:id="formula_126">C (3) = 0, • • • 0, 1 √ nT tr M Γn R n G n R -1 n M Γn εε + O P (1), 1 √ nT tr M Γn Gn M Γn εε + O P (1) = 0, • • • 0, T n tr (G n ) σ 2 0 + O P (1), T n tr Gn σ 2 0 + O P (1) .</formula><p>Lemma 10. Assume that n T → κ 2 &gt; 0 and Assumptions E, R and SF hold, then DnT -D nT = o P (1), where D nT and DnT are respectively defined in Eq. ( <ref type="formula">9</ref>) and Eq. (D.9). Lemma 8 shows that, for θ close to θ</p><formula xml:id="formula_127">0 , L nT (θ ) = L nT (θ 0 ) -2 √ nT (θ -θ 0 ) C (1) +C (2) +C (3) + (θ - θ 0 ) C(θ -θ 0 )+L rem nT (θ ), where L rem nT (θ ) = O P θ -θ 0 3 1 +O P θ -θ 0 2 1 (nT ) -1 4 +O P θ -θ 0 1 (nT ) -3 4 + O P (nT ) -5 4 .</formula><p>In the following, we provide concise expressions for those terms in the expansion of Q nT ( θnT ) around θ 0 , where θnT satisfies θnTθ 0 1 = o P (1).</p><p>Before proceeding further, let's examine the (K +2)×1 vectors C (1) , C (2) , C (3) and the (K +2)×(K +2) matrix C more closely. Notice that the K + 1 and K + 2 entries of C (3) have C</p><p>(3) K+1 = O P ( √ nT ) and C</p><p>(3) K+2 = O P ( √ nT ), which are of a higher stochastic order than C (1) and C (2) . However, as Theorem 1 shows, the higher order parts of C (3) will be canceled with terms from the log Jacobian determinant in the log likelihood function.</p><formula xml:id="formula_128">     + o P (1), (D.5)</formula><p>where the results of Lemma 9 are used. Eq. (D.5) can be further simplified. Notice that</p><formula xml:id="formula_129">1 n tr (G n ) tr εP F T ε -tr M Γn R n G n R -1 n M Γn εP F T ε = vec(ε) M vec(ε),</formula><p>where</p><formula xml:id="formula_130">M = P F T ⊗ 1 2 2 n tr(G n )I n -M Γn R n G n R -1 n M Γn -M Γn R -1 n G n R n M Γn . M is symmetric, tr (M ) = O(1), and tr(M 2 ) = O(n). We have E (vec(ε) M vec(ε)) 2 = µ (4) -3σ 4 0 ∑ nT i=1 [M ] 2 ii +2σ 4 0 tr M 2 + σ 2 0 tr(M ) 2 = O(n). Therefore 1 √ nT 1 n tr (G n ) tr (εP F T ε ) -tr M Γn R n G n R -1 n M Γn εP F T ε = O P ( 1 √ T ). Similarly, we have 1 √ nT 1 n tr Gn tr (εP F T ε ) -tr M Γn Gn M Γn εP F T ε = O P ( 1 √ T ).</formula><p>Putting the above two terms into the remainder, Eq. (D.5) becomes,</p><formula xml:id="formula_131">√ nT ( θnT -θ 0 -σ 2 0 D nT -1 1 √ nT ∆ nT )</formula><p>and</p><formula xml:id="formula_132">φ 1,1 = 1 n tr (R n P n R n ), φ 1,2 = 1 n tr (R n P n W n R n ), φ 2,2 = 1 n tr (R n W n P n W n R n ), φ 1,K+1 = 1 n tr (R n P n (γ 0 G n + ρ 0 W n G n ) R n ), φ 2,K+1 = 1 n tr (R n W n P n (γ 0 G n + ρ 0 W n G n ) R n ), φ K+1,K+1 = 1 n tr (R n (γ 0 G n + ρ 0 G n W n ) P n (γ 0 G n + ρ 0 W n G n ) R n ), where P n = ∑ ∞ h=1 A h-1 0n S -1 n R -1 n R -1 n S -1 n A h-1 0n ; and ψ K+1,K+1 = 1 n tr R n G n R -1 n R -1 n G n R n + 1 n tr(G 2 n )-2 1 n tr (G n ) 2 , ψ K+1,K+2 = 1 n tr G n Gn + 1 n tr R n G n R -1 n G n -2 n 2 tr(G n )tr( Gn ) and ψ K+2,K+2 = 1 n tr Gn G n + 1 n tr( G2 n )-2 1 n tr Gn 2 .</formula><p>Σ nT is defined in Eq. ( <ref type="formula">10</ref>).</p><p>Lemma 10 shows that</p><formula xml:id="formula_133">D nT = DnT + o P (1), therefore 1 nT var (c ν nT ) = σ 4 0 c (D nT + Σ nT + o P (1)) c.</formula><p>Proof of Theorem 3.</p><p>The theorem follows from Theorem 2 by applying the CLT of the martingale difference array.</p><p>Proof of Theorem 4.</p><p>We have the following useful results.</p><p>(1) σ 2 0 can be estimated by L nT ( θnT ). This is because from Lemmas 8, and θnT</p><formula xml:id="formula_134">-θ 0 1 = O P 1 √ nT , L nT ( θnT ) = L nT (θ 0 ) + O P 1 √ nT . From Eq. (C.5), L nT (θ 0 ) = σ 2 0 + O P 1 √ nT . (2) Rn -R n 2 = O P ( 1 √ nT ), because Rn = R n + (α 0 -α) Wn and θnT -θ 0 1 = O P 1 √ nT .</formula><p>(3) By the mean value theorem, Ĝn -Gn = Wn R n ( ᾱ) -1 Wn R n ( ᾱ) -1 ( αα 0 ), for some ᾱ in between of α 0 and α. Because Wn 2 and R -1 n 2 are uniformly bounded, R -1 n (α) 2 is uniformly bounded in a neighborhood of α 0 by Lemma 1.</p><p>Ĝn</p><formula xml:id="formula_135">-Gn 2 = O P 1 √ nT . Similarly, Ĝn -G n 2 = O P 1 √ nT and R-1 n -R n 2 = O P 1 √ nT . (4) ẐK+1 -Z K+1 2 = O P (1), because ẐK+1 -Z K+1 = ∑ K k=1 δk Ĝn Z k -∑ K k=1 δ 0k G n Z k = ∑ K k=1 δk ( Ĝn -G n )Z k + ∑ K k=1 ( δk -δ 0k )G n Z k , δ -δ 1 = O P ( 1 √ nT ), and from (3), Ĝn -G n 2 = O P 1 √</formula><p>nT . To prove Theorem 4, it is sufficient to show that φnTϕ p → 0, which immediately follows from (1) to (4) above. For example, <ref type="formula">1</ref>) to ( <ref type="formula">4</ref>) above. 1 n tr Ĝntr Gn = O P</p><formula xml:id="formula_136">tr P Γn Ĝn -tr P Γn Gn ≤ tr P Γn -P Γn Ĝn + tr P Γn Ĝn -Gn ≤ 2r 0 P Γn -P Γn 2 Ĝn 2 + r 0 P Γn 2 Ĝn -Gn 2 = O P 1 √ n , where P Γn -P Γn 2 = O P 1 √ n by Lemma 11 and Ĝn -G n 2 = O P 1 √ nT from (3). Furthermore, DnT = D nT +o P (1), because, for example, 1 nT tr M Γn Rn Z k M FT Ẑ K+1 R n -tr M Γn R n Z k M F T Z K+1 R n = o P (1) for k = 1, • • • , K by (</formula><formula xml:id="formula_137">1 √ nT , 1 n tr Ĝn -tr (G n ) = O P 1 √ nT and tr R-1 n P Γn Rn Ĝn -tr R -1 n P Γn R n G n = O P 1 √ nT . Finally, D-1 nT = D -1 nT + o P (1).</formula><p>Proof of Theorem 5.</p><p>Our objective is to show that lim n,T →∞ Pr (PC(r) &lt; PC(r 0 )) = 0 for r = r 0 and r ≤ r max . The case for the consistency of the IC(r) criterion then follows using similar arguments for Corollary 1 in <ref type="bibr" target="#b9">Bai and Ng (2002)</ref>. Denote σ i (A) the i-th largest singular value for matrix A. Note that σ i (A) = A 2 = µ i (AA ).</p><p>The following singular value inequality is useful (see Theorem 8. <ref type="formula">13 in Zhang (2011)</ref>),</p><formula xml:id="formula_138">σ i (A) -σ 1 (B) ≤ σ i (A + B) ≤ σ i (A) + σ 1 (B) , (D.10)</formula><p>where A and B are m × n matrices. </p><formula xml:id="formula_139">Firstly supposing r &gt; r 0 but r ≤ r max . Note that PC(r) &lt; PC(r 0 ) is equivalent to ⇐⇒ V (r) + r • g(n, T ) &lt; V (r 0 ) + r 0 • g(n, T ) ⇐⇒ V (r 0 ) -V (r) &gt; (r -r 0 )g(n, T ) ⇐⇒ c nT nT r ∑ i=r 0 +1 µ i DnT D nT &gt; c nT (r -r 0 )g(n, T ), where recall that DnT = Γ n F T + ȆnT , V (r 0 ) -V (r) = 1 nT ∑ r i=r 0 +1 µ i DnT D nT is from the definition of V (r</formula><formula xml:id="formula_140">σ i DnT ≤ σ i Γ n F T + σ 1 ȆnT = σ 1 ȆnT = ȆnT 2 = O P max √ n, √ T . Therefore c nT nT ∑ r i=r 0 +1 µ i DnT D nT = O P (1). Because c nT g(n, T ) → ∞, lim n,T →∞ Pr (PC(r) &lt; PC(r 0 )) = 0. Next consider the case of r &lt; r 0 . PC(r) &lt; PC(r 0 ) is equivalent to ⇐⇒ V (r) -V (r 0 ) &lt; (r 0 -r)g(n, T ) ⇐⇒ 1 nT r 0 ∑ i=r+1 µ i DnT D nT &lt; (r 0 -r)g(n, T ). From Eq.(D.10), 1 √ nT σ i DnT ≥ 1 √ nT σ i Γ n F T - 1 √ nT σ 1 ȆnT = 1 √ nT σ i Γ n F T + O P c -1 2 nT .</formula><p>By Assumption SF, plim n,T →∞</p><formula xml:id="formula_141">1 nT µ r (Γ n F T F T Γ n ) &gt; 0 for r ≤ r 0 .</formula><p>Together with g(n, T ) → 0, lim n,T →∞ Pr (PC(r) &lt; PC(r 0 )) = 0 for r &lt; r 0 .</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Lemma 11 .</head><label>11</label><figDesc>Under the assumptions of Theorem 3and M FT -M F T 2 = P FT -P F T 2 = O P ( 1 √ T ), where M Γn and M FT are defined in Section 3.3.Appendix D. Asymptotic Distributions: Proof of Theorems 1-5Proof of Theorem 1.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><figDesc>) and Eq.(12), and c nT = min (n, T ). From Proposition 3 and Assumption R, the composite error ȆnT satisfies ȆnT 2 = O P max √ n, √ T . From Eq.(D.10), for i &gt; r 0 and note that σ i (Γ n F T ) = 0 because its rank is r 0 ,</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title/>
+		<author>
+			<persName><surname>References</surname></persName>
+		</author>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Eigenvalue ratio test for the number of factors</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Ahn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Horenstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1203" to="1227" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Panel data models with multiple time-varying individual effects</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">C</forename><surname>Ahn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">H</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Schmidt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">174</biblScope>
+			<biblScope unit="page" from="1" to="14" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<title level="m" type="main">Advanced Econometrics</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Amemiya</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1985">1985</date>
+			<publisher>Harvard University Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Consistency in nonlinear econometric models: A generic uniform law of large numbers</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W K</forename><surname>Andrews</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1465" to="1471" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Inferential theory for factor models of large dimensions</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="135" to="171" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Panel data models with interactive fixed effects</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1229" to="1279" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Dynamic spatial panel data models with common shocks</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Li</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+		<respStmt>
+			<orgName>Columbia University</orgName>
+		</respStmt>
+	</monogr>
+	<note>Manuscript</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Determining the number of factors in approximate factor models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="191" to="221" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Large dimensional factor analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Ng</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Foundation and Trends in Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="89" to="163" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bernstein</surname></persName>
+		</author>
+		<title level="m">Matrix Mathematics: Theory, Facts, and Formulas</title>
+		<meeting><address><addrLine>Princeton, NJ</addrLine></address></meeting>
+		<imprint>
+			<publisher>Princeton University Press</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">D</forename><surname>Cliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1973">1973</date>
+			<publisher>Spatial Autocorrelation. Pion</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A spatial analysis of sectoral complementarity</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Conley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Dupor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Political Economy</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="page" from="311" to="352" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">The generalized dynamic factor model consistency and rates</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Forni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hallin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lippi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Reichlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">119</biblScope>
+			<biblScope unit="page" from="231" to="255" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Bayesian analysis of spatial panel autoregressive models with time-varying endogenous spatial weight matrices, common factors, and random coefficients</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business &amp; Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="642" to="660" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Spatial variation in reverse mortgage usage: House price dynamics and consumer selection</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Haurin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Moulton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schmeiser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Seligman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Shi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="392" to="417" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Panel data and unobservable individual effects</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hausman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">E</forename><surname>Taylor</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="page" from="1377" to="1398" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Perturbation Theory for Linear Operators</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kato</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<publisher>Springer-Verlag</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">On the asymptotic distribution of the moran i test statistic with applications</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="page" from="219" to="257" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Specification and estimation of spatial autoregressive models with autoregressive and heteroskedastic disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Some estimates of norms of random matrices</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Latala</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the American Mathematical Society</title>
+		<imprint>
+			<biblScope unit="volume">133</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1273" to="1282" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Asymptotic distributions of quasi-maximum likelihood estimator for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<title level="m" type="main">Asymptotic distributions of quasi-maximum likelihood estimator for spatial autoregressive models</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<ptr target="http://www.econ.ohio-state.edu/lee/wp/sar-qml-r-appen-04feb.pdf" />
+		<imprint>
+			<date type="published" when="2004-11">Nov. 2004b</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Some recent developments in spatial panel data models</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="255" to="271" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">A spatial dynamic panel data model with both time and individual fixed effects</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="564" to="597" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<monogr>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<title level="m">Spatial Panel Data Models. The Oxford Handbooks: Panel Data</title>
+		<meeting><address><addrLine>Oxford, England</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Estimation of fixed effects panel regression models with separable and nonseparable space-time filters</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">184</biblScope>
+			<biblScope unit="page" from="174" to="192" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Identification of spatial durbin panel models</title>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Applied Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="133" to="162" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Gmm estimation of spatial autoregressive models with unknown heteroskedasticity</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="page" from="34" to="52" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Modified qml estimation of spatial autoregressive models with unknown heteroskedasticity and nonnormality</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">F</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="50" to="70" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Gmm estimation of social interaction models with centrality</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="99" to="115" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Shrinkage estimation of dynamic panel data models with interactive fixed effects</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">190</biblScope>
+			<biblScope unit="page" from="148" to="175" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Dynamic linear panel regression models with interactive fixed effects</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">R</forename><surname>Moon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Weidner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Forthcoming, Econometric Theory</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Linear regression for panel with unknown number of factors as interactive fixed effects</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">R</forename><surname>Moon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Weidner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1543" to="1579" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Determining the number of factors from empirical distribution of eigenvalues</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Onatski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Review of Economic and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="page" from="1004" to="1016" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Estimation methods for models of spatial interaction</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="120" to="297" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Estimation and inference in large heterogeneous panels with a multifactor error structure</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="967" to="1012" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Large panels with common factors and spatial correlation</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Pesaran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Tosetti</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">161</biblScope>
+			<biblScope unit="page" from="182" to="202" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Macroeconomic forecasting using diffusion indexes</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Stock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">W</forename><surname>Watson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Business and Economic Statistics</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="147" to="162" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Qml estimation of dynamic panel data models with spatial errors</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Su</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">185</biblScope>
+			<biblScope unit="page" from="230" to="258" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">The spatial time lag in panel data models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economics Letetrs</title>
+		<imprint>
+			<biblScope unit="volume">117</biblScope>
+			<biblScope unit="page" from="544" to="547" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Asymptotic theory of nonlinear least squares estimation</title>
+		<author>
+			<persName><forename type="first">C.-F</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="501" to="513" />
+			<date type="published" when="1981">1981</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Quasi-maximum likelihood estimators for spatial dynamic panel data with fixed effects when both n and t are large</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>De Jong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L.-F</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">146</biblScope>
+			<biblScope unit="page" from="118" to="134" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<author>
+			<persName><forename type="first">F</forename><surname>Zhang</surname></persName>
+		</author>
+		<title level="m">Matrix Theory: Basic Results and Techniques</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

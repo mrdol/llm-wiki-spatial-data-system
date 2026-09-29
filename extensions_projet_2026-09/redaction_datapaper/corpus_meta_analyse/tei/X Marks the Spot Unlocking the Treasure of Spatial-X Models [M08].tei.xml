@@ -1,0 +1,1064 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">X Marks the Spot: Unlocking the Treasure of Spatial-X Models</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2021-04-21">April 21, 2021</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Cameron</forename><surname>Wimpy</surname></persName>
+							<email>cwimpy@astate.edu</email>
+						</author>
+						<author>
+							<persName><forename type="first">Guy</forename><forename type="middle">D</forename><surname>Whitten</surname></persName>
+							<email>g-whitten@pols.tamu.edu</email>
+						</author>
+						<author>
+							<persName><forename type="first">Laron</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+							<email>williamslaro@missouri.edu</email>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Political Science</orgName>
+								<orgName type="institution" key="instit1">Arkansas State University</orgName>
+								<orgName type="institution" key="instit2">Texas A&amp;M University</orgName>
+								<orgName type="institution" key="instit3">University of Missouri</orgName>
+								<orgName type="institution" key="instit4">Arkansas State University</orgName>
+								<address>
+									<settlement>Guy D. Whitten</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Department of Political Science</orgName>
+								<orgName type="institution">Texas A&amp;M University</orgName>
+								<address>
+									<settlement>Laron K. Williams</settlement>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Political Science</orgName>
+								<orgName type="institution">University of Missouri</orgName>
+							</affiliation>
+						</author>
+						<title level="a" type="main">X Marks the Spot: Unlocking the Treasure of Spatial-X Models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2021-04-21">April 21, 2021</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">278CA156ADAFE9FC17501D061A974187</idno>
+					<idno type="DOI">10.1086/710089</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Models include regional fixed effects</term>
+					<term>The SAR model excludes isolates</term>
+					<term>* p !</term>
+					<term>1</term>
+					<term>** p !</term>
+					<term>05</term>
+					<term>*** p !</term>
+					<term>01</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In recent years, political scientists have made extensive use of spatial econometric models to test a wide range of theories. In a review of spatial papers, we find that a majority of these studies use the spatial autoregressive (SAR) model. Although this is a powerful method that reveals inferences about diffusion processes, it is also highly restrictive and makes assumptions that often are not appropriate given the expressed theories. We contend that spatial-X (SLX) models are a better reflection of typical theories about spatial processes. Our simulations demonstrate that SLX models consistently retrieve the direct and indirect effects of covariates when the true data-generating process reflects other spatial processes. SAR models, however, tend to find phantom higher-order effects that are not present in the data. We further demonstrate how SLX models reveal heterogeneity in patterns of spatial dependence in countries' defense burdens that SAR models cannot discover.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>P olitical scientists have increasingly made use of spatial econometric models. The appeal of these models is that they relax rigid assumptions about the independence of observations across space. While the move toward these techniques is encouraging for the building of more realistic models of politics, there is frequently a substantial disjuncture between theoretical propositions, what is actually being tested, and how results are interpreted. This has particularly been the case when researchers rely only on the spatial autoregressive (SAR) model to test their theories.</p><p>The SAR model captures contemporaneous interdependence in outcomes-how the value of the dependent variable in one unit, y i , affects the value of the dependent variable in another unit, y j . Although the SAR model is the most popular spatial model among political scientists, it is a highly restrictive model that researchers should use with caution. We argue that, depending on the theory being tested and the pattern of spatial effects, the spatial-X (SLX) model may be preferable to the SAR. This is the case because the SLX model allows the spatial processes to influence the outcome through one or more independent variables. Examples of this include trash in a neighbor's yard affecting the value of your home and lax gun regulations in nearby states producing negative externalities (Knight 2013). Since there is no implicit endogeneity, both the estimation and the interpretation of SLX models are considerably easier than with SAR models.</p><p>Ideally, selecting the appropriate spatial econometric model should be driven by one's theory about the presence of spatial dependence in the outcomes, observables, or unobservables (Cook, Hays, and Franzese 2015). After selecting a theoretically grounded model, appropriate specification tests (such as a Lagrange multiplier test) should further buttress those choices (Darmofal 2015). In the absence of an appropriately specific theory, one at-first obvious approach would be to borrow a strategy from time series analyses (Hendry 1995): start with a general model that includes all three types of spatial dependence and then gradually pare down the model by testing restrictions (Vega and Elhorst 2015). A full interpretation of the various total, indirect, and direct effects and specification tests would then complete the process (LeSage and Pace 2009; Whitten, Williams, and Wimpy 2021). In practice, however, the estimation and interpretation of a general model that includes spatial relationships from all three sources is very difficult, and thus it is rarely done.</p><p>So what do political science researchers do? In our review of the literature, we found that the overwhelming majority of spatial publications in the discipline start and end with the SAR model. This is the case despite the fact that the underlying theories, as expressed by the authors, often do not match the assumptions that the SAR model implicitly imposes. We also find that researchers rarely interpret the variety of quantities of interest available in the SAR models that they estimate.</p><p>In this article we make a case for an approach to spatial model building that takes advantage of the flexibility and relative simplicity of the SLX model. In this approach, the theoretical implications of different model specifications are quite transparent, and the assumptions imposed by the SAR model can easily be turned into testable propositions. This approach simplifies the preliminary stages of model specification and minimizes inferential errors while maximizing the ease of interpretation. We offer these recommendations knowing full well that they are no substitute for careful theorizing and modeling of the data-generating process (DGP). At the same time, we think that this approach offers a better alternative to the current one that dominates the use of spatial econometrics in political science. By doing so, we hope to illuminate a path forward and provide a practical midway point between current unsatisfactory practice and the ideal modeling approaches advocated by Cook et al. (2015) and Vega and Elhorst (2015).</p><p>In the sections that follow, we begin with a brief overview of SAR and SLX models and point out how they differ in expectations about endogeneity, feedback, and higher-order effects. We demonstrate that SLX is more flexible in terms of producing an empirical test that closely matches underlying theory. We then identify a troubling pattern from our survey of the use of spatial econometric models: theories predicting spillovers among only first-order neighbors are often tested by SAR models that impose higher-order (and feedback) effects. In a series of Monte Carlo experiments, we explore which type of model is more robust to errors in expectations about the DGP; more specifically, what happens when the true model is an SLX, but we estimate an SAR and vice versa. These experiments show that SAR models perform poorly in terms of identifying the correct direction of spatial dependence, and this problem worsens as the degree of spatial heterogeneity increases. SLX models, however, do an adequate job of characterizing spatial effects of processes typically encountered in political science. We then provide an illustration of countries' defense burdens that shows how SLX models can reveal interesting patterns of spatial heterogeneity-in terms of both how the countries are connected and to what extentthat SAR models cannot. Most notably, we show that instability (in the form of interstate war) spills over into neighbors' defense burdens and that these effects are above and beyond what one might attribute to positive spatial dependence from an SAR model. We conclude with a discussion of the implications of our findings for future research along with some potential paths forward for model selection.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>MODELING SPATIAL DEPENDENCE IN POLITICS</head><p>It has been a little more than a decade since political scientists wrote the first papers about the potential for spatial econometric models of political phenomena (Beck, Gleditsch, and  Beardsley 2006; Franzese and Hays 2007; Ward and Gleditsch  2008). In the wake of these pathbreaking works, there has been a rapid increase in the employment of spatial econometric models by political scientists. Scholars have made theoretical arguments about how spatial relationships help to determine policies (Gray 1973; Neumayer, Plümper, and Epifanio 2014;  Simmons and Elkins 2004), conflict (Buhaug and Gleditsch  2008; Garcia and Wimpy 2016), party competition (Williams and Whitten 2015; see also Bohmelt et al. 2016), terrorism (Midlarsky, Crenshaw, and Yoshida 1980; Neumayer  and Plümper 2010a), and many other outcomes.</p><p>This section provides an overview of two of the most popular spatial econometric models: SAR and SLX. Spatial dependence occurs in both models, whether it is in the outcomes (SAR) or in the observables (SLX). The researcher specifies the manner in which all the observations are connected to one another via an N # N weights matrix (W) in both models, so it is worthwhile spending some time on this critical task. For ease of presentation, we explore the basic mechanics of each model in the context of a simple contiguity or first-order weights matrix. <ref type="bibr">1</ref> In figure 1 we show a toy example of how these types of matrices are constructed. On the far left side of this figure, we show a map of six units with arrows depicting first-order neighbors. For now, only consider the first-order contiguity weights matrix (W), where each cell identifying a pair of neighboring units contains a one and all other cells contain zeros. Since being a neighbor is symmetrical, this matrix is symmetrical. And since a unit cannot be a neighbor of itself, the main diagonal contains all zeros. As we will see below, these features of W have meaningful consequences for substantive inferences.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The spatial autoregressive model</head><p>The equation for a basic SAR model is</p><formula xml:id="formula_0">y p Xb 1 rWy 1 ε;<label>ð1Þ</label></formula><p>1. In addition to making the presentation more clear, this is the most popular type of weights matrix used in political science research. In our survey of the literature (described below), we found that 72.3% of the models reported used a weights matrix specified on the basis of geography. Regardless, the same types of patterns and problems discussed in this article persist in SAR models regardless of the specification of W.</p><p>and the reduced equation (isolating y on the left side) is</p><formula xml:id="formula_1">y p (I n 2 rW) 21 Xb 1 (I n 2 rW) 21 ε:<label>ð2Þ</label></formula><p>From the infinite series expansion of the spatial multiplier,</p><formula xml:id="formula_2">(I n 2 rW) 21 p (I n 1 rW 1 r 2 W 2 1 r 3 W 3 1 :::);<label>ð3Þ</label></formula><p>we can see that higher-order and feedback effects, or global effects, are present in any and all SAR models. Consider the second weights matrix depicted in figure 1 (W 2 ), which has two meaningful features. First, unlike W, the main diagonal elements-which convey the relationship of a unit with itself-do not equal zero. These values reflect feedback effects for which the effect of a unit on its neighbors comes back to affect the unit itself.</p><p>Second, we can see that W 2 contains nonzero values for all cells containing second-order neighbors. <ref type="bibr">2</ref> The result is that the effects extend beyond firstand second-order neighbors (because of W raised to increasingly higher values in eq. [3]), and they occur simultaneously at time t. We can thus label them as "global effects."</p><p>While interpreting the coefficients is a reasonable place to start, it is a bad place to stop in the interpretation of an SAR model. Given all of the different higher-order and feedback terms implicit in W 2 and the higher-order terms in equation (3), a general interpretation of the estimated r masks substantial variation in the estimated effects across units. For instance, if we want to infer the effect of a single x on y, then one approach is to examine the partial derivatives matrix (LeSage and Pace 2009; Whitten et al. 2021):</p><p>" ∂E(y) ∂x 1 :::</p><formula xml:id="formula_3">∂E(y) ∂x N # p (I 2 rW) 21 b;<label>ð4Þ</label></formula><p>where the resulting N # N matrix (N is the total number of observations) contains both the impacts of x i on y i , or direct effects (along the diagonal), and the impacts of x i on y j , or indirect effects (along the off-diagonal).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The spatial-X model</head><p>In contrast to the SAR model, the SLX model offers a framework in which researchers may choose whether to model local or global spatial relationships. In addition, the SLX model is relatively easier to estimate and interpret. In practice, the SLX model has been most often discussed as a modeling strategy for exogenous spatial effects from a direct neighbor. This effort has primarily been driven by the work of LeSage and Pace (2009) in which they suggest that the SLX model works best in the case of "externalities," or "local spillovers." Spillovers would appear to accurately characterize many political science phenomena; something happens to a neighbor that affects the outcome of interest.</p><p>The equation for a basic SLX model can we written as</p><formula xml:id="formula_4">y p Xb 1 WZv 1 ε;<label>ð5Þ</label></formula><p>where Z is the matrix of variables expected to exert spatial influence on y through a theoretically specified W matrix that connects observations to each other through a vector of spatial parameters v. <ref type="bibr">3</ref> If we start with a simple SLX model with a single independent variable, x 1 , such that X p Z p x 1 , we calculate the effect of</p><formula xml:id="formula_5">x 1 on y as " ∂E(y) ∂x 1 # p b1 1 v1 W:<label>ð6Þ</label></formula><p>In contrast to the infinite series expansion in the SAR spatial multiplier, the indirect effect ( v1 W)-or "neighbor effect"is only present at the first order. In other words, with the specification presented in equation ( <ref type="formula" target="#formula_4">5</ref>), the effect of x 1 is limited to only local effects; the effect does not continue to second-order neighbors, and there are no feedback effects. 2. The value in these cells reflects the number of paths through which each pair of units are second-order neighbors. So, e.g., cell AE p cell EA p 1 because A and E are only connected through B, but cell BC p cell CB p 2 because B and C are connected through both A and D.</p><p>3. We use Z to reflect the possibility that Z and X can have different contents.</p><p>However, as we discuss below, if we want to specify higherorder and feedback effects, we can incorporate them into an SLX model.</p><p>Without realizing it, scholars often use SLX models by including spatially weighted independent variables. In fact, any model that controls for the sum or average of neighbors' attributes reflects an SLX specification (Drolc, Gandrud, and  Williams 2019). The most common example incorporates a temporally lagged spatial lag (TLSL), which tests a common argument in theories of policy diffusion that the diffusion process-or the influence of neighbors' covariates more generally-occurs with a temporal lag. This variant of the SLX equation can be written as</p><formula xml:id="formula_6">y p Xb 1 Wy t21 v 1 ε:<label>ð7Þ</label></formula><p>While the estimation is straightforward, the presence of the TLSL adds a temporal dimension to the quantities of interest. <ref type="bibr">4</ref> In the next section, we provide some guidelines as to when to use one model over the other, by highlighting each model's flexibility and ability to derive correct causal inferences.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>THEORY, SPECIFICATION, AND ESTIMATION IN SAR AND SLX MODELS</head><p>The general motivating force behind spatial econometric models is to test theories about how y i is a function of some aspect of unit j. If a researcher's expectations are that the spatial relationships are between y i and y j and that these relationships are global (including feedback from y i to y j and back to y i ) and occur immediately, then the SAR model is clearly the appropriate model to choose. Yet, if a researcher's expectations are that the spatial relationships in a study are between y i and some variable z j , and these relationships are local in nature, then the SLX model is clearly the appropriate model to choose. But what about a researcher whose expectations are less sharp? Under these circumstances, we echo the suggestion by Vega and Elhorst  (2015) that the SLX model is a better place to start than the SAR. The advantages of the SLX model are fourfold: greater flexibility in specifying lower-order (local) versus higher-order (global) effects, the ability to relax and test common factor restrictions, the ease of estimation and interpretation, and more flexible and realistic specifications of temporal processes. We will explore each of these in turn.</p><p>First, the SLX model offers a more flexible approach to modeling lower-order versus higher-order spatial effects than the SAR model. As we outlined above, the SAR model implicitly imposes a number of strong assumptions that may not be immediately obvious to scholars and that often run contrary to their theoretical expectations about the spatial processes at work. In most incarnations of the SAR model, there is no way to limit spatial effects to only local first-order effects. <ref type="bibr">5</ref> Although the SAR model certainly captures local effects, by construction it also finds higher-order effects. The infinite series expansion (eq. [3]) reveals that all observations are eventually affected by any change in x; this is the case even if there is no theoretical reason to expect that nth-order neighbors would be influenced (albeit in a small fashion) by a change. <ref type="bibr">6</ref> The SAR model offers no flexibility in terms of how many orders of neighbors are affected. Feedback effects start in the second order (e.g., W 2 in fig. <ref type="figure" target="#fig_0">1</ref>). Although one may theorize that the total effect of a change in x j for observation i arises only from first-order local effects, the SAR model forces there to be higher-order and feedback effects, whether this accurately reflects the true spatial process or not. The consequence is that SAR models will risk finding a global process even if one is not present.</p><p>In an SLX model, expectations about local first-order processes can be easily tested through the specification of a model like that in equation (5). But can SLX perform adequately when the true spatial process includes higher-order effects? The answer is yes. By altering the model specification, scholars can incorporate higher-order effects into their models of spatial processes. For example, imagine that we have an expectation of higher-order effects that stop at the third order. For ease of exposition, we limit our model to a single independent variable x. In this case, we would estimate an SLX model specified as follows: 7</p><formula xml:id="formula_7">y p bx 1 v 1 Wx 1 v 2 W 2 x 1 v 3 W 3 x 1 ε:<label>ð8Þ</label></formula><p>The total estimated effect of x on y would be ∂E(y)</p><formula xml:id="formula_8">∂x 1 ::: ∂E(y) ∂x N p b 1 v1 W 1 v2 W 2 1 v3 W 3 ;<label>ð9Þ</label></formula><p>4. A common misconception is that this is "an alternative specification of the spatial autoregressive model" (Beck et al. 2006, 40). However, the TLSL forces the causality to go in a single direction (i.e., from y t21 to y t ), which eliminates the defining feature of SAR models: spatial endogeneity. Neumayer and Plümper (2010b, 158) note that a model with a temporal lag "is not strictly speaking a spatial lag model." Feedback for i from x t21 can occur by first influencing i's neighbors at time t, which then influences j's neighbors (including i) at time t 1 1. In the first section of our appendix (available online), we provide some more discussion of the features of the TLSL model and why it is more like an SLX model than an SAR model.</p><p>5. In the case of SAR models using directed dyadic data, one can limit the effects to the first order by distinguishing between the sources and targets of stimulus (e.g., Neumayer and Plümper 2010b, 152-54).</p><p>6. The one exception to this would be for a unit that has no connectivity with any other. In fig. <ref type="figure" target="#fig_0">1</ref> such a unit would appear as an island with values equal to zero for the relevant column and row in W.</p><p>7. In this specification, X p x, a single vector containing the values for independent variable x, and Z p (x x x).</p><p>where b is the estimated direct (or zero-order) effect of x, v1 is the estimated first-order indirect effect, v2 is the estimated second-order indirect effect, and v3 is the estimated thirdorder indirect effect. It is worth noting that restrictions on the order of effects can be tested, so one strategy is to start with an n-order specification and then use hypothesis tests to pare down the model. <ref type="bibr">8</ref> With the model specification shown in equation ( <ref type="formula" target="#formula_7">8</ref>), the SLX model mimics the SAR model in its estimation of feedback effects. However, there might be situations in which one expects higher-order neighbor effects but does not expect that the spatial process will have feedback effects. In these cases, one can exchange the terms with W squared, cubed, and raised to higher powers for n-order contiguity matrices such as W 2nd in figure <ref type="figure" target="#fig_0">1</ref> (as we demonstrate in the appendix). One can also test whether the spatial process exhibits feedback loops, by comparing the model fit (through, e.g., the Akaike information criterion and Bayesian information criterion) of an SLX specification with traditional squared and higher-order W terms versus that from one with nth-order contiguity matrices.</p><p>The second relative advantage of the SLX model is the ability to relax and test common factor restrictions. In the case of an SAR model, there is an imposed assumption that all global spatial dependence works through a single spatial parameter, r. For example, consider estimating an SAR model where we have two independent variables, x 1 and x 2 , in X. Since there is only one estimated r in the model, the infinite series expansion of the spatial multiplier (found in eq. [3]) is identical, and the only difference in the estimated spatial effects comes from different coefficient estimates in b. In other words, the strength of spatial dependence, and the manner in which higher-order effects reverberate throughout the system, is identical for both x 1 and x 2 by construction. Moreover, one spatial autocorrelation coefficient (r) is used to represent the declining spatial effects across all orders of neighbors, albeit at an order of magnitude smaller at each additional order of neighbors (r, r 2 , r 3 , etc.). Rather than this common factor restriction being imposed by the model (in the case of SAR), in the context of an SLX model it becomes a testable proposition; we can test the accuracy of these restrictions and modify the specification accordingly. <ref type="bibr">9</ref> It is not outside the realm of possibility to consider political science applications in which spatial relationships may vary across independent variables. In such cases of spatial hetero-geneity, the SLX model offers a far more straightforward and accurate approach by allowing scholars to estimate different spatial parameters for the independent variables. Unlike the SAR model, the SLX model also provides the flexibility of spatially lagging only those variables from a neighboring unit that are theorized to affect y i via some form of spatial dependence. In other words, X and Z do not have to be the same. Some covariates might only have direct effects (i.e., only be in X), and others might only have indirect effects (i.e., only be in Z). Furthermore, the Ws can vary across the different z variables (if different interconnectivities are theorized to exist), and this model allows for spatial heterogeneity (e.g., when v 1 ≠ v 2 ). As opposed to the complicated multiple SAR model, estimation for an SLX model with different interconnectivities is rather straightforward.</p><p>The third advantage of SLX models to applied researchers is ease of estimation and interpretation. Perhaps the most notable argument for the SLX model comes from the Gibbons and  Overman (2012) critique of the general enterprise of spatial econometrics. These authors argue that analysts using the SAR model end up with models that are weakly identified because of the hurdles involved in estimation of these endogenous models. The authors further point out that the model being estimated rarely fits the expressed theory. As such, they make an argument for the far simpler, exogenous SLX model.</p><p>SLX models provide much more meaningful coefficients in terms of allowing scholars to quickly and correctly make inferences about the spatial processes at work. While the SAR model produces a global coefficient of average spatial dependence (r), getting substantive impacts and estimates of uncertainty from other coefficients of interest is notably difficult. Moreover, the r does not easily distinguish between local and higher-order connectivity, thus making it difficult to make substantive inferences about the degree of spatial dependence from one neighbor to another. Given the complexity of calculating quantities of interest from SAR models, it is perhaps understandable that few scholars move beyond simple interpretations of the sign and significance of r.</p><p>In contrast, the SLX model is easier to interpret. The biggest difference in interpretation is that in an SLX model, the respective b can be interpreted as is; b is the estimated change in y i for a one-unit increase in x i . Yet, in an SAR model, the b represents the estimated "direct effect" of x i on y i , which, because of spatial dependence in the outcomes, we never actually observe because they are merely the prespatial effects that have yet to be filtered through the spatial dependence. This is complicated by the fact that the effect of x i on y i also depends on the strength of feedback. The spatial coefficients from an SLX model, the v terms, are interpreted as the estimated impact of a one-unit increase in the relevant z variable on the 8. One word of caution is that if there are few neighboring observations in the weights matrix, then higher-order representations of W can exacerbate problems of multicollinearity and inflate standard errors. 9. For example, in Moore and Shellman's (2007) analysis on refugees' destination, they estimate different parameters for the spatial contiguity effects of a number of independent variables. outcome variable in a neighboring unit. <ref type="bibr">10</ref> In comparison, this effect is difficult, if not impossible, to ascertain from merely examining the r value from an SAR model.</p><p>The fourth advantage of SLX models is that they offer more flexible and realistic specifications of temporal processes. Up until now, we have ignored possible temporal variations in our data other than to note that by construction SAR models impose that all effects of y j on y i and feedback effects from y i back on itself happen immediately. If our theory is that the effect of y j on y i and any associated feedback effects take time to happen, we can test this through an SLX model by including y t21 as a term in our specification of Z (see eq. [7]).</p><p>In the next section, we explore patterns in how political scientists have selected and interpreted spatial econometric models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SPATIAL DEPENDENCE IN PRACTICE</head><p>To provide a systematic overview of how researchers in political science have used spatial econometric models, we reviewed every work published through the end of 2015 that cited Beck et al. (2006), Franzese and Hays (2007), or bothtwo highly influential early papers promoting the use of spatial models. <ref type="bibr">11</ref> We coded the use of these techniques in the main empirical model that was reported.</p><p>Table <ref type="table" target="#tab_0">1</ref> shows a taxonomy of the use of spatial econometric models by political scientists in terms of the type of spatial theory expressed and the model estimated. There are three patterns worth noting in this table. First, although SAR models recover global effects-or those in which all nonisolate observations are influenced by changes in one observation-only 8.9% (5 of 94 studies) expressed theories that are global in nature. In those rare cases when scholars explicitly state global theories, however, they tend to appropriately test those theories with a model based on dependence in the outcomes (i.e., SAR or a more complex model that includes an SAR process). Second, when political science researchers have expressed a theory that is either local or not specific in terms of the types of spatial expectations, almost half the time (46.1%) they have estimated an SAR model that imposes global spatial effects.</p><p>Third, only 10.6% (10 out of 94 studies) of the publications we reviewed feature more than one pattern of spatial dependence. There is also generally little discussion of the processif any-used by scholars to pare down more complex models to simpler models. Altogether, this is indicative of scholars beginning with a specific model in mind (usually the SAR), rather than a general-to-specfic approach. We return to this point in our discussion of paths forward below.</p><p>Among those papers in our survey that estimated an SAR model, the overwhelming majority offered a theory of indirect effects-the effect of x i on y j -that were local in nature rather than global. In fact, only 8.9% (4 out of 45 studies) of those that estimated an SAR model explicitly expressed a global theory. Essentially this means that scholars theorize that explanatory variables may have an effect on first-order neighbors (local) but are silent about potential impacts on higher-order neighbors (global; Elhorst 2014). This latter finding is striking because the SAR model imposes global relationships across all spatial units. In contrast, spatial relationships in SLX models can be specified as either local or global.</p><p>Another common pattern emerges in our in-depth exploration: scholars often estimate a series of SAR models, each with a different specification of the weights matrix (e.g., Flores 2011; Gassebner, Gaston, and Lamla 2011; Goldsmith 2007; Obinger  and Schmitt 2011). <ref type="bibr">12</ref> Recall that the SAR model imposes a common factor restriction that all of the spatial dependence operates through one parameter, r, connected through a properly specified W. An SLX model, however, easily allows different variables to influence the outcome through multiple spatial dependence paths; the final model can then be pared down using traditional model selection criteria. The examples referenced above highlight at least three problems that arise from estimating  (2006), Franzese and Hays (2007), or both that reported results from at least one spatial econometric model.</p><p>10. We are limiting the current discussion to cases in which W is a standard contiguity matrix with no row-standardization. With a more complicated W where the weights matrix contains values other than 0 and 1, the estimated effect of a one-unit increase in x j on y i is v # w ij .</p><p>11. This initial search yielded 155 publications. We narrowed this down to 94 studies that reported results from at least one spatial econometric model.</p><p>12. These examples do not represent a comprehensive list. Instead, we identify them as representative examples of instances in which the inferences might be different with an SLX model, either because of methodological differences or because the SLX model represents a more appropriate way of testing the theoretical expectations. separate SAR models: first, it severely limits whether authors can determine which model best approximates the DGP. Second, if multiple weighting schemes are operating simultaneously and are correlated, then any model including only one will be biased. Third, even if only one weights matrix correctly specifies the spatial process, if explanatory variables operate through the weights matrix in different ways, then the SAR model will not be able to disentangle that spatial heterogeneity. <ref type="bibr">13</ref> In the next section we present the results from two sets of Monte Carlo experiments in which we explore how SLX and SAR models perform under different DGPs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>EXPERIMENTS</head><p>In this section we provide two sets of Monte Carlo experiments to explore the robustness of both models to errors in expectations about the DGP. In the first set of experiments, we expect that SLX models will perform admirably in deriving inferences about the effects of explanatory variables, even though the true process is generated by an SAR. One of the advantages of SLX models that we described above is that they can mimic the higher-order effects of SAR models in situations that scholars are likely to encounter in practice. The opposite, however, is unlikely to be true. In the second set of experiments we expect that SAR models are too inflexible to effectively deal with spatial heterogeneity that often accompanies an SLX DGP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SAR data-generating process</head><p>In the first set of experiments, we generate data using the reduced-form equation for the SAR model found in equation (2), with matrix X containing a single variable drawn from a uniform distribution, x ∈ ½210; 10, and where b p 1. Matrix W is an N # N symmetric row-standardized contiguity weights matrix, where each element below the diagonal is randomly drawn from a Bernoulli distribution. We simulated 1,000 data sets at each of nine different scenarios defined by the strength of the spatial autocorrelation, r ∈ f20:8; 0:8g. <ref type="bibr">14</ref> In each panel of table 2, we display our findings from estimations using a different SLX specification. <ref type="bibr">15</ref> The first SLX model that we estimate includes one spatially lagged independent variable (Wx) and is thus specified as</p><formula xml:id="formula_9">y p xb 1 Wxv 1 ε:<label>ð10Þ</label></formula><p>The bs are not directly comparable across SAR and SLX specifications; instead, with the use of the partial derivatives matrix one can easily compare the average direct, indirect, and total effects across models (LeSage and Pace 2009). Additionally, since these effects can be partitioned into n-order effects, we assess the performance of the model at different orders. Table <ref type="table" target="#tab_1">2</ref> shows how often the estimated SLX model specification's 95% confidence intervals include the true effects given the DGP characterized in equation ( <ref type="formula" target="#formula_1">2</ref>). Each panel of the table provides the recovery rates for a different SLX model specification (more on the others below), and each column represents a different strength of spatial lag coefficient (r in eq.</p><p>[2]). There are two clear patterns in panel A of table 2. First, the simple SLX model recovers the true average direct effect at an acceptably high rate (nearly 95%) for all values of r except 0.8. <ref type="bibr">16</ref> The recovery rates for the zero-order direct effect (characterized by the b SLX ), however, dip below 95% at r values lower than 20.4 and higher than 0.4. This means that b SLX is capturing the true average direct effect at common values of r, but it is not an accurate reflection of the zero-order direct effect (b SAR ). The second clear pattern is that the inclusion of one Wx term is enough to recover the true first-order indirect effects nearly 95% of the time for all r ∈ ½20:6; 0:6, but overall this model specification does a poor job of capturing the true total indirect effects. These two patterns are a consequence of an overly simplistic SLX model specification given the true DGP. The lack of higher-order W matrices means that there cannot be second-, third-, or higher-order indirect effects and that there can be no feedback effects. This is why the simple SLX in panel A of table 2 has a recovery rate for all higher-order direct and indirect effects that is 0% at all values of r (represented by ellipses).</p><p>These results from the experiments displayed in panel A of table 2 should certainly warrant caution from scholars. To what extent can we eliminate some of these concerns by modifying the SLX model specification? In the second set of experiments, we add a first-order weights matrix squared (W 2 ) and estimate a second SLX coefficient (v 2 ) with a model specified as</p><formula xml:id="formula_10">y p xb 1 Wxv 1 1 W 2 xv 2 1 ε:<label>ð11Þ</label></formula><p>13. This is not to say that there are no good examples of scholars carefully selecting the appropriate empirical model and then painstakingly exploring the substantive meaning of those models. Freeman and Quinn  (2012, 67), e.g., reveal how income inequality and financial integration influence democracy through multiple channels of spatial dependence.</p><p>14. It is worth noting, however, that values of r with an absolute value close to 1 are exceedingly rare in political science research.</p><p>15. In app. table 1, we present the same results for an SAR estimation. Not surprisingly, the SAR model does an excellent job of recovering the true DGP.</p><p>16. It is worth noting that negative values are quite rare and that we have never seen such a high value for r in a political science application.</p><p>Recall that W matrices raised to higher orders allow for spatial effects that cycle through neighbors of neighbors and back to the originator (see the first-order squared matrix in fig. <ref type="figure" target="#fig_0">1</ref>). This second model specification, therefore, should help address the poor performance of the first model in estimating the average indirect effects created in the DGP.</p><p>From table 2 panel B, we can see that the addition of the squared weights matrix improves the performance of the model in all of the weak spots detailed above. First, the zero-order direct effects are now recovered at 95% for nearly all the values of r, in addition to the second-order direct effects (feedback effects), which results in even more accurate estimates of the average direct effect. Second, the ability to model second-order indirect effects allows one to gain accurate inferences about not only those effects (nearly 95% recovery rates at all values) but also about the average indirect effects overall. Instead of poor performance at values outside of r ∈ ½20:2; 0:2, the average indirect effects are well recovered at a much broader range of values (r ∈ ½20:6; 0:4). Furthermore, in these experiments the improvement in model performance does not come at a cost of multicollinearity; on average the highest variance inflation factor is a little more than 2. <ref type="bibr">17</ref> As we discussed earlier, the infinite series expansion of the spatial multiplier in the SAR model (see eq.</p><p>[3]) means that the indirect effects increase forever but at a declining rate. To mimic this sort of process with an SLX model, one would have to include a large number of higher-order weights matrices. The utility of this approach, however, would be limited, as the size of the indirect effects from higher-order effects is quite small, and this would likely exacerbate any issues of multicollinearity. The next step, then, is to see whether including a cubed weights matrix effectively recovers the direct and indirect effects by estimating a model specified as</p><formula xml:id="formula_11">y p xb 1 Wxv 1 1 W 2 xv 2 1 W 3 xv 3 1 ε:<label>ð12Þ</label></formula><p>The recovery rates presented in panel C of table 2 reveal the untapped promise of the SLX model even in those processes ripe with spatial diffusion. In all but the most extreme cases of positive spatial autocorrelation (i.e., when r 1 0:6), the SLX model with both squared and cubed W terms recovers the average direct effect, average indirect effect, and by implication, the average total effect. Thus, in the vast majority of cases that scholars observe in practice, one could estimate an SLX model and make the same substantive inferences regarding the impact of a variable on the observation, its neighbors, and the other observations. The only drawback is higher multicollinearity (the average variance inflation factor score is now above 5), which leads to somewhat inflated standard errors. This is certainly not a reason to avoid estimating the SLX model and is a similar decision to those made by scholars choosing whether to include lower-order terms in interactive models. <ref type="bibr">18</ref> In the next section we explore the opposite scenario in which we have an SLX DGP but we estimate an SAR model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SLX data-generating process</head><p>Our next set of experiments assesses the performance of SAR and SLX models when the spatial processes operate through dependence in the observables and there are no higher-order spatial effects. In other words, how do the models perform when the data are generated in a manner consistent with an SLX model? As before, we choose to compare the performance of SLX and SAR models on the basis of whether they can recover the true average direct and indirect effects, calculated via the partial derivatives approach.</p><p>We expect that SLX models-not surprisingly-will perform well. <ref type="bibr">19</ref> Our expectations for SAR models, however, are mixed. We expect the SAR to do poorly in terms of recovering the true indirect effects because it will find evidence of higherorder and feedback effects in the data that we know do not exist. We also expect that situations of spatial heterogeneity-when the explanatory variables operate through different spatial processes-will be particularly problematic for recovering the correct estimates of direct and indirect effects. We generate data for our first set of SLX DGP Monte Carlo experiments as</p><formula xml:id="formula_12">y p x 1 b 1 1 x 2 b 2 1 Wx 1 v 1 1 Wx 2 v 2 1 ε;<label>ð13Þ</label></formula><p>where x 1 and x 2 are drawn from uniform distributions, x 1 ∈ ½210; 10 and x 2 ∈ ½25; 5, and b 1 and b 2 are set to 1. Matrix W is an N # N symmetric row standardized contiguity weights matrix, where each element below the main diagonal is randomly drawn from a Bernoulli distribution. In order to assess how these models perform under varying degrees of spatial heterogeneity, we conduct 1,000 simulations of nine scenarios in which we vary the magnitude of the spatial coefficients (v 1 and v 2 ). The first step is to determine whether the SAR can recover the true total effects of x 1 on y. Figure <ref type="figure" target="#fig_1">2</ref> shows histograms for 1,000 estimated average total effects (with 95% confidence intervals via the percentile method depicted with vertical dashed lines), as we vary the values of v 1 and v 2 . More specifically, the histograms are arranged to represent variation on two critical elements of these models. Moving vertically depicts varying levels of spatial effects, ranging from weak (bottom row) to moderate (middle row) to strong (top row). Moving horizontally depicts varying levels of spatial heterogeneity, ranging from none (left column) to moderate (middle column) and substantial (right column). In each experiment, the true total effect is the sum of the direct effect (b 1 p 1) and the indirect effect (v 1 ) for x 1 , or 0.8, 1.4, and 0.2 (going from the bottom row to the top row). If the 95% confidence intervals (dashed vertical lines) for the calculated total effects from the SAR include the true total effects from the DGP (solid vertical lines), then we can conclude that estimating the SAR model when the true DGP is an SLX will recover the substantive effects of x 1 .</p><p>Figure <ref type="figure" target="#fig_1">2</ref> shows that both spatial effect size and spatial heterogeneity have meaningful influences on the degree of bias for the SAR under these SLX DGPs. In nearly all of the scenarios, the true total effect appears far away from the bulk of the estimated total effects from the simulations. As one goes from no spatial heterogeneity (first column) to moderate and substantial 17. Of course, scholars must make their own decisions as to whether the increased multicollinearity in their model is worth being able to derive more accurate inferences about spatial processes.</p><p>18. In the appendix, we also present the performance of an SLX model with a matrix specified as W 2nd in addition to W.</p><p>19. Results from these estimates are shown in app. table 2.</p><p>heterogeneity (third column), the true total effect is less likely to be located near the center of the 95% confidence interval. Thus, when there are multiple patterns of spatial dependence in one model, estimating an SAR model (with one W) is likely to provide incorrect inferences about x 1 .</p><p>Moving up the rows (from weak to strong spatial effect size), the consequences for inferences become even more severe; while the SAR confidence intervals include the true total effect under weak and moderate (with the true total effect falling near the edges of the intervals for substantial heterogeneity) spatial effects, the true total effect is much smaller than those predicted by the SAR model under strong spatial effects. This should cause scholars to be cautious about using SAR models when they expect either strong spatial dependence or that multiple spatial processes are at work.</p><p>While figure 2 provides clear evidence of overestimation of the total effects, it does not identify whether the source of overestimation is related to the direct effects or indirect effects. Our expectation was that it would be caused by the latter, since the estimation of the direct effect is rather straightforward in both types of models. Indeed, across all scenarios, the SAR model is able to recover the true average direct effects in at least 95% of the simulations.</p><p>Another source of bias in the SAR's calculation of indirect effects is the common factor restriction that forces all of the independent variables to influence the dependent variable via the same spatial multiplier, whether this makes sense or not. We can imagine circumstances in which there are different causal processes (or at least different functional forms) operating across the explanatory variables. Figure <ref type="figure" target="#fig_2">3</ref> confirms our suspicions about the dangers of the common factor restriction in circumstances of substantial heterogeneity. The 95% confidence interval only includes the true indirect effect for x 2 (in this case, v 2 ) in five of the nine scenarios. More troubling is the fact that under substantial spatial heterogeneity (last column), scholars would conclude that the indirect effects of x 2 are negative (positive), when in fact the true spatial pattern is positive (negative) spatial dependence. Because there are both positive and negative spatial patterns present in the DGP that the SAR model cannot disentangle, there is a risk that scholars will falsely conclude that a spatial pattern exists that is completely opposite of the true pattern.</p><p>We suspect that the inability of the SAR model to accurately predict indirect effects in some cases is due to the "phantom" higher-order and feedback effects found by the SAR model. Recall that our experiments are structured so that there are no higher-order effects; by only including one v for each variable, the indirect effects are limited to being first-order effects (i.e., from first-order neighbors of i). As a result of the SAR model's infinite expansion of the spatial multiplier and the fact that weights matrices are treated as polynomials rather than higher-order contiguity matrices, the total effects of x on y will be distributed across orders of neighbors. Thus, the SAR model may find higher-order effects, whether they are there or not.</p><p>Figure <ref type="figure" target="#fig_3">4</ref> shows the average estimated second-(top row) and third-order (bottom row) indirect effects for x 1 from the SAR model. The three columns reflect three scenarios of weak, moderate, and strong spatial effects (under no spatial heterogeneity), and the solid vertical line shows the true higher-order effects (0). The histograms in figure <ref type="figure" target="#fig_3">4</ref> demonstrate that the SAR model will often incorrectly discover higher-order (and feedback) effects when they are not actually present (with the lone exception being the third-order effects under weak spatial effects). Indeed, the size of these phantom effects increases with the strength of spatial dependence. The issue is twofold. First, the DGP is strictly exogenous, so there is no reason for unit i's neighbors to simultaneously influence unit i. Second, there are no higher-order effects within the DGP. The SAR model thus produces inferences about feedback and global effects that are not warranted by the true DGP. It is clear that there is a substantial inferential penalty for estimating an model on an SLX DGP.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>APPLICATION</head><p>If scholars believe that strategic responses occupy a central place in almost any explanation of military expenditures (e.g., Palmer 1990; Powell 1999; Richardson 1960), then spatial econometric models are appropriate. The advancement of spatial econometric models means that scholars can model the precise manners in which choices (such as military expenditures) or conditions (such as instability) spill over into neighboring countries (see, e.g., Flores 2011; Plümper and  Neumayer 2015; Shin and Ward 1999). Of course, theory might suggest that defense burdens in i directly influence defense burdens in i's neighbors through a single global autocorrelation coefficient (SAR), or defense burdens in i influence defense burdens in i's neighbors through multiple patterns of connectivities or with a temporal delay (SLX), or defense burdens in i are unrelated to defense burdens in i's neighbors (nonspatial ordinary least squares [OLS]). Although theory can guide this decision, the true process driving military spending is unknown. We argue that a reasonable starting place given this inherent uncertainty is the SLX model since it provides a more flexible specification for estimating spatial heterogeneity and because it avoids some of the problematic assumptions hidden in SAR models.</p><p>To provide an applied example of the modeling choices that we discussed and simulated above, we collected data from 1953 to 2008 in 193 countries, both developed and developing, dem-ocratic and authoritarian. We measured defense spending in a manner similar to other scholars (Phillips 2015; Whitten and  Williams 2011) as a country's defense burden, or military expenditures as a percentage of gross domestic product (GDP). We use the measure developed by Phillips (2015), who uses expenditure data from both the Stockholm International Peace Research Institute and the Correlates of War national material capabilities data (Singer and Small 1972) divided by GDP data from the Penn World Table version 6.3 (Heston,  Summers, and Aten 2009). Both theories of budgeting and previous research tell us that defense burdens are highly autoregressive; the budget in one year is highly dependent on the previous year plus responses to short-term fluctuations. <ref type="bibr">20</ref> As a result, the Defense Burden variable is nonstationary in most 20. This is a general feature of budgeting processes in organizations. As Ostrom and Marra (1986, 822) note, "given the complexity of the behavior under examination and the cognitive limitations of decision makers, it is highly unlikely that the budget decisions of any of the organizations are rebuilt from zero each year." countries. <ref type="bibr">21</ref> This poses a substantial problem for inferences since it increases the risk of spurious results (Granger and Newbold 1974). Since defense burdens are first-order integrated, taking the first difference makes the series stationary. To further control for the dynamics of defense burden, we include the level in the previous year (Defense Burden t21 ) and the previous change (DDefense Burden t21 ). <ref type="bibr">22</ref> For the purposes of comparing different ways of estimating spatial econometric models, we begin with a simple model of defense burden. We include Total Population (logged) to account for larger countries having larger defense burdens. We also take into account the impact of domestic and international instability by including a dichotomous variable representing the presence of a Civil War that is an armed conflict resulting in at least 25 battle-related deaths in a year (Allansson, Melander, and Themner 2017) and Interstate War (coded 1 if the hostility level of the militarized interstate dispute reaches 5). We expect that both interstate wars and civil wars will have a meaningful impact on defense burdens. A large portion of the time period under examination occurs in the Cold War, where military spending is driven by alliance commitments and actions of the two superpowers (for a review of this literature, see Goldsmith [2003], 557-59). We thus believe that the degree of responsiveness to the superpowers' changes in spending will be conditioned by the presence of an alliance with the United States (Plümper and Neumayer 2015). To take this into account, we include two interaction variables (and their lower-order terms) made up of Alliance with US (coded 1 if the state has an alliance with the United States according to the Correlates of War), DUS Military Expenditures, and DUSSR/Russian Military Expenditures. Finally, Plümper and Neumayer (2010) demonstrate that unmodeled spatial and temporal shocks can falsely suggest spatial dependence. To guard against this possibility, we include Trend (which is coded 1 for 1950 and increases each year), a dichotomous variable for 1992, and regional variables. <ref type="bibr">23</ref> Although there are a variety of ways of specifying the connections between countries (for some alternatives, see below), for the simple preliminary analysis we use a binary, un-row-standardized contiguity weights matrix. <ref type="bibr">24</ref> We first compare the results of the nonspatial OLS model (model 1) to the SAR model (model 2) in table 3. The results clearly show that ignoring spatial dependence forces OLS to overestimate the immediate impacts of the covariates; almost all of the OLS coefficients are larger (either more negative or more positive) than their SAR counterparts (Ward and Gleditsch 2008,  68-69). Most notably, the nonspatial OLS would lead scholars to falsely conclude that there is no spatial dependence in states' defense burdens. The SAR model corrects this mistake. As expected, our estimate of the global spatial autocorrelation coefficient, r, is statistically significant and positive, indicating that the defense burdens of contiguous states are positively correlated. In other words, we have found evidence that increases to one state's defense burden simultaneously induce increases in its neighbors' defense burdens (see also Flores  2011). The result is that covariates, such as civil and interstate wars, influence defense burdens directly (via b) and indirectly through spatial diffusion (via r). <ref type="bibr">25</ref> However, as we discussed above, the various assumptions underpinning SAR models may not be consistent with how these processes actually work. Most notably, it is possible that to the extent that spillovers occur, they occur with a delay. Indeed, because of incrementalism in budgeting, defense outlays are likely to be highly path dependent and thus responsive to other countries' outlays with a temporal lag. In other words, if states are responsive to the spending patterns by other states, responses will occur one year later rather than simultaneously. Given this clear distinction, there is ample justification for estimating an SLX model with temporal lags rather than with an endogenous SAR model in which spatial effects are instantaneous.</p><p>In the case of defense spending, we believe that the SLX model offers the added benefit of allowing one to properly model spatial heterogeneity. More specifically, as outlined above, the SLX model offers a great deal of flexibility in specifying the particular spatial patterns (if any) that are theorized to govern different variables. This heterogeneity can be accomplished by determining which other countries are important spatially (via the W) and by allowing the strength (and sign) of the spatial clustering to vary by variable. This flexibility is particularly helpful when it comes to modeling conditional patterns of spatial dependence and varying degrees of higherorder effects. We think this is more appropriate than estimating 21. We estimate separate augmented Dickey-Fuller tests for each country with a long enough time series to get stable test statistics. In the original Defense Burden variable, we can reject the null hypothesis of a unit root at the 90% confidence level in only 29% of the countries. We reject the null hypothesis in 99% of the countries for the DDefense Burden t21 series.</p><p>22. There is a considerable debate about the casual use of lagged dependent variables to control for temporal dependence (see Wilkins [2018] for an overview of this debate).</p><p>23. In a model with annual fixed effects, 1992 is the only year that is statistically different from the others.</p><p>24. As Neumayer and Plümper (2016) note, the decision to row standardize the weights matrix should follow closely from one's theory. In the case of defense burdens, we believe that all countries are not equally influenced by their neighbors' burdens. Instead, the degree to which one state is influenced is based partly on the number of neighbors. Only those states that are contiguous by land or river are coded as neighbors, according to the Correlates of War project.</p><p>25. In the appendix, we move beyond the coefficients to provide a more in-depth exploration of total, direct, and indirect effects. one global spatial autocorrelation coefficient (r) that dictates the same spatial process for all the variables. To demonstrate the flexibility in modeling various spatial patterns, we add the SLX variables derived from three weights matrices (contiguity, alliance commitments, and defense pacts) to reflect the following expectations:</p><p>1. We expect that civil wars in neighboring states will have an impact on states' defense burdens, but there are possibly conflicting reasons for the impact (Phillips 2015). To account for these spatial patterns, we include Contiguity # Civil War t21 . 2. States are likely to increase their defense burdens in response to interstate wars that either increase their own instability or demand that they fulfill alliance commitments.</p><p>To account for these expectations, we include Contiguity # Interstate War t21 and Alliance # Interstate War t21 . 3. TLSL variables measure the influence of neighbors'</p><p>defense burdens in the previous year. We believe that states will respond positively to prior military spending patterns by both contiguous states and those states with which they share a defense pact. We include Contiguity # Defense Burden t21 and Defense Pact#Defense Burden t21 .</p><p>Results from the SLX model (model 2 in table <ref type="table" target="#tab_2">3</ref>) show that a flexible estimation technique (such as SLX) is necessary to derive accurate inferences about spatial patterns. Recall that the SAR model is limited to one specification of the neighbors' connections (via W) and one global spatial autocorrelation parameter (r). <ref type="bibr">26</ref> The SLX model shows that both of these constraints are questionable at best. It reveals that countries' defense burdens are connected in more than one way; a single covariate (such as Defense Burden t21 ) can exhibit spatial dependence through multiple weights matrices (in this case, contiguity and defense pacts), and the nature of this connectivity may differ across covariates (e.g., Interstate War t21 and Defense Burden t21 ).</p><p>The second constraint of the SAR model-that the single r parameter accurately reflects the patterns of spatial dependence-is also potentially damaging. The coefficients for the spatial estimates (v) are statistically different (at the 95% con-fidence level) in some cases, which means that, for example, the effects of contiguity are more negative for civil wars than interstate wars, and interstate war can influence defense burdens differently on the basis of either contiguity or alliance patterns. <ref type="bibr">27</ref> Since the coefficients for the two SLX variables for Defense Burden t21 are in the opposite direction as the direct effect, it points to a different spillover story than the one from the SAR model. In both models, increases in i's Defense Burden at t 2 1 lead to decreases at time t for i (b p 20:14 in the SLX model, and b p 20:12 in the SAR model). In the SLX model, an increase in i's defense burden at t 2 1 positively spills over in the defense burdens of i's neighbors at t (v 1 p 0:006, and v 2 p 0:003); in the SAR model, an increase in i's defense burden at t 2 1 decreases its defense burden at t, which leads to decreases in i's neighbors' burdens because of positive spatial dependence (r p 0:07). The two models therefore give contrasting explanations of the influence of Defense Burden in neighbors, depending on whether y j is influenced by x i (in the SLX) or y i (in the SAR). The fact that the direct and indirect coefficients are different signs in the SLX model implies that the SAR model (with its global autocorrelation coefficient) cannot accurately reflect the spatial patterns present in Defense Burden t21 .</p><p>This exploration of defense spending highlights a significant advantage of SLX models related to spatial heterogeneity. In this case, states' defense burdens are spatially dependent in more than one way, and the strength of spatial dependence varies across connection type and covariate. Both of these-combined with the ability to model higher-order and conditional spatial effects-suggest that SLX models offer the key to unlocking a treasure trove of spatial inferences. <ref type="bibr">28</ref> </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>PATHS FORWARD</head><p>From our discussion and findings above, it is clear that we are advocates of the simplicity offered by the SLX approach. Our goal, however, is not to suggest that the SLX is a superior model for all spatial econometric enterprises. Rather, we advocate for this approach on the basis of several important realities when it comes to the adoption of spatial models in political science. First, many applied researchers are not exposed to spatial models in a way that is complementary to their training (i.e., building from basic linear models). Likewise, many researchers interested in spatial models likely find the 26. This is the same obstacle that Flores (2011) faces. He makes a number of statements suggesting that countries' responses to their neighbors' defense burdens are conditioned by circumstances such as alliance commitments and neighborhood size. These patterns of conditional spatial dependence are quite reasonable, but Flores (2011) is unable to make those inferences from SAR models with one global autocorrelation parameter. 27. In the former case, F-tests suggest that we can reject the null of equal coefficients at the 99% confidence level; in the latter case, we can reject the null of equal coefficients at the 95% confidence level.</p><p>28. In the appendix, we first reveal that the extent to which civil wars drive military spending in nearby states depends on the particular region, and then we demonstrate how to incorporate higher-order effects in the SLX model.</p><p>current offerings of software tools insurmountable to getting started. <ref type="bibr">29</ref> Without more accessibility, widespread adoption is less likely. How then, should applied researchers proceed when choosing the spatial model that best fits their theory?</p><p>A variety of typologies exist for categorizing spatial processes (e.g., Darmofal 2015; Vega and Elhorst 2015), but a particularly elegant typology is demonstrated by Cook et al. (2015). The authors note that spatial dependence can arise from spatial clustering in the outcomes (e.g., rWy), spatial clustering in the observables (e.g., WZv), or spatial clustering in the unobservables (e.g., lWm). These typologies demonstrate, among other things, that there are more than just two models to consider on the spatial econometric menu. Without repeating the full listing, several of these models have particular relevance for our discussion in this article-especially when it comes to model choice. The so-called spatial Durbin model (SDM) is in some ways a middle ground between an SLX and SAR because it allows for modeling spatial dependence both between outcomes (e.g., y j , y i ) and between predictors and outcomes (e.g., x j , y i ; Elhorst 2014, 9): Cook et al. (2015) suggest starting with a more general spatial model and then testing the restrictions to pare down the model of unnecessary spatial components. Since it is difficult to recover estimates of the general nesting spatial model (i.e., one with estimates of all three spatial parameters) because of weak identification, Cook et al. (2015) suggest two strategies depending on the goal of the project. If there is concern about accurately characterizing the spatial process, then a spatial autocorrelation model is appropriate; if there is concern about getting accurate estimates of the effects of covariates, then the SDM is appropriate. Our approach is similar in that we advocate thinking carefully about theory and whether there are any expectations for higher-order effects, specifying the theoretically motivated model, and then testing the accuracy of those model specifications. If any differences between our approaches arise, it is the point of departure-which we advocate in most political science applications is more closely approximated by the SLX model. This is especially the case in the context of the SAR being the only relatable alternative.</p><formula xml:id="formula_13">y p Xb 1 rWy 1 WZv 1 ε:<label>ð14Þ</label></formula><p>Our advice for the applied researcher is to first follow theory and apply the most analogous spatial model. If, for example, the goal is to account for all spatial dependence, then the SDM or other alternatives (e.g., spatial error models) that capture and eliminate spatial noise in the unobservables may be more useful. It is often the case, however, that one's theory does not provide clear guidance and available diagnostics are uncertain. Which of the two prominent models is less prone to inferential errors as a result of misspecifying the type of dependence? In the appendix, we provide evidence that the SLX model is more robust to misspecifying the source of the spatial dependence. Additional Monte Carlo analysis based on a DGP with dependence in the error terms (one that is consistent with a spatial error model) shows that simple SLX specifications correctly recover true average effects of variables at expected rates. SAR models, however, have unsatisfactory recovery rates (i.e., much lower than 95%) for first-order indirect effects and, as a result, the total effects. The SAR is only really appropriate for those theories that specify global dependence in the outcomes among all units-something that we demonstrate is relatively rare in political science. When in doubt, political scientists are well served to start with an SLX.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>CONCLUSION</head><p>The increased use of spatial models in political science is a welcome trend that involves the relaxation of the incredible assumption that there are no contagion or spillover effects across our observations. However, as our review of this literature demonstrates, there is often a substantial disjuncture between expressed theories of spatial relationships and the models that political scientists estimate. This disjuncture has been particularly prevalent in projects that use the SAR model. We have shown that the SLX model is a good starting point for spatial econometrics in political science because of its flexibility in model specification, ease in estimation, and simplicity in interpretation.</p><p>Building on previous works, we provide a comprehensive comparison of the limits of both the SAR and SLX models using simulations. Our Monte Carlo analyses indicate that, even if the true DGP is SAR, the SLX performs quite well at detecting spatial relationships at typically observed levels. The same cannot be said of the SAR when the true DGP is SLX. This is especially the case if there are even relatively small amounts of heterogeneity in terms of the spatial effects across independent variables in the DGP. Our suggested approach places the power of specification in the researcher's hands and the ability to turn unrealistically imposed assumptions from SAR models into testable propositions.</p><p>Our findings in this study lead us to a set of four considerations that researchers should keep in mind when employing spatial models to test their theories. First, researchers should 29. It is worth pointing out that this is changing with more recent releases of Stata and continual updating of the available R packages. Yet, estimation and interpretation are still far less straightforward than competing approaches of dealing with spatial heterogeneity-many of which aim to treat it is as nuisance rather than substance.</p><p>carefully consider the nature of spatial dependence in their theories and choose a model that best reflects their expectations of how these processes work. Second, unless their theories are about global dependence among outcomes, they should start with a simple SLX model and work from there toward more complex models and specifications as appropriate. Third, when they suspect that the spatial diffusion processes are heterogeneous, researchers should employ the SLX with varied specifications of matrices based on these expectations. And fourth, researchers should move beyond a cursory discussion of the direction and statistical significance of the spatial parameters to an interpretation of all the estimated effects (i.e., direct, indirect, and total).</p><p>Although we have critiqued the choice of the SAR model for many political science applications, we do not begrudge its use under the proper circumstances-theorized endogenous and global dependence among outcomes. In this article, we aimed to move the spatial revolution in political science to a place where researchers are more easily able to implement, interpret, and understand the applications. The SLX model fills this void by providing a more flexible mapping onto most political science theoretical expectations and by presenting fewer challenges to specification and interpretation.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Spatial arrangement with associated squared (W 2 ) and second-order (W 2nd ) weights matrices</figDesc><graphic coords="3,98.87,86.40,455.98,113.73" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Recovery of the true total effects of x 1 in the SAR model across strength of spatial autocorrelation and spatial heterogeneity. The v values refer to those from the SLX Monte Carlo simulations. Vertical lines represent 95% confidence intervals (dashed) and the true total effect of x 1 (solid).</figDesc><graphic coords="10,146.89,86.40,360.00,366.24" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Recovery of the true indirect effects of x 2 in the SAR model across strength of spatial autocorrelation and spatial heterogeneity. The v values refer to those from the SLX Monte Carlo simulations. Vertical lines represent 95% confidence intervals (dashed) and the true indirect effect for x 2 (solid).</figDesc><graphic coords="11,146.89,86.40,360.00,364.31" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure4. SAR model indicates the presence of higher-order indirect effects for x 1 when they are not there. The v values refer to those from the SLX Monte Carlo simulations. Vertical lines represent 95% confidence intervals (dashed) and the true higher-order effects for x 1 (solid).</figDesc><graphic coords="12,146.89,86.40,360.00,357.11" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Applications of Spatial Econometrics in Political Science</figDesc><table><row><cell></cell><cell cols="3">Spatial Theory Type</cell><cell></cell></row><row><cell></cell><cell>Global</cell><cell></cell><cell>Local</cell><cell></cell></row><row><cell>Model Used</cell><cell>T o t a l</cell><cell>( % )</cell><cell>T o t a l</cell><cell>( % )</cell></row><row><cell>SAR</cell><cell>4</cell><cell>80.0</cell><cell>41</cell><cell>46.1</cell></row><row><cell>SLX</cell><cell>0</cell><cell>.0</cell><cell>34</cell><cell>38.2</cell></row><row><cell>Complex</cell><cell>1</cell><cell>20.0</cell><cell>9</cell><cell>10.1</cell></row><row><cell>Other</cell><cell>0</cell><cell>.0</cell><cell>5</cell><cell>5.6</cell></row><row><cell cols="5">Note. Summary of the 94 studies citing Beck, Gleditsch, and Beardsley</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Recovery Rates for Various SLX Model Specifications: SAR Data-Generating Process</figDesc><table><row><cell></cell><cell>2.8</cell><cell>2.6</cell><cell>2.4</cell><cell>2. 2</cell><cell>0</cell><cell>. 2</cell><cell>. 4</cell><cell>. 6</cell><cell>. 8</cell></row><row><cell></cell><cell></cell><cell></cell><cell></cell><cell cols="3">A. Simple SLX model: y p xb 1 Wxv 1 ε</cell><cell></cell><cell></cell><cell></cell></row><row><cell>Direct:</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Total</cell><cell>94.9</cell><cell>94.4</cell><cell>94.8</cell><cell>93.7</cell><cell>95.5</cell><cell>93.5</cell><cell>95.0</cell><cell>94.0</cell><cell>88.9</cell></row><row><cell>0 order</cell><cell>77.9</cell><cell>91.9</cell><cell>95.1</cell><cell>93.5</cell><cell>95.5</cell><cell>93.4</cell><cell>94.8</cell><cell>90.7</cell><cell>81.0</cell></row><row><cell>Second order</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell></row><row><cell>Third order</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell></row><row><cell>Indirect:</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Total</cell><cell>15.1</cell><cell>49.9</cell><cell>85.2</cell><cell>93.7</cell><cell>95.2</cell><cell>93.5</cell><cell>40.3</cell><cell>0</cell><cell>0</cell></row><row><cell>First order</cell><cell>91.4</cell><cell>93.8</cell><cell>95.5</cell><cell>93.1</cell><cell>95.2</cell><cell>94.5</cell><cell>94.4</cell><cell>93.8</cell><cell>93.1</cell></row><row><cell>Second order</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell></row><row><cell>Third order</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell></row><row><cell>Direct:</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Total</cell><cell>95.0</cell><cell>94.0</cell><cell>95.1</cell><cell>93.8</cell><cell>95.4</cell><cell>94.0</cell><cell>95.2</cell><cell>94.4</cell><cell>91.0</cell></row><row><cell>0 order</cell><cell>94.2</cell><cell>95.1</cell><cell>95.2</cell><cell>94.2</cell><cell>93.6</cell><cell>94.8</cell><cell>94.8</cell><cell>94.9</cell><cell>95.8</cell></row><row><cell>Second order</cell><cell>93.2</cell><cell>93.9</cell><cell>94.7</cell><cell>94.6</cell><cell>94.0</cell><cell>94.7</cell><cell>93.6</cell><cell>93.4</cell><cell>93.8</cell></row><row><cell>Third order</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell><cell>. . .</cell></row><row><cell>Indirect:</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Total</cell><cell>93.0</cell><cell>94.7</cell><cell>94.8</cell><cell>94.7</cell><cell>93.9</cell><cell>94.5</cell><cell>93.3</cell><cell>83.7</cell><cell>2.6</cell></row><row><cell>First order</cell><cell>93.0</cell><cell>94.9</cell><cell>95.9</cell><cell>94.0</cell><cell>94.9</cell><cell>94.9</cell><cell>94.4</cell><cell>93.2</cell><cell>92.6</cell></row><row><cell>Second order</cell><cell>93.2</cell><cell>93.9</cell><cell>94.7</cell><cell>94.6</cell><cell>94.0</cell><cell>94.7</cell><cell>93.6</cell><cell>93.4</cell><cell>93.8</cell></row><row><cell>Direct:</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Total</cell><cell>95.0</cell><cell>94.2</cell><cell>94.6</cell><cell>94.3</cell><cell>96.1</cell><cell>94.4</cell><cell>94.5</cell><cell>93.7</cell><cell>93.4</cell></row><row><cell>0 order</cell><cell>94.2</cell><cell>95.1</cell><cell>95.3</cell><cell>94.1</cell><cell>93.9</cell><cell>94.9</cell><cell>94.3</cell><cell>94.9</cell><cell>95.9</cell></row><row><cell>Second order</cell><cell>93.9</cell><cell>94.0</cell><cell>94.8</cell><cell>95.2</cell><cell>94.2</cell><cell>95.2</cell><cell>93.8</cell><cell>93.2</cell><cell>93.3</cell></row><row><cell>Third order</cell><cell>94.2</cell><cell>93.6</cell><cell>94.7</cell><cell>93.5</cell><cell>95.0</cell><cell>94.4</cell><cell>95.0</cell><cell>93.9</cell><cell>93.4</cell></row><row><cell>Indirect:</cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell><cell></cell></row><row><cell>Total</cell><cell>95.5</cell><cell>95.1</cell><cell>95.6</cell><cell>94.4</cell><cell>95.2</cell><cell>94.5</cell><cell>93.9</cell><cell>92.6</cell><cell>87.0</cell></row><row><cell>First order</cell><cell>94.3</cell><cell>94.7</cell><cell>95.1</cell><cell>93.9</cell><cell>94.9</cell><cell>93.7</cell><cell>93.9</cell><cell>95.2</cell><cell>94.4</cell></row><row><cell>Second order</cell><cell>93.9</cell><cell>94.0</cell><cell>94.8</cell><cell>95.2</cell><cell>94.2</cell><cell>95.2</cell><cell>93.8</cell><cell>93.2</cell><cell>93.3</cell></row><row><cell>Third order</cell><cell>94.2</cell><cell>93.6</cell><cell>94.7</cell><cell>93.5</cell><cell>95.0</cell><cell>94.4</cell><cell>95.0</cell><cell>93.9</cell><cell>93.4</cell></row></table><note><p>B. SLX model with a squared term: y p xb 1 Wxv 1 1 W 2 xv 2 1 ε C. SLX model with squared and cubed terms:</p><p>y p xb 1 Wxv 1 1 W 2 xv 2 1 W 3 xv 3 1 ε</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Nonspatial OLS, SAR, and SLX Models of Neighborhood Effects on Defense Burdens</figDesc><table><row><cell>OLS</cell><cell>SAR</cell><cell>SLX</cell></row><row><cell>Model 1</cell><cell>Model 2</cell><cell>Model 3</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Volume 83 Number 2 April 2021 / 723</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_1"><p>Volume 83 Number 2 April 2021 / 727</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_2"><p>Volume 83 Number 2 April 2021 / 729</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_3"><p>Volume 83 Number 2 April 2021 / 737</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_4"><p>Volume 83 Number 2 April 2021 / 739</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>ACKNOWLEDGMENTS We thank <rs type="person">Thiago Silva</rs> and <rs type="person">Clint Swift</rs> for able research assistance. A previous version of this article was presented to the <rs type="institution">Modeling Politics and Policy Conference at Texas A&amp;M University</rs> in May 2017 and the 1st Conference on <rs type="person">Robustness Tests</rs> and the Empirical Analysis of Observational Data in the <rs type="institution">Social Sciences, University of Cologne Center for Comparative Politics</rs>. The authors would like to thank <rs type="person">Eric Neumayer</rs>, <rs type="person">Thomas Plümper</rs>, and <rs type="person">Vera Troeger</rs> for their comments on previous versions.</p></div>
+			</div>
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>. Data and supporting materials necessary to reproduce the numerical results in the article are available in the JOP Dataverse (<ref type="url" target="https://dataverse.harvard.edu/dataverse/jop">https://dataverse.harvard.edu  /dataverse/jop</ref></p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Organized Violence, 1989-2016</title>
+		<author>
+			<persName><forename type="first">Marie</forename><surname>Allansson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Erik</forename><surname>Melander</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lotta</forename><surname>Themner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Peace Research</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="574" to="587" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Space Is More than Geography: Using Spatial Econometrics in the Study of Political Economy</title>
+		<author>
+			<persName><forename type="first">Nathaniel</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kristian</forename><forename type="middle">Skrede</forename><surname>Gleditsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kyle</forename><surname>Beardsley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Studies Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="44" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Party Policy Diffusion</title>
+		<author>
+			<persName><forename type="first">Tobias</forename><surname>Bohmelt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Lawrence</forename><surname>Ezrow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Roni</forename><surname>Lehrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Hugh</forename><surname>Ward</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">110</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="397" to="410" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Contagion or Confusion? Why Conflicts Cluster in Space</title>
+		<author>
+			<persName><forename type="first">Halvard</forename><surname>Buhaug</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kristian</forename><forename type="middle">Skrede</forename><surname>Gleditsch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Studies Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="215" to="233" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Model Specification and Spatial Interdependence</title>
+		<author>
+			<persName><forename type="first">Scott</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Jude</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Franzese</surname></persName>
+		</author>
+		<ptr target="http://www.sas.rochester.edu/psc/polmeth/papers/Cook_Hays_Franzese.pdf" />
+	</analytic>
+	<monogr>
+		<title level="m">American Political Science Association conference paper</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<monogr>
+		<author>
+			<persName><forename type="first">David</forename><surname>Darmofal</surname></persName>
+		</author>
+		<title level="m">Spatial Analysis for the Social Sciences</title>
+		<meeting><address><addrLine>Cambridge</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Taking Time (and Space) Seriously: How Scholars Falsely Infer Policy Diffusion from Model Misspecification</title>
+		<author>
+			<persName><forename type="first">Cody</forename><surname>Drolc</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Christopher</forename><surname>Gandrud</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Laron</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Policy Studies Journal (forthcoming)</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Linear Spatial Dependence Models for Cross-Section Data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Paul</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Econometrics</title>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2014">2014</date>
+			<biblScope unit="page" from="5" to="36" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Alliances as Contiguity in Spatial Models of Military Expenditures</title>
+		<author>
+			<persName><forename type="first">Alejandro</forename><surname>Flores</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Quiroz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Conflict Management and Peace Science</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="402" to="418" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial Econometric Models of Cross-Sectional Interdependence in Political Science Panel and Time-Series-Cross-Section Data</title>
+		<author>
+			<persName><forename type="first">Robert</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jude</forename><forename type="middle">C</forename><surname>Jr</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Hays</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="140" to="164" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">The Economic Origins of Democracy Reconsidered</title>
+		<author>
+			<persName><forename type="first">John</forename><forename type="middle">R</forename><surname>Freeman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Dennis</forename><forename type="middle">P</forename><surname>Quinn</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">106</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="58" to="80" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Does Information Lead to Emulation? Spatial Dependence in Anti-government Violence</title>
+		<author>
+			<persName><forename type="first">Blake</forename><forename type="middle">E</forename><surname>Garcia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Cameron</forename><surname>Wimpy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="27" to="46" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">The Inverse Domino Effect: Are Economic Reforms Contagious?</title>
+		<author>
+			<persName><forename type="first">Martin</forename><surname>Gassebner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Noel</forename><surname>Gaston</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><forename type="middle">J</forename><surname>Lamla</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Economic Review</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="183" to="200" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Mostly Pointless Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">Stephen</forename><surname>Gibbons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Henry</forename><forename type="middle">G</forename><surname>Overman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="172" to="191" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Bearing the Defense Burden, 1886-1989: Why Spend More?</title>
+		<author>
+			<persName><forename type="first">Benjamin</forename><forename type="middle">E</forename><surname>Goldsmith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Conflict Resolution</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="551" to="573" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Arms Racing in &apos;Space&apos;: Spatial Modelling of Military Spending around the World</title>
+		<author>
+			<persName><forename type="first">Benjamin</forename><forename type="middle">E</forename><surname>Goldsmith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Australian Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="419" to="440" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Spurious Regressions in Econometrics</title>
+		<author>
+			<persName><forename type="first">Clive</forename><forename type="middle">W J</forename><surname>Granger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Paul</forename><surname>Newbold</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="111" to="120" />
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Innovation in the States: A Diffusion Study</title>
+		<author>
+			<persName><forename type="first">Virginia</forename><surname>Gray</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1174" to="1185" />
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Dynamic Econometrics</title>
+		<author>
+			<persName><forename type="first">David</forename><forename type="middle">F</forename><surname>Hendry</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<publisher>Oxford University Press</publisher>
+			<pubPlace>Oxford</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<author>
+			<persName><forename type="first">Alan</forename><surname>Heston</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robert</forename><surname>Summers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Bettina</forename><surname>Aten</surname></persName>
+		</author>
+		<ptr target="http://datacentre2.chass.utoronto.ca/pwt/" />
+		<title level="m">Penn World Table version 6.3. Center for International Comparisons of Production, Income and Prices at the University of Pennsylvania</title>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">State Gun Policy and Cross-State Externalities: Evidence from Crime Gun Tracing</title>
+		<author>
+			<persName><forename type="first">Brian</forename><surname>Knight</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Economic Journal: Economic Policy</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="200" to="229" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<title level="m" type="main">Introduction to Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">James</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">Kelley</forename><surname>Pace</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+			<pubPlace>Boca Raton, FL</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Why Violence Spreads: The Contagion of International Terrorism</title>
+		<author>
+			<persName><forename type="first">Manus</forename><forename type="middle">I</forename><surname>Midlarsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Martha</forename><surname>Crenshaw</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Fumihiko</forename><surname>Yoshida</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Studies Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="262" to="298" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Whither Will They Go? A Global Study of Refugees&apos; Destinations, 1965-1995</title>
+		<author>
+			<persName><forename type="first">Will</forename><forename type="middle">H</forename><surname>Moore</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Stephen</forename><forename type="middle">M</forename><surname>Shellman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Studies Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="811" to="834" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Galton&apos;s Problem and Contagion in International Terrorism along Civilizational Lines</title>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Plümper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Conflict Management and Peace Science</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="308" to="325" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Spatial Effects in Dyadic Data</title>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Plümper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Organization</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+		</imprint>
+	</monogr>
+	<note>2010b</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Plümper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="175" to="193" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">The &apos;Peer-Effect&apos; in Counterterrorist Policies</title>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Plümper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mariaelisa</forename><surname>Epifanio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Organization</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="211" to="234" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Guns and Butter? Regime Competition and the Welfare State during the Cold War</title>
+		<author>
+			<persName><forename type="first">Herbert</forename><surname>Obinger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Carina</forename><surname>Schmitt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">World Politics</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="246" to="270" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">US Defense Spending and the Soviet Estimate</title>
+		<author>
+			<persName><forename type="first">Charles</forename><forename type="middle">W</forename><surname>Ostrom</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Robin</forename><forename type="middle">F</forename><surname>Marra</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="819" to="842" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Alliance Politics and Issue Areas: Determinants of Defense Spending</title>
+		<author>
+			<persName><forename type="first">Glenn</forename><surname>Palmer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="page" from="190" to="211" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Civil War, Spillover and Neighbors&apos; Military Spending</title>
+		<author>
+			<persName><forename type="first">Brian</forename><forename type="middle">J</forename><surname>Phillips</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Conflict Management and Peace Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="425" to="442" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Model Specification in the Analysis of Spatial Dependence</title>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Plümper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Neumayer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Political Research</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="418" to="442" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Free-Riding in Alliances Testing: An Old Theory with a New Method</title>
+		<author>
+			<persName><forename type="first">Thomas</forename><surname>Plümper</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Eric</forename><surname>Neumayer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Conflict Management and Peace Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="247" to="268" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<monogr>
+		<author>
+			<persName><forename type="first">Robert</forename><surname>Powell</surname></persName>
+		</author>
+		<title level="m">the Shadow of Power: States and Strategies in International Politics</title>
+		<meeting><address><addrLine>Princeton, NJ</addrLine></address></meeting>
+		<imprint>
+			<publisher>Princeton University Press</publisher>
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<author>
+			<persName><forename type="first">Lewis</forename><forename type="middle">F</forename><surname>Richardson</surname></persName>
+		</author>
+		<title level="m">Arms and Insecurity</title>
+		<meeting><address><addrLine>Pittsburgh; Boxwood</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1960">1960</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Lost in Space: Political Geography and the Defense-Growth Trade-Off</title>
+		<author>
+			<persName><forename type="first">Michael</forename><surname>Shin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michael</forename><forename type="middle">D</forename><surname>Ward</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Conflict Resolution</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="793" to="817" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">The Globalization of Liberalization: Policy Diffusion in the International Political Economy</title>
+		<author>
+			<persName><forename type="first">Beth</forename><forename type="middle">A</forename><surname>Simmons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Zachary</forename><surname>Elkins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="171" to="189" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<title level="m" type="main">The Wages of War</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Singer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Melvin</forename><surname>David</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Small</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1972">1972</date>
+			<publisher>Wiley</publisher>
+			<biblScope unit="page" from="1816" to="1965" />
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">The SLX Model</title>
+		<author>
+			<persName><forename type="first">Solmaria</forename><surname>Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">Paul</forename><surname>Halleck</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Elhorst</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="339" to="363" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<author>
+			<persName><forename type="first">Michael</forename><forename type="middle">D</forename><surname>Ward</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Kristian</forename><forename type="middle">Skrede</forename><surname>Gleditsch</surname></persName>
+		</author>
+		<title level="m">Spatial Regression Models</title>
+		<meeting><address><addrLine>Thousand Oaks, CA</addrLine></address></meeting>
+		<imprint>
+			<publisher>Sage</publisher>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Buttery Guns and Welfare Hawks: The Politics of Defense Spending in Advanced Industrial Democracies</title>
+		<author>
+			<persName><forename type="first">Guy</forename><forename type="middle">D</forename><surname>Whitten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Laron</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="117" to="134" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Interpretation: The Final Spatial Frontier</title>
+		<author>
+			<persName><forename type="first">Guy</forename><forename type="middle">D</forename><surname>Whitten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Laron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Cameron</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Wimpy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="140" to="156" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">To Lag or Not to Lag? Re-evaluating the Use of Lagged Dependent Variables in Regression Analysis</title>
+		<author>
+			<persName><forename type="first">Arjun</forename><forename type="middle">S</forename><surname>Wilkins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="393" to="411" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Don&apos;t Stand So Close to Me: Spatial Contagion Effects and Party Competition</title>
+		<author>
+			<persName><forename type="first">Laron</forename><forename type="middle">K</forename><surname>Williams</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Guy</forename><forename type="middle">D</forename><surname>Whitten</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="309" to="325" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

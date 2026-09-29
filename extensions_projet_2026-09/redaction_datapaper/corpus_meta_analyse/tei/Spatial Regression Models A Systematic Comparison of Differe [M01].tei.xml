@@ -1,0 +1,1179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial Regression Models: A Systematic Comparison of Different Model Specifications using Monte Carlo Experiments</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2019-06-09">June 9, 2019</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Tobias</forename><surname>Rüttenauer</surname></persName>
+							<email>ruettenauer@sowi.uni-kl.de</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Social Sciences Erwin</orgName>
+								<orgName type="institution">University of Kaiserslautern</orgName>
+								<address>
+									<addrLine>Schrödinger-Str. 57</addrLine>
+									<postCode>67663</postCode>
+									<settlement>Kaiserslautern</settlement>
+									<country key="DE">Germany</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial Regression Models: A Systematic Comparison of Different Model Specifications using Monte Carlo Experiments</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2019-06-09">June 9, 2019</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">3245AA574849A04F2F1EEE9A6E81295E</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial econometrics</term>
+					<term>Spatial regression</term>
+					<term>Monte Carlo experiments</term>
+					<term>Spillover effects</term>
+					<term>Spatial impacts</term>
+					<term>Simulations</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Spatial regression models provide the opportunity to analyse spatial data and spatial processes. Yet, several model specifications can be used, all assuming different types of spatial dependence. This study summarises the most commonly used spatial regression models and offers a comparison of their performance by using Monte Carlo experiments. In contrast to previous simulations, this study evaluates the bias of the impacts rather than the regression coefficients and additionally provides results for situations with a non-spatial omitted variable bias. Results reveal that the most commonly used spatial autoregressive (SAR) and spatial error (SEM) specifications yield severe drawbacks. In contrast, spatial Durbin specifications (SDM and SDEM) as well as the simple SLX provide accurate estimates of direct impacts even in the case of misspecification. Regarding the indirect 'spillover' effects, several -quite realistic -situations exist in which the SLX outperforms the more complex SDM and SDEM specifications.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>The increasing availability of spatially aggregated and georeferenced data has led to an increasing interest in spatial analyses amongst social scientists <ref type="bibr" target="#b36">(Logan, 2012)</ref>. For instance, social scientists have investigated the influence of contextual conditions (e.g. <ref type="bibr" target="#b12">Crowder, Hall, &amp; Tolnay, 2011;</ref><ref type="bibr" target="#b21">Friedrichs, Galster, &amp; Musterd, 2003;</ref><ref type="bibr" target="#b28">Kling, Liebman, &amp; Katz, 2007;</ref><ref type="bibr" target="#b46">Sampson, Morenoff, &amp; Earls, 1999;</ref><ref type="bibr" target="#b47">Sampson, Morenoff, &amp; Gannon-Rowley, 2002)</ref>, or have dealt with explicitly spatial research questions like segregation, neighbourhood boundaries, or the exposure to environmental conditions (e.g. <ref type="bibr" target="#b13">Dokshin, 2016;</ref><ref type="bibr" target="#b14">Downey, 2006;</ref><ref type="bibr" target="#b30">Legewie &amp; Schaeffer, 2016;</ref><ref type="bibr" target="#b35">Lichter, Parisi, &amp; Taquino, 2015;</ref><ref type="bibr" target="#b44">Reardon et al., 2008;</ref><ref type="bibr" target="#b45">Rüttenauer, 2018)</ref>.</p><p>Still, researchers need to be aware of the fact that analysing spatial data bears new challenges regarding the applied methods. In many cases, the spatial processes are of specific interest, and thus require the use of spatial regression models. However, spatial methods may be necessary for consistent estimators albeit the spatial processes not being of explicit interest. As Tobler's first law of geography puts it: 'everything is related to everything else, but near things are more related than distant things' <ref type="bibr">(Tobler, 1970, p. 236)</ref>. For instance, it seems plausible to assume that the house prices in one district are correlated to or even influenced by the house prices in neighbouring districts. In consequence, the observations cannot be considered independent and identically distributed (i.i.d.), which violates a standard assumption of linear regression models: E(ε i ε j ) = E(ε i )E(ε j ) = 0, where ε is the random error term for each observation i and j (i = j). Intuitively, this violation results in erroneous inferential statistics when using the conventional OLS estimator of the equation y = Xβ + ε. However, spatial autocorrelation can also lead to biased point estimates, depending on the spatial process underlying the spatial correlation in the data (e.g. <ref type="bibr" target="#b42">Pace &amp; LeSage, 2010)</ref>.</p><p>Several spatial model specifications exist to deal with this issue by explicitly modelling the spatial dependence. Using the spatial weights matrix W , the most common spatial model specification is the spatial autoregressive model (SAR), which adds an endogenous spatially lagged dependent variable W y to the conventional regression formula. Alternatively, the spatial error model (SEM) models the spatial dependence among the error terms u = W u + ε, and the spatial lag of X model (SLX) comprises the spatial lags of the exogenous covariates W X. Further specifications use a combination of these most basic specifications. The spatial autoregressive combined model (SAC) includes autocorrelation in the dependent variable and the error term (W y and W u), the spatial Durbin model (SDM) combines an autoregressive dependent variable and spatially lagged covariates (W y and W X), and the spatial Durbin error model (SDEM) comprises a spatial error term combined with spatially lagged covariates (W u and W X). The specification containing all three spatial terms (W y, W u and W X) is called general nesting spatial model (GNS).</p><p>On the one hand, those models provide a way to obtain unbiased point estimates of the true parameters. On the other hand, spatial models offer the opportunity to estimate spatial spillover coefficients, thereby informing the researcher about processes of spatial correlation or influence. Still, researchers have to consider several options, as the different specifications rely on different assumptions regarding the spatial dependence. Unfortunately, empirical specification tests of spatial regression models yield severe drawbacks and there is no general rule for selecting the correct model specification in applied research. Therefore, it is of substantial interest to evaluate the performance of spatial model specifications under different scenarios of misspecification.</p><p>This study conducts a systematic comparison of different spatial model specifications in different scenarios of spatial dependence by using Monte Carlo experiments. It demonstrates under which conditions conventional linear models yield biased estimates and how spatial model specifications perform throughout different scenarios of spatial dependence. The study extends previous simulations in several ways. First, it evaluates the bias of the model specifications by relying on the impact estimates rather than the point estimates, as the model impacts are the measures of interest in applied research <ref type="bibr" target="#b34">(LeSage &amp; Pace, 2017)</ref>. Second, it systematically evaluates the performance of the spatial model specifications in the absence and presence of a non-spatial omitted variable bias. Third, it incorporates multiple explanatory variables with distinct spatial effects, as this resembles the case in applied research.</p><p>The results of the Monte Carlo experiments reveal that the most commonly used spatial models -spatial autoregressive model (SAR) and spatial error model (SEM)have severe drawbacks for applied research. In line with previous findings, those models are outperformed by more flexible Durbin specifications incorporating spatially lagged covariates. However, the results also reveal that, under highly realistic conditions, SLX offers a better performance than the Durbin specifications, especially regarding the indirect spillover effects.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Theoretical background</head><p>As a first step in spatial econometrics, the researcher is required to specify the spatial relationship between the units of observation, or more precisely, to define which units j are neighbours of unit i for all units i = {1, 2, ..., N }. This is done by setting up an N × N dimensional neighbours weights matrix W , where all elements w ij &gt; 0 for all neighbouring units i and j (i = j), and 0 otherwise. This study relies on a row-normalised contiguity weights matrix, defining all units as neighbours that share at least one common border. Several specifications for W exist, such as for example k nearest neighbour or distance based approaches (see e.g. <ref type="bibr" target="#b16">Dubin, 2009)</ref>, and choosing the correct or incorrect specification may be vital for the results. However, these aspects have been discussed elsewhere <ref type="bibr" target="#b11">(Corrado &amp; Fingleton, 2012;</ref><ref type="bibr" target="#b18">Elhorst &amp; Halleck Vega, 2017;</ref><ref type="bibr" target="#b33">LeSage &amp; Pace, 2014;</ref><ref type="bibr" target="#b40">Neumayer &amp; Plümper, 2016)</ref>, and the focus of this study remains on the model specifications, thereby assuming a correctly specified W .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">Model specifications</head><p>As mentioned above, spatial dependence can be modelled in various ways (for a comprehensive introduction see e.g. <ref type="bibr" target="#b17">Elhorst, 2014;</ref><ref type="bibr" target="#b32">LeSage &amp; Pace, 2009)</ref>. The most popular spatial model specification is the spatial autoregressive model (SAR), which incorporates the spatially weighted dependent variable y as an endogenous regressor at the right-hand side of the equation. The SAR model is defined as:</p><formula xml:id="formula_0">y = ρW y + Xβ + ε,<label>(1)</label></formula><p>where y is an N × 1 vector of the dependent variable, W as defined above, X an N × K matrix of k = {1, 2, ...K} covariates, and ε an N × 1 vector of normally distributed disturbances. β is a K × 1 vector of parameter estimates and ρ represents the autoregressive scalar parameter. 1 This SAR specification assumes that the dependent variable of unit i is directly influenced by the spatially weighted dependent variable of neighbouring units j. For illustration purposes, let's consider an example analysing the effect of air quality and available green spaces on the house prices of a spatial district (e.g. <ref type="bibr" target="#b6">Anselin &amp; Lozano-Gracia, 2008)</ref>. The house price is the dependent variable y, while air quality and the availability of green spaces constitute the covariates X.</p><p>According to the specification in the SAR model, we would assume that the house prices in one district directly influence the house prices in neighbouring districts. An intuitive interpretation for this process might be that sellers or estate agents determine the prices based on the prices they observe in neighbouring districts. Another specification of spatial models is the spatial error model (SEM). In contrast to the SAR specification, the SEM explicitly models spatial autocorrelation between the disturbances u, represented by the scalar parameter λ. The SEM is defined as:</p><formula xml:id="formula_1">y = Xβ + u, u = λW u + ε. (2)</formula><p>In this specification we assume that the spatial correlation between our units is caused by unobserved characteristics, which are either spatially clustered or follow a spatial pattern, and which are independent of the included covariates. Using the example above, we could for instance assume that spatially clustered or diffusing crime rates influence the house prices in the affected areas (but are independent of air quality and available green space).</p><p>A third approach does not incorporate the spatial dependence as an autoregressive term of the dependent variable or the error term, but directly models so called spatial 'spillover' effects by including the spatially lagged covariates into the equation. This spatial lag of X (SLX) specification is defined as:</p><formula xml:id="formula_2">y = Xβ + W Xθ + ε,<label>(3)</label></formula><p>where θ is an K × 1 vector of spatial spillover parameters. This model incorporates the direct effects β of the covariates as well as the indirect spillover effects θ from the covariates of neighbouring units. An important property of the SLX model is that θ constitutes a K × 1 vector, thus including a distinct spatial effect for each covariate.</p><p>Here we would assume that house prices in the focal unit are not only influenced by the characteristics in the focal unit but also by the air quality and green space availability in neighbouring districts. Moreover, we can hypothesise that the neighbouring districts matter only regarding the green spaces but not regarding the air quality, as we receive a distinct spatial parameter for each covariate.</p><p>The three specifications shown above represent the most basic specifications of spatial models. Yet, there are further specifications which combine the models mentioned above. The spatial autoregressive combined model (SAC) comprises an autocorrelated dependent variable and an autocorrelated disturbance, resulting in:</p><formula xml:id="formula_3">y = ρW y + Xβ + u, u = λW u + ε. (4)</formula><p>The spatial Durbin model (SDM), in contrast, combines the spatial spillover specification of the covariates (SLX) with the spatial autoregressive term of the dependent variable, resulting in:</p><formula xml:id="formula_4">y = ρW y + Xβ + W Xθ + ε.<label>(5)</label></formula><p>A third combined model is the spatial Durbin error model (SDEM), combining the specifications of SEM and SLX:</p><formula xml:id="formula_5">y = Xβ + W Xθ + u, u = λW u + ε,<label>(6)</label></formula><p>thereby comprising the spatial spillover effects of the covariates as well as an autocorrelated disturbance term.</p><p>Combining all three basic model specifications mentioned above leads to the general nesting spatial model (GNS):</p><formula xml:id="formula_6">y = ρW y + Xβ + W Xθ + u, u = λW u + ε. (7)</formula><p>Though the GNS specification combines all the spatial processes of the previous specifications, this model only plays a minor role in applied research, as this specification -analogous to Manski's neighbourhood effects model <ref type="bibr" target="#b37">(Manski, 1993)</ref> -is not or only weakly identifiable <ref type="bibr" target="#b10">(Cook, Hays, &amp; Franzese, 2015;</ref><ref type="bibr" target="#b22">Gibbons &amp; Overman, 2012)</ref>. 2  Though <ref type="bibr" target="#b9">Burridge, Elhorst, and Zigova (2016)</ref> show that the GNS model can be identified in case of a grouped (block-diagonal) weights matrix, they find that even in this situation the model might be overparameterised, thereby providing no additional information over SDM or SDEM.</p><p>Note that most of the spatial model specifications cannot be estimated by Least Squares (LS), as using (constrained) LS estimators for models containing a spatially lagged dependent variable or disturbance leads to inconsistent results (e.g. <ref type="bibr" target="#b4">Anselin &amp; Bera, 1998;</ref><ref type="bibr" target="#b20">Franzese &amp; Hays, 2007)</ref>. However, an extensive amount of econometric literature discusses different estimation methods based on (quasi-) maximum likelihood (e.g. <ref type="bibr" target="#b2">Anselin, 1988;</ref><ref type="bibr" target="#b29">Lee, 2004;</ref><ref type="bibr" target="#b41">Ord, 1975)</ref> or instrumental variable approaches using generalized methods of moments (e.g. <ref type="bibr" target="#b15">Drukker, Egger, &amp; Prucha, 2013;</ref><ref type="bibr" target="#b26">Kelejian &amp; Prucha, 1998</ref><ref type="bibr" target="#b13">, 2010)</ref>, in which the endogenous lagged variables can be instrumented by q higher order lags of the exogenous regressors (X, W X, W 2 X, ..., W q X) <ref type="bibr" target="#b26">(Kelejian &amp; Prucha, 1998)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">Local and global spatial impacts</head><p>At first glance, the specifications presented above seem relatively similar in the way of modelling spatial effects. Yet, they differ in very important aspects. First, models with an endogenous spatial term (SAR, SAC, and SDM) assume a very different spatial dependence structure than models with only exogenous spatial terms as SLX and SDEM specifications. While the first three assume global spatial dependence, the second two assume local spatial dependence <ref type="bibr" target="#b3">(Anselin, 2003;</ref><ref type="bibr" target="#b25">Halleck Vega &amp; Elhorst, 2015;</ref><ref type="bibr" target="#b32">LeSage &amp; Pace, 2009)</ref>. Second, the interpretation of the coefficients differs greatly between models with and without endogenous effects. This becomes apparent when considering the reduced form of the equations above. Exemplary using the SAR model of (1), the reduced form is given by:</p><formula xml:id="formula_7">y -ρW y = Xβ + ε, (I N -ρW )y = Xβ + ε, y = (I N -ρW ) -1 (Xβ + ε).<label>(8)</label></formula><p>When subsequently taking the first derivative of the explanatory variable x k from the reduced form in (8) to interpret the partial effect of a unit change in variable x k on y, we receive</p><formula xml:id="formula_8">∂y ∂x k = (I N -ρW ) -1 β k ,<label>(9)</label></formula><p>for each covariate k = {1, 2, ..., K}. As can be seen from ( <ref type="formula" target="#formula_8">9</ref>), the partial derivative with respect to x k produces an N × N matrix, thereby representing the partial effect of each unit i onto the focal unit i itself and all other units j = {1, 2, ..., i -1, i + 1, ..., N }.</p><p>The diagonal elements of ( <ref type="formula" target="#formula_8">9</ref>) indicate how each unit i influences itself (change of x i on change of y i ), and each off-diagonal elements in column i represents the effect of i on each other unit j (change of x i on change of y j ). Since reporting the individual partial effects is usually not of interest, <ref type="bibr" target="#b32">LeSage and Pace (2009)</ref> proposed to average over these effect matrices. While the average diagonal elements of the effects matrix resulting from ( <ref type="formula" target="#formula_8">9</ref>) represent the so called direct 3 impacts of variable x k , the average column-sums of the off-diagonal elements represent the so called indirect impacts (or spatial spillover effects). The direct impacts refer to an average effect of a unit change in x i on y i , and the indirect (spillover) impacts exhibit how a change in x i , on average, influences all neighbouring units y j .</p><p>Table <ref type="table">1</ref>. Direct and indirect impacts, adopted from Halleck <ref type="bibr" target="#b25">Vega and Elhorst (2015)</ref> Direct Impacts Spatial Spillovers Type OLS/SEM</p><formula xml:id="formula_9">β k 0 none SAR/SAC Diagonal elements of (I -ρW ) -1 β k Off-diagonal elements of (I -ρW ) -1 β k global SLX/SDEM β k θ k local SDM/GNS Diagonal elements of (I -ρW ) -1 [β k + W θ k ] Off-diagonal elements of (I -ρW ) -1 [β k + W θ k ] global</formula><p>Table <ref type="table">1</ref> summarises the direct and indirect impacts for all model specifications outlined above (adopted from Halleck <ref type="bibr">Vega &amp; Elhorst, 2015, p. 345)</ref>. For OLS, SEM, SLX, and SDEM, the point estimates obtained in the regression models can be interpreted as partial (direct and indirect) impacts. However, in case of SAR, SAC, and SDM, point estimates differ from the partial derivatives (or impacts). Two important consequences follow from the impact estimates presented in Table <ref type="table">1</ref>.</p><p>First, for SAR, SAC, and SDM even the direct impacts differ from the point estimates. This results from the fact that an endogenous term of the dependent variable W y contains feedback loops through the system of neighbours <ref type="bibr" target="#b7">(Betz, Cook, &amp; Hollenbach, 2019;</ref><ref type="bibr" target="#b20">Franzese &amp; Hays, 2007;</ref><ref type="bibr" target="#b25">Halleck Vega &amp; Elhorst, 2015)</ref>. A change of x i in the focal unit i influences the focal unit i itself, but also the neighbouring unit j, which in turn influences the focal unit i in a feedback loop. This feedback loop is part of the direct impact.</p><p>Second, the kind of indirect spillover effects in SAR, SAC, and SDM models differs from the kind of indirect spillover effects in SLX and SDEM models: while the first three specifications represent global spillover effects, the latter three represent local spillover effects <ref type="bibr" target="#b3">(Anselin, 2003;</ref><ref type="bibr" target="#b31">LeSage, 2014;</ref><ref type="bibr" target="#b32">LeSage &amp; Pace, 2009)</ref>. In case of SLX and SDEM the spatial spillover effects can be interpreted as the effect of a one unit change of x k in the spatially weighted neighbouring observations on the dependent variable of the focal unit; when using a row-normalised contiguity weights matrix, W x k is the average value of x k in the neighbouring units. Thus, only direct neighbours -as defined in W -contribute to those local spillover effects. In contrast, spillover effects in SAR, SAC, and SDM models do not only include direct neighbours but also neighbours of neighbours (second order neighbours) and further higher-order neighbours. This can be seen by rewriting the inverse in (9) as power series:</p><formula xml:id="formula_10">4 (I N -ρW ) -1 β k = (I N + ρW + ρ 2 W 2 + ρ 3 W 3 + ...)β k = (I N + ∞ h=1 ρ h W h )β k , (<label>10</label></formula><formula xml:id="formula_11">)</formula><p>where the identity matrix represents the direct effects and the sum represents the first and higher order indirect effects and the above mentioned feedback loops. This implies that a change in one unit i does not only affect the direct neighbours but passes through the whole system towards higher-order neighbours, where the impact declines with distance within the neighbouring system. Global indirect impacts thus are 'multiplied' by influencing direct neighbours as specified in W and indirect neighbours not connected according to W , with additional feedback loops between those neighbours.</p><p>Note furthermore, that all diagonal elements diag(W ) = w ii = 0, whereas the diagonal elements diag(W 2 ) = diag(W W ) = 0. Intuitively, ρW only represents the effects between direct neighbours (and the focal unit is not a neighbour of the focal unit itself), whereas ρ 2 W 2 contains the effects of second order neighbours, where the focal unit is a second order neighbour of the focal unit itself. Thus, equation (10) includes feedback effects from ρ 2 W 2 on, which are part of the direct impacts according to the measures in Table <ref type="table">1</ref>.</p><p>In consequence, local and global spillover effects represent two distinct kinds of spatial spillover effects <ref type="bibr" target="#b31">(LeSage, 2014)</ref>. The interpretation of local spillover effects is straightforward: it represents the effect of all neighbours as defined by W (the average over all neighbours in case of a row-normalised weights matrix). For instance, the environmental quality in the focal unit itself but also in neighbouring units could influence the attractiveness of a district and its house prices. In this example it seems reasonable to assume that we have local spillover effects: only the environmental quality in directly contiguous units (e.g. in walking distance) is relevant for estimating the house prices. In contrast, interpreting global spillover effects can be a bit more difficult. Intuitively, the global spillover effects can be seen as a kind of diffusion process. For example, an exogenous event might increase the house prices in one district of a city, thus leading to an adaptation of house prices in neighbouring districts, which then leads to further adaptations in other units (the neighbours of the neighbours), thereby globally diffusing the effect of the exogenous event due to the endogenous term. Yet, those processes happen over time. In a cross-sectional framework, the global spillover effects are hard to interpret. <ref type="bibr" target="#b3">Anselin (2003)</ref> proposes an interpretation as an equilibrium outcome, where the partial impact represents an estimate of how this long-run equilibrium would change due to a change in x k (see also LeSage, 2014).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">Bias in non-spatial OLS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.1.">With exogenous covariates</head><p>So far, this study has summarised different spatial model specifications and discussed the types of spatial effects defined by those specifications. However, even if spatial effects are not of specific interest, spatial dependence can influence the estimation results. Non-spatial OLS models may not only exhibit erroneous inference but also biased estimates in some cases of spatial correlation. Still, it is important to distinguish between two kinds of biases, resulting from the discussion of direct and indirect impacts above. First, one could say that the unbiased estimate is the non-spatial parameter β k . Second, one could also say that the unbiased estimate is the direct impact of x k , which does not only include the non-spatial effect but also the feedback loops. As discussed elsewhere <ref type="bibr" target="#b22">(Gibbons &amp; Overman, 2012;</ref><ref type="bibr" target="#b23">Gibbons, Overman, &amp; Patacchini, 2015)</ref>, if a researcher is interested in the treatment effect (e.g. of a political intervention), the total direct impact including feedback loops might be of more interest than the nonspatial effect. The non-spatial parameter β k does not include feedback effects, and thus actually underestimates the impact of a chance in x ik on y i . Note that the nonspatial parameter reflects the first derivative of the non-reduced spatial regression formula as in (1), while the direct impacts (with feedback effects) are given by the diagonal elements of the first derivative of the reduced form as in (8). Thus, the choice of which effect is the correct 'treatment' effect does also affect the discussion under which conditions a non-spatial OLS model produces biased estimates of a spatial data generating process (DGP).</p><p>Suppose the DGP follows a GNS as defined in ( <ref type="formula">7</ref>), but we erroneously assume the DGP was y = xβ + υ, and use the OLS estimator β = (x x) -1 x y for estimation of the parameter β. For simplicity, we will consider the case with only a single explanatory variable in the following section. As shown by <ref type="bibr" target="#b20">Franzese and Hays (2007)</ref>, using the non-reduced form of (7) as DGP leads to the following estimate for β:</p><formula xml:id="formula_12">β =(x x) -1 x (ρW y + xβ + W xθ + λW u + ε) plim β =β + ρ Cov(x, W y) Var(x) + θ Cov(x, W x) Var(x) + λ Cov(x, W u) Var(x) + Cov(x, ε) Var(x) ,<label>(11)</label></formula><p>where W y, W x, W u, and ε are omitted variables, producing a bias similar to the conventional (non-spatial) omitted variable bias resulting from Cov(x, υ) = 0. If we assume that we do not suffer from a non-spatial omitted variable bias and ε is indepen-dent and randomly distributed, E(ε|x) = 0, therefore also E(W u|x) = 0, we get an expectation of 0 for the last two terms in (11). As in the standard case of an omitted variable, the bias resulting from estimating a non-spatial OLS if spatial dependence is present depends on Cov(x, z) and Cov(y, z), where z is the omitted variable W y or W x.</p><p>Still, if one argues that the unbiased causal effect of a change in x is given by the direct impacts as described in Table <ref type="table">1</ref>, we need to rewrite the DGP in reduced form:</p><formula xml:id="formula_13">y =(I N -ρW ) -1 (xβ + W xθ + L(λ)ε),<label>(12)</label></formula><p>where x and ε are independent and randomly distributed N (0, σ 2 x ) and N (0, σ 2 ε ) with a mean of zero, and for simplicity we define L(λ) = (I N -λW ) -1 . Consequently, we derive at a different expectation for the estimate in non-spatial OLS models:</p><formula xml:id="formula_14">β =(x x) -1 x (I N -ρW ) -1 (xβ + W xθ + L(λ)ε) =(x x) -1 x (I N -ρW ) -1 xβ + (x x) -1 x (I N -ρW ) -1 W xθ (13) + (x x) -1 x (I N -ρW ) -1 L(λ)ε.</formula><p>For independent random vectors x and symmetric real matrices A, <ref type="bibr" target="#b24">Girard (1989)</ref>; <ref type="bibr" target="#b42">Pace and LeSage (2010)</ref> show that E((x x) -1 x Ax) = N -1 tr(A). Furthermore, we know that E((x x) -1 x L(λ)ε) = 0, as x and ε are independent, and therefore E(ε|x) = 0. Thus, (13) can be simplified to</p><formula xml:id="formula_15">plim β = 1 N tr((I N -ρW ) -1 (β + W θ)),<label>(14)</label></formula><p>which equals the average diagonal elements of (I N -ρW ) -1 (β + W θ). Note that this equals exactly the summary measure for the direct impacts in the GNS model as defined by <ref type="bibr" target="#b32">LeSage and Pace (2009)</ref> and described in Table <ref type="table">1</ref>. Thus, the non-spatial OLS provides an unbiased estimate of the direct impacts, though it does not provide an unbiased estimate of the parameter β. <ref type="bibr" target="#b7">Betz et al. (2019)</ref> show in detail why the parameter estimates of a non-spatial model are even biased if the covariates are randomly distributed but interdependence in the dependent variable (ρ &gt; 0) is present.</p><p>The discussion above shows that non-spatial OLS provides unbiased estimates of the direct impacts if x is exogenous even in case that the true DGP follows a process with spatial autocorrelation and spatial spillover effects. Thus, if we are not particularly interested in spatial effects, a spatially autocorrelated dependent variable does not necessarily require the use of spatial regression models. However, this is only valid if a change in x is exogenously determined and values of the covariates do not follow a spatial pattern. The following section shows in detail under which circumstances the non-spatial estimator is unbiased and which circumstances lead to biased estimates in the non-spatial OLS model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.2.">With spatially dependent covariates</head><p>Though the case of a spatially autocorrelated dependent variable and randomly distributed covariates might be possible, it often seems more plausible that both variables of interest exhibit at least some kind of spatial dependence when using spatial data. For instance in the example above, it seems reasonable to assume that house prices as well as environmental quality are spatially correlated.</p><p>To see what happens to the estimator, we will now consider the case in which not only the dependent but also the covariate x is spatially autocorrelated. Therefore, we define x = δW x + υ, or in reduced form x = (I N -δW ) -1 υ, where υ ∼ N (0, σ 2 υ ), and δ denotes the autocorrelation in x. Consequently, we can rewrite (13) as:</p><formula xml:id="formula_16">β = υ ((I N -δW ) -1 ) (I N -ρW ) -1 (I N -δW ) -1 υ υ ((I N -δW ) -1 ) (I N -δW ) -1 υ β + υ ((I N -δW ) -1 ) (I N -ρW ) -1 (I N -δW ) -1 W υ υ ((I N -δW ) -1 ) (I N -δW ) -1 υ θ (<label>15</label></formula><formula xml:id="formula_17">) + υ ((I N -δW ) -1 ) (I N -ρW ) -1 (I N -δW ) -1 L(λ)ε υ ((I N -δW ) -1 ) (I N -δW ) -1 υ .</formula><p>Multiplying both numerator and denominator by (υ υ) -1 <ref type="bibr" target="#b42">(Pace &amp; LeSage, 2010)</ref> and using E(ε|x) = 0 leads to</p><formula xml:id="formula_18">plim β = tr (I N -δW ) -1 ((I N -δW ) -1 ) (I N -ρW ) -1 tr ((I N -δW ) -1 ) (I N -δW ) -1 β + tr (I N -δW ) -1 ((I N -δW ) -1 ) (I N -ρW ) -1 W tr ((I N -δW ) -1 ) (I N -δW ) -1 θ. (<label>16</label></formula><formula xml:id="formula_19">)</formula><p>To see that terms in (16) exceed the direct impacts in ( <ref type="formula" target="#formula_15">14</ref>) for positive values of ρ and δ, we can rewrite the traces in (16) as the sum of the elements of the Hadamard product</p><formula xml:id="formula_20">plim β = ij (M (δ)M (δ) • M (ρ)) ij tr(M (δ)M (δ) ) β + ij (M (δ)M (δ) • M (ρ)W ) ij tr(M (δ)M (δ) ) θ,<label>(17)</label></formula><p>where • denotes the Hadamard product, M (δ) = (I N -δW ) -1 , and M (ρ) = (I N -ρW ) -1 . Now recall that M (δ) = I N + δW + δ 2 W 2 + ..., thus all diagonal elements of M (δ) &gt; 1 and all off-diagonal elements of M (δ) ≥ 0 for δ &gt; 0, therefore M (δ)M (δ) is a non-negative matrix with all diagonal elements &gt; 1. Similarly, M (ρ) is non-negative with diagonal elements</p><formula xml:id="formula_21">&gt; 1. It follows that ij (M (δ)M (δ) • M (ρ)) ij &gt; tr(M (δ)M (δ) • M (ρ)),<label>(18)</label></formula><p>and using E(a</p><formula xml:id="formula_22">• b) = E(a)E(b) + Cov(a, b)</formula><p>shows that when taking only the traces of ( <ref type="formula" target="#formula_20">17</ref>) instead of the total sum (and leaving aside the positive off-diagonal elements):</p><formula xml:id="formula_23">E tr(M (δ)M (δ) • M (ρ)) tr(M (δ)M (δ) ) = 1 N tr(M (ρ)) + Cov(diag(M (δ)M (δ) ), diag(M (ρ)) N -1 tr(M (δ)M (δ) ) .<label>(19)</label></formula><p>As both M (δ) and M (ρ) are constructed from the same weights matrix W , Cov(diag(M (δ)M (δ) ), diag(M (ρ)) &gt; 0 for positive ρ, δ. Thus, it follows from ( <ref type="formula" target="#formula_21">18</ref>) and ( <ref type="formula" target="#formula_23">19</ref>) that the first term of (17) exceeds the first term of the direct impacts N -1 tr(M (ρ)β) for positive values of δ and ρ. Similarly, the second term of (17) exceeds the second term of the direst impacts N -1 tr(M (ρ)W θ) for positive values of δ and ρ, which adds an additional bias when θ &gt; 0. Thus, βOLS exceeds the direct impacts of N -1 tr(M (ρ)[β + W θ]), and is upwardly biased for positive values of ρ and δ. Furthermore, this bias in the impacts is a non-linear function of the parameter estimates, thereby giving a strong motivation to compare the biases in impacts rather than coefficients. Note that the first part of (17) goes to N -1 tr(M (ρ)β) only if either ρ = 0 or δ = 0 (leading to M (ρ) = I N , or M (δ) = I N respectively), and the second term goes to N -1 tr(M (ρ)W θ) only if δ = 0. Obviously, the latter part of the bias also disappears if θ = 0.</p><p>Note that the bias in the impacts as described above is not related to autocorrelation in the disturbances λ. Respectively, erroneously omitting spatial autocorrelation in the disturbances if λ &gt; 0 would only lead to a loss of efficiency. However, this is only true if the disturbances are independent of our covariates. <ref type="bibr" target="#b32">LeSage and Pace (2009)</ref>; <ref type="bibr" target="#b42">Pace and LeSage (2010)</ref> show that in the presence of an omitted variable and E(ε|x) = 0, spatial correlation in the disturbances leads to an amplification of the non-spatial omitted variable bias. Replacing the random disturbance in (15) by ε = γx + η, where γ defines the covariance between the error term (or an omitted variable) and the covariate x, adds an additional bias of the form</p><formula xml:id="formula_24">+ tr(M (δ)M (δ) M (ρ)L(λ)) tr(M (δ) M (δ)) γ (<label>20</label></formula><formula xml:id="formula_25">)</formula><p>to equation ( <ref type="formula" target="#formula_20">17</ref>). Following the same argument as above, (20) is positive and &gt; γ for positive parameters ρ, δ, λ &gt; 0, but also in the case of ρ, δ = 0 and λ &gt; 0. The term (20) goes to γ only if both ρ, λ = 0.</p><p>In sum, the discussion above provides some important conclusions regarding the bias in non-spatial OLS models. First, if we agree that the unbiased effect estimate of a change in x ik on y ik is given by the average direct impacts, OLS provides unbiased estimates of the true effect even if the dependent variable is spatially autocorrelated and the covariates are exogenous and randomly distributed. Second, several quite realistic constellations of spatial correlation exist, in which non-spatial OLS produces biased estimates of the direct impacts. In particular, the non-spatial OLS estimator βOLS is biased in the presence of either:</p><p>(1) Spatial autocorrelation in the dependent variable (ρ = 0) and spatial autocorrelation in the covariate (δ = 0). This bias increases with ρ, δ, and β. (2) Local spatial spillover effects (θ = 0) and spatial autocorrelation in the covariate (δ = 0). This is analogous to the omitted variable bias resulting from the omission of W x. It increases with θ and δ, but additionally with ρ if θ = 0 and δ = 0. (3) An omitted variable and E(ε|x) = 0. This non-spatial omitted variable bias γ is amplified by spatial dependence in the disturbances (λ) and spatial autocorrelation in the dependent variable (ρ), but also increases with positive values of δ if either ρ = 0 or λ = 0. Obviously, it also increases with γ.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Model selection</head><p>By showing that the non-spatial OLS estimates are biased in some constellations of spatial dependence, the previous chapter gives a strong motivation for the use of spatial regression models. However, as described in Chapter 2.1, a variety of spatial model specifications exist that can be used to account for the spatial structure of the data. Thus, selecting the correct model specification remains a crucial task in applied research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">Specification tests</head><p>One way of selecting the model specification is the application of empirical specification tests. In general, there are two different strategies: a specific-to-general or a generalto-specific approach <ref type="bibr" target="#b19">(Florax, Folmer, &amp; Rey, 2003;</ref><ref type="bibr" target="#b39">Mur &amp; Angulo, 2009)</ref>.</p><p>The specific-to-general approach is more common in spatial econometrics. This approach starts with the most basic non-spatial model and tests for possible misspecifications due to omitted autocorrelation in the error term or the dependent variable. Therefore, <ref type="bibr" target="#b5">Anselin, Bera, Florax, and Yoon (1996)</ref> proposed to use Lagrange multiplier (LM) tests for the hypotheses H 0 : λ = 0 and H 0 : ρ = 0, which are robust against the alternative source of spatial dependence. The specific-to-general approach based on the robust LM test offers a good performance in distinguishing between SAR, SEM, and non-spatial OLS <ref type="bibr" target="#b19">(Florax et al., 2003)</ref>. Still, in their original paper, <ref type="bibr" target="#b5">Anselin et al. (1996)</ref> already note the declining power of the robust LM λ test for spatial error dependence with increasing autocorrelation in the dependent variable (indicating some uncertainty under a SAC-like DGP). Furthermore, <ref type="bibr" target="#b39">Mur and Angulo (2009)</ref> demonstrate strong drawbacks of the specific-to-general approach under nonoptimal conditions like heteroscedasticity or endogeneity. Another shortcoming of this approach is its disregard of spatial dependence from local spillover effects, as resulting from an SLX-like process. <ref type="bibr" target="#b10">Cook et al. (2015)</ref>, for instance, show theoretically that an SLX-like dependence structure leads to the rejection of both hypotheses H 0 : λ = 0 and H 0 : ρ = 0, though no autocorrelation is present (see also <ref type="bibr" target="#b18">Elhorst &amp; Halleck Vega, 2017)</ref>. This is also validated by simulation results: the LM test is not helpful in distinguishing between SDM-and SDEM-like processes, and produces heavily biased results in case of a GNS-like structure (see Table <ref type="table">C1</ref> of the Appendix).</p><p>The general-to-specific approach depicts the opposite method of specification search. This approach starts with the most general model and stepwise imposes restrictions on the parameters of this general model. In theory, one would start with a GNS specification and subsequently restrict the model to simplified specifications based on the significance of parameters in the GNS. The problem with this strategy is that the GNS is only weakly identified and, thus, is of little help in selecting the correct restrictions <ref type="bibr" target="#b9">(Burridge et al., 2016)</ref>. The most intuitive alternative would be to start with one of the two-source models SDM, SDEM, or SAC. This, however, bears the risk of imposing the wrong restriction in the first place <ref type="bibr" target="#b10">(Cook et al., 2015)</ref>. Furthermore, <ref type="bibr" target="#b10">Cook et al. (2015)</ref> show that more complicated restrictions are necessary to derive all single-source models from SDEM or SAC specifications.</p><p>Thus, both ways of specification testing suffer from different sources of uncertainty, thereby making it hard to develop a general guideline for empirically finding the correct model specification. Consequently, scholars have developed other strategies to select the spatial model specification.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">Alternative strategies</head><p>Some argue that the best way of choosing the appropriate model specification is to exclude one or more sources of spatial dependence -autocorrelation in the dependent variable, autocorrelation in the disturbances, or spatial spillover effects of the covariates -by design <ref type="bibr" target="#b22">(Gibbons &amp; Overman, 2012;</ref><ref type="bibr" target="#b23">Gibbons et al., 2015)</ref>. Natural experiments are probably the best way of making one or more sources of spatial dependence unlikely, thereby restricting the model alternatives to a subset of all available models. However, the opportunities to use natural experiments are restricted in social sciences, making it a favourable but often impractical way of model selection. Therefore, <ref type="bibr" target="#b10">Cook et al. (2015)</ref> argue that theoretical considerations should guide the model selection. First, it might be possible to rule out some sources of spatial dependence by theory, and thus restricting the specification alternatives to a subset. Second, theoretical mechanisms might guide the choice of either global or local spillover effects.</p><p>Still, others <ref type="bibr" target="#b17">(Elhorst, 2014;</ref><ref type="bibr" target="#b31">LeSage, 2014;</ref><ref type="bibr" target="#b32">LeSage &amp; Pace, 2009)</ref> argue that there are strong analytical reasons to restrict the model specifications to a subset, as the SDM subsumes the SLX and SAR model, and the SDEM subsumes SLX and SEM. It is easily observed that SDM reduces to SLX if ρ = 0 and to SAR if θ = 0, while the SDEM reduces to SLX if λ = 0 and to SEM if θ = 0. Less intuitively, <ref type="bibr" target="#b2">Anselin (1988)</ref> has also shown that the SDM subsumes the SEM. Therefore, we can express the reduced form of (2) and rearrange terms:</p><formula xml:id="formula_26">y = Xβ + (I N -λW ) -1 ε (I N -λW )y = (I N -λW )Xβ + ε (I N -λW )y = Xβ -λW Xβ + ε y = (I N -λW ) -1 (Xβ + W Xθ + ε). (21)</formula><p>Thus, the SEM constitutes a special case of an SDM with the relative simple restriction θ = -λβ, meaning direct and indirect effects are constrained to a common factor <ref type="bibr" target="#b2">(Anselin, 1988</ref><ref type="bibr" target="#b3">(Anselin, , 2003))</ref>. The fact that SDM subsumes SAR, SLX, and SEM leads to the conclusion that applied research should only consider SDM and SDEM as model specifications <ref type="bibr" target="#b31">(LeSage, 2014)</ref>. Especially in the case of a likely omitted variable bias, <ref type="bibr">LeSage and Pace (2009, p. 68)</ref> argue in favour of using the SDM.</p><p>Nonetheless, others propose to use the SLX specification as point of departure <ref type="bibr" target="#b22">(Gibbons &amp; Overman, 2012;</ref><ref type="bibr" target="#b25">Halleck Vega &amp; Elhorst, 2015)</ref>. First, scholars have argued that SAC and SDM models are only weakly identified in practice <ref type="bibr" target="#b22">(Gibbons &amp; Overman, 2012;</ref><ref type="bibr" target="#b43">Pinkse &amp; Slade, 2010)</ref>. Second, the global spillover specification in SAR, SAC, and SDM often seems to be theoretically implausible. Recall, for instance, the example of 'diffusing' house prices, where the house price in one district influences house prices in neighbouring districts. Specifying a SAR-like process means that house prices directly influence each other. Yet, it might be more plausible that house prices are driven by the demand within the focal, but also by the demand in neighbouring units, which reflects an SLX-like structure. Third, the SLX is computationally efficient, as it can be estimated by using Least Squares. Fourth, it turns attention back to the question of whether X and W X are exogenous, which should be the main focus when investigating the dependence between X and y. Furthermore, SLX, SDM, and SDEM share the advantage that all three models estimate flexible indirect spillover effects, which are not bound to a common ratio between direct and indirect effects for all covariates (as in SAR and SAC).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">Monte Carlo experiment</head><p>As outlined in the previous section, diverging recommendations exist for selecting the model in applied research. To further improve the discussion on the selection of spatial model specifications, this study compares the performance of different spatial model specifications by using a Monte Carlo experiment. Following the discussion above, a Monte Carlo experiment should consider several aspects to provide implications for applied research. First, as proposed by <ref type="bibr" target="#b34">LeSage and Pace (2017)</ref>, it is important to evaluate the bias of the impacts rather than the point estimates. The impacts are the measures of interest in applied research and the bias in impacts follows a non-linear function of the bias in parameter estimates. Second, it is important to incorporate more than one covariate, as bias in one parameter β k could be counterbalanced by a bias in ρ, θ k or λ, thus producing unbiased impacts for covariate k. However, a counterbalancing bias in ρ or λ could, in turn, affect the impacts of other covariates, as the autoregressive parameters affect all covariates. Third, we should evaluate the performance in two different worlds, one without omitted variable (omv) bias and one with omv bias, as this is likely to occur in applied research.</p><p>The DGP of the Monte Carlo simulation follows a GNS and is shown in ( <ref type="formula" target="#formula_27">22</ref>) to ( <ref type="formula" target="#formula_29">24</ref>), where υ k and ε are independent and randomly distributed N (0, σ 2 υ ) and N (0, σ 2 ε ) with a mean of zero, and x k is the kth column-vector of X for k = 1, ..., K covariates (K is fixed at 2 in the simulations). The parameter ρ represents the autocorrelation in the dependent variable, λ the autocorrelation in the disturbances, and δ k the autocorrelation in covariate k.</p><formula xml:id="formula_27">y = ρW y + Xβ + W Xθ + u,<label>(22)</label></formula><formula xml:id="formula_28">u = λW u + Xγ + ε,<label>(23)</label></formula><formula xml:id="formula_29">x k = δ k W x k + υ k . (<label>24</label></formula><formula xml:id="formula_30">)</formula><p>The parameter-vector γ in (23) specifies the correlation between x and the disturbance vector u, thereby defining the strength of an omitted variable bias. In reduced form, this DGP can be written as</p><formula xml:id="formula_31">y =(I N -ρW ) -1 (I N -δ k W ) -1 υ k β k + W (I N -δ k W ) -1 υ k θ k + (I N -λW ) -1 ((I N -δ k W ) -1 υ k γ k + ε) .<label>(25)</label></formula><p>The parameter vector β was fixed at β = 0.2 0.5 , and the noise parameters were fixed at σ 2 υ , σ 2 ε = 1 for all trials. All other parameters vary between the following two options for each parameter (vector):</p><p>• ρ ∈ {0, 0.5}, • λ ∈ {0, 0.5}, • δ ∈ 0 0 , 0.4 0.7 ,</p><p>• θ ∈ 0 0 , 0.1 0.8 ,</p><p>• γ ∈ 0 0 , 0.3 0 , leading to a total of 32 distinct combinations. Note that this selection of parameters intentionally violates the common ratio assumption between direct and indirect effects, as this should be a more common case in practical research. All combinations were simulated in 1000 trials, with the same starting seed for each combination. All spatial models were estimated using R's package spdep <ref type="bibr" target="#b8">(Bivand &amp; Piras, 2015)</ref>.</p><p>The simulations build on a square grid of 900 observations and use a row-normalised ('queen') contiguity weights matrix W , where all units sharing a common border are defined as neighbours, thus w ij &gt; 0 for contiguous units and w ij = 0 otherwise. This setting leads to an average of 7.6 neighbours. Note that many alternative specifications may be chosen and that the choice should be made based on the assumed theoretical mechanisms <ref type="bibr" target="#b40">(Neumayer &amp; Plümper, 2016)</ref>. However, contiguity is the most commonly used weights specification (e.g. <ref type="bibr" target="#b18">Elhorst &amp; Halleck Vega, 2017)</ref>, and has been shown to be the best choice when no theoretical or empirical reasons justify a specific form of connectivity <ref type="bibr" target="#b48">(Stakhovych &amp; Bijmolt, 2009)</ref>. Furthermore, the contiguity weights matrix exhibits a high level of similarity with a wide range of k nearest neighbours matrices <ref type="bibr" target="#b33">(LeSage &amp; Pace, 2014)</ref>, as contiguous neighbours are (most likely) also the nearest neighbours. In accordance, additional simulations using different specifications of W lead to identical conclusions as presented in the following chapter. First and less surprising, all models perform reasonably well when correctly specifying the DGP. For instance, when the DGP follows a SAR-like process (e.g. line 2 and 4), the SAR model yields very precise estimates of direct and indirect impact. Similarly, SDEM yields the lowest bias if the DGP contains positive error-correlation λ &gt; 0 and positive local spillover effects θ &gt; 0, but no correlation in the dependent variable ρ = 0 (see line 13 and 15). These findings hold throughout all model specifications (though SAC could be seen as an exception).</p><p>Direct x1 Direct x2 Indirect x1 Indirect x2 -0.25 0.00 0.25 0.50 -0.25 0.00 0.25 0.50 -1 0 1 2 -1 0 1 2 16</p><p>) 0.5 0.4, 0.7 0.5 0.1, 0.8 15) 0.0 0.4, 0.7 0.5 0.1, 0.8 14) 0.5 0.0, 0.0 0.5 0.1, 0.8 13) 0.0 0.0, 0.0 0.5 0.1, 0.8 12) 0.5 0.4, 0.7 0.0 0.1, 0.8 11) 0.0 0.4, 0.7 0.0 0.1, 0.8 10) 0.5 0.0, 0.0 0.0 0.1, 0.8 9) 0.0 0.0, 0.0 0.0 0.1, 0.8 8) 0.5 0.4, 0.7 0.5 0.0, 0.0 7) 0.0 0.4, 0.7 0.5 0.0, 0.0 6) 0.5 0.0, 0.0 0.5 0.0, 0.0 5) 0.0 0.0, 0.0 0.5 0.0, 0.0 4) 0.5 0.4, 0.7 0.0 0.0, 0.0 3) 0.0 0.4, 0.7 0.0 0.0, 0.0 2) 0.5 0.0, 0.0 0.0 0.0, 0. autocorrelation in the disturbances (W u); θ = spatial spillover effects of covariates (W X); γ = strength of</p><p>omv.</p><p>Second, OLS yields an unbiased estimate of the direct impacts in many situations. The results confirm the theoretical predictions of Chapter 2.3: OLS estimates of the direct impacts are only biased in case of either positive autocorrelation in the dependent variable ρ &gt; 0 and autocorrelation in the covariate δ k &gt; 0 or local spillover effects θ k &gt; 0 and autocorrelation in the covariate δ k &gt; 0. Furthermore, this bias is rather moderate for low values of δ, θ, and β as can been seen in the first column of Figure <ref type="figure" target="#fig_1">1</ref>. Note, however, that the bias is a conservative estimate, because the simulations use a relatively symmetric neighbours weights matrix. For instance, when increasing the variance in the number of neighbours per unit (thereby increasing the covariance between the diagonals of the inverted matrices M (δ) and M (ρ)), the bias in non-spatial OLS becomes more severe (see Equation <ref type="formula" target="#formula_23">19</ref>for the theoretical explanation).</p><p>Third, SLX, SDM, and SDEM all provide quite accurate estimates of the direct impacts (most visible in column 2). SAR, SEM, and SAC, in contrast, yield some drawbacks: especially in the presence of local spillover effects, these three specifications are biased (see lower part of Figure <ref type="figure" target="#fig_1">1</ref>). Furthermore, SAR and SEM suffer from bias if autocorrelation in the disturbance and autocorrelation in the dependent variable are present simultaneously (see line 6 and 8). Though SLX is downwardly biased in case of autocorrelation in the dependent variable and the covariates (e.g. line 12 and 16), and SDM as well as SDEM yield some bias in case of a GNS-like process (line 14 and 16), those biases are rather moderate. This indicates that SLX, SDM, and SDEM are most robust against misspecification regarding the direct impacts.</p><p>Fourth, several differences exist regarding the indirect impacts. Most obviously, the often used SAR specification suffers from considerable bias: it overestimates indirect impacts in case of autocorrelation in the disturbances, and offers biased estimates if local spillover effects exist (which are not restricted to a common ratio). The latter also applies to SAC: though SAC offers relatively accurate estimates for x 2 , it overestimates indirect impacts for x 1 . Regarding the remaining three specifications -SLX, SDM, and SDEM -conclusions are less obvious. SDM and SDEM suffer from large bias for high values of θ (see x 2 ) if the DGP follows a GNS-like process (line 14 and 16): SDM overestimates the indirect impacts, while SDEM underestimates the indirect impacts. In addition, SDM performs badly if the true DGP is SDEM (line 13), and SDEM performs badly if the true DGP is SDM (line 10), whereas the bias increases with higher values of θ k in both cases. Similar to SDEM, SLX underestimates the indirect impacts in presence of global spillovers / autocorrelation in the dependent variable.</p><p>For a better comparison, Figure <ref type="figure" target="#fig_2">2</ref> shows the bias of the indirect impacts in case of a GNS-like processes for different strengths of ρ and λ (for simplicity, we restrict the autocorrelation in covariates to zero and keep the local spillover effects fixed at θ = (0.1, 0.8) ). Respective numbers are shown in Appendix B. Three findings are particularly interesting. First, in a GNS-like situation, the bias in SDM grows with increasing autocorrelation in y (ρ) and increasing autocorrelation in the disturbances (λ). Second, the bias in SLX and SDEM increases with higher values of ρ, but is omv.</p><p>unaffected from the strength of λ. Third, though SLX and SDEM suffer from the same problem, the bias from omitting global autocorrelation is less severe in SLX than in SDEM. Thus, the SLX outperforms SDEM. Furthermore, SLX outperforms SDM in most situations; only if the autocorrelation in the dependent variable is much stronger than the autocorrelation in the disturbances (ρ = 0.9, λ = 0.3), SDM yields lower bias than SLX. 6  In sum, the results of the Monte Carlo experiments show that the three flexible model specifications of SLX, SDM, and SDEM offer an accurate estimate of the direct impacts, and all three specifications are relatively robust against misspecification regarding the direct impacts. However, results regarding the indirect impacts cast some doubt on the advice to consider only SDM or SDEM if no prior knowledge about the cause of spatial correlation is available. Especially in a 'mixed world' (where the true DGP is GNS), the results reveal that SLX offers a good alternative, which is more robust against misspecification in many situations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">Results with omv</head><p>So far, we have only considered the situation where X is perfectly exogenous in a non-spatial sense. However, in applied research one might often face situations in which the covariates might be correlated with the disturbances. Thus, simulations in Figure <ref type="figure" target="#fig_3">3</ref> replicate previous simulations with an omitted variable correlated with x 1 (γ = 0.3 0 ) in a non-spatial way.</p><p>Comparing column 1 of Figures 1 and 3 reveals that OLS suffers from a larger bias due to spatial autocorrelation if x is correlated with the disturbance, confirming results by <ref type="bibr" target="#b42">Pace and LeSage (2010)</ref>. Regarding the direct impacts of variable x 1 , which is affected by the omv bias, SEM exhibits the best estimation results. Yet, the good performance of SEM regarding one variable (x 1 ) is somewhat offset by a relatively large bias in the second variable (x 2 ), as the SEM tends to underestimate the impact of the second variable not affected by the omitted variable in case of positive spatial autocorrelation in y. As in previous results, the bias in SLX, SDM, and SDEM is comparable and lower than in the remaining specifications.</p><p>Turning to the indirect impacts, SDEM reduces the bias in the variable affected by the omv compared to other model specifications. Still, it suffers (as is the case without omv) from a bad performance in the second variable if the DGP contains an autoregressive parameter of the dependent variable (ρ &gt; 0). Furthermore, it becomes apparent that the underestimation of the indirect impacts in case of an GNS-like process without an omv bias (Figure <ref type="figure" target="#fig_1">1</ref>) is somewhat counterbalanced by the positive omv bias leading to an overestimation of the impacts. For instance, in additional Monte Carlo experiments defining a downward bias (γ x1 = -0.1), SDEM amplifies the downward bias. Thus, it seems to depend on the constellation between the impacts and the omv bias whether SDEM reduces or increases the bias. However, a bias towards zero seems to be less severe than an upwardly biased parameter estimate. Another interesting finding is that the estimates of indirect impacts in SDM are affected most strongly by the omitted variable bias. Comparing column 3 in Figures <ref type="figure" target="#fig_1">1</ref> and <ref type="figure" target="#fig_3">3</ref> reveals that estimates in SDM show stronger changes than estimates of SLX and SDEM due to the non-spatial omitted variable (e.g. line 8 and 14). In sum, the second set of Monte Carlo simulations demonstrate that indirect impact estimates of SDEM and SLX are less affected by a non-spatial omv bias than SDM. Furthermore, in specific situations, SDEM may even help to reduce the non-spatial bias.</p><p>Additional simulations (available on request) reveal that the conclusions made above are robust to different variations of the parameters chosen in the DGP. 7 Obviously, as can be seen in Figure <ref type="figure" target="#fig_2">2</ref>, the performance of SDM increases with increasing values of ρ relative to SDEM and SLX, and decreases with increasing values of λ (and vice versa). Still, SDM, SDEM, and SLX yield nearly equal biases regarding the direct impacts, while SLX and SDEM outperform the SDM in terms of the indirect impacts.</p><p>Direct x1 Direct x2 Indirect x1 Indirect x2 -0.25 0.00 0.25 0.50 -0.25 0.00 0.25 0.50 -1 0 1 2 -1 0 1 2 16</p><p>) 0.5 0.4, 0.7 0.5 0.1, 0.8 15) 0.0 0.4, 0.7 0.5 0.1, 0.8 14) 0.5 0.0, 0.0 0.5 0.1, 0.8 13) 0.0 0.0, 0.0 0.5 0.1, 0.8 12) 0.5 0.4, 0.7 0.0 0.1, 0.8 11) 0.0 0.4, 0.7 0.0 0.1, 0.8 10) 0.5 0.0, 0.0 0.0 0.1, 0.8 9) 0.0 0.0, 0.0 0.0 0.1, 0.8 8) 0.5 0.4, 0.7 0.5 0.0, 0.0 7) 0.0 0.4, 0.7 0.5 0.0, 0.0 6) 0.5 0.0, 0.0 0.5 0.0, 0.0 5) 0.0 0.0, 0.0 0.5 0.0, 0.0 4) 0.5 0.4, 0.7 0.0 0.0, 0.0 3) 0.0 0.4, 0.7 0.0 0.0, 0.0 2) 0.5 0.0, 0.0 0.0 0.0, 0. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Conclusion</head><p>The increasing availability of spatial or georeferenced data provides the possibility to investigate spatial research questions. However, analysing spatial data also requires careful consideration regarding the model specification. As has been shown theoretically and empirically, different constellations of the data exist which lead to biased estimates in non-spatial OLS models. Furthermore, non-spatial models disregard the spatial processes inherent in the data, thereby loosing interesting information. To overcome these problems, several spatial model specifications accounting for the spatial dependence can be employed. Nevertheless, the variety of specifications also comes with the problem of selecting the correct specification in applied research, and specification tests are of little help in many situations. Therefore, this study employs a Monte Carlo experiment to systematically compare the bias of the most common spatial regression models in different situations of misspecification. In addition, this study extends previous simulations by relying on the impacts rather than the regression coefficients, as the impacts are the parameters of interest in applied research.</p><p>In line with previous studies <ref type="bibr" target="#b17">(Elhorst, 2014;</ref><ref type="bibr" target="#b31">LeSage, 2014;</ref><ref type="bibr" target="#b32">LeSage &amp; Pace, 2009)</ref>, the Monte Carlo experiment reveals that the most commonly used SAR, SEM, and SAC specifications are outperformed by the more flexible specifications of SDM, SDEM, and SLX. Still, the results contradict the recommendation to consider only SDM and SDEM in applied research. While all three SDM, SDEM, and SLX show only marginal differences in the direct impacts, there are notable differences in the indirect spillover effects. Especially in a 'mixed world', in which the DGP follows a GNS-like structure, SLX produces less biased estimates of indirect impacts than SDM and SDEM. Note that this 'mixed world' resembles a very realistic scenario. In our example, one could argue in favour of all spatial processes: house prices in one district may directly influence house prices in neighbouring districts, house prices may depend on environmental quality in the focal and in contiguous districts, and clustered unobservables are likely to influence the house prices. Although SDEM can help to reduce an upward bias due to omitted variables in the presence of non-spatial endogeneity, this finding needs further investigation, as conclusions seem to depend on the constellation of impacts and omv bias.</p><p>In sum, the results of this paper support the claim recently made by <ref type="bibr" target="#b18">Elhorst and Halleck Vega (2017)</ref>; Halleck <ref type="bibr" target="#b25">Vega and Elhorst (2015)</ref>: if no theoretical reasons justify a specific model, it might be a better option to rely on the simple SLX specification rather than adopting the more complex SDM in applied research. Especially if it is not possible to eliminate one of the three sources of spatial dependence, SLX seems to be a good choice. Furthermore, the SLX is computational simple and intuitively interpretable. In contrast to global spillover effects in SDM, the local spillover effects can be interpreted as the effects of the spatially weighted neighbours (as defined by W ). Beyond that, the spatial spillover effects in SLX can also be 'globalised' to some extent by including separate terms for second or even higher order neighbours, which, in addition, would be a more flexible function than higher order terms of one autoregressive parameter ρ. Moreover, <ref type="bibr" target="#b18">Elhorst and Halleck Vega (2017)</ref> show that the SLXin contrast to other specifications -allows to empirically parameterise the weights matrix W , which can lead to improved estimates of the spillover effects. Taken together, SLX certainly provides a worthwhile alternative to SDM and SDEM.</p><p>Still, it is important to keep in mind that spatial models only give parameter estimates for (conditional) correlations. Simply estimating a model using cross-sectional observational data hardly tells anything about the causal mechanisms underlying these correlations. The causal process underlying the spatial correlation can be the result of either 1) spatial interdependence in the dependent variable, 2) spillover effects in the covariates, or 3) common unobserved shocks. To identify the (spatial) causal effects between two variables of interest, it is necessary to use designs or methods following the counterfactual approach like natural experiments <ref type="bibr" target="#b0">(Angrist &amp; Pischke, 2009</ref><ref type="bibr">, 2015;</ref><ref type="bibr" target="#b38">Morgan &amp; Winship, 2015)</ref>. However, this applies to all empirical research, including non-spatial observational studies. Thus, as is the case with all observational studies, spatial models can provide interesting insights into the correlational structure of the data, but can only be a first step in evaluating the causal mechanisms.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A. Results of Monte Carlo experiment</head><p>Table <ref type="table">A1</ref>. RMSE of direct impacts without omv. β = (0.2, 0.5) , γ = (0, 0) . Table <ref type="table">A3</ref>. RMSE of direct impacts with omv. β = (0.2, 0.5) , γ = (0.3, 0) . Table <ref type="table">A4</ref>. RMSE of indirect impacts with omv. β = (0.2, 0.5) , γ = (0.3, 0) . 1.8377 0.0338 * 1.6697 -0.1388 1.4996 1.5784 0.1775 * -0.8851 0.0 0.4, 0.7 0.5 0.1, 0.8 0.2286 0.0053 0.5274 -0.1162 0.6751 0.0508 0.3217 0.1799 0.2054 * 0.0045 * 0.5 0.4, 0.7 0.5 0.1, 0.8 0.4985 -0.3036 * 1.8747 0.4823 1.8309 0.4265 1.2818 0.7785 0.2474 * -0.6565 Average (absolute bias) 0.2137 0.1343 * 0.6521 0.3971 0.6364 0.1553 0.5002 0.2309 0.1387 * 0.2138 0.1740 * 0.5246 0.3958 0.3656 0.1763 * Lowest bias for x k within the parameter combination. Number of observations=900, repetitions=1000.</p><formula xml:id="formula_32">OLS SLX SAR SEM SAC SDM SDEM ρ δ λ θ x 1 x 2 x 1 x 2 x 1 x 2 x 1 x 2 x 1 x 2 x 1 x 2 x 1 x 2 0.0 0, 0 0.0 0, 0 0.3011 0.0350 * 0.3010 *</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B. Different combinations of autocorrelation</head><p>Table <ref type="table">B1</ref>. Bias of direct impacts for different strengths of autocorrelation. β = (0.2, 0.5) , γ = (0, 0) , δ = (0, 0) , θ = (0.1, 0.8) . Table <ref type="table">B2</ref>. Bias of indirect impacts for different strengths of autocorrelation. β = (0.2, 0.5) , γ = (0, 0) , δ = (0, 0) , θ = (0.1, 0.8) .</p><p>SLX SAR SAC SDM SDEM ρ λ x 1 x 2 x 1 x 2 x 1 x 2 x 1 x 2 x 1 x 2 0.3 0.3 -0.0260 * -0.1971 0.0890 -0.5762 0.2900 -0.0351 * 0.0686 0.3528 -0.0420 -0.2831 0.5 0.3 -0.0978 * -0.5567 0.1863 -0.6482 0.3776 -0.1366 * 0.1374 0.6562 -0.1525 -0.8284 0.7 0.3 -0.3245 * -1.6044 0.4664 -0.6929 0.4893 -0.6352 * 0.3418 1.5363 -0.4851 -2.3461 0.9 0.3 -1.8563 -8.3520 0.7387 -3.6504 * -0.1147 * -6.0352 0.9216 3.9014 -2.3812 -10.6470 0.3 0.5 -0.0245 * -0.1936 0.2670 -0.1768 0.3690 0.0839 * 0.1520 0.8308 -0.0477 -0.3147 0.5 0.5 -0.0958 * -0.5523 0.5008 0.0649 * 0.4480 -0.0739 0.3238 1.6066 -0.1637 -0.8841 0.7 0.5 -0.3219 * -1.5977 1.0849 0.7313 * 0.4992 -0.7792 0.8223 3.7944 -0.4983 -2.4074 0.9 0.5 -1.8524 -8.3378 1.4847 -1.9049 * -0.3411 * -6.8599 1.9225 8.3204 -2.3870 -10.6740 0.3 0.7 -0.0219 * -0.1870 * 0.7086 0.8009 0.5559 0.4223 0.3612 2.0194 -0.0536 -0.3465 0.5 0.7 -0.0925 * -0.5435 1.2625 1.7761 0.6306 0.2161 * 0.7878 3.9738 -0.1731 -0.9316 0.7 0.7 -0.3174 * -1.5845 2.2593 3.4158 0.6228 -0.6721 * 1.7894 8.3603 -0.5078 -2.4529 0.9 0.7 -1.8458 -8.3083 2.2187 -0.2088 * -0.4630 * -7.3746 2.9508 12.8685 -2.3900 -10.6909 0.3 0.9 -0.0166 * -0.1651 * 2.4503 4.6096 1.4205 2.1489 1.1525 6.6166 -0.0586 -0.3737 0.5 0.9 -0.0860 * -0.5139 * 3.3502 6.4141 1.4331 1.7591 2.0378 10.4425 -0.1795 -0.9651 0.7 0.9 -0.3087 * -1.5387 3.9543 7.2462 1.2674 0.4890 * 3.1944 15.0044 -0.5123 -2.4786 0.9 0.9 -1.8342 -8.2010 2.6037 0.6582 * -0.2434 * -7.1352 3.5207 15.1102 -2.3891 -10.6950 Average 0.5701 * 2.6521 1.4766 2.0984 * 0.5979 2.1785 1.2803 5.9622 0.7763 3.5824 (absolute bias) 1.6111 1.7875 1.3882 * 3.6212 2.1794 * Lowest bias for x k within the parameter combination. Number of observations=900, repetitions=1000.</p><p>Table <ref type="table">C1</ref>. Rejection rates of H 0 (Lagrange multiplier test). β = (0.2, 0.5) , γ = (0, 0) .</p><formula xml:id="formula_33">ρ δ λ θ LM λ LMρ LM * λ LM * ρ LM λρ</formula><p>0.0 0, 0 0.0 0, 0 0.0410 0.0440 0.0520 0.0500 0.0580 0.4 0, 0 0.0 0, 0 1.0000 1.0000 0.0920 0.7750 1.0000 0.8 0, 0 0.0 0, 0 1.0000 1.0000 0.3880 0.9990 1.0000 0.0 0.4, 0.7 0.0 0, 0 0.0440 0.0520 0.0550 0.0590 0.0550 0.4 0.4, 0.7 0.0 0, 0 1.0000 1.0000 0.1340 0.9900 1.0000 0.8 0.4, 0.7 0.0 0, 0 1.0000 1.0000 0.9950 1.0000 1.0000 0.0 0, 0 0.4 0, 0 1.0000 1.0000 0.7190 0.1140 1.0000 0.4 0, 0 0.4 0, 0 1.0000 1.0000 0.8560 0.6830 1.0000 0.8 0, 0 0.4 0, 0 1.0000 1.0000 0.8380 0.9780 1.0000 0.0 0.4, 0.7 0.4 0, 0 1.0000 1.0000 0.9430 0.1100 1.0000 0.4 0.4, 0.7 0.4 0, 0 1.0000 1.0000 0.9970 0.9560 1.0000 0.8 0.4, 0.7 0.4 0, 0 1.0000 1.0000 1.0000 1.0000 1.0000 0.0 0, 0 0.8 0, 0 1.0000 1.0000 0.9990 0.2860 1.0000 0.4 0, 0 0.8 0, 0 1.0000 1.0000 0.9960 0.5190 1.0000 0.8 0, 0 0.8 0, 0 1.0000 1.0000 0.7450 0.7410 1.0000 0.0 0.4, 0.7 0.8 0, 0 1.0000 1.0000 1.0000 0.3000 1.0000 0.4 0.4, 0.7 0.8 0, 0 1.0000 1.0000 1.0000 0.7280 1.0000 0.8 0.4, 0.7 0.8 0, 0 1.0000 1.0000 1.0000 0.9410 1.0000 0.0 0, 0 0.0 0.1, 0.8 0.4240 0.9910 1.0000 1.0000 1.0000 0.4 0, 0 0.0 0.1, 0.8 1.0000 1.0000 1.0000 1.0000 1.0000 0.8 0, 0 0.0 0.1, 0.8 1.0000 1.0000 1.0000 1.0000 1.0000 0.0 0.4, 0.7 0.0 0.1, 0.8 0.8320 1.0000 1.0000 1.0000 1.0000 0.4 0.4, 0.7 0.0 0.1, 0.8 1.0000 1.0000 0.9960 1.0000 1.0000 0.8 0.4, 0.7 0.0 0.1, 0.8 1.0000 1.0000 0.4970 1.0000 1.0000 0.0 0, 0 0.4 0.1, 0.8 1.0000 1.0000 0.9900 1.0000 1.0000 0.4 0, 0 0.4 0.1, 0.8 1.0000 1.0000 0.9530 1.0000 1.0000 0.8 0, 0 0.4 0.1, 0.8 1.0000 1.0000 0.8520 1.0000 1.0000 0.0 0.4, 0.7 0.4 0.1, 0.8 1.0000 1.0000 0.9560 1.0000 1.0000 0.4 0.4, 0.7 0.4 0.1, 0.8 1.0000 1.0000 0.0930 1.0000 1.0000 0.8 0.4, 0.7 0.4 0.1, 0.8 1.0000 1.0000 0.9600 1.0000 1.0000 0.0 0, 0 0.8 0.1, 0.8 1.0000 1.0000 0.2590 0.9930 1.0000 0.4 0, 0 0.8 0.1, 0.8 1.0000 1.0000 0.2370 0.9940 1.0000 0.8 0, 0 0.8 0.1, 0.8 1.0000 1.0000 0.1530 0.9940 1.0000 0.0 0.4, 0.7 0.8 0.1, 0.8 1.0000 1.0000 0.9880 1.0000 1.0000 0.4 0.4, 0.7 0.8 0.1, 0.8 1.0000 1.0000 1.0000 1.0000 1.0000 0.8 0.4, 0.7 0.8 0.1, 0.8 1.0000 1.0000 1.0000 1.0000 1.0000 Number of observations=900, repetitions=1000. LM = Lagrange multiplier test, LM * = Robust Lagrange multiplier test, each for H 0 : λ = 0, H 0 : ρ = 0, H 0 : λ, ρ = 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Direct x1</head><p>Direct x2</p><p>Indirect x1 Indirect x2 -0.25 0.00 0.25 0.50 -0.25 0.00 0.25 0.50 -1 0 1 2 -1 0 1 2 16</p><p>) 0.5 0.4, 0.7 0.5 0.1, 0.8 15) 0.0 0.4, 0.7 0.5 0.1, 0.8 14) 0.5 0.0, 0.0 0.5 0.1, 0.8 13) 0.0 0.0, 0.0 0.5 0.1, 0.8 12) 0.5 0.4, 0.7 0.0 0.1, 0.8 11) 0.0 0.4, 0.7 0.0 0.1, 0.8 10) 0.5 0.0, 0.0 0.0 0.1, 0.8 9) 0.0 0.0, 0.0 0.0 0.1, 0.8 8) 0.5 0.4, 0.7 0.5 0.0, 0.0 7) 0.0 0.4, 0.7 0.5 0.0, 0.0 6) 0.5 0.0, 0.0 0.5 0.0, 0.0 5) 0.0 0.0, 0.0 0.5 0.0, 0.0 4) 0.5 0.4, 0.7 0.0 0.0, 0.0 3) 0.0 0.4, 0.7 0.0 0.0, 0.0 2) 0.5 0.0, 0.0 0.0 0.0, 0. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>5 4. 1 .</head><label>51</label><figDesc>Figure1shows the bias of the direct and indirect impacts for the simulations without a non-spatial omitted variable bias. Respective numbers and the root mean squared error (RMSE) are shown in Appendix A. Several findings can be observed in the plot.First and less surprising, all models perform reasonably well when correctly specifying the DGP. For instance, when the DGP follows a SAR-like process (e.g. line 2 and 4), the SAR model yields very precise estimates of direct and indirect impact. Similarly, SDEM yields the lowest bias if the DGP contains positive error-correlation λ &gt; 0 and positive local spillover effects θ &gt; 0, but no correlation in the dependent variable ρ = 0 (see line 13 and 15). These findings hold throughout all model specifications (though SAC could be seen as an exception).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 1 .</head><label>1</label><figDesc>Figure1. Bias of impacts and 95% confidence interval of empirical standard deviation without omv: β = (0.2, 0.5) , γ = (0, 0) . ρ = autocorrelation in the dependent variable (W y); δ = autocorrelation in the covariates (x k = f (W x k )); λ = autocorrelation in the disturbances (W u); θ = spatial spillover effects of covariates (W X); γ = strength of</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 .</head><label>2</label><figDesc>Figure2. Bias of indirect impacts and 95% confidence interval of empirical standard deviation for different strengths of autocorrelation: β = (0.2, 0.5) , γ = (0, 0) , δ = (0, 0) , θ = (0.1, 0.8) . ρ = autocorrelation in the dependent variable (W y); δ = autocorrelation in the covariates (x k = f (W x k )); λ = autocorrelation in the disturbances (W u); θ = spatial spillover effects of covariates (W X); γ = strength of omv.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 3 .</head><label>3</label><figDesc>Figure3. Bias of impacts and 95% confidence interval of empirical standard deviation with omv: β = (0.2, 0.5) , γ = (0.3, 0) . ρ = autocorrelation in the dependent variable (W y); δ = autocorrelation in the covariates (x k = f (W x k )); λ = autocorrelation in the disturbances (W u); θ = spatial spillover effects of covariates (W X); γ = strength of</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>x k within the parameter combination. Number of observations=900, repetitions=1000.TableA2. RMSE of indirect impacts without omv. β = (0.2, 0.5) , γ = (0x k within the parameter combination. Number of observations=900, repetitions=1000.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>x k within the parameter combination. Number of observations=900, repetitions=1000.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>**</head><figDesc>x k within the parameter combination. Number of observations=900, repetitions=1000.TableA5. Bias of direct impacts without omv. β = (0.2, 0.5) , γ = (0Lowest bias for x k within the parameter combination. Number of observations=900, repetitions=1000.TableA6. Bias of indirect impacts without omv. β = (0.2, 0.5) , γ = (0Lowest bias for x k within the parameter combination. Number of observations=900, repetitions=1000.TableA7. Bias of direct impacts with omv. β = (0.2, 0.5) , γ = (0.3x k within the parameter combination. Number of observations=900, repetitions=1000. TableA8. Bias of indirect impacts with omv. β = (0.2, 0.5) , γ = (0</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>*</head><figDesc>Lowest bias for x k within the parameter combination. Number of observations=900, repetitions=1000.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure</head><figDesc>FigureD2. W = inverse distance weighted neighbours (cut-off: 100 neighbours), maximum eigenvalue-normalized. Bias of impacts and 95% confidence interval of empirical standard deviation without omv: β = (0.2, 0.5) , γ = (0, 0) . ρ = autocorrelation in the dependent variable (W y); δ = autocorrelation in the covariates (xk = f (W x k )); λ =</figDesc></figure>
+		</body>
+		<back>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Supplementary results, the R script of the Monte Carlo program, and all other scripts necessary for reproduction of the results are available at the author's GitHub repository: <ref type="url" target="https://github.com/ruettenauer/Reproduction-Material-Spatial-Monte-Carlo-Experiments">https://  github.com/ruettenauer/Reproduction-Material-Spatial-Monte-Carlo-Experiments</ref>.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Notes 1 The model intercept is omitted in all models for simplicity. 2  <ref type="bibr" target="#b22">Gibbons and Overman (2012)</ref> even argue that the SDM is only weakly identified in practice. 3 Though previous literature (e.g. Halleck <ref type="bibr" target="#b25">Vega &amp; Elhorst, 2015;</ref><ref type="bibr" target="#b32">LeSage &amp; Pace, 2009)</ref> has established the notation of direct and indirect impacts, it is important to note that also the direct impacts comprise a spatial 'multiplier' component if we specify an endogenous lagged depended variable, as a change in x i influences y i , which influences y j , which in turn influences y i (see also equation 10).</p><p>4 A power series of ∞ k=0 W k converges to (I -W ) -1 if the maximum absolute eigenvalue of W &lt; 1, which is ensured by standardising W .</p><p>5 See Figure <ref type="figure">D1</ref> for results using inverse distance weighted 10-nearest neighbours and Figure <ref type="figure">D2</ref> for results with maximum eigenvalue-normalised inverse distances weights (cut-off at 100 neighbours for computational efficiency) and a distance decay factor set to 1. Though, in line with previous research <ref type="bibr" target="#b48">(Stakhovych &amp; Bijmolt, 2009)</ref>, the dispersion of the indirect impacts strongly increases with higher levels of connectivity (see Figure <ref type="figure">D2</ref>), the conclusions regarding the relative performance of the different specifications remain unchanged. Additional simulations using the Oklahoma census tract shape file (N=1,046) instead of a symmetric grid produced identical results (not shown). 6 Note that the SAC yields relatively low biases for the indirect impacts in GNS-like processes, but at the same time produces relative large biases in the direct impacts (see Table <ref type="table">B1</ref>). ) 0.5 0.4, 0.7 0.5 0.1, 0.8 15) 0.0 0.4, 0.7 0.5 0.1, 0.8 14) 0.5 0.0, 0.0 0.5 0.1, 0.8 13) 0.0 0.0, 0.0 0.5 0.1, 0.8 12) 0.5 0.4, 0.7 0.0 0.1, 0.8 11) 0.0 0.4, 0.7 0.0 0.1, 0.8 10) 0.5 0.0, 0.0 0.0 0.1, 0.8 9) 0.0 0.0, 0.0 0.0 0.1, 0.8 8) 0.5 0.4, 0.7 0.5 0.0, 0.0 7) 0.0 0.4, 0.7 0.5 0.0, 0.0 6) 0.5 0.0, 0.0 0.5 0.0, 0.0 5) 0.0 0.0, 0.0 0.5 0.0, 0.0 4) 0.5 0.4, 0.7 0.0 0.0, 0.0 3) 0.0 0.4, 0.7 0.0 0.0, 0.0 2) 0.5 0.0, 0.0 0.0 0.0, 0. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>7</head><figDesc>Variations were specified as follows: ρ ∈ {0.3, 0.7}, λ ∈ {0.3, 0.7}, θ = 0.1 0.4 , and γ ∈ { -0.1 0 , -0.3 0 , 0.3 0.2 }.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure</head><figDesc>D1. W = 10-nearest neighbours, inverse distance weighted, row-normalized. Bias of impacts and 95% confidence interval of empirical standard deviation without omv: β = (0.2, 0.5) , γ = (0, 0) . ρ = autocorrelation in the dependent variable (W y); δ = autocorrelation in the covariates (xk = f (W x k )); λ =autocorrelation in the disturbances (W u); θ = spatial spillover effects of covariates (W X); γ = strength of omv.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Angrist</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-S</forename><surname>Pischke</surname></persName>
+		</author>
+		<title level="m">Mostly Harmless Econometrics: An Empiricist&apos;s Companion</title>
+		<meeting><address><addrLine>Princeton</addrLine></address></meeting>
+		<imprint>
+			<publisher>Princeton Univ. Press</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Mastering &apos;Metrics: The Path from Cause to Effect</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Angrist</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-S</forename><surname>Pischke</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<publisher>Princeton Univ. Press</publisher>
+			<pubPlace>Princeton</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial Econometrics: Methods and Models</title>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Spatial Externalities, Spatial Multipliers, and Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Regional Science Review</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="153" to="166" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Spatial Dependence in Linear Regression Models with an Introduction to Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of Applied Economic Statistics</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><forename type="middle">E A</forename><surname>Giles</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Dekker</publisher>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="page" from="237" to="289" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Simple Diagnostic Tests for Spatial Dependence</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Yoon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="77" to="104" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Errors in Variables and Spatial Effects in Hedonic House Price Models of Ambient Air Quality</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Lozano-Gracia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="5" to="34" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial Interdependence and Instrumental Variable Models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Betz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">M</forename><surname>Hollenbach</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="page" from="1" to="16" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Comparing Implementations of Estimation Methods for Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">18</biblScope>
+			<biblScope unit="page" from="1" to="36" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Group Interaction in Research and the Use of General Nesting Spatial Models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Burridge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Zigova</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Econometrics: Qualitative and Limited Dependent Variables</title>
+		<editor>
+			<persName><forename type="first">B</forename><forename type="middle">H</forename><surname>Baltagi</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</editor>
+		<imprint>
+			<publisher>Emerald Group Publishing Limited</publisher>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="223" to="258" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Cook</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<idno>09.07.2017</idno>
+		<ptr target="http://www.sas.rochester.edu/psc/polmeth/papers/CookHaysFranzese.pdf" />
+		<title level="m">Model Specification and Spatial Interdependence: Paper prepared for the 2015 Summer Methods Meeting</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Where is the Economics in Spatial Econometrics?</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Corrado</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Fingleton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="210" to="239" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Neighborhood Immigration and Native Out-Migration</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Crowder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hall</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>Tolnay</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Sociological Review</title>
+		<imprint>
+			<biblScope unit="volume">76</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="25" to="47" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Whose Backyard and What&apos;s at Issue? Spatial and Ideological Dynamics of Local Opposition to Fracking in New York State</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">A</forename><surname>Dokshin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Sociological Review</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="921" to="948" />
+			<date type="published" when="2010">2016. 2010 to 2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Using Geographic Information Systems to Reconceptualize Spatial Relationships and Ecological Context</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Downey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Sociology</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="567" to="612" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">On Two-Step Estimation of a Spatial Autoregressive Model with Autoregressive Disturbances and Endogenous Regressors</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Drukker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Egger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">5-6</biblScope>
+			<biblScope unit="page" from="686" to="733" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Spatial Weights</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Dubin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Sage Handbook of Spatial Analysis</title>
+		<editor>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Rogerson</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Los Angeles and London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Sage</publisher>
+			<date type="published" when="2009">2009</date>
+			<biblScope unit="page" from="125" to="158" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<monogr>
+		<title level="m" type="main">Spatial Econometrics: From Cross-Sectional Data to Spatial Panels</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>Springer</publisher>
+			<pubPlace>Berlin and Heidelberg</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">The SLX Model: Extensions and the Sensitivity of Spatial Spillovers to W</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Vega</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papeles de Economía Española</title>
+		<imprint>
+			<biblScope unit="volume">152</biblScope>
+			<biblScope unit="page" from="34" to="50" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Specification Searches in Spatial Econometrics: The Relevance of Hendry&apos;s</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Florax</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Folmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methodology. Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="557" to="579" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Franzese</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Hays</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Econometric Models of Cross-Sectional Interdependence in Political Science Panel and Time-Series-Cross-Section Data</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="140" to="164" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Friedrichs</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Galster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Musterd</surname></persName>
+		</author>
+		<title level="m">Neighbourhood Effects on Social Opportunities: The European and American Research and Policy Context. Housing Studies</title>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="797" to="806" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Mostly Pointless Spatial Econometrics?</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gibbons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">G</forename><surname>Overman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="172" to="191" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gibbons</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">G</forename><surname>Overman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Patacchini</surname></persName>
+		</author>
+		<title level="m">Handbook of Regional and Urban Economics</title>
+		<editor>
+			<persName><forename type="first">G</forename><surname>Duranton</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">V</forename><surname>Henderson</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">W</forename><forename type="middle">C</forename><surname>Strange</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Amsterdam</addrLine></address></meeting>
+		<imprint>
+			<publisher>Elsevier</publisher>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="115" to="168" />
+		</imprint>
+	</monogr>
+	<note>Spatial Methods</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A Fast &apos;Monte-Carlo Cross-Validation&apos; Procedure for Large Least Squares Problems with Noisy Data</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Girard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Numerische Mathematik</title>
+		<imprint>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="23" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<author>
+			<persName><forename type="first">Halleck</forename><surname>Vega</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Elhorst</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The SLX Model</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="339" to="363" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">A Generalized Spatial Two-Stage Least Squares Procedure for Estimating a Spatial Autoregressive Model with Autoregressive Disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Specification and Estimation of Spatial Autoregressive Models with Autoregressive and Heteroskedastic Disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">157</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="53" to="67" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Kling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Liebman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">F</forename><surname>Katz</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Experimental Analysis of Neighborhood Effects</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="83" to="119" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Asymptotic Distributions of Quasi-Maximum Likelihood Estimators for Spatial Autoregressive Models</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Lee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1899" to="1925" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Contested Boundaries: Explaining where Ethnoracial Diversity Provokes Neighborhood Conflict</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Legewie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schaeffer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Sociology</title>
+		<imprint>
+			<biblScope unit="volume">122</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="125" to="161" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">What Regional Scientists Need to Know about Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Regional Studies</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="13" to="32" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<title level="m">Introduction to Spatial Econometrics</title>
+		<meeting><address><addrLine>Boca Raton</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Biggest Myth in Spatial Econometrics. Econometrics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="217" to="249" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Spatial Econometric Monte Carlo Studies: Raising the Bar</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Empirical Economics</title>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+	<note>in press</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Toward a New Macro-Segregation? Decomposing Segregation within and between Metropolitan Cities and Suburbs</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">T</forename><surname>Lichter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Parisi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">C</forename><surname>Taquino</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Sociological Review</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="843" to="873" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Making a Place for Space: Spatial Thinking in Social Science</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Logan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual Review of Sociology</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="507" to="524" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Identification of Endogenous Social Effects: The Reflection Problem</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Manski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Review of Economic Studies</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="531" to="542" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<title level="m" type="main">Counterfactuals and Causal Inference: Methods and Principles for Social Research</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Morgan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Winship</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<publisher>Cambridge Univ. Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Model Selection Strategies in a Spatial Setting: Some Additional Results</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Angulo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="200" to="213" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">E</forename><surname>Neumayer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Plümper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Science Research and Methods</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">01</biblScope>
+			<biblScope unit="page" from="175" to="193" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Estimation Methods for Models of Spatial Interaction</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">K</forename><surname>Ord</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">349</biblScope>
+			<biblScope unit="page" from="120" to="126" />
+			<date type="published" when="1975">1975</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Omitted Variable Biases of OLS and Spatial Lag Models</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Progress in Spatial Analysis</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Gallo</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><forename type="middle">N</forename><surname>Buliung</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Dall'erba</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Heidelberg</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="17" to="28" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">The Future of Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Pinkse</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Slade</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="103" to="117" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">The Geographic Scale of Metropolitan Racial Segregation</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">F</forename><surname>Reardon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Matthews</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>O'sullivan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">A</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Firebaugh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">R</forename><surname>Farrell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Bischoff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Demography</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="489" to="514" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Neighbours Matter: A Nation-Wide Small-Area Assessment of Environmental Inequality in Germany</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Rüttenauer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science Research</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="page" from="198" to="211" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Beyond Social Capital: Spatial Dynamics of Collective Efficacy for Children</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Sampson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Morenoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Earls</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Sociological Review</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="633" to="660" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Sampson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Morenoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gannon-Rowley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Assessing &quot;Neighborhood Effects&quot;: Social Processes and New Directions in Research</title>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="443" to="478" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Specification of spatial models: A simulation study on weights matrices</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Stakhovych</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">H</forename><surname>Bijmolt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="389" to="408" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">A Computer Movie Simulating Urban Growth in the Detroit Region</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Tobler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economic Geography</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="234" to="240" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,247 @@
+{
+  "dataset_id": "Warehouse_2026_ReplicationCodeForThe_10_6084_m9_figsh",
+  "package": "warehouse:figshare:china_prefecture_cities_gtfp",
+  "dataset": "Green total factor productivity and digital economy - Chinese prefecture-level cities panel",
+  "source_lang": "python",
+  "conversion_method": "name_join:GADM_CHN_ADM2_NL_NAME(pipe-split simplified/traditional + ADM1 fallback for province-level municipalities, verified 108/108)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2026_ReplicationCodeForThe_10_6084_m9_figsh.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "province",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 11,
+        "pct_na": 0.0
+      },
+      {
+        "name": "year",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2014, 2023]",
+        "n_unique": 10,
+        "pct_na": 0.0
+      },
+      {
+        "name": "city",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 108,
+        "pct_na": 0.0
+      },
+      {
+        "name": "所属地域",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 3,
+        "pct_na": 0.0
+      },
+      {
+        "name": "上中下",
+        "class": "int64",
+        "typology": "count",
+        "range": "[1, 3]",
+        "n_unique": 3,
+        "pct_na": 0.0
+      },
+      {
+        "name": "重点城市",
+        "class": "int64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "资源城市",
+        "class": "int64",
+        "typology": "binary",
+        "range": "{0, 1}",
+        "n_unique": 2,
+        "pct_na": 0.0
+      },
+      {
+        "name": "GTFP",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.8978, 1.1678]",
+        "n_unique": 936,
+        "pct_na": 0.0
+      },
+      {
+        "name": "GTFP累计",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.8978, 1.4573]",
+        "n_unique": 924,
+        "pct_na": 0.0
+      },
+      {
+        "name": "GTFP累计2",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.5979, 1.6307]",
+        "n_unique": 924,
+        "pct_na": 0.0
+      },
+      {
+        "name": "EC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.7365, 1.4396]",
+        "n_unique": 762,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TC",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.6968, 1.3308]",
+        "n_unique": 936,
+        "pct_na": 0.0
+      },
+      {
+        "name": "数字经济指数",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0070, 0.6442]",
+        "n_unique": 1080,
+        "pct_na": 0.0
+      },
+      {
+        "name": "数字经济主成分",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-1.5185, 8.6137]",
+        "n_unique": 1080,
+        "pct_na": 0.0
+      },
+      {
+        "name": "产业集聚",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[36.9807, 18311.2318]",
+        "n_unique": 1079,
+        "pct_na": 0.0
+      },
+      {
+        "name": "绿色技术创新",
+        "class": "int64",
+        "typology": "count",
+        "range": "[1, 13321]",
+        "n_unique": 607,
+        "pct_na": 0.0
+      },
+      {
+        "name": "对外开放程度",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 2408700.0000]",
+        "n_unique": 957,
+        "pct_na": 0.0
+      },
+      {
+        "name": "城市化水平",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[28.5852, 90.3444]",
+        "n_unique": 1080,
+        "pct_na": 0.0
+      },
+      {
+        "name": "环境污染水平",
+        "class": "int64",
+        "typology": "count",
+        "range": "[85, 474805]",
+        "n_unique": 1046,
+        "pct_na": 0.0
+      },
+      {
+        "name": "教育事业投入",
+        "class": "int64",
+        "typology": "count",
+        "range": "[93644, 12061443]",
+        "n_unique": 1079,
+        "pct_na": 0.0
+      },
+      {
+        "name": "人均收入水平",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[12480.0000, 206278.0000]",
+        "n_unique": 1077,
+        "pct_na": 0.0
+      },
+      {
+        "name": "邮局数工具变量",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[283449.6053, 91583935.7430]",
+        "n_unique": 940,
+        "pct_na": 0.0
+      },
+      {
+        "name": "政策供给强度",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.0000, 134.0000]",
+        "n_unique": 108,
+        "pct_na": 0.0
+      },
+      {
+        "name": "外商投资占比",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.0000, 0.1019]",
+        "n_unique": 995,
+        "pct_na": 0.0
+      },
+      {
+        "name": "第二产业产值占比",
+        "class": "float64",
+        "typology": "rate",
+        "range": "[0.1159, 0.7319]",
+        "n_unique": 1020,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [
+      {
+        "name": "id",
+        "class": "int64",
+        "pct_na": 0.0
+      }
+    ],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 108,
+    "T": 10,
+    "T_var": "year",
+    "k": 25,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_moyen_T_grand"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": 98.083954,
+      "ymin": 22.023741,
+      "xmax": 122.94236,
+      "ymax": 35.126354
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "Geometrie jointe par nom chinois natif (colonne 'city') contre GADM 4.1 Chine, champ NL_NAME_2 (ADM2, prefectures) et NL_NAME_1+suffixe (ADM1, municipalites de rang provincial : Shanghai/Beijing/Tianjin/Chongqing), avec eclatement des variantes simplifie/traditionnel separees par '|' fournies par GADM lui-meme. 1 alias verifie par recherche independante : Xiangfan (襄樊, nom GADM) renomme Xiangyang (襄阳) le 9 decembre 2010, meme ville, province du Hubei. 108/108 villes verifiees, 0 ligne non appariee."
+  }
+}

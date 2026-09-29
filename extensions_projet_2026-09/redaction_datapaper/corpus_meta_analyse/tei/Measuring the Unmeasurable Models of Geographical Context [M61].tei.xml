@@ -1,0 +1,2137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main"></title>
+				<funder ref="#_SVsYCW7">
+					<orgName type="full">United States National Science Foundation</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical and Earth Sciences</orgName>
+								<orgName type="institution">University of Glasgow</orgName>
+								<address>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="institution">Florida State University</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="department">School of Geographical and Earth Sciences</orgName>
+								<orgName type="institution">University of Glasgow</orgName>
+								<address>
+									<postCode>G12 8QQ</postCode>
+									<settlement>Glasgow</settlement>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">68B193F2EC9C501F0282DDD5D4FEB5E5</idno>
+					<idno type="DOI">10.1080/24694452.2023.2227690</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>behavioral context</term>
+					<term>intrinsic context</term>
+					<term>MGWR</term>
+					<term>place-based geography</term>
+					<term>scale</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The issue of whether place significantly affects spatial behavior has long created both a philosophical and an operational schism within geography. Here we show how these schisms can be bridged by identifying how place and behavior can be linked through recognizing and incorporating what we term intrinsic and behavioral contextual effects into models of spatial behavior. We argue that spatial modeling frameworks that attempt to relate spatial behavior to aspects of people and places might be seriously misspecified if they do not incorporate both types of contextual effects. We compare three popular statistical modeling frameworks that encompass placed-based contextual effects: spatial error models, multilevel models, and multiscale geographically weighted regression (MGWR). Based on Monte Carlo simulation and empirical analysis, we demonstrate the reassuring similarity of the results from the three frameworks but also the superiority of MGWR. The inclusion of essentially unmeasurable effects within a nomothetic framework provides an important bridge between two previously distinct philosophies within geography and acts as a binding force within the discipline.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D</head><p>ating back to at least the Hartshorne-Schaefer debate, geographers have long contemplated and debated whether, and in what circumstances, we might expect geographic processes to remain stable, thereby allowing the study of those processes to be replicable <ref type="bibr">(Hartshorne 1939a</ref><ref type="bibr">(Hartshorne , 1939b</ref><ref type="bibr" target="#b42">(Hartshorne , 1955;;</ref><ref type="bibr" target="#b75">Schaefer 1953)</ref>. A schism arose, which persists to this day, with adherents of a "place-based," largely humanistic, idiographic geography on one side and those who believe that regularities across space can be reliably identified and measured through generally quantitative, nomothetic approaches on the other. For the former, place is seen as an important, yet largely unmeasurable, factor affecting people's behavior; hence, trying to identify regularities across space in such behavior is prone to misspecification. For the latter, although there is frequently noise and randomness involved in decision-making, this is seen as either relatively minor compared to the signals that can be identified from quantitative modeling and spatial analytics, or is spread relatively evenly across space and therefore has little impact on the development and interpretation of models of spatially varying behavior. Both points of view have merit: It seems highly plausible that at least some of our values, norms, and preferences might be a product of where we live and with whom we interact; but equally, it would be very limiting to our understanding of spatial processes if we could not model regularities to identify the key determinants of behavior for optimal resource allocation and prediction. What is needed is a model form that incorporates the largely unseen and often unknown impacts of place on behavior within a nomothetic framework so that these effects can be separated from the more obvious impacts of various sociodemographic determinants of behavior, allowing the latter to be measured more accurately. In essence, we need a model form that accounts for the unmeasurable. In fact, three such frameworks already exist: multiscale geographically weighted regression (MGWR), spatial error models (SEMs), and multilevel models (MLMs). First, though, we consider how place might affect behavior and identify two distinct aspects of place that need to be modeled. We refer to these as intrinsic context and behavioral context.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>The Role of Geographical Context</head><p>The raison d'être of place-based geographies is that there is something about location that affects decision-making, leading to spatially varying behavior that is independent of the identifiable factors that describe both a location and its inhabitants. There is a substantial amount of empirical evidence that supports the notion that many processes related to human behavior do vary over space and there is a vast literature, both theoretical and empirical, that suggests that place matters and that context can have a major impact on people's beliefs, preferences, and actions <ref type="bibr">(Hartshorne 1939a</ref><ref type="bibr">(Hartshorne , 1939b;;</ref><ref type="bibr" target="#b67">Relph 1976;</ref><ref type="bibr" target="#b80">Tuan 1979;</ref><ref type="bibr" target="#b66">Pred 1984;</ref><ref type="bibr" target="#b74">Sayer 1985;</ref><ref type="bibr" target="#b25">Duncan and Savage 1989;</ref><ref type="bibr" target="#b39">Gould 1991;</ref><ref type="bibr" target="#b37">Golledge 1997;</ref><ref type="bibr" target="#b79">Thomae 1999;</ref><ref type="bibr" target="#b43">Harvey and Wardenga 2006;</ref><ref type="bibr" target="#b85">Winter, Kuhn, and Kr€ uger 2009;</ref><ref type="bibr" target="#b38">Goodchild 2011;</ref><ref type="bibr" target="#b84">Winter and Freksa 2012;</ref><ref type="bibr" target="#b1">Agnew 2014</ref>). 1 As <ref type="bibr" target="#b27">Enos (2017)</ref> stated, "Context-or, more precisely, social geography-can directly affect our behavior and is therefore tremendously important" (78).</p><p>Consequently, it is pertinent to ask how and why location might affect behavior. One obvious answer is that a link between place and behavior can arise if a person's actions or beliefs are influenced by the people that person talks to on a regular basis, or by the local media, or by long-term conditions that are peculiar to certain locales and shape a person's outlook on certain issues. Evidence supporting such a linkage can be seen in large-scale geographic variations in preferences for certain types of foods, music, house styles, political parties, and so on <ref type="bibr" target="#b0">(Agnew 1996;</ref><ref type="bibr" target="#b28">Escobar 2001;</ref><ref type="bibr" target="#b77">Shortridge 2003</ref>; S. T. <ref type="bibr" target="#b3">Anderson and West 2006;</ref><ref type="bibr" target="#b48">Hudson 2006;</ref><ref type="bibr" target="#b82">Walker and Li 2007;</ref><ref type="bibr" target="#b12">Braha and de Aguiar 2017;</ref><ref type="bibr" target="#b27">Enos 2017;</ref><ref type="bibr" target="#b32">Fotheringham, Li, and Wolf 2021)</ref>.</p><p>On a more local scale, there are a number of reasons for suspecting that location could have an influence on behavior. For instance, traditions, persistent adverse or beneficial conditions, customs, lifestyles, and psychological profiles common to an area can affect social norms, which in turn affect individual behavior. Several studies, for example, have commented on personality differences across regions and how these can explain behavioral differences. <ref type="bibr" target="#b52">Krug and Kulhavy (1973)</ref>, for example, stated, regarding the United States, "It is clear that practically significant personality differences do exist across the country in a measurable and quantifiable way" (73).</p><p>Similarly, <ref type="bibr" target="#b69">Rentfrow, Jokela, and Lamb (2015)</ref> stated, "Recent investigations indicate that personality traits are unevenly distributed geographically … (these) are associated with a range of important political, economic, social and health outcomes" (1). In a separate study, <ref type="bibr" target="#b68">Rentfrow et al. (2013)</ref> reported that "Characterizations of regions based on the psychological characteristics of the people who live in them are appealing because psychological factors are likely to be the driving forces behind the individuallevel behaviors that eventually get expressed in terms of macrolevel social and economic indicators" (996).</p><p>The argument in each of these studies is that there is something inherent in the psychological profiles of residents of different locations that leads them to react differently to similar stimuli. For instance, many people in the U.S. Upper Midwest can trace their ancestry back to Scandinavia, where an ethos of private deprivation for the public good is more likely to be observed than in other parts of the country, where a feeling of self-reliance and self-governance is more common. These traits, which transcend individual demographic characteristics, can manifest themselves in a variety of ways, such as how people feel about taxation, how they vote, and the lifestyles they lead.</p><p>A second way in which geographical contextual effects could arise is through local media and selective news representation. Several commentators have noted the influence of the news media on the behavior of individuals <ref type="bibr" target="#b7">(Beck et al. 2002;</ref><ref type="bibr" target="#b20">DellaVigna and Kaplan 2007;</ref><ref type="bibr" target="#b45">Hollanders and Vliegenthart 2011;</ref><ref type="bibr" target="#b34">Garz 2018)</ref>. Increasingly few people read neutral media and the slanted view they receive can have a strong influence on both what they believe and how they behave, leading to spatial variations in behavior that are independent of personal characteristics. This phenomenon is growing, and <ref type="bibr" target="#b8">Bishop (2009)</ref> claimed we live in "gated media communities" (74) insofar as we only engage with media that support our views. This leads to a situation where objectivity is diminished, and people rarely change their views. Indeed, initial views often become hardened over time: Even when people hear debates, they tend to only listen to the arguments that support their existing views, especially when they are in the company of like-minded individuals, a trait known as confirmation bias. The massive expansion of information outlets through social media and the Internet in general has only served to further separate people and harden views, which, in some cases, can become extreme.</p><p>Perhaps the most obvious way in which geographical context can affect behavior is through the influence of friends, family, and local organizations, often referred to as social imitation, or the desire to fit in with people around us. That is, who we talk to regularly, either at home, at work, at social gatherings, or in the street, can sway our opinions and values, leading to shared behavioral traits linked to location <ref type="bibr">(Huckfeldt et al. 1995;</ref><ref type="bibr" target="#b47">Huckfeldt and Sprague 1995;</ref><ref type="bibr" target="#b7">Beck et al. 2002)</ref>. This is amplified by what social psychologists refer to as group polarization: Over time, groups become more extreme in the direction of the average opinion of individual group members. This can occur for several reasons, such as individuals not wanting to stand out from the group, hearing the same ideas on a frequent basis increasing the belief that they are correct and hence they are less likely to be questioned, being more extreme in one's opinions brings approbation from the group, and individuals with minority opinions become less likely to air such views, so that debate and contradictory opinions become rare.</p><p>Finally, and most controversially, is the potential role of environmental conditions in behavior. Although many authors have discussed the link between environment and behavior <ref type="bibr" target="#b89">(Zelinsky 1973;</ref><ref type="bibr" target="#b35">Gastil 1975;</ref><ref type="bibr" target="#b2">C. A. Anderson 1987)</ref>, and both human and nonhuman populations have clearly adapted to living in different environments, such a linkage would appear to be limited to explanations of largescale variations in behavior. It is difficult to see how such generally large-scale features could account for smaller scale contextual effects on behavior.</p><p>Whatever combination of factors is responsible for people's values and actions being influenced by where they live, this is amplified by selective migration and the tendency of people to seek out likeminded individuals (homophily) or avoid people with dissimilar views (xenophobia), concepts that have been well documented and researched <ref type="bibr" target="#b72">(Sakoda 1971;</ref><ref type="bibr" target="#b76">Schelling 1971;</ref><ref type="bibr" target="#b11">Borchert 1972;</ref><ref type="bibr" target="#b89">Zelinsky 1973;</ref><ref type="bibr" target="#b8">Bishop 2009)</ref>. This is seen very clearly by the paradox in U.S. presidential elections, where the overall vote is often evenly split between Republicans and Democrats, but where the majority of people live in neighborhoods where the split in the vote is very uneven.</p><p>Despite a wealth of evidence that place matters and that location can help shape preferences and actions, it could be argued that what is referred to as context is merely a catch-all term for those covariates not included in the model either because they have not been conceived of having importance or because they are difficult to measure <ref type="bibr" target="#b44">(Hauser 1970;</ref><ref type="bibr" target="#b55">McAllister 1987;</ref><ref type="bibr" target="#b51">King 1996)</ref>. Even though many sociological and psychological studies have pointed to the relevance of context <ref type="bibr" target="#b52">(Krug and Kulhavy 1973;</ref><ref type="bibr" target="#b7">Beck et al. 2002;</ref><ref type="bibr" target="#b65">Plaut, Markus, and Lachman 2002;</ref><ref type="bibr" target="#b60">Oreg and Katz-Gerro 2006;</ref><ref type="bibr" target="#b69">Rentfrow, Jokela, and Lamb 2015;</ref><ref type="bibr" target="#b27">Enos 2017</ref>) and a great number of studies have espoused the role of location in affecting behavior from a theoretical viewpoint <ref type="bibr" target="#b10">(Books and Prysby 1988;</ref><ref type="bibr" target="#b13">Carsey 1995;</ref><ref type="bibr" target="#b9">Blake 2001;</ref><ref type="bibr" target="#b71">Rousseau and Fried 2001;</ref><ref type="bibr" target="#b14">Chandola et al. 2005;</ref><ref type="bibr" target="#b78">Snedker, Herting, and Walton 2009)</ref>, it could be claimed that whatever the effects of location are, they could, theoretically, be measured and incorporated into the model. There are two counterarguments to such a claim, however.</p><p>The first is that this claim relates to a theoretical construct and in practice, we never have the luxury of both knowing and being able to measure all the relevant variables that affect a person's behavior. Whether context is a real effect or simply a catch-all for variables that cannot be or have not been measured will remain elusive and is arguably somewhat irrelevant. Whatever its source, the ability to capture a context effect within a model is better than not accounting for it at all. By ignoring the potential role of geographical context in shaping human behavior, we risk omitting one or more important explanatory features of behavior that will create misspecification bias in the parameter estimates associated with any covariate that has some degree of covariance with the omitted features (for an example of this, and the calculation of the explicit degree of misspecification bias caused by an omitted variable, see <ref type="bibr" target="#b30">Fotheringham 1983</ref><ref type="bibr" target="#b31">Fotheringham , 1984))</ref>.</p><p>The second argument (see Figure <ref type="figure" target="#fig_0">1</ref>) is that spatial context can influence behavior in two ways and that much of the debate regarding the role of context has arisen because there has either been confusion over these two roles or ignorance of one of them. Suppose we construct a model that relates some aspect of human behavior to a set of attributes we think might influence this behavior. These influences can be divided into those effects we have measured and included in our model and those we have not. Unmeasured effects are those we have not included in our model for one of two reasons: We have not thought to include them (the measurable unmeasured effects) or we cannot measure them (the unmeasurable unmeasured effects). Ideally, we want to minimize (set to zero) the measurable unmeasured effects and we should strive to do this by giving a great deal of thought to model construction and variable selection. We recognize, however, that in many situations there are some effects that we cannot possibly measure. In models of spatial processes, these represent the intangible influences of location and what we call here intrinsic contextual effects. These are the contextual effects that <ref type="bibr" target="#b51">King (1996)</ref> and others claimed that we should strive to eliminate as scientists, a goal that is both admirable and often unattainable. What we can do is to try to remove as many of the unmeasured, measurable effects in our models as possible, but, inevitably, some effects will remain unmeasurable.</p><p>There is, however, a second type of contextual effect, termed here behavioral contextual effects, which relates to the influence of location on how the measured effects in the model affect behavior. Measured exogenous effects can be of two types: (1) those that have a global (i.e., spatially uniform) impact, and (2) those with an impact that is spatially varying. Behavioral contextual effects affect the way a covariate, x, affects the dependent variable y so that for some locations the effect of a change in x on y will be greater than in other locations. In extreme situations, a change in x could lead to an increase in y in some locations but a decrease in others. The implication of this is that even if we were to include in our model all possible influences on a certain type of behavior, and hence eliminate intrinsic contextual effects, behavioral contextual effects could still play a role in determining behavior by varying the way in which each measured attribute influences behavior across locations. For instance, such behavioral contextual effects would occur if young voters had a greater preference for a particular political party in one part of a country than in another, ceteris paribus. <ref type="bibr" target="#b7">Beck et al. (2002)</ref> commented on this view of context in U.S. voting behavior: American voters do not operate in the social vacuum that much of the contemporary voting literature seems to assume. Rather, voters' enduring personal characteristics interact with the messages they are receiving from the established social context in which they operate. This context cannot be ignored in trying to understand voting and electoral outcomes in any election. ( <ref type="formula">69)</ref>The distinction we make here in the two ways context can influence behavior is important for what follows because models that claim to incorporate contextual effects should be able to capture both intrinsic and behavioral contextual effects. To clarify the difference between intrinsic and behavioral contextual effects, a set of hypothetical scenarios for each is presented in Table <ref type="table" target="#tab_0">1</ref>.</p><p>Despite the common acceptance that context can and often does affect people's behavior and that the effects of context will vary by location, there remain several questions about its role in determining behavior. As Enos (2017) stated, "Nobody doubts that context can affect behavior and careful studies of 'neighborhood effects' have strongly suggested it can. However, the exact nature of contextual effects-how much they really matter-is elusive to researchers" (120). This sentiment was echoed by <ref type="bibr" target="#b59">O'Loughlin (2018)</ref>, "But if context has remained a mantra in political geography, how do we measure its importance?" (148). Braha and de Aguiar (2017) concurred, "The question of how to separate and measure the effect of social influence is therefore a major challenge for understanding collective human behavior" (1).</p><p>It is also clear from the preceding discussion that the potential causes of a contextual effect on behavior might relate to different spatial scales, from the very local (talking to neighbors) to the regional (general psychological ethos). Places are also embedded in networks of varying spatial extent and linked to each other via flows of people and goods <ref type="bibr" target="#b17">(Chetty et al. 2022)</ref>. Consequently, any modeling of context needs to allow for such variations and for the possibility that contextual effects could have different spatial domains for different processes. We now examine three popular statistical modeling frameworks that incorporate geographical context to varying degrees.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Models That Incorporate Geographical Context Multiscale Geographically Weighted Regression</head><p>Consider a traditional ordinary least squares (OLS) regression model of the form shown in Equation 1:</p><formula xml:id="formula_0">y i ¼ b 0 þ b 1 x 1i þ b 2 x 2i þ Á Á Á þ b k x ki þ e i<label>(1)</label></formula><p>where y i is the variable of interest measured at location i, x 1i , x 2i , :::, x ki are covariates, again measured at location i, b 0 is the intercept, b 1 , b 2 , :::, b k are slope parameters, and e i is a random error term. Each of the slope parameters represents the conditional effect of a change in the respective covariate on y and hence is an indicator of a specific process operating to contribute to the value of y observed at each location. Consequently, it is from the estimates of these parameters obtained in the calibration of the model that we make inferences about each of the processes that together create the observed distribution of y.</p><p>A fundamental assumption of the model represented in Equation 1 is that the processes being inferred through the parameters of the model are stationary over space. Such an assumption allows us to collect data from various spatial locations and use all these data to calibrate the model to produce a single estimate of each parameter. Processes involving the beliefs, preferences, and actions of human beings could well vary according to location. Indeed, a huge literature exists supporting this idea <ref type="bibr" target="#b21">(Diez-Roux 1998</ref><ref type="bibr">, 2001;</ref><ref type="bibr" target="#b28">Escobar 2001;</ref><ref type="bibr" target="#b65">Plaut, Markus, and Lachman 2002;</ref><ref type="bibr" target="#b19">Darmofal 2008;</ref><ref type="bibr" target="#b16">Chetty and Hendren 2018;</ref><ref type="bibr" target="#b73">Sampson 2019)</ref>. To accommodate possible spatial process heterogeneity, various modeling paradigms have been developed by geographers and statisticians that overcome the limitation of global models by allowing the parameters in a model to vary over space, as typified by Equation <ref type="formula" target="#formula_1">2</ref>:</p><formula xml:id="formula_1">y i ¼ b 0i þ b 1i x 1i þ b 2i x 2i þ Á Á Á þ b ki x ki þ e i<label>(2)</label></formula><p>where x ji is an observation of the kth explanatory variable at location i, b ki is the kth parameter estimate that is now specific to location i, and e i is a random error term. In this representation of the world, spatial process variation is accommodated by the flexibility of allowing each parameter to vary over space. Here we calibrate a model of the type shown in Equation 2 by MGWR because information on both intrinsic and behavioral contextual effects can be obtained through estimates of the local intercept and local slope parameters, respectively <ref type="bibr" target="#b33">(Fotheringham, Yang, and Kang 2017)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Spatial Error Models</head><p>Another class of models that incorporate spatial contextual effects are spatial econometric models, the most common of which are the spatial lag model  <ref type="bibr" target="#b32">Fotheringham, Li, and Wolf (2021)</ref> and Li and Fotheringham (2022).  c There is substantial evidence, dating back to at least 1938, of spatial variations in the way doctors practice medicine, a term referred to as practice pattern variation <ref type="bibr" target="#b36">(Glover 1938;</ref><ref type="bibr" target="#b83">Wennberg 2011)</ref>.</p><p>(SLM) and the SEM <ref type="bibr" target="#b4">(Anselin 1988;</ref><ref type="bibr" target="#b5">Anselin and Bera 1998;</ref><ref type="bibr" target="#b63">Pace and LeSage 2010)</ref>. These models are primarily used to remove spatial autocorrelation in the residuals by using a spatial autoregressive process on either the outcomes (SLM) or on the errors (SEM). The SLM cannot be directly compared with MGWR because the spatial interaction effects between observations in the SLM model are not explicitly included in the MGWR model. Recent studies, however, have proposed hybrid models that combine MGWR with SLM (e.g., <ref type="bibr" target="#b15">Chen et al. 2022)</ref>. The SEM, however, can be considered as a special case of MGWR where the filtered autoregressive residuals have a similar effect to the local intercept in MGWR, capturing locational influences that are omitted or misspecified in the model. The SEM model, however, only includes global parameter estimates, so the effects associated with covariates are not allowed to vary spatially. Consequently, although an SEM can capture intrinsic contextual effects, it cannot capture behavioral contextual effects (see Figure <ref type="figure" target="#fig_0">1</ref>). Furthermore, the SEM is conditioned on the spatial weight matrix specification, which is often arbitrary, and it does not allow for inference on the intrinsic contextual facts. The spatial error model explicitly accounts for any spatial dependence in the errors by spatially filtering the error term using a spatial autoregressive component <ref type="bibr" target="#b4">(Anselin 1988</ref>). The SEM is formulated as</p><formula xml:id="formula_2">y ¼ Xb þ u (3) u ¼ kWu þ e (<label>4</label></formula><formula xml:id="formula_3">)</formula><p>where u is the unfiltered error term, k is the parameter for the spatial autoregressive term, W is an n by n spatial weights matrix, and e is the remaining random error. The parameter k measures the sign and the magnitude of the spatial dependency in the error term. When k is zero, the regression function reduces to OLS. The weight matrix W can be specified a priori in many different ways, which adds an element of subjectivity to the model calibration (see <ref type="bibr" target="#b87">Yu and Fotheringham [2022]</ref> for examples of the dependency of measures of spatial dependency on the definition of the spatial weights matrix).</p><p>Common examples of a priori definitions include those based on Queen or Rook contiguities, k nearest neighbors, and a fixed distance band with or without a decay function. Alternatively, the spatial weights matrix can be selected using a data-driven process to find the appropriate specification that optimizes a model selection criterion such as Akaike's information criterion (AIC) or Bayesian information criterion (BIC; Chi and Zhu 2019). Consequently, the term kWu is the spatial autoregressive error term centered at zero and exhibiting a certain spatial pattern conditional on the strength of the error autocorrelation and the spatial weights matrix. By combining Equations 3 and 4, we can see in Equation <ref type="formula" target="#formula_4">5</ref>that kWu þ b 0 serves a similar role to the local intercept vector b 0 in an MGWR model, which can be interpreted as an intrinsic contextual effect that is independent of the compositional effect. SEM, however, is not able to capture behavioral contextual effects because the rest of the equation remains the same for all locations.</p><formula xml:id="formula_4">y ¼ ðkWu þ b 0 Þ þ Xb 6 ¼0 þ e<label>(5)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Multilevel Models</head><p>Another framework that can capture contextual effects, which is not strictly spatial but has been widely applied to geographic data, is that of MLM (also known as mixed modeling or hierarchical linear modeling). Geographic data are often multilevel: Examples include children within school districts, houses within neighborhoods, and counties within states. MLMs acknowledge that there might be heterogeneity in relationships between levels of the hierarchy that can be modeled by so-called random effects. Examples of MLM applications in geographical studies include modeling the health outcomes of individuals exposed to environmental effects <ref type="bibr" target="#b24">(Duncan, Jones, and Moon 1998;</ref><ref type="bibr" target="#b88">Zahnd and McLafferty 2017;</ref><ref type="bibr" target="#b54">Ma et al. 2018)</ref>, measuring neighborhood effects of house prices <ref type="bibr" target="#b61">(Orford 2000;</ref><ref type="bibr" target="#b23">Dong et al. 2015)</ref>, and estimating small area statistics by combining aggregated and survey data <ref type="bibr" target="#b81">(Twigg, Moon, and Jones 2000;</ref><ref type="bibr" target="#b64">Park, Gelman, and Bafumi 2004)</ref>. MLMs are not able to capture intrinsic and behavioral contextual effects at the individual level but can model these effects at an aggregated or higher level. The aggregated level needs to be defined a priori, however, which is not always possible, and might be subject to the modifiable area unit problem (MAUP) if the underlying processes operate at different spatial scales to those defined a priori.</p><p>MLMs are appropriate for hierarchically structured data, a data type quite commonly found in geographical analysis. For simplicity, we present a two-level model, with individuals and groups and with only two covariates, but more complex MLMs can be constructed in similar ways with many nested hierarchical levels. The Level 1 (individuals) regression model is</p><formula xml:id="formula_5">y ip ¼ b 0p þ b 1p x 1ip þ b 2p x 2ip þ e ip<label>(6)</label></formula><p>where y ip is the dependent variable for observation i that belongs to a second level group p, b 0p is the intercept term for group p, x 1ip and x 2ip are the covariate values for observation i in group p, b 1p and b 2p are the slopes for group p, and e ip is the random error. The intercept and slope parameters can vary across the second-level groups which are shown as:</p><formula xml:id="formula_6">b 0p ¼ b 0 þ l 0p (<label>7</label></formula><formula xml:id="formula_7">) b 1p ¼ b 1 þ l 1p (<label>8</label></formula><formula xml:id="formula_8">) b 2p ¼ b 2 þ l 2p<label>(9)</label></formula><p>where b 0 is the overall global intercept parameter and l 0p is the random effect measuring the deviation of the intercept of group p from the overall intercept. Similarly, b 1 and b 2 are the overall global slope parameters and l 1p and l 2p are their deviations from the overall effects. In a standard MLM, each of the three random effects (l 0p , l 1p , l 2p Þ follows a normal distribution with a mean of zero and an unknown variance, and the estimated variance indicates the magnitude of the between-group heterogeneity. Consequently, spatial contextual effects are represented in the model by variations in the parameter estimates across the groups. There are three types of MLMs. When both l 1p ¼ 0 and l 2p ¼ 0, this is termed a varying intercepts model and it can only account for intrinsic contextual effects. When only l 0p ¼ 0, this is a varying slopes model, which allows slopes to vary across the groups, thus capturing behavioral contextual effects. When all the random effects are nonzero, this is a varying intercepts and slopes model, which is the most flexible specification that can account for both intrinsic and behavioral contextual effects. Of course, the degree to which contextual effects can be described is constrained by the a priori definition of the groups. When all the random effects are zero, the MLM reduces to a linear regression model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Summary of the Mechanisms to Encompass Context Effect in Models</head><p>Table <ref type="table" target="#tab_1">2</ref> summarizes different modeling approaches to incorporate intrinsic and behavioral contextual effects. MGWR estimates spatially varying local intercept and slopes, which measure intrinsic and behavioral contextual effects, respectively. SEM uses a spatial autoregressive error to represent intrinsic contextual effects but being a global model, it cannot capture any behavioral contextual effects. MLM, with its estimates of varying intercepts and slopes, is able to capture both intrinsic and behavioral contextual effects, but these can only be measured at a predefined aggregated level. The spatial regimes in which the intrinsic and behavioral contextual effects operate are constrained to be the same, whereas in </p><formula xml:id="formula_9">error þ global intercept (b 0 þ kWu)</formula><p>The spatial regimes of the intrinsic contextual effects are determined by an a priori spatial weights matrix</p><formula xml:id="formula_10">N/A MLM Global intercept þ group-level varying intercept (b 0 þ l 0 )</formula><p>The spatial regimes of the intrinsic contextual effects are determined a priori Global slopes þ group-level varying slopes (b 6 ¼0 þ l 6 ¼0 )</p><p>The spatial regimes of each behavioral contextual effect are identical and determined a priori Note: MGWR ¼ multiscale geographically weighted regression; SEM ¼ spatial error model; MLM ¼ multilevel model.</p><p>practice different contextual effects might operate over very different spatial extents. In the next sections, we demonstrate and compare the behaviors of all three modeling approaches using both simulated and empirical data sets. The data and code used in this study are available in the public repository at <ref type="url" target="https://anonymous.4open.science/r/context_model_comparison-3F53/">https://anonymous.4open.science/r/context_model_  comparison-3F53/</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Comparisons between Models Using Simulated Data Monte Carlo Simulation Design</head><p>To compare the behavior of MGWR, SEM, and MLM models in terms of their ability to capture spatial contextual effects, three spatially varying processes, b 0 , b 1 , b 2 , operating at different spatial scales, were simulated across a 40 Â 40 grid yielding a total of 1,600 observations. Processes b 0 and b 1 are Gaussian random fields GRF ð2, X) with mean of 2 and covariance of X, which is defined as:</p><formula xml:id="formula_11">X h ð Þ ¼ exp À0:5Ãðd=hÞ 2 (<label>10</label></formula><formula xml:id="formula_12">)</formula><p>where d is an n Â n matrix containing pairwise distances for all locations, and h is a scale parameter indicating the amount of distance decay in the covariance function. Process b 0 is generated with h ¼ 6 and operates at a local scale. Process b 1 is simulated with h ¼ 12 yielding regional spatial variation, and process b 2 is constant with mean 2 and no spatial variation, representing a global process. The GRF surfaces were constructed using the gstools Python package <ref type="bibr">(M€ uller et al. 2022)</ref> and are shown in Figure <ref type="figure" target="#fig_1">2</ref>.</p><p>A model is then specified as:</p><formula xml:id="formula_13">y ¼ b 0 þ b 1 X 1 þ b 2 X 2 þ e<label>(11)</label></formula><p>where spatial variation in b 0 would indicate intrinsic contextual effects and spatial variation in b 1 and b 2 would indicate behavioral contextual effects. Both covariates and the errors were drawn from a standard normal distribution N (0, 1). For the Monte Carlo simulation, 1,000 realizations of the error terms were generated and for each realization the dependent variable was reconstructed according to the model in Equation <ref type="formula" target="#formula_13">11</ref>. An MGWR model and an SEM were calibrated based on the simulated data sets using the mgwr and spreg Python packages, respectively <ref type="bibr" target="#b70">(Rey and Anselin 2010;</ref><ref type="bibr" target="#b62">Oshan et al. 2019)</ref>. The default setting for MGWR is used with an adaptive bisquare kernel. For the SEM, we adopted two approaches to specify the spatial weights matrix: (1) a Queen contiguity-based (SEM Queen), and (2) an AIC-based model selection procedure to select the number of nearest neighbors (SEM AIC-KNN). To calibrate an MLM, a second-level framework is needed, and we designed two aggregated levels, one consisting of a 4 Â 4 matrix with each cell containing 100 individuals, and the other consisting of an 8 Â 8 matrix with each cell containing 25 individuals, as depicted in Figure <ref type="figure" target="#fig_2">3</ref>. The MLMs were calibrated using the lme4 R package <ref type="bibr" target="#b6">(Bates et al. 2015)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Comparison of Parameter Estimation Accuracy and Sensitivity</head><p>The parameter estimates from all three models averaged across the 1,000 realizations are visualized in Figure <ref type="figure" target="#fig_3">4</ref>. Compared to the true data generating processes, MGWR produces estimates of all three parameters that are smooth and highly accurate. The results of calibrating the two SEM models indicate that although the spatially autoregressive error component shows a similar pattern to the local intercept b 0 , it cannot pick up any behavioral contextual effects in b 1 : In addition, using a Queen-based spatial weight matrix, which only considers first-order neighbor contiguity, the model is not able to capture accurately the intrinsic context effect that varies more regionally. In comparison, the data-driven k nearest neighbors (KNN)-based weight matrix selects nearest neighbors in the range of twenty to sixty, which better reflects the scale of the spatial dependency in the intrinsic contextual effect. For MLM, it is clear that for the spatially varying processes, b 0 and b 1 , such models can approximate the spatial heterogeneity operating at the aggregated level but only crudely, and this is limited by the definition of the upper level geographic divisions. Obviously, the finer the divisions available at the upper level, the better the representation of the spatial varying process will be, but this is a clear limitation of the MLM framework.</p><p>Next, we calculate several quantitative measures to evaluate the accuracy and sensitivity of the parameter estimates across the three models for the 1,000 Monte Carlo realizations. First, the root mean squared error (RMSE) for the parameter estimates of covariate k is expressed as:</p><formula xml:id="formula_14">RMSE km ¼ ffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffiffi ffi 1 n X n i¼1 bikm À b ik Þ 2 s (<label>12</label></formula><formula xml:id="formula_15">)</formula><p>where bikm is the parameter estimate for covariate k at location i 2 f1, :::, ng from the mth realization (m 2 f1, :::, 1000g) in the Monte Carlo simulation, and b ik is the true parameter. RMSE measures the overall accuracy of how parameter estimates replicate each true spatially varying process. Figure <ref type="figure" target="#fig_4">5</ref> describes five sets of box plots of RMSE values for each of the three parameter estimates of b 0 , b 1 , b 2 obtained from the following models calibrated with the Monte-Carlo simulated data:</p><p>1. SEM (with queen-based contiguity) 2. SEM (with KNN-based contiguity) 3. MLM (with a 4 x 4 upper level division of the hierarchy) 4. MLM (with an 8 x 8 upper level division of the hierarchy) 5. MGWR In terms of modeling the local process b 0 , MGWR is most accurate, followed by the SEM with a KNN spatial weight matrix, then the MLM with a finer spatial upper division (8 Â 8) and then the SEM with Queen spatial weight matrix. The MLM with a coarse geographic division (4 Â 4) is considerably poorer in replicating the spatially varying intercept than the other four models. Regarding the modeling of process b 1 , the MGWR results are again the most accurate. The two SEMs only produce global estimates, so the RMSEs are 1; that is, the global variance of b 1 : The MLM with a finer division is more accurate than the one with a coarse division. For the global process b 2 , the RMSE for all five models is low, close to zero.</p><p>Next, we calculated the average bias of the estimators obtained from the Monte Carlo simulation across all the locations as an indicator of how each of the five models measures the global trend in the process, which is given by:</p><formula xml:id="formula_16">Bias k ¼ 1 nÃ1000 X n i¼1 X 1000 m¼1 bikm À b ik<label>(13)</label></formula><p>where Bias k is the average bias for estimator bk of covariate k. The results for all five models are shown in Table <ref type="table" target="#tab_2">3</ref>. Overall, all five models have a small average bias, meaning that the global mean level of the spatially varying process (which is 2, as specified in the GRF) is estimated accurately. It is worth noting that MGWR and MLM can capture both intrinsic and behavioral effects, so these models have a relatively lower bias than the SEMs, which can only capture the intrinsic contextual effect. It is well known that the global estimators are unbiased if the true data generating process follows the specification of SEM <ref type="bibr" target="#b4">(Anselin 1988</ref>), but when there are behavioral  context effects present, this assumption is violated, and it will introduce a small bias to the estimators even when estimating the global mean level.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Comparison of Model Residual Spatial Autocorrelation</head><p>We compare the remaining spatial autocorrelation in the residuals of all five models to check the assumption of spatial independence. Moran's I values (based on Queen contiguity spatial weight matrix) were calculated for each realization of the Monte Carlo simulations and the box plots of these values are shown in Figure <ref type="figure" target="#fig_5">6</ref>, with the spatial and density distribution of the residuals for a single realization shown in Figure <ref type="figure" target="#fig_6">7</ref>. Residuals from MGWR, SEM, and MLM with a relatively finer geographic division (8 Â 8) have Moran's I values closer to zero, indicating the spatial effects are accounted for in the models and the residuals are spatially random. MLM with a coarse geographic division (4 Â 4) still has a   substantial amount of spatial effect that is not captured by the model resulting in spatial autocorrelation in the residuals with Moran's I close to 0.3. This is further evidenced in Figure <ref type="figure" target="#fig_6">7</ref>, where a clear spatial clustered pattern can be observed in the residuals from the MLM (4 Â 4). The residuals of all other models exhibit a random spatial pattern, among which the MGWR residuals have the lowest magnitude of residuals and the narrowest density distribution.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Comparisons between Models Based on Empirical Data</head><p>In this section, we applied MGWR, MLM, and SEM to a county-level 2020 U.S. presidential election model previously employed by <ref type="bibr" target="#b32">Fotheringham, Li, and Wolf (2021)</ref> and <ref type="bibr" target="#b53">Li and Fotheringham (2022)</ref>. Data were originally obtained from the MIT Election Lab and the American Community Survey 2015-2019. The dependent variable used is the percentage of people who voted for the Democratic Party in a two-party fight between Republicans and Democrats in the 2020 presidential election. There are fourteen county-level covariates in the model including sex ratio, percentage of population aged eighteen to twenty-nine, percentage of population aged sixty-five and over, percentage of African Americans, percentage of Hispanics, median household income, percentage of population with a bachelor's degree, percentage of population employed in the manufacturing industry, percentage of foreign born, percentage of health-insured population, natural logarithm of population density, percentage of third-party vote, Gini index, and the voter turnout. For the MLM, we fitted a varying intercept and slope model that allows for random effects to operate at the state level. For the SEM, we fitted models with both a Queen-based and KNN (optimal k ¼ 14) based spatial weights matrix. For a general comparison of goodness of fit, the R 2 values are 0.95 for MGWR, 0.93 for MLM, 0.89 for SEM-Queen and 0.88 for SEM-KNN.</p><p>Figure <ref type="figure" target="#fig_7">8</ref> shows a comparison between the local intercept for MGWR, the state-level random intercept for MLM, and the spatial autoregressive error for SEM (KNN and Queen). We find strong similarities between these four sets of estimates of intrinsic contextual effects with contextual effects in counties in the Southern states leading to a reduced vote for the Democratic Party and contextual effects in counties in the Pacific West, Upper Midwest and Northeast leading to an increased vote for the Democratic Party. Figure <ref type="figure" target="#fig_8">9</ref> compares the behavioral contextual effects associated with the covariates. As SEM only produces global estimates, here we excluded it from the comparison and focus on MGWR and MLM. Again, the spatial heterogeneity appears to be similar, although MLM operates at the state level, whereas MGWR has county-level estimates. Also, the degree of spatial heterogeneity in the behavioral contextual effects from MLM is constant across all the covariates, whereas through the estimation of covariate-specific bandwidth parameters, it is allowed to vary. It is worth noting that spatial structure and associated effects can be introduced into MLMs, as in the work of <ref type="bibr" target="#b23">and Dong et al. (2015)</ref> and <ref type="bibr" target="#b86">Wolf et al. (2021)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Summary</head><p>Does location influence behavior? If it does, to what extent does it affect behavior? These are both hugely important questions for the modeling of geographic processes. If behavior is influenced by location to a significant degree, then models of human behavior must incorporate some mechanism to capture the influence of place, otherwise the results of calibrating such models might be seriously misleading. Here we identify two types of spatial contextual effects, the ignorance of which might create serious misspecification biases in spatial models. Intrinsic contextual effects describe the omission from a model of the often unmeasurable facets of place that can affect behavior. Behavioral contextual effects exist if the conditioned relationship of a covariate x on the variable of interest y varies by location. We then examine three models, MGWR, SEM and MLM, which can account for place-based effects.</p><p>Using Monte Carlo simulations and an empirical data set on voting in the 2020 U.S. presidential election, we show that the three modeling techniques reassuringly produce similar estimated spatial patterns of intrinsic contextual effects, with MGWR having the best accuracy. The accuracy of MLM is limited by the a priori definition of the upper hierarchical level(s) and the accuracy of the estimates in SEM are a function of an a priori definition of the spatial weights matrix between locations. Only MGWR and MLM can account for behavioral contextual effects, as SEM is a global modeling framework. Again, the estimates from MGWR and MLM are similar, with the spatial resolution of the estimates from MGWR being greater because there is no need in this framework to define an aggregated set of spatial units. The spatial variation in behavioral contextual effects across covariates is also allowed to vary in MGWR but is a constant in MLM. MGWR is shown to be able to account for both intrinsic and behavioral contextual effects, does not depend on any a priori definitions of spatial units or spatial contiguity measures, produces standard errors for the estimates of both intrinsic and behavioral contextual effects, generates the most accurate estimates of contextual effects, and creates the greatest reduction in residual spatial dependency. For these reasons, if the goal is to account for and measure place-based influences on behavior, MGWR would appear to represent the best practice.</p><p>Not accounting for the influence of place on behavior has several potentially severe consequences for the analysis of spatial behavior, the most obvious being the incorrect estimation of the effects on y of marginal changes in the covariates. If any covariate has a nonzero covariance with the influence of place on behavior, the estimated coefficient for that covariate will contain a misspecification bias that could render its interpretation meaningless. This could, in turn, lead to incorrect guidance on the most effective ways to bring about changes in y. Also, if models are employed that do not adequately account for the effects of place on behavior, it is likely that the residuals from such models will exhibit significant positive dependency, thereby invalidating standard inferential results. Again, this results in a situation where variables that appear to be significant drivers of levels of y are actually inconsequential. Both of these potential problems could result in the recognized issue that the results of calibrating spatial models are rarely, if ever, reproducible over space <ref type="bibr" target="#b58">(N€ ust et al. 2018;</ref><ref type="bibr" target="#b49">Kedron, Frazier, Goodchild, et al. 2021;</ref><ref type="bibr" target="#b50">Kedron, Frazier, Trgovac, et al. 2021)</ref>. That is, when we calibrate the same spatial model with data from different geographic frameworks, the results are rarely compatible and could, indeed, be contradictory. A possible reason for this is that if place affects behavior but is not included in a model, misspecification bias in the parameter estimates from that model might be sufficiently severe as to make comparison of them across space meaningless. Calibrating models that take into account the influence of place should result in parameter estimates that are more stable over space.</p><p>Finally, by recognizing that place could affect behavior significantly through mechanisms that cannot be modeled directly but yet can still be modeled and quantified, has allowed the development of analytical frameworks that bridge the increasing gap between those who model and those who do not. Local models such as MGWR turn the spotlight on place differences in behavior and provide the opportunity to seriously link quantitative and qualitative research. Such models recognize that ephemeral relationships between place and behavior exist and should not be ignored. In so doing, they are able to quantify the strength of such relationships and describe their spatial distribution, leading to much more focused interrogations of their possible causes and consequences. Local models hence bridge the nomothetic-idiographic divide and focus concentration on a geography of spatial processes rather than spatial data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Note</head><p>1. It is not just in human behavior that contextual effects appear to be important; evidence of contextual influences have been reported for fish, animal, and bird populations <ref type="bibr" target="#b26">(Endler and Houde 1995;</ref><ref type="bibr">Foster and Endler 1999)</ref>.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. On the roles of context in determining behavior.</figDesc><graphic coords="5,49.27,65.93,237.60,142.75" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Three true data generating processes used in the Monte Carlo simulation.</figDesc><graphic coords="9,58.11,582.58,485.97,124.04" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Two second-level units used in the multilevel model.</figDesc><graphic coords="10,59.24,65.93,237.60,119.11" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Averaged parameter estimates from multiscale geographically weighted regression (MGWR), spatial error model (SEM), and multilevel models (MLMs) in the Monte Carlo simulation.</figDesc><graphic coords="11,112.37,65.93,377.47,584.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Box plots of the root mean square error (RMSE) for the parameter estimates obtained from each model in the Monte Carlo simulation. Note: SEM ¼ spatial error model; KNN ¼ k nearest neighbors; MLM ¼ multilevel model; MGWR ¼ multiscale geographically weighted regression.</figDesc><graphic coords="12,77.10,65.93,468.00,187.99" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Box plots of Moran's I value of the model residuals in the Monte Carlo simulation. Note: SEM ¼ spatial error model; KNN ¼ k nearest neighbors; MLM ¼ multilevel model; MGWR ¼ multiscale geographically weighted regression.</figDesc><graphic coords="12,325.30,448.67,237.60,224.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Spatial and density distribution of residuals obtained from one realization of the simulation for all models. The dashed line in each density plot marks the mean of residuals. Note: SEM ¼ spatial error model; KNN ¼ k nearest neighbors; MLM ¼ multilevel model; MGWR ¼ multiscale geographically weighted regression.</figDesc><graphic coords="13,49.10,65.93,504.00,370.77" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Estimates for MGWR local intercept, MLM state-level varying intercept, and SEM spatial autoregressive error. Note: MGWR ¼ multiscale geographically weighted regression; MLM ¼ multilevel model; SEM ¼ spatial error model; KNN ¼ k nearest neighbors.</figDesc><graphic coords="14,95.07,396.91,432.00,287.72" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Comparison between multiscale geographically weighted regression (MGWR) local parameter estimates and multilevel model (MLM) state-level varying effects.</figDesc><graphic coords="15,49.10,65.93,504.00,492.32" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Hypothetical exemplars of intrinsic and behavioral contextual effects</figDesc><table><row><cell>Scenario</cell><cell>Intrinsic contextual effect</cell><cell>Behavioral contextual effect</cell></row><row><cell>Preference for country &amp; western music a</cell><cell>Greater in Austin, Texas, than in San</cell><cell>Positive relationship with young age cohort</cell></row><row><cell></cell><cell>Francisco, California, ceteris paribus</cell><cell>across Tennessee; negative relationship</cell></row><row><cell></cell><cell></cell><cell>across Texas, ceteris paribus</cell></row><row><cell>Preference for the Democratic Party in</cell><cell>Greater in Oregon than in Alabama,</cell><cell>Positive relationship with age in Florida;</cell></row><row><cell>presidential elections b</cell><cell>ceteris paribus</cell><cell>negative relationship with age in Texas,</cell></row><row><cell></cell><cell></cell><cell>ceteris paribus</cell></row><row><cell>Treatment of prostate enlargement by</cell><cell>Greater in the Midwest than on the</cell><cell>Stronger positive relationship with age of</cell></row><row><cell>surgery as opposed to nonsurgical</cell><cell>West Coast</cell><cell>physician in northern England compared</cell></row><row><cell>procedures c</cell><cell></cell><cell>to southern England, ceteris paribus</cell></row></table><note><p>a See, for example, Mellander et al. (2018). b See, for example,</p></note></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Comparison of model approaches to incorporate contextual effects</figDesc><table><row><cell></cell><cell>Intrinsic contextual effects</cell><cell>Behavioral contextual effects</cell></row><row><cell>MGWR</cell><cell>Local intercept</cell><cell>Local slopes</cell></row><row><cell></cell><cell>(b 0 )</cell><cell>(b 6 ¼0 Þ</cell></row><row><cell></cell><cell>The spatial regimes of the intrinsic contextual effects</cell><cell>The spatial regimes of each behavioral contextual</cell></row><row><cell></cell><cell>are data-driven</cell><cell>effect can vary and are data-driven</cell></row><row><cell>SEM</cell><cell>Spatial autoregressive</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Average bias of parameter estimates from MGWR, SEM and MLM models</figDesc><table><row><cell></cell><cell>MGWR</cell><cell>SEM (Queen)</cell><cell>SEM (KNN)</cell><cell>MLM (4 Â 4)</cell><cell>MLM (8 Â 8)</cell></row><row><cell>Bias 0</cell><cell>0.006</cell><cell>À0.070</cell><cell>À0.073</cell><cell>0.002</cell><cell>À0.018</cell></row><row><cell>Bias 1</cell><cell>À0.005</cell><cell>À0.057</cell><cell>À0.047</cell><cell>0.015</cell><cell>À0.012</cell></row><row><cell>Bias 2</cell><cell>0.000</cell><cell>0.048</cell><cell>0.053</cell><cell>0.015</cell><cell>0.005</cell></row></table><note><p>Note: MGWR ¼ multiscale geographically weighted regression; SEM ¼ spatial error model; KNN ¼ k nearest neighbors; MLM ¼ multilevel model.</p></note></figure>
+		</body>
+		<back>
+
+			<div type="funding">
+<div><head>Funding</head><p>This work was supported by the <rs type="funder">United States National Science Foundation</rs> (<rs type="grantName">NSF Grant</rs> #<rs type="grantNumber">2117455</rs>)</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_SVsYCW7">
+					<idno type="grant-number">2117455</idno>
+					<orgName type="grant-name">NSF Grant</orgName>
+				</org>
+			</listOrg>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Mapping politics: How context counts in electoral geography</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Agnew</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/0962-6298(95)00076-3</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Political Geography</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="129" to="146" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<monogr>
+		<title level="m" type="main">Place and politics: The geographical mediation of state and society</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Agnew</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2014">2014</date>
+			<publisher>Routledge</publisher>
+			<pubPlace>London and New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Temperature and aggression: Effects of quarterly, yearly, and city rates of violent and nonviolent crime</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Anderson</surname></persName>
+		</author>
+		<idno type="DOI">10.1037//0022-3514.52.6.1161</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Personality and Social Psychology</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1161" to="1173" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Open space, residential property values, and spatial context</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">T</forename><surname>Anderson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>West</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2006.03.007</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="773" to="789" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial econometrics: Methods and models</title>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Spatial dependence in linear regression models with an introduction to spatial econometrics</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Bera</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of applied economic statistics</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Ullah</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Boca Raton</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="page" from="237" to="290" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Fitting linear mixed-effects models using lme4</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Bates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bolker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Walker</surname></persName>
+		</author>
+		<idno type="DOI">10.18637/jss.v067.i01</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">67</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="48" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">The social calculus of voting: Interpersonal, media, and organizational influences on presidential choices</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Dalton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Greene</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Huckfeldt</surname></persName>
+		</author>
+		<idno type="DOI">10.1017/S0003055402004239</idno>
+	</analytic>
+	<monogr>
+		<title level="j">American Political Science Review</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="57" to="73" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">The big sort-Why the clustering of likeminded America is tearing us apart</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Bishop</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2009">2009</date>
+			<publisher>Houghton Mifflin</publisher>
+			<pubPlace>Boston</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Contextual effects on environmental attitudes and behavior</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">E</forename><surname>Blake</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/00139160121973205</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Behavior</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="708" to="725" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Studying contextual effects on political behavior: A research inventory and agenda</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Books</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Prysby</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/004478088016002005</idno>
+	</analytic>
+	<monogr>
+		<title level="j">American Politics Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="211" to="238" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">America&apos;s changing metropolitan regions</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Borchert</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-8306.1972.tb00868.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="352" to="373" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Voting contagion: Modeling and analysis of a century of U.S. presidential elections</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Braha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A M</forename><surname>De Aguiar</surname></persName>
+		</author>
+		<idno type="DOI">10.1371/journal.pone.0177970</idno>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS ONE</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page">177970</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">The contextual effects of race on White voter behavior: The 1989 New York City mayoral election</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Carsey</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Politics</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="221" to="228" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Who you live with and where you live: Setting the context for health using multiple membership multilevel models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chandola</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Clarke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Wiggins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bartley</surname></persName>
+		</author>
+		<idno type="DOI">10.1136/jech.2003.019539</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Epidemiology and Community Health</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="170" to="175" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Backfitting estimation for geographically weighted regression models with spatial autocorrelation in the response</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Leung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Mei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Fung</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12289</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="357" to="381" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">The impacts of neighborhoods on intergenerational mobility I: Childhood exposure effects</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Chetty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Hendren</surname></persName>
+		</author>
+		<idno type="DOI">10.1093/qje/qjy007</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Quarterly Journal of Economics</title>
+		<imprint>
+			<biblScope unit="volume">133</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1107" to="1162" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Social capital I: Measurement and associations with economic mobility</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Chetty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Jackson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kuchler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Stroebel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Hendren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Fluegge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Gonzalez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Grondin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jacob</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/s41586-022-04996-4</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="volume">608</biblScope>
+			<biblScope unit="issue">7921</biblScope>
+			<biblScope unit="page" from="108" to="121" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Spatial regression models for the social sciences</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Chi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Zhu</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<publisher>Sage</publisher>
+			<pubPlace>Thousand Oaks, CA</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">The political geography of the new deal realignment</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Darmofal</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/1532673X08316591</idno>
+	</analytic>
+	<monogr>
+		<title level="j">American Politics Research</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="934" to="961" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dellavigna</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Kaplan</surname></persName>
+		</author>
+		<idno type="DOI">10.1162/qjec.122.3.1187</idno>
+	</analytic>
+	<monogr>
+		<title level="m">The Fox News effect: Media bias and voting</title>
+		<imprint>
+			<date type="published" when="2007">2007</date>
+			<biblScope unit="volume">122</biblScope>
+			<biblScope unit="page" from="1187" to="1234" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Bringing context back into epidemiology: Variables and fallacies in multilevel analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">V</forename><surname>Diez-Roux</surname></persName>
+		</author>
+		<idno type="DOI">10.2105/ajph.88.2.216</idno>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Public Health</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="216" to="222" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Investigating neighborhood and area effects on health</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">V</forename><surname>Diez-Roux</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Public Health</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="1783" to="1789" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Multilevel modelling with spatial interaction effects with application to an emerging land market in Beijing</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Dong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yu</surname></persName>
+		</author>
+		<idno type="DOI">10.1371/journal.pone.0130761</idno>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS ONE</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">130761</biblScope>
+			<date type="published" when="2015">2015</date>
+			<pubPlace>China</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Context, composition and heterogeneity: Using multilevel models in health research</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Duncan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Jones</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Moon</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/s0277-9536(97)00148-2</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science &amp; Medicine</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="97" to="117" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Space, scale and locality</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Duncan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Savage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Antipode</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="179" to="206" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Geographic variation in female preferences for male traits in Poecilia Reticulata</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Endler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Houde</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2410270</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Evolution: International Journal of Organic Evolution</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="456" to="468" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">The space between us: Social geography and politics</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Enos</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<publisher>Cambridge University Press</publisher>
+			<pubPlace>Cambridge, UK</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Culture sits in places: Reflections on globalism and subaltern strategies of localization</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Escobar</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0962-6298(00)00064-0</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Political Geography</title>
+		<imprint>
+			<biblScope unit="volume">20</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="139" to="174" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<title level="m" type="main">Geographic variation in behavior: Perspectives on evolutionary mechanisms</title>
+		<editor>Foster, S. A., and J. A. Endler</editor>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<publisher>Oxford Academic</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A new set of spatial interaction models: The theory of competing destinations</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a150015</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A: Economy and Space</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="15" to="36" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Spatial flows and spatial patterns</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1068/a160529</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A: Economy and Space</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="529" to="543" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Scale, context and heterogeneity: A spatial analytical perspective on the 2016 US presidential election</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2020.1835459</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1" to="20" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2017.1352480</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Effects of unemployment news on economic perceptions-Evidence from German federal states</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Garz</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.regsciurbeco.2017.11.006</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Regional Science and Urban Economics</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="172" to="190" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<monogr>
+		<title level="m" type="main">Cultural regions of the United States Seattle</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Gastil</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1975">1975</date>
+			<publisher>University of Washington Press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">The incidence of tonsillectomy in school children</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">J</forename><surname>Glover</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/003591573803101027</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Proceedings of the Royal Society of Medicine</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1219" to="1236" />
+			<date type="published" when="1938">1938</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">Spatial behavior: A geographic perspective</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">G</forename><surname>Golledge</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997">1997</date>
+			<publisher>Guilford</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Formalizing place in geographic information systems</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Goodchild</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Communities, neighborhoods, and health: Expanding the boundaries of place</title>
+		<editor>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Burton</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Matthews</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Leung</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename><forename type="middle">P</forename><surname>Kemp</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><forename type="middle">T</forename><surname>Takeuchi</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="21" to="33" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">On reflections on Richard Hartshorne&apos;s the nature of geography</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gould</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="328" to="334" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">The character of regional geography</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hartshorne</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00045603909357333</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="436" to="456" />
+			<date type="published" when="1939">1939</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">The nature of geography: A critical survey of current thought in the light of the past</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hartshorne</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2561063</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="173" to="412" />
+			<date type="published" when="1939">1939</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Exceptionalism in geography&quot; reexamined</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hartshorne</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-8306.1955.tb01671.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="205" to="244" />
+			<date type="published" when="1955">1955</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Richard Hartshorne&apos;s adaptation of Alfred Hettner&apos;s system of geography</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Harvey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Wardenga</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.jhg.2005.07.017</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Historical Geography</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="422" to="440" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Context and consex: A cautionary tale</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Hauser</surname></persName>
+		</author>
+		<idno type="DOI">10.1086/224894</idno>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Sociology</title>
+		<imprint>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="645" to="664" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">The influence of negative newspaper coverage on consumer confidence: The Dutch case</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hollanders</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Vliegenthart</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.joep.2011.01.003</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Psychology</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="367" to="373" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Political contexts, cohesive social groups, and the communication of public opinion</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Huckfeldt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">A</forename><surname>Beck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Dalton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Levine</surname></persName>
+		</author>
+		<idno type="DOI">10.2307/2111668</idno>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Political Science</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1025" to="1054" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><surname>Huckfeldt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Sprague</surname></persName>
+		</author>
+		<title level="m">Citizens, politics and social communication</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Regions and place: Music, identity and place</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hudson</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0309132506070177</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Progress in Human Geography</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="626" to="634" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Reproducible and replicable geospatial research: Where are we and where might we go?</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kedron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Frazier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Goodchild</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13658816.2020.1802032</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographic Information Science</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="427" to="445" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Reproducibility and replicability in geographical analysis</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kedron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Frazier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Trgovac</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Nelson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/gean.12221</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="135" to="147" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Why context should not count</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>King</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/0962-6298(95)00079-8</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Political Geography</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="79" to="87" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Personality differences across regions of the United States</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>Krug</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">W</forename><surname>Kulhavy</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00224545.1973.9922648</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Social Psychology</title>
+		<imprint>
+			<biblScope unit="volume">91</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="73" to="79" />
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">The spatial and temporal dynamics of voter preference determinants in four US presidential elections</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/tgis.12880</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions in GIS</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="1609" to="1628" />
+			<date type="published" when="2008">2022. 2008-2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">A multilevel analysis of perceived noise pollution, geographic contexts and mental health in Beijing</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Ma</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Kwan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Chai</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/ijerph15071479</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Environmental Research and Public Health</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page">1479</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Social context, turnout, and the vote: Australian and British comparisons</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Mcallister</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/0260-9827(87)90028-0</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Political Geography Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="90028" to="90028" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+	<note>II</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">The geography of music preferences</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Mellander</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Florida</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Rentfrow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Potter</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10824-018-9320-x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Cultural Economics</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="593" to="618" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">GSTools v1. 3: A toolbox for geostatistical modelling in Python</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>M€ Uller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Sch€ Uler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zech</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Heße</surname></persName>
+		</author>
+		<idno type="DOI">10.5194/gmd-15-3161-2022</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geoscientific Model Development</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="3161" to="3182" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Reproducible research and GIScience: An evaluation using AGILE conference papers</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>N€ Ust</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Granell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hofer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Konkol</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">O</forename><surname>Ostermann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Sileryte</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Cerutti</surname></persName>
+		</author>
+		<idno type="DOI">10.7717/peerj.5072</idno>
+	</analytic>
+	<monogr>
+		<title level="j">PeerJ</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page">5072</biblScope>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<analytic>
+		<title level="a" type="main">Thirty-five years of political geography and Political Geography: The good, the bad and the ugly</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>O'loughlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Political Geography</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="143" to="151" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<analytic>
+		<title level="a" type="main">Predicting proenvironmental behavior cross-nationally: Values: The theory of planned behavior, and value-belief-norm theory</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Oreg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Katz-Gerro</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0013916505286012</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Behavior</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="462" to="483" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<title level="a" type="main">Modelling spatial structures in local housing market dynamics: A multilevel perspective</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Orford</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Urban Studies</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="issue">9</biblScope>
+			<biblScope unit="page" from="1643" to="1671" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">mgwr: A Python implementation of multiscale geographically weighted regression for investigating process spatial heterogeneity and scale</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<idno type="DOI">10.3390/ijgi8060269</idno>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">Omitted variable biases of OLS and spatial lag models</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Pace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Lesage</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Progress in Spatial Analysis: Methods and Applications</title>
+		<imprint>
+			<biblScope unit="page" from="17" to="28" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">Bayesian multilevel estimation with poststratification: Statelevel estimates from national polls</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Park</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bafumi</surname></persName>
+		</author>
+		<idno type="DOI">10.1093/pan/mph024</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Political Analysis</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="375" to="385" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<analytic>
+		<title level="a" type="main">Place matters: Consensual features and regional variation in American well-being and self</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">C</forename><surname>Plaut</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">R</forename><surname>Markus</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Lachman</surname></persName>
+		</author>
+		<idno type="DOI">10.1037/0022-3514.83.1.160</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Personality and Social Psychology</title>
+		<imprint>
+			<biblScope unit="volume">83</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="160" to="184" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">Place as historically contingent process: Structuration and the time-geography of becoming places</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pred</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1467-8306.1984.tb01453.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="279" to="297" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<analytic>
+		<title/>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Relph</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Place and placelessness</title>
+		<imprint>
+			<date type="published" when="1976">1976</date>
+			<publisher>Pion</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">Divided we stand: Three psychological regions of the United States and their political, economic, social and health correlates</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Rentfrow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">D</forename><surname>Gosling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jokela</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">J</forename><surname>Stillwell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kosinski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Potter</surname></persName>
+		</author>
+		<idno type="DOI">10.1037/a0034434</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Personality and Social Psychology</title>
+		<imprint>
+			<biblScope unit="volume">105</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="996" to="1012" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Regional personality differences in Great Britain</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Rentfrow</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Jokela</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Lamb</surname></persName>
+		</author>
+		<idno type="DOI">10.1371/journal.pone.0122245</idno>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS ONE</title>
+		<imprint>
+			<biblScope unit="volume">10</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">122245</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">PySAL: A Python library of spatial analytical methods</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Rey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Handbook of applied spatial analysis</title>
+		<editor>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Fischer</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Getis</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2010">2010</date>
+			<biblScope unit="page" from="175" to="193" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">Editorial: Location, location, location: Contextualizing organizational research</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Rousseau</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Fried</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/job.78</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Organizational Behavior</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<analytic>
+		<title level="a" type="main">The checkerboard model of social interaction</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Sakoda</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/0022250X.1971.9989791</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Mathematical Sociology</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="119" to="132" />
+			<date type="published" when="1971">1971</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">Neighborhood effects and beyond: Explaining the paradoxes of inequality in the changing American metropolis</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Sampson</surname></persName>
+		</author>
+		<idno type="DOI">10.1177/0042098018795363</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Urban Studies</title>
+		<imprint>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="3" to="32" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<analytic>
+		<title level="a" type="main">The difference that space makes</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sayer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Social relations and spatial structures</title>
+		<editor>
+			<persName><forename type="first">D</forename><surname>Gregory</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Urry</surname></persName>
+		</editor>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Macmillan Education UK</publisher>
+			<date type="published" when="1985">1985</date>
+			<biblScope unit="page" from="49" to="66" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b75">
+	<analytic>
+		<title level="a" type="main">Exceptionalism in geography: A methodological examination</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">K</forename><surname>Schaefer</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00045605309352114</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="226" to="249" />
+			<date type="published" when="1953">1953</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b76">
+	<analytic>
+		<title level="a" type="main">Dynamic models of segregation</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Schelling</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/0022250X.1971.9989794</idno>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Mathematical Sociology</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="186" />
+			<date type="published" when="1971">1971</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b77">
+	<analytic>
+		<title level="a" type="main">A food geography of the Great Plains</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">G</forename><surname>Shortridge</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1931-0846.2003.tb00045.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Review</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="507" to="529" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b78">
+	<analytic>
+		<title level="a" type="main">Contextual effects and adolescent substance use: Exploring the role of neighborhoods</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">A</forename><surname>Snedker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Herting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Walton</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1540-6237.2009.00677.x</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1272" to="1297" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b79">
+	<analytic>
+		<title level="a" type="main">The nomothetic-idiographic issue: Some roots and recent trends</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Thomae</surname></persName>
+		</author>
+		<idno type="DOI">10.1023/A:1021891506378</idno>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Group Tensions</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="issue">1-2</biblScope>
+			<biblScope unit="page" from="187" to="215" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b80">
+	<analytic>
+		<title level="a" type="main">Space and place: Humanistic perspective</title>
+		<author>
+			<persName><forename type="first">Y.-F</forename><surname>Tuan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Philosophy in geography</title>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Gale</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">G</forename><surname>Olsson</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Dordrecht, The Netherlands</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1979">1979</date>
+			<biblScope unit="page" from="387" to="427" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b81">
+	<analytic>
+		<title level="a" type="main">Predicting small-area health-related behaviour: A comparison of smoking and drinking indicators</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Twigg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Moon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Jones</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/s0277-9536(99)00359-7</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science &amp; Medicine</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="issue">7-8</biblScope>
+			<biblScope unit="page" from="359" to="366" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b82">
+	<analytic>
+		<title level="a" type="main">Latent lifestyle preferences and household location decisions</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">L</forename><surname>Walker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Li</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10109-006-0030-0</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="77" to="101" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b83">
+	<analytic>
+		<title level="a" type="main">Time to tackle unwarranted variations in practice</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Wennberg</surname></persName>
+		</author>
+		<idno type="DOI">10.1136/bmj.d1513</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Clinical Research</title>
+		<imprint>
+			<biblScope unit="volume">342</biblScope>
+			<biblScope unit="page">1513</biblScope>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+	<note>BMJ</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b84">
+	<analytic>
+		<title level="a" type="main">Approaching the notion of place by contrast</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Winter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Freksa</surname></persName>
+		</author>
+		<idno type="DOI">10.5311/JOSIS.2012.5.90</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Spatial Information Science</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="31" to="50" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b85">
+	<analytic>
+		<title level="a" type="main">Guest editorial: Does place have a place in geographic information science?</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Winter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kuhn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kr€ Uger</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/13875860903144675</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Spatial Cognition &amp; Computation</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="171" to="173" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b86">
+	<analytic>
+		<title level="a" type="main">On spatial and platial dependence: Examining shrinkage in spatially dependent multilevel models</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Arribas-Bel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">R</forename><surname>Mobley</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/24694452.2020.1841602</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1" to="13" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b87">
+	<analytic>
+		<title level="a" type="main">A multiscale measure of spatial dependence based on a discrete Fourier transform</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="849" to="872" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b88">
+	<analytic>
+		<title level="a" type="main">Contextual effects and cancer outcomes in the United States: A systematic review of characteristics in multilevel analyses</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">E</forename><surname>Zahnd</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">L</forename><surname>Mclafferty</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.annepidem.2017.10.002</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="739" to="748" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b89">
+	<monogr>
+		<title level="m" type="main">The cultural geography of the United States</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Zelinsky</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1973">1973</date>
+			<publisher>Prentice-Hall</publisher>
+			<pubPlace>Englewood Cliffs, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b90">
+	<monogr>
+		<title level="m" type="main">E-mail: stewart.fotheringham@asu.edu. His research interests include spatial data analytics, spatial processes, and spatial interaction modeling</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Stewart</surname></persName>
+		</author>
+		<imprint>
+			<biblScope unit="volume">85281</biblScope>
+			<pubPlace>Tempe, AZ</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Arizona State University</orgName>
+		</respStmt>
+	</monogr>
+	<note>FOTHERINGHAM is a Regents&apos; Professor of Computational Spatial Science in the School of Geographical Sciences and Urban Planning</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

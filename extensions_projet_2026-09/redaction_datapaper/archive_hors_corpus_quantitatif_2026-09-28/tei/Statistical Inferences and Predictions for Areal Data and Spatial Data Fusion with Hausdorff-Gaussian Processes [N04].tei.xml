@@ -1,0 +1,1260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Statistical Inferences and Predictions for Areal Data and Spatial Data Fusion with Hausdorff-Gaussian Processes</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Lucas</forename><surname>Da</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Ecology and Evolutionary Biology</orgName>
+								<orgName type="institution">University of California Santa Cruz</orgName>
+								<address>
+									<region>Santa Cruz</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Cunha</forename><surname>Godoy</surname></persName>
+							<email>ldcgodoy@ucsc.edu</email>
+							<idno type="ORCID">0000-0003-4265-972X</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Ecology and Evolutionary Biology</orgName>
+								<orgName type="institution">University of California Santa Cruz</orgName>
+								<address>
+									<region>Santa Cruz</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Marcos</forename><forename type="middle">Oliveira</forename><surname>Prates</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Ecology and Evolutionary Biology</orgName>
+								<orgName type="institution">University of California Santa Cruz</orgName>
+								<address>
+									<region>Santa Cruz</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="department">Department of Statistics</orgName>
+								<orgName type="institution">Universidade Federal de Minas Gerais</orgName>
+								<address>
+									<settlement>Belo Horizonte</settlement>
+									<country key="BR">Brazil</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Jun</forename><surname>Yan</surname></persName>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Ecology and Evolutionary Biology</orgName>
+								<orgName type="institution">University of California Santa Cruz</orgName>
+								<address>
+									<region>Santa Cruz</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">L</forename><forename type="middle">D</forename><surname>Cunha Godoy</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">Yan Department of Statistics</orgName>
+								<orgName type="institution">University of Connecticut</orgName>
+								<address>
+									<settlement>Storrs</settlement>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Statistical Inferences and Predictions for Areal Data and Spatial Data Fusion with Hausdorff-Gaussian Processes</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">677DCA3FF4B8C90C9E51D24C6D199222</idno>
+					<idno type="DOI">10.1007/s13253-025-00720-7</idno>
+					<note type="submission">Received June 2025. Revised November 2025. Accepted November 2025.]</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-21T11:52+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>CAR models</term>
+					<term>Geostatistics</term>
+					<term>Spatial data fusion</term>
+					<term>Spatial modeling</term>
+					<term>Spatial prediction</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Accurate modeling of spatial dependence is pivotal for both parameter estimation and prediction in spatial data analysis. The spatial structure of the data significantly narrows the set of available models. Existing areal data models often ignore polygon geometry, while data fusion models require computationally intensive integration, limiting their application. In response to these issues, we propose the Hausdorff-Gaussian process (HGP), a versatile model utilizing the Hausdorff distance to capture spatial dependence in both point and areal data. Integration into generalized linear mixed-effects models enhances its applicability, particularly in addressing data fusion challenges. We validate our approach through a comprehensive simulation study and application to two real-world scenarios: one involving areal data and another demonstrating its effectiveness in data fusion. Results show the HGP is a competitive, flexible, and robust solution for modeling diverse spatial data, with potential applications in fields like public health and climate science. Supplementary materials accompanying this paper appear online.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>Accounting for spatial dependence is pivotal in spatial data analysis. The nature of the observed spatial data significantly influences the choice of statistical methodology. Pointreferenced data are typically analyzed using geostatistics methods (e.g., <ref type="bibr" target="#b9">Cressie 1993)</ref>. For areal data, the conditional autoregressive model <ref type="bibr">(Besag 1974, CAR)</ref> and its variants <ref type="bibr" target="#b7">(Besag et al. 1991;</ref><ref type="bibr" target="#b35">Rodrigues and Assunçao 2012;</ref><ref type="bibr" target="#b13">Datta et al. 2019;</ref><ref type="bibr" target="#b9">Cruz-Reyes et al. 2023</ref>) are often preferred. These differences become increasingly critical in complex inferential problems, such as predicting a variable in a target map using data from a source map. This issue, known as change of support <ref type="bibr">(Cressie 1993, pg. 284-289)</ref>, requires tailored methods depending on the spatial units involved <ref type="bibr" target="#b18">(Gelfand et al. 2001)</ref>. Spatial data from diverse sources often differ in spatial units or supports, resulting in spatial misalignment <ref type="bibr" target="#b22">(Gotway and Young 2002)</ref>. Data fusion is necessitated when a spatial variable is provided by multiple, potentially misaligned, sources <ref type="bibr" target="#b30">(Moraga et al. 2017)</ref>.</p><p>Both traditional areal models and data fusion models for spatial data exhibit inherent limitations. Traditional areal models lack interpretable spatial dependence parameters <ref type="bibr" target="#b2">(Assunção and Krainski 2009)</ref>. An exception of that last limitation is the directed acyclic graph autoregressive (DAGAR) model, which offers an interpretable parameter <ref type="bibr" target="#b13">(Datta et al. 2019)</ref>. These models, which rely on a fixed adjacency graph, are not suited for out-of-sample prediction, as introducing new spatial units fundamentally alters the whole model structure. Furthermore, when overlapping spatial units are present <ref type="bibr" target="#b3">(Bakar and Jin 2020)</ref>, another limitation is that they do not account for the size or shape of the areal units. Data fusion models, which view areal data as averages of a continuous process, may be unsuitable for discrete outcomes <ref type="bibr" target="#b18">(Gelfand et al. 2001)</ref>. Additionally, their reliance on arbitrary discretization for likelihood evaluation lacks consensus on optimal resolution <ref type="bibr" target="#b15">(Fuentes and Raftery 2005;</ref><ref type="bibr" target="#b28">Liu et al. 2011;</ref><ref type="bibr" target="#b47">Wang and Furrer 2021)</ref> and can introduce unquantifiable biases <ref type="bibr" target="#b21">(Gonçalves and Gamerman 2018)</ref>.</p><p>We introduce a unified approach for areal, point-referenced, and mixed spatial data by combining Gaussian processes (GPs) with the Hausdorff distance <ref type="bibr" target="#b1">(Arutyunov et al. 2016)</ref>, which seamlessly handles these diverse formats in a single framework. The Hausdorff distance, defined on a reference metric space, effectively measures the distance between two sets while accounting for their shape. For point pairs, it reduces to the distance metric associated to the reference metric space. GPs, recognized for their flexibility, are widely utilized in spatial data modeling, notably as priors in generalized mixed-effects models <ref type="bibr" target="#b14">(Diggle et al. 1998)</ref>, in spatially varying regression coefficients <ref type="bibr" target="#b17">(Gelfand et al. 2003)</ref>, generalized multilevel models <ref type="bibr" target="#b33">(Prates et al. 2024)</ref>, and in addressing spatial misalignment issues <ref type="bibr" target="#b5">(Banerjee and Gelfand 2002)</ref>. We propose the Hausdorff-Gaussian process (HGP), a GP with a correlation function defined on the Hausdorff distance between spatial units. This allows us to directly incorporate shape and size information into the analysis. A crucial aspect of our work is to assess the competitiveness of the HGP, particularly when compared to specialized models designed for areal and mixed spatial data. We investigate whether the HGP, using a powered exponential correlation, can effectively model areal and mixed spatial data, thereby offering a novel and versatile tool for analyzing spatial data with mixed supports.</p><p>This paper is structured as follows. Section 2 introduces the Hausdorff distance, discussing its properties, and then delineates the HGP, highlighting its significant applications. Then, in Sect. 3, we set up spatial generalized linear mixed models (GLMM) with HGP components and detail their inferences in the Bayesian framework. A simulation study to compare the proposed model with specific models for areal and fused data is presented in Sect. 4. Section 5 demonstrates the practical utility of our model through two distinct applications, one on areal data and the other on data fusion. Section 6 concludes with a discussion. For completeness, we introduce models designed specifically for areal and fused data in Appendix. In addition to the online Supplementary Material, the code to reproduce the analyses is available in the following GitHub repository: <ref type="url" target="https://github.com/lcgodoy/jabe-d-25-00205">https://github.com/lcgodoy/  jabe-d-25-00205</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">HAUSDORFF-GAUSSIAN PROCESS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1.">HAUSDORFF DISTANCE</head><p>The Hausdorff distance is a metric measuring the distance between two sets. Specifically, it is the greatest distance from a point in one set to the closest point in the other set. Consider a metric space (D, d), where D is a spatial region of interest and d(x, y) defines a distance between any two elements x, y ∈ D. For a single point x and a set A, define d(x, A) = inf a∈A d(x, a) as the closest distance from x to any element in A. The directed Hausdorff distance from a set A to a set B is h(A, B) = sup a∈A d(a, B). This measure is not necessarily symmetric. The symmetric Hausdorff distance is defined as the greater of the two directed Hausdorff distances:</p><formula xml:id="formula_0">h(A, B) = max {h(A, B), h(B, A)} .</formula><p>Note that if A and B are both singletons, then h(A, B) = d(A, B). If they are compact, there exist a ∈ A and b ∈ B such that h(A, B) = d(a, b) <ref type="bibr" target="#b1">(Arutyunov et al. 2016)</ref>.</p><p>In spatial statistics, sample units (e.g., points, polygons) are represented as non-empty, closed, and bounded subsets of a study region D ⊂ R k . In Euclidean domains, the Heine-Borel theorem asserts that closed and bounded sets are compact <ref type="bibr">(Abbott 2015, pg. 98)</ref>. The Hausdorff distance is a suitable metric for the collection of these non-empty compact subsets, hereafter denoted B(D) (Molchanov 2005, Appendix C). By the properties of a metric, h(A, B) = 0 if and only if A and B are identical. The metric space induced by the tuple (B(D), h) inherits properties like compactness and completeness from (D, d). Further details regarding the topology induced by the Hausdorff distance can be found in Appendix C in <ref type="bibr">Molchanov (2005)</ref>. Lastly, in the Supplementary Material, Sect. S.1, we provide a toy example comparing the Hausdorff distance to the distance between centroids and, in addition, between borders.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2.">HAUSDORFF-GAUSSIAN PROCESS</head><p>HGP is a natural extension of GP for modeling spatial data defined on the Hausdorff distance. A GP is a stochastic process over an index set such that all its finite-dimensional marginal distributions are multivariate normal distributions. Let D be a spatial region of interest. An HGP index set is taken to be the class of non-empty compact subsets of D, denoted B(D). This class encompasses both singletons and polygons, which can be represented as closed and bounded sets. To define an isotropic HGP Z (•) over B(D), we specify a marginal mean function m(•), a positive-valued marginal standard deviation (SD) function v(•), and a valid isotropic correlation function r (h) for any two sets apart in Hausdorff distance h. With these functions, an HGP is a stochastic process Z (•) whose marginal distribution at {s 1 , . . . , s n } ∈ B(D) is multivariate normal with mean vector and covariance matrix, respectively,</p><formula xml:id="formula_1">E[Z (s i )] = m(s i ) and Cov[Z (s i ), Z (s j )] = v(s i )v(s j )r h(s i , s j ) ,<label>(1)</label></formula><p>for i, j = 1, . . . , n, where h(s i , s j ) is the Hausdorff distance between s i and s j . This process allows for representations of diverse spatial data, from areal to mixed, making it suitable for a wide range of applications such as disease mapping and data fusion.</p><p>Denote the HGP process defined in Eq. ( <ref type="formula" target="#formula_1">1</ref>) by HGP{m(•), v(•), r (•)}. A GP's mean function has little impact on the process' local behavior <ref type="bibr">(Stein 1999, pg. 12)</ref>. They capture large-scale variations, and, hereafter m(•) is either held constant or defined through covariates. The SD function v(•) accommodates both homoscedastic and hereroscedastic scenarios. For instance, with a log link, a natural model is</p><formula xml:id="formula_2">log v(s) = α 0 + α 1 w(s),<label>(2)</label></formula><p>where w(s) is a covariate available for any s ∈ B(D). Equation ( <ref type="formula" target="#formula_2">2</ref>) allows a distinction between point-referenced and areal data, a need in data fusion applications <ref type="bibr" target="#b47">(Wang and Furrer 2021)</ref>. Specifically, to enable different variances between these data types, we can define w(s) = 1(A(s) &gt; 0), where A(•) is a function that returns the area of a spatial object. Certainly, care is necessary in specifying v(s) to ensure a valid GP <ref type="bibr" target="#b32">(Palacios and Steel 2006)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3.">CORRELATION FUNCTION</head><p>The correlation function r (•) needs to be carefully chosen to ensure the validity of the HGP. In particular, we focus on isotropic correlation functions. Thus, unless explicitly mentioned, all subsequent references to correlation functions will assume they are isotropic. A valid correlation function must be positive definite and meet two key criteria: r (0) = 1 and lim h→∞ r (h) = 0 (Cressie 1993, Ch. 2.3.2), where h is the Hausdorff distance between a pair s, s ∈ B(D). The latter ensures that spatial correlation diminishes with increasing distance. It is noteworthy that while most geostatistical correlation functions are constructed for Euclidean spaces <ref type="bibr" target="#b9">(Cressie 1993</ref>, Ch. 2.5.1), their positive definiteness may not extend to non-Euclidean spaces <ref type="bibr" target="#b10">(Curriero 2006)</ref>.</p><p>For practical purposes, we propose to use a two-parameter powered exponential correlation (PEC) function</p><formula xml:id="formula_3">r (h; ϕ, ν) = exp - h ϕ ν ,</formula><p>where ν controls the smoothness and ϕ governs the range of the spatial dependence. To enhance interpretability, we reparametrize this function with ρ = log(10) 1/ν ϕ. Consequently, ρ is the distance at which the spatial correlation between a pair of spatial units drops to 0.10, commonly referred to as the practical range. The PEC function is appealing because, for ν ∈ (0, 1], it is positive definite as long as applied to a conditionally negative definite (CND) distance function <ref type="bibr" target="#b36">(Schoenberg 1938)</ref>. However, to the best of our knowledge, no theoretical results establish when the Hausdorff distance is CND, nor are there results concerning positive definite functions of this distance. Thus, we recommend empirically assessing the positive definiteness of the PEC function before analyzing the data.</p><p>To this end, we empirically assess the positive definiteness of the PEC function for ν ∈ (0, 1]. We first calculate Hausdorff distance matrices for the areal and fused data to be analyzed in Sects. 5.1 and 5.2, respectively. For comparison purposes, we re-scale these distance matrices so that all their elements are less than or equal to 1. We then evaluate the PEC function for these matrices using a grid of values for ν ∈ (0, 1] and ρ ∈ (0, 1.5], where the upper bound of ρ represents 1.5 times the largest distance observed in the respective matrix. This process generates a set of corresponding correlation matrices. Finally, we compute the smallest eigenvalue for each of these correlation matrices. A negative eigenvalue indicates the corresponding PEC function is not positive definite for that combination of parameters. However, even valid covariance functions can be ill-conditioned or nearly rankdeficient at dense locations or when there exists a strong spatial dependence <ref type="bibr" target="#b4">(Banerjee et al. 2012)</ref>.</p><p>Figure <ref type="figure" target="#fig_0">1</ref> displays the smallest eigenvalues (λ 1 ) of the PEC-induced correlation matrices for the fused and areal datasets from Sects. 5.1 and 5.2, respectively. The fused data exhibit positive eigenvalues for all (ν, ρ) pairs. In contrast, the areal data reveal some small negative eigenvalues (range -0.0099 to -0.00006) under strong spatial dependence and at ν ≈ 1, the border of the parametric space. Based on these empirical results, it is safe to use the PEC function with ν ∈ (0, 1] for fusion data, but, for the areal application, it may be advisable to stick with a ν value less than 1. We further investigate the PD property of the PEC function across different datasets and domains. Similar conclusion are obtained and these results are presented in Sect. S.2 of the Supplementary Material.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">HGP IN SPATIAL GLMM</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1.">MODEL</head><p>Generalized linear models for spatial data can benefit from replacing the GP with the HGP as spatial random effects. In this context, assume S = {s 1 , . . . , s n } is a set of spatial units such that s i ∈ B(D), where D ⊂ IR 2 . Consider a response variable Y (s i ) and a p-dimensional vector of covariates X i associated to the i-th spatial unit. Let Z = Z (s 1 ), . . . , Z (s n ) be an n-dimensional vector of latent spatial random effects. Then, the spatial GLMM is specified as</p><formula xml:id="formula_4">Y (s i ) | X i , Z (s i ) ind ∼ f (• | μ i , γ ), μ i = E[Y (s i ) | X i , Z (s i )] = g -1 (X i β + Z (s i )), (<label>3</label></formula><formula xml:id="formula_5">)</formula><p>where g is a link function, β is a p-dimensional regression coefficient vector, and f (• | μ i , γ ) is a probability density or mass function of a distribution with expectation μ i and an additional parameter vector γ . Thus, conditional on Z (s i ) and X i , we assume that the responses Y (s i )'s are mutually independent.</p><p>The spatial dependence among the responses</p><formula xml:id="formula_6">Y = Y (s 1 ), . . . , Y (s n ) is introduced by a zero-mean HGP Z ∼ HGP 0, v(•; σ ), r (•; δ)</formula><p>, where σ and δ = {ρ, ν}, are the SD and PEC functions' parameters, respectively. To summarize, the parameters of the spatial GLMM are θ = {β , σ , δ , γ } .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.">BAYESIAN INFERENCES</head><p>Prior distributions for all the model parameters are to be specified to complete the Bayesian model specification. For fixed effects regression coefficients (β), we employ uncorrelated zero-mean normal priors with marginal variances v β . In the homoscedastic case, on σ we place a half-t prior with 3 degrees of freedom, denoted t + (3) <ref type="bibr" target="#b19">(Gelman 2006)</ref>. For the hereroscedastic model (2), we set independent normal priors for α 0 and α 1 with marginal variances v α . Hereafter, we set the marginal variances as v β = 10 2 and v α = 1 unless otherwise stated. The PEC dependence is encoded through δ = {ρ, ν}. In geostatistics, smoothness parameters for correlation functions are typically fixed <ref type="bibr" target="#b49">(Zhang 2004;</ref><ref type="bibr" target="#b12">Datta et al. 2016)</ref>. Due to this and the scope of this paper, we specify separate models for different values of ν, selected based on the empirical assessment to ensure positive definiteness of the induced correlation matrices, and select the best fit for inference. The spatial dependence parameter ρ is also inherently difficult to estimate. Therefore, to avoid oversmoothing, we set an exponential prior in the same spirit of the penalized complexity (PC) prior <ref type="bibr" target="#b37">(Simpson et al. 2017;</ref><ref type="bibr" target="#b16">Fuglstad et al. 2019)</ref> for ρ. Specifically, we employ an exponential prior for ρ with mean λ ρ = -ρ 0 / log( p ρ ), where ρ 0 is an upper-bound set to four-fifths of the largest observed Hausdorff distance, and p ρ is the probability that ρ exceeds ρ 0 . The resulting prior concentrates its mass on lower values ρ. Note that, the resulting prior is not exactly a PC prior since it is not placed on the Kullback-Leibler divergence with a simpler model.</p><p>The posterior distribution of θ and Z given the observed data y and X is</p><formula xml:id="formula_7">π(θ, z | y) ∝ π(y | X, z, β, γ )π(z | σ , δ)π(θ),<label>(4)</label></formula><p>where π(•) denotes prior and posterior distributions of its arguments. Importantly, the distribution placed on the random effects z also functions as a prior, as we draw samples from these latent effects distribution conditioned on the observed data.</p><p>The estimation of the spatial GLMM parameters is obtained from the posterior distribution defined in Eq. ( <ref type="formula" target="#formula_7">4</ref>). Since this distribution is intractable, we draw samples from it using the No-U-Turn Markov chain Monte Carlo (MCMC) sampler in Stan <ref type="bibr" target="#b25">(Hoffman and Gelman 2014;</ref><ref type="bibr" target="#b40">Team 2023)</ref>. Unless otherwise stated, we initialize the parameters with samples from their respective prior distributions. The latent random effects are initialized from a standard Gaussian distribution. The number of samples and the warm-up period of the MCMC algorithm are application dependent. We assess the convergence of the chains using the split-R diagnostic <ref type="bibr" target="#b44">(Vehtari et al. 2021)</ref>. Finally, the parameters' point estimates and 95% credible intervals (CI) are obtained as, respectively, the median and percentiles (2.5 and 97.5, unless otherwise stated) of the marginal MCMC samples.</p><p>We assess goodness-of-fit (GoF) using the leave-one-out <ref type="bibr" target="#b43">(Vehtari et al. 2017</ref>, LOOIC) and widely applicable (Watanabe and Opper 2010, WAIC) information criteria, where lower values indicate a better fit. When comparing a single candidate model to the HGP, we utilize the difference in the GoF metric G between the HGP and the given model, denoted by G . Consequently, a negative G suggests that the HGP model is a better fit for the data. The competing methods depend on the type of application we are working with and will be mentioned in the upcoming sections.</p><p>Predicting spatial phenomena accurately at unobserved locations is crucial in many applications. The HGP prior for spatial random effects in GLMMs offers a powerful solution. For a set of m unobserved locations S * = {s * 1 , . . . , s * m }, we define an m-dimensional variable Y * representing the response variable at these locations. Assuming covariates from Eq. ( <ref type="formula" target="#formula_4">3</ref>) are available, we can generate predictions accounting for uncertainty using the posterior predictive distribution of Y * :</p><formula xml:id="formula_8">π(y * | y) = π(y * | z * , θ )π(z * | z, θ )π(θ | y) dz * dz dθ ,<label>(5)</label></formula><p>where z * = (z(s * 1 ), . . . , z(s * m )) is a realization of the spatial random effect at the new locations, and θ represents the model parameters. Details on sampling from this distribution are provided in Sect. S.3 of the Supplementary Material.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">SIMULATION STUDIES</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1.">AREAL DATA</head><p>We conducted a simulation study to assess the performance of the HGP relative to the DAGAR model, a state-of-the-art model designed explicitly for areal data <ref type="bibr" target="#b13">(Datta et al. 2019)</ref>, in modeling data generated from other models. For details about the DAGAR model, we refer to Appendix. We grounded our simulations in a real-world context by utilizing the 134 Intermediate Zones (IZ) north of the River Clyde within the Greater Glasgow in Scotland (Figure <ref type="figure">S</ref>.5), mirroring the application detailed in the upcoming Section 5.1. This region exhibits a range of Hausdorff distances between zones, from 0.7 to 37.7 kilometers (median: 9.4 km). Data were generated under a Poisson GLMM with a log link function, incorporating a single explanatory variable drawn from a standard normal distribution. The intercept and regression coefficients associated with this explanatory variable were fixed at 4.28 and 0.33, respectively, to mirror the parameters estimated in the real-world application (Sect. 5.1).</p><p>Two random effect structures were considered: the Aggregated Gaussian Process (AGP) and the Besag-York-Mollié <ref type="bibr">(Besag et al. 1991, BYM)</ref>, with model parameters corresponding to their fits to the real data. Details about those models and their parameters are given in Appendix, Sect. A. The AGP assumes a point-level GP aggregated at the areal unit level and is closer in structure to the HGP model. We chose AGP's model parameters to reflect the HGP results from our real-world application (Sect. 5.1): a point-level marginal standard deviation (σ ) of 0.19, a smoothness parameter (ν) of 1, and a range parameter (ρ) of 2.21. The BYM model allows for spatially correlated random effects with a structure closer to that of the DAGAR model. We set its marginal standard deviation <ref type="bibr" target="#b34">(Riebler et al. 2016)</ref>, denoted σ , to 0.24 and the spatial dependence parameter (ξ ) to 0.43, aligning with estimates from the real data analyses in Sect. 5.1. In Sect. S.5.2 from the Supplementary Material, we detail how to simulate data from the AGP.</p><p>We generated 200 datasets from the Poisson GLMM under each of the two distinct random effect structures. For each simulated dataset, we fit two Bayesian Poisson GLMMs, the first one using an homoscedastic HGP while the second one employing a DAGAR prior for the random effects. Both specified the fixed effects correctly with the single covariate. The priors for the parameters in the HGP model were set to be those presented in Sect. 3.2. The priors for the parameters in the DAGAR model were set to the same as those in <ref type="bibr" target="#b13">(Datta et al. 2019</ref>); for more details, see the Supplementary Material, Sect. S.4.1. The GoF was evaluated using the criteria in Sect. 3.2. In the Supplementary Material, Section S.4.2, we also evaluated the HGP's ability to recover true model parameters under correct specification.</p><p>Figure <ref type="figure" target="#fig_1">2</ref> shows the HGP consistently fitting the data better than the DAGAR model when data were generated from the AGP. The figure displays empirical cumulative distribution functions (ECDFs) of the differences ( G ) in LOOIC and WAIC (left and right columns of the panel, respectively) between the models. While no formal thresholds exist for significant differences in the model comparison criteria we used, we consider differences exceeding 5 to be noteworthy, following a similar practice used with the DIC <ref type="bibr" target="#b45">(Vranckx et al. 2021)</ref>. For AGP-generated data (solid line), our simulation study provides strong evidence that the HGP outperforms the DAGAR in GoF. Specifically, LOOIC was below -10 for 80% of simulated datasets, strongly favoring the HGP. In contrast, evidence favoring DAGAR ( LOOIC &gt; 4) was observed in only 1% of the generated data. Interestingly, the HGP remained competitive when we generated data from the BYM model (a structure closer to the DAGAR). While there was some evidence favoring the DAGAR, LOOIC was below 4 for more than 50% of the simulations under this scenario. These results highlight the HGP's robustness as a disease mapping model, demonstrating superior performance when the data align with its structure and remain a viable option even when a specialized competitor better represents the underlying process.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.">DATA FUSION</head><p>To assess the predictive performance of the HGP against standard data fusion models, we conducted a simulation study mirroring usual data fusion scenarios. Within a square region with an area of 51 2 , we generated a map comprising a 17 × 17 grid boxes of areal units (each with an area of 3 2 ) and 35 point-referenced data points. Additionally, we created five extra spatial units for each of the following three types exclusively to evaluate predictions: larger polygons (grid boxes with area of 3 2 ), smaller polygons (grid boxes with area of 1.5 2 ), and point-referenced, as displayed in Figure <ref type="figure">S</ref>.6 from the Supplementary Material. We carefully chose the study region and grid box dimensions, so each polygon's area exceeded one. This design emulates scenarios where areal units, often derived from satellite or computer models, are more abundant than point-referenced data. Moreover, the grid boxes of different sizes used to assess the predictions have the purpose of investigating how the predictions deteriorate by decreasing the size of the spatial units. Hausdorff distances between sample units in this map ranged from 0.4 to 69.8. We simulate the datasets from a Normal GLMM with an identity link function, no covariates, and a spatial random effect. The overall mean of this GLMM was fixed at 6.28 to mirror the application from Sect. 5.2. In addition, this model introduces the small-scale variance (denoted τ 2 ). This section's spatial GLMMs employ two distinct spatial random effect structures: a heteroscedastic HGP and an AGP. The HGP's SD function v(s) is defined as exp{α 0 + α 1 1(A(s) &gt; 0)}, allowing for distinct variances between point-referenced and areal data, while the AGP is a zero-mean second-order stationary GP with an isotropic Matérn covariance function with smoothness parameter κ = 1. See Appendix for further details on the AGP model and <ref type="bibr" target="#b30">Moraga et al. (2017)</ref> for a detailed definition of the Matérn covariance function.</p><p>We selected HGP parameters (τ 2 = 0.17 2 , σ = 4.4416, σ a = 1.3114, ρ = 28.45, and ν = 0.8) to mirror what was estimated in the data analysis presented in Sect. 5.2. Note that the spatial variance for point and areal units (σ and σ a , respectively) is a one-to-one transformation of (α 0 , α 1 ) . We set the dependence parameter ρ to 48.9. This value differs from our estimate in the real data due to a necessary rescaling based on the map used in this simulation study. For further details, refer to the Supplementary Material, Section S.5.1. We simulated AGP data with parameters σ 2 = 2.71 2 , ρ = 2.29, and τ 2 = 1 × 10 -16 , again mirroring the real data analysis in Sect. 5.2. In aggregated models, τ approaches zero as only the average of homoscedastic independent residuals is observed, which converges in probability to zero.</p><p>We then generated 200 datasets from the Normal GLMM under each of the two different spatial random effects' structures detailed above. For each simulated dataset, we fit three Bayesian Normal GLMMs for each simulated dataset, one using the aforementioned heteroscedastic HGP prior for the random effect and other two using the AGP prior. When fitting the HGP model, we used the priors highlighted in Sect. 3.2. In addition, we put a penalized complexity prior <ref type="bibr" target="#b37">(Simpson et al. 2017</ref>) on τ -2 , such that P(τ &gt; a) = .05, where a is half the empirical SD observed in the data. Inferences and predictions were based in 2000 MCMC samples with a 1000 warm-up phase per chain with four parallel chains. Inferences for GLMMs with an AGP model are detailed in Sect. S.5.3 from the Supplementary Material.</p><p>An important aspect of the AGP model lies in the approximation of the stochastic integrals' from Eq. ( <ref type="formula" target="#formula_14">6</ref>). They are usually approximated numerically <ref type="bibr" target="#b15">(Fuentes and Raftery 2005)</ref>. In order to show the inferences and the predictions may change substantially depending on the accuracy of these approximations, we considered a two different grids to compute those integrals numerically: a sparse-(denoted, AGP 1 ) and a fine-resolution (denoted, AGP 2 ) grid, with approximately 2 and 25 points per polygon, respectively. Their priors are detailed in Sect. S.5.3 of the Supplementary Material. In Supplementary Material, Sect. S.5.4, we also present the results for parameter estimation under the correct specification of the HGP model.</p><p>We assess the quality of model predictions across different scenarios using three metrics. Firstly, point and interval predictions are derived from the posterior predictive distributions (Eq. 5), using their median and the 2.5% and 97.5% percentiles, respectively. The root-mean-square error of prediction (RMSP) is used to evaluate point estimates. The remaining two metrics assess interval predictions: the frequentist coverage percentage of prediction intervals, denoted CPP, and the interval score <ref type="bibr" target="#b20">(Gneiting and Raftery 2007, IS)</ref>. The latter is defined as</p><formula xml:id="formula_9">IS(y; l, u) = u -l + 2 α (l -y)1{y &lt; l} + 2 α (y -u)1{y &gt; u},</formula><p>where l and u are the endpoints of the symmetric (1 -α)% prediction intervals for the target y. Table <ref type="table" target="#tab_0">1</ref> presents the prediction assessment metrics under both data-generating models. When the AGP is the true model, the fine-mesh AGP model yields the most accurate point predictions (lowest RMSP). However, the HGP model's performance is only marginally worse, with a RMSP 18% higher. For interval predictions, the HGP model produces prediction intervals (PI) with near-nominal CPP and competitive IS. The AGP 1 model suffers from poor coverage and, consequently, a high IS. As expected, when the true data-generating model is the HGP, the HGP model's predictive performance surpasses that of its competitors. The point predictions from both AGP models are remarkably similar, with the fine-mesh AGP exhibiting a RMSP only 19% higher than the correctly specified HGP. This suggests the fine-mesh AGP remains competitive in terms of point predictions, despite model misspecification. In terms of interval predictions, while the AGP 2 was competitive, its sparse mesh counterpart delivered poor interval predictions. The performance of the competing method varies considerably depending on the mesh resolution, which can significantly impact prediction accuracy. In contrast, our model eliminates the need for arbitrary mesh selection and consistently delivers highly competitive predictions, enhancing prediction accuracy. Additional analyses assessing predictions across different spatial resolutions are presented in the Supplementary Material, Sect. S.5.4.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">APPLICATIONS</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1.">AREAL DATA: RESPIRATORY DISEASE HOSPITALIZATION</head><p>We first analyze a dataset on the count of hospital admissions due to respiratory disease in 2010 for the 134 intermediate zones (IZ) to the north of the river Clyde in the Great Glasgow and Clyde health board in Scotland. This dataset is publicly available in the CARBayesdata package <ref type="bibr" target="#b27">(Lee 2022)</ref>. For each IZ, the expected number of admissions based on the national age-and sex-standardized rates, alongside the percentage of people classified as income deprived in each IZ, is also available. The standardized morbidity ratio (SMR), the ratio between the number of observed and expected cases, is often used to control for confounding factors when estimating risks <ref type="bibr" target="#b23">(Greenland 1984)</ref>. The goals of the analyses are: (1) to provide smooth estimates of the SMR, adjusted for the percentage of income deprivation, and (2) to contrast the outcomes from the proposed methodology with other established methods. In this application, Y (s i ) is the number of admissions by respiratory disease registered at the i-th IZ, denoted s i . In the i-th IZ, define x i as the percentage of people who are defined to be income deprived and E i as the expected number of admissions. We analyze the data using the GLMM model from Sect. 3.1, with a Poisson likelihood, a log link function, an intercept, a covariate x i , and an offset E i . We employed the homoscedastic HGP (with a PEC function with smoothness ν = 0.7) as the prior for the random effects; the choice of ν = 0.7 is justified in Table <ref type="table">S</ref>.4 of the Supplementary Material. The priors and initialization scheme for the parameters in the HGP GLMM match those presented in Sect. 3.2. Inference was performed using four parallel chains with 5000 MCMC samples, thinned by 10, after discarding the initial 1000 iterations as the warm-up period. The highest split-R was smaller than 1.01, providing evidence of convergence.</p><p>Two competing models, BYM and DAGAR (see Appendix for further details), were considered as the priors for the spatial random effects z for comparison. In the BYM model, parametrized by the marginal precision <ref type="bibr" target="#b34">(Riebler et al. 2016)</ref>, we followed <ref type="bibr" target="#b31">Morris et al. (2019)</ref> and set standard normal priors for the intercept (β 0 ), regression coefficient (β 1 ), and the logit of the mixing parameter ξ . Similarly, a standard normal distribution truncated on positive real numbers was used for σ . The priors for the DAGAR model are the ones presented in Sect. S.4.1. The initialization of the MCMC algorithm followed the same principle used for the HGP model. In both cases, we used four parallel chains with a warm-up period of 4000 iterations and based the inferences on 20000 MCMC samples, thinned by 20. For these models, the parameters split-R provided evidence of convergence. In addition, trace and density plots for posterior samples of all fitted model parameters are provided in Sect. S.6.1 of the Supplementary Material.</p><p>We present the posterior medians and 95% CIs for the parameters from the HGP, DAGAR, and BYM models in Table <ref type="table" target="#tab_1">2</ref>. When considering the coefficient linked to the covariate representing income deprivation, all three models yield similar posterior estimates. All models found a positive association between income deprivation and hospitalizations (β 1 ). However, the HGP provided a more precise and interpretable estimate of spatial dependence via its practical range parameter, whereas the credible intervals for the dependence parameters in the BYM and DAGAR models were very wide, suggesting inconclusive evidence of spatial clustering.</p><p>To gain a better understanding of this value in the context of the data, in the Supplementary Material, Figure <ref type="figure">S</ref>.9 displays a density histogram of all pairwise Hausdorff distances observed in the dataset. The plot also features the prior distribution (in red) and estimated posterior density (in blue) associated with the practical range. Notably, the majority of the posterior distribution mass for ρ falls below the concentration of most pairwise distances, indicating a negligible clustering effect in hospital admissions. An additional analysis of the spatial correlation is presented in Sect. S.6 in the Supplementary Material.</p><p>In Table <ref type="table" target="#tab_1">2</ref>, we also present two model comparison criteria described in Sect. 4 for the models fitted to the data. These results suggest the HGP stands out as the best fit based on the LOOIC, rendering the HGP prior a competitive fit for these data. Despite the modest improvement in model fitting capacity, the HGP possesses an advantage in terms of intuitive interpretability of its spatial dependence, achieved in the last two paragraphs through the practical range parameter ρ. Among the specialized models for areal data, the BYM was the least adequate in this application. However, none of the models delivered a remarkably better fit to this dataset. This is further reinforced by looking at the maps of observed and smoothed SMR estimates presented in Figure <ref type="figure">S</ref>.8 from the Supplementary Material.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.">DATA FUSION: AIR POLLUTION IN VENTURA AND LOS ANGELES</head><p>Our second application analyzes fused fine particulate matter (PM 2.5 ) data in Ventura and Los Angeles counties, California, USA. The dataset combines point-referenced direct measurements (U.S. Environmental Protection Agency Clean Air Markets Division 2018) with areal satellite-derived estimates <ref type="bibr" target="#b42">(Van Donkelaar et al. 2015)</ref>, averaged from 2010 to 2012 (Supplementary Material, Figure <ref type="figure">S</ref>.23). To align temporally, we averaged the direct measurements over the same period. The study region comprises 19 measurement stations and 184 grid boxes (approximately 101.95 km 2 each), excluding islands. Our primary goal is to predict PM 2.5 concentrations at a finer scale (approximately 45 km 2 ) using both data sources. Secondarily, we aim to estimate average PM 2.5 concentration and its spatial dependence across both counties.</p><p>Building on previous concepts, we introduce the notation for this application. The response variable is the recorded PM 2.5 , denoted Y (s i ). In this case, s i is either a point or a grid box. We again resort to the GLMM model from Sect. 3.1, but without any covariates. We assume the likelihood is normal with variance τ 2 , and the link function is the identity. A heteroscedastic HGP prior is placed on the random effect allowing for differing variances between point-referenced and areal data through the SD function from Eq. ( <ref type="formula" target="#formula_2">2</ref>) with w(s) = 1(A(s) &gt; 0). For interpretability, we present results for σ = exp{α 0 } and σ a = exp{α 0 + α 1 } instead of α 0 and α 1 . The model was fit with ν fixed at different values, and we selected the one with best goodness-of-fit (ν = 0.7). For more details, see Table <ref type="table">S</ref>.5 in the Supplementary Material. The priors for model parameters are as in Sect. 4.2. We used four parallel chains, each comprising a warm-up period of 1000 samples and an additional 1000 samples for inference. All model parameters exhibited split-R values below 1, indicating good convergence. This is further supported by the trace plots presented in Sect. S.7.1 of the Supplementary Material. For comparison, we also fit two models with AGP random effects, with priors for the model parameters as described in Sect. 4.2. The two models only differ in the precision of the numerical integrals approximation. The sparse-and fine-resolution AGP models are denoted AGP 1 and AGP 2 , respectively.</p><p>We present the posterior median and 95% CI of the model parameters in Table <ref type="table" target="#tab_2">3</ref>. When looking at the common parameters between the three models (namely, β 0 , σ , ρ, and τ ), the HGP acts as a compromise between AGP 1 and AGP 2 while eliminating the arbitrary choice of the level of discretization for approximating numerical integrals. Unlike the aggregated models, our method allows the data to tell us whether the variance associated to areal units is smaller or larger than that of point-referenced data. Interestingly, the estimated SD of the point-referenced data is 3.09 times larger than the areal data (95% CI: 2.43, 4.12). The interpretation of ρ, presented in tens of kilometers, in both models is carried out in a similar fashion because the Hausdorff distance reduces to the Euclidean distance between points at the point level.</p><p>Additionally, Table <ref type="table" target="#tab_2">3</ref> presents the out-of-sample prediction performance of the three models, assessed via 10-fold cross-validation. Using the three metrics from our prior simulation study (RMSP, CPP, IS), we find the HGP offers the most reliable point predictions, evidenced by its lowest RMSP. The HGP also maintains nominal coverage for its prediction intervals. While the AGP 2 achieves similar coverage, its interval scores are considerably higher. Table <ref type="table">S</ref>.6 in the Supplementary Material provides a breakdown by data type, highlighting the poor performance of competing methods for point-referenced data. The PI frequentist coverage, for example, can be as low as 3%.</p><p>In Table <ref type="table">S</ref>.7 of the Supplementary Material, we further compared the predictive performance of those models to two additional alternatives: a Log-Normal model with HGP random effects, and a GP where the areal units are reduced to their centroids, resulting in a geostatistical model. We have not tested an AGP where the response follows a Log-Normal distribution, because the random effects would need to be aggregated on the response scale <ref type="bibr" target="#b39">(Suen et al. 2025)</ref>, which can be seen as a consequence of Jensen's inequality. Sur-HGP AGP 1 AGP 2 y ^3 6 9 12 prisingly, the AGP models performed the worst, while the Log-Normal HGP provided the second-best predictive performance.</p><p>The results from the AGP models diverged significantly depending on the mesh resolution. The credible interval width for the intercept varies significantly between the two models. The AGP 1 model indicates moderate spatial dependence, while AGP 2 suggests weak dependence. This weak dependence may imply AGP 2 assigns nearly independent random intercepts to each data point, with variances inversely proportional to the sample unit's area. AGP mesh resolution is typically practitioner-informed, and results are highly sensitive to this tuning parameter, which lacks a consensus on "optimal resolution" <ref type="bibr" target="#b15">(Fuentes and Raftery 2005;</ref><ref type="bibr" target="#b28">Liu et al. 2011;</ref><ref type="bibr" target="#b47">Wang and Furrer 2021)</ref>.</p><p>Figure <ref type="figure" target="#fig_2">3</ref> displays the change-of-support predictions provided by the three models we fitted to the data. HGP predictions indicate higher PM 2.5 concentrations in the southeast (Los Angeles) and provide precise estimates with uncertainty quantification in areas lacking measurement stations, such as the northwestern part of the map. Unlike its counterparts, the HGP's ability to generate parsimonious predictions without arbitrary discretization, combined with its interpretable parameters, makes it an attractive alternative for spatial data fusion problems.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">DISCUSSION</head><p>The proposed framework unifies the modeling of spatial data, extending geostatistical models to include areal and fused data within the same setting. Despite the mathematical simplicity, the subtle change of paradigm powered by the HGP opens a new direction of research in spatial statistics while taking advantage of what has been proposed in the geostatistics and GP literature. The proposal has the potential to simplify how we deal with complex problems such as spatial misalignment and change of support. In simpler scenarios, as a prior for spatial random effects in a GLMM, the HGP proves to be competitive to models specially designed for areal and fused data types. Our simulation studies indicate that the HGP is particularly advantageous for areal data with units of varying sizes and shapes, as confirmed by our disease mapping application. Unlike the traditional areal models, the HGP also provides a directly interpretable spatial parameter, offering insights into the practical range of spatial dependence. In data fusion contexts, the HGP delivers more reliable interval predictions compared to the sparse AGP, and it provided similar results to the fine AGP in parameter estimation and spatial range. Additionally, in the air pollution data application, the proposed model consistently outperformed the AGP regardless of the resolution of its mesh. This success is even more remarkable considering the HGP bypasses the subjective step of defining a grid or mesh, a crucial but problematic requirement for the AGP.</p><p>The empirical assessment in Sect. 2.3 reveals an interesting insight: the properties of the induced process appear linked to the geometric complexity of the sets involved. This is most evident in the contrasting results from our two scenarios. For the data fusion scenario, which involves only convex sets, all correlation matrices were positive definite. In contrast, for the areal data scenario, where most spatial units are non-convex, we observed negative eigenvalues at the border of the parameter space (Fig. <ref type="figure" target="#fig_0">1</ref>). This contrast provides strong empirical evidence that the PEC function is a valid and robust choice for applications involving convex sets, such as most data fusion problems.</p><p>While our extensive empirical assessments consistently demonstrate the positive definiteness of the PEC function across practical parameter ranges, a formal proof establishing the general conditions under which functions of the Hausdorff distance are positive definite remains an open and challenging theoretical question. Nevertheless, the proposed HGP addresses several long-standing problems in spatial statistics. For instance, traditional areal models are unsuitable for out-of-sample prediction and often have counter-intuitive parameters interpretation <ref type="bibr" target="#b46">(Wall 2004;</ref><ref type="bibr" target="#b2">Assunção and Krainski 2009)</ref>. Furthermore, the validity of CAR models, for instance, also depends on constraining the parametric space to ensure a non-singular precision matrix <ref type="bibr" target="#b46">(Wall 2004)</ref>. While data fusion models do not share the same issues, we have shown that their results can be significantly affected by the arbitrary precision of required approximations. By introducing the HGP and demonstrating its utility, we aim to provide a foundation for future theoretical work, thereby bridging the gap between practical application and complete mathematical understanding.</p><p>Several conceptual challenges for the HGP remain open for future investigation. Relaxing the isotropy assumption, for instance, requires further theoretical development. To apply the HGP to data on manifolds like the sphere, new results are needed to guarantee the process's validity. Furthermore, because the HGP is a set-valued function, any analysis of its curvature (e.g., <ref type="bibr" target="#b24">Halder et al. 2024</ref>) necessitates more general concepts of differentiation <ref type="bibr" target="#b26">(Khastan et al. 2021)</ref>. It is important to note, however, that this latter complexity does not prevent the use of powerful inference frameworks that rely on the posterior's gradient, such as variational inference <ref type="bibr" target="#b8">(Blei et al. 2017)</ref>.</p><p>Although the O(n 3 ) computational complexity is a limitation, the method was developed with the intent of leveraging what has already been developed for GPs. Thus, adapting scalable nearest neighbor approximations <ref type="bibr" target="#b12">(Datta et al. 2016;</ref><ref type="bibr" target="#b33">Quiroz et al. 2023</ref>) for the HGP is a viable avenue for future research. The main challenge would be to identify nearest neighbors in the Hausdorff distance sense while avoiding the storage of a n × n distance matrix.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A. REVIEW OF EXISTING METHODS</head><p>The BYM model we use corresponds to a zero-mean multivariate normal model with covariance matrix defined as</p><formula xml:id="formula_10">σ -2 ((1 -ξ)I + ξ Q -),</formula><p>where σ is the average marginal SD, I is the identity matrix, and Q -is the generalized inverse of the scaled precision matrix of an ICAR model. The spatial dependence parameter ξ is a mixing parameter. Its parametric space comprises of real numbers between 0 and 1, with larger values indicate stronger spatial dependence. The entries of Q are as follows:</p><formula xml:id="formula_11">Q i j = ⎧ ⎪ ⎪ ⎨ ⎪ ⎪ ⎩ kn N (i) , if i = j, -k, if i ∼ j,<label>0, elsewhere,</label></formula><p>where n N (i) denotes the number of neighbors for the region i, and i ∼ j indicates that j and i are neighbors, and k is the scaling constant. The scaling constant depends on the adjacency matrix and enhances the interpretation of σ , which becomes the average marginal standard deviation, as opposed to the conditional standard deviation in the original formulation <ref type="bibr" target="#b34">(Riebler et al. 2016)</ref>. We used the BYM as a prior for the random effects in the spatial GLMMs (Sect. 3.1) for areal data in Sect. 5.1. We also generated data from a spatial GLMM assuming the BYM was the actual distribution of the spatial random effects for part of the simulation studies in Section 4.1. The DAGAR model, in our context, is a zero-mean multivariate normal model. We used the DAGAR as a prior for the spatial GLMM (Sect. 3.1) random effects (e.g., z) for areal data, in particular, in Sect. 4.1 and 5.1. The precision matrix for the DAGAR model is constructed using the data ordering, an adjacency matrix, and two parameters: a conditional precision, τ , and a spatial dependence parameter, ψ. The ψ parameter represents the average spatial correlation between adjacent spatial units. Specifically, the data ordering and adjacency matrix define a tree graph, and the precision matrix is derived from an order-1 autoregressive process on the nodes of this graph. A key advantage of this model is its computational efficiency, as it can be evaluated using either closed-form conditional distributions or direct formulas for the Cholesky decomposition of its covariance matrix. In particular, the Cholesky decomposition of the precision matrix under a DAGAR model can be written as F -1/2 (I -B), where F is a diagonal matrix, I is the identify matrix, and B is lower triangular <ref type="bibr" target="#b11">(Datta 2022)</ref>. The entries of F and B, respectively, are given by</p><formula xml:id="formula_12">F ii = [τ (1 + 1 + n N(i) ψ 2 )]</formula><p>-1 and</p><formula xml:id="formula_13">B i j = 1( j ∼ i, j &lt; i) ψ 1 + 1 + n N(i) ψ 2 ,</formula><p>where 1(A) denotes an indicator function, equaling 1 if the event A happens and 0 otherwise. Note that, in this case, n N(i) = j 1( j ∼ i, j &lt; i) represents the number of "directional neighbors." Although the DAGAR depends on an arbitrary order for the data points, the authors also developed an "order-free" variant of the model. However, the "order-free" DAGAR does not enjoy the computational efficiency of its ordered counterpart.</p><p>The AGP model is employed as a prior on the random effects (z) of the spatial GLMM (Sect. 3.1) for fused data. In particular, we used this model to generate data for the simulation studies in Sect. 4 and to analyze the dataset from Sect. 5.2. The AGP core assumption is as follows:</p><formula xml:id="formula_14">Z (s) = A(s) -1 A(s) Z (s)dss, if A(s) &gt; 0, Z (s), otherwise,<label>(6)</label></formula><p>where {Z (s) : s ∈ D} is a (point-level) zero-mean, second-order stationary, and isotropic GP <ref type="bibr">(Cressie 1993, p. 53</ref>) defined over the study region; A(•) is a function that returns the area of a spatial object.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Smallest eigenvalue of the powered exponential correlation matrix under different combinations of smoothness (ν) and practical range (ρ) for areal and fused data. The transparency indicates regions where λ 1 &lt; 0.</figDesc><graphic coords="5,106.48,87.85,126.29,128.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. ECDFs displaying the GoF comparison between HGP and DAGAR models across different datagenerating processes (AGP: solid line, BYM: dashed line) and model comparison criteria (columns of the panel) based on 200 simulated datasets. Shaded region indicates negligible differences. Negative G indicates better HGP performance.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. Change of support of PM 2.5 to a finer resolution using the sparse and fine AGP and the HGP priors.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Out-of-sample prediction for the three models under different data-generating models. Fit specifies the model fitted to the data. RMSP is the root-mean-squared error of prediction, CPP is the frequentist coverage percentage of the 95% prediction interval, and IS is the interval score. Double headers denote the true data-generating model</figDesc><table><row><cell></cell><cell>AGP</cell><cell></cell><cell></cell><cell>HGP</cell><cell></cell><cell></cell></row><row><cell>Fit</cell><cell>RMSP</cell><cell>CPP</cell><cell>IS</cell><cell>RMSP</cell><cell>CPP</cell><cell>IS</cell></row><row><cell>AGP 1</cell><cell>1.56</cell><cell>67.8</cell><cell>17.74</cell><cell>1.81</cell><cell>57.9</cell><cell>31.37</cell></row><row><cell>AGP 2</cell><cell>1.39</cell><cell>95.7</cell><cell>6.60</cell><cell>1.80</cell><cell>88.1</cell><cell>10.63</cell></row><row><cell>HGP</cell><cell>1.65</cell><cell>90.8</cell><cell>8.65</cell><cell>1.51</cell><cell>95.7</cell><cell>7.05</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 .</head><label>2</label><figDesc>Parameter estimates and model comparison criteria for the three models fitted to the areal dataset.</figDesc><table><row><cell></cell><cell cols="2">Marginal posterior summary through median and 95% credible intervals</cell><cell></cell></row><row><cell></cell><cell>HGP</cell><cell>DAGAR</cell><cell>BYM</cell></row><row><cell>β 0</cell><cell>-0.21 (-0.268, -0.139)</cell><cell>-0.26 (-0.450, -0.137)</cell><cell>-0.22 (-0.254, -0.184)</cell></row><row><cell>β 1</cell><cell>0.33 (0.284, 0.368)</cell><cell>0.31 (0.258, 0.370)</cell><cell>0.33 (0.285, 0.366)</cell></row><row><cell>σ</cell><cell>0.19 (0.155, 0.234)</cell><cell>0.30 (0.218, 0.484)</cell><cell>0.24 (0.176, 0.354)</cell></row><row><cell>ρ</cell><cell>2.25 (0.159, 6.948)</cell><cell></cell><cell></cell></row><row><cell>ψ</cell><cell></cell><cell>0.43 (0.069, 0.827)</cell><cell></cell></row><row><cell>ξ</cell><cell></cell><cell></cell><cell>0.42 (0.100, 0.815)</cell></row><row><cell>LOOIC</cell><cell>1081.0</cell><cell>1081.9</cell><cell>1089.3</cell></row><row><cell>WAIC</cell><cell>1038.0</cell><cell>1032.4</cell><cell>1039.6</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 .</head><label>3</label><figDesc>Parameter estimates and out-of-sample prediction assessment for the three models fitted to the fused dataset. Marginal posterior summary through median and 95% credible intervals. RMSP is the rootmean-squared error of prediction; CPP is the frequentist coverage of the 95% prediction interval; and IS is the interval score</figDesc><table><row><cell></cell><cell>HGP</cell><cell>AGP 1</cell><cell>AGP 2</cell></row><row><cell>β</cell><cell>5.593 (4.659, 6.431)</cell><cell>6.176 (2.160, 9.990)</cell><cell>6.344 (6.102, 6.585)</cell></row><row><cell>ρ</cell><cell>15.076 (8.445, 28.561)</cell><cell>13.093 (4.809, 29.720)</cell><cell>0.493 (0.340, 0.750)</cell></row><row><cell>τ</cell><cell>0.174 (0.078; 0.324)</cell><cell>1.403 (1.253; 1.573)</cell><cell>0.539 (0.394, 0.719)</cell></row><row><cell>σ</cell><cell>3.893 (2.962; 5.359)</cell><cell>1.717 (0.933; 2.938)</cell><cell>2.877 (2.144; 3.566)</cell></row><row><cell>σ a</cell><cell>1.275 (1.064; 1.590)</cell><cell></cell><cell></cell></row><row><cell>RMSP</cell><cell>2.22</cell><cell>3.55</cell><cell>4.45</cell></row><row><cell>CPP</cell><cell>95.6</cell><cell>77.3</cell><cell>93.6</cell></row><row><cell>IS</cell><cell>5.08</cell><cell>15.4</cell><cell>9.55</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Conflict of interest</head><p>All authors declare that they have no conflict of interest.</p></div>
+			</div>
+
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Declarations</head><p>Publisher's Note Springer Nature remains neutral with regard to jurisdictional claims in published maps and institutional affiliations.</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<monogr>
+		<title level="m" type="main">Understanding analysis</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Abbott</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Some properties and applications of the Hausdorff distance</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">V</forename><surname>Arutyunov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Vartapetov</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">E</forename><surname>Zhukovskiy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Optim Theory Appl</title>
+		<imprint>
+			<biblScope unit="volume">171</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="527" to="535" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Neighborhood dependence in Bayesian spatial models</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Assunção</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Krainski</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometric J J Math Methods Biosci</title>
+		<imprint>
+			<biblScope unit="volume">51</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="851" to="869" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Areal prediction of survey data using Bayesian spatial generalised linear models</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Bakar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Jin</forename><forename type="middle">H</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Commun Stat Simulat Comput</title>
+		<imprint>
+			<biblScope unit="volume">49</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2963" to="2978" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Efficient Gaussian process regression for large datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Dunson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">T</forename><surname>Tokdar</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrika</title>
+		<imprint>
+			<biblScope unit="volume">100</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="75" to="89" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Prediction, interpolation and regression for spatially misaligned data</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sankhyā Indian J Stat Ser A</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="227" to="245" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Spatial interaction and the statistical analysis of lattice systems</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Roy Stat Soc: Ser B (Methodol)</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="192" to="225" />
+			<date type="published" when="1974">1974</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Bayesian image restoration, with two applications in spatial statistics</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Besag</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>York</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Mollié</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ann Inst Stat Math</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="20" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Variational inference: a review for statisticians</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Blei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kucukelbir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">D</forename><surname>Mcauliffe</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">112</biblScope>
+			<biblScope unit="issue">518</biblScope>
+			<biblScope unit="page" from="859" to="877" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Inducing high spatial correlation with randomly edge-weighted neighborhood graphs</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Wiley</forename><surname>Cruz-Reyes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Assunção</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Loschi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley Series in Probability and Statistics</title>
+		<imprint>
+			<date type="published" when="1993">1993. 2023</date>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="1" to="35" />
+		</imprint>
+	</monogr>
+	<note>Statistics for spatial data</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">On the use of non-Euclidean distance measures in geostatistics</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">C</forename><surname>Curriero</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Math Geol</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">8</biblScope>
+			<biblScope unit="page" from="907" to="926" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Nearest-neighbor sparse Cholesky matrices in spatial statistics</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Wiley Interdiscip Rev Comput Stat</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page">1574</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Hierarchical nearest-neighbor Gaussian process models for large geostatistical datasets</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">111</biblScope>
+			<biblScope unit="issue">514</biblScope>
+			<biblScope unit="page" from="800" to="812" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Spatial disease mapping using directed acyclic graph auto-regressive (DAGAR) models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Gao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Anal</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1221" to="1244" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Model-based geostatistics</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Tawn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Moyeed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J R Stat Soc: Ser C: Appl Stat</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="299" to="350" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Model evaluation and spatial interpolation by Bayesian combination of observations with outputs from numerical models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fuentes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Raftery</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="36" to="45" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Constructing priors that penalize the complexity of Gaussian random fields</title>
+		<author>
+			<persName><forename type="first">G-A</forename><surname>Fuglstad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="issue">525</biblScope>
+			<biblScope unit="page" from="445" to="452" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">On the change of support problem for spatio-temporal data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="31" to="45" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Prior distributions for variance parameters in hierarchical models (comment on article by Browne and Draper)</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Anal</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="515" to="534" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Strictly proper scoring rules, prediction, and estimation</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gneiting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Raftery</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="issue">477</biblScope>
+			<biblScope unit="page" from="359" to="378" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Exact Bayesian inference in spatiotemporal Cox processes driven by multivariate Gaussian processes</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">B</forename><surname>Gonçalves</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gamerman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Royal Stat Soc Ser B (Stat Methodol)</title>
+		<imprint>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="157" to="175" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Combining incompatible spatial data</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Young</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">97</biblScope>
+			<biblScope unit="issue">458</biblScope>
+			<biblScope unit="page" from="632" to="648" />
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Bias in methods for deriving standardized morbidity ratio and attributable fraction estimates</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Greenland</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Med</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="131" to="141" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Bayesian modeling with spatial curvature processes</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Halder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Dey</surname></persName>
+		</author>
+		<idno type="PMID">39006311</idno>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">119</biblScope>
+			<biblScope unit="issue">546</biblScope>
+			<biblScope unit="page" from="1155" to="1167" />
+			<date type="published" when="2024">2024</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">The No-U-turn sampler: Adaptively setting path lengths in Hamiltonian Monte Carlo</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">D</forename><surname>Hoffman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Mach Learn Res</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1593" to="1623" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">New differentiability concepts for set-valued functions and applications to set differential equations</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Khastan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Rodríguez-López</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Shahidi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Inf Sci</title>
+		<imprint>
+			<biblScope unit="volume">575</biblScope>
+			<biblScope unit="page" from="355" to="378" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<monogr>
+		<title level="m" type="main">CARBayesdata: Data used in the vignettes accompanying the CARBayes and CARBayesST packages</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Lee</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+	<note>R package version 3.0</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">An empirical assessment of Bayesian melding for mapping Ozone pollution</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">D</forename><surname>Le</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">V</forename><surname>Zidek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="340" to="353" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+	</analytic>
+	<monogr>
+		<title level="m">Probability and Its Applications</title>
+		<meeting><address><addrLine>London, England</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2005">2005. 2005</date>
+		</imprint>
+	</monogr>
+	<note>Theory of random sets</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">A geostatistical model for combined analysis of point-level and area-level data using INLA and SPDE</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Moraga</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Cramb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Mengersen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pagano</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Stat</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="27" to="41" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Bayesian hierarchical spatial models: implementing the Besag York Molli model in Stan</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Wheeler-Martin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Mooney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Dimaggio</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Spat-temp Epidemiol</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page">100301</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Non-Gaussian Bayesian geostatistical modeling</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Palacios</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Mfj</forename><surname>Steel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">101</biblScope>
+			<biblScope unit="issue">474</biblScope>
+			<biblScope unit="page" from="604" to="618" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Fast Bayesian inference of block nearest neighbor Gaussian models for large data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Prates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">C</forename><surname>Quiroz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Dey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">O</forename><surname>Prates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">K</forename><surname>Dey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econ Stat Quiroz ZC</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">54</biblScope>
+			<date type="published" when="2023">2024. 2023</date>
+		</imprint>
+	</monogr>
+	<note>Fast generalized spatial multilevel blockNNGP modeling Stat Comput</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">An intuitive Bayesian spatial model for disease mapping that accounts for scaling</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riebler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Sørbye</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Methods Med Res</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="1145" to="1165" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Bayesian spatial models with a mixture neighborhood structure</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">C</forename><surname>Rodrigues</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Assunçao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Multivar Anal</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="page" from="88" to="102" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Metric spaces and positive definite functions</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">J</forename><surname>Schoenberg</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trans Am Math Soc</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="522" to="536" />
+			<date type="published" when="1938">1938</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Penalising model component complexity: a principled, practical approach to constructing priors</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riebler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Martins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Sørbye</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Sci</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<monogr>
+		<title level="m" type="main">Interpolation of spatial data: some theory for Kriging. Springer series in statistics</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<publisher>Springer Science+Business Media</publisher>
+			<pubPlace>New York, New York, NY</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title level="m" type="main">Coherent disaggregation and uncertainty quantification for spatially misaligned data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">H</forename><surname>Suen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Naylor</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Lindgren</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2025">2025</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">RStan: the R interface to Stan</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">D</forename><surname>Team</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">R package version</title>
+		<imprint>
+			<date type="published" when="2023">2023</date>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page">3</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<monogr>
+		<author>
+			<persName><forename type="first">U</forename><forename type="middle">S</forename></persName>
+		</author>
+		<ptr target="https://www.epa.gov/outdoor-air-quality-data/download-daily-data" />
+		<title level="m">Environmental Protection Agency Clean Air Markets Division</title>
+		<imprint>
+			<date type="published" when="2018-09-22">2018. September 22, 2022</date>
+		</imprint>
+	</monogr>
+	<note>Clean air status and trends network (CASTNET)</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<monogr>
+		<title level="m" type="main">Global annual PM2.5 grids from MODIS, MISR and SeaWiFS aerosol optical depth (AOD)</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Van Donkelaar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">V</forename><surname>Martin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Brauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">L</forename><surname>Boys</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1998">2015. 1998-2012. Accesed 15 Aug 2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Vehtari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gabry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Stat Comput</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="1413" to="1432" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Rank-normalization, folding, and localization: An improved R for assessing convergence of MCMC (with discussion)</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Vehtari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gelman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Carpenter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P-C</forename><surname>Bürkner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Bayesian Anal</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="667" to="718" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">The (in)stability of Bayesian model selection criteria in disease mapping</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vranckx</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Neyens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Faes</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Spat Stat</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page">100502</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">A close look at the spatial structure implied by the CAR and SAR models</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Wall</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Stat Plann Inference</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="311" to="324" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Combining heterogeneous spatial datasets with process-based spatial fusion models: A unifying framework</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Comput Stat Data Anal</title>
+		<imprint>
+			<biblScope unit="volume">161</biblScope>
+			<biblScope unit="page">107240</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Asymptotic equivalence of Bayes cross validation and widely applicable information criterion in singular learning theory</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Watanabe</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Opper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Mach Learn Res</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Inconsistent estimation and asymptotically equal interpolations in model-based geostatistics</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">99</biblScope>
+			<biblScope unit="issue">465</biblScope>
+			<biblScope unit="page" from="250" to="261" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

@@ -1,0 +1,1359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Maximum Likelihood Estimation of Spatially Varying Coefficient Models for Large Data with an Application to Real Estate Price Prediction</title>
+				<funder ref="#_qakuH3h">
+					<orgName type="full">Swiss Innovation Agency Innosuisse</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2020-11-12">November 12, 2020</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Jakob</forename><forename type="middle">A</forename><surname>Dambon</surname></persName>
+							<email>jakob.dambon@math.uzh.ch</email>
+							<idno type="ORCID">0000-0001-5855-2017</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Mathematics</orgName>
+								<orgName type="institution">University of Zurich</orgName>
+							</affiliation>
+							<affiliation key="aff1">
+								<orgName type="department">Institute of Financial Services Zug</orgName>
+								<orgName type="institution">Lucerne University of Applied Sciences and Arts</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Fabio</forename><surname>Sigrist</surname></persName>
+							<email>fabio.sigrist@hslu.ch</email>
+							<idno type="ORCID">0000-0002-3994-2244</idno>
+							<affiliation key="aff1">
+								<orgName type="department">Institute of Financial Services Zug</orgName>
+								<orgName type="institution">Lucerne University of Applied Sciences and Arts</orgName>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Reinhard</forename><surname>Furrer</surname></persName>
+							<email>reinhard.furrer@math.uzh.ch</email>
+							<idno type="ORCID">0000-0002-6319-2332</idno>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Mathematics</orgName>
+								<orgName type="institution">University of Zurich</orgName>
+							</affiliation>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">Department of Computational Science</orgName>
+								<orgName type="department" key="dep2">Department of Mathematics</orgName>
+								<orgName type="institution" key="instit1">University of Zurich</orgName>
+								<orgName type="institution" key="instit2">University of Zurich</orgName>
+								<address>
+									<addrLine>Winterthurerstrasse 190</addrLine>
+									<postCode>8057</postCode>
+									<settlement>Zurich</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="department">Institute of Financial Services Zug</orgName>
+								<address>
+									<addrLine>Campus Zug-Rotkreuz, Suurstoffi 1</addrLine>
+									<postCode>6343</postCode>
+									<settlement>Rotkreuz</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff4">
+								<orgName type="department">Department of Mathematics</orgName>
+								<orgName type="institution">University of Zurich</orgName>
+								<address>
+									<addrLine>Winterthurerstrasse 190</addrLine>
+									<postCode>8057</postCode>
+									<settlement>Zurich</settlement>
+									<country key="CH">Switzerland</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Maximum Likelihood Estimation of Spatially Varying Coefficient Models for Large Data with an Application to Real Estate Price Prediction</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2020-11-12">November 12, 2020</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">4A7B7F45ED5C52D4E0AEAAF9B5C34A7C</idno>
+					<idno type="DOI">10.1016/j.spasta.2020.100470</idno>
+					<idno type="arXiv">arXiv:2001.08089v5[stat.ME]</idno>
+					<note type="submission">Paper submitted to Spatial Statistics on April 3, 2020. Revised on July 30, 2020. Accepted on September 5, 2020.</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>spatial statistics</term>
+					<term>Gaussian process</term>
+					<term>covariance tapering</term>
+					<term>likelihood regularization</term>
+					<term>real estate mass appraisal</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In regression models for spatial data, it is often assumed that the marginal effects of covariates on the response are constant over space. In practice, this assumption might often be questionable. In this article, we show how a Gaussian process-based spatially varying coefficient (SVC) model can be estimated using maximum likelihood estimation (MLE). In addition, we present an approach that scales to large data by applying covariance tapering. We compare our methodology to existing methods such as a Bayesian approach using the stochastic partial differential equation (SPDE) link, geographically weighted regression (GWR), and eigenvector spatial filtering (ESF) in both a simulation study and an application where the goal is to predict prices of real estate apartments in Switzerland. The results from both the simulation study and application show that the MLE approach results in increased predictive accuracy and more precise estimates. Since we use a model-based approach, we can also provide predictive variances. In contrast to existing model-based approaches, our method scales better to data where both the number of spatial points is large and the number of spatially varying covariates is moderately-sized, e.g., above ten.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Over the last years, affordable measuring techniques lead to an abundance of spatial data; not only areal but in particular spatial points data. Often, the data sets contain covariates in addition to the main variable(s) of interest. These are then used in a regression model, where the goal is either predicting the response variable or inferring the relationship between the response variable and the covariates. With further advances to reduce computational cost, we are now able to analyze large spatial data sets and the literature on models and methods on how to do so is extensive. See <ref type="bibr" target="#b9">Cressie (2011)</ref> and <ref type="bibr" target="#b29">Heaton et al. (2019)</ref> for an overview. However, the vast majority of models assumes that covariate effects are constant over space which is not necessarily plausible.</p><p>Spatially varying coefficient (SVC) models allow for marginal effects to be nonstationary over space and thus offer a higher degree of flexibility. At the same time, SVC models have the advantage that they are easily interpretable. Several methodologies and applications with SVC models have been published. To name two, geographically-weighted regression (GWR) by <ref type="bibr" target="#b16">Fotheringham et al. (2002)</ref> and a Bayesian framework with SVC processes by <ref type="bibr" target="#b23">Gelfand et al. (2003)</ref> are prominent examples. An application that uses both methodologies can be found in <ref type="bibr" target="#b50">Wheeler and Waller (2009)</ref> who model crime records in Houston, Texas. In a simulation study <ref type="bibr" target="#b47">Wheeler and Calder (2007)</ref> conclude that SVC processes provide more accurate regression coefficient estimates than GWR. A further comparison of GWR and SVC processes is given by <ref type="bibr" target="#b15">Finley (2010)</ref> on ecological data. It is shown that SVC processes generally have better predictive performance.</p><p>However, when it comes to estimating SVC models on large data, most of the established methodologies run into problems. Currently available implementations of Bayesian approaches such as Gaussian predictive processes presented in <ref type="bibr" target="#b1">Banerjee et al. (2008)</ref> or Gaussian Markov random field approximations by <ref type="bibr" target="#b35">Lindgren et al. (2011)</ref> are either limited by the number of SVCs within a model or the number of observations. This also holds true for the before mentioned SVC processes by <ref type="bibr" target="#b23">Gelfand et al. (2003)</ref>. Finally, GWR lacks a statistical sound definition and should be regarded as a purely exploratory tool. Therefore, a geostatistical estimation and prediction method is needed that, on the one hand, can deal with large number of observations and, on the other hand, can be applied to models including many SVCs.</p><p>The outline of this article is as follows: In the next section, we introduce the data set and give a first exploratory analysis that motivates the usage of SVC models. In Section 3 we formally define SVC models and give an overview of existing methods. We motivate our approach by listing potential shortcomings of the existing methods. In Section 4 we describe our maximum likelihood estimation (MLE) method in detail. Section 5 compares the existing methods to MLE in a large simulation study on synthetic data. A further comparison on the real data set is given in Section 6. We summarize our findings in Section 7.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Data Set</head><p>The data set provided by Fahrländer Partner (Zurich, Switzerland) consists of apartment transactions in Switzerland containing the selling price, six covariates and approximate coordinates for each transaction. The goal is to regress the selling price on the given covariates. An overview and description of the data are given in Table <ref type="table" target="#tab_0">1</ref>.</p><p>The Swiss banking secrecy prevents disclosing the exact locations of the apartments. That is why all observations are first grouped according to a dense grid consisting of 5,379 relatively small cells over Switzerland with a higher resolution in densely populated areas. The cell sizes range from 3.68 to 59,988.20 acres (0.015 to 242.764 km 2 ), the median being 872.49 acres (3.531 km 2 ). Instead of the exact location, we then only observe the centroid of the corresponding cell for every apartment. The easting and northing of these centroids are given in the LV03 coordinate reference system and their corresponding units are meters (Federal Office of Topography swisstopo, 1900).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Motivation and Exploratory Analysis</head><p>In real estate mass appraisal, there are several works that investigate or model nonstationary covariates effects. <ref type="bibr" target="#b23">Gelfand et al. (2003)</ref> used a Bayesian SVC model with coefficients defined as Gaussian processes (GP) to model single-family houses in Baton Rouge, Louisiana. A frequently used tool to investigate the hypothesis of SVC in an exploratory manner is geographically weighted regression (GWR). For instance, van <ref type="bibr" target="#b45">Eggermond et al. (2011)</ref> and <ref type="bibr" target="#b6">Cao et al. (2019)</ref> show that the coefficients of the floor level and the distance to a central business district are spatially varying. We use these findings to motivate a first exploratory analysis of the real estate data set at hand. A visual inspection of the SVCs is challenging since the underlying effects are not directly observable and first require a definition of a regression model.</p><p>With the transaction price (price) as a variable of interest we use the area (area), micro location rating (micro), and standard rating (stand) for a simple, first model. Specifically, we natural logarithm transform the price and area variables as one usually does in a hedonic model <ref type="bibr" target="#b36">(Malpezzi, 2008;</ref><ref type="bibr" target="#b48">Wheeler et al., 2014)</ref>. Using the R package GWmodel by <ref type="bibr" target="#b27">Gollini et al. (2015)</ref>, the model is fitted on the whole data set and the estimated SVCs are depicted in Figure <ref type="figure" target="#fig_0">1</ref>. Due to the heterogeneous distribution of observation locations, we use an adaptive bandwidth which has been estimated using an automated, AIC corrected selection approach <ref type="bibr" target="#b30">(Hurvich et al., 1998)</ref>. A visual inspection of the GWR-estimated coefficients indicates that we have indeed spatially varying coefficients. In facet (a) the intercept's SVC is given. As expected, we see a relatively large variation in the intercept. In addition, the covariates do appear to have spatially varying effects. However, some of the effects are not in line with prior expectation as, for instance, we would expect a higher area effect in city centers. Further, the intercept and the area effect appear negatively correlated. In fact, multicollinearity is a potential drawback of GWR <ref type="bibr" target="#b49">(Wheeler and Tiefelsdorf, 2005;</ref><ref type="bibr" target="#b47">Wheeler and Calder, 2007)</ref>.</p><p>Yet, applications in context of real estate pricing like <ref type="bibr" target="#b6">Cao et al. (2019)</ref> as well as <ref type="bibr" target="#b24">Geng et al. (2011)</ref> report a substantial increase in R 2 by 0.19 and 0.23, respectively, compared to an OLS-based regression. We were able to observe an increase in R 2 of similar magnitude when going from an OLS to an GWR estimation. This ambiguity between, on the one hand, the quality of the estimated SVC and, on the other hand, the goodness of fit underlines the need for a statistical sound methodology for SVC models which can be applied to large data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">SVC Models</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>SVC models extend the linear regression model</head><formula xml:id="formula_0">y i = β 1 x (1) i + ... + β p x (p) i + ε i , ε i iid ∼ N (0, τ 2 ),<label>(1)</label></formula><p>where i = 1, ..., n are the observations and p is the number of coefficients. By allowing the coefficients to vary spatially, the model equation changes to</p><formula xml:id="formula_1">y i = β 1 (s i )x (<label>1</label></formula><formula xml:id="formula_2">) i + ... + β p (s i )x (p) i + ε i , ε i iid ∼ N (0, τ 2 ),</formula><p>where s i ∈ D ⊂ R d , d ≥ 1, denotes the location of observation i in a domain D. Here, we will work with d = 2. The exact specifications for the coefficients β j (•) have yet to be defined.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Existing SVC Methods</head><p>We will give an overview of the most common methods that allow us to make inference for SVC models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Geographically Weighted Regression (GWR)</head><p>This method is widely used in practice as it is easy to implement and relatively fast in computation. It assumes model equation (1) and estimates the coefficients for each location as a weighted regression specific to that location. GWR is fully described in <ref type="bibr" target="#b16">Fotheringham et al. (2002)</ref>. As mentioned before, multicollinearity issues with local regressions are raised <ref type="bibr" target="#b49">(Wheeler and Tiefelsdorf, 2005;</ref><ref type="bibr" target="#b47">Wheeler and Calder, 2007)</ref>, cf. Figure <ref type="figure" target="#fig_0">1</ref>. This method is readily available for R (e.g. packages GWmodel by <ref type="bibr" target="#b27">Gollini et al., 2015</ref><ref type="bibr">, spgwr by Bivand and Yu, 2017</ref><ref type="bibr">, and gwrr by Wheeler, 2013)</ref> as well as arcGIS (Environmental Systems Research Institute (ESRI), 2020). In its classical form GWR only supports the same bandwidth for all coefficients, that is, the bandwidth is either a fixed distance or adaptive defined by a number of nearest neighbors. Recent works by <ref type="bibr" target="#b17">Fotheringham et al. (2017)</ref> and Chen and Mei (2020) present methods to estimate separate bandwidths for each SVC.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Eigenvector Spatial Filtering (ESF)</head><p>This method is also known as Moran's Eigenvector Mapping (MEM) <ref type="bibr" target="#b28">(Griffith, 2011;</ref><ref type="bibr" target="#b11">Dray et al., 2006)</ref>. In <ref type="bibr" target="#b38">Murakami and Griffith (2015)</ref> it has been extended to random effects and thus is now capable of dealing with SVC models. It is readily available in the R packages spmoran <ref type="bibr" target="#b37">(Murakami, 2018)</ref> and spatialreg <ref type="bibr" target="#b3">(Bivand and Piras, 2015)</ref>.</p><p>The following methods are based on a model assumption where the SVC is defined with Gaussian processes (GP). That is,</p><formula xml:id="formula_3">β j (•) ∼ GP µ j (•), c (j) ( • ; θ j ) ,<label>(2)</label></formula><p>for some choice of covariance function c (j) with parameter vector θ j . The covariance function works on the distances r between observation locations defined by some norm.</p><p>Here we use the Euclidean norm • . We denote Σ (j) the covariance matrix defined as</p><formula xml:id="formula_4">Σ (j) kl := c (j) ( s k -s l =r ; θ j ). (<label>3</label></formula><formula xml:id="formula_5">)</formula><p>One of the most commonly used classes of covariance functions is the Matérn covariance function class. For a marginal variance σ 2 and a range parameter ρ, we define the Matérn covariance function c ν ( • ; ρ, σ 2 ) : [0, ∞) → R + as</p><formula xml:id="formula_6">c ν r; ρ, σ 2 = σ 2 2 1-ν Γ(ν) √ 2ν r ρ ν K ν √ 2ν r ρ ,<label>(4)</label></formula><p>where ν ∈ R + is the smoothness, r is a distance, and K ν is the modified Bessel function of the second kind and order ν. Coming back to our assumption (2), i.e., that each SVC is modeled by a GP, this implies that each SVC is described by the covariance parameters θ j that consists of a variance σ 2 j and range ρ j , while in this paper we assume the smoothness ν j to be known. <ref type="bibr" target="#b23">Gelfand et al. (2003)</ref> introduced a Bayesian SVC model. It allows for prior-dependence of the coefficient processes but assumes an equal range parameter for all coefficients, i.e., ρ j ≡ ρ, ∀j. The method is implemented for example in the R package spTDyn <ref type="bibr" target="#b0">(Bakar et al., 2016)</ref>. However, the package does not scale to large data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Bayesian SVC Processes</head><p>Gaussian Markov Random Fields using an SPDE Link One can define a Bayesian SVC model using the link between Gaussian Markov random fields (GMRF, see <ref type="bibr" target="#b40">Rue and Held, 2005)</ref> and GP via a stochastic partial differential equation (SPDE, see <ref type="bibr" target="#b35">Lindgren et al., 2011)</ref>. However, this SPDE link only exists for a limited number of Matérn class covariance functions. Estimation can be done using integrated nested Laplacian approximations (INLA) based on <ref type="bibr" target="#b41">Rue et al. (2009)</ref> which is available in the R package INLA (<ref type="url" target="http://www.r-inla.org">www.r-inla.org,</ref>  <ref type="bibr" target="#b34">Lindgren and Rue, 2015)</ref>. Due to its widely accommodated models, INLA has become quite popular over the last couple of years and is used in environmental sciences and climatology as it can deal with big data sets. A drawback of INLA is the critical assumption on the number of hyperparameters that one can estimate which should be "small, typically 2 to 5, but not exceeding 20" <ref type="bibr" target="#b42">(Rue et al., 2017)</ref> and therefore the number of SVCs in a model is limited.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Remark (SPDE link in INLA).</head><p>In the current version of INLA (version 19.09.03), the SPDE link is defined for the fractional operator order α ∈ (0, 2]. In d dimensions, the relation between the fractional operator order α and the Matérn smoothness parameter ν is α = ν + d/2. In our case (d = 2) the link exists for Matérn covariance functions with smoothness ν ∈ (0, 1].</p><p>Finally, we want to mention a recent proposal named spatial homogeneity pursuit of regression coefficients by <ref type="bibr" target="#b33">Li and Sang (2019)</ref>. Spatially clustered coefficient (SCC) models are a sub-class of SVC models. While general SVC models usually assume (smooth) spatial variation, SCCs are defined with constant patches and discontinuities in their coefficients. <ref type="bibr" target="#b33">Li and Sang (2019)</ref> use minimum spanning trees -a method from graph theory -to model these SCCs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Challenge</head><p>Our data model (see below in Section 6.1) contains p = 8 SVCs and about n = 15,000 observations. While the sample size itself poses no computational problems for existing geostatistical approaches for large data, the combination of the sample size and the number of SVCs is challenging. In particular, when applying existing statistical SVC approaches such as in e.g. <ref type="bibr" target="#b23">Gelfand et al. (2003)</ref> or <ref type="bibr" target="#b18">Franco-Villoria et al. (2019)</ref> to this data, one currently runs into a computational bottleneck. This highlights the need for a statistical methodology that can deal with large data for SVC models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Method: Maximum Likelihood Estimation for SVC Models</head><p>In this section, we present the SVC model we use and show how it can be estimated using MLE. We provide novel proposals on how to deal with large data as well as regularization options that help to alleviate correlation among hyper-parameters. Finally, we show how to give predictions once the model has been estimated.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Gaussian Process-based SVC Model</head><p>For each covariate j we assume that the associated coefficient β j (•) is separated into a fixed and a random effect. That is, β j (•) = µ j +η j (•) for some constant µ j and a zero-mean GP η j (•) with a stationary covariance function c (j) similarly to ( <ref type="formula" target="#formula_3">2</ref>), i.e.,</p><formula xml:id="formula_7">η j (•) ∼ GP 0, c (j) ( • ; θ j ) .<label>(5)</label></formula><p>We denote by X ∈ R n×p the data matrix defined as (X) ij := x (j) i , i.e., the ith observation of the jth covariate. The fixed effect part is given by Xµ, where µ := (µ 1 , ..., µ p ) ∈ R p .</p><p>Let {s i } i=1,...,n be not necessarily distinct observation locations. Using (3) and ( <ref type="formula" target="#formula_7">5</ref>),</p><formula xml:id="formula_8">η j := (η j (s 1 ), ..., η j (s n )) ∈ R n is normally distributed as η j ∼ N n 0 n , Σ (j) .</formula><p>The assumption of mutual prior independence of the GPs, i.e., of η j , results in η := (η 1 , ..., η p ) ∈ R np having the joint distribution η ∼ N np (0 np , Σ η ) with joint covariance matrix Σ η := diag Σ (1) , ..., Σ (p) .</p><p>(6) Further, we denote by W ∈ R n×(np) a sparse matrix defined as</p><formula xml:id="formula_9">W := diag(x (1) ) ... diag(x (p) ) .</formula><p>Using this notation, the random effect part is given by Wη. With the identity matrix I n , the error term is distributed as ε ∼ N n (0 n , τ 2 I n ) and is independent of η. In summary, writing the response as an n-dimensional vector Y, we obtain the GP-based SVC model</p><formula xml:id="formula_10">Y = Xµ + Wη + ε.<label>(7)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Likelihood and Optimization</head><p>In the following, we derive the log-likelihood (LL) function for the GP-based SVC model as given in (7). The distribution of the response variable is given by</p><formula xml:id="formula_11">Y ∼ N n Xµ, Σ Y := WΣ η W + τ 2 I n .</formula><p>Given the observed data, the log-likelihood function depends on the covariance parameters θ := (ρ 1 , σ 2 1 , ..., ρ p , σ 2 p , τ 2 ) as well as the mean parameters µ:</p><formula xml:id="formula_12">LL y (θ, µ) = - 1 2 n log(2π) + log (det Σ Y ) + (y -Xµ) Σ -1 Y (y -Xµ) .</formula><p>Maximizing LL y (θ, µ) is equivalent to minimizing the function</p><formula xml:id="formula_13">n2LL y (θ, µ) = log (det Σ Y ) + (y -Xµ) Σ -1 Y (y -Xµ) .</formula><p>The solution to the optimization problem arg min</p><formula xml:id="formula_14">(θ,µ)∈Ω n2LL y (θ, µ)</formula><p>with Ω := (0, ∞) 2p+1 × R p ⊂ R 3p+1 cannot be computed analytically and one relies on numerical optimization. We use the quasi Newton method "L-BFGS-B" by <ref type="bibr" target="#b5">Byrd et al. (1995)</ref> implemented in the R function optim to numerically minimize n2LL y . This optimization approach repeatedly requires the computation of Σ Y with updated parameters ω and subsequently computing both the determinant and the inverse of Σ Y . Both of these tasks are computationally intensive.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.1">Large Data</head><p>It is at this point that the computational burden of constructing Σ Y and computing its determinant as well as its inverse becomes apparent. Recall that W is a matrix of dimension n × (np) and Σ η is of dimension (np) × (np). Using the formal definition of Σ Y = WΣ η W + τ 2 I n and the sparsity of W, one can verify that the construction of Σ Y alone using the naive matrix multiplication is of run time O (n 2 p 2 ). A Choleskydecomposition is then being used to compute both the determinant and the inverse of n × n matrix Σ Y more efficiently. This however has also runtime O(n 3 ).</p><p>To reduce the computational load, we will exploit the mutual prior independence of the GPs. We introduce the outer product of a covariate x (j) as X (j) := x (j) x (j) . This allows us to write Σ Y using the Hadamard product (also known as the Schur or direct product) as:</p><formula xml:id="formula_15">Σ Y = p j=1 Σ (j) X (j) + τ 2 I n .<label>(8)</label></formula><p>Therefore, we do not have to compute the full matrix multiplication WΣ η W and the runtime for the construction of ( <ref type="formula" target="#formula_15">8</ref>) is O(n 2 p). To reduce the run time for the Choleskydecomposition, we use covariance tapering proposed by <ref type="bibr" target="#b21">Furrer et al. (2006)</ref>. In this approach, we taper the covariance matrices Σ (j) by multiplying them with an appropriate compactly supported correlation matrix, say, C ρ , where ρ is the tapering range. Given the underlying covariance functions c (j) , without loss of generality, one can choose one corresponding function c which is compactly supported on [0, ρ ] that defines the correlation matrix C ρ <ref type="bibr" target="#b21">(Furrer et al., 2006)</ref>. Then the tapered covariance matrix Σ (j) tap := Σ (j) C ρ is sparse with (Σ (j) tap ) kl = 0 for s k -s l ≥ ρ . Using (8), one can easily verify that</p><formula xml:id="formula_16">Σ Y,tap := p j=1 Σ (j) tap X (j) + τ 2 I n = p j=1 Σ (j) X (j)</formula><p>C ρ + τ 2 I n is sparse, too.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.2">ML Estimate Using Direct Optimization Procedure</head><p>Using a straightforward optimization approach the ML estimate is defined as</p><formula xml:id="formula_17">ω ML := arg min (θ,µ)∈Ω n2LL y (θ, µ) .</formula><p>When increasing the number of SVCs p, the dimension of parameter space Ω increases and the optimization becomes computationally expensive and numerically unstable. Thus it is crucial to reduce the dimension of the parameter space Ω when working with many SVC. We solve this problem by proposing to optimize the profile likelihood in θ, which is given by:</p><formula xml:id="formula_18">arg min θ∈Θ n2LL y (θ, µ GLS (θ)) ,</formula><p>where Θ := (0, ∞) 2p+1 and µ GLS (θ) is the generalized least squares estimator, i.e.,</p><formula xml:id="formula_19">µ GLS (θ) := X Σ -1 Y (θ)X -1 X Σ -1 Y (θ)y.</formula><p>The ML estimate is given by numerically optimizing the following:</p><formula xml:id="formula_20">ω ML := ( θ ML , µ ML ),</formula><p>where</p><formula xml:id="formula_21">θ ML := arg min θ∈Θ n2LL y (θ, µ GLS (θ)) , µ ML := µ GLS ( θ ML ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2.3">Regularization Using PC Priors</head><p>Due to weak identifiability and posterior correlation, the optimization concerning the covariance parameters can be unstable. We want to apply some form of regularization to ensure the numerical optimization problem is well-posed. Recent advances by <ref type="bibr" target="#b43">Simpson et al. (2017)</ref> and extensions thereof by <ref type="bibr" target="#b19">Fuglstad et al. (2018)</ref> introduced penalizing complexity (PC) priors for Gaussian random fields of Matérn class. We use these PC priors as regularizers to construct a regularized likelihood by extending our pure likelihood or profile likelihood approach from Section 4.2.2, respectively. In the following, we will define the regularized parameter estimate.</p><p>In our parametrization of the Matérn covariance function and with d = 2, the PC priors for a single GP with range ρ and marginal standard deviation σ (Fuglstad et al., 2018, Theorem 2.6) take the form</p><formula xml:id="formula_22">π PC (ρ, σ) := λ ρ λ σ (2ρ) -2 exp -λ ρ (2ρ) -1 -λ σ σ ,</formula><p>where λ ρ and λ σ are defined by the prior beliefs on the lower tail of the range, P(ρ &lt; ρ 0 ) = α ρ , and the upper tail of the standard deviation, P(σ &gt; σ 0 ) = α σ , respectively. They are given by λ ρ = -2 log(α ρ )ρ 0 and λ σ = -log(α σ )/σ 0 . Under iid assumption on each prior and some initial beliefs this defines the regularized estimate using n2LL y as:</p><formula xml:id="formula_23">ω reg := arg min (θ,µ)∈Ω n2LL y (θ, µ) + p j=1 λ ρ j ρ j + 4 log ρ j + 2λ σ j σ j .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Prediction of Coefficient Processes</head><p>In the following, we describe how to predict the covariate effects at locations that possibly have not been observed, given estimated parameters ω ML . In the classical case of predicting a single GP at spatial points the empirical best linear unbiased predictor (EBLUP) is used <ref type="bibr" target="#b8">(Cressie, 1990)</ref>. In the case of SVCs, we likewise establish the EBLUP in the following.</p><p>We first extend our notation from observed locations s = (s 1 , ..., s n ) to the n locations we want to make predictions for, namely s = (s 1 , ..., s n ) . These may or may not include already observed locations. The distributions of β := β(s ) = µ β + η(s ) and Y are again normally distributed with respective means µ β := µ ⊗ 1 n and Xµ β . Estimating the latent coefficient processes is done in a two step approach where we first estimate η := η(s ) and then add the mean estimate of µ β . We start by considering the joint distribution</p><formula xml:id="formula_24">η Y ∼ N n p+n 0 n p µ Y , Σ η Σ η Y Σ Yη Σ Y .</formula><p>The covariance matrix Σ η is defined for locations s 1 , ..., s n in an analogous way to ( <ref type="formula" target="#formula_4">3</ref>) and ( <ref type="formula">6</ref>), namely Σ (j) kl := c (j) ( s k -s l ; θ j ) and hence p) .</p><formula xml:id="formula_25">Σ η := diag Σ (1) , ..., Σ<label>(</label></formula><p>The covariance matrix Σ Y is given in (8). The cross-covariances matrices Σ η Y and Σ Yη are defined as</p><formula xml:id="formula_26">Σ Yη := Cov(Xµ + Wη + ε, η ) = WCov(η, η ), Σ η Y := Σ Yη ,</formula><p>where Cov(η, η ) is again defined as (3) and ( <ref type="formula">6</ref>), but now with corresponding locations s 1 , ..., s n and s 1 , ..., s n . Using the conditional distribution η |Y = y and plugging in ω ML one receives the EBLUP for SVC as</p><formula xml:id="formula_27">η := Σ η Y Σ -1 Y (y -µ Y )</formula><p>and therefore β := µ β + η . One can then use corresponding data X and W at locations s to get predictions for Y . Predictive variances of such Y are derived in a similar way as above and given by the diagonal of</p><formula xml:id="formula_28">Σ Y -Σ Y Y Σ -1 Y Σ YY .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.4">R package varycoef</head><p>The MLE described in this section is implemented in the R package varycoef <ref type="bibr" target="#b10">(Dambon et al., 2020)</ref>. It utilizes parallel computing as well as sparse matrix representation and computation for numeric optimization procedures <ref type="bibr" target="#b25">(Gerber and Furrer, 2019;</ref><ref type="bibr" target="#b22">Furrer and Sain, 2010)</ref>. This package is used throughout this work whenever the MLE approach is mentioned. We indicate the usage of our method and the R package varycoef on GP-based SVC models by the abbreviation MLE with suffixes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Simulation Study</head><p>This and the next section are designated to compare existing and our proposed methods in regard to parameter estimation and prediction accuracy. From Section 3.1, we exclude the Bayesian SVC processes method since it does not scale to large data. Further, since SCC and smooth SVC models are inherently different, we exclude the spatial homogeneity pursuit approach, too.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Setup</head><p>In order to empirically validate our method and to compare it to existing methods, we define the following simulation setup. We simulate N := 100 times a GP with varying numbers of SVCs p and sample sizes n . Latter is defined by a positive integer q such that n = (2q) 2 is the number of data points and locations which are sampled from a perturbed grid <ref type="bibr" target="#b20">(Furrer et al., 2016)</ref>.</p><p>A perturbed grid consists of (2q) × (2q) unit squares. For each (r, s) ∈ {0, ..., 2q -1} 2 , we uniformly draw a single location from a square [r + δ, (r + 1) -δ]×[s + δ, (s + 1) -δ], where δ ∈ [0, 0.5) restricts a unit square area by an outer margin. Finally, we standardize the locations by (2q) -1 such that the total domain of a perturbed grid is contained in the unit square. Thus, we receive the sample locations s 1 , ..., s n . An example is given in Figure <ref type="figure" target="#fig_1">2</ref>.</p><p>At these locations the SVCs, the error term ε, and the data X are sampled and we compute the response y. We set x (1) = 1 n which allows us to model a spatially varying intercept. The remaining data of X is sampled from a standard-normal distribution for coefficients j = 2, ..., p.</p><p>The data is then divided into three disjoint folds, (i) a training data set S train , (ii) a test data set for interpolation S interpolate , and (iii) a test data set for extrapolation S extrapolate . The unit square is partitioned into four quadrants. The lower right quadrant is an extrapolation test set and contains 25% of the data. In the other quadrants, 25% of the data is randomly assigned as interpolation test set. On the rest (50%) of the data, the model is being estimated. Thus, we have a partition:</p><formula xml:id="formula_29">S := S train ∪ S interpolate ∪ S extrapolate = {1, ..., n }, n := |S train | = n 2 , |S interpolate | = |S extrapolate | = n 4 .</formula><p>In total, there are three simulation settings which differ in the number of total sampled points n and SVCs p and five methods for SVC modeling, see Table <ref type="table" target="#tab_1">2</ref> for an overview. For our proposed methodology, we maximize the regularized profile likelihood and label it as MLE.r. The SPDE method has been implemented with the R package INLA <ref type="bibr" target="#b34">(Lindgren and Rue, 2015)</ref> and uses the same PC priors as MLE.r, namely P(ρ &lt; 0.075) = 0.05 and P(σ &gt; 0.25) = 0.05. The methods ESF and GWR are implemented with the R packages spmoran <ref type="bibr" target="#b37">(Murakami, 2018)</ref> and GWmodel <ref type="bibr" target="#b27">(Gollini et al., 2015)</ref>, respectively. For GWR, we use the same bandwidth for all covariates as the prediction function does not support covariate specific bandwidths. The bandwidths are estimated using a cross validation and are not adaptive, i.e., they are defined as fixed distances due to the regular structure of the perturbed grid. The superscript tap in Table <ref type="table" target="#tab_1">2</ref> indicates covariance tapering for MLE, since Simulation 2 has the most observations. The taper range ρ is 0.2. Due to  In each repetition w = 1, ..., N and for each method m, we calculate the RMSE between the estimated SVC β (m,w) j and the true SVC β j in each fold κ ∈ {train, interpolate, extrapolate}.</p><p>Analogously, we calculate the RMSE for the response. Thus, we have:</p><formula xml:id="formula_30">RMSE (m,w) κ (β j ) = 1 |S κ | i∈Sκ β j (s i ) -β (m,w) j (s i ) 2 ,<label>(9)</label></formula><formula xml:id="formula_31">RMSE (m,w) κ (y) = 1 |S κ | i∈Sκ |y(s i ) -y (m,w) (s i )| 2 .<label>(10)</label></formula><p>In all of our simulation studies we assume the type of covariance function to be known, which is why we have to define it here. Since we expect in most of our applications the fields to be not too smooth, we follow the recommendation of <ref type="bibr" target="#b44">Stein (1999)</ref> and use exponential covariance functions. The exponential covariance function is a special case of the Matérn class covariance functions with smoothness parameter ν = 1/2, cf. (4). Thus, we have</p><formula xml:id="formula_32">Σ (j) kl := c 1/2 ( s k -s l ; θ j ) = σ 2 j exp - s k -s l ρ j</formula><p>, for all j.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.1">Simulation 1: Base Setup</head><p>The base simulation setup samples n = 2,500 from a perturbed grid with p = 3 SVCs. The parameters of the true model are provided in Table <ref type="table" target="#tab_2">3</ref>. The results of the parameter estimation which is available for the methods MLE.r and SPDE are given in Figure <ref type="figure" target="#fig_2">3</ref>. The results are quite similar. While the SPDE's estimates of the range usually are higher than those of MLE.r, SPDE overestimates the nugget variance. Regarding the mean effects, SPDE appears to estimate mean effects with more precision. The results for the RMSEs are depicted as box plots in Figure <ref type="figure" target="#fig_4">4</ref> for all 100 repetitions within the simulation. The RMSE as given in (9) reveals some interesting insights. MLE.r consistently gives some of the best training and prediction results. It is closely followed by SPDE. ESF and GWR clearly have lower accuracy. Spatial extrapolation as depicted in the last column is much more difficult for all methods. But, model-based approaches perform better than the non-model based alternatives. The results for SVC's RMSE probably translate to the results for the response's RMSE, where it appears that the intercept is the main driver. Overall, MLE.r has the highest in-sample and out-of-sample predictive accuracy, closely followed by SPDE. ESF and GWR have lower predictive accuracy.  Simulation 2 has the same underlying true model to simulate the data from, cf. Table <ref type="table" target="#tab_2">3</ref>, but using a data set with 10,000 observations. In order to allow our method to scale to data sets with a large n, we introduced covariance tapering <ref type="bibr" target="#b21">(Furrer et al., 2006)</ref> in both MLE without and with regularization. With the introduction of a tapering range, which in this simulation study was set to ρ = 0.2, the covariance matrices become sparse. While this has a positive impact on computation time, it results in biased estimates for the covariance parameters. Due to tapering, the ranges were overestimated by MLE.r, whilst all variances of the SVCs were underestimated. SPDE performed very similarly as in Simulation 1, cf. Figure <ref type="figure" target="#fig_5">5</ref>.</p><p>Further, we compute the RMSE as given in ( <ref type="formula" target="#formula_30">9</ref>) and ( <ref type="formula" target="#formula_31">10</ref>). The results are depicted in Appendix A.1. They are very similar to what we observed in Simulation 1 with Figure <ref type="figure" target="#fig_4">4</ref>. The main difference that we can see is that the GWR has a broad range of quality when estimating and predicting the response, while clearly falling behind when modeling the SVCs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.3">Simulation 3: Number of SVCs is p = 10</head><p>In this simulation, we have p = 10 SVCs sampled from the model with the true parameters as defined in Table <ref type="table">4</ref>. We cannot run SPDE due to too many SVCs. Thus, MLE.r is the only method with which we are able to estimate the parameters. The empirical results show that our ML-estimator yields unbiased results, which qualitatively are close to the results of MLE given in Figure <ref type="figure" target="#fig_2">3</ref>. In predictive performance measured by the RMSE, MLE.r surpasses both ESF and GWR. All of the results are depicted in Appendix A.2. Table 4: Parameters of the underlying true model in Simulation 3. Compared to Simulations 1 and 2 the first SVCs are exactly defined as before. The nugget is now larger to ensure similar noise to signal ratio. Effects j Parameters 1 2 3 4 5 6 7 8 9 10 µ j 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 0.00 ρ j 0.10 0.20 0.15 0.10 0.05 0.05 0.15 0.15 0.20 0.20 σ 2 j 0.20 0.10 0.05 0.05 0.10 0.05 0.10 0.15 0.15 0.20 σ 2 nugget 0.10</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2.4">Summary</head><p>Over all simulations, our proposed MLE approach is competitive with other methodologies for SVC modeling. In particular, the parameter estimation is unbiased when not using tapering and scales to models with a moderate number of SVCs. Further, the modeling and predicting capabilities as measured using the RMSE are among the best.</p><p>In the following, we also report computation time. The simulations were run on a server with 8 Intel Xeon 10 core E7-2850 with 2.0 GHz for a total of 80 threads and 2 TB of memory under Ubuntu OS. Computations run time was measured for each repetition w and method m run. The results are given in Table <ref type="table">5</ref>.</p><p>Table <ref type="table">5</ref>: Median time for estimation and prediction out of 100 repetitions given in hours and minutes (h : mm). Note that MLE.r was run on a 79 thread cluster established prior to the simulation. The overhead of initializing the cluster is not accounted for, but takes less than a minute. SPDE computations using INLA parallelize on their own. GWR computations include automated fixed bandwidth selections using an CV approach. Further, this is the only method that does the estimation and prediction step at once.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods Simulations MLE.r SPDE</head><p>ESF GWR 1 0 : 09 0 : 10 &lt; 0 : 01 &lt; 0 : 01 2 3 : 37 1 : 11 0 : 13 0 : 02 3 0 : 16 0 : 04 &lt; 0 : 01</p><p>Overall, the results are in line with our expectations. Model-based estimation and prediction approaches are much slower than non-model-based procedures. While increasing the number of SVCs p, the computation time only increases slightly for all methods, the increase of computation time is much more pronounced when increasing the number of observations. Note that the computational time for MLE.r in the large n case depends on the amount of tapering. Using a smaller taper range would decrease the computational time.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Application: Real Estate Pricing</head><p>In prior consultation with real estate experts at Fahrländer Partner, real estate mass appraisal will be done on a model fitted on transactions from six consecutive quarters using (transformed or scaled) covariates given in Table <ref type="table" target="#tab_0">1</ref>. Predictions are then given for the following seventh quarter. The rationale behind this setup is to account for a time trend.</p><p>The focus of this application lies -like in previous simulation studies -on two aspects. First, we will compare and analyze the outputs of ML-estimated GP-based models with respect to parameter estimation and interpretation of the estimated SVCs (Section 6.3). Second, we will expand this frame work in order to compare the predictive performance of the different methods (Section 6.4). We use a moving window validation. That is, we divide the data set into 4 folds (f = 1, ..., 4). Each fold f consists of data from 6 consecutive quarters S train,f which are used to estimate the model and a following seventh quarter S f which is used for evaluating the predictive accuracy. A visualization of the moving windows is given in Table <ref type="table" target="#tab_3">6</ref>. </p><formula xml:id="formula_33">f Q3 Q4 Q1 Q2 Q3 Q4 Q1 Q2 Q3 Q4 1 S train,1 S 1 2 S train,2 S 2 3 S train,3 S 3 4 S train,4 S 4</formula><p>6.1 SVC Model for Real Estate Pricing</p><p>We extend the previous simple model used in Section 2.1 and add i) a standardized age Z.age = (2000yoc)/20 defined with the year of construction yoc, ii) Z.age 2 as one expects a quadratic age effect in hedonic models in Europe <ref type="bibr" target="#b4">(Brunauer et al., 2010;</ref><ref type="bibr" target="#b13">Fahrländer, 2006)</ref>, iii) the renovation rating renov, and iv) a dummy variable constructed from the quarter of transaction. Latter is defined as D lastQ := 1, if transaction took place in the last quarter of the training data, 0, otherwise.</p><p>This is to differentiate the most recent transactions from the rest of the training set in order to account for the temporal trend and should enhance the predictive performance. In summary, we will obtain the following model with p = 8 SVCs:</p><formula xml:id="formula_34">y i := log price i = β 1 (s i ) + β 2 (s i ) log area i + β 3 (s i ) Z.age i + β 4 (s i ) Z.age 2 i + β 5 (s i ) micro i + β 6 (s i ) stand i + β 7 (s i ) renov i + β 8 (s i ) D lastQ + ε i ,<label>(11)</label></formula><p>where the locations s i are given in transformed LV03 coordinates. More precisely, the easting (LV03x) and northing (LV03y) are now centered on the origin (0; 0) and transformed to kilometers, i.e.</p><p>Z.LV03x Z.LV03y := 10 -3 • LV03x LV03y -600,000 200,000 .</p><p>This procedure increases numerical stability while still providing interpretability of distances.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">MLE Specifications</head><p>The underlying SVC model is (11) where -as in the simulation study -we assume exponential covariance functions for all GPs modeling the SVCs. Further, we use regularization for the ranges and variances, i.e. P(ρ j &lt; 1) = 0.05 and P(σ j &gt; 0.3) = 0.05 in corresponding units. Due to the large number of observations, we apply covariance tapering. The taper range was set to ρ = 5 kilometers, as at least half of the observations of the training data have 74 or more neighbors within their taper range, cf. Figure <ref type="figure" target="#fig_2">13</ref> in Appendix B. To stay consistent with the definition in the simulation study, we use the same label MLE.r for this model and above described method specifications.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.3">Model Output and Interpretation</head><p>We start with a single MLE.r model output. It was estimated on S train,1 , cf. Table <ref type="table" target="#tab_3">6</ref>.</p><p>To provide a reference, we compare it to a classical geostatistical model. That is, the underlying model only contains one GP for the intercept, while all other covariates enter the model only as fixed effects. Though the models differ, we use the same methodology and specification as described for the GP-based SVC model, i.e., profile likelihood optimization using the same regularization and tapering range as previously described. We label it MLE.geo. The estimated parameters of both the MLE.r and MLE.geo models are given in Table 7. We note that the estimated mean effects are very similar. Moving to the covariance parameters of the SVC model, note that the estimates are indeed very different for ranges and variances. The bias due to covariance tapering is notable in the range parameters ρ j . The four range parameters exceeding the taper range ρ of 5 kilometers would have an effective range of 3 ρ j with an exponential covariance function. This would translate to effective ranges of -in some cases -well over 200 kilometers, and therefore almost as large as the dimensions of Switzerland. In the context of real estate pricing this would not make sense. But we have to recall that due to tapering all covariance functions are compactly supported on [0, ρ ]. Further, we notice the relatively large estimates for the variance in the intercept as well as the nugget in the SVC model. Although the covariates are not standardized, they do have a similar range of values that they can take, cf. ranges in Table <ref type="table" target="#tab_0">1</ref>. This leads us to believe that, on the one hand, the mean pricing level is one of the dominant factors when it comes to real estate pricing. On the other hand, the large nugget variance suggests that there exists a high residual variability of apartments within the data set.</p><p>We will now take a look at the visualized SVCs as in Figure <ref type="figure" target="#fig_0">1</ref>, i.e., the intercept, log area, and the ratings of micro locations and standard micro and stand, respectively. These are also the ones with the largest estimated ranges suggesting that the spatial structure will be most prominent in these SVCs. All other covariates SVCs are given in Appendix C.</p><p>Recall that due to their definition as zero-mean GPs, the interpretation of MLestimated SVCs is different than what we saw in Figure <ref type="figure" target="#fig_0">1</ref>. For GWR the mean effect of each SVC was included. Therefore, one has to interpret Figure <ref type="figure" target="#fig_6">6</ref> as deviations from mean effects, which are given in Table <ref type="table" target="#tab_4">7</ref>. For the intercept depicted in Figure <ref type="figure" target="#fig_6">6</ref>(a), one can clearly see that the mean apartment prices are highest in the agglomerations of Zurich, Geneva, and Basel as well as the alpine resort Saint Moritz. The mean prices are also higher along the shore line of Lake Geneva starting from the city of Geneva and reaching as far as Lausanne. More rural areas such as between Basel and Bern or in the alpine regions south of Bern have lower mean apartment prices. Qualitatively, the overall picture does not change too much when comparing to Figure <ref type="figure" target="#fig_6">6</ref>(b) to (d), i.e., the SVCs of log area, micro, and stand. There are however some differences.</p><p>For example, along the shore line of Lake Geneva, the effect of micro and stand is smaller compared to the city center of Geneva. However, the mean prizes in Lausanne are relatively high. This suggests that the standard or micro location rating of an apartment in Lausanne is not as important as its location.</p><p>Overall, the quality of the ML-estimated SVCs as displayed in Figure <ref type="figure" target="#fig_6">6</ref> seems more plausible and in line with expert knowledge compared to GWR-estimated SVCs in Figure <ref type="figure" target="#fig_0">1</ref>. There are no highly questionable deviations as seen in Figure <ref type="figure" target="#fig_0">1(a)</ref> and <ref type="figure">(b)</ref>. Also the estimated ranges vary between the SVCs. For instance, the SVCs for micro location and standard rating are much more locally pronounced as compared to the intercept and log area.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.4">Predictive Performance</head><p>In this last part of the real estate application, we evaluate the predictive performance of MLE.r, MLE.geo, GWR and ESF. The SPDE method cannot be considered as there are too many hyper parameters for INLA. In order to compare the predictive performance of the different approaches, we use the moving window validation setting introduced in Table <ref type="table" target="#tab_3">6</ref>. For each fold f ∈ {1, 2, 3, 4} and method m ∈ {MLE.r, MLE.geo, GWR, ESF}, we fit a model g( • ; m, f ) on the data S train,f and then make predictions for out-ofsample observations ι ∈ S f . For GWR, this includes an adaptive bandwidth selection as described in Figure <ref type="figure" target="#fig_0">1</ref> for each fold f . Thus, we have y (m,f ) ι := g(x ι ; m, f ). By doing so, we can compute the prediction errors and the RMSE as follows:</p><formula xml:id="formula_35">e (m) ι := y ι -y (m,f ) ι (12) RMSE (m) f := 1 |S f | ι∈S f e (m) ι 2 (13)</formula><p>We depict the results for the RMSE in Figure <ref type="figure">7</ref>. We find that the GP-based SVC model performs best. Further, it shows that model-based methods outperform ESF and especially GWR throughout all folds. The differences between both MLE for an SVC and a geostatistical model are relatively small.</p><p>In the following, we investigate whether the differences are significant by using a mixed effect model describing the RMSE as defined in (13). The reference method is the MLE-based SVC model MLE.r defined as the intercept α 0 . For the methods MLE.geo, ESF, and GWR we include deviations α m from the reference level α 0 . Further, we include a random effect for the fold, i.e. a temporal effect, with iid ζ f ∼ N (0, σ 2 t ) as well as an iid noise variable ε f,m ∼ N (0, σ 2 ). The model describing the RMSE is therefore given by</p><formula xml:id="formula_36">RMSE (m) f = α 0 + α m + ζ f + ε f,m .<label>(14)</label></formula><p>The model has been estimated using the R package lmerTest <ref type="bibr" target="#b32">(Kuznetsova et al., 2017)</ref> and the main results are given in Table <ref type="table">8</ref>, while the whole analysis can be found in the supplementary material. They confirm the conclusions drawn from Figure <ref type="figure">7</ref>. In particular, the RMSE for ESF and GWR is significantly higher than for MLE methods. However, the difference in RMSE between MLE.r and MLE.geo is not significant at 5% level.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.4.1">Detailed Prediction Error Analysis</head><p>In the following, we perform a detailed prediction error analysis that takes into account that errors of the different methods for the same apartments are correlated. Similarly to model ( <ref type="formula" target="#formula_36">14</ref>), we analyze the prediction errors as defined in (12) using a mixed effect model.</p><p>The independent variables contain a fixed effect for each method which we define with γ m . Further, notice that we have repeated measures, since every apartment has been predicted by each method. We can account for this by an iid random effect ζ ι ∼ N (0, σ 2 ap ) for the different apartments. Finally, we add iid ε ι,m ∼ N (0, σ 2 m ) for the noise with distinct standard deviation for each method. The underlying mixed effect model is</p><formula xml:id="formula_37">e (m) ι = γ m + ζ ι + ε ι,m .<label>(15)</label></formula><p>When estimating the model, we expect the estimates of γ m to be near 0, since the predictions should be unbiased. Further, the main focus should be on the estimated standard deviations σ m of the noise, as they indicate the uncertainty of the corresponding methods. The estimation was conducted using the R package nlme <ref type="bibr" target="#b39">(Pinheiro et al., 2018)</ref> and the main results are given in Table <ref type="table">8</ref>. The estimated fixed effects are in fact close to 0, the estimated standard deviations are increasing throughout the methods indicating a higher precision for predictions under MLE. The standard deviation for the apartmentspecific random effect was estimated with σ ap = 0.1824. This again indicates the high variability of apartments that the models have to predict. The full analysis can be found in the supplementary material.</p><p>Table 8: Estimated parameters of the RMSE model ( <ref type="formula" target="#formula_36">14</ref>) and error model (15). The estimated coefficients are given with their corresponding standard errors in parenthesis. Note that in the RMSE model the reference level is the MLE.r method ( α 0 = 0.1877). Further, the p-values for two-sided t-tests of H 0 : α m = 0 and the estimated standard deviations σ m of model ( <ref type="formula" target="#formula_37">15</ref>) are given. Model (14) Model (15) Methods m α m p-value γ m σ m MLE.r ---0.0037 (0.0018) 0.0465 MLE.geo 0.0032 (0.0032) 0.3357 -0.0014 (0.0018) 0.0516 ESF 0.0179 (0.0032) 0.0003 0.0045 (0.0021) 0.1202 GWR 0.0586 (0.0032) 0.0000 -0.0445 (0.0023) 0.1674</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.4.2">Probabilistic Predictions</head><p>The GP-based geostatistical and SVC model allow us to provide a a predictive distribution instead of merely a point prediction. We use the continuous ranked probability score (CRPS) proposed by <ref type="bibr" target="#b26">Gneiting and Raftery (2007)</ref> to assess the accuracy of the predictive distributions. The results are depicted in Figure <ref type="figure" target="#fig_8">8</ref>. Compared to Figure <ref type="figure">7</ref> with the RMSE, one can observe that the SVC model has an advantage with respect to quantifying the uncertainty over the geostatistical model with only having spatially varying intercept.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.4.3">Summary Predictive Performance</head><p>The extensive investigation of predictive performance in the real estate application showed that the MLE method applied on the GP-based models performs considerably better than the other methods, while offering the possibility to quantify the uncertainty of predictions.</p><p>When it comes to the comparison of the geostatistical to the SVC model, the differences are more subtle. In our application, the gain by modeling and predicting the apartment prices with SVC models instead of geostatistical models is small, whereas the SVC model quantifies uncertainties better. As mentioned in Section 6.3, this might be due to the location as a dominant factor in real estate mass appraisal.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusion</head><p>In this paper, we presented an MLE approach for GP-based SVC models. We empirically validated our approach against other, existing methods for SVC models. This has been done in a simulation study as well as an application with real estate data. To the best of our knowledge, our proposed methodology is the only implemented and currently available method to estimate and make predictions for GP-based SVC models in context of large data where both the sample size and the number of SVCs are large. Parameter estimations were shown to be accurate and unbiased when not applying covariance tapering. The predictive performance is in both the simulation study as well as the application among the best. In contrast to not model based approaches such as GWR and ESF it is able to quantify uncertainty by giving predictive variance.</p><p>All GPs were defined by exponential covariance functions and based on Euclidean distances in a two-dimensional domain. However, our proposed method can easily be extended to allow GP-based SVC models defined by individual, non-stationary (anisotropic) covariance functions using other norms on higher dimensional domains D ⊂ R d with d ≥ 3. Here, MLE could even be augmented to estimate, say, the smoothness.</p><p>We make some final remarks on future work: First and foremost, it would be greatly appreciated to see further comparisons of existing SVC methods on other data sets to see how the predictive performance compares.</p><p>Further, multicollinearity issues with GWR have been raised and one should also investigate if this translates to our methodology. This is in accordance with some SVC selection method that has to be developed to check whether a coefficient is constant or spatially varying.</p><p>In Figure <ref type="figure">9</ref>, one can see that the model-based approaches are best in the first two columns, i.e., for training and spatially interpolating predictions. For spatial extrapolation, the RMSEs are quite similar with the ranking SPDE, MLE.r, ESF, and GWR (best to worst). For the response's RMSE (10), we observe that GWR's errors spread a wide range in the first two columns. A.2 Simulation 3: Number of SVC is p = 10</p><p>In this simulation, MLE.r is the only method to estimate the parameters of the SVC model. The accuracy in doing so is surprisingly good. The mean parameters were all estimated without bias and with a deviation proportional to the corresponding variance of the respective GP. The ranges of most SVC are slightly biased in the sense that they are underestimated. This probably leads to underestimated variances, too. Over the next 3 pages we show the RMSE for Simulation 3.</p><p>Age: Of the four SVC yet not discussed in this paper, both the linear as well as quadratic effect of the age covariate have the most pronounced spatial structure, cf. Figure <ref type="figure" target="#fig_11">14</ref>(a) and (b). One can see that the effect of age in agglomerations is very different from more rural areas. This is consistent with the assumption that -marginallyin rural areas one expects pure depreciation of an apartment with increasing age, while within city centers newly built and old (apartments with year of construction prior to 1920) are higher priced.</p><p>Renovation Rating and Last Quarter: Both of theses covariates do not have very strong spatial structures, cf. Figure <ref type="figure" target="#fig_11">14(c</ref>) and (d). </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: GWR-estimated SVCs of a model regressing the log price on (a) an intercept, (b) log area, (c) micro, and (d) stand. The selected adaptive bandwidth is 222 nearest neighbors.</figDesc><graphic coords="4,96.04,115.34,403.20,259.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 :</head><label>2</label><figDesc>Figure2: Example of a perturbed grid defined with q = 5 for n = 100 sample locations and a partition into training, interpolation, and extrapolation testing. The gray patches are the sampling domain. The distance between each patch is at least δ/q. Here and in all of our simulations, δ is set to 0.2.</figDesc><graphic coords="12,117.64,72.00,360.00,252.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 :</head><label>3</label><figDesc>Figure 3: Estimated covariance and mean parameters of MLE and SPDE methods of Simulation 1. The box plots consists of 100 estimations of different realization. The diamonds indicate the means. True values are given by black lines.</figDesc><graphic coords="14,81.64,72.00,432.00,432.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>5.2.2 Simulation 2: Number of Observations is n = 10,000</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 4 :</head><label>4</label><figDesc>Figure4: Box plots of RMSE between true β j and β j as well as between y and y for Simulation 1 in corresponding partition, see (9) and (10). The diamonds indicate the means. Note the different ranges of the y-axis.</figDesc><graphic coords="15,81.64,72.00,432.00,432.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 5 :</head><label>5</label><figDesc>Figure 5: Box plots represent estimated covariance and mean parameters by MLE.r and SPDE methods in Simulation 2. The diamonds indicate the means. True values are given by black lines.</figDesc><graphic coords="16,81.64,72.00,432.00,432.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 6 :</head><label>6</label><figDesc>Figure 6: Selection of estimated SVCs of the model (11) using MLE.r as defined in this section. The four facets show SVCs of (a) the intercept, (b) log area, (c) micro, and (d) stand. The squares indicate training locations S train,1 , the dots are extrapolations to all other centroids.</figDesc><graphic coords="20,96.04,72.00,403.20,259.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure</head><figDesc>Figure 7: RMSE (m) f as defined in (13) of the moving window validation.</figDesc><graphic coords="21,72.00,72.00,451.27,135.38" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 8 :</head><label>8</label><figDesc>Figure 8: Specific (upper box plots) and mean (lower line plot) CRPS of the MLE methods for the geostatistical model (MLE.geo) and the SVC model (MLE.r) in each fold. Note that the y-axis in the upper panel is log-scaled. The values have been computed using the R package scoringRules (Jordan et al., 2019).</figDesc><graphic coords="23,72.00,72.00,451.28,197.75" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 10 :</head><label>10</label><figDesc>Figure 10: Estimated covariance and mean parameters of all methods of the 100 simulations given as box plots in Simulation 2. The diamonds indicate the means. True values are given by black lines.</figDesc><graphic coords="29,81.64,158.01,432.00,432.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 11 :</head><label>11</label><figDesc>Figure 11: Estimated covariance and mean parameters of all methods of the 100 simulations given as box plots in Simulation 3. The diamonds indicate the means. True values are given by black lines.</figDesc><graphic coords="30,81.64,72.00,432.00,432.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 14 :</head><label>14</label><figDesc>Figure 14: ML-estimated, further SVCs of the model (11) using MLE.r as defined in this Section 6. These estimated SVCs are supplementary to the ones depicted in Figure 6. This figure shows (a) η 3 for covariate Z.age, (b) η 4 for covariate Z.age 2 , (c) η 7 for covariate renov, and (d) η 8 for covariate D lastQ . The squares indicate training locations S train,1 , the dots are extrapolations to all other centroids.</figDesc><graphic coords="35,96.04,233.19,403.20,259.20" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><graphic coords="28,81.64,281.06,432.00,432.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><graphic coords="31,117.64,180.95,360.00,480.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><graphic coords="32,117.64,180.95,360.00,480.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><graphic coords="33,117.64,213.46,360.00,360.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><graphic coords="34,72.00,308.01,451.28,293.09" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Overview of the response, covariates and coordinates in our data set. There are 24,816 transaction records in total.</figDesc><table><row><cell>Name</cell><cell>Description</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 2 :</head><label>2</label><figDesc>Overview of simulations and methods.</figDesc><table><row><cell></cell><cell></cell><cell>Simulations</cell><cell></cell></row><row><cell></cell><cell>1</cell><cell>2</cell><cell>3</cell></row><row><cell cols="4">n 2,500 10,000 2,500</cell></row><row><cell cols="4">n 1,250 5,000 1,250</cell></row><row><cell>p</cell><cell>3</cell><cell>3</cell><cell>10</cell></row><row><cell>Methods</cell><cell></cell><cell></cell><cell></cell></row><row><cell>MLE.r</cell><cell></cell><cell>tap</cell><cell></cell></row><row><cell>SPDE</cell><cell></cell><cell></cell><cell></cell></row><row><cell>ESF</cell><cell></cell><cell></cell><cell></cell></row><row><cell>GWR</cell><cell></cell><cell></cell><cell></cell></row><row><cell cols="4">the number of SVCs, the SPDE method cannot be applied on Simulation 2, hence the</cell></row><row><cell>cross marks in Table 2.</cell><cell></cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 3 :</head><label>3</label><figDesc>Parameters of the underlying true model in Simulations 1 and 2.</figDesc><table><row><cell></cell><cell></cell><cell>Effects j</cell><cell></cell></row><row><cell>Parameters</cell><cell>1</cell><cell>2</cell><cell>3</cell></row><row><cell>µ j</cell><cell cols="3">0.00 0.00 0.00</cell></row><row><cell>ρ j</cell><cell cols="3">0.10 0.20 0.15</cell></row><row><cell>σ 2 j</cell><cell cols="3">0.20 0.10 0.05</cell></row><row><cell>σ 2 nugget</cell><cell></cell><cell>0.03</cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 6 :</head><label>6</label><figDesc>Moving window validation set up with four folds. The model is fitted on all observations with s i ∈ S train,f and tested out-of-sample on S f .</figDesc><table><row><cell>2015</cell><cell>2016</cell><cell>2017</cell></row><row><cell>Folds</cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_4"><head>Table 7 :</head><label>7</label><figDesc>Estimated mean effects, ranges, and variances of the GP-based SVC (MLE.r) and classical geostatistical model (MLE.geo) in the first fold of the moving window validation.</figDesc><table><row><cell></cell><cell></cell><cell>MLE.r</cell><cell></cell><cell></cell><cell>MLE.geo</cell><cell></cell></row><row><cell>j SVCs</cell><cell>µ j</cell><cell>ρ j</cell><cell>σ 2 j</cell><cell>µ j</cell><cell>ρ j</cell><cell>σ 2 j</cell></row><row><cell>1 Intercept</cell><cell cols="3">8.6448 118.72 0.0210</cell><cell cols="3">8.4342 244.70 0.0650</cell></row><row><cell>2 log area</cell><cell cols="3">0.8796 75.10 0.0010</cell><cell>0.9013</cell><cell>-</cell><cell>-</cell></row><row><cell>3 Z.age</cell><cell>-0.1707</cell><cell cols="3">4.56 0.0045 -0.1567</cell><cell>-</cell><cell>-</cell></row><row><cell>4 Z.age 2</cell><cell>0.0272</cell><cell cols="2">3.67 0.0002</cell><cell>0.0317</cell><cell>-</cell><cell>-</cell></row><row><cell>5 stand</cell><cell cols="3">0.0825 33.64 0.0009</cell><cell>0.0982</cell><cell>-</cell><cell>-</cell></row><row><cell>6 micro</cell><cell cols="3">0.0820 39.18 0.0012</cell><cell>0.0988</cell><cell>-</cell><cell>-</cell></row><row><cell>7 renov</cell><cell>0.0426</cell><cell cols="2">1.17 0.0034</cell><cell>0.0494</cell><cell>-</cell><cell>-</cell></row><row><cell>8 D lastQ</cell><cell>0.0229</cell><cell cols="2">0.72 0.0066</cell><cell>0.0249</cell><cell>-</cell><cell>-</cell></row><row><cell>Nugget</cell><cell>-</cell><cell cols="2">-0.0183</cell><cell>-</cell><cell cols="2">-0.0236</cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgment</head><p>We gratefully acknowledge the support by the <rs type="funder">Swiss Innovation Agency Innosuisse</rs>, project number <rs type="grantNumber">28408</rs>.1 PFES-ES. We would like to thank <rs type="person">Leonhard Held</rs> for his helpful comments on this paper. We also would like to thank <rs type="person">Manuel Lehner</rs> and <rs type="person">Jaron Schlesinger</rs> from <rs type="person">Fahrländer Partner</rs> for their valuable input towards the application with real estate appraisal.</p><p>We appreciate the constructive feedback by the anonymous reviewers and the editor which improved the quality of this work.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_qakuH3h">
+					<idno type="grant-number">28408</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Supplementary Material</head><p>The code for computation is available online under <ref type="url" target="https://git.math.uzh.ch/jdambo/open-access-svc-paper">https://git.math.uzh.ch/jdambo/  open-access-svc-paper</ref>. Additionally, we provide the following supplementary material.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix: Additional results and figures. (PDF)</head><p>R package varycoef: R package by <ref type="bibr" target="#b10">Dambon et al. (2020)</ref> containing the routines of the MLE method for SVC models described in this article. (GNU zipped tar file)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix to: Maximum Likelihood Estimation of Spatially Varying Coefficient Models for Large Data with an Application to Real Estate Price Prediction</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Further Results: Simulation Studies</head><p>In this section, we show all the results of the simulation study that were only mentioned or not shown at all in the main article.</p><p>A.1 Simulation 2: Number of Observations is n = 10,000</p><p>As Figure <ref type="figure">4</ref> for Simulation 1, we give the RMSE results for Simulation 2 in the following.  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B Choice of Taper Range</head><p>In order to make a good choice on the taper range for MLE.geo and MLE.r, we have to investigate how many neighbors each observation with a given taper range has. Thus, we compute the number of neighbors for an observation i as</p><formula xml:id="formula_38">nn ρ i := j =i 1 { s i -s j ≤ρ } ,</formula><p>where 1 A is the indicator function which is 1 if A holds true and 0 otherwise. We computed nn ρ i for two taper ranges ρ ∈ {5, 10}. The density and some summary statistics are depicted in Figure <ref type="figure">13</ref> for each fold. The median of nn ρ =5 i is at least 74 over all folds and the first quartile is at least 38 over all folds, respectively. The maximum does not exceed 575, meaning that there is no observation with more than 575 neighbors within a radius of 5 kilometers. In the case of ρ = 10 we see that the maximum of nn ρ =10 i exceeds 1000 in all folds, which is why we choose a 5 kilometer range over a 10 kilometer range.</p><p>Figure <ref type="figure">13</ref>: The densities of nn ρ i for ρ ∈ {5, 10} and each fold are given in corresponding facets. Additionally, we give the respective quartiles.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C Estimated SVC</head><p>Finally, we show the other estimated SVC for fold f = 1, as we did in Figure <ref type="figure">6</ref> for the MLE.r method. These are the deviations η j from the corresponding mean µ j , which added result in a single SVC for a covariate.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 9 :</head><label>9</label><figDesc>Box plots of RMSE between true β j and β j as well as between y and y for Simulation 2 in corresponding partition, see (9) and (10). The diamonds indicate the means. Note the different ranges of the y-axis.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>Figure 12 :</head><label>12</label><figDesc>Box plots of RMSE between true β j and β j as well as between y and y for Simulation 3 in corresponding partition, see (9) and (10). The diamonds indicate the means. Note the different ranges of the y-axis.</figDesc></figure>
+			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Hierarchical Spatially Varying Coefficient and Temporal Dynamic Process Models Using spTDyn</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">S</forename><surname>Bakar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Kokic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Jin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Computation and Simulation</title>
+		<imprint>
+			<biblScope unit="volume">86</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="820" to="840" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Gaussian Predictive Process Models for Large Spatial Data Sets</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">70</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="825" to="848" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<title level="m" type="main">spgwr: Geographically Weighted Regression. R Package Version</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Yu</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=spgwr" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<biblScope unit="page" from="0" to="6" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Comparing Implementations of Estimation Methods for Spatial Econometrics</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">S</forename><surname>Bivand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Piras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">18</biblScope>
+			<biblScope unit="page" from="1" to="36" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Additive Hedonic Regression Models with Spatial Scaling Factors: An Application for Rents in Vienna</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A</forename><surname>Brunauer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Wechselberger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Bienert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Journal of Real Estate Finance and Economics</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="390" to="411" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">A Limited Memory Algorithm for Bound Constrained Optimization</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Byrd</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Nocedal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Zhu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">SIAM Journal on Scientific Computing</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="1190" to="1208" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">A Big Data-Based Geographically Weighted Regression Model for Public Housing Prices: A Case Study in Singapore</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Cao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Diao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">109</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="173" to="186" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Scale-adaptive Estimation of Mixed Geographically Weighted Regression Models</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Mei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Economic Modelling</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">The Origins of Kriging</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Geology</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="239" to="252" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Statistics for Spatio-Temporal Data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wiley Series in Probability and Statistics</title>
+		<meeting><address><addrLine>Hoboken, N.J</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Dambon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Sigrist</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<idno>varycoef: Varying Coefficients. R Package Version 0.2.12</idno>
+		<ptr target="https://cran.r-project.org/package=varycoef" />
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Spatial Modelling: A Comprehensive Framework for Principal Coordinate Analysis of Neighbour Matrices (PCNM)</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Dray</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">R</forename><surname>Peres-Neto</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecological Modelling</title>
+		<imprint>
+			<biblScope unit="volume">196</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="483" to="493" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<ptr target="http://pro.arcgis.com/en/pro-app/tool-reference/spatial-statistics/geographicallyweightedregression.htm" />
+		<title level="m">ArcGIS Pro</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+		<respStmt>
+			<orgName>Environmental Systems Research Institute (ESRI)</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Semiparametric Construction of Spatial Generalized Hedonic Models for Private Properties</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Fahrländer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Swiss Journal of Economics and Statistics</title>
+		<imprint>
+			<biblScope unit="volume">142</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="501" to="528" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<ptr target="https://www.swisstopo.admin.ch/en/knowledge-facts/surveying-geodesy/reference-frames/local/lv03.html" />
+		<title level="m">LV03</title>
+		<imprint>
+			<publisher>Federal Office of Topography swisstopo</publisher>
+			<date type="published" when="1900">1900</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Comparing Spatially-Varying Coefficients Models for Analysis of Ecological Data with Non-Stationary and Anisotropic Residual Dependence</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Methods in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="143" to="154" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Geographically Weighted Regression: The Analysis of Spatially Varying Relationships</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2002">2002</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>Chichester</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Multiscale Geographically Weighted Regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">A Unified View on Bayesian Varying Coefficient Models</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Franco-Villoria</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ventrucci</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Electronic Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="5334" to="5359" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Constructing Priors that Penalize the Complexity of Gaussian Random Fields</title>
+		<author>
+			<persName><forename type="first">G.-A</forename><surname>Fuglstad</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">K</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="issue">525</biblScope>
+			<biblScope unit="page" from="445" to="452" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Asymptotic Properties of Multivariate Tapering for Estimation and Prediction</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Bachoc</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Du</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">149</biblScope>
+			<biblScope unit="page" from="177" to="191" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Covariance Tapering for Interpolation of Large Spatial Datasets</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Genton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Nychka</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="502" to="523" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">spam: A Sparse Matrix R Package with Emphasis on MCMC Methods for Gaussian Markov Random Fields</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Sain</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">10</biblScope>
+			<biblScope unit="page" from="1" to="25" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Spatial Modeling with Spatially Varying Coefficient Processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Geographically Weighted Regression Model (GWR) based Spatial Analysis of House Price in Shenzhen</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Geng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Cao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Tang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">2011 19th International Conference on Geoinformatics</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+			<biblScope unit="page" from="1" to="5" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">optimParallel: An R Package Providing a Parallel Version of the L-BFGS-B Optimization Method</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Gerber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The R Journal</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="352" to="358" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Strictly Proper Scoring Rules, Prediction, and Estimation</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Gneiting</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Raftery</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="issue">477</biblScope>
+			<biblScope unit="page" from="359" to="378" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">GWmodel: An R Package for Exploring Spatial Heterogeneity Using Geographically Weighted Models</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Gollini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Brunsdon</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">17</biblScope>
+			<biblScope unit="page" from="1" to="50" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<monogr>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+		<title level="m">Spatial Autocorrelation and Spatial Filtering: Gaining Understanding through Theory and Scientific Visualization. Advances in Spatial Science</title>
+		<meeting><address><addrLine>Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">A Case Study Competition Among Methods for Analyzing Large Spatial Data</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Heaton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Datta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">O</forename><surname>Finley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Furrer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Guinness</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Guhaniyogi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Gerber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">B</forename><surname>Gramacy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hammerling</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Katzfuss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">K</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Nychka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Sun</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zammit-Mangion</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="398" to="425" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Smoothing Parameter Selection in Nonparametric Regression using an Improved Akaike Information Criterion</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">M</forename><surname>Hurvich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Simonoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C.-L</forename><surname>Tsai</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">60</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="271" to="293" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Evaluating Probabilistic Forecasts with scoringRules</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Jordan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Krüger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lerch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">90</biblScope>
+			<biblScope unit="issue">12</biblScope>
+			<biblScope unit="page" from="1" to="37" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">lmerTest Package: Tests in Linear Mixed Effects Models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Kuznetsova</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">B</forename><surname>Brockhoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H B</forename><surname>Christensen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">82</biblScope>
+			<biblScope unit="issue">13</biblScope>
+			<biblScope unit="page" from="1" to="26" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Spatial Homogeneity Pursuit of Regression Coefficients for Large Datasets</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Sang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">114</biblScope>
+			<biblScope unit="issue">527</biblScope>
+			<biblScope unit="page" from="1050" to="1062" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Bayesian Spatial Modelling with R-INLA</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">K</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Software</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="issue">19</biblScope>
+			<biblScope unit="page" from="1" to="25" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">An Explicit Link between Gaussian Fields and Gaussian Markov Random Fields: The Stochastic Partial Differential Equation Approach</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">K</forename><surname>Lindgren</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lindström</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="423" to="498" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<monogr>
+		<title level="m" type="main">Hedonic Pricing Models: A Selective and Applied Review</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Malpezzi</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+			<publisher>Ltd</publisher>
+			<biblScope unit="page" from="67" to="89" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<monogr>
+		<title level="m" type="main">spmoran: Moran&apos;s Eigenvector-Based Spatial Regression Models</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=spmoran" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+	<note>R package version 0.1.5</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Random Effects Specifications in Eigenvector Spatial Filtering: A Simulation Study</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Murakami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="311" to="331" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">C</forename><surname>Pinheiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Bates</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Debroy</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sarkar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R Core</forename><surname>Team</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=nlme" />
+		<imprint>
+			<date type="published" when="2018">2018</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="1" to="137" />
+		</imprint>
+	</monogr>
+	<note>nlme: Linear and Nonlinear Mixed Effects Models. R package version</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Gaussian Markov Random Fields</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Held</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Theory And Applications (Monographs on Statistics and Applied Probability)</title>
+		<imprint>
+			<date type="published" when="2005">2005</date>
+			<publisher>Chapman &amp; Hall/CRC</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">Approximate Bayesian Inference for Latent Gaussian Models by using Integrated Nested Laplace Approximations</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Martino</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Chopin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Statistical Methodology)</title>
+		<imprint>
+			<biblScope unit="volume">71</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="319" to="392" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Bayesian Computing with INLA: A Review</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riebler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Sørbye</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">B</forename><surname>Illian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">K</forename><surname>Lindgren</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annual Review of Statistics and Its Application</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="395" to="421" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Penalising Model Component Complexity: A Principled, Practical Approach to Constructing Priors</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Simpson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Rue</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Riebler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">G</forename><surname>Martins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Sørbye</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">32</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Interpolation of Spatial Data: Some Theory for Kriging</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="s">Springer Series in Statistics</title>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<publisher>Springer</publisher>
+			<pubPlace>New York, NY; New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><surname>Van Eggermond</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lehner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Erath</surname></persName>
+		</author>
+		<ptr target="https://www.researchgate.net/publication/266868391_MODELING_HEDONIC_PRICES_IN_SINGAPORE" />
+		<title level="m">Modeling Hedonic Prices in Singapore</title>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">gwrr: Fits Geographically Weighted Regression Models with Diagnostic Tools</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<ptr target="https://CRAN.R-project.org/package=gwrr" />
+	</analytic>
+	<monogr>
+		<title level="m">R package version 0.2-1</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">An Assessment of Coefficient Accuracy in Linear Regression Models with Spatially Varying Coefficients</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">A</forename><surname>Calder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="145" to="166" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">A Bayesian Approach to Hedonic Price Analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Páez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Spinney</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="663" to="683" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Multicollinearity and Correlation among Local Regression Coefficients in Geographically Weighted Regression</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tiefelsdorf</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="161" to="187" />
+			<date type="published" when="2005">2005</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Comparing Spatially Varying Coefficient Models: A Case Study Examining Violent Crime Rates and their Relationships to Alcohol Outlets and Illegal Drug Arrests</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Wheeler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Waller</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

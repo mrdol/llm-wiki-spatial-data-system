@@ -1,0 +1,135 @@
+{
+  "dataset_id": "Warehouse_2023_UntitCanTheDigital_10_6084_m9_figsh",
+  "package": "warehouse:figshare_or_zenodo:Warehouse_2023_UntitCanTheDigital_10_6084_m9_figsh",
+  "dataset": "Digital economy and China provincial panel (2000-2021)",
+  "source_lang": "python",
+  "conversion_method": "name_join:GADM_CHN_ADM1(NAME_1 dissolved + alias Inner Mongolia/Ningxia/Xinjiang, verified 30/30)",
+  "rds_path": "data/final_datasets/sf/Warehouse_2023_UntitCanTheDigital_10_6084_m9_figsh.gpkg",
+  "bloc1": {
+    "variables": [
+      {
+        "name": "year",
+        "class": "int64",
+        "typology": "count",
+        "range": "[2000, 2021]",
+        "n_unique": 22,
+        "pct_na": 0.0
+      },
+      {
+        "name": "DIE",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-1.3984, 0.4303]",
+        "n_unique": 658,
+        "pct_na": 0.0
+      },
+      {
+        "name": "CET",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[3.6648, 8.7493]",
+        "n_unique": 657,
+        "pct_na": 0.0
+      },
+      {
+        "name": "EF",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[-0.4252, 2.2513]",
+        "n_unique": 655,
+        "pct_na": 0.0
+      },
+      {
+        "name": "TI",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[0.4360, 3.5711]",
+        "n_unique": 660,
+        "pct_na": 0.0
+      },
+      {
+        "name": "FDI",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.5611, 8.4142]",
+        "n_unique": 660,
+        "pct_na": 0.0
+      },
+      {
+        "name": "FD",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.5955, 5.6255]",
+        "n_unique": 660,
+        "pct_na": 0.0
+      },
+      {
+        "name": "CS",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[2.9239, 4.4954]",
+        "n_unique": 619,
+        "pct_na": 0.2
+      },
+      {
+        "name": "GI",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[1.9333, 4.3285]",
+        "n_unique": 660,
+        "pct_na": 0.0
+      },
+      {
+        "name": "Pgdp",
+        "class": "float64",
+        "typology": "continuous",
+        "range": "[7.9164, 12.1417]",
+        "n_unique": 660,
+        "pct_na": 0.0
+      },
+      {
+        "name": "province",
+        "class": "str",
+        "typology": "unknown",
+        "range": null,
+        "n_unique": 30,
+        "pct_na": 0.0
+      }
+    ],
+    "coordinate_columns": [],
+    "identifier_columns": [
+      {
+        "name": "id",
+        "class": "int64",
+        "pct_na": 0.0
+      }
+    ],
+    "has_formule_in_catalogue": false
+  },
+  "bloc4": {
+    "N": 30,
+    "T": 22,
+    "T_var": "year",
+    "k": 11,
+    "data_type": "spatio-temporel",
+    "structure": "panel",
+    "profil_nt": "N_petit_T_grand"
+  },
+  "bloc5": {
+    "geom_type": "Polygon/MultiPolygon",
+    "crs_epsg": "4326",
+    "crs_name": "WGS 84",
+    "bbox": {
+      "xmin": 73.557701,
+      "ymin": 18.159306,
+      "xmax": 134.773926,
+      "ymax": 53.56086
+    }
+  },
+  "qc": {
+    "vars_high_na": [],
+    "crs_missing": false,
+    "geom_complex": false,
+    "join_note": "Geometrie jointe par nom de province contre GADM 4.1 Chine ADM1 (dissous par NAME_1), avec alias explicite (Nei Mongol->Inner Mongolia, Ningxia Hui->Ningxia, Xinjiang Uygur->Xinjiang) et correction de 2 fautes de frappe evidentes si presentes (Fujiang->Fujian, Sichuang->Sichuan). 0 ligne non appariee."
+  }
+}

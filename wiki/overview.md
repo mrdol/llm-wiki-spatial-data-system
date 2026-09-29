@@ -2,7 +2,7 @@
 title: Overview
 type: overview
 created: 2026-04-21
-updated: 2026-07-20
+updated: 2026-09-08
 sources:
   - AGENTS.md
   - README.md
@@ -18,6 +18,16 @@ This page is the working synthesis of the LLM wiki, corpus and knowledge graph
 system. It updates after major ingest, query, lint or architecture changes.
 
 ---
+
+## Plasmode extension — 2026-09-08
+
+The supervisor's current scope selects plasmode simulation exclusively.
+An autonomous pilot now evaluates seven scenarios on Georgia and Meuse with
+known fixed-site latent means, spatial held-out stripes and separate privileged
+diagnostics. It completed 1,120 evaluations (3,360 fold fits), without model
+failures. These are feasibility results, not package admission decisions or a
+general estimator ranking. The full D0-D9 grid and dashboard integration remain
+future work. See [[protocole_plasmode_spatial_2026-09-08]].
 
 ## Current State
 
@@ -252,3 +262,15 @@ Recent durable additions include:
 - [[tidymodels_spatial_pipeline_status_2026-07]]
 - [[spboost]]
 - [[mgwrsar]]
+
+### Fidélité des datasets — 9 septembre 2026
+
+La [[revue_fidelite_quatre_datasets_2026-09-09]] corrige deux pertes de lignes (SFBay et marsouin), restitue les équations et retire les attributions de benchmark non établies. Le panel CO2 est conservé sous `ready_in_data_bank`, sans admission automatique au benchmark. La [[revue_panel_spatial_2026-09-09]] prépare le support de panel à partir de Li, Elhorst, Baltagi et splm.
+
+Le [[plan_implementation_panel_spatial_2026-09-09]] traduit cette revue en huit jalons : inventaire des panels parents, contrat unité–temps–W, FE/SAR statiques, SEM/SAC/SDM, validation temporelle, intégration au catalogue panel, effets aléatoires et enfin modèles dynamiques ou spécialisés. Les moteurs panel restent séparés des SAR/SEM transversaux et de leurs coupes dérivées. Le tableau de bord et les comparaisons panel–coupe sont reportés. La première cible est la réplication économétrique ; la prédiction n'est activée que famille par famille après validation de son contrat.
+
+### Revue des banques et suites de benchmark — 14 septembre 2026
+
+Les onze articles complémentaires de `extensions_projet_2026-09/revue_jeux_donnees_benchmark/` ont été lus intégralement. La synthèse distingue collection de datasets, tâche versionnée, suite et run ; transforme Datasheets/FAIR en exigences documentaires ; et compare CAMELS-US, LamaH-CE et Caravan à la banque. Ces banques hydrologiques sont des références fortes de documentation spatiale. Le positionnement défendable du projet repose sur sa couverture multi-domaines, la provenance jusqu'à la formule et une couche exécutable réservée aux tâches explicitement admises.
+
+Le HTML et le texte réutilisable pour le manuscrit excluent désormais toute revendication de premier dépôt spatial ou d'absence générale de documentation spatiale. La synthèse d'introduction et de discussion est conservée dans `extensions_projet_2026-09/revue_jeux_donnees_benchmark/synthese_introduction_discussion_datapaper_2026-09-14.md`.

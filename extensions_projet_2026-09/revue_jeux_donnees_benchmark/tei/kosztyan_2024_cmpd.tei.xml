@@ -1,0 +1,1265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Compound Matrix-Based Project Database (CMPD)</title>
+				<funder ref="#_jDdy8Vy">
+					<orgName type="full">National Research, Development and Innovation Fund</orgName>
+				</funder>
+				<funder ref="#_3tGTZj3">
+					<orgName type="full">Ministry of Culture and Innovation of Hungary</orgName>
+				</funder>
+				<funder ref="#_q8BUF9d">
+					<orgName type="full">National Research, Development, and Innovation Fund</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Zsolt</forename><forename type="middle">T</forename><surname>Kosztyán</surname></persName>
+							<email>kosztyan.zsolt@gtk.uni-pannon.hu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Quantitative Methods</orgName>
+								<orgName type="institution">University of Pannonia</orgName>
+								<address>
+									<addrLine>Egyetem str. 10</addrLine>
+									<postCode>H-8200</postCode>
+									<settlement>Veszprém</settlement>
+									<country key="HU">Hungary</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Gergely</forename><forename type="middle">L</forename><surname>Novák</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="institution">Continental Automotive Hungary Ltd</orgName>
+								<address>
+									<addrLine>Házgyári str. 6-8.</addrLine>
+									<postCode>H-8200</postCode>
+									<settlement>Veszprém</settlement>
+									<country key="HU">Hungary</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Compound Matrix-Based Project Database (CMPD)</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">E783FDA161A1247A580C674F65B95C8C</idno>
+					<idno type="DOI">10.1038/s41597-024-03154-x</idno>
+					<note type="submission">Received: 31 August 2023; Accepted: 15 March 2024;</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-25T16:07+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The impact of projects is vital, from business operations to research to the national economy. Therefore, management science and operation research have extensively studied project scheduling and resource allocation for over six decades. Project databases were proposed to test algorithms, including simulated or real, single or multiprojects, and single-mode or multi-mode projects. However, the dozens of project databases are extremely heterogeneous regarding the file structure and the features of the modeled projects. Furthermore, the efficiency and performance of project scheduling and resource allocation algorithms are susceptible to the characteristics of projects. Therefore, the proposed Compound Matrix-Based Project Database (CMPD) collects and consolidates the most frequently used project databases. The proposed Unified Matrix-Based Project-Planning Model (UMP) sparse matrix-based model enables the addition of new features to existing project structures, such as completion priorities, structural flexibility, and quality parameters, to broaden the scope of considered projects and to take account of flexible approaches, such as agile, extreme, and hybrid projects.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Background &amp; Summary</head><p>Overall, projects contribute almost 20% of a country's GDP 1,2 . Therefore, for approximately six decades, management science and operations research has extensively studied project scheduling issues <ref type="bibr">3,</ref><ref type="bibr">4</ref> . A novel project scheduling or resource allocation algorithm cannot be published until it is compared with other algorithms in existing project databases.</p><p>Most project databases are capable of storing (1) fixed <ref type="bibr">5,</ref><ref type="bibr" target="#b0">6</ref> project structures;</p><p>(2) Different types of completion modes <ref type="bibr" target="#b1">7</ref> , including (a) time demands and (b) resource demands; and (3) single <ref type="bibr" target="#b2">8</ref> and multiple 5 project structures. In addition, several smaller project databases store data that can be assigned to resources rather than activities, for example, the use of skills <ref type="bibr" target="#b3">9</ref> . However, these databases are not compatible with several others.</p><p>The main shortcomings of these databases are that (1) they are quite heterogeneous in terms of file structures and project characteristics 10 ; (2) Important features, e.g., quality and priorities, are not included; (3) It is difficult to add data that cannot be directly linked to activities, e.g., skills, organizational hierarchies, responsibilities, etc.; (4) They completely neglect flexibility issues of the project, such as completion priorities and flexible dependencies.</p><p>To address this gap, we employed a recently published <ref type="bibr" target="#b4">10</ref> matrix-based UMP model that can store (1) singleand multimodal projects, (2) individual and multiprojects, and (3) fixed and flexible projects. In addition, features such as quality parameters, costs, and nonrenewable resources can be assigned to tasks as new domains (submatrices). This matrix approach allows further submatrices such as skills <ref type="bibr" target="#b5">11</ref> and maintainable system parameters <ref type="bibr" target="#b6">12</ref> to be specified. With the proposed parsers <ref type="bibr" target="#b7">13</ref> , 12 existing, most frequently used project databases (including 23 datasets) are parsed into the proposed unified matrix-based project database, CMPD. The database includes not only single-mode but also multimode data, as well as single-and multiproject data. To validate the proposed CMPD, structural, time-related, and resource-related indicators are implemented <ref type="bibr" target="#b8">14</ref> to ensure adequate modeling of existing project structures in the proposed matrix-based database.</p><p>Project scheduling is an integral part of project management that involves the allocation of resources over time to perform a set of activities with dependencies. The classic resource-constrained project scheduling problem (RCPSP) and its extensions for multiple projects (RCMPSP) and multiple completion modes (MRCPSP) or both (MRCMPSP) are well known in the literature and are suitable for various practical scenarios. Recent extensions incorporating multiple skills <ref type="bibr" target="#b5">11</ref> , flexible resource profiles <ref type="bibr" target="#b9">15</ref> , task priorities, and flexible dependencies <ref type="bibr" target="#b4">10</ref> have gained significant attention. These advancements have highlighted the necessity of additional attributes in project scheduling models and the importance of model standardization <ref type="bibr" target="#b10">16</ref> . Applications beyond projects and other industries could also benefit from the progression of new models <ref type="bibr" target="#b11">17,</ref><ref type="bibr" target="#b12">18</ref> . For an overview of all problem variants and their characteristics, we refer to the survey of Hartmann and Briskorn <ref type="bibr" target="#b10">16</ref> .</p><p>Project databases have long been studied in the project scheduling context, starting with the early Patterson 19 set but constructed without well-defined problem parameters; subsequently, Boctor <ref type="bibr" target="#b14">20</ref> and other popular artificial databases, such as SMCP/SMFF <ref type="bibr" target="#b15">21</ref> , PSPLIB <ref type="bibr" target="#b16">22</ref> , RG <ref type="bibr" target="#b2">8,</ref><ref type="bibr" target="#b17">23</ref> , and MMLIB <ref type="bibr" target="#b18">24</ref> , play a significant role in benchmarking algorithms. A set of real-life project plans was also collected by Batselier et al. <ref type="bibr" target="#b0">6</ref> . Databases containing multiple projects running in parallel were also established, including MPSPLIB <ref type="bibr" target="#b19">25</ref> , BY 5 , RCMPSPLIB <ref type="bibr" target="#b20">26</ref> , and MPLIB <ref type="bibr" target="#b1">7</ref> . Some of the databases also support multiple completion modes (PSPLIB <ref type="bibr" target="#b16">22</ref> , Boctor <ref type="bibr" target="#b14">20</ref> , and MMLIB <ref type="bibr" target="#b18">24</ref> ). We refer to Table <ref type="table" target="#tab_0">1</ref> for a list of the selected databases and their references, along with the number of existing and newly added instances.</p><p>The PSPLIB dataset is still considered the most popular dataset in recent RCPSP literature <ref type="bibr" target="#b21">27</ref> . A survey 28 considering the RCMPSP variant highlighted the MPSPLIB dataset as the most commonly used benchmark set.</p><p>There are other databases that mostly target different RCPSP variants or candidates for later release. We reviewed only the most important studies without a complete list, which is outside the scope of this paper. The MT dataset <ref type="bibr" target="#b23">29</ref> is mainly used for schedule risk analysis and earned value management and contains project structures that can be combined with additional resource data; this dataset is called ResSet, which results in the NetRes dataset <ref type="bibr" target="#b24">30</ref> . DC1 <ref type="bibr" target="#b25">31</ref> and DC2 <ref type="bibr" target="#b26">32</ref> are studied within the context of the RCPSP with discounted cash flows. The CV set <ref type="bibr" target="#b27">33</ref> and the sD set <ref type="bibr" target="#b21">27</ref> contain RCPSP instances that are difficult to solve. MISTA2013 <ref type="bibr" target="#b28">34</ref> is a dataset and generator for the multimode resource-constrained multiple project scheduling problem (MRCMPSP) and combines instances from the PSPLIB. The BL <ref type="bibr" target="#b29">35</ref> and PACK <ref type="bibr" target="#b30">36</ref> datasets are also modifications of the PSPLIB and were designed for the context of highly disjunctive and cumulative scheduling of RCPSP, respectively. The AT dataset <ref type="bibr" target="#b31">37</ref> was one of the early sets generated with well-defined problem parameters. The ASLIB <ref type="bibr" target="#b32">38</ref> dataset contains instances for the resource-constrained project scheduling problem with alternative subgraphs (RCPSP-AS). The MSLIB and SSLIB <ref type="bibr" target="#b33">39</ref> databases were proposed for the multiskilled resource-constrained project scheduling problem (MSRCPSP). The RACP30 <ref type="bibr" target="#b34">40</ref> dataset was proposed in the context of the resource availability cost problem (RACP).</p><p>Most of the existing databases and available methods support only a fixed logic plan or consider a limited number of scheduling alternatives 4, <ref type="bibr" target="#b11">17,</ref><ref type="bibr" target="#b35">[41]</ref><ref type="bibr" target="#b36">[42]</ref><ref type="bibr" target="#b37">[43]</ref><ref type="bibr" target="#b38">[44]</ref><ref type="bibr" target="#b39">[45]</ref> . This approach is intuitive for traditional project management methods, which aim to minimize changes and follow rigid project plans <ref type="bibr" target="#b40">46,</ref><ref type="bibr" target="#b41">47</ref> . However, agile, hybrid, and extreme project management methods address uncertainty by frequently adapting task priorities and dependencies <ref type="bibr" target="#b42">48,</ref><ref type="bibr" target="#b43">49</ref> . To overcome the limitations of fixed project plans and to support the features of emerging project management approaches, the Flexible Structures Generator (FSG) enables the respecification of task priorities and dependencies, allowing existing project structures to be flexible. As a result, existing project databases can be extended with both traditional and flexible project structures for further research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Methods</head><p>The database comprises 12 libraries, 23 datasets, and 73,106 instances. An additional 1,561,086 flexible instances were generated using the FSG method. The original databases were collected via a thorough literature review process conducted by the authors, targeting databases of the popular (multimode) resource-constrained (multi) project scheduling problem types, (M)RC(M)PSP. As a result, additional data sources were identified and collected, broadening the list mentioned in existing surveys <ref type="bibr" target="#b22">28,</ref><ref type="bibr" target="#b44">50</ref> . To maintain data quality, relevant academic papers in project management and scheduling were selected to support the database's integrity and reliability. Some less popular datasets have already been collected and are under preparation for intended future releases.</p><p>The unified model for storing project data instances. The proposed unified matrix-based project planning model (UMP) can represent all features of widely accepted databases, i.e., individual and multiple projects, single and multimodal completions, and renewable and nonrenewable resources. It contains two mandatory and four supplementary domains (marked with dashed lines), as shown in Fig. <ref type="figure" target="#fig_0">1</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Projects Databases # Instances # New instances</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Single</head><p>Boctor <ref type="bibr" target="#b14">20</ref>  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>LD</head><p>The logic domain is an n by n matrix, where n is the number of tasks. Each cell contains a value in the interval [0,1].</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>TD</head><p>The time domain is an n by k matrix with positive real values, where k is the number of completion modes. The first mandatory domain is the logic domain, ∈ × LD [0, 1] n n . The diagonal values in LD represent the task priority values. If the diagonal value is 0, the task will not be completed; if the diagonal value is 1, the task is mandatory. If the diagonal value is between 0 and 1, the task is supplementary, indicating that, depending on the decision, it will be either completed or omitted/postponed. The out-diagonal values represent the dependencies between tasks or projects (programs).</p><p>The additional supplementary domains are as follows: CD The cost domain is an n by k nonnegative matrix of the task costs QD The quality domain is an n by k, nonnegative matrix of the task quality parameters, where the quality parameters are in [0,1] ND The nonrenewable resource domain is an n by k η nonnegative matrix of nonrenewable resource demands, where η is the number of types of nonrenewable resources RD The renewable resource domain is an n by k ρ nonnegative matrix of renewable resource demands, where ρ is the number of types of renewable resources</p><p>The proposed model thus enables the representation of various projects and features, including flexibility.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Generating flexible structures.</head><p>Four types of structures are generated for each flexibility level. The maximal structures are the equivalents of the original instances. In the case of minimal structures, all flexible dependencies and supplementary tasks are excluded; for minimax, all supplementary tasks with flexible dependencies are removed; and for maximin structures, only their flexible dependencies are removed.</p><p>An example of the construction process of flexible structures from existing instances is shown in Fig. <ref type="figure" target="#fig_1">2</ref> for minimal structures.</p><p>The left side of Fig. <ref type="figure" target="#fig_1">2</ref> shows the original logic domain: the flexibility parameter (fp) is set to 0.4 in this case. In the first step, fixed dependencies/mandatory tasks (denoted by the "X" symbol) become flexible (denoted by "? ", where "?" indicates a value between 0 and 1). The right side of Fig. <ref type="figure" target="#fig_1">2</ref> shows the minimal structure of the project.</p><p>The center of Fig. <ref type="figure" target="#fig_1">2</ref> shows three possible outcomes from ( ) 10 4 . Because the number of "X" symbols is 10, we have fp = 0.4. Outcome i retains all tasks but cuts almost all dependencies, while outcome j retains only one task from the original project. In the general case, several dependencies are cut, and several tasks are omitted, e.g., in outcome k. The FSG algorithm has several steps. It processes project instances by iterating through all directories and loading the necessary input variables. For each fixed task l ii = 1 and all fixed dependencies l ij = 1, ( ≠ i j) in the logic domain (LD), a matrix with uniform random values rv ij from the range of [0,1] is generated. In the next step, these values are evaluated depending on the type of structure for the given flexibility parameter (fp): maximal (original): All tasks and dependencies are retained, and fp is set to 0:</p><formula xml:id="formula_0">l 1 (<label>1</label></formula><p>) ij max = maximin: tasks are retained, and dependencies are updated: l rv i j rv fp rv i j rv fp if and , if and , 0 otherwise (</p><formula xml:id="formula_1">) ij ij ij ij ij maximin ⌈ ⌉ ⌊ ⌋ =          = ≤ ≠ ≤<label>2</label></formula><p>Minimax: dependencies are kept, and tasks are updated:</p><formula xml:id="formula_2">=          = ≥ ≠ = = ≤ ⌊ ⌋ ⌈ ⌉ ⌊ ⌋ ⌊ ⌋ l rv i j</formula><p>rv fp rv i j rv rv rv fp if and , if , 1 and , 0 otherwise ( minimal: tasks and dependencies are replaced</p><formula xml:id="formula_3">) ij ij ij ij ii jj ij minimax<label>3</label></formula><formula xml:id="formula_4">⌊ ⌋ = ≤ l r v rv fp , if , (<label>4</label></formula><formula xml:id="formula_5">) ij ij ij min where l l l l , , , , ij ij ij ij max maximin minimax</formula><p>min are the (i, j) cells of the logic domains of the maximal (original), maximin, minimal, and minimax structures, respectively, with i j n , 1, 2, , = .. . The ⋅ ⌈ ⌉ (⌊ ⌋ ⋅ ) operators denote the round- ing up (rounding down) of real numbers to the closest integer. The resulting flexible structures are saved in a designated directory. The random seed of the pseudorandom number generator was fixed for reproducibility. The various structure types add backward compatibility and provide a connection between traditional and flexible project plans and approaches.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Data records</head><p>Since the data originate from the reviewed academic literature, redundancy and quality concerns are mitigated. The database incorporates data from various sources and formats by employing the described unified model. Table <ref type="table">2</ref> lists the main characteristics of the selected databases.</p><p>Data profiling was conducted for each database format through examination. None of the databases showed interpretation issues or a lack of extractable data. The methodologies employed by the original authors in generating or collecting the databases were studied in advance to understand the characteristics, methodology, and assumptions of their data. The original data were assessed for important quality characteristics, such as accuracy, consistency, completeness, and currency <ref type="bibr" target="#b45">51</ref> . Additional consistency checks were executed in the preprocessing phase, ensuring that no contradictory conclusions could be drawn from the original data. Each instance contains descriptive information that can be recalculated from the data itself. These variables are the number of activities and the number of (non)renewable resources. In addition, logical rules can be directly applied for verification and to identify possible conflicts within the data. The number of (non)renewable resources is directly related to the dimension of the constraint vector, while the number of columns in the resource and cost vectors increases proportionally with the number of available modes. Some instances contain the number of precedences or the critical path length, which can be calculated from task precedences and durations. The topological ordering of the logic network, including testing for a lack of cycles in the graphs, was also verified during the process. In the case of generated data, the designed parameter ranges described in the original papers were cross-checked with the help of indicators. Outliers were assessed as individual cases through a detailed examination of the localized data. No missing entries or other anomalies were identified in any of the instances.</p><p>To seamlessly integrate diverse data into our model, automated scripts are employed. The necessary conversions or transformations are automatically performed by the developed toolset, which is provided as part of the repository. The provided scripts are designed to interpret and extract all possible attributes and information from each original dataset, ensuring reliable and reproducible data transformation. Format descriptors are collected at the code repository under the 'docs' folder. Instances generated by standard project generators, such as ProGen <ref type="bibr" target="#b15">21</ref> and RanGen 1 <ref type="bibr" target="#b46">52</ref> and 2 8 , of the collected datasets are also supported by the parser. For convenient Dataset Set(s) Instances # Tasks # Projects Type Method Mode(s) Attributes File extension(s) Generator Boctor 20 Boctor50 120 50 Single Artificial Generated Multi (4) Time, renewable resources *.prb Unpublished Boctor100 120 100 Kolisch 21 SMCP 200 10, 20, 30, 40 Single Artificial Generated Single Time, renewable resources *.rcp ProGen 21 SMFF 480 30 MMLIB 24 MMLIB50 540 50 Single Artificial Generated Multi (3) Time, re/non-renewable resources *.mm RanGen1 52 MMLIB100 540 100 MMLIB+ 3,240 50, 100 1*Multi (9) PAT 19 Patterson 110 5-49 Single Artificial Generated Single Time, renewable resources *.prb Unpublished PSPLIB 22 SM [j] 2,040 30, 60, 90, 120 Single Artificial Generated Single Time, re/non-renewable resources *.sm ProGen MM [c,j,m,n,r] 11,182 10, 12, 16, 20, 30 Single Artificial Generated Multi (1-5) Time, re/non-renewable resources *.mm ProGen Real-life 6 -133 26-151 Single Empirical Collected Single Time, cost, re-, non-renewable resources *.p2x -RG30 8 Set1 900 30 Single Artificial Generated Single Time, renewable resources *.rcp RanGen2 8 Set2 180 30 Set3 240 30 Set4 240 30 Set5 240 30 RG300 8 -480 300 Single Artificial Generated Single Time, renewable resources *.rcp RanGen1 BY 5 Rep1-Rep20 12,320 20 Multi (3) Artificial Generated Single Time, cost, renewable resources *.xlsm (*.rcmp) MNPGbrowning2010random MPLIB1 7 Set1 833 360 Multi (6) Artificial Generated Single Time, renewable resources *.rcmp Modified MNPG Set2 1,463 720 Multi (12) Set3 2,254 1,440 Multi (24) MPLIB2 56 Set1 10,125 500, 1,000 Multi (10, 20, 30) Artificial Generated Single Time, renewable resources *.rcmp Modified MNPG Set2 8,640 500, 1,000, 1,500 Multi (10, 20, 30) Set3 8,640 1,000 Multi (20) Set4 7,680 1,000 Multi (20) MPSPLIB 25 -140 60-2,400 Multi (2, 5, 10, 20) Artificial Generated, combined Single Time, renewable resources *.sm, *.xml (*.rcmp) Various (ProGen / unpublished) RCMPSPLIB 26 -26 60-450 Multi (2-10) Artificial Generated, combined Single Time, renewable resources *.txt (*.rcmp) Various (ProGen, MNPG, unpublished)</p><p>Table 2. Summary of all supported databases and their main attributes.</p><p>access to the released version of the CMPD, including flexible instances, please refer to the deposit at Figshare <ref type="bibr" target="#b47">53</ref> .</p><p>For databases containing a significant number of files or larger datasets, users can generate instances on their local computers, provided they meet the required hardware and software prerequisites. The CMPD reflects library and dataset folder names similar to those in the literature within its folder structure. To distinguish the new output format, instances are converted and saved using a predefined naming convention. Each folder contains the standardized output format of the original and flexible instances as MAT files, ensuring consistency. The example folder structure and filenames are shown in Fig. <ref type="figure" target="#fig_2">3</ref>.</p><p>The libraries are stored in the CMPD_mat folder, and CMPD_json mirrors it in the widely adopted JSON format. Data libraries can have multiple datasets as subfolders, containing instances as separate files. The naming convention for flexible instances follows the pattern: CMPD_&lt;format&gt;\&lt;library&gt;\&lt;dataset&gt;\&lt;instance#&gt;_&lt;structure_type&gt;_fp&lt;#&gt;_mode&lt;#&gt;.&lt;exten-sion&gt;, where the type of structure can be one of {maximal,maximin,minimax,minimal}; the 'mode' specifies the execution mode of a particular instance; and 'fp' is the flexibility parameter in the range of {0,1,2,3,4}, used to generate the instance, and the extension is either ".mat" or ".json". For the sake of completeness, the original instances are also saved without the 'fp' and 'mode' suffices.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>technical Validation</head><p>To ensure the accuracy, reliability, and consistency of the data, several actions were taken. Unit tests were created during the development and verification process to verify the functionality of the data conversion and generation. The data consistency was checked with an automated test suite ensuring that all the instances conformed to the defined data dictionary provided in Table <ref type="table">3</ref>. Name Type Min. size [row,col.] Max size [row,col.] Value range constr double [1, 3] [1, Inf] [-1, Inf] sim_type double [1, 1] [1, 1] [1, 3] struct_type string [1, 1] [1, 1] [0, 8] release_dates double [1, 1] [1, Inf] [0, Inf] num_projects double [1, 1] [1, 1] [1, Inf] num_activities double [1, 1] [1, Inf] [1, Inf] num_r_resources double [1, 1] [1, Inf] [0, Inf] num_modes double [1, 1] [1, 1] [1, Inf] PDM double [1, 1] [Inf, Inf] [0, Inf] mode double [1, 1] [1, 1] [0, Inf] fr double [1, 1] [1, 1] [-1, 1] sr double [1, 1] [1, 1] [-1, 1] fp double [1, 1] [1, 1] [0.0, 0.4]</p><p>Table 3. Data dictionary for all CMPD instances.</p><p>The test cases are designed to follow an incremental approach, starting with generic tests, such as checking the folder structure, size and number of files, and adherence to naming conventions. Equivalent tests are further executed on the level of variables, extended with specific cases for variable type, size, invalid or missing entries, and value ranges, according to the provided metadata. The logical relationships between variables are also tested. The matrices and submatrices were verified for size definitions given by the UMP. Possible errors, including exceptions, were handled by either the built-in software libraries or additionally implemented by design. Interactive debugging sessions and fault injection techniques were used to identify any potential exceptions in the parsing process for the different formats.</p><p>Reviews were also conducted to check the quality and integrity of the data. Project-related indicators were also used to assess the equivalence of the original and converted data and to compare them with the results from the literature. Subsequent generations of the database were compared to ensure reproducibility on both the Unix and Windows platforms. In addition, joint reviews by experts and paired programming were applied during the development process.</p><p>Extensive statistical analyses and comparisons between the datasets were performed to validate the data. These analyses provided an understanding of each dataset's common and unique characteristics. All the databases were checked for the coverage of numerous indicators using scatterplots. Figure <ref type="figure" target="#fig_3">4</ref> shows an example of the comparison between different network-related indicator values for the original and flexible structures. We refer to Kosztyán et al. <ref type="bibr" target="#b4">10</ref> for a detailed description of the applied indicators. The order strength (OS) indicator provided the most uniform coverage of values and was therefore selected for the horizontal axis, while the complexity of network coefficient (CNC) indicator was normalized to the [0,1] range for comparison. Databases such as MPLIB, MMLIB, and RG dominate all feature spaces, while BY covers a smaller but unique area. PSPLIB shows relatively good coverage even without introducing flexibility. Complexity decreased with flexibility, as indicated by C and CNC, bringing value to lower regions, and the seriality of task execution (I2) decreased. In general, the new flexible structures widened the indicator ranges and provided a more diverse set of values that have never been tested by project scheduling and resource allocation algorithms before.</p><p>The article 10 associated with the dataset discusses the main results and findings of further evaluations. During the validation process, potential sources of errors, such as formatting differences or missing data entries, were considered and addressed to ensure the validity and reliability of the dataset. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Usage Notes</head><p>By loading the database in MATLAB or an open-source alternative, the GNU Octave 54 environment is straightforward, as determined by using either the drag&amp;drop functionality or the built-in 'load' function. The data instances are stored as ".MAT" container or ".JSON" formatted files, each containing the following minimum set of standardized variables:</p><p>• PDM: This variable contains a matrix with specific domains available for the instance.</p><p>• num_activities: This variable represents the number of activities in a project. A multiproject is a vector of activity numbers for each project.</p><p>• num_r_resources: This variable represents the number of renewable resource types.</p><p>• constr: This variable stores the constraints set for the particular instance.</p><p>The instances might contain other optional variables depending on the applicability and actual content. For example, 'fp' stores the flexibility parameter used by FSG, while 'num_modes' indicates the number of execution modes available for the original instance. A detailed view of all the variables and their attributes that are stored in the instances is given in Table <ref type="table">4</ref>.</p><p>Once the instances are loaded in the workspace, variables can be accessed using their respective names, or it is also possible to access and change variables in the MAT files without loading them into memory.</p><p>If necessary, the MAT files can be manipulated and saved during the research process. Additionally, it is possible to extend the database with calculated indicator values, providing additional data to work with. The database itself is designed to ease future expansions, enabling the inclusion of new libraries, datasets, and instances. The structured nature of the database enables easy versioning, which can be managed through the popular GitHub platform and MathWorks site. To ensure the integrity of future updates and prevent any negative impacts or regressions, automated unit tests and use cases are implemented as part of the maintenance process. Users can run all available tests using the 'runtests' command executed in the source code folder. The source files and original databases are securely stored and made accessible through a public GitHub repository. Any academic or professional contributions to the repository and database management are handled within the GitHub platform, which facilitates discussion, issue reporting, and pull request processes and is maintained by key users. Example: "CMPD_mat\PSPLIB\j30sm\j301_1_NTP_maximal_fp0_mode1.mat" Variable name Class Size Bytes Description PDM double 30 × 36 8640 Project Domain Matrix [LD,TD,{CD,QD,ND,RD}] num_activities double 1 × 1 8 Number of tasks num_projects double 1 × 1 8 Number of projects num_r_resources double 1 × 1 8 Number of (renewable) resources num_modes double 1 × 1 8 Number of completion modes (1,…,w) fp double 1 × 1 8 Flexibility parameter {0,0.1,0.2,0.3,0.4} fr double 1 × 1 8 Rate of flexible dependencies [-1, 1] sr double 1 × 1 8 Rate of supplementary tasks [-1, 1] mode double 1 × 1 8 Selected completion mode (0,…,w) constr double 1 × 5 40 Constraints vector [C time , C cost ,{C quality }, {C resource }, Cscore] release_dates double 1 × 1 8 Earliest allowed start time of projects struct_type string 1 × 1 150 Type of structure {original,maximal,maximin,minimax,minimal}</p><p>Table 4. Variables and their attributes within an instance.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Fig. 1</head><label>1</label><figDesc>Fig. 1 Structure of the unified matrix-based project planning model (UMP).</figDesc><graphic coords="3,98.99,46.96,455.18,133.94" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Fig. 2</head><label>2</label><figDesc>Fig. 2 Example of generating flexible and minimal structures.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Fig. 3</head><label>3</label><figDesc>Fig.3Database directory structure and filenames.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Fig. 4</head><label>4</label><figDesc>Fig. 4 Topological feature space of all databases concerning flexibility.</figDesc><graphic coords="7,195.35,58.25,231.26,295.70" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>references 1 .</head><label>1</label><figDesc>Denizer, C., Kaufmann, D. &amp; Kraay, A. Good countries or good projects? macro-and microcorrelates of world bank project performance. Journal of Development Economics 105, 288-302, https://doi.org/10.1016/j.jdeveco.2013.06.003 (2013). 2. World Bank. The little data book on financial inclusion 2012 (World Bank Publications, 2012). 3. Brucker, P., Drexl, A., Möhring, R., Neumann, K. &amp; Pesch, E. Resource-constrained project scheduling: Notation, classification, models, and methods. European journal of operational research 112, 3-41, https://doi.org/10.1016/S0377-2217(98)00204-5 (1999). 4. Franco-Duran, D. M. &amp; Garza, J. M. D. L. Review of resource-constrained scheduling algorithms. Journal of Construction Engineering and Management 145, 03119006, https://doi.org/10.1061/(ASCE)CO.1943-7862.0001698 (2019). 5. Browning, T. R. &amp; Yassine, A. A. A random generator of resource-constrained multi-project network problems. Journal of Scheduling 13, 143-161, https://doi.org/10.1007/s10951-009-0131-y (2010).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>https://www.om-db.wi.tum.de/psplib/dataob.html 240 12,480 Kolisch 21 https://github.com/novakge/project-parsers/tree/master/data 680 8,840 MMLIB 24 https://www.projectmanagement.ugent.be/sites/default/files/datasets/MMRCPSP/MMLIB.zip 4,320 294,840 PAT 55 https://www.om-db.wi.tum.de/psplib/dataob.html 110 1,430 PSPLIB 22 https://www.om-db.wi.tum.de/psplib/getdata_sm.html 13,222 461,448 Real-life 6 https://www.projectmanagement.ugent.be/sites/default/files/datasets/Empirical/DSLIB.Summary of existing project databases, extended with flexible instances.</figDesc><table><row><cell>zip</cell><cell>133</cell><cell>1,729</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Scientific Data | (2024) 11:319 | https://doi.org/10.1038/s41597-024-03154-x</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>acknowledgements This work was implemented by the <rs type="grantNumber">TKP2021-NVA-10</rs> project with support provided by the <rs type="funder">Ministry of Culture and Innovation of Hungary</rs> from the <rs type="funder">National Research, Development and Innovation Fund</rs>, financed under the <rs type="programName">2021 Thematic Excellence Programme funding scheme</rs>. <rs type="person">Gergely L. Novák</rs>'s cooperation was supported by the <rs type="programName">Doctoral Student Scholarship Program of the Co-Operative Doctoral Program</rs> of the <rs type="institution">Ministry of Innovation and Technology</rs> financed by the <rs type="funder">National Research, Development, and Innovation Fund</rs>. <rs type="person">Zsolt T. Kosztyán</rs>'s research contribution, supported by Project no. <rs type="person">K 142395</rs>, has been implemented with support provided by the <rs type="funder">Ministry of Culture and Innovation of Hungary</rs> from the <rs type="funder">National Research, Development and Innovation Fund</rs>, financed under the K_22 "OTKA" funding scheme.</p></div>
+			</div>
+			<div type="funding">
+<div><head>Funding</head><p>Open access funding provided by <rs type="institution">University of Pannonia</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_3tGTZj3">
+					<idno type="grant-number">TKP2021-NVA-10</idno>
+				</org>
+				<org type="funding" xml:id="_jDdy8Vy">
+					<orgName type="program" subtype="full">2021 Thematic Excellence Programme funding scheme</orgName>
+				</org>
+				<org type="funding" xml:id="_q8BUF9d">
+					<orgName type="program" subtype="full">Doctoral Student Scholarship Program of the Co-Operative Doctoral Program</orgName>
+				</org>
+			</listOrg>
+
+			<div type="availability">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Code availability</head><p>The source code is tracked in the Git versioning system and can be publicly accessed from the repository at <ref type="url" target="https://github.com/novakge/project-parsers">https://  github.com/novakge/project-parsers</ref> and <ref type="url" target="https://github.com/novakge/project-indicators">https://github.com/novakge/project-indicators</ref> without registration. It is licensed under the terms GNU General Public License v3.0. A runnable (reproducible) code capsule can be found at <ref type="url" target="https://codeocean.com/capsule/9344928/tree/v1">Code Ocean</ref>. The code is tested against MATLAB R2020a or later releases with the Global Optimization Toolbox. A developer manual, including examples, is located in the repository's <ref type="url" target="https://github.com/novakge/project-parsers/blob/master/README.md">Readme file</ref>.</p></div>
+			</div>
+
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Competing interests</head><p>The authors declare no competing interests.</p></div>
+			</div>
+
+
+			<div type="contribution">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>author contributions</head><p>G.L.N. implemented the parsers; Z.T.K. analyzed the results. All the authors reviewed the manuscript.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Construction and evaluation framework for a real-life project database</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Batselier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ijproman.2014.09.004</idno>
+		<ptr target="https://doi.org/10.1016/j.ijproman.2014.09.004" />
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Project Management</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="697" to="710" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Resource-constrained multi-project scheduling: benchmark datasets and decoupled scheduling</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Van Eynde</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10951-020-00651-w</idno>
+		<ptr target="https://doi.org/10.1007/s10951-020-00651-w" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Scheduling</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="301" to="325" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">An evaluation of the adequacy of project network generators with systematically sampled networks</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Coelho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Debels</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Maenhout</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">V</forename><surname>Tavares</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2007.03.032</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2007.03.032" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">187</biblScope>
+			<biblScope unit="page" from="511" to="524" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Imopse: a library for bicriteria optimization in multi-skill resourceconstrained project scheduling problem</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">B</forename><surname>Myszkowski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Laszczyk</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Nikulin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Skowroński</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s00500-017-2997-5</idno>
+		<ptr target="https://doi.org/10.1007/s00500-017-2997-5" />
+	</analytic>
+	<monogr>
+		<title level="j">Soft Computing</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="3397" to="3410" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A matrix-based flexible project-planning library and indicators</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">T</forename><surname>Kosztyán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Novák</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Jakab</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Szalkai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Hegedüs</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.eswa.2022.119472</idno>
+		<ptr target="https://doi.org/10.1016/j.eswa.2022.119472" />
+	</analytic>
+	<monogr>
+		<title level="j">Expert Systems with Applications</title>
+		<imprint>
+			<biblScope unit="volume">216</biblScope>
+			<biblScope unit="page">119472</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Impacts of synergies on software project scheduling</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">T</forename><surname>Kosztyán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Bogdány</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Szalkai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">T</forename><surname>Kurbucz</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10479-021-04467-5</idno>
+		<ptr target="https://doi.org/10.1007/s10479-021-04467-5" />
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">312</biblScope>
+			<biblScope unit="page" from="883" to="908" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Hybrid multimode resource-constrained maintenance project scheduling problem</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">T</forename><surname>Kosztyán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Pribojszki-Németh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Szalkai</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.orp.2019.100129</idno>
+		<ptr target="https://doi.org/10.1016/j.orp.2019.100129" />
+	</analytic>
+	<monogr>
+		<title level="j">Operations Research Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page">100129</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<monogr>
+		<title level="m" type="main">Project dataset parsers to matrix-based formats</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">T</forename><surname>Kosztyán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Novák</surname></persName>
+		</author>
+		<idno type="DOI">10.24433/CO.0837444</idno>
+		<ptr target="https://www.codeocean.com/,10.24433/CO.0837444" />
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="page">1</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Project indicators and flexibility generator for matrix-based datasets</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">T</forename><surname>Kosztyán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Novák</surname></persName>
+		</author>
+		<idno type="DOI">10.24433/CO.5304543.v1</idno>
+		<ptr target="https://www.codeocean.com/,10.24433/CO.5304543.v1" />
+		<imprint>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Mip models for resource-constrained project scheduling with flexible resource profiles</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Naber</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kolisch</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2014.05.036</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2014.05.036" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">239</biblScope>
+			<biblScope unit="page" from="335" to="348" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">An updated survey of variants and extensions of the resource-constrained project scheduling problem</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hartmann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Briskorn</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2021.05.004</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2021.05.004" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of operational research</title>
+		<imprint>
+			<biblScope unit="volume">297</biblScope>
+			<biblScope unit="page" from="1" to="14" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Production scheduling with alternative process plans</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Čapek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Šůcha</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Hanzálek</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2011.09.018</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2011.09.018" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">217</biblScope>
+			<biblScope unit="page" from="300" to="311" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">A list-scheduling heuristic for the short-term planning of assessment centers</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Zimmermann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Trautmann</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10951-017-0521-5</idno>
+		<ptr target="https://doi.org/10.1007/s10951-017-0521-5" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of scheduling</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="131" to="142" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">A comparison of exact approaches for solving the multiple constrained resource, project scheduling problem</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Patterson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Management science</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="854" to="867" />
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Heuristics for scheduling projects with resource restrictions and several resource-duration modes</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">F</forename><surname>Boctor</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00207549308956882</idno>
+		<ptr target="https://doi.org/10.1080/00207549308956882" />
+	</analytic>
+	<monogr>
+		<title level="j">The international journal of production research</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="2547" to="2558" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Characterization and generation of a general class of resource-constrained project scheduling problems</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kolisch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sprecher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Drexl</surname></persName>
+		</author>
+		<idno type="DOI">10.1287/mnsc.41.10.1693</idno>
+		<ptr target="https://doi.org/10.1287/mnsc.41.10.1693" />
+	</analytic>
+	<monogr>
+		<title level="j">Management Science</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="1693" to="1703" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">PSPLIB-a project scheduling problem library</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sprecher</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Kolisch</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0377-2217(96)00170-1</idno>
+		<ptr target="https://doi.org/10.1016/S0377-2217(96)00170-1" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="page" from="205" to="216" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">A decomposition-based genetic algorithm for the resource-constrained project-scheduling problem</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Debels</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1287/opre.1060.0358</idno>
+		<ptr target="https://doi.org/10.1287/opre.1060.0358" />
+	</analytic>
+	<monogr>
+		<title level="j">Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="457" to="469" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">An experimental investigation of metaheuristics for the multi-mode resource-constrained project scheduling problem on new dataset instances</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">V</forename><surname>Peteghem</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2013.10.012</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2013.10.012" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">235</biblScope>
+			<biblScope unit="page" from="62" to="72" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A multi-agent system for the decentralized resource-constrained multi-project scheduling problem</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Homberger</surname></persName>
+		</author>
+		<idno type="DOI">10.1111/j.1475-3995.2007.00614.x</idno>
+		<ptr target="https://doi.org/10.1111/j.1475-3995.2007.00614.x" />
+	</analytic>
+	<monogr>
+		<title level="j">International Transactions in Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="page" from="565" to="589" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Learning process on priority rules to solve the RCMPSP</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">P</forename><surname>Vázquez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">P</forename><surname>Calvo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Ordóñez</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10845-013-0767-5</idno>
+		<ptr target="https://doi.org/10.1007/s10845-013-0767-5" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Intelligent Manufacturing</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="123" to="138" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">New resource-constrained project scheduling instances for testing (meta-)heuristic scheduling algorithms</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Coelho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.cor.2023.106165</idno>
+		<ptr target="https://doi.org/10.1016/j.cor.2023.106165" />
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">153</biblScope>
+			<biblScope unit="page">106165</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Resource-constrained multi-project scheduling problem: A survey</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gómez Sánchez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Lalla-Ruiz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Fernández Gil</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Castro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Voß</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2022.09.033</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2022.09.033" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">309</biblScope>
+			<biblScope unit="page" from="958" to="976" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Using activity sensitivity and network topology information to monitor project time performance</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.omega.2009.10.001</idno>
+		<ptr target="https://doi.org/10.1016/j.omega.2009.10.001" />
+	</analytic>
+	<monogr>
+		<title level="j">Omega</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="359" to="370" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">A tool to test and validate algorithms for the resource-constrained project scheduling problem</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Coelho</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.cie.2018.02.001</idno>
+		<ptr target="https://doi.org/10.1016/j.cie.2018.02.001" />
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Industrial Engineering</title>
+		<imprint>
+			<biblScope unit="volume">118</biblScope>
+			<biblScope unit="page" from="251" to="265" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">On maximizing the net present value of a project under renewable resource constraints</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">L</forename><surname>Demeulemeester</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Herroelen</surname></persName>
+		</author>
+		<idno type="DOI">10.1287/mnsc.47.8.1113.10226</idno>
+		<ptr target="https://doi.org/10.1287/mnsc.47.8.1113.10226" />
+	</analytic>
+	<monogr>
+		<title level="j">Management Science</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="1113" to="1121" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">A scatter search heuristic for maximising the net present value of a resource-constrained project with fixed activity cash flows</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00207540802010781</idno>
+		<ptr target="https://doi.org/10.1080/00207540802010781" />
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Production Research</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="1983" to="2001" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Going to the core of hard resource-constrained project scheduling instances</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Coelho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.cor.2020.104976</idno>
+		<ptr target="https://doi.org/10.1016/j.cor.2020.104976" />
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Operations Research</title>
+		<imprint>
+			<biblScope unit="volume">121</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">The multi-mode resource-constrained multi-project scheduling problem</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Wauters</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10951-014-0402-0</idno>
+		<ptr target="https://doi.org/10.1007/s10951-014-0402-0" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Scheduling</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="271" to="283" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Constraint propagation and decomposition techniques for highly disjunctive and highly cumulative project scheduling problems</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Baptiste</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">L</forename><surname>Pape</surname></persName>
+		</author>
+		<idno type="DOI">10.1023/A:1009822502231</idno>
+		<ptr target="https://doi.org/10.1023/A:1009822502231" />
+	</analytic>
+	<monogr>
+		<title level="j">Constraints</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="119" to="139" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">On linear lower bounds for the resource constrained project scheduling problem</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Carlier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Néron</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/S0377-2217(02)00763-4</idno>
+		<ptr target="https://doi.org/10.1016/S0377-2217(02)00763-4" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">149</biblScope>
+			<biblScope unit="page" from="314" to="324" />
+			<date type="published" when="2003">2003</date>
+			<publisher>Sequencing and Scheduling</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<monogr>
+		<title level="m" type="main">Heuristic algorithms for resource-constrained project scheduling: A review and an empirical analysis, advances in project scheduling</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Alverez-Valdes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tamarit</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">A tabu search procedure for the resource-constrained project scheduling problem with alternative subgraphs</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Servranckx</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2018.09.005</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2018.09.005" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">273</biblScope>
+			<biblScope unit="page" from="841" to="860" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">A classification and new benchmark instances for the multi-skilled resource-constrained project scheduling problem</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Snauwaert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2022.05.049</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2022.05.049" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">307</biblScope>
+			<biblScope unit="page" from="1" to="19" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">An artificial immune system algorithm for the resource availability cost problem</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Van Peteghem</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/s10696-011-9117-0</idno>
+		<ptr target="https://doi.org/10.1007/s10696-011-9117-0" />
+	</analytic>
+	<monogr>
+		<title level="j">Flexible services and manufacturing journal</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="122" to="144" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Project planning with alternative technologies in uncertain environments</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Creemers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">D</forename><surname>Reyck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Leus</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2014.11.014</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2014.11.014" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">242</biblScope>
+			<biblScope unit="page" from="465" to="476" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Strategies for project scheduling with alternative subgraphs under uncertainty: similar and dissimilar sets of schedules</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Servranckx</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2019.05.023</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2019.05.023" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">279</biblScope>
+			<biblScope unit="page" from="38" to="53" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">Scheduling resource-constrained projects with a flexible project structure</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Kellenbrink</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Helber</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2015.05.003</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2015.05.003" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">246</biblScope>
+			<biblScope unit="page" from="379" to="391" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Multi-mode resource-constrained project scheduling problem with alternative project structures</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Tao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">S</forename><surname>Dong</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.cie.2018.08.027</idno>
+		<ptr target="https://doi.org/10.1016/j.cie.2018.08.027" />
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Industrial Engineering</title>
+		<imprint>
+			<biblScope unit="volume">125</biblScope>
+			<biblScope unit="page" from="333" to="347" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Resource-constrained multi-project scheduling with activity and time flexibility</title>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">A</forename><surname>Hauder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Beham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Raggl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Parragh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Affenzeller</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.cie.2020.106857</idno>
+		<ptr target="https://doi.org/10.1016/j.cie.2020.106857" />
+	</analytic>
+	<monogr>
+		<title level="j">Computers &amp; Industrial Engineering</title>
+		<imprint>
+			<biblScope unit="volume">150</biblScope>
+			<biblScope unit="page">106857</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Agile vs. traditional approach in project management: Strategies, challenges and reasons to introduce agile</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ciric</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.promfg.2020.01.314</idno>
+		<ptr target="https://doi.org/10.1016/j.promfg.2020.01.314" />
+	</analytic>
+	<monogr>
+		<title level="m">25th International Conference on Production Research Manufacturing Innovation: Cyber Physical Manufacturing</title>
+		<meeting><address><addrLine>Chicago, Illinois (USA</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2019">August 9-14, 2019. 2019</date>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="1407" to="1414" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">A review of methods, techniques and tools for project planning and control</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pellerin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Perrier</surname></persName>
+		</author>
+		<idno type="DOI">10.1080/00207543.2018.1524168</idno>
+		<ptr target="https://doi.org/10.1080/00207543.2018.1524168" />
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Production Research</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="page" from="2160" to="2178" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">How project management approach impact project success? from traditional to agile</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ciric Lalic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Lalic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Delić</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gracanin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Stefanovic</surname></persName>
+		</author>
+		<idno type="DOI">10.1108/IJMPB-04-2021-0108</idno>
+		<ptr target="https://doi.org/10.1108/IJMPB-04-2021-0108" />
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Managing Projects in Business</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="494" to="521" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">K</forename><surname>Wysocki</surname></persName>
+		</author>
+		<title level="m">Effective project management, 8 edn</title>
+		<meeting><address><addrLine>Nashville, TN</addrLine></address></meeting>
+		<imprint>
+			<publisher>John Wiley &amp; Sons</publisher>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">An overview of project data for integrated project management and control</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Coelho</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Batselier</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Modern Project Management</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="6" to="21" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<monogr>
+		<title level="m" type="main">Data and information quality</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Batini</surname></persName>
+		</author>
+		<idno type="DOI">10.1007/978-3-319-24106-7</idno>
+		<ptr target="https://doi.org/10.1007/978-3-319-24106-7" />
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<publisher>Springer International Publishing</publisher>
+			<pubPlace>Cham, Switzerland</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">A. random network generator for activity-on-the-node networks</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">L</forename><surname>Demeulemeester</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Herroelen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Rangen</surname></persName>
+		</author>
+		<idno type="DOI">10.1023/A:1022283403119</idno>
+		<ptr target="https://doi.org/10.1023/A:1022283403119" />
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Scheduling</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="17" to="38" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<monogr>
+		<title level="m" type="main">Compound matrix-based database</title>
+		<author>
+			<persName><forename type="first">Z</forename><forename type="middle">T</forename><surname>Kosztyán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Novák</surname></persName>
+		</author>
+		<idno type="DOI">10.6084/m9.figshare.23937978</idno>
+		<ptr target="https://doi.org/10.6084/m9.figshare.23937978" />
+		<imprint>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Project scheduling: The effects of problem structure on heuristic performance</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">H</forename><surname>Patterson</surname></persName>
+		</author>
+		<idno type="DOI">10.1002/nav.3800230110</idno>
+		<ptr target="https://doi.org/10.1002/nav.3800230110" />
+	</analytic>
+	<monogr>
+		<title level="j">Naval Research Logistics Quarterly</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="95" to="123" />
+			<date type="published" when="1976">1976</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">New summary measures and datasets for the multi-project scheduling problem</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Van Eynde</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Vanhoucke</surname></persName>
+		</author>
+		<idno type="DOI">10.1016/j.ejor.2021.10.006</idno>
+		<ptr target="https://doi.org/10.1016/j.ejor.2021.10.006" />
+	</analytic>
+	<monogr>
+		<title level="j">European Journal of Operational Research</title>
+		<imprint>
+			<biblScope unit="volume">299</biblScope>
+			<biblScope unit="page" from="853" to="868" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

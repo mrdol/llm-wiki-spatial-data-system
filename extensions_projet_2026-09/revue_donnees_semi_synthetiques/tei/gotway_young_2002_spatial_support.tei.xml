@@ -1,0 +1,2813 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Journal of the American Statistical Association</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2017-12-11">11 December 2017</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Carol</forename><forename type="middle">A</forename><surname>Gotway</surname></persName>
+						</author>
+						<author role="corresp">
+							<persName><forename type="first">Linda</forename><forename type="middle">J</forename><surname>Young</surname></persName>
+							<email>ljyoung@unlnotes.unl.edu</email>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">is Senior Mathematical Statistician</orgName>
+								<orgName type="institution" key="instit1">National Center for Environmental Health</orgName>
+								<orgName type="institution" key="instit2">Centers for Disease Control and Prevention</orgName>
+								<address>
+									<postCode>30333</postCode>
+									<settlement>Atlanta</settlement>
+									<region>GA</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="department">Depart- ment of Biometry</orgName>
+								<orgName type="institution">University of Nebraska</orgName>
+								<address>
+									<postCode>68583</postCode>
+									<settlement>Lincoln</settlement>
+									<region>NE</region>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Journal of the American Statistical Association</title>
+					</analytic>
+					<monogr>
+						<idno type="ISSN">0162-1459 (Print) 1537-274X</idno>
+						<imprint>
+							<date type="published" when="2017-12-11">11 December 2017</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">E454AF3CF0D8655DDE1177B360165D75</idno>
+					<idno type="DOI">10.1198/016214502760047140</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:09+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Change of support</term>
+					<term>Data assimilation</term>
+					<term>Ecological inference</term>
+					<term>Modi able areal unit problem</term>
+					<term>Multiscale processes</term>
+					<term>Spatially-misaligned data</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Global positioning systems (GPSs) and geographical information systems (G ISs) have been widely used to collect and synthesize spatial data from a variety of sources. New advances in satellite imagery and remote sensing now permit scientists to access spatial data at several different resolutions. The Internet facilitates fast and easy data acquisition. In any one study, several different types of data may be collected at differing scales and resolutions, at different spatial locations, and in different dimensions. Many statistical issues are associated with combining such data for modeling and inference. This article gives an overview of these issues and the approaches for integrating such disparate data, drawing on work from geography, ecology, agriculture, geology, and statistics. Emphasis is on state-ofthe-art statistical solutions to this complex and important problem.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">INTRODUCTION</head><p>One of the most challenging and fascinating areas in spatial statistics is the synthesis of spatial data collected at different spatial scales. Advances in satellite imagery and remote sensing now permit scientists to access spatial data at several different resolutions. For example, data from Landsat thematic mapper (TM) scenes have a resolution of 30 m 2 (the size of the area on the ground represented by each unit in the image), the low-cost advanced very-high-resolution radiometer (AVHRR) has a much coarser resolution (2.2-16 km 2 ), and aerial photographs can be digitized to a very ne resolution (1 m 2 or smaller). The advent of the Internet has led to an explosion in the number of readily available datasets. Studies working with disparate data at multiple scales have become common, causing increased concern over issues surrounding scale. Recent advances in geographic information systems (G ISs) make it possible to use spatial data from different resolutions and combine them with other types of disparate spatial information (e.g., networks, roads, utility pipelines, census tract information). Users of spatial information are frequently faced with the problem of how best to integrate such information.</p><p>The overall problem of "incompatible" spatial data has been encountered in several elds of study, and numerous terms have been introduced to describe one or more facets of the problem as well as various solutions to it. These terms include the ecological inference problem, the modi able areal unit problem, spatial data transformations, the scaling problem, inference between incompatible zonal systems, block kriging, pycnophylactic geographic interpolation, the polygonal overlay problem, areal interpolation, inference with spatially misaligned data, contour reaggregation, multiscale and multiresolution modeling, and the change of support problem. In this article, we give a multidisciplinary history of this problem, with a description of early proposed solutions. We then review more recent statistical approaches, emphasizing the underlying assumptions and evaluating the progress made toward combining incompatible spatial data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">A HISTORICAL PERSPECTIVE</head><p>The choice of an appropriate scale for the study of spatial processes is an extremely important one because mechanisms vital to the spatial dynamics of a process at one scale may be unimportant or inoperative at another. Moreover, relationships between variables at one scale may be obscured or distorted when viewed from another scale. This is particularly true in the study of human, animal, and plant populations and has led many researchers in agriculture, geography, sociology, statistics, ecology, and the earth and environmental sciences to consider scale issues in detail <ref type="bibr" target="#b32">(Fair eld Smith 1938;</ref><ref type="bibr" target="#b125">Yule and Kendall 1950;</ref><ref type="bibr" target="#b101">Robinson 1950;</ref><ref type="bibr" target="#b103">Selvin 1958;</ref><ref type="bibr" target="#b69">Matheron 1963;</ref><ref type="bibr" target="#b52">Hannan 1971;</ref><ref type="bibr" target="#b74">Moellering and Tobler 1972;</ref><ref type="bibr" target="#b42">Ghil, Cohn, Tavantzia, Bube, and Isaacson 1981;</ref><ref type="bibr" target="#b75">Morganstern 1982;</ref><ref type="bibr" target="#b86">Openshaw 1984;</ref><ref type="bibr" target="#b111">Turner, O'Neill, Gardner, and Milne 1989;</ref><ref type="bibr" target="#b37">Fotheringham and Wong 1991;</ref><ref type="bibr" target="#b28">Daley 1991;</ref><ref type="bibr" target="#b97">Richardson 1992;</ref><ref type="bibr" target="#b66">Levin 1992;</ref><ref type="bibr">Cressie 1993a</ref><ref type="bibr" target="#b26">Cressie , 1996;;</ref><ref type="bibr" target="#b56">Jelinski and Wu 1996;</ref><ref type="bibr" target="#b60">King 1997</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">The Modi' able Areal Unit Problem</head><p>In many instances, spatial aggregation is necessary to create meaningful units for analysis. This latter aspect was perhaps best described by <ref type="bibr">Yule and Kendall (1950, p. 312)</ref>, who stated that "geographical areas chosen for the calculation of crop yields are modi able units and necessarily so. Since it is impossible (or at any rate agriculturally impractical) to grow wheat and potatoes on the same piece of ground simultaneously we must, to give our investigation any meaning, consider an area containing both wheat and potatoes and this area is modi able at choice." Geographers have long had an appreciation for the problems associated with the use of modi able units. These problems led <ref type="bibr" target="#b87">Openshaw and Taylor (1979)</ref> to coin the term modi able areal unit problem, now often referred to simply as the MAUP. <ref type="bibr" target="#b40">Gehlke and Biehl (1934)</ref> rst documented that statistical inference could change with scale using two census tract variables. They found that when contiguous census tracts were grouped to form larger areas, the magnitude of the correlation coef cient between the two variables increased. However, when random census tracts were grouped, the correlations were unaffected by the group size. The impact of different grouping methods, such as random, by proximity, or by values of either the dependent or independent variable, was then studied by <ref type="bibr" target="#b125">Yule and Kendall (1950)</ref>, <ref type="bibr" target="#b12">Blalock (1964)</ref>, and <ref type="bibr" target="#b23">Clark and Avery (1976)</ref>. When random grouping was used, there was no systematic effect on the correlation coef cient or on the estimated slope parameter from simple linear regression. When the grouping was based on values of the dependent variable, both the correlation coef cient and the estimated slope parameter increased with scale. If the grouping criterion was based on values of the independent variable, then the correlation coef cient increased with increasing aggregation, but grouping had no systematic effect on the estimated slope parameter. Finally, when proximal units were grouped, the estimates of both the correlation coef cient and the slope parameter increased with the level of grouping, although the correlation coef cient increased only up to a certain level of aggregation, after which the correlations began to decrease. To better understand the nature of the problem and to suggest ef cient groupings for geographical data, <ref type="bibr" target="#b87">Openshaw and Taylor (1979)</ref> considered 99 counties in Iowa and constructed all possible groupings of these counties into larger districts. Their results were somewhat startling. When the correlation between the percentage of Republican voters and the percentage of elderly voters was considered, 12 districts could be contrived to produce correlations ranging from ƒ0 97 to C0 99. Moreover, no obvious relationship seemed to exist between the spatial characteristics of the districts and the variation in the resulting correlation coef cients.</p><p>These studies illustrate that the MAUP is two interrelated problems. The rst problem concerns the different inferences obtained when the same set of data is grouped into increasingly larger areal units. Often referred to as the scale effect or aggregation effect, this has received the most attention by statisticians. The second problem, often termed the grouping effect or the zoning effect, considers the variability in results due to alternative formations of the areal units leading to differences in unit shape at the same or similar scales <ref type="bibr" target="#b86">(Openshaw and</ref><ref type="bibr" target="#b87">Taylor 1979, 1981;</ref><ref type="bibr" target="#b86">Openshaw 1984;</ref><ref type="bibr" target="#b123">Wong 1996)</ref>. Both issues can be, and often are, present in a single analysis.</p><p>Theoretical reasons for the increase in correlations as the level of aggregation increases have been provided in the works of <ref type="bibr" target="#b101">Robinson (1950)</ref>, <ref type="bibr" target="#b93">Prais and Aitchison (1954)</ref>, <ref type="bibr" target="#b100">Robinson (1956), and</ref><ref type="bibr" target="#b25">Cramer (1964)</ref> in the context of the simple linear regression model. <ref type="bibr" target="#b93">Prais and Aitchison (1954)</ref> developed the use of grouping matrices to measure the grouping effects and suggested weighted least squares for unbiased estimation of the slope coef cient. This idea was extended by <ref type="bibr" target="#b121">Williams (1976)</ref>, <ref type="bibr" target="#b50">Haitovsky (1984)</ref>, and <ref type="bibr" target="#b2">Arbia (1986)</ref> to more complicated grouping arrangements and the use of generalized least squares. However, the loss of ef ciency resulting from aggregation cannot be removed simply by using a weighted analysis. Thus correlation coef cients and signicance tests based on aggregated data tend to be in ated. Areal weighting, rst suggested by <ref type="bibr" target="#b100">Robinson (1956)</ref>, is an effective solution to the MAUP only in very specialized situations <ref type="bibr" target="#b108">(Thomas and Anderson 1965)</ref>, and in general will not solve the problem caused by the zoning effect. The effects of the MAUP go beyond such simple statistics as the variance and the correlation coef cient discussed here. Inferential problems also occur in multivariate regression analysis <ref type="bibr" target="#b37">(Fotheringham and Wong 1991)</ref>, Poisson regression <ref type="bibr" target="#b1">(Amrhein and Flowerdew 1992)</ref>, hierarchical random coef cient models <ref type="bibr" target="#b43">(Goldstein 1995;</ref><ref type="bibr" target="#b104">Steel and Holt 1996)</ref>, spatial interaction models <ref type="bibr" target="#b94">(Putnam and Chung 1989)</ref>, spatial autocorrelation statistics <ref type="bibr" target="#b56">(Jelinski and Wu 1996)</ref>, and undoubtedly in many other statistical models and estimation procedures.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">The Ecological Fallacy</head><p>In epidemiology, the term ecological inference refers to the process of deducing individual behavior from aggregate data. This term is from <ref type="bibr" target="#b101">Robinson (1950)</ref>, who noted that in ecological correlation, the statistical object is a group of persons. He concluded that ecological and individual correlations are almost certainly not equal, leading him and others to question the results of numerous studies in which conclusions on individual behavior had been drawn from grouped data. Thus the ecological fallacy occurs when analyses based on grouped data lead to conclusions different from those based on individual data <ref type="bibr" target="#b103">(Selvin 1958)</ref>. The resulting bias is often called "ecological bias" <ref type="bibr" target="#b97">(Richardson 1992;</ref><ref type="bibr" target="#b48">Greenland and Robins 1994)</ref>. This is comprised of two components: aggregation bias due to the grouping of individuals and speci cation bias due to the differential distribution of confounding variables created by grouping <ref type="bibr" target="#b75">(Morganstern 1982)</ref>. These are analogous to the scale and zoning effects in the MAUP, and the ecological inference problem can be viewed as a special case of the MAUP and not the converse, as advocated by <ref type="bibr" target="#b60">King (1997)</ref>.</p><p>Ecological bias has been well documented in the literature <ref type="bibr" target="#b101">(Robinson 1950;</ref><ref type="bibr" target="#b98">Richardson, Stucker, and Hemon 1987;</ref><ref type="bibr" target="#b92">Piantadosi, Byar and Green 1988;</ref><ref type="bibr" target="#b47">Greenland and Morganstern 1989;</ref><ref type="bibr" target="#b117">Walter 1991;</ref><ref type="bibr" target="#b97">Richardson 1992;</ref><ref type="bibr" target="#b62">Klein and Freedman 1993)</ref>, as have "inference rules" and "solutions" <ref type="bibr" target="#b45">(Goodman 1959;</ref><ref type="bibr" target="#b34">Firebaugh 1978;</ref><ref type="bibr" target="#b97">Richardson 1992;</ref><ref type="bibr" target="#b60">King 1997)</ref>. <ref type="bibr" target="#b24">Cleave, Brown, and Payne (1995)</ref> and <ref type="bibr" target="#b60">King (1997)</ref> have provided critical discussions of some of these in the context of contingency table analysis where individuals are divided into areal units (e.g., census tracts, voting districts), and then cross-classi ed by other variables (e.g., sex, race). Often the cause of specication bias is the failure to incorporate relevant spatial information about individuals (e.g., <ref type="bibr" target="#b62">Klein and Freedman 1993)</ref>. This type of analysis is not of primary interest here. Instead, our focus is on spatial data and methods for combining spatial data from disparate sources.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Sources of the Modi' able Areal Unit Problem and Ecological Bias</head><p>The smoothing effect that results from averaging is the underlying cause of both the scale problem in the MAUP and aggregation bias in ecological studies. As heterogeneity among units is reduced through aggregation, the uniqueness of each unit and the dissimilarity among units is also reduced. There is, however, another mitigating factor: spatial autocorrelation. The decrease in variance is moderated by the positive autocorrelation among the original observations, and exacerbated by negative autocorrelation. <ref type="bibr" target="#b2">Arbia (1986)</ref> and Cressie Downloaded by [University of New England] at 03:40 11 December 2017 <ref type="bibr">(1993b)</ref> have illustrated the effect of autocorrelation on the variance of the sample mean. When areal units are similar to begin with, the aggregation process results in much less information loss than when the units are highly dissimilar. To further compound the problem, the aggregation process itself induces positive spatial autocorrelation, particularly if the aggregation process allows overlapping units (e.g., moving averages). Cross-correlations with variables in neighboring units also can affect the results <ref type="bibr" target="#b123">(Wong 1996)</ref>.</p><p>The smoothing effect and resulting alterations in the spatial autocorrelation of the units are also sources of the zoning effect. The MAUP does not exist, or at least its effects are much less pronounced, when aggregation of areal units is performed in a noncontiguous or spatially random fashion. Only when contiguous units are combined, altering the spatial autocorrelation among the units, is the zoning effect of MAUP most apparent. Because the variation among the original areal units is not uniform over the entire region, merging smaller units is analogous to smoothing different combinations of spatial neighbors. Depending on the similarity of the neighbors, different zoning rules may lead to different analytical results. Thus, given the plethora of ways of combining even a relatively small number of spatial units, it is not hard to see how one could produce "a million or so correlation coef cients" as <ref type="bibr" target="#b87">Openshaw and Taylor (1979)</ref> found.</p><p>The complex facets of the smoothing effect can be very difcult to sort out in any given application, leading to a vast literature on this problem. Some information is lost by aggregating and going to increasingly larger scales. Systematic effects, caused by either the aggregation aspect or the zoning aspect of the MAUP, depend on the spatial relationships among the original data values, the statistics being calculated, and the way in which the units are aggregated. Thus the effects of the MAUP and ecological bias that may occur in any particular application are often dif cult or impossible to ascertain. But this fundamental understanding of the problem makes it clear that any solution must nd a way to (1) account for or circumvent the loss of information due to aggregation and (2) relate the variation among the aggregated units to the variation among the original units composing each aggregate. Although difcult, this can be done, as described in Sections 31 4, and 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">The General Change of Support Problem</head><p>The different types of spatial data (point, line, area, surface), occurring naturally or as a result of the measurement process, potentially allow many ways of integrating these different types of spatial data. <ref type="bibr" target="#b2">Arbia (1989)</ref> uses the term spatial data transformations to refer to situations in which the spatial process of interest is inherently of one form but the data observed are of another form, resulting in a "transformation" of the original process of interest. For example, sometimes the data are just not available at the desired scale of interest. Meteorologic processes occur over a continuum, but only point observations along such a surface can be recorded. Individuallevel inference may be desired, but to ensure data con dentiality, only aggregate data are made available. These situations and all of Arbia's spatial data transformations are special cases of what is called the change of support problem (COSP) in geostatistics. The term "support" has come to mean simply the size or volume associated with each data value, but the complete speci cation of this term also includes the geometrical size, shape, and spatial orientation of the regions associated with the measurements (see, e.g., <ref type="bibr" target="#b83">Olea 1991)</ref>. Changing the support of a variable (typically by averaging or aggregation) creates a new variable. This new variable is related to the original one, but has different statistical and spatial properties. The problem of how the spatial variation in one variable associated with a given support relates to that of the other variable with a different support is the COSP. Table <ref type="table" target="#tab_0">1</ref>, modi ed from <ref type="bibr" target="#b2">Arbia (1989)</ref>, delineates some common COSPs.</p><p>Both the ecological inference problem and the MAUP are just speci c COSPs. Many other terms have also been introduced to describe particular COSPs and solutions to particular COSPs including the scaling problem, inference between incompatible zonal systems, block kriging, pycnophylactic geographic interpolation, the polygonal overlay problem, areal interpolation, inference with spatially misaligned data, contour reaggregation, and multiscale and multiresolution modeling. Many of these are discussed in more detail in subsequent sections.</p><p>COSPs may result when studying a single spatial variable or when trying to relate two spatial variables of different supports. For example, consider a retrospective epidemiologic study designed to measure the effect of air quality on mortality or morbidity. Often in such studies, only aggregate health data are available, re ecting cost, time, and con dentiality considerations. This is an area-to-point COSP, because aggregate data must be used to make inferences about individuals. Another COSP problem results when trying to link the exposure data to the health outcome information, because the two variables have inherently different scales. This serves to illustrate a more fundamental problem not alleviated by even the most sophisticated measurement process. Disease is speci c to an individual, but air quality varies over a continuum-how can these two different types of data be related in a way that permits valid inference? Many of the statistical solutions to the COSP can be traced back to Krige's "regression effect" and subsequent corrections used in mining blocks of ore in the 1950s <ref type="bibr" target="#b63">(Krige 1951</ref>). These were more formally developed into the beginning of the eld of geostatistics by <ref type="bibr" target="#b69">Matheron (1963)</ref>. Point kriging is one solution to the point-to-point COSP, but geostatistics was really invented for more general COSPs. The basic geostatistical concepts of support and change of support have been presented by <ref type="bibr" target="#b21">Clark (1979)</ref> and <ref type="bibr" target="#b3">Armstrong (1999)</ref>. More general solutions to change of support problems have been discussed by <ref type="bibr" target="#b59">Journel and Huijbregts (1978)</ref>, Chiles and Del ner (1999), and <ref type="bibr">Cressie (1993a</ref><ref type="bibr" target="#b26">Cressie ( , 1996))</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Block Kriging</head><p>Consider the process 8Z4s5 2 s 2 D &lt; d 9, where Z4s5 represents the value of the random variable at a known location s and s varies continuously over a spatial domain D. Assume that Z4s5 has mean OE4s5 and covariance function cov4Z4u51 Z4v55 D C4u1 v5 for u1 v in D. Suppose that instead of observing a realization of this process, data Z4B 1 51 Z4B 2 51 : : : 1 Z4B n 5 are collected, where</p><formula xml:id="formula_0">Z4B i 5 D 1 -B i - Z B i Z4s5ds (<label>1</label></formula><p>) and -B iis the volume of B i D1 i D 11 21 : : : 1 n. In geostatistics, B i is called the spatial support of Z4B i 5. Assume that for B D, inference is to be made on Z4B51 B 6 D B i 1 i D 11 21 : : : 1 n. The COSP is concerned with drawing inference on Z4B5 from data Z4B 1 51 Z4B 2 51 : : : 1 Z4B n 5. This can be done if we can derive the distribution of Z4B5 (or at least its rst two moments in the linear case) from the data Z4B 1 51 Z4B 2 51 : : : 1 Z4B n 5.</p><p>The moments of Z4B5 can be derived from the moments of the underlying process. Thus, if E4Z4s55 D x4s5 0 Â, where x4s5 D 4x 1 4s51 x 2 4s51 : : : 1 x p 4s55 0 is a p 1 vector of explanatory variables, then E4Z4B55 D x4B5 0 Â, where x4B5 D 4x 1 4B51 x 2 4B51 : : : 1 x p 4B55 0 , and <ref type="bibr" target="#b26">Cressie 1996)</ref>. Note that the regression coef cients Â D 4‚ 1 1 ‚ 2 1 0 0 0 1 ‚ p 5 0 are invariant to the change of support if it is also re ected in the explanatory variables <ref type="bibr" target="#b2">(Arbia 1989;</ref><ref type="bibr" target="#b26">Cressie 1996)</ref>. The cov(Z4B i 51 Z4B j 55 may be written as <ref type="bibr" target="#b59">Journel Huijbregts 1978;</ref><ref type="bibr" target="#b26">Cressie 1993b</ref><ref type="bibr" target="#b26">Cressie , 1996))</ref>. Because "block support" covariances (i.e., those pertaining to support B) can be expressed in terms of "point support" covariances (i.e., those pertaining to support s), (2) forms a basis for solutions to the COSP. It is important to note that the behavior of the covariances depends not only on the point support covariance, but also on the speci c blocks (and not just their volumes) considered.</p><formula xml:id="formula_1">x j 4B5 D 1 -B- R B x j 4u5du1 j D 11 21 0 0 0 0 0 0 1 p (see</formula><formula xml:id="formula_2">cov4Z4B i 51 Z4B j 55 D S C 4B i 1 B j 5 D Z B j Z B i C4u1 v5 du dv=-B i --B j -(2) (see</formula><p>The solution to most COSPs requires spatial prediction. A common inferential problem is the prediction of Z4B5 from point samples Z4s 1 51 Z4s 2 51 : : : 1 Z4s n 5. In linear geostatistics, this predictor is called the universal block kriging predictor and is given by b Z4B5 D P n iD1 ‹ i Z4s i 5, where optimal weights 8‹ i 9 are obtained by solving <ref type="bibr" target="#b59">(Journel and Huijbregts 1978;</ref><ref type="bibr" target="#b18">Chiles and Del ner 1999</ref></p><formula xml:id="formula_3">) n X kD1 ‹ k C4s i 1 s k 5 ƒ p X jD1 m j x j 4s i 5 D S</formula><p>C4B1 s i 5 i D 11 : : : 1 n</p><formula xml:id="formula_4">and n X iD1 ‹ i x j 4s i 5 D x j 4B5 j D 11 0 0 0 1 p0 (<label>3</label></formula><formula xml:id="formula_5">)</formula><p>These equations result from minimizing prediction meansquared error (PMSE) subject to unbiasedness constraints as in best linear unbiased prediction and universal kriging. The m j are Lagrange multipliers from the constrained minimization, and C4B1 s i 5 is the point-to-block covariance given by</p><formula xml:id="formula_6">S C4B1 s i 5 D cov4Z4B51 Z4s i 55 D Z B C4u1 v5 du dv=-B-0 (4)</formula><p>The prediction PMSEs look similar to those associated with the universal (point) kriging predictor as given by <ref type="bibr" target="#b18">Chiles and Del ner (1999)</ref>.</p><p>The covariance function, C4¢5 (here a point-to-point covariance), is assumed known for theoretical derivations, but is then estimated and modeled with a valid positive de nite function based on the data. In practice, integrals are computed by discretizing B into points, 8u 0 j 9, so that (4) is approximated using S C4B1 s i 5 1=N P N jD1 C4u 0 j 1 s i 5. Thus, given observations at locations with point support, block kriging can be used to predict the average value of the process at a larger scale, accounting not for only the size, but also for the shape and orientation of the blocks, and hence is a solution to the point-to-area COSP. <ref type="bibr" target="#b17">Carroll, Day, Cressie, and Carroll (1995)</ref> used these ideas to combine both ground-based point observations with areal block measurements into a single analysis that accounted for the differing supports.</p><p>Now consider data with support smaller than the block for which prediction is desired but larger than point support. A practical application of this problem is one where an attribute is measured for census tracts or zip codes and prediction of this attribute at the county level is desired. Thus Z4A 1 51 : : : 1 Z4A n 5 are observed and Z4B5, with -A i -&lt; -B-, is to be predicted. Note that Z4A i 5 is still related to the point support covariance through a relationship analogous to ( <ref type="formula" target="#formula_0">1</ref>). The optimal linear predictor of Z4B5 based on data 8Z4A i 59 is b Z4B5 D P n iD1 ‹ i Z4A i 5, where the optimal weights 8‹ i 9 are solutions to the equations obtained by replacing x j 4s i 5 with x j 4A i 5 and replacing the point-to-point covariances C4s i 1 s j 5 and the point-to-block covariances S C4B1 s i 5 in (3) with</p><formula xml:id="formula_7">S C4A i 1 A j 5 D cov4Z4A i 51 Z4A j 55 D Z A j Z A i C4u1 v5 du dv=-A i --A j -1<label>(</label></formula><p>5) Downloaded by [University of New England] at 03:40 11 December 2017 and C4B1 A i 5 D cov4Z4B51 Z4A i 55 D Z B Z A i</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C4u1 v5 du dv=-B--A i -0</head><p>Because data on any support can be built from data with point support, these relationships can be used for both the case where -A i -&lt; -B-(aggregation) and the case where -B-&lt; -A i -(disaggregation). However, unlike in the previous case, where we observed point support data and hence could estimate the point support covariance function, C4u1 v5, in practice this function cannot be estimated directly from aggregate data. <ref type="bibr" target="#b26">Cressie (1993b)</ref> suggested a practical approach to building a point-level model in which a parametric form for C4u1 v5 is assumed and the theoretical covariance on the right side of ( <ref type="formula">5</ref>) is equated to the empirical covariance function of Z4A5, estimated and modeled from available data. Once the parameters of the point-to-point covariance function are estimated, the foregoing methods can be used to aggregate and disaggregate data with any support. <ref type="bibr" target="#b41">Gelfand, Zhu, and Carlin (2001)</ref> eloquently implemented this idea using Bayesian hierarchical models and Gibbs sampling.</p><p>In the bivariate COSP based on a linear regression situation where Y 4s5 D X4u5 C …4s5 and the explanatory covariate X4u5 is measured at different locations than the response Y 4s5, kriging and block kriging can be used to form part of a solution to the COSP. First, kriging can be used to predict X4s5. Point kriging can be used if both s and u have point support, and block kriging can be used if s and/or u have nonpoint support. Kriging variances for both point and block kriging can also be easily obtained. This converts the COSP into a spatial "errors-in-variables" problem, Y 4s5 D b X4s5 C … 0 4s5, in which current methods and software in this area (e.g., <ref type="bibr" target="#b67">Littell, Milliken, Stroup, and Wol nger 1996)</ref> can then be used. Alternative approaches are described in subsequent sections.</p><p>Block kriging is routinely used to solve the point-to-area COSP in geostatistics. Like kriging, it is relatively exible and applicable to a wide variety of problems, and there are many choices for covariance models and parameter estimation. However, it does require inversion of large matrices and thus can be computationally prohibitive with large datasets. Its use for other COSPs, although theoretically possible, has been limited, largely because of a lack of need in mining applications and confusion with ordinary kriging.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Cokriging</head><p>Multivariate spatial prediction, or cokriging, was developed to improve the prediction of an "undersampled" spatial variable by exploiting its spatial correlation with a related spatial variable that is more easily and extensively measured. Consider predicting a spatial variable of interest, Z4s 0 5, from data Z4s 1 51 Z4s 2 51 : : : 1 Z4s n 5, and X4u 1 51 X4u 1 51 : : : 1 X4u m 5. The spatial locations denoted by 8u j 9 need not coincide with the spatial locations denoted by 8s i 9. For simplicity, assume that both processes Z4¢5 and X4¢5 have constant, but unknown means, although a more general "universal" cokriging predictor could be considered <ref type="bibr" target="#b18">(Chiles and Del ner 1999)</ref>. The optimal (ordinary cokriging) predictor is a linear combination of all available data,</p><formula xml:id="formula_8">b Z4s 0 5 D n X iD1 ‹ i Z4s i 5 C m X jD1 -j X4u j 51</formula><p>where the weights 8j 9 and 8‹ i 9 are determined by</p><formula xml:id="formula_9">n X iD1 ‹ i C ZZ 4s i 1 s j 5 C m X iD1 -i C XZ 4u i 1 s j 5 C m 1 D C ZZ 4s 0 1 s j 51 j D 11 21 : : : 1 n1 n X iD1 ‹ i C ZX 4s i 1 u j 5 C m X iD1 -i C XX 4u i 1 u j 5 C m 2 D C ZX 4s 0 1 u j 51 j D 11 21 : : : 1 m1 n X iD1 ‹ i D 11 and m X iD1 -i D 00 (<label>6</label></formula><formula xml:id="formula_10">)</formula><p>As with ordinary kriging, these equations result from minimizing the PMSE subject to unbiasedness conditions. Here m 1 and m 2 are Lagrange multipliers from the constrained minimization, C XX 4u i 1 u j 5 D cov4X4u i 51 X4u j 55 and C ZZ 4s i 1 s j 5 D cov4Z4s i 51 Z4s j 55 are the covariance functions of the X and Z processes (called autocovariance functions), and C ZX 4s i 1 u j 5 D cov4Z4s i 51 X4u j 55 is the cross-covariance function between the two processes. (The full details of cokriging and the prediction standard error for the cokriging predictor can be found in, e.g., Isaaks and Srivastava 1989 and Wackernagel 1995.) These equations are valid regardless of the support of the data, but valid inference procedures for the autocovariances and cross-covariances that take into account differing supports are crucial for their use in COSP problems. When both Z and X are of point support, there are many approaches to estimation and modeling of the autocovariance and cross-covariance functions, including coregionalization models <ref type="bibr" target="#b55">( Isaaks and Srivastava 1989;</ref><ref type="bibr" target="#b116">Wackernagel 1995)</ref>, the use of "pseudo" or variance-based cross-variograms <ref type="bibr" target="#b22">(Clark, Basinger, and Harper 1989;</ref><ref type="bibr" target="#b80">Myers 1991;</ref><ref type="bibr" target="#b89">Papritz, Kunsch, and Webster 1993;</ref><ref type="bibr" target="#b27">Cressie and Wikle 1998)</ref>, Bayesian hierarchical models <ref type="bibr" target="#b64">(Le and Zidek 1992)</ref>, and moving average representations (Ver Hoef and Barry 1998). Once a consistent model for the point covariance functions is developed, block cokriging [i.e., prediction of Z4B5 from point data Z4s5 and X4s5] can be done by replacing the cross-covariances in (6) by their block-averaged counterparts <ref type="bibr" target="#b80">(Myers 1984)</ref>. Thus cokriging can be used for as a solution to both the point-point and point-block COSPs, although there is still great debate on how best to de ne, estimate, and model the second-order cross-variable relationships.</p><p>An interesting solution to the area-to-point COSP (the ecological inference problem) can be considered as a special case of cokriging in which data are available on only one of the spatial variables. This solution in the context of prediction from binomial data was considered by <ref type="bibr" target="#b71">McNeill (1991)</ref> in mapping the spatial distribution of bird species and then by Oliver, Lajaunie, Webster, Muir, and Mann (1993) and Webster, Oliver, Muir, and Mann (1994) in predicting the risk of a rare disease. In this context, let 8 4s5 2 s 2 D &lt; 2 9 denote a latent risk process, and assume that this process has Downloaded by [University of New England] at 03:40 11 December 2017 mean OE , and covariance function C 4¢5. Further assume that, conditional on this process, the observed frequencies, R4u i 5, associated with an area centered at location u i 1 are independent binomial random variables with means 4u i 5 and variances 44u i 541 ƒ 4u i 55=n4u i 5, where n4u i 5 is the population in the ith area. In the cokriging context discussed earlier, with only one variable observed, the cokriging predictor and equations reduce to</p><formula xml:id="formula_11">O 4s 0 5 D n X iD1 ‹ i R4u i 51</formula><p>where the weights are obtained from where " ij D 1 when i D j and 0 otherwise. These equations relate the moments of the data process R to those of the latent process , allowing estimation and inference on from the frequency data. However, assuming that the covariance function of the aggregated data process is the same as that of the underlying risk process assumed to be of point support may not be realistic, particularly for physical processes whose mechanisms vary with scale.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Nonlinear Geostatistics and the Change of Support Problem</head><p>In many cases, E4Z4B5-Z5 is not linear in the data Z; in others, prediction of a nonlinear function of Z4B5 is of interest. These problems require more information about the conditional distribution of Z4B5 given the data, F B 4z-Z5 D P4Z4B5 µ z-Z5, than that used for linear prediction. Moreover, in many cases, such as mining and environmental remediation, the quantity Pr4Z4B5 &gt; z-Z5 has meaning in its own right (e.g., proportion of high-grade blocks available in mining evaluation or the risk of contamination in a volume of soil). Nonlinear geostatistics offers solutions to COSPs that arise in this context.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.1">The Multi-Gaussian Approach.</head><p>The multi-Gaussian approach <ref type="bibr" target="#b115">(Verly 1983</ref>) to nonlinear prediction in the point-toblock COSP assumes that available point data Z4s 1 51 : : : 1 Z4s n 5 can be transformed to Gaussian variables, 8Y 4s59, by Z4s5 D "4Y 4s55. The block B is discretized into points 8u 0 j 1 j D 11 : : : 1 N 9, and Z4B5 is approximated as If instead of point support data, data Z4A 1 51 : : : Z4A n 5, -A i -&lt; -B-, are available, then this approach can still be used provided that an approximation similar to that of (8) remains valid. More general COSP models based on the multi-Gaussian approximation may be possible by building models from data based on point support as described in Section 3.1, or by using geostatistical simulation approaches similar to those described in the next section <ref type="bibr" target="#b46">(Goovaerts 1997)</ref>.</p><formula xml:id="formula_12">Z4B5 1 N N X jD1 Z4u 0 j 50 (<label>8</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>3.3.2</head><p>The Use of Indicator Data. When both the available data and the value to be predicted have point support, the quantity of interest is F s 0 4z-Z5 D P4Z4s 0 5 µ z-Z5. This distribution can be estimated by kriging the indicator I4Z4s 0 5 µ z5 from indicator data I4Z4s 1 5 µ z51 0 0 0 1 I4Z4s n 5 µ z5 <ref type="bibr" target="#b58">(Journel 1983</ref>), where</p><formula xml:id="formula_13">I4Z4s5 µ z5 D ( 1 if Z4s5 µ z 0 otherwise0</formula><p>Indicator kriging gives the optimal predictor, E4I4Z4s 0 5 &lt; z5-Z5, which for indicator data is an estimate of F s 0 4z-Z5 D P 4Z4s 0 5 &lt; z-Z5. Because some information is lost by using indicator functions, indicator cokriging <ref type="bibr" target="#b58">(Journel 1983</ref>) that uses k sets of indicators corresponding to various threshold levels, z k , has been suggested as a better alternative. For nonlinear prediction in the point-to-block COSP, it is tempting to use block kriging, described in Section 3.1, with the indicator data. However, this will yield a predictor of</p><formula xml:id="formula_14">I ü 4B5 D 1 -B- Z B I4Z4s5 µ z5 ds1</formula><p>which is the proportion of B consisting of points where Z4s5 is at or below z. This quantity is clearly not the same as</p><formula xml:id="formula_15">I4B5 D ( 1 if Z4B5 µ z 0 otherwise1 (<label>9</label></formula><p>) Downloaded by [University of New England] at 03:40 11 December 2017 which would provide an estimate of P4Z4B5 µ z-Z5, the probability that the average value of Z4¢5 is at or below z. This latter quantity is the one of interest in COSPs. The problem arises with any nonlinear function of Z4s5, because the mean of block support data will not be the same as the block average of the point support data. This is also true in the more general COSP based on data with supports A i that differ from support B. <ref type="bibr" target="#b46">Goovaerts (1997)</ref> suggested a solution to nonlinear block prediction based on simulation. The block is discretized, and data Z4u 0 j 5 are simulated at each discretized node. Simulated block values are then obtained via (8). Based on these simulated block values, block indicator values are constructed using ( <ref type="formula" target="#formula_15">9</ref>). P 4Z4B5 µ z-Z5 is then estimated as the average of these block indicator values. <ref type="bibr" target="#b46">Goovaerts (1997)</ref> recommended lower and upper triangular decomposition for the simulation of the Z values, but any conditional simulation technique (i.e., one that forces the realizations to honor the available data) could be used.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3.3">Isofactorial Models.</head><p>Isofactorial models were rst adapted to COSPs by <ref type="bibr" target="#b69">Matheron (1984)</ref>, who used them to build a joint distributions (point-block, block-block) from speci ed marginals. They have the general form</p><formula xml:id="formula_16">G i1 j 4dz i 1 dz j 5 D X mD0 T m 4i1 j5 m 4z i 5 m 4z j 5G4dz i 5G4dz j 51</formula><p>where the orthonormal polynomials, m 4z5, have nice statistical properties: 0 4z5 D 11 E4 m 4Z i 55 D 01 var4 m 4Z i 55 D 1, and cov4 m 4Z i 551 p 4Z j 55 D 0. The coef cients T m 4i1 j5 are the covariances of the polynomials of the same order, that is, T m 4i1 j5 D cov4 m 4Z i 51 m 4Z j 55. The exact form of the polynomials is determined by the marginal distribution, G4dz5. For example, if G4dz5 is Gaussian, then Hermite polynomials are used because, for the Gaussian distribution, these are known to have the desired orthonormal properties.</p><p>The advantage of using isofactorial models in the prediction of nonlinear functions is the orthogonality of the polynomials. This property allows prediction of each polynomial via a separate kriging system and greatly reduces the computations required. In kriging the polynomials, the covariances needed for the kriging equations are given by the T m 4i1 j5. These are inferred from assumptions pertaining to the bivariate distribution of the pairs 4Z4s i 51 Z4s j 55. For example, if 4Z4s i 51 Z4s j 55 is bivariate Gaussian with correlation function 4˜i ƒ j˜5, then T m 4i1 j5 D 6 4˜i ƒ j˜57 m .</p><p>As an example, suppose that all pairs 4Z4s51 Z4u55 are bivariate normal and we want to predict I4B5 in (9). This function can be expanded in terms of Hermite polynomials (see, e.g., Rivoirard 1994) as</p><formula xml:id="formula_17">I4B5 D G4z5 C X mD1 1 p m H mƒ1 4z5g4z5H m 4Z4B551</formula><p>where G is the cumulative Gaussian distribution function and g is the Gaussian density. Then the disjunctive kriging predictor of I4B5 is obtained by replacing each H m 4Z4B55 with its predictor obtained by kriging based on n X iD1 ‹ mi 6cov4Z4s i 51 Z4s j 557 m D 6cov4Z4s i 51 Z4B557 m 1 j D 11 : : : n0 (10) However, to actually implement the kriging, valid models for T m 4i1 j5 (point-to-point), T m 4B1 j5 (point-to-block), and T m 4B1 B5 (block-to-block), needed as the covariances in (10) and for the prediction standard errors, must be constructed simultaneously and any parameters estimated from the data. This has been done only in special cases, such as, using what is called the discrete Gaussian model. Details for this model and other isofactorial models [e.g., when Y 4s5 has a gamma distribution] have been given by <ref type="bibr" target="#b99">Rivoirard (1994)</ref> and <ref type="bibr" target="#b18">Chiles and Del ner (1999)</ref>.</p><p>As an alternative, <ref type="bibr">Cressie (1993a)</ref> proposed constrained kriging, which uses f 4‹ 0 Z5 to predict f 4Z4B55. The weights are chosen to minimize the PMSE of ‹ 0 Z subject to both an unbiasedness constraint as in ordinary kriging and also to a variance constraint, var4‹ 0 Z5 D var4Z4B55. The function f 4‹ 0 Z5 is easily obtained from the data (see <ref type="bibr">Cressie 1993a</ref> for the equations and distributional properties) with no more assumptions than those made for ordinary block kriging. The extra constraint forces this predictor to be more variable, compensating for the smoothness of the ordinary kriging predictor. Simulations of <ref type="bibr">Cressie (1993a)</ref> and <ref type="bibr" target="#b0">Aldworth and Cressie (1999)</ref> indicate that accurate nonlinear predictions of aggregate data can be made using this approach. An extension of this, covariance-matching constrained kriging, has been shown to have even better PMSE properties <ref type="bibr" target="#b0">(Aldworth and Cressie 2002)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">MULTISCALE MODELING</head><p>Prediction across scales is key to understanding many complex physical and biological processes (e.g., <ref type="bibr" target="#b28">Daley 1992;</ref><ref type="bibr" target="#b70">May 1994;</ref><ref type="bibr" target="#b110">Turner, Dale, and Gardner 1989;</ref><ref type="bibr" target="#b66">Levin 1992;</ref><ref type="bibr" target="#b11">Bissonette 1997</ref>). Studies at several scales are often needed to achieve this understanding, and attention has recently focused on statistical methods for such multiscale processes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Use Scale-Independent Statistics</head><p>Perhaps <ref type="bibr" target="#b60">King (1997)</ref> best emphasized the need for scaleindependent statistics when, with regard to the MAUP, he wrote Unfortunately, the statistics used to study these issues have not been aggregation-invariant (or "scale-invariant"). If a researcher wishes to have statistics that are invariant to the areal units chosen, then there is no reason to choose correlation coef cients, which depend heavily on the de nition of available areal units. Solving the MAUP only requires developing statistics that are invariant to the level of aggregation (p. 250). <ref type="bibr" target="#b109">Tobler (1989)</ref> had this same idea when he suggested that methods of spatial analysis should be independent of the spatial coordinates used; the problem is not in the choice of units, but with the choice of models and methods used in the analysis. Thus, instead of the Pearson correlation coef cient, <ref type="bibr" target="#b109">Tobler (1989)</ref> recommended using the cross-coherence function (the spectral equivalent of the cross-variogram). Equally as important is the choice of model on which to base inference.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Downloaded by [University of New England] at 03:40 11 December 2017</head><p>Both <ref type="bibr" target="#b109">Tobler (1989)</ref> and <ref type="bibr" target="#b1">Amrhein and Flowerdew (1992)</ref> described models that can be "upscaled" but show no aggregation effects. <ref type="bibr" target="#b109">Tobler (1989)</ref> further suggested choosing models whose parameters change in a predictable manner across scales to solve the aggregation aspect of the MAUP. This is similar to the recommendations made by <ref type="bibr" target="#b26">Cressie (1996</ref><ref type="bibr" target="#b26">Cressie ( , 1998) )</ref> and to the ideas of <ref type="bibr" target="#b36">Fotheringham (1989)</ref>, who suggested focusing on rates of change across scales and using the fractal dimension as a scale-independent measure of a spatial relationship. Fractals have been effective multiscale models in several disciplines (e.g., <ref type="bibr" target="#b88">Palmer 1988;</ref><ref type="bibr" target="#b73">Milne 1988;</ref><ref type="bibr" target="#b105">Sugihara and May 1990;</ref><ref type="bibr" target="#b31">Emerson, Lam, and Quattrochi 1999)</ref>. Other statistical methods with a similar goal include spectral analysis <ref type="bibr" target="#b96">(Renshaw and Ford 1984;</ref><ref type="bibr" target="#b81">Nielsen, Wendroth, and Parlange 1995)</ref>, entropy decomposition analysis <ref type="bibr" target="#b106">(Theil 1972;</ref><ref type="bibr" target="#b5">Batty 1976;</ref><ref type="bibr" target="#b91">Phipps 1991;</ref><ref type="bibr" target="#b57">Johnson and Patil 1998)</ref>, nested analysis of variance <ref type="bibr" target="#b49">(Greig-Smith 1952;</ref><ref type="bibr" target="#b74">Moellering and Tobler 1972;</ref><ref type="bibr" target="#b85">Oliver and Webster 1986;</ref><ref type="bibr" target="#b7">Bellehumeur and Legendre 1998;</ref><ref type="bibr">Ver Hoef and Cressie 1993)</ref>, local image variation graphs in remote sensing <ref type="bibr" target="#b124">(Woodcock and Strahler 1987)</ref>, geostatistical methods <ref type="bibr" target="#b65">(Legendre and Fortin 1989;</ref><ref type="bibr">Bell et al.1993;</ref><ref type="bibr" target="#b114">Ver Hoef, Cressie, and Glenn-Lewin 1993;</ref><ref type="bibr" target="#b46">Goovaerts 1998)</ref>, and Markov transition models <ref type="bibr" target="#b90">(Patil and Taillie 1999)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Multiscale Spatial Tree Models</head><p>To describe spatial processes operating at multiple resolutions, <ref type="bibr" target="#b4">Basseville et al. (1992)</ref> and <ref type="bibr">Chou, Willsky, and Nikoukah (1994)</ref> developed a scale-recursive algorithm based on a multilevel tree. Each level of the tree corresponds to a different spatial scale, with the nest scale at the lowest level of the tree. Let s represent any node on the tree, let s 0 denote the node at the coarsest scale (the "root node") of the tree, and let T denote the collection of all nodes of the tree. Nodes at the very nest scale are referred to as the leaves of the tree, and a node at one scale that is related to nodes at the next nest scale via the branches of the tree is called a parent node, denoted by p s . A simple tree structure is shown in Figure <ref type="figure" target="#fig_2">1</ref>. The goal is to predict an unobservable spatial process 8X4s51 s 2 T 9, called the state process, from a noisy measurement process 8Z4s51 s 2 T 9, from which data are observed at some nodes of the tree. The measurement process is assumed to be linearly related to the state process via the measurement equation</p><formula xml:id="formula_18">Z4s5 D K4s5X4s5 C Å4s51 (<label>11</label></formula><formula xml:id="formula_19">)</formula><p>where Z4s5 is a n x 1 vector of measurements at node s; X4s5 is a m x 1, zero-mean state vector that we would like to predict; Å4s5 is a white noise process independent of X4s5, with known covariance matrix R4s5 that re ects measurement error in the observations; and K4s5 is an n x m deterministic selection matrix that relates the measurements to the state vector.</p><p>The selection matrix speci es the components of the state vector that are measured and how each of these corresponds to the measurements at node s. The state vector is not observable, but it is assumed to be related to its parent through the state equation</p><formula xml:id="formula_20">X4s5 D ê4s5X4p s 5 C Ç4s51 (<label>12</label></formula><formula xml:id="formula_21">)</formula><p>where Ç4s5 is a white noise process with covariance matrix Q4s5 that is independent of both Å4s5 and X4p s 5. In addition to this "downtree" model, a corresponding "uptree" model can be derived. Assuming that X4s5 follows a multivariate Gaussian distribution and using properties of conditional Gaussian distributions together with (12) gives E4X4p s 5-X4s55 D P p s ê 0 4s5P ƒ1 s X4s5, where P s is the covariance matrix of X4s5. Then the uptree model can be written as</p><formula xml:id="formula_22">X4p s 5 D F 4s5X4s5 C ×4s51 (<label>13</label></formula><formula xml:id="formula_23">)</formula><p>where F 4s5 D P p s ê 0 4s5P ƒ1 s 1 ×4s5 D X4p s 5ƒP p s ê 0 4s5P ƒ1 s X4s5, and W 4s5 ² E4×4s5× 0 4s55 D P p s 4I ƒ ê 0 4s5P ƒ1 s ê4s5P p s 5. If P 0 , the prior covariance of X4s 0 5 at the root node, is speci ed, then, from (12), P s can be calculated recursively as</p><formula xml:id="formula_24">P s D ê4s5P p s ê 0 4s5 C Q4s5.</formula><p>Based on this model, <ref type="bibr" target="#b19">Chou et al. (1994)</ref> generalized the Kalman lter to produce optimal predictions of the state vector in two steps. The rst step, called an uptree ltering step, proceeds upward from the leaves of the tree to the root, successively computing the optimal predictor of X4s5 and an associated PMSE based on the data at this node and at all nodes on the subtree below s. An additional Kalman ltering algorithm is also used in a "merge step" that combines predictions at the offspring nodes into a single prediction for use in updating prior information for the next prediction. The second step, called a downtree smoothing step, proceeds downward from the root of the tree, giving the optimal predictor of the state vector and an associated PMSE based on all available data. In this way, the algorithm can use data at multiple spatial scales. The algorithm is computationally ef cient because it involves only local calculations by making the assumption of conditional independence: Conditional on any node of the tree, each of the subtrees connected to it is assumed to be conditionally independent. Thus computations involving the nodes of each subtree can be processed separately, allowing the order of computations to be proportional to the number of nodes at Downloaded by [University of New England] at 03:40 11 December 2017 the nest scale of the tree. The details of this computational algorithm and potential generalizations have been described in detail by <ref type="bibr" target="#b19">Chou et al. (1994)</ref> and <ref type="bibr" target="#b33">Fieguth, Karl, Willsky, and Wunsch (1995)</ref>, and a Bayesian derivation was given by <ref type="bibr">Huang and Cressie (2000)</ref>.</p><p>To use the foregoing models in practical situations, one must specify the order of the model (the dimension of X4s5) and the system matrices K4s51 ê4s51 Q4s5, and R4s5. In many practical applications, simple choices for these matrices can lead to exible and powerful models. For example, <ref type="bibr" target="#b33">Fieguth et al. (1995)</ref> considered predicting ocean surface height at a ne resolution from ocean surface measurements at a much coarser resolution. In this case, X4s5 is a scalar representing ocean surface height at node s, and the selection matrix is an indicator function that takes the value 1 if the state vector was measured at a particular node. The matrices ê4s5 and Q4s5, now scalars in this example, were chosen from a class of spectral scaling rules commonly used to describe the ocean surface, and R4s5 re ected the known accuracy of the satellite platform used to collect the measurements. In another application, <ref type="bibr" target="#b38">Gabrosek, Huang, and Cressie (1999)</ref> analyzed satellite data collected using NASA's total ozone mapping spectrometer associated with ve different resolutions. In this analysis, <ref type="bibr" target="#b38">Gabrosek et al. 1999</ref> speci ed var(…4s55 D ' 2 … and var( ‡4s55 D ' 2 k for k D 11 : : : 1 5 levels and then used maximum likelihood to estimate these variance components.</p><p>The transition matrix, ê4s5, plays an important role in relating the process at different scales, and the state equation implicitly relates the covariance of the variable at one scale to that at another through cov(X4s51 X4b s 55 D cov4ê4s5X4b s 5 C Ç4s51 X4b s 55 D ê4s5P4b s 5 C Q4s5. In view of this, <ref type="bibr" target="#b33">Fieguth et al. (1995)</ref> modeled Q(s) as a function that decreases geometrically with scale, and many such models are conceivable. <ref type="bibr" target="#b54">Huang, Cressie, and Gabrosek (2000)</ref> developed heterogeneous tree models that also allow the variance of the spatial tree process to change with scale. The basic algorithm used for prediction in multiscale tree models provides implicit forms for the covariance of X4s5 at any particular scale and also cross-covariances between X4s5 at different scales. However, because two neighboring points may have different parents, the correlation function of the state process on the nest scales may show unrealistic "blocky" artifacts <ref type="bibr" target="#b4">(Basseville et al. 1992;</ref><ref type="bibr">Huang and Cressie 2000)</ref> that are re ected in the predicted surfaces. To alleviate this problem, <ref type="bibr">Huang and Cressie (2000)</ref> extended the multiscale spatial tree models to more general graphical models, such as graphical Markov models, and also developed a generalized Kalman lter for these models. Models that do not satisfy the "pycnophylactic" property of <ref type="bibr" target="#b109">Tobler (1979)</ref>, which forces the average of all the offspring measurements of a parent node to equal their parent measurement, can also result in inconsistencies. <ref type="bibr">Huang et al. (2000)</ref> extended the work of <ref type="bibr">Huang and Cressie (2000)</ref> to incorporate such "mass balance" properties.</p><p>State-space models and their multilevel tree speci cation in particular combine model exibility with the fast computational algorithms needed for modeling complex, high-order processes. However, they do not yet explicity account for changes in support that occur with changes in resolution. Although the data may not be explicitly aggregated, the resolution of the images associates each pixel with an area on the ground, and this area becomes larger and larger as the resolution of the image decreases. Thus the data observed at each scale, and their relationship to data at different scales, re ect aggregate properties of the support over which they are de ned. Future research in this area will likely focus on the development of explicit models for these change-of-support relationships.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Bayesian Hierarchical Models for Multiscale Processes</head><p>The conditional speci cation of spatial tree models lends itself easily to a Bayesian approach to multiscale modeling. Instead of the tree structure that is speci ed node by node, let Z be a general n 1 spatial measurement vector and let X be the m 1 state vector. Corresponding to the state-space model described earlier, let the conditional distribution of Z given X be 6Z -X7 N n 4KX1 R5, with X N m 4m1 Q5, where R1 m and Q are known but general and the matrix K is a speci ed n m matrix that relates the measurement process to the state vector. Then the posterior distribution of</p><formula xml:id="formula_25">X1 f 4X -Z5, is N m 4m ü 1 Q ü 5 with m ü D 4Q ƒ1 C K 0 R ƒ1 K5 ƒ1 4K 0 R ƒ1 Z ƒ Q ƒ1 m5 (<label>14</label></formula><formula xml:id="formula_26">)</formula><p>and</p><formula xml:id="formula_27">Q ü D 4Q ƒ1 C K 0 R ƒ1 K5 ƒ1 1 (<label>15</label></formula><formula xml:id="formula_28">)</formula><p>and so m ü D E4X-Z5 is the optimal (minimum PMSE) predictor of X. This is just the kriging predictor of X from noisy measurements Z used in Kalman ltering (see, e.g., <ref type="bibr" target="#b16">Brown 1983;</ref><ref type="bibr" target="#b72">Meinhold and Singpurwalla 1983;</ref><ref type="bibr" target="#b26">Cressie 1993b</ref>) and is a basic model for data assimilation in atmospheric science that unites both observational data and results from deterministic weather forecasting models <ref type="bibr" target="#b28">(Daley 1991)</ref>.</p><p>Relaxing the assumptions in this basic model makes the model more realistic, but also more complex. For example, assume that R D ' 2 … D, where D is known but now ' 2 … is unknown. (Often D is taken to be an identity matrix, re ecting a situation in which the measurement errors are uncorrelated, but their variance in unknown.) A Bayesian approach is useful for estimating ' 2 … and accounting for its uncertainty in the prediction of X. It is often assumed that ' 2  <ref type="formula" target="#formula_25">14</ref>) and (15)] with R D ' 2 … D, and the full conditional distribution for ' 2 … is IG4a … C s1 b … C n5, with s D 4Z ƒ KX5 0 D ƒ1 4Z ƒ KX5. This model can be extended to allow a generalized linear model for the measurement process Downloaded by [University of New England] at 03:40 11 December 2017 <ref type="bibr" target="#b29">(Diggle, Tawn, and Moyeed 1998)</ref>. Another useful extension is to model the covariance matrix of X as a function of spatial dependence parameters, for example, cov4X4s i 51 X4s j 55 D Q4i1 j5 D exp4 ƒ 1 ˜si ƒ s j ˜ 2 5, with 1 &gt; 0, and 0 &lt; 2 &lt; 2. Other covariance functions could be used, (see, e.g., <ref type="bibr" target="#b51">Handcock and Stein 1993;</ref><ref type="bibr" target="#b39">Gaudard et al. 1999)</ref>. The parameters 1 and 2 can also be given prior speci cations. Independent uniform priors could be speci ed (e.g., <ref type="bibr" target="#b29">Diggle et al. 1998)</ref>, or instead a truncated Gaussian prior could be used for 1 (e.g., <ref type="bibr" target="#b102">Royle, Berliner, Wikle, and Milliff 1997)</ref>. The full conditional distributions for these parameters are usually not tractable, and so another algorithm (e.g., Metropolis-Hastings) must be used to sample from these distributions. In many applications, X describes a physical process, and for such cases it may be useful to model m D H Â. This second stage of the hierarchy, X N m 4H Â1 Q4Á55, has been called the process model <ref type="bibr" target="#b8">(Berliner, Royle, Wikle, and Milliff 1999)</ref>, with the goal of this modeling step being a description of the true, unobserved process through physically motivated conditional distributions. <ref type="bibr" target="#b102">Royle et al. (1997)</ref> and <ref type="bibr" target="#b8">Berliner et al. (1999)</ref> used this stage to relate a surface wind eld 4X5 to the gradient of a pressure eld 4Â5. The components of the matrix H were based on differential equations that describe atmospheric dynamics involving pressures and winds. <ref type="bibr" target="#b119">Wikle, Berliner, and Cressie (1998)</ref> and <ref type="bibr" target="#b120">Wikle, Milliff, Nychka, and Berliner (2001)</ref> used a similar formulation to incorporate temporal variation as well as physical process constraints in describing the dynamics of a tropical wind process. A prior distribution for Â may also be speci ed to re ect information and uncertainty about this parameter.</p><p>When the measured locations are different from the state locations, K maps the measurements to the nearest state locations <ref type="bibr" target="#b102">(Royle et al. 1997)</ref>. Thus, if both Z and X have point support, then the aforementioned formulation is a solution to the point-point COSP. <ref type="bibr" target="#b120">Wikle et al. (2001)</ref> showed how this model can be extended to combine spatial data at different scales. In their development of a space-time model of tropical ocean surface winds, high-resolution, satellite-derived wind estimates were observed at grid locations A i , and lowerresolution wind data provided by major weather centers were observed at grid locations C k . Prediction was desired at grid locations B j , with -A-&lt; -B-&lt; -C-. For the conditional measurement equations, <ref type="bibr" target="#b120">Wikle et al. (2001)</ref> assumed</p><formula xml:id="formula_29">£ Z A -K A 1 X1' 2 A ¤ N 4K A X1' 2 A I5 and £ Z C -K C 1 X1' 2 C ¤ N 4K C X1' 2 C I50</formula><p>Because the data Z A were at a ner resolution than the desired prediction grid, K A was taken to be an incidence matrix that mapped the conditional mean of these observations to the nearest prediction grid location. The data Z C were at a coarser resolution than the desired prediction grid, so K C operated by assuming that the measured data were smoothed versions of the true process. Each observed point was a weighted average of the nine closest prediction points within a distance D. The variances of the measurement errors were allowed to differ, re ecting the different instrumentations used for measurement.</p><p>Additional hierarchical levels, similar to those discussed earlier, were used to describe the dynamics (both temporal and mechanistic) of the wind processes. Thus, one general Bayesian hierarchical model for a multiscale process has the following basic form:</p><formula xml:id="formula_30">£ Z A -X1' 2 A ¤ N 4K A X1' 2 A D A 51 D A known or the identity matrix3 £ Z C -X1' 2 C ¤ N 4K C X1' 2 C D C 51 D C known or the identity matrix3 £ X -Â1 Á ¤ N 4H Â1 Q4Á551 Q4i1 j5 D exp4 ƒ 1 ˜si ƒ s j ˜ 2 51 1 &gt; 01 0 &lt; 2 &lt; 23 Â N 4Â 0 1 è Â 53 ' 2 A I G4a A 1 b A 53 ' 2 C I G4a C 1 b C 53 1 U 4a 1 1 b 1 53 and 2 U 4a 2 1 b 2 51 where Â 0 1 è Â 1 a A 1 b A 1 a C 1 b C 1 a 1 1 b 1 1 a 2 , and b 2 are speci ed.</formula><p>In actual applications, additional hierarchical structures may be used, different covariance models and prior distributions may be chosen, and some simpli cations may be required for implementation. <ref type="bibr">[See Royle et al. 1997;</ref><ref type="bibr" target="#b29">Diggle et al. 1998;</ref><ref type="bibr" target="#b119">Wikle et al. 1998;</ref><ref type="bibr" target="#b120">Wikle et al. 2001</ref> for applications and details on choices for the hyperparameters and details of the Markov chain Monte Carlo (MCMC) sampling used for inference.] An advantage of this type of speci cation is that the joint distribution of Z and X (and, in particular, their crosscovariance matrix) does not have to be speci ed and modeled. Nevertheless, assumptions about the covariance between X and Z are being made. Consider just the rst two stages of the models described earlier, Z -X N 4KX1' 2 I5 and X N 4H Â1 Q5. If K is an incidence matrix, then the implicit assumptions are that cov4Z4s i 51 Z4s j 55 D ' 2 C cov4X4u k 51 X4u l 55, where 4u k 1 u l 5 is the node closest to 4s i 1 s j 5, and cov4Z4s51 X4u55 D cov4X4s51 X4u55. Although more levels in the hierarchy are usually considered, and some of these may also allow spatial dependence, assumptions of diagonal covariances and sparse mapping matrices may result in simple approximations to potentially complex multiscale relationships. As with the multiscale tree models described earlier, these hierarchical spatial models do not account for changes in support that result from changes in resolution. It may be possible to formulate COSP models by relating both processes to an underlying process with point support, …4s5. Then, if Z is measured with support A and X is measured with support B,</p><formula xml:id="formula_31">6Z -X1' 2 7 N 4W A X1 è A … C'</formula><p>2 A I 5 and X N 4Ì4B51 è B … 5 Downloaded by [University of New England] at 03:40 11 December 2017 with è S … having 4i1 j5th element Z</p><formula xml:id="formula_32">S i Z S j C … 4u1 v5 du dv=-S i --S j -</formula><p>and W A having 4i1 j5th element -A i \ B j -=-A ito ensure proper relationships between the means of …4s51 Z4A i 5, and X4B j 5. Suppose instead that speci cation of the joint distribution is not problematic. Assume that Z4s5 is a Gaussian process and that Z s D 4Z4s 1 51 0 0 0 1 Z4s n 55 0 has mean Ì s and covariance matrix è ss . Then µ</p><formula xml:id="formula_33">Z s Z B ¶ N µ Ì s 4Â5 Ì B 4Â5 ¶ 1 µ è ss 4Á5 è sB 4Á5 è Bs 4Á5 è BB 4Á5 ¶ ´1</formula><p>where Ì B and the elements of è sB 4Á51 è Bs 4Á5, and è BB 4Á5 are obtained by integrating the analogous moments of the point-support process as described in Section 3.1. Using a Bayesian analysis, spatial prediction requires either f 4Z s 0 -Z s 5 for the prediction of points from points, f 4Z B -Z s 5 for the prediction of blocks from points, and f 4Z B 0 -Z B 5 for the prediction of blocks from block data. The analytical form of these distributions is easily obtained from the properties of the multivariate Gaussian distribution. Placing prior distributions on Â and Á and then using a MCMC sampling method (e.g., Gibbs sampling) gives Â g and Á g , which effectively allows all of these predictive distributions to be completely speci ed. <ref type="bibr" target="#b41">Gelfand et al. (2001)</ref> used Gibbs and other MCMC sampling methods to estimate Â and and obtain block-block, blockpoint, and point-block conditional distributions required for solutions to the corresponding COSPs.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">MAP OVERLAY OPERATIONS AND THE CHANGE OF SUPPORT PROBLEM</head><p>Comparing data from different sources, studying the change in a variable over time, or evaluating the relationship between two or more variables are perplexing problems if the areal units are not the same for all variables during each collection period. The units for which data exist are often called source units, and those for which data are desired are called target units <ref type="bibr" target="#b68">(Markoff and Shapiro 1973)</ref>. The process of superimposing source and target units has become known in the geographic literature as the polygon overlay problem.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Probabilistic Potential Mapping in a Geographical Information System</head><p>Consider an areal event of interest A (e.g., a mineral deposit or a chemical spill) occurring within a domain S and associated explanatory maps ("evidential themes" in G IS terminology) E i 4j5, with i indexing different variables and j indexing discrete class states within each map. The goal is to predict P4A-E i 4j55. Although both the source units and the target units are pixels within S, A is a polygonal attribute, so that linking the themes to A by pixel (as logistic regression would require) is not easily accomplished. A simple approach that can be used within a G IS was proposed by <ref type="bibr" target="#b14">Bonham-Carter, Agterberg, and Wright (1988)</ref> and is implemented by the program Arc-WofE in ArcView G IS <ref type="bibr" target="#b95">(Raines, Bonham-Carter, and Kemp 2000)</ref>.</p><p>This approach determines a weight of evidence for each class value of each map, W i 4j5, that re ects the degree of spatial association between A and E i 4j5. The weights are calculated from logarithms of conditional probabilities, P4E i 4j5-A5=P4E i 4j55, that are related to P 4A-E i 4j55 by Bayes's theorem and assumptions of conditional independence of E i 4j5 given A. The probabilities comprising the weights are estimated from area measurements expressed as unit cell counts. Given the weights of evidence and a prior estimate of P 4A5, a posterior probability map re ecting the probability that a unit cell contains an event A given all explanatory information can be drawn. Uncertainties associated with variability in the estimated weights and missing data are re ected in the uncertainties of the posterior probabilities and also can be mapped. Additional details and examples have been given by <ref type="bibr" target="#b13">Bonham-Carter (1994)</ref>. <ref type="bibr" target="#b20">Chung and Fabbri (1999)</ref> compared several approaches to estimating the posterior probabilities including crude estimation using observed relative frequencies from historical data, Bayes estimation based on the assumption of conditional independence, and a general multivariate linear regression model. In the regression, the conditional probability of the event given the explanatory variables (based on discretizing A into pixels) was regressed on the bivariate conditional probabilities inferred from the historical data. The regression analysis, with and without expert opinion, tended to perform better than the other methods in the validation case studies considered by <ref type="bibr" target="#b20">Chung and Fabbri (1999)</ref>. It is interesting that <ref type="bibr" target="#b20">Chung and Fabbri (1999)</ref> seemed to believe that avoiding the assumption of conditional independence was a positive attribute of this regression model. Although the models advocated by <ref type="bibr" target="#b14">Bonham-Carter et al. (1988)</ref> and <ref type="bibr" target="#b20">Chung and Fabbri (1999)</ref> may seem rather simple statistically, they are some of the rst real attempts at probabilistic modeling within an interactive G IS framework.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Pixel Aggregation and Areal Weighting</head><p>When areal source units are nested within areal target units, three methods of aggregating spatial source data to produce estimates on the target units are averaging, centralpixel resampling, and median. The averaging method assigns the average value of the original units to the newly aggregated unit. The central-pixel resampling method uses the value associated with the central pixel of the aggregated unit. The median value of the original units is associated with the aggregated unit for the median method. Based on a simulation study using various underlying spatial correlation structures and Gaussian errors, <ref type="bibr" target="#b10">Bian and Butler (1999)</ref> concluded that the averaging method results in aggregated data that have a more predictable statistical and spatial behavior than the other two methods. The median method was shown to have similar properties, but the central-pixel method was the least predictable. <ref type="bibr" target="#b10">Bian and Butler (1999)</ref> also noted that aggregating within the range of spatial autocorrelation can reduce the errors induced by averaging dissimilar units.</p><p>Often the source and target units overlap. In this case, the value for a target unit is often taken to be a weighted average of the values for the source units that intersect it, a process called areal interpolation <ref type="bibr" target="#b44">(Goodchild and Lam 1980)</ref>. It is based on a familiar solution to the point-to-area COSP Downloaded by [University of New England] at 03:40 11 December 2017 proposed by <ref type="bibr" target="#b107">Thiessen (1911)</ref>. Thiessen polygons are still frequently used for interpolation problems in geology and hydrology, particularly in very small sample cases where kriging cannot be used. Two primary forms of areal interpolation have been used: polygon overlay methods and smoothing methods. In polygon overlay methods, the weights are equal to the proportion of the target unit comprised by each source unit <ref type="bibr" target="#b68">(Markoff and Shapiro 1973;</ref><ref type="bibr" target="#b44">Goodchild and Lam 1980)</ref>. This is often referred to as proportional allocation or areal weighting. The implicit assumption is that the variable of interest is evenly distributed in the source unit.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Spatial Smoothing Methods</head><p>With these methods, a smooth surface is tted to data for the source units and used to interpolate values at the nodes of a ne grid. The interpolated values are then summed or averaged over the target units to obtain areal estimates for these units. Let Z4A 1 51 : : : 1 Z4A n 5 denote the aeral data (counts or totals) observed in regions A i D, and suppose that there exists an underlying smooth density, ‹4s51 s D 4x1 y5 D1 ‹4s5 ¶ 0.</p><p>Tobler (1979) suggested choosing ‹4x1 y5 to minimize Z Z " ¡‹ ¡x ´2 C ¡‹ ¡y ´2# dx dy subject to the constraints ‹4s5 ¶ 0 and Z A i ‹4s5ds D -A-0 (16) Tobler (1979) called the constraint in ( <ref type="formula">16</ref>) the pycnophylactic property, which ensures that the density process aggregates to the observed data for each region. The solution to this partial differential equation requires speci cation of boundary conditions. These will affect the smoothness properties of the surface, particularly near the edges of the domain. <ref type="bibr" target="#b109">Tobler (1979)</ref> used nite difference methods to solve this constrained minimization and suggested forcing either the surface or its gradient to be 0 at the boundary of the domain. <ref type="bibr" target="#b30">Dyn, Wahba, and Wong (1979)</ref> suggested using a different type of spline that allows both the surface and its gradient on the boundary to be determined by the data. <ref type="bibr" target="#b15">Brillinger (1990)</ref> considered a different optimization criterion based on a locally weighted analysis with weights,</p><formula xml:id="formula_34">w i 4x1 y5 D 1= -A i - Z Z A i W 4x ƒ u1 y ƒ v5 du dv1</formula><p>where W 4¢5 is a speci ed kernel function. Given the weight function, a locally weighted estimate of the underlying density was obtained by maximizing the weighted log-likelihood of the data. For areal data, taking Z4A i 5 Poisson4N i ‹5, a locally weighted estimate of ‹ at 4x1 y5 is <ref type="bibr" target="#b15">Brillinger (1990)</ref> extended this approach to include explanatory covariates (using the common Poisson-lognormal model), and <ref type="bibr" target="#b15">Brillinger (1994)</ref> used the delta method to obtain an estimate of the uncertainty associated with estimated density surface at each point. Similar ideas have been used to estimate relative risks of the form ‹4s5 D g4s5=f 4s5, where g4¢5 is the intensity of a disease process and f 4¢5 is the population density (see M R uller, Stadtm R uller, and Tabnak 1997). The weight function in locally weighted smoothing and the use of the pycnophylactic property in the Laplacian smoother of <ref type="bibr" target="#b109">Tobler (1979)</ref> force the density estimates to account for the differing supports of the regions A i . Thus these smoothing methods are one solution to the area-point COSP, although the locally weighted smoothers may not satisfy the pycnophylactic property. Averaging the density estimates over different domains is a solution to the area-area COSP (i.e., the MAUP). However, both approaches assume independent data and thus ignore any spatial correlations in the areal data. More sophisticated smoothing algorithms may be able to account for this correlation, as well as any measurement error in the aeral data.</p><formula xml:id="formula_35">O ‹4x1 y5 D X i w i 4x1 y5Z4A i 5=N i X i w i 4x1 y50</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.4">Areal Regression Models</head><p>Flowerdew and Green <ref type="bibr">(1989,</ref><ref type="bibr">1992,</ref><ref type="bibr">1994</ref>) used explanatory variables collected on the target units to improve estimates from areal interpolation. Consider the simple example given by <ref type="bibr" target="#b35">Flowerdew and Green (1989)</ref> in which the variable of interest is a count variable observed on n source regions. Of interest is an estimate for the count associated with each of several irregularly shaped target zones, each of which overlaps some of the source units (Fig. <ref type="figure" target="#fig_4">2</ref>). Flowerdew and Green called these incompatible zones. A binary covariate is measured on each target zone, and the intensity of the count process is assumed to be either ‹ 1 or ‹ 2 , depending on whether the value of the covariate is 1 or 2. <ref type="bibr" target="#b35">Flowerdew and Green (1989)</ref> estimated the parameters ‹ 1 and ‹ 2 by regressing (using Poisson regression) the count for each source unit, Y i , on A 1i and A 2i , where A 1i is the area of source unit i overlapped by a target unit with a covariate value of 1 and A 2i is de ned similarly. The estimated count for any particular subunit formed by division of a source unit by the boundaries of the target units was then taken to be the area of the subunit times the estimated ‹ i associated with the covariate value i for that unit. To force the estimates to satisfy the pycnophylactic property, the source zone estimates were scaled by a factor equal to the ratio of the observed value to the tted value. Estimated counts for each target unit were then obtained by adding the estimates of each subunit composing the target unit.  <ref type="bibr">Flowerdew and</ref><ref type="bibr" target="#b35">Green (1992, 1994)</ref> extended their earlier work to include several different types of response variables (e.g., binomial, Gaussian) and continuous covariate information. The EM algorithm was used to estimate the necessary parameters, but any software implementing generalized linear model (GLM) methodology may be adapted to this problem. In particular, GLM software that allows the areal data to be spatially correlated (not considered in Flowerdew and Green's work) might be used to improve the results. If the estimates of ‹ 1 and ‹ 2 are substantially different and the relationship between the count variable and the binary covariate is strong, then this approach will be more accurate than the traditional polygonal overlay method.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.5">Bayesian Areal Regression Models</head><p>Mugglin and Carlin (1998) extended the work of Flowerdew and Green using a Bayesian approach to areal interpolation. They initially considered the case in which an outcome variable of interest, Y , was measured on i D 11 2 regions (the source units) and prediction of this variable for region 3 (the target unit) was desired. A binary covariate, X, was measured on j subunits, j D 11 : : : N i , completely nested within both target and source units (Fig. <ref type="figure" target="#fig_5">3</ref>).</p><p>To develop a predictor of Y 3 , Mugglin and Carlin (1998) assumed the existence of latent count variables de ned on each subregion. These were assigned independent Poisson distributions with parameters ‹ 1 or ‹ 2 , depending on the value of the covariate in the subregion. Then the count in each source zone was considered to be the sum of the counts in the subregions composing the source zone. So, following <ref type="bibr" target="#b35">Flowerdew and Green (1989)</ref>,</p><formula xml:id="formula_36">Y i -‹ 1 1 ‹ 2 Poisson4‹ 1 A 1i C ‹ 2 A 2i 51</formula><p>where A 1i is the area of region i with a covariate value of 1 and A 2i is de ned similarly. But instead of estimating ‹ 1 and ‹ 2 using Poisson regression, <ref type="bibr" target="#b76">Mugglin and Carlin (1998)</ref> developed a Bayesian hierarchical model. Vague, independent gamma421 605 prior distributions were chosen for ‹ 1 and ‹ 2 so that the prior mean corresponded to the expected average count of each subregion, and Metropolis updating was used to sample from the joint posterior distribution and make inferences on ‹ 1 and ‹ 2 . <ref type="bibr" target="#b76">Mugglin and Carlin (1998)</ref> also recognized that prediction of Y 3 (the count in the target zone), not estimation, was the appropriate inferential tool for this problem. In obtaining the predictive distribution of Y 3 -Y 1 1 Y 2 , they showed that the count variables Y 3\1 and Y 3\2 (delineating the parts of Y 3 that also lie in regions 1 and 2) were both binomial variables that could not exceed Y 1 and Y 2 . This ensured Tobler's pycnophylactic property. Additional details and supporting theorems were given by <ref type="bibr" target="#b76">Mugglin and Carlin (1998)</ref>. They then applied these ideas to a more general regression situation based on leukemia counts in Tompkins County, New York. Disease counts were available at the census tract level, and prediction of disease counts at the census block group level was of interest. Demographic factors, including population totals, and distance of the block group centroid from an hazardous waste site, were used as covariates for the predictions. <ref type="bibr" target="#b78">Mugglin, Carlin, Zhu, and Conlon (1999)</ref> extended these ideas to smoothing models that allow for spatial heterogeneity and clustering, and <ref type="bibr" target="#b77">Mugglin, Carlin, and Gelfand (2000)</ref> considered a more general misalignment problem. This latter work considered two misaligned grids, B and C, that have different spatial supports. The B cells were the source units, and a response variable of interest, Y i , was observed for each B i . Covariates, X j , were observed on each target unit C j . The misalignment of the B's and C's prevents the use of standard regression methods for inference on Y . To solve this misalignment problem, <ref type="bibr" target="#b77">Mugglin et al. (2000)</ref> developed a Bayesian hierarchical model by conditioning on latent variables associated with smaller areas (called atoms) delineated by the intersection of the two grids. The latent variables were assumed to have conditionally independent Poisson distributions, the means of which were taken to be functions of the areas of each atom and random effects that accounted for grid cell effects. In addition, a spatial Markov random eld prior speci cation was introduced to model the spatial association among the Y i 's. This latter extension overcame one of the main criticisms of the methods described in Sections 5.3 and 5.4. Although the details of the model building and MCMC implementation are complex, the underlying idea was to build a model at the atom level, thus producing a common grid on which X and Y could be related. <ref type="bibr" target="#b77">Mugglin et al. (2000)</ref> illustrated a more general model that included a covariate, W , associated with each B cell, and noted that both X and W could be vectors of covariates and not simply scalars. These perhaps could be used to account for large-scale spatial nonstationarity in the Y process. Also, different distributions for the aggregated count measurements could be used, although the user would need to make the necessary theoretical derivations and confront the implementational issues not addressed by <ref type="bibr" target="#b77">Mugglin et al. (2000)</ref>.</p><p>As noted earlier, the main cause of bias in ecological inference is the loss of relevant information on the individuals composing each target and source zone. <ref type="bibr" target="#b35">Flowerdew and Green (1989)</ref> and <ref type="bibr" target="#b76">Mugglin and Carlin (1998)</ref> recovered some of this information by including relevant covariate information available on some of the source zones. <ref type="bibr" target="#b9">Best, Ickstadt, and Wolpert (2000)</ref> considered a slightly different approach using a marked point process that directly allowed the use of individual-level Downloaded by [University of New England] at 03:40 11 December 2017 outcomes (disease cases) and covariate information (e.g., race, sex) instead of areal data to make the desired individual-level inferences. They recommended the use of Poisson regression with an idenity link, as opposed to the traditional logarithmic link function, to make the analysis scale independent (i.e., the regression parameter is the same for both individual and areal data) and reduce ecological bias. To solve the problem of incompatible spatial data (disease prevalence data and air pollution measurements from monitors), <ref type="bibr" target="#b9">Best et al. (2000)</ref> assigned the case data to the centroid of the postal code of the home address of the case and estimated the air pollution concentration at this centroid from point measurements obtained from air pollution monitors. A Bayesian hierarchical point process model using the Poisson/gamma model developed by <ref type="bibr" target="#b122">Wolpert and Ickstadt (1998)</ref> was then used to make inferences about the relationship between disease and pollution at the postal centroids. This is similar to a solution suggested in Section 3.1, although the approach of <ref type="bibr" target="#b9">Best et al. (2000)</ref> did not account for locational errors in assigning the cases to the centroids or for uncertainty in the estimated air pollution measurements.</p><p>These models illustrate the power and exibility of Bayesian hierarchical models in map overlay problems. However, their utility comes from several key assumptions that are largely unveri able from the data. The creation of latent variables de ned on the atoms, together with the prior speci cations and the sampling methods used for inference with MCMC methods, effectively amounts to assumed knowledge of the distributions of both X and Y variables at a common level of support. As with the multiscale tree models described in Section 4.2, implicit assumptions are made about the crosscorrelation between the two variables that are dif cult to verify. The use of proportional allocation in modeling conditional means does not account for the shape of the units needed for complete solutions to COSPs. Future re nements to existing solutions to the spatial misalignment problem may be able to address these issues.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">DISCUSSION</head><p>This article has presented a comprehensive review of statistical methods for combining incompatible spatial data. The multidisciplinary history provided conveys the complexity of the problems encountered in combining disparate spatial data and the widespread interest in solutions that have been developing over many decades. This is now an active area of statistical research, and many powerful and novel methods have recently been developed.</p><p>Although the problems that arise in combining incompatible spatial data have been given many different names, they all can be considered COSPs. Spatial support is much more than the area or volume associated with the data; it also includes the shape and orientation of the spatial units being considered. The central issue in COSPs is determination of the relationships between data at various scales or levels of aggregation. A common solution strategy for COSPs is to build a model from point support data or from data with small areal support, (even if no observations are taken at this level of support) and then nd a way to (optimally) estimate important parameters and make valid inference. Of course, it is the latter part of this paradigm that makes viable solutions so dif cult, and some assumptions must be made to obtain any solution. Thus concern shifts to the validity of these assumptions. Traditional geostatistical solutions cleanly delineate complex covariance structures, but then often rely on contrived parametric models to describe them. A hierarchical speci cation circumvents this problem by allowing the scientist to break down a complex problem into more tractable pieces. Are these pieces really more tractable, or are they more tractable only because we are somehow more willing to make simplifying assumptions conditionally, hoping that the structure induced through the various hierarchies will be suf ciently complex to provide a satisfactory model? Ecologists have adopted the approach of trying to explain how variables at one scale change as they go to another scale. Statisticians assume that they have this knowledge either through the choice of parametric covariance models or through a hierarchical speci cation and prior information. Much progress has been made on combining incompatible spatial data, but the assumptions made when doing so often ignore the differing supports. Thus these assumptions are much more than mathematical and computational assumptions, and they can (often surreptitiously) result in unusual or unrealistic cross-scale relationships. Further development of data-driven diagnostic and validation tools will help assess the impact and validity of many of these assumptions.</p><p>Increasing use of G IS systems makes the COSP relevant and solutions crucial. Substantial progress has been made in the development of valid methods for combining incompatible spatial data, much of it only recently. Hopefully, these methods will be quickly incorporated into an interactive G IS framework that will help ensure that valid statistical methods are used for spatial analysis. <ref type="bibr">[Received September 2000</ref><ref type="bibr">. Revised August 2001.]</ref> </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><figDesc>RR 4u i 1 u j 5 C m D C R 4s 0 1 u i 51 i D 11 : : : 1 n and n X iD1 ‹ i D 10 To use these equations, the cross-covariance function between the risk process and the observed frequencies must be inferred from the data. Given the model assumptions, standard conditioning arguments can be used to show that (see, e.g., McNeill 1991) C R 4s 0 1 u i 5 D C 4s 0 1 u i 5 (7) and C RR 4u i 1 u j 5 D 1 ƒ " ij n4u i 5 C 4u i 1 u j 5 C " ij n4u i 5 OE 41 ƒ OE 51</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>0 j 55 &lt; Nz-Y 4s 1 51 Y 4s 2 51 : : : Y 4s n 5 ´0 This probability is estimated through simulation. The vector Y4u5 D 4Y 4u 1 51 0 0 0 Y 4u N 55 0 , is simulated from the conditional distribution of Y4u5 -Y4s5. Because Y is Gaussian, this conditional distribution can be obtained by kriging, and simulation is straightforward. Then F B 4z-Z5 is estimated as the proportion of vectors satisfying P N jD1 "4Y 4u 0 j 55 &lt; Nz.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. A Tree Structure for Multiscale Processes.</figDesc><graphic coords="9,29.52,546.79,250.56,187.44" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>…I</head><figDesc>G4a … 1 b … 5, where a … and b … are speci ed constants such that ' ƒ2 … has a gamma(a … /2, b … /2) distribution (see, e.g., O'Hagan 1994) and the prior distributions on X and ' 2 are independent. (A similar development, considered in Kitanidis 1986, Handcock Stein 1993, and Gaudard, Karson, Linder, and Sinha 1999, assumed a prior for X that also depends on ' 2 , a situation not realistic here. The analytical derivations and computational details included in their work may be useful in developing other multiscale models and in other spatial applications.) With this model, f 4X -Z5, and f 4' 2 … -Z5 required for inference on X and ' 2 … are more dif cult to obtain, but Gibbs sampling is straightforward. The full conditional for X1 f 4X -' 2 … 1 Z5, is the same as that given earlier [Gaussian with parameters in (</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Incompatible Zones. (Adapted from<ref type="bibr" target="#b35">Flowerdew and Green 1989.)</ref> </figDesc><graphic coords="13,310.56,575.59,215.04,148.56" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. The Nested Misalignment Problem. (Adapted from Mugglin and Carlin 1998.)</figDesc><graphic coords="14,47.76,559.99,215.04,164.16" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 .</head><label>1</label><figDesc>Examples of COSPs</figDesc><table><row><cell>We observe</cell><cell>But the nature of</cell><cell></cell></row><row><cell>or analyze</cell><cell>the process is</cell><cell>Examples</cell></row><row><cell>Point</cell><cell>Point</cell><cell>Point kriging; prediction of</cell></row><row><cell></cell><cell></cell><cell>undersampled variables</cell></row><row><cell>Area</cell><cell>Point</cell><cell>Ecological inference;</cell></row><row><cell></cell><cell></cell><cell>quadrat counts</cell></row><row><cell>Point</cell><cell>Line</cell><cell>Contouring</cell></row><row><cell>Point</cell><cell>Area</cell><cell>Use of areal centroids; spatial</cell></row><row><cell></cell><cell></cell><cell>smoothing; block kriging</cell></row><row><cell>Area</cell><cell>Area</cell><cell>The MAUP; areal interpolation;</cell></row><row><cell></cell><cell></cell><cell>incompatible/misaligned zones</cell></row><row><cell>Point</cell><cell>Surface</cell><cell>Trend surface analysis;</cell></row><row><cell></cell><cell></cell><cell>environmental monitoring;</cell></row><row><cell></cell><cell></cell><cell>exposure assessment</cell></row><row><cell>Area</cell><cell>Surface</cell><cell>Remote sensing; multiresolution</cell></row><row><cell></cell><cell></cell><cell>images; image analysis</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_0"><p>Downloaded by [University of New England] at 03:40 11 December 2017</p></note>
+		</body>
+		<back>
+
+			<div type="conflict">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The authors gratefully acknowledge all of the authors whose work is represented and discussed in this article, who have made outstanding contributions to a persistent and perplexing problem. They especially thank Brad Carlin, Noel Cressie, Hsin-Cheng Huang, Chris Wikle, and Jeremy Aldworth, who were willing to share their work and ideas, some of which has not yet been published. Finally, they thank Noel Cressie for his review of this article during its infancy stages. His comments and suggestions, and his willingness to review a crude draft of a lengthy manuscript, are much appreciated.</p></div>
+			</div>
+
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Sampling Designs and Prediction Methods for Gaussian Spatial Processes</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Aldworth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Multivariate Analyses, Design of Experiments, and Survey Sampling</title>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Ghosh</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>In Press</publisher>
+			<date type="published" when="1999">1999. 2002</date>
+			<biblScope unit="page" from="1" to="54" />
+		</imprint>
+	</monogr>
+	<note>Prediction of Nonlinear Spatial Functionals Journal of Statistical Planning and Inference</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">The Effect of Data Aggregation on a Poisson Regression Model of Canadian Migration</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">G</forename><surname>Amrhein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Flowerdew</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning, Ser. A</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<biblScope unit="page" from="1381" to="1391" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">The Modi able Areal Unit Problem and the Spatial Autocorrelation Problem: Towards a Joint Approach</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Arbia</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Accuracy of Spatial Data Bases</title>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Goodchild</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename></persName>
+		</editor>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Taylor and Francis</publisher>
+			<date type="published" when="1986">1986. 1989</date>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="249" to="259" />
+		</imprint>
+	</monogr>
+	<note>Statistical Effect of Data Transformations: A Proposed General Framework</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">M</forename><surname>Armstrong</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<publisher>Springer-Verlag</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+	<note>Basic Linear Geostatistics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Modeling and Estimation of Multiresolution Stochastic Processes</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Basseville</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Benveniste</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">C</forename><surname>Chou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Golden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Nikoukhah</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Willsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Information Theory</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="766" to="784" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Entropy in Spatial Aggregation</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Batty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="1" to="21" />
+			<date type="published" when="1976">1976</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<author>
+			<persName><forename type="first">G</forename><surname>Bell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Lechowitz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Appenzeller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Chandler</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Deblois</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Jackson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Mackenzie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Preziosi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Scallenberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Tinker</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Spatial Structure of the Physical Environment</title>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="page" from="114" to="121" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Multiscale Sources of Variation in Ecological Variables: Modeling Spatial Dispersion, Elaborating Sampling Designs</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bellehumeur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Landscape Ecology</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="15" to="25" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Berliner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Royle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">F</forename><surname>Milliff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Bayesian Methods in Atmospheric Sciences</title>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Bernardo</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">O</forename><surname>Berger</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><forename type="middle">P</forename><surname>Dawid</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><forename type="middle">F M</forename><surname>Smith</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="1999">1999</date>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="83" to="100" />
+		</imprint>
+	</monogr>
+	<note>with discussion</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial Poisson Regression for Health and Exposure Data Measured at Disparate Resolutions</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">G</forename><surname>Best</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ickstadt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Wolpert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="1076" to="1088" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Comparing Effects of Aggregation Methods on Statistical and Spatial Properties of Simulated Spatial Data</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Butler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Photogrammetric Engineering &amp; Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="73" to="84" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Scale-Sensitive Ecological Properties: Historical Context, Current Meaning</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Bissonette</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Wildlife and Lanscape Ecology: Effects of Pattern and Scale</title>
+		<editor>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Bissonette</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="1997">1997</date>
+			<biblScope unit="page" from="3" to="31" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">M</forename><surname>Blalock</surname></persName>
+		</author>
+		<title level="m">Causal Inferences in Nonexperimental Research</title>
+		<meeting><address><addrLine>Chapel Hill, NC</addrLine></address></meeting>
+		<imprint>
+			<publisher>University of North Carolina Press</publisher>
+			<date type="published" when="1964">1964</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Bonham-Carter</surname></persName>
+		</author>
+		<title level="m">Geographic Information Systems for Geoscientists</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Pergamon Press/Elsevier Science</publisher>
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Integration of Geological Datasets for Gold Exploration in Nova Scotia</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Bonham-Carter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">P</forename><surname>Agterberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">F</forename><surname>Wright</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Photogrammetric Engineering &amp; Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="page" from="1585" to="1592" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Examples of Scienti c Problems and Data Analyses in Demography, Neurophysiology, and Seismology</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Brillinger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Computational and Graphical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="1990">1990. 1994</date>
+		</imprint>
+	</monogr>
+	<note>Spatial-Temporal Modeling of Spatially Aggregate Birth Data Survey Methodology</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<monogr>
+		<title level="m" type="main">Random Signal Analysis and Kalman Filtering (rev</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">G</forename><surname>Brown</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1983">1983</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Spatial Modeling of Snow Water Equivalent Using Airborne and Ground-Based Snow Data</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Carroll</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">N</forename><surname>Day</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">R</forename><surname>Carroll</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="127" to="139" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Chiles</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Del Ner</surname></persName>
+		</author>
+		<title level="m">Geostatistics: Modeling Spatial Uncertainty</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Multiscale Systems, Kalman Filters, and Riccati Equations</title>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">C</forename><surname>Chou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Willsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Nikoukhah</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Automatic Control</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="479" to="492" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Probabilistic Prediction Models for Landslide Hazard Mapping</title>
+		<author>
+			<persName><forename type="first">C.-J</forename><forename type="middle">F</forename><surname>Chung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Fabbri</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Photogrammetric Engineering &amp; Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="1389" to="1400" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<monogr>
+		<author>
+			<persName><forename type="first">I</forename><surname>Clark</surname></persName>
+		</author>
+		<title level="m">Practical Geostatistics</title>
+		<meeting><address><addrLine>Essex, U.K.</addrLine></address></meeting>
+		<imprint>
+			<publisher>Applied Science</publisher>
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">MUCK: A Novel Approach to Cokriging</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Basinger</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">V</forename><surname>Harper</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Conference on Geostatistical, Sensitivity, and Uncertainty Methods for Ground-Water Flow and Radionuclide Transport Modeling</title>
+		<editor>
+			<persName><forename type="first">B</forename><surname>Buxton</surname></persName>
+		</editor>
+		<meeting>the Conference on Geostatistical, Sensitivity, and Uncertainty Methods for Ground-Water Flow and Radionuclide Transport Modeling<address><addrLine>Columbus, OH</addrLine></address></meeting>
+		<imprint>
+			<publisher>Battelle Press</publisher>
+			<date type="published" when="1989">1989</date>
+			<biblScope unit="page" from="473" to="493" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">The Effects of Data Aggregation in Statistical Analysis</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">A V</forename><surname>Clark</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Avery</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="page" from="428" to="438" />
+			<date type="published" when="1976">1976</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Evaluation of Methods for Ecological Inference</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cleave</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">D</forename><surname>Payne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society, Ser. B</title>
+		<imprint>
+			<biblScope unit="volume">159</biblScope>
+			<biblScope unit="page" from="55" to="72" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Ef cient Grouping, Regression and Correlation in Engel Curve Analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Cramer</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">59</biblScope>
+			<biblScope unit="page" from="233" to="250" />
+			<date type="published" when="1964">1964</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Change of Support and the Modi able Areal Unit Problem</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Aggregation and Interaction Issues in Statistical Modeling of Spatiotemporal Processes</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Soares</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Dordrecht; New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley</publisher>
+			<date type="published" when="1993">1993. 1993b. 1996. 1998</date>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="133" to="140" />
+		</imprint>
+	</monogr>
+	<note>Geostatistics Troia &apos;92 Aggregation in Geostatistical Problems Statistics for Spatial Data Geoderma</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">The Variance-Based Cross-Variogram: You Can Add Apples and Oranges</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Geology</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="789" to="799" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Estimating Model-Error Covariances for Application to Atmospheric Data Assimilation</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Daley</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><forename type="middle">K</forename><surname>Cambridge</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Monthly Weather Review</title>
+		<imprint>
+			<biblScope unit="volume">120</biblScope>
+			<biblScope unit="page" from="1735" to="1746" />
+			<date type="published" when="1991">1991. 1992</date>
+			<publisher>Cambridge University Press</publisher>
+		</imprint>
+	</monogr>
+	<note>Atmospheric Data Analysis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Model-Based Geostatistics</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Diggle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Tawn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Moyeed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Statistics</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="299" to="350" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+	<note>with discussion</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Smooth Pycnophylactic Interpolation for Geographical Regions&quot; by W. Tobler</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Dyn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wahba</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W.-H</forename><surname>Wong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="530" to="535" />
+			<date type="published" when="1979">1979</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Multi-Scale Fractal Analysis of Image Texture and Pattern</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Emerson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Lam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">-N</forename><surname>Quattrochi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Photogrammetric Engineering &amp; Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">65</biblScope>
+			<biblScope unit="page" from="51" to="61" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">An Empirical Law Describing Heterogeneity in the Yields of Agricultural Crops</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Fair Eld Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural Science</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="1" to="23" />
+			<date type="published" when="1938">1938</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Multiresolution Optimal Interpolation and Statistical Analysis of TOPEX/POSE IDON Satellite Altimetry</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">W</forename><surname>Fieguth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">C</forename><surname>Karl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Willsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Wunsch</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Transactions on Geoscience and Remote Sensing</title>
+		<imprint>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="280" to="292" />
+			<date type="published" when="1995">1995</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">A Rule for Inferring Individual-Level Relationships From Aggregate Data</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Firebaugh</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Sociological Review</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="557" to="572" />
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Statistical Methods for Inference Between Incompatible Zonal Systems</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Flowerdew</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Green</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Accuracy of Spatial Data Bases</title>
+		<editor>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">P</forename></persName>
+		</editor>
+		<meeting><address><addrLine>Rogerson, London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Taylor and Francis</publisher>
+			<date type="published" when="1989">1989. 1992. 1994</date>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="121" to="145" />
+		</imprint>
+	</monogr>
+	<note>Developments in Areal Interpolating Methods and G IS Areal Interpolation and Types of Data Spatial Analysis and G IS</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Scale-Independent Spatial Analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Accuracy of Spatial Data Bases</title>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Goodchild</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename></persName>
+		</editor>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Taylor and Francis</publisher>
+			<date type="published" when="1989">1989</date>
+			<biblScope unit="page" from="221" to="228" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">The Modi able Areal Unit Problem in Multivariate Statistical Analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W S</forename><surname>Wong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning, Ser. A</title>
+		<imprint>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="1025" to="1044" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Spatio-Temporal Prediction of Level 3 Data for NASA&apos;s Earth Observing System</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gabrosek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H.-C</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial Accuracy Assessment: Land Information Uncertainty in Natural Resources</title>
+		<editor>
+			<persName><forename type="first">K</forename><surname>Lowell</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Jaton</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Chelsea, M I</addrLine></address></meeting>
+		<imprint>
+			<publisher>Ann Arbor Press</publisher>
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Bayesian Spatial Prediction</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Gaudard</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Karson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Linder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Sinha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental and Ecological Statistics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="147" to="171" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">Certain Effects of Grouping Upon the Size of the Correlation Coef cient in Census Tract Material</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Gehlke</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Biehl</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association, supp</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="169" to="170" />
+			<date type="published" when="1934">1934</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">On the Change of Support Problem for Spatio-Temporal Data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="page" from="31" to="45" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Applications of Estimation Theory to Numerical Prediction Assimilation</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ghil</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Cohn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Tavantzia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Bube</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Isaacson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Dynamic Meteorology: Data Assimilation Methods</title>
+		<editor>
+			<persName><forename type="first">L</forename><surname>Bengtsson</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Ghiul</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">E</forename><surname>Kallen</surname></persName>
+		</editor>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="1981">1981</date>
+			<biblScope unit="page" from="139" to="224" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Multilevel Statistical Models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Goldstein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Kendall&apos;s Library of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<date type="published" when="1995">1995</date>
+			<publisher>Edward Arnold</publisher>
+			<pubPlace>London</pubPlace>
+		</imprint>
+	</monogr>
+	<note>nd ed.</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Areal Interpolation: A Variant of the Traditional Spatial Problem</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">F</forename><surname>Goodchild</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">S</forename><surname>Lam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">-N</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geo-Processing</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="297" to="312" />
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Some Alternatives to Ecological Correlation</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">A</forename><surname>Goodman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Sociology</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="610" to="625" />
+			<date type="published" when="1959">1959</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Geostatistical Tools for Characterizing the Spatial Variability of Microbiological and Physico-Chemical Soil Properties</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Goovaerts</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Geostatistics for Natural Resources Evaluation</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="1997">1997. 1998</date>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="315" to="334" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Ecological Bias, Confounding, and Effect Modi cation</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Greenland</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Morganstern</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="269" to="274" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Ecologic Studies-Biases, Misconceptions, and Counterexamples</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Greenland</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Robins</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">139</biblScope>
+			<biblScope unit="page" from="747" to="760" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">The Use of Random and Contiguous Quadrats in the Study of Structure in Plant Communities</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Greig-Smith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of Botany, New Series</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="293" to="316" />
+			<date type="published" when="1952">1952</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<title level="m" type="main">Regression Estimation From Grouped Observations</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Haitovsky</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1984">1984</date>
+			<publisher>Harner Press</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">A Bayesian Analysis of Kriging</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Handcock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">L</forename><surname>Stein</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">35</biblScope>
+			<biblScope unit="page" from="403" to="410" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<monogr>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">T</forename><surname>Hannan</surname></persName>
+		</author>
+		<title level="m">Aggregation and Disaggregation in Sociology, Lexington</title>
+		<imprint>
+			<publisher>MA: D.C. Heath</publisher>
+			<date type="published" when="1971">1971</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Multiscale Graphical Modeling in Space: Applications to Command and Control</title>
+		<author>
+			<persName><forename type="first">H.-C</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the Spatial Statistics Workshop</title>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Moore</surname></persName>
+		</editor>
+		<meeting>the Spatial Statistics Workshop<address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer-Verlag</publisher>
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<monogr>
+		<title level="m" type="main">Fast Resolution-Consistent Spatial Prediction of Global Processes From Satellite Data</title>
+		<author>
+			<persName><forename type="first">H.-C</forename><surname>Huang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gabrosek</surname></persName>
+		</author>
+		<idno>C-2000-2</idno>
+		<ptr target="http://www.stat.sinica.edu.tw/hchuang/paper.html" />
+		<imprint>
+			<date type="published" when="2000">2000</date>
+			<publisher>Academia Sinica</publisher>
+		</imprint>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<monogr>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">H</forename><surname>Isaaks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Srivastava</surname></persName>
+		</author>
+		<title level="m">An Introduction to Applied Geostatistics</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">The Modi able Areal Unit Problem and Implications for Landscape Ecology</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">E</forename><surname>Jelinski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Wu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Landscape Ecology</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="129" to="140" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">Quantitative Multiresolution Characterization of Landscape Patterns for Assessing the Status of Ecosystem Health in Watershed Management Areas</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">D</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">P</forename><surname>Patil</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecosystem Health</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="177" to="187" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Nonparametric Estimation of Spatial Distributions</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Journel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the International Association for Mathematical Geology</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="445" to="468" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b59">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Journel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Huijbregts</surname></persName>
+		</author>
+		<title level="m">Mining Geostatistics</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Academic Press</publisher>
+			<date type="published" when="1978">1978</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b60">
+	<monogr>
+		<title level="m" type="main">A Solution to the Ecological Inference Problem</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>King</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1997">1997</date>
+			<publisher>Princeton University Press</publisher>
+			<pubPlace>Princeton, NJ</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b61">
+	<analytic>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">K</forename><surname>Kitanidis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Parameter Uncertainty in Estimation of Spatial Functions: Bayesian Analysis</title>
+		<imprint>
+			<date type="published" when="1986">1986</date>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="499" to="507" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b62">
+	<analytic>
+		<title level="a" type="main">Ecological Regression in Voting Rights Cases</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">P</forename><surname>Klein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Freedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Chance</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<biblScope unit="page" from="38" to="43" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b63">
+	<analytic>
+		<title level="a" type="main">A Statistical Approach to Some Basic Mine Valuation Problems on the Witwatersrand</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Krige</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Chemical, Metallurgical, and Mining Society of South Africa</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="119" to="139" />
+			<date type="published" when="1951">1951</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b64">
+	<analytic>
+		<title level="a" type="main">Interpolation With Uncertain Spatial Covariances: A Bayesian Alternative to Kriging</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">D</forename><surname>Le</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">V</forename><surname>Zidek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Multivariate Analysis</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="page" from="351" to="374" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b65">
+	<monogr>
+		<author>
+			<persName><forename type="first">P</forename><surname>Legendre</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Fortin</surname></persName>
+		</author>
+		<title level="m">Spatial Pattern and Ecological Analysis</title>
+		<imprint>
+			<publisher>Vegetation</publisher>
+			<date type="published" when="1989">1989</date>
+			<biblScope unit="volume">80</biblScope>
+			<biblScope unit="page" from="107" to="138" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b66">
+	<analytic>
+		<title level="a" type="main">The Problem of Pattern and Scale in Ecology</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Levin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Ecology</title>
+		<imprint>
+			<biblScope unit="volume">73</biblScope>
+			<biblScope unit="page" from="1943" to="1967" />
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b67">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">C</forename><surname>Littell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">A</forename><surname>Milliken</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">W</forename><surname>Stroup</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Wol Nger</surname></persName>
+		</author>
+		<title level="m">The SAS System for Linear Models</title>
+		<meeting><address><addrLine>Cary, NC</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1996">1996</date>
+		</imprint>
+		<respStmt>
+			<orgName>SAS Institute</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b68">
+	<analytic>
+		<title level="a" type="main">The Linkage of Data Describing Overlapping Geographical Units</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Markoff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Shapiro</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Historical Methods Newsletter</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="34" to="46" />
+			<date type="published" when="1973">1973</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b69">
+	<analytic>
+		<title level="a" type="main">Isofactorial Models and Change of Support</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Matheron</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Geostatistics for Natural Resources Characterization</title>
+		<editor>
+			<persName><forename type="first">G</forename><surname>Verly</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">M</forename><surname>David</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Journel</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Marechal</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Reidel</publisher>
+			<date type="published" when="1963">1963. 1984</date>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="449" to="467" />
+		</imprint>
+	</monogr>
+	<note>Principles of Geostatistics</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b70">
+	<analytic>
+		<title level="a" type="main">The Effects of Spatial Scale on Ecological Questions and Answers</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>May</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Large-Scale Ecology and Conservation Biology</title>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Edwards</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><surname>May</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">N</forename></persName>
+		</editor>
+		<meeting><address><addrLine>Webb, London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Blackwell Scienti c</publisher>
+			<date type="published" when="1994">1994</date>
+			<biblScope unit="page" from="1" to="17" />
+		</imprint>
+	</monogr>
+	<note>35th</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b71">
+	<analytic>
+		<title level="a" type="main">Interpolation and Smoothing of Binomial Data for the Southern African Bird Atlas Project</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Mcneill</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">South African Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="129" to="136" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b72">
+	<analytic>
+		<title level="a" type="main">Understanding the Kalman Filter</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Meinhold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">D</forename><surname>Singpurwalla</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">37</biblScope>
+			<biblScope unit="page" from="123" to="127" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b73">
+	<analytic>
+		<title level="a" type="main">Measuring the Fractal Dimension of Landscapes</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">T</forename><surname>Milne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Mathematical Computing</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="67" to="79" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b74">
+	<analytic>
+		<title level="a" type="main">Geographical variances</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Moellering</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Tobler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="34" to="50" />
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b75">
+	<analytic>
+		<title level="a" type="main">Uses of Ecologic Analysis in Epidemiologic Research</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Morganstern</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Public Health</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="1336" to="1344" />
+			<date type="published" when="1982">1982</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b76">
+	<analytic>
+		<title level="a" type="main">Hierarchical Modeling in Geographic Information Systems: Population Interpolation Over Incompatible Zones</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Mugglin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Agricultural, Biological, and Environmental Statistics</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="117" to="130" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b77">
+	<analytic>
+		<title level="a" type="main">Fully Model-Based Approaches for Spatially Misaligned Data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Mugglin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">95</biblScope>
+			<biblScope unit="page" from="877" to="887" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b78">
+	<analytic>
+		<title level="a" type="main">Bayesian Areal Interpolation, Estimation, and Smoothing: An Inferential Approach for Geographic Information Systems</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Mugglin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">P</forename><surname>Carlin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Conlon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning, Ser. A</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="1337" to="1352" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b79">
+	<analytic>
+		<title level="a" type="main">Spatial Smoothing of Geographically Aggregated Data, With Application to the Construction of Incidence Maps</title>
+		<author>
+			<persName><forename type="first">H.-G</forename><surname>Müller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Stadtmüller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Tabnak</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">92</biblScope>
+			<biblScope unit="page" from="61" to="71" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b80">
+	<analytic>
+		<title level="a" type="main">Pseudo-Cross-Variograms, Positive De niteness, and Cokriging</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">E</forename><surname>Myers</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Geostatistics for Natural Resources Characterization</title>
+		<editor>
+			<persName><forename type="first">G</forename><surname>Verly</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">M</forename><surname>David</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><forename type="middle">G</forename><surname>Journel</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Marechal</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Reidel</publisher>
+			<date type="published" when="1984">1984. 1991</date>
+			<biblScope unit="volume">23</biblScope>
+			<biblScope unit="page" from="805" to="816" />
+		</imprint>
+	</monogr>
+	<note>Cokriging-New Developments</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b81">
+	<analytic>
+		<title level="a" type="main">Opportunities for Examining On-Farm Soil Variability</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Nielsen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Wendroth</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Parlange</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Robert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Rust</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">E</forename><surname>Larson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Madison</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">I</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Site-Speci c Management for Agricultural Systems</title>
+		<imprint>
+			<publisher>American Society of Agronomy</publisher>
+			<date type="published" when="1995">1995</date>
+			<biblScope unit="page" from="95" to="132" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b82">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>O'hagan</surname></persName>
+		</author>
+		<title level="m">Bayesian Inference</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Edward Arnold</publisher>
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b83">
+	<monogr>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Olea</surname></persName>
+		</author>
+		<title level="m">Geostatistical Glossary and Multilingual Dictionary</title>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b84">
+	<analytic>
+		<title level="a" type="main">Estimating the Risk of Childhood Cancer</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Oliver</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Lajaunie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Webster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>Muir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Mann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Geostatistics Troia &apos;92</title>
+		<editor>
+			<persName><forename type="first">A</forename><surname>Soares</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Dordrecht</addrLine></address></meeting>
+		<imprint>
+			<publisher>Kluwer Academic Publishers</publisher>
+			<date type="published" when="1993">1993</date>
+			<biblScope unit="page" from="899" to="910" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b85">
+	<analytic>
+		<title level="a" type="main">Combining Nested and Linear Sampling for Determining the Scale and Form of Spatial Variation of Regionalized Variables</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Oliver</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Webster</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="227" to="242" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b86">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><surname>Openshaw</surname></persName>
+		</author>
+		<title level="m">The Modi able Areal Unit Problem</title>
+		<meeting><address><addrLine>Norwich, U.K.</addrLine></address></meeting>
+		<imprint>
+			<publisher>Geobooks</publisher>
+			<date type="published" when="1984">1984</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b87">
+	<analytic>
+		<title level="a" type="main">A Million or so Correlation Coefcients</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Openshaw</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Taylor</surname></persName>
+			<affiliation>
+				<orgName type="collaboration">Pion</orgName>
+			</affiliation>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Modi able Areal Unit Problem,&quot; in Quantitative Geography: A British View</title>
+		<editor>
+			<persName><forename type="first">N</forename><surname>Wrigley</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><surname>Bennett</surname></persName>
+		</editor>
+		<meeting><address><addrLine>London; London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Routledge &amp; Kegan Paul</publisher>
+			<date type="published" when="1979">1979. 1981</date>
+			<biblScope unit="page" from="60" to="69" />
+		</imprint>
+	</monogr>
+	<note>Statistical Methods in the Spatial Sciences</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b88">
+	<monogr>
+		<title level="m" type="main">Fractal Geometry: A Tool for Describing Spatial Patterns of Plant Communities</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">W</forename><surname>Palmer</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1988">1988</date>
+			<publisher>Vegetation</publisher>
+			<biblScope unit="volume">75</biblScope>
+			<biblScope unit="page" from="91" to="102" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b89">
+	<analytic>
+		<title level="a" type="main">On the Pseudo-Cross-Variogram</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Papritz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">R</forename><surname>Kunsch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Webster</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Geology</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="1015" to="1026" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b90">
+	<analytic>
+		<title level="a" type="main">Quantitative Characterization of Hierarchically Scaled Landscape Patterns</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">P</forename><surname>Patil</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Taillie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 25th Biennial Meeting of the International Statistical Institute</title>
+		<meeting>the 25th Biennial Meeting of the International Statistical Institute<address><addrLine>Helsinki</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="89" to="92" />
+		</imprint>
+	</monogr>
+	<note>Statistics Finland</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b91">
+	<analytic>
+		<title level="a" type="main">Entropy and Community Pattern Analysis</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Phipps</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Theoretical Biology</title>
+		<imprint>
+			<biblScope unit="volume">93</biblScope>
+			<biblScope unit="page" from="253" to="273" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b92">
+	<analytic>
+		<title level="a" type="main">The Ecological Fallacy</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Piantadosi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">P</forename><surname>Byar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">B</forename><surname>Green</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">127</biblScope>
+			<biblScope unit="page" from="893" to="904" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b93">
+	<analytic>
+		<title level="a" type="main">The Grouping of Observations in Regression Analysis</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Prais</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Aitchison</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Revue de l&apos; Institut International de Statistique</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="1954">1954</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b94">
+	<analytic>
+		<title level="a" type="main">Effects of Spatial System on Spatial Interaction Models. 1: The Spatial System De nition Problem</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">H</forename><surname>Putnam</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S.-H</forename><surname>Chung</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning, Ser. A</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="27" to="46" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b95">
+	<monogr>
+		<title level="m" type="main">Predictive Probabilistic Modeling Using ArcView G IS</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Raines</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">F</forename><surname>Bonham-Carter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Kemp</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2000-04">2000. April-June, 46-48</date>
+			<publisher>ArcUser</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b96">
+	<monogr>
+		<title level="m" type="main">The Description of Spatial Pattern Using Two-Dimensional Spectral Analysis</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Renshaw</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">D</forename><surname>Ford</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1984">1984</date>
+			<publisher>Vegetation</publisher>
+			<biblScope unit="volume">56</biblScope>
+			<biblScope unit="page" from="75" to="85" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b97">
+	<analytic>
+		<title level="a" type="main">Statistical Methods for Geographical Correlation Studies</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Richardson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Geographical and Environmental Epidemiology: Methods for Small Area Studies</title>
+		<editor>
+			<persName><forename type="first">P</forename><surname>Elliott</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">J</forename><surname>Cuzick</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">D</forename><surname>English</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">R</forename><surname>Stern</surname></persName>
+		</editor>
+		<meeting><address><addrLine>New York</addrLine></address></meeting>
+		<imprint>
+			<publisher>Oxford University Press</publisher>
+			<date type="published" when="1992">1992</date>
+			<biblScope unit="page" from="181" to="204" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b98">
+	<analytic>
+		<title level="a" type="main">Comparison of Relative Risks Obtained in Ecological and Individual Studies: Some Methodological Considerations</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Richardson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Stucker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Hemon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">16</biblScope>
+			<biblScope unit="page" from="111" to="120" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b99">
+	<monogr>
+		<author>
+			<persName><forename type="first">J</forename><surname>Rivoirard</surname></persName>
+		</author>
+		<title level="m">Introduction to Disjunctive Kriging and Nonlinear Geostatistics</title>
+		<meeting><address><addrLine>Oxford, U.K.</addrLine></address></meeting>
+		<imprint>
+			<publisher>Clarendon Press</publisher>
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b100">
+	<analytic>
+		<title level="a" type="main">The Necessity of Weighting Values in Correlation Analysis of Areal Data</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">46</biblScope>
+			<biblScope unit="page" from="233" to="236" />
+			<date type="published" when="1956">1956</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b101">
+	<analytic>
+		<title level="a" type="main">Ecological Correlations and the Behavior of Individuals</title>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">S</forename><surname>Robinson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Sociological Review</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="351" to="357" />
+			<date type="published" when="1950">1950</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b102">
+	<monogr>
+		<title level="m" type="main">A Hierarchical Spatial Model for Constructing Wind Fields From Scatterometer Data in the Labrador Sea</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Royle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Berliner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Milliff</surname></persName>
+		</author>
+		<idno>97-30</idno>
+		<imprint>
+			<date type="published" when="1997">1997</date>
+		</imprint>
+		<respStmt>
+			<orgName>Ohio State University</orgName>
+		</respStmt>
+	</monogr>
+	<note type="report_type">Technical Report</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b103">
+	<analytic>
+		<title level="a" type="main">Durkheim&apos;s &apos;Suicide&apos; and Problems of Empirical Research</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">C</forename><surname>Selvin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Sociology</title>
+		<imprint>
+			<biblScope unit="volume">63</biblScope>
+			<biblScope unit="page" from="607" to="619" />
+			<date type="published" when="1958">1958</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b104">
+	<analytic>
+		<title level="a" type="main">Analyzing and Adjusting Aggregation Effects: The Ecological Fallacy Revisited</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Steel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Holt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Statistical Review</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="39" to="60" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b105">
+	<analytic>
+		<title level="a" type="main">Application of Fractals in Ecology</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Sugihara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>May</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Trends in Ecology and Evolution</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="79" to="86" />
+			<date type="published" when="1990">1990</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b106">
+	<monogr>
+		<author>
+			<persName><forename type="first">H</forename><surname>Theil</surname></persName>
+		</author>
+		<title level="m">Econometrics and Information Theory</title>
+		<meeting><address><addrLine>Amsterdam</addrLine></address></meeting>
+		<imprint>
+			<publisher>North-Holland</publisher>
+			<date type="published" when="1972">1972</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b107">
+	<analytic>
+		<title level="a" type="main">Precipitation for Large Areas</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Thiessen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Monthly Weather Review</title>
+		<imprint>
+			<biblScope unit="volume">39</biblScope>
+			<biblScope unit="page" from="1082" to="1084" />
+			<date type="published" when="1911">1911</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b108">
+	<analytic>
+		<title level="a" type="main">Additional Comments on Weighting Values in Correlation Analysis of Areal Data</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">N</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Anderson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="page" from="492" to="505" />
+			<date type="published" when="1965">1965</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b109">
+	<analytic>
+		<title level="a" type="main">Smooth Pycnophylactic Interpolation for Geographical Regions&quot; (with discussion)</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Tobler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">The Accuracy of Spatial Data Bases</title>
+		<editor>
+			<persName><forename type="first">M</forename><surname>Goodchild</surname></persName>
+		</editor>
+		<editor>
+			<persName><forename type="first">S</forename></persName>
+		</editor>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<publisher>Taylor and Francis</publisher>
+			<date type="published" when="1979">1979. 1989</date>
+			<biblScope unit="volume">74</biblScope>
+			<biblScope unit="page" from="115" to="122" />
+		</imprint>
+	</monogr>
+	<note>Frame Independent Spatial Analysis</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b110">
+	<analytic>
+		<title level="a" type="main">Predicting Across Scales: Theory Development and Testing</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Turner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">H</forename><surname>Dale</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Gardner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Landscape Ecology</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="245" to="252" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b111">
+	<analytic>
+		<title level="a" type="main">Effects of Changing Spatial Scale on the Analysis of Landscape Pattern</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Turner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">V</forename><surname>O'neill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Gardner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">T</forename><surname>Milne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Landscape Ecology</title>
+		<imprint>
+			<biblScope unit="volume">3</biblScope>
+			<biblScope unit="page" from="153" to="162" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b112">
+	<analytic>
+		<title level="a" type="main">Constructing and Fitting Models for Cokriging and Multivariate Spatial Prediction</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Ver Hoef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">M</forename><surname>Barry</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="page" from="275" to="294" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b113">
+	<monogr>
+		<title level="m" type="main">Spatial Statistics: Analysis of Field Experiments,&quot; in Design and Analysis of Ecological Experiments</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Ver Hoef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+		<editor>S. M. Scheiner and J. Gurevitch</editor>
+		<imprint>
+			<date type="published" when="1993">1993</date>
+			<publisher>Chapman and Hall</publisher>
+			<biblScope unit="page" from="319" to="341" />
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b114">
+	<analytic>
+		<title level="a" type="main">Spatial Models for Spatial Statistics: Some Uni cation</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Ver Hoef</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">A C</forename><surname>Cressie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">C</forename><surname>Glenn-Lewin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Vegetation Science</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="441" to="452" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b115">
+	<analytic>
+		<title level="a" type="main">The Multi-Gaussian Approach and Its Applications to the Estimation of Local Reserves</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Verly</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the International Association for Mathematical Geology</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="page" from="259" to="286" />
+			<date type="published" when="1983">1983</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b116">
+	<monogr>
+		<title level="m" type="main">Multivariate Geostatistics-An Introduction With Applications</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wackernagel</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1995">1995</date>
+			<publisher>Springer Verlag</publisher>
+			<pubPlace>Berlin</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b117">
+	<analytic>
+		<title level="a" type="main">The Ecologic Method in the Study of Environmental Health II: Methodologic Issues and Feasibility</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">D</forename><surname>Walter</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Health Perspectives</title>
+		<imprint>
+			<biblScope unit="volume">94</biblScope>
+			<biblScope unit="page" from="67" to="73" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b118">
+	<analytic>
+		<title level="a" type="main">Kriging the Local Risk of a Rare Disease From a Register of Diagnoses</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Webster</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Oliver</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">R</forename><surname>Muir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Mann</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="168" to="185" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b119">
+	<analytic>
+		<title level="a" type="main">Hierarchical Bayesian Space-Time Models</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Berliner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Cressie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental and Ecological Statistics</title>
+		<imprint>
+			<biblScope unit="volume">5</biblScope>
+			<biblScope unit="page" from="117" to="154" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b120">
+	<analytic>
+		<title level="a" type="main">Spatio-Temporal Hierarchical Bayesian Modeling: Tropical Ocean Surface Winds</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">K</forename><surname>Wikle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">F</forename><surname>Milliff</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Nychka</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">M</forename><surname>Berliner</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">96</biblScope>
+			<biblScope unit="page" from="382" to="397" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b121">
+	<analytic>
+		<title level="a" type="main">Optimistic Theory Validation From Spatially Grouped Regression</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">N</forename><surname>Williams</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Transactions of the Martin Centre for Architectural and Urban Studies</title>
+		<imprint>
+			<biblScope unit="volume">1</biblScope>
+			<biblScope unit="page" from="113" to="145" />
+			<date type="published" when="1976">1976</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b122">
+	<analytic>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Wolpert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ickstadt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Poisson/Gamma Random Field Models for Spatial Statistics</title>
+		<imprint>
+			<date type="published" when="1998">1998</date>
+			<biblScope unit="volume">85</biblScope>
+			<biblScope unit="page" from="251" to="267" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b123">
+	<analytic>
+		<title level="a" type="main">Aggregation Effects in Geo-Referenced Data</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W S</forename><surname>Wong</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advanced Spatial Statistics</title>
+		<editor>
+			<persName><forename type="first">D</forename><surname>Grif Ths</surname></persName>
+		</editor>
+		<meeting><address><addrLine>Boca Raton, FL</addrLine></address></meeting>
+		<imprint>
+			<publisher>CRC Press</publisher>
+			<date type="published" when="1996">1996</date>
+			<biblScope unit="page" from="83" to="106" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b124">
+	<analytic>
+		<title level="a" type="main">The Factor of Scale in Remote Sensing</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Woodcock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Strahler</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Remote Sensing and the Environment</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="311" to="332" />
+			<date type="published" when="1987">1987</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b125">
+	<monogr>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">U</forename><surname>Yule</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">G</forename><surname>Kendall</surname></persName>
+		</author>
+		<title level="m">An Introduction to the Theory of Statistics</title>
+		<meeting><address><addrLine>London</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="1950">1950</date>
+		</imprint>
+	</monogr>
+	<note>th ed.</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

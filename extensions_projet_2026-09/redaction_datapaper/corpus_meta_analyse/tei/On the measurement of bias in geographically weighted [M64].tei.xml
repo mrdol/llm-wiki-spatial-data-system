@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Journal Pre-proof On the measurement of bias in geographically weighted regression models</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Hanchen</forename><surname>Yu</surname></persName>
+							<email>hanchenyu@pku.edu.cn</email>
+							<affiliation key="aff0">
+								<orgName type="department">School of Government</orgName>
+								<orgName type="institution">Peking University</orgName>
+								<address>
+									<settlement>Beijing</settlement>
+									<region>PRC</region>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">A</forename><forename type="middle">Stewart</forename><surname>Fotheringham</surname></persName>
+							<email>stewart.fotheringham@asu.edu</email>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ziqi</forename><surname>Li</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Geographical Sciences and Urban Planning</orgName>
+								<orgName type="laboratory">Spatial Analysis Research Center</orgName>
+								<orgName type="institution">Arizona State University</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Taylor</forename><surname>Oshan</surname></persName>
+							<email>toshan@asu.edu</email>
+							<affiliation key="aff2">
+								<orgName type="department" key="dep1">Center for Geospatial Information Science</orgName>
+								<orgName type="department" key="dep2">Department of Geographical Sciences</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">John</forename><surname>Levi</surname></persName>
+							<email>levi.john.wolf@bristol.ac.uk</email>
+						</author>
+						<author>
+							<persName><surname>Wolf</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Spatial</forename><surname>Statistics</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Levi</forename><forename type="middle">John</forename><surname>Wolf</surname></persName>
+							<affiliation key="aff3">
+								<orgName type="department">School of Geographical Sciences</orgName>
+								<orgName type="institution">University of Bristol</orgName>
+								<address>
+									<country key="GB">UK</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Journal Pre-proof On the measurement of bias in geographically weighted regression models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">9AA7FA3D09B8E475FFA33A39F176113B</idno>
+					<idno type="DOI">10.1016/j.spasta.2020.100453</idno>
+					<note type="submission">Received date : 14 April 2019 Revised date : 10 December 2019 Accepted date : 14 May 2020</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:20+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This is a PDF file of an article that has undergone enhancements after acceptance, such as the addition of a cover page and metadata, and formatting for readability, but it is not yet the definitive version of record. This version will undergo additional copyediting, typesetting and review before it is published in its final form, but we are providing this version to give early visibility of the article. Please note that, during the production process, errors may be discovered which could affect the content, and all legal disclaimers that apply to the journal pertain.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1.">Introduction</head><p>Although our understanding of the world can be advanced by purely theoretical constructs (the prediction of as-yet-unobserved sub-atomic particles, for example), perhaps a greater contribution to this understanding arises from observing aspects of the real world and advancing theories which support these observations (the motion of the planets, for example).</p><p>In following this latter approach, an important distinction to be made is that between the data we observe and the processes that have produced these data. Formally, if we state the relationship 𝑦 𝑖 = 𝑓 1 (𝑥 1𝑖 ), 𝑓 2 (𝑥 2𝑖 ), … , 𝑓 𝑚 (𝑥 𝑚𝑖 )</p><p>the datum we observe at each location i is represented by yi and these values are related to a set of covariates x1 … xm also observed at each location i through a set of processes f1 …fm. Much effort is given to trying to identify the processes f1…fm , which are often unobservable, given measurements of y, x1…xm for each location i. In traditional models of the real world, the processes f1 …fm. are assumed to be stationary over space: that is, the same set of processes exists at all locations so that spatial variations in yi arise solely from spatial variations in the covariates x1i…xmi. This situation is described in Figure <ref type="figure">1a</ref>.</p><p>[Figure <ref type="figure">1</ref> about here]</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>An alternative view of the real world, as described by Figure <ref type="figure">1b</ref>, is that spatial variation in yi might be produced not only by spatial variation in the covariates x1…xm but also by variations in the processes f1 …fm. That is, the model of the real world described by equation ( <ref type="formula" target="#formula_0">1</ref>) should be replaced with:</p><formula xml:id="formula_1">𝑦 𝑖 = 𝑓 1𝑖 (𝑥 1𝑖 ), 𝑓 2𝑖 (𝑥 2𝑖 ), … , 𝑓 𝑚𝑖 (𝑥 𝑚𝑖 )<label>(2)</label></formula><p>where the processes are allowed to vary across locations. Several types of what are known as local modeling frameworks have been proposed based on the view of the world represented in equation ( <ref type="formula" target="#formula_1">2</ref>). Examples included Bayesian spatially varying coefficient models <ref type="bibr" target="#b5">(Gelfand et al., 2003)</ref>, eigenvector spatial filtering approaches <ref type="bibr" target="#b7">(Griffith, 2008)</ref> and geographically weighted regression <ref type="bibr">(Fotheringham et al., 2002)</ref>. Here we concentrate on the latter which has seen widespread adoption across many disciplines <ref type="bibr" target="#b2">(Cahill and Mulligan 2007;</ref><ref type="bibr">Brown et al. 2011;</ref><ref type="bibr" target="#b9">Miller, J. A., &amp; Hanham;</ref><ref type="bibr" target="#b3">Fotheringham et al., 2015;</ref><ref type="bibr" target="#b11">Zou et al., 2016)</ref> and for which a more flexible approach, termed multiscale geographically weighted regression (MGWR), has recently been developed <ref type="bibr" target="#b4">(Fotheringham et al. 2017)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.">Geographically Weighted Regression as a Data-Borrowing Technique</head><p>Suppose we want to calibrate a model whose general formula is that given by equation ( <ref type="formula" target="#formula_1">2</ref>) and where we believe the processes that generate our observations on y are spatially varying. If we had sufficient data on y and x1…xm at each location, we could calibrate a separate model for each location and examine the spatial variability of the resulting local parameter estimates.</p><p>Unfortunately, such a situation is rare; the more usual situation is one where only a single measurement of y and each of the covariates x1…xm is recorded at each location. The traditional approach would then be to ignore any possible spatial variation in the processes represented by f1i…fmi and to calibrate a global model which would generate a single estimate of each fj and which would be in effect an average of the set of the location-specific fji processes which are</p><p>unobservable. An alternative, which is provided by the geographically weighted regression</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>Journal Pre-proof (GWR) framework, is to calibrate a separate model for each location by 'borrowing' data from surrounding locations.</p><p>Although borrowing data from nearby locations allows the measurement of location-specific processes (or, rather, proxies for these processes in terms of location-specific parameter estimates), it clearly introduces bias into the local estimates because the data that are borrowed from other locations are the product of processes which may be different from those acting at the focal local for the regression. This bias is mitigated by weighting the data that are borrowed from surrounding locations from 1 to 0 to reflect their proximity to the regression focal point with data from nearer locations having a greater weight than data from more distant locations.</p><p>This weighting is typically achieved by adopting a continuous distance-based kernel function and determining an optimal bandwidth (degree of distance-decay) for this kernel from the data. This is the essence of GWR and its variants.</p><p>Despite this mitigation strategy, however, a bias in the resulting local parameter estimates still exists and the determination of this bias is the focus of this paper. We first describe the calculation of bias in local parameter estimates for GWR which has a single optimized bandwidth and then we turn to the more complex MGWR which has covariate-specific optimal bandwidths. Being able to calculate the bias in the local parameter estimates derived from both GWR and MGWR is important for several reasons:</p><p>(i) To determine the extent of this biasif it were sufficiently large it would negate the utility of the data-borrowing framework;</p><p>(ii) To examine the extent to which the bias in GWR local parameter estimates is mitigated in MGWR which contains extra flexibility in allowing covariate-specific bandwidths;</p><p>(iii) To investigate the relationship between scale (bandwidth) misspecification and the bias contained in the local parameter estimates; and</p><p>(iv) To examine the role of the bias-variance trade-off in determining the optimal bandwidth.</p><p>Currently, we typically use some variant of an information-criterion statistic to determine the optimal bandwidth which is assumed to measure a trade-off between bias and J o u r n a l P r e -p r o o f uncertainty in the local parameter estimates. By being able to measure the bias directly, we could both test the efficacy of various information criterion statistics in measuring this trade-off and possibly replace a single goodness-of-fit criterion with direct measures of both bias and uncertainty.</p><p>The paper proceeds as follows. First, the bias in a GWR model is identified and then this framework is extended to MGWR. In both cases, we derive analytical expressions for the bias and compare these to the measurement of bias obtained empirically from known local parameter surfaces. Finally, we compare the bias GWR to that in MGWR and make comments on the utility of our findings.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.">Derivation of the Analytical Expression for the Data-borrowing Bias in GWR</head><p>Parameter Estimates</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">GWR formulation</head><p>Geographically Weighted Regression (GWR) allows parameter estimates from a linear regression model to vary locally. It calibrates a separate regression model at each location of interest by borrowing data from nearby observations and weighting them by their distance from the regression point. GWR is formulated as</p><formula xml:id="formula_2">𝑦 𝑖 = ∑ 𝛽 𝑖𝑗 𝑥 𝑖𝑗 + 𝜀 𝑖 𝑚 𝑗=1<label>(3)</label></formula><p>where for location 𝑖 ∈ {1, 2, … , 𝑛} , 𝑦 𝑖 is the response variable, 𝑥 𝑖𝑗 is the j th predictor variable, j ∈ {1,2, … , m} , 𝛽 𝑖𝑗 is the j th parameter estimate, and 𝜀 𝑖 is the error term. GWR calibration for the (𝑚, 1) coefficients at location 𝑖 in matrix form is given by</p><formula xml:id="formula_3">𝜷 ̂𝒊 = (𝑿 𝑻 𝑾 𝒊 𝑿) -𝟏 𝑿 𝑻 𝑾 𝒊 y, 𝑖 ∈ {1, 2, … , 𝑛}<label>(4)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>where 𝜷 ̂𝒊 is an m × 1 column vector of parameter estimates at location i, X is the n × m matrix form of the predictor variables, y is the n × 1 vector of the response variable, and 𝑾 𝒊 is a diagonal spatial weight matrix that weights each observation in terms of its distance from location i. The weighting scheme consists of selecting a kernel function and a bandwidth parameter that indicates the relationship between weight and proximity. A popular databorrowing scheme is the adaptive (i.e., k-nearest neighbors) bi-square kernel function, which has the advantageous interpretation that the bandwidth parameter defines the number of neighbors which have non-zero weights in the local regression. This bandwidth parameter is typically selected by optimizing a corrected Akaike information criterion (AICc). The AICc penalizes smaller bandwidths to avoid over-fitting and maintains a balance between parameter estimate bias and variance and is defined as</p><formula xml:id="formula_4">AIC c = 2𝑛 ln ( 𝑅𝑆𝑆 𝑛 ) + 𝑛 ln 2𝜋 + 𝑛 { 𝑛 + 𝑡𝑟(𝑺) 𝑛 -2 -𝑡𝑟(𝑺) } (<label>5</label></formula><formula xml:id="formula_5">)</formula><p>where n is the number of observations, RSS is the residual sum of squares, and tr(S) is the trace</p><p>of the hat matrix and the Effective Number of Parameters (ENP) of the model. This nearestneighbor bi-square kernel data-borrowing scheme parameterized via AICc optimization is utilized throughout this paper. Yu et al. (2018) express the GWR formulation from equation (1) as a Generalized Additive Model (GAM) as 𝒚 = ∑ 𝒇 𝒋 𝒎 𝟏 + 𝜺 (6) where the response variable 𝒚 is expressed as a linear combination of m smooth terms 𝒇 𝟏…𝒎 and an i.i.d error term, 𝜺. The j th smooth term 𝒇 𝒋 is comprised of the GWR data-borrowing scheme, also known as a smoothing function, applied to the j th predictor variable. In GWR a single smoothing function is applied to all of the predictor variables, which means the same bandwidth parameter or data-borrowing range is associated with each covariate and associated local parameter estimate surface. Multi-scale GWR (MGWR) (Fotheringham et al., 2017)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>Journal Pre-proof provides a more generalized extension of this framework in which each smoothing function, 𝒇 𝒋 , has its own data-borrowing scheme and bandwidth parameter. As a result, each parameter estimate surface is free to vary with a unique degree of spatial smoothness, and is therefore more appropriate for capturing processes operating at different spatial scales.</p><p>In the following sections, we derive analytical expressions for the bias in the local parameter estimates generated by GWR and MGWR and decompose this bias into covariate-specific contributions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Data-borrowing bias in GWR parameter estimates</head><p>In this section, we derive the analytical form of the bias 𝛾 𝑖𝑗 for each GWR parameter estimate 𝛽 ̂𝑖𝑗 of the j th covariate at location i. For convenience, let 𝒆 𝒋 be the j th row of the (m,m) identity matrix, so that 𝒆 𝒋 = (0,0,0, … ,0 ⏟</p><formula xml:id="formula_6">j-1 , 1, 0,0, … ,0 ⏟ m-j ) (<label>7</label></formula><formula xml:id="formula_7">)</formula><p>and</p><formula xml:id="formula_8">𝛽 ̂𝑖𝑗 = 𝒆 𝒋 𝜷 ̂𝒊 (<label>8</label></formula><formula xml:id="formula_9">)</formula><p>where 𝜷 ̂𝒊 is a column vector of parameter estimates with dimensions (m,1) at location i.</p><p>Using equation ( <ref type="formula" target="#formula_6">7</ref>) and ( <ref type="formula" target="#formula_8">8</ref>), the conditional expectation of the parameter estimate 𝛽 ̂𝑖𝑗 on bandwidths vector bw= (bw1, bw2, …, bwm) can be written as</p><formula xml:id="formula_10">E(𝛽 ̂𝑖𝑗 |𝑏𝑤) = E(𝒆 𝒋 𝜷 ̂𝒊|𝑏𝑤) = E(𝒆 𝒋 𝑷 𝒊 𝒚|𝑏𝑤) = E(𝒆 𝒋 𝑷 𝒊 (∑ 𝒇 𝒌 𝒎 𝟏 + 𝜺)|𝑏𝑤) = E(𝒆 𝒋 𝑷 𝒊 ∑ 𝒇 𝒌 𝒎 𝟏 |𝑏𝑤) + E(𝒆 𝒋 𝑷 𝒊 𝜺|𝑏𝑤)<label>(9)</label></formula><p>where</p><formula xml:id="formula_11">𝑷 𝒊 = (𝑿 𝑻 𝑾 𝒊 𝑿) -𝟏 𝑿 𝑻 𝑾 𝒊 (<label>10</label></formula><formula xml:id="formula_12">)</formula><p>So, given the assumption that error 𝜺 is independent of X, so E[𝜺|X] = 0, and we have</p><formula xml:id="formula_13">J o u r n a l P r e -p r o o f E(𝛽 ̂𝑖𝑗 |𝑏𝑤) = E(𝒆 𝒋 𝑷 𝒊 ∑ 𝒇 𝒌 𝒎 𝟏 |𝑏𝑤) = 𝒆 𝒋 𝑷 𝒊 ∑ 𝒇 𝒌 𝒎 𝟏<label>(11)</label></formula><p>Then we add and subtract the same 𝛽 𝑖𝑗 to equation ( <ref type="formula" target="#formula_13">11</ref>) to give</p><formula xml:id="formula_14">E(𝛽 ̂𝑖𝑗 |𝑏𝑤) = 𝒆 𝒋 𝑷 𝒊 ∑ 𝒇 𝒌 𝒎 𝟏 = 𝒆 𝒋 𝑷 𝒊 ∑ 𝒇 𝒌 𝒎 𝟏 + 𝛽 𝑖𝑗 -𝛽 𝑖𝑗 (<label>12</label></formula><formula xml:id="formula_15">)</formula><p>and</p><formula xml:id="formula_16">E(𝛽 ̂𝑖𝑗 |𝑏𝑤) = 𝛽 𝑖𝑗 -(𝛽 𝑖𝑗 -𝒆 𝒋 𝑷 𝒊 ∑ 𝒇 𝒌 𝒎 𝟏 ) = 𝛽 𝑖𝑗 -𝛾 𝑖𝑗 (<label>13</label></formula><formula xml:id="formula_17">)</formula><p>where the bias of parameter estimate 𝛽 ̂𝑖𝑗 can be analytically expressed by</p><formula xml:id="formula_18">𝛾 𝑖𝑗 = 𝛽 𝑖𝑗 -E(𝛽 ̂𝑖𝑗 |𝑏𝑤) = 𝛽 𝑖𝑗 -𝒆 𝒋 𝑷 𝒊 ∑ 𝒇 𝒌 𝒎 𝟏 (<label>14</label></formula><formula xml:id="formula_19">)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">A covariate-specific decomposition of the data-borrowing bias in GWR parameter estimates</head><p>From equation ( <ref type="formula" target="#formula_18">14</ref>) we can see that 𝛾 𝑖𝑗 is dependent on not only the j th term 𝒇 𝒋 but also on the other terms 𝒇 𝒊≠𝒋 . Therefore, we would like to decompose 𝛾 𝑖𝑗 into covariate-specific contributions to parameter estimate bias. Rewriting equation ( <ref type="formula" target="#formula_8">8</ref>), we have</p><formula xml:id="formula_20">𝛽 𝑖𝑗 = 𝒆 𝒋 𝜷 𝒊 = 𝒆 𝒋 𝑰𝜷 𝒊 = 𝒆 𝒋 (𝑿 𝑻 𝑾 𝒊 𝑿) -𝟏 (𝑿 𝑻 𝑾 𝒊 𝑿)𝜷 𝒊 = 𝒆 𝒋 𝑷 𝒊 𝑿𝜷 𝒊<label>(15)</label></formula><p>and substituting ( <ref type="formula" target="#formula_20">15</ref>) into ( <ref type="formula" target="#formula_18">14</ref>) we then have the bias of the local parameter estimate 𝛽 ̂𝑖𝑗 as</p><formula xml:id="formula_21">J o u r n a l P r e -p r o o f 𝛾 𝑖𝑗 = 𝒆 𝒋 𝑷 𝒊 (𝑿𝜷 𝒊 -∑ 𝒇 𝒌 𝒎 𝟏 ) = 𝒆 𝒋 𝑷 𝒊 ( ( 𝑥 11 𝑥 21 ⋮ 𝑥 𝑛1 𝑥 12 𝑥 22 ⋮ 𝑥 𝑛2 ⋯ ⋯ ⋱ ⋯ 𝑥 1𝑚 𝑥 2𝑚 ⋮ 𝑥 𝑛𝑚 ) ( 𝛽 𝑖1 𝛽 𝑖2 ⋮ 𝛽 𝑖𝑚 ) - ( ∑ 𝑥 1𝑘 𝛽 1𝑘 𝒎 𝒌=𝟏 ∑ 𝑥 2𝑘 𝛽 2𝑘 𝒎 𝒌=𝟏 ⋮ ∑ 𝑥 𝑛𝑘 𝛽 𝑛𝑘 𝒎 𝒌=𝟏 ) ) = 𝒆 𝒋 𝑷 𝒊 (∑ ( 𝑥 1𝑘 𝛽 𝑖𝑘 𝑥 2𝑘 𝛽 𝑖𝑘 ⋮ 𝑥 𝑛𝑘 𝛽 𝑖𝑘 ) 𝒎 𝒌=𝟏 -∑ ( 𝑥 1𝑘 𝛽 1𝑘 𝑥 2𝑘 𝛽 2𝑘 ⋮ 𝑥 𝑛𝑘 𝛽 𝑛𝑘 ) 𝒎 𝒌=𝟏 ) = 𝒆 𝒋 𝑷 𝒊 ∑ ( 𝑥 1𝑘 (𝛽 𝑖𝑘 -𝛽 1𝑘 ) 𝑥 2𝑘 (𝛽 𝑖𝑘 -𝛽 2𝑘 ) ⋮ 𝑥 𝑛𝑘 (𝛽 𝑖𝑘 -𝛽 𝑛𝑘 ) ) 𝑚 𝑘=1 = ∑ 𝒆 𝒋 𝑷 𝒊 ( 𝑥 1𝑘 (𝛽 𝑖𝑘 -𝛽 1𝑘 ) 𝑥 2𝑘 (𝛽 𝑖𝑘 -𝛽 2𝑘 ) ⋮ 𝑥 𝑛 (𝛽 𝑖𝑘 -𝛽 𝑛𝑘 ) ) = ∑ 𝜃 𝑖𝑗𝑘 𝑚 𝑘=1 𝑚 𝑘=1 (<label>16</label></formula><formula xml:id="formula_22">)</formula><p>where</p><formula xml:id="formula_23">𝜃 𝑖𝑗𝑘 = 𝒆 𝒋 𝑷 𝒊 ( 𝑥 1𝑘 (𝛽 𝑖𝑘 -𝛽 1𝑘 ) 𝑥 2𝑘 (𝛽 𝑖𝑘 -𝛽 2𝑘 ) ⋮ 𝑥 𝑛𝑘 (𝛽 𝑖𝑘 -𝛽 𝑛𝑘 ) )<label>(17)</label></formula><p>Here 𝜃 𝑖𝑗𝑘 is the contribution to the bias 𝛾 𝑖𝑗 of parameter estimate 𝛽 ̂𝑖𝑗 from the parameter surface 𝜷 𝒌 . If 𝜷 𝒌 were a flat surface where the true parameters are constant across space, then 𝜃 𝑖𝑗𝑘 would be zero. This indicates that a flat parameter surface with an asymptotically infinite bandwidth does not bias estimates of the other parameters. However, when 𝜷 𝒌 is not constant, 𝜃 𝑖𝑗𝑘 is non-zero indicating that 𝜷 𝒌 will cause bias in the estimates of the other parameters.</p><p>Equation ( <ref type="formula" target="#formula_16">13</ref>) also demonstrates that the GWR parameter estimate 𝛽 ̂𝑖𝑗 is often biased, since 𝛾 𝑖𝑗 can only be zero if all covariates have asymptotically infinite bandwidths; a situation where GWR is equivalent to OLS.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>Journal Pre-proof</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.">An Example of the Data-borrowing Bias in GWR Parameter Estimates</head><p>A simulated dataset is used to examine the data-borrowing bias in GWR based on the analytical solution given above. Three known parameter surfaces are generated from equations ( <ref type="formula" target="#formula_24">18</ref>) -( <ref type="formula" target="#formula_27">20</ref>).</p><formula xml:id="formula_24">𝜷 𝟎 = 3 (<label>18</label></formula><formula xml:id="formula_25">)</formula><formula xml:id="formula_26">𝜷 𝟏 = 1 + 1 12 (𝑢 + 𝑣)<label>(19)</label></formula><formula xml:id="formula_27">𝜷 𝟐 = 1 + 1 324 [36 -(6 - 𝑢 2 ) 2 ][36 -(6 - 𝑣 2 ) 2 ] (<label>20</label></formula><formula xml:id="formula_28">)</formula><p>where u and v are the x and y coordinates of a 25 by 25 grid. These known parameter surfaces are displayed in Figure <ref type="figure" target="#fig_0">2</ref>. [Figure <ref type="figure" target="#fig_0">2</ref> about here]</p><p>Then a synthetic response variable 𝒚 * is constructed using known parameter surfaces 𝜷 𝟎 , 𝜷 𝟏 , and 𝜷 𝟐 with randomly drawn predictor variables 𝑿 𝟏 and 𝑿 𝟐 from normal distribution of N (0, 1 ) as well as a randomly drawn error from N(0, 0.5) as described in equation ( <ref type="formula" target="#formula_29">21</ref>).</p><formula xml:id="formula_29">𝒚 * = 𝜷 𝟎 + 𝜷 𝟏 𝑿 𝟏 + 𝜷 𝟐 𝑿 𝟐 + 𝜺<label>(21)</label></formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>A GWR model is calibrated based on this simulated dataset using an adaptive bi-square kernel which generates an optimal bandwidth of 50 nearest neighbors when using AICc as the optimization criterion. The local parameter estimates from equation ( <ref type="formula" target="#formula_29">21</ref>) are shown in Figure <ref type="figure" target="#fig_1">3</ref>. By taking the difference between Figure <ref type="figure" target="#fig_0">2</ref> and Figure <ref type="figure" target="#fig_1">3</ref>, the bias in the local parameter estimates is shown in Figure <ref type="figure">4</ref> whereas Figure <ref type="figure" target="#fig_4">5</ref> depicts the analytical bias computed from equation ( <ref type="formula" target="#formula_18">14</ref>).    J o u r n a l P r e -p r o o f It can be seen from Figures <ref type="figure">4</ref> and <ref type="figure" target="#fig_4">5</ref> that the bias is close to zero for most locations and is relatively random compared to the magnitude and spatial patterning of the true parameter values in Figure <ref type="figure" target="#fig_0">2</ref>. The one exception to this is on the 𝜷 𝟐 surface where there is clearly an edge effect that causes bias to be higher around the border of the study area. This analytical bias was confirmed via Monte Carlo simulations of 10,000 realizations of yi values with an added random error drawn from N(0,0.5) to the model in equation ( <ref type="formula" target="#formula_29">21</ref>). The results showing the relationship between the analytical bias from equation ( <ref type="formula" target="#formula_29">21</ref>) and the mean of the 10,000 simulations for each of the 625 local estimates of the three parameters are shown in Figure <ref type="figure" target="#fig_6">6</ref>. [Figure <ref type="figure" target="#fig_6">6</ref> about here]</p><p>The results above are based on the optimal bandwidth of 50 nearest neighbors being selected by minimizing a corrected AIC statistic as shown in Figure [Figure <ref type="figure" target="#fig_7">7</ref> about here]</p><p>However, given that the data-borrowing bias in GWR local parameter estimates can be computed from equation ( <ref type="formula" target="#formula_29">21</ref>) for any bandwidth value, we can use this to examine the sensitivity of the bias to variations in the bandwidth and also to examine the efficacy of using AICc as an optimizing criterion. In Figure <ref type="figure" target="#fig_8">8</ref> we demonstrate the sensitivity of both bias and uncertainty (variance) in local parameter estimates to variations in the bandwidth. For each bandwidth, Figure <ref type="figure" target="#fig_8">8</ref> displays the mean percentage bias in the local parameter estimates averaged over the three sets of estimates for all 625 locations (blue line) and the equivalent mean standard error as an indicator of the uncertainty attached to the local parameter estimates.</p><p>(green line). As expected, as the bandwidth increases and more data are borrowed from increasingly distant locations, the bias increases and the variance decreases. However, while the bias increases steadily as the bandwidth increases, the variance flattens out relatively quickly. The optimal bandwidth selected on the basis of AICc minimization seems reasonable it provides a set of local parameter estimates with both low bias and low variance. It is tempting to suggest that the optimal bandwidth should be where the lines cross (somewhere around 40 nearest neighbors) but this has no basis statistically and is a graphical nicety only.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>A bandwidth of 40 instead of 50 would produce less bias but at the cost of increasing uncertainty. [Figure <ref type="figure" target="#fig_8">8</ref> about here]</p><p>Finally, equation ( <ref type="formula" target="#formula_23">17</ref>) shows how the bias in one set of local parameter estimates depends in part on the bias in the estimates of the other local parameters. Formally, from equation ( <ref type="formula" target="#formula_23">17</ref>)</p><p>𝜃 𝑖𝑗𝑘 is the contribution to the bias 𝛾 𝑖𝑗 of parameter estimate 𝛽 ̂𝑖𝑗 from the parameter surface 𝛽 𝑘 and these values are displayed in Figure <ref type="figure" target="#fig_9">9</ref> for each of the three sets of parameters across a range of bandwidths. The results indicate that the bias in one set of local estimates derived from bias in the other sets of local parameter estimates is negligible and this is the case across all bandwidths. The bias in the local intercept is always very low whereas the bias in β2 increases rapidly as the bandwidth increases because the pattern of the true values of β2 exhibits relatively large spatial heterogeneity. The bias in the estimates of β1 tends to increase less dramatically as the bandwidth increases because the pattern of the true values of β1 exhibits less spatial heterogeneity than that of the true values of β2. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.">Derivation of the Analytical Expression for the Data-borrowing Bias in MGWR</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Parameter Estimates</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">MGWR formulation</head><p>Compared to classic GWR model which assumes bandwidth to be the same across covariates, MGWR <ref type="bibr" target="#b4">(Fotheringham et al., 2017)</ref> relaxes this assumption and allows covariate-specific bandwidths to be optimized. The formulation of MGWR is the same as the GAM formulation of GWR in Equation ( <ref type="formula">6</ref>) except that each component of the smoothing function 𝒇 𝒋 is calibrated with a covariate-specific bandwidth bwj. Then the response variable y can be expressed as the sum of spatially varying surface components with different degrees of smoothness in each.</p><formula xml:id="formula_30">𝒚 = ∑ 𝒇 𝒃𝒘𝒋 𝒎 𝟏 + 𝜺 (<label>22</label></formula><formula xml:id="formula_31">)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>The calibration process of MGWR follows the traditional back-fitting in GAM <ref type="bibr" target="#b8">(Hastie and Tibshirani, 1990;</ref><ref type="bibr">Buja et al., 1998)</ref>. It starts by initializing the parameter estimates from a GWR model, then successive univariate GWR models 𝐺𝑊𝑅 {𝒇 ̂𝒋 + 𝜺 ̂ ~ 𝑿 𝒋 } are calibrated using the current fitted component plus the current partial residual regressed against the current covariate. This is done successively across each of the covariates to complete one iteration of the calibration procedure. The second iteration begins using the updated values of the fitted components and the back-fitting algorithm iterates in such way until parameter estimates do not change between iterations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Data-borrowing bias in MGWR parameter estimates</head><p>Because MGWR is calibrated by a back-fitting process, the derivation of an analytical expression for the data-borrowing bias in MGWR parameter estimates is more complex than in GWR. To begin with, we express the expectation of the fitted term 𝒇 ̂𝒋 as</p><formula xml:id="formula_32">E(𝒇 ̂𝒋|𝑏𝑤) = E ( 𝑥 1𝑗 𝛽 ̂1𝑗 𝑥 2𝑗 𝛽 ̂2𝑗 ⋮ 𝑥 𝑛𝑗 𝛽 ̂𝑛𝑗 | | 𝑏𝑤 ) = E ( 𝑥 1𝑗 (𝛽 1𝑗 -𝛾 1𝑗 ) 𝑥 2𝑗 (𝛽 2𝑗 -𝛾 2𝑗 ) ⋮ 𝑥 𝑛𝑗 (𝛽 𝑛𝑗 -𝛾 𝑛𝑗 ) | |𝑏𝑤) = E ( 𝑥 1𝑗 𝛽 1𝑗 -𝑥 1𝑗 𝛾 1𝑗 𝑥 2𝑗 𝛽 2𝑗 -𝑥 2𝑗 𝛾 2𝑗 ⋮ 𝑥 𝑛𝑗 𝛽 𝑛𝑗 -𝑥 𝑛𝑗 𝛾 𝑛𝑗 | |𝑏𝑤) = 𝑓 𝒋 -𝝉 𝒋 (23)</formula><p>where 𝝉 𝒋 is a column vector of covariate 𝑥 𝑖𝑗 times the bias 𝛾 𝑖𝑗 for location 𝑖 ∈ {1, 2, … , 𝑛}</p><formula xml:id="formula_33">𝝉 𝒋 = ( 𝑥 1𝑗 𝑥 2𝑗 ⋮ 𝑥 𝑛𝑗 𝛾 1𝑗 𝛾 2𝑗 ⋮ 𝛾 𝑛𝑗 ) 𝑛𝑥1 (<label>24</label></formula><formula xml:id="formula_34">)</formula><p>In the MGWR back-fitting procedure, each fitted term is updated successively as</p><formula xml:id="formula_35">𝒇 ̂𝒋 * = 𝑨 𝒋 (𝒇 ̂𝒋 + 𝜺 ̂ ) (<label>25</label></formula><formula xml:id="formula_36">) J o u r n a l P r e -p r o o f</formula><p>where 𝒇 ̂𝒋 is the fitted term from the previous iteration, 𝜺 ̂ is the current model residual, 𝑨 𝒋 is the GWR hat matrix of the model 𝐺𝑊𝑅 {𝒇 ̂𝒋 + 𝜺 ̂ ~ 𝑿 𝒋 }. From <ref type="bibr" target="#b10">Yu et al. (2018)</ref>, the covariatespecific hat matrix 𝑹 𝒋 can be updated by</p><formula xml:id="formula_37">𝑹 𝒋 * = 𝑨 𝒋 -𝑨 𝒋 𝑺 + 𝑨 𝒋 𝑹 𝒋 (<label>26</label></formula><formula xml:id="formula_38">)</formula><p>where S is the model hat matrix from MGWR. After obtaining an updated 𝑹 𝒋 * , the new hat matrix 𝑺 * can be updated accordingly by</p><formula xml:id="formula_39">𝑺 * = 𝑺 -𝑹 𝒋 + 𝑹 𝒋 * (<label>27</label></formula><formula xml:id="formula_40">)</formula><p>and the updated fitted term 𝒇 ̂𝒋 * can be expressed by</p><formula xml:id="formula_41">𝒇 ̂𝒋 * = 𝑹 𝒋 * 𝒚 = (𝑨 𝒋 -𝑨 𝒋 𝑺 + 𝑨 𝒋 𝑹 𝒋 )𝒚 (<label>28</label></formula><formula xml:id="formula_42">)</formula><p>Then its expectation can be obtained from</p><formula xml:id="formula_43">E(𝒇 ̂𝒋 * |𝑏𝑗) = E ((𝑨 𝒋 -𝑨 𝒋 𝑺 + 𝑨 𝒋 𝑹 𝒋 )𝒚|𝑏𝑗) = E(𝑨 𝒋 𝒚|𝑏𝑗) -E(𝑨 𝒋 𝑺𝒚|𝑏𝑗) + E(𝑨 𝒋 𝑹 𝒋 𝒚|𝑏𝑗) = 𝑨 𝒋 𝒚 -𝑨 𝒋 E(𝑺𝒚|𝑏𝑗) + 𝑨 𝒋 E(𝑹 𝒋 𝒚|𝑏𝑗)<label>(29)</label></formula><p>where</p><formula xml:id="formula_44">𝐸(𝑹 𝒋 𝒚|𝑏𝑗) = 𝐸(𝒇 ̂𝒋|𝑏𝑗) = 𝒇 𝒋 -𝝉 𝒋 (<label>30</label></formula><formula xml:id="formula_45">)</formula><p>and</p><formula xml:id="formula_46">𝐸(𝑺𝒚|𝑏𝑗) = 𝐸(𝒚 ̂|𝑏𝑗) = 𝐸(∑ 𝒇 ̂𝒋 𝒎 𝟏 |𝑏𝑗) = 𝒚 -∑ 𝝉 𝒋 𝒎 𝟏 (<label>31</label></formula><formula xml:id="formula_47">)</formula><p>Substituting equations ( <ref type="formula" target="#formula_44">30</ref>) and ( <ref type="formula" target="#formula_46">31</ref> Once the back-fitting calibration converges, equation ( <ref type="formula" target="#formula_33">24</ref>) can be used to obtain 𝜸 𝒋 by</p><formula xml:id="formula_48">𝜸 𝒋 = [𝑑𝑖𝑎𝑔(𝑿 𝒋 )] -1 𝝉 𝒋 = ( 𝛾 1𝑗 𝛾 2𝑗 ⋮ 𝛾 𝑛𝑗 ) 𝑛𝑥1 (<label>34</label></formula><formula xml:id="formula_49">)</formula><p>where [𝑑𝑖𝑎𝑔(𝑿 𝒋 )]</p><p>-1 is an inverse of a diagonal matrix with the j th covariate 𝑿 𝒋 filling the diagonal and 𝜸 𝒋 is a column vector of the bias in each of the local parameter estimates associated with covariate j so that 𝜷 ̂𝒋 = 𝜷 𝒋 -𝜸 𝒋 (35)</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.3">Decomposing MGWR parameter bias into covariate-specific contributions</head><p>In a similar manner to decomposing the data-borrowing bias in local parameter estimates from GWR into covariate-specific contributions, we can decompose 𝝉 𝒋 into m components, so that</p><formula xml:id="formula_50">𝝉 𝒋 = ∑ 𝜶 𝒋𝒌 𝑚 𝑘=1 (<label>36</label></formula><formula xml:id="formula_51">)</formula><p>where 𝜶 𝒋𝒌 is the contribution to the bias 𝝉 𝒋 from term 𝒇 ̂𝒌 and is expressed as and use equation ( <ref type="formula" target="#formula_50">36</ref>) to obtain 𝝉 𝒋 . In this way, we can decompose the bias in each term 𝒇 ̂𝒋 into covariate specific contributions. Once we obtain 𝜶 𝒋𝒌 * , we can use equation ( <ref type="formula">37</ref>) to get 𝜽 𝒋𝒌 so that</p><formula xml:id="formula_52">𝜽 𝒋𝒌 = [𝑑𝑖𝑎𝑔(𝑿 𝒋 )] -1 𝜶 𝒋𝒌 = ( 𝜃 1𝑗𝑘 𝜃 2𝑗𝑘 ⋮ 𝜃 𝑛𝑗𝑘 ) 𝑛𝑥1 (39)</formula><p>where 𝜽 𝒋𝒌 is a column vector of covariate-specific contributions from the k th term 𝜷 ̂𝒌 to the bias in the j th term 𝜷 ̂𝒋, and the total bias in 𝜷 ̂𝒋 can be expressed by the sum of each covariatespecific contribution as</p><formula xml:id="formula_53">𝜸 𝒋 = 𝜷 𝒋 -𝜷 ̂𝒋 = ∑ 𝜽 𝒋𝒌 𝑚 𝑘=1 (40)</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.">An Example of Data-borrowing Bias in MGWR Parameter Estimates</head><p>In the following section, the same simulated dataset described above in the GWR discussion is used to examine the data borrowing-bias in MGWR and to compare the degree of parameter J o u r n a l P r e -p r o o f bias in GWR and MGWR. Using the same model as in Equation ( <ref type="formula" target="#formula_29">21</ref>) and the same data as described above for GWR, the parameter estimate surfaces from the MGWR calibration are shown in Figure <ref type="figure" target="#fig_12">10</ref>. Rather than obtaining a single bandwidth for all three sets of local parameters as in GWR, MGWR allows a covariate-specific bandwidth to be optimized. The surface 𝜷 𝟎 which is constant over space has an optimal bandwidth of 625; effectively suggesting this relationship is global. The surfaces for 𝜷 𝟏 and 𝜷 𝟐 have optimal bandwidths as 47 and 26, respectively, representing medium to high spatial heterogeneity.  The analytically-derived data-borrowing bias calculated from Equation ( <ref type="formula">40</ref>) is shown in Figure <ref type="figure" target="#fig_14">11</ref> and the empirically derived bias is shown in Figure <ref type="figure" target="#fig_0">12</ref>. Both figures clearly demonstrate that the bias in the local estimates of β0 has been reduced because in MGWR the covariatespecific bandwidth of 625 more accurately reflects the homogeneity of the parameter surface than does the single optimal bandwidth of 50 found in GWR.   Further evidence of the accuracy of the analytical expression for the bias in MGWR parameter estimates given in Equation ( <ref type="formula">40</ref>) is provided in Figure <ref type="figure" target="#fig_17">13</ref> where the computed analytical bias is compared to the mean bias derived from 10,000 simulations of the set of yi values described above for MGWR. For all three sets of local parameter estimates, the results are virtually identical implying that the analytical equation can be used with confidence to derive the bias in MGWR-derived local parameter estimates. 7. A Comparison of Bias in GWR and MGWR Parameter Estimates</p><p>Given we now have explicit analytical functions with which to calculate the bias of local parameter estimates obtained from both GWR and MGWR, it is of interest to compare the degree of bias in the local parameter estimates from the two methods, as shown in Figure <ref type="figure" target="#fig_18">14</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>For the local estimates of the intercept, β0, shown in Figure <ref type="figure" target="#fig_18">14a</ref>, 90% of the estimates from GWR contain more bias than the equivalent estimates from MGWR and even when the GWR bias is less than the MGWR equivalent, the values are extremely close to zero for both models and the difference is just random noise. Indeed all the estimates from MGWR contain virtually no bias at all as the covariate-specific bandwidth is 625 and the relationship being modeled in MGWR is a spatially stationary one so borrowing data from other locations introduces no bias the process being modeled is the same everywhere. Conversely, the GWR estimates of the local intercept contain bias because the single optimized bandwidth in GWR is 50, so that the set of predicted local estimates contains some degree of spatial heterogeneity whereas in reality the estimates are the same everywhere.</p><p>For the estimates of β1, depicted in Figure <ref type="figure" target="#fig_18">14b</ref>, the bias in the MGWR estimates again tends to be less than in the GWR estimates -72% of the points lie in the two triangles to the left and right of the figure forming a 'bow-tie' shaped region in which the GWR bias is greater than the equivalent MGWR bias. In this case, the superiority of the MGWR estimates in terms of bias is not as great as that in the local intercepts because the covariate-specific bandwidth in MGWR for β1 is very similar to the single bandwidth obtained in GWR (47 vs 50). The bias is still generally lower in the MGWR estimates because the bias contribution from the estimates of β0 and β2 will be less.</p><p>For β2 the situation is described in Figure <ref type="figure" target="#fig_18">14c</ref> and extends the trend described above for β1. The MGWR estimates contain less bias for 74% of the parameter estimates compared to their GWR counterparts but the bias is greater on average than that for the estimates of β1 which in turn is greater than that for the estimates of β0. The trend in bias magnitude across the three sets of parameters reflects the degree of spatial heterogeneity in the true parameters. When the parameters exhibit strong spatial heterogeneity, borrowing data will lead to greater bias than when the parameters exhibit relatively weak spatial heterogeneity. [Figure <ref type="figure" target="#fig_18">14</ref> about here]</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head><p>The results shown in Figure <ref type="figure" target="#fig_18">14</ref> can be decomposed to show the contributions to the results of bias in each of the three sets of local parameter estimates. This decomposition is shown in Figure <ref type="figure" target="#fig_19">15</ref> where the sum across each of the three rows equates to the three graphs in Figure <ref type="figure" target="#fig_18">14</ref>.</p><p>The bulk of each bias plot shown in Figure <ref type="figure" target="#fig_18">14</ref> is a function of bias related to that parameter for each location (the diagonals of Figure <ref type="figure" target="#fig_19">15</ref>) but in some instances, there is a cross-bias from other parameters. This is most noticeable in the bias in the GWR-derived local estimates for β1 which contain a bias from the biased estimates of β2.</p><p>J o u r n a l P r e -p r o o f  We can examine the spatial distribution of the bias for all three sets of local parameter estimates derived from both GWR and MGWR as shown in Figure <ref type="figure" target="#fig_21">16</ref> in terms of a percentage bias for each local estimate which is simply the percentage error in estimating each local parameter.</p><p>The difference in the two models is clearly seen in the spatial pattern of bias in the local intercepts: the MGWR estimates have virtually zero bias whereas the GWR estimates display quite large bias. The biases for the other two sets of local parameter estimates are somewhat similar with MGWR tending to produce lower bias. For b1 the bias tends to be positive in the J o u r n a l P r e -p r o o f south-east and negative in the north-west which reflects the spatial pattern of the true values as shown in Figure <ref type="figure" target="#fig_12">10</ref> where the south-west has lower-than-average values and the north-east has higher-than-average values. The effect of local data borrowing in the estimation of the parameters produces estimates which are less extreme and therefore the pattern of the bias reflects the pattern of the actual parameters. Similarly for the local estimates of b2 the spatial pattern of the bias is circular with positive bias towards the periphery where the true parameters are relatively low and an inner ring of negative bias where the true parameters are relatively high. However, it is interesting that the bias tends to zero for the parameters having the highest values in the center of the area where there is presumably less mixing of disparate values in the data borrowed to estimate the local paramters. Finally, we can compare the standard errors of the local estimates of β0, β1, and β2 derived from GWR and MGWR, as shown in Figure <ref type="figure" target="#fig_23">17</ref> for all 625 locations. Where points lie to the right of the diagonal, the GWR estimates have greater uncertainty than their MGWR counterparts and where points lie to the left of the line, the uncertainty of the MGWR estimates is greater. It is immediately evident that whereas the uncertainty associated with all 625 local estimates of both β0 and β1 is greater when the estimates are obtained via GWR, the reverse is the case for the estimates of β2. In the case of β0, the covariate-specific bandwidth obtained in MGWR is 625 compared to the single bandwidth in GWR of 50. This means that in the local regressions for β0 under MGWR there are more data points used than in the GWR model and so the uncertainty about each estimate is lower. In the case of β2, the reverse is the case: the covariatespecific bandwidth in MGWR is 26 compared to the single bandwidth of 50 in GWR so that more data points are used in the GWR local regressions and hence the uncertainty in the resulting parameter estimates is lower in GWR than in MGWR. Note that although the precision of the estimates of β2 might be greater in GWR, the estimates themselves contain more bias. For β1 the situation is more complex. The single bandwidth obtained in GWR ( <ref type="formula">50</ref>  GWR and its recent successor, MGWR, allow the estimation of local parameters by borrowing data from nearby locations and weighting these data according to how proximal they are to the location for which the local parameters are estimated. If the processes being estimated vary over spatial, borrowing data from nearby locations will introduce bias into the local parameter estimates. This is well-known and indeed the general method of finding an optimal bandwidth (degree of distance-decay in the weighting function) in both GWR and MGWR is to minimize a statistic that is generally held to be a trade-off between bias and variance. Choosing too small a bandwidth leads to a small bias but large variance; choosing too large a bandwidth leads to a low variance but large bias. Until now, however, it has not been possible to compute bias directly. This paper provides the analytical expressions for bias in local parameter estimates in both a GWR and an MGWR framework. The expressions are supported by an analysis of a simulated data set with known local parameter surfaces so that an experimental bias can be calculated for each local parameter estimate and compared to the equivalent values derived from the analytical expressions. This simulated example demonstrates the viability of the analytical expressions.</p><p>The ability to be able to compute the data-borrowing bias in each local parameter estimate is important for several reasons. Firstly, it is useful to be able to measure the extent of the bias contained within each parameter estimate and here it is shown that this bias is relatively small. Secondly, it is useful to quantify the degree to which bias in GWR local parameter estimates is mitigated by MGWR which allows covariate-specific bandwidths to be optimized. We demonstrate that generally the bias in MGWR-derived local parameter estimates is lower than that of the GWR counterparts. Thirdly, it is useful to be able to examine how sensitive the bias in local parameter estimates is to the optimized bandwidth and then to examine the classic biasvariance trade-off in the derivation of the optimal bandwidth. It would appear from the limited J o u r n a l P r e -p r o o f evidence presented here that the corrected AIC statistic is a reasonable criterion to minimize in order to find an optimal bandwidth that produces a good trade-off between bias and variance in local parameter estimates.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>J o u r n a l P r e -p r o o f</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. Known parameter surfaces of three synthesized processes.</figDesc><graphic coords="11,71.97,398.36,451.32,133.41" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. GWR Parameter estimates from model Equation (21).</figDesc><graphic coords="12,76.62,220.16,441.52,124.81" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>[</head><figDesc>Figure 3 about here]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Figure 4 . 3 [</head><label>43</label><figDesc>Figure 4. Empirical bias in parameter estimates by taking difference of Figure 2 and Figure 3 [Figure 4 about here]</figDesc><graphic coords="12,71.97,400.98,451.32,121.81" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 5 .</head><label>5</label><figDesc>Figure 5. Analytically-derived GWR bias computed from Equation (14).</figDesc><graphic coords="12,71.97,619.93,451.31,120.91" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><figDesc>J o u r n a l P r e -p r o o f Journal Pre-proof [Figure 5 about here]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 6 .</head><label>6</label><figDesc>Figure 6. Comparison of the analytically derived parameter bias from equation (21) and the mean of the errors in each local estimate from 10,000 GWR calibrations based on different drawings of yi .</figDesc><graphic coords="13,71.97,331.40,451.32,136.36" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. The relationship between AICc and bandwidth. The optimal bandwidth that minimizes AICc in the model calibration is 50 nearest neighbors.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. Bias-Variance (Blue-Green) tradeoff at different bandwidths. The vertical red line shows the optimal bandwidth using AICc as the selection criterion.</figDesc><graphic coords="15,71.97,120.79,468.07,229.96" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. The contributions to the bias in one set of local parameter estimates from the bias in the other local parameter estimates in the model at different bandwidths computed from equation (17).</figDesc><graphic coords="16,71.97,75.26,451.30,242.56" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><figDesc>) into (29), we get J o u r n a l P r e -p r o o f Journal Pre-proof E(𝒇 ̂𝒋 * |𝑏𝑗) = 𝑨 𝒋 𝒚 -𝑨 𝒋 (𝒚 -∑ 𝝉 𝒌 𝒎 𝟏 ) + 𝑨 𝒋 (𝒇 𝒋 -𝝉 𝒋 ) = 𝑨 𝒋 𝒇 𝒋 + 𝑨 𝒋 ∑ 𝝉 𝒌 𝒎 𝟏 -𝑨 𝒋 𝝉 𝒋 (32) and the updated smoothing bias 𝝉 𝒋 * of 𝒇 𝒋 is then 𝝉 𝒋 * = 𝒇 𝒋 -E(𝒇 ̂𝒋 * |𝑏𝑗) = 𝒇 𝒋 -(𝑨 𝒋 𝒇 𝒋 + 𝑨 𝒋 ∑ 𝝉 𝒌 𝒎 𝟏 -𝑨 𝒋 𝝉 𝒋 ) = (𝑰 -𝑨 𝒋 )𝒇 𝒋 + 𝑨 𝒋 (𝝉 𝒋 -</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><figDesc>-fitting procedure, instead of updating 𝝉 𝒋 as shown in equation (33), we update 𝜶 𝒋𝒌</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. MGWR Parameter estimates from the model in Equation (21).</figDesc><graphic coords="21,74.37,260.37,446.52,122.40" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>[</head><figDesc>Figure 10 about here]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Figure 11 .</head><label>11</label><figDesc>Figure 11. Analytically-derived MGWR bias surfaces computed from Equation (40).</figDesc><graphic coords="21,71.97,578.38,451.31,125.06" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>[</head><figDesc>Figure 12. Empirically-derived bias in MGWR parameter estimates</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>[</head><figDesc>Figure 12 about here]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 13 .</head><label>13</label><figDesc>Figure 13. Comparison of analytically-derived MGWR bias from Equation (34) and the Monte-Carlo simulated MGWR bias based on average of 10,000 realizations. [Figure 13 about here]</figDesc><graphic coords="22,71.97,410.83,451.23,133.21" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>Figure 14 .</head><label>14</label><figDesc>Figure 14. Comparison of bias in MGWR and GWR parameter estimates. Points falling into the bow-tie shaped area are where the bias in the MGWR estimates is smaller than the bias in the GWR estimates.</figDesc><graphic coords="24,71.97,76.91,451.24,130.26" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head>Figure 15 .</head><label>15</label><figDesc>Figure 15. Comparison of decomposed covariate-specific bias in MGWR (y-axis) and GWR (x-axis).</figDesc><graphic coords="25,71.97,72.11,441.02,436.52" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_20"><head>[</head><figDesc>Figure 15 about here]</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_21"><head>Figure 16 :</head><label>16</label><figDesc>Figure 16: Percentage of bias in each local estimate from (a) GWR and (b) MGWR Figure 16 about here J o u r n a l P r e -p r o o f</figDesc><graphic coords="26,89.97,353.78,451.20,138.41" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_22"><figDesc>) is very close to that of the covariate-specific bandwidth for β1 obtained in MGWR yet the standard errors for the GWR local estimates of β1 are all larger than the corresponding values obtained through MGWR. The extra uncertainty in GWR estimates of the local β1 parameters must therefore result from the extra uncertainty in the estimates of the local intercept in GWR.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_23"><head>Figure 17 .</head><label>17</label><figDesc>Figure 17. Comparison of standard errors in MGWR parameter estimates with standard errors in GWR parameter estimates. [Figure 17 about here]</figDesc><graphic coords="27,71.97,547.58,451.31,125.21" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_24"><graphic coords="3,75.09,491.66,445.07,185.65" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_25"><graphic coords="14,71.97,73.46,468.07,230.41" type="bitmap" /></figure>
+		</body>
+		<back>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Assessment of spatiotemporal varying relationships between rainfall, land cover and surface water area using geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><forename type="middle">L</forename><surname>Versace</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Laurenson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Ierodiaconou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fawcett</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Salzman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmental Modeling &amp; Assessment</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="241" to="254" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Linear smoothers and additive models</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Buja</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="page" from="453" to="510" />
+			<date type="published" when="1989">1989</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Using geographically weighted regression to explore local crime patterns</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Cahill</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mulligan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science Computer Review</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="174" to="193" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Geographical and temporal weighted regression (GTWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yao</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="431" to="452" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Spatial modeling with spatially varying coefficient processes</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Gelfand</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">J</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">F</forename><surname>Sirmans</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Banerjee</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">98</biblScope>
+			<biblScope unit="issue">462</biblScope>
+			<biblScope unit="page" from="387" to="396" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Using geographically weighted regression for environmental justice analysis: Cumulative cancer risks from air toxics in Florida</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gilbert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Chakraborty</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Social Science Research</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="273" to="286" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Spatial-filtering-based contributions to a critique of geographically weighted regression (GWR)</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Griffith</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment and Planning A</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="issue">11</biblScope>
+			<biblScope unit="page" from="2751" to="2769" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<monogr>
+		<title level="m" type="main">Generalized Additive Models</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">J</forename><surname>Hastie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1990">1990</date>
+			<publisher>Chapman &amp; Hall</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Spatial nonstationarity and the scale of speciesenvironment relationships in the Mojave Desert, California, USA</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">Q</forename><surname>Hanham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="423" to="438" />
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<monogr>
+		<author>
+			<persName><forename type="first">H</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<idno type="DOI">10.31219/osf.io/4dksb</idno>
+		<ptr target="https://doi.org/10.31219/osf.io/4dksb" />
+		<title level="m">Inference in multiscale geographically weighted regression</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">High-resolution satellite mapping of fine particulates based on geographically weighted regression</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Zou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Pu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bilal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Weng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Zhai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Nichol</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE Geoscience and Remote Sensing Letters</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="495" to="499" />
+			<date type="published" when="2016">2016</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

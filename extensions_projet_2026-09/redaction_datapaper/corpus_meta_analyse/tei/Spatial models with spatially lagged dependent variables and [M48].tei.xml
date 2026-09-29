@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial models with spatially lagged dependent variables and incomplete data</title>
+				<funder>
+					<orgName type="full">National Institute of Health</orgName>
+				</funder>
+				<funder ref="#_jgdjvu3 #_95MW9qe">
+					<orgName type="full">SBIR</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2010-03-06">6 March 2010</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author>
+							<persName><forename type="first">Harry</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+							<email>kelejian@econ.umd.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Ingmar</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+							<email>prucha@econ.umd.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Economics</orgName>
+								<orgName type="institution">University of Maryland</orgName>
+								<address>
+									<postCode>20742</postCode>
+									<settlement>College Park</settlement>
+									<region>MD</region>
+									<country key="US">USA</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial models with spatially lagged dependent variables and incomplete data</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2010-03-06">6 March 2010</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">F7ACA5FFF7A798D1910FCF81EC5388B0</idno>
+					<idno type="DOI">10.1007/s10109-010-0109-5</idno>
+					<note type="submission">Received: 23 July 2009 / Accepted: 1 February 2010 /</note>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-29T10:21+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Spatial models</term>
+					<term>Missing data</term>
+					<term>Instrumental variable estimation JEL Classification C21</term>
+					<term>C31</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>The purpose of this paper is to suggest estimators for the parameters of spatial models containing a spatially lagged dependent variable, as well as spatially lagged independent variables, and an incomplete data set. The specifications allow for nonstationarity, and the disturbance process of the model is specified non-parametrically. We consider various scenarios concerning the pattern of missing data points. One estimator we suggest is based on a smaller but complete subset of the sample; another is based on a larger but incomplete subset of the sample. We give large sample results for both of these cases.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>some variables for units that are defined to be neighbors of other units for which data are available. <ref type="foot" target="#foot_0">2</ref> In some, but not all of these cases, the missing data relate to ''edge units''-see e.g., <ref type="bibr">Anselin (1988, pp. 172-173)</ref>. In other cases, data shortcomings may arise because of either the unavailability of data on certain variables or the reluctance of the researcher to use data on certain variables because of ''quality of data'' concerns. One example of this would be models that, among other things, require data on the GDPs of the sampled countries, and GDP data are either not available for some countries or are of ''dubious'' quality and so not used-see e.g., <ref type="bibr" target="#b12">Kelejian et al. (2008)</ref>.</p><p>There are various ways researchers have confronted this problem. One approach is to ignore it if the missing data relate to units that are involved as part of a spatial lag. In this approach, the missing observations are implicitly replaced by zeroes and so, e.g., the spatial lag would be constructed entirely in terms of the available data. Another approach is to complete the sample using available data by estimating in various ways, the observations that are missing. Still another approach is to rely on maximum likelihood estimation. <ref type="foot" target="#foot_1">3</ref> Of course, there are still other approaches, but formal results concerning the distribution of the regression parameter estimators based on incomplete data sets are not available in the framework of a non-stationary spatial model that contains spatial lags in both the dependent and independent variables, as well as a non-parametrically specified disturbance process. <ref type="foot" target="#foot_2">4</ref>The purpose of this study is to fill this gap. For such non-stationary spatial models, we discuss various scenarios relating to the missing data and the manner in which the sample increases. We suggest regression parameter estimators that are based on a complete subset of the sample, as well as on a larger but incomplete subset of the sample. We give formal large sample results for our suggested estimators in both of these cases. In the context of our model, we give conditions under which the effects of missing observations in the estimation procedure are asymptotically negligible, as well as when they are not! Our asymptotic results account for both of these cases. Finally, we give user friendly suggestions concerning small sample inferences for our suggested estimators.</p><p>We specify the model in Sect. 2. That section also contains a discussion of various scenarios as to how the sample may increase. Our suggested estimators are given in Sect. 3, along with theorems that describe their large sample distribution. These theorems relate to the various scenarios concerning the manner in which the sample increases. Conclusions are given in Sect. 4. Technical details are relegated to the ''Appendix''.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Model</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Specification</head><p>In this section, we specify a model containing spatial lags in the dependent variable, as well as in some of the independent variables. We describe this model in such a way that for certain units, the dependent variable and all of the regressors determining that dependent variable, including the spatially lagged variables, are observed. For other units, observations on either the dependent variable and/or all of the regressors determining those dependent variables are not available. More specifically, we divide the units into three groups. For units in groups 1 and 2, the data on the dependent and exogenous variables pertaining to those units are observed. The distinction between units in group 1 and 2 is that for the former all observations needed to formulate spatial lags are also observed, while for the latter, this is not the case. The observations pertaining to units in group 3 are unobserved. As in illustration of such a grouping of the data, consider Fig. <ref type="figure">1</ref>.</p><p>If we assume that spatial interactions can be described by a rook design, then in this illustration, units in group 1 and group 3 are not immediate neighbors, and thus the corresponding block in the spatial weights matrix will be zero. Consequently, we can compute spatial lags of the dependent and exogenous variables for all units in group 1, despite that all variables pertaining to group 3 are unobserved. This is not the case for units in group 2, since those units are immediate neighbors in both groups 2 and 3, and thus spatial lags would depend on observations from units in group 3.</p><p>Consistent with the above illustrative example, we assume in the following discussion that the data are ordered such that the (1, 3)-block in the spatial weights Fig. <ref type="figure">1</ref> An exemplary grouping of data on a rectangular grid with neighbors defined by a rook design matrix corresponding to groups 1 and 3 is zero. Since it has no effect on the derivations relating to our large sample results, we allow for the (3, 1)-block in the spatial weights matrix to be non-zero for purposes of generality, although we expect it to be zero in most applications. In particular, we consider the following model:</p><formula xml:id="formula_0">y n;1 y n;2 y n;3 0 B @ 1 C A ¼ X n;1 X n;2 X n;3 0 B @ 1 C Ab 1 þ W n;11 W n;12 0 W n;21 W n;22 W n;23 W n;31 W n;32 W n;33 0 B @ 1 C A J n;1 J n;2 J n;3 0 B @ 1 C Ab 2 þ k W n;11 W n;12 0 W n;21 W n;22 W n;23 W n;31 W n;32 W n;33 0 B @ 1 C A y n;1 y n;2 y n;3 0 B @ 1 C A þ u n;1 u n;2 u n;3 0 B @ 1 C A;<label>ð1Þ</label></formula><p>and u n;1 u n;2 u n;3 0 @ 1 A ¼ R n;11 R n;12 R n;13 R n;21 R n;22 R n;23 R n;31 R n;32 R n;33 0 @ 1 A e n;1 e n;2 e n;3 0 @ 1 A ;</p><p>where y n,i and X n,i are, respectively, the n i 9 1 vectors of endogenous variables and n i 9 s matrices of exogenous variables corresponding to group i for i = 1, 2, 3. The researcher observes y n,1 , y n,2 , X n,1 and X n,2 , but not y n,3 , and X n,3 . The matrices W n,ij i, j = 1, 2, 3 are observed nonstochastic weighting matrices, where W n,13 = 0. The matrices J n,i are of dimension n i 9 r with r B s and represent submatrices of X n,i . Hence, the above specification allows for spatial lags in some, but not necessary all, exogenous regressors. Of course, given that the matrices J n,i are submatrices of X n,i , it follows that J n,1 and J n,2 are observed, but not J n,3 . We conditionalize on the exogenous variables and so take the matrices X n,i and J n,i , i = 1, 2, 3 as nonstochastic.</p><p>For future reference, let n = n 1 ? n 2 ? n 3 , and let W n and R n be the n 9 n matrices</p><formula xml:id="formula_1">W n ¼ W n;11 W n;12 0 W n;21 W n;22 W n;23 W n;31 W n;32 W n;33 0 @ 1 A ; R n ¼ R n;11 R n;12 R n;13 R n;21 R n;22 R n;23 R n;31 R n;32 R n;33 0 @ 1 A<label>ð2Þ</label></formula><p>Given the notation in (2), the model in (1) can be written more compactly as</p><formula xml:id="formula_2">y n ¼ X n b 1 þ W n J n b 2 þ kW n y n þ u n ¼ Z n c þ u n u n ¼ R n e n<label>ð3Þ</label></formula><p>where</p><formula xml:id="formula_3">y 0 n ¼ y 0 n;1 ; y 0 n;2 ; y 0 n;3 ; X 0 n ¼ X 0 n;1 ; X 0 n;2 ; X 0 n;3 ; J 0 n ¼ J 0 n;1 ; J 0 n;2 ; J 0 n;3 ; Z n ¼ ðX n ; W n J n ; W n y n Þ; c 0 ¼ b 0 1 ; b 0 2 ; k À Á ; u 0 n ¼ ðu 0 n;1 ; u 0 n;2 ; u 0 n;3 Þ; e 0 n ¼ e 0 n;1 ; e 0 n;2 ; e 0</formula><p>We will suggest two instrumental variable estimators for situations where some of the data are missing. These estimators presume that the researcher is able to arrange the data as specified in (1). One of them will be based on the complete portion of the sample, i.e., the portion of the sample for which the dependent variable, the exogenous variables and the spatial lags are observed. The dependent variable corresponding to this estimator is the n 1 9 1 vector y n,1 . The other estimator will be based on a larger but incomplete portion of the sample, where the dependent and exogenous variables are observed, but where some of the data needed to compute the spatial lags on the r.h.s. are unobserved. The dependent variable corresponding to this estimator is the n 1 ? n 2 9 1 vector ½y 0 n;1 ; y 0 n;2 . For notational convenience, we define</p><formula xml:id="formula_4">y n;1þ2 ¼ y 0 n;1 ; y 0 n;2 h i 0<label>ð4Þ</label></formula><p>and correspondingly</p><formula xml:id="formula_5">X n;1þ2 ¼ X 0 n;1 ; X 0 n;2 h i 0 J n;1þ2 ¼ J 0 n;1 ; J 0 n;2 h i 0 u n;1þ2 ¼ u 0 n;1 ; u 0 n;2 h i 0 :<label>ð5Þ</label></formula><p>We also define W n,1 as that portion of the weighting matrix, which determines the spatial lags in the sub-model for y n,1 as implied by (1), namely</p><formula xml:id="formula_6">W n;1 ¼ W n;11 W n;12 Â Ã :<label>ð6Þ</label></formula><p>In a similar way, W n,1?2 is defined as that portion of the weighting matrix, which determines the spatial lags in the sub-model for y n,1?2 as implied by (1), namely</p><formula xml:id="formula_7">W n;1þ2 ¼ W n;11 W n;12 0 W n;21 W n;22 W n;23 ! :<label>ð7Þ</label></formula><p>This notation is extended to submatrices of R n as defined in (2)-e.g.,</p><formula xml:id="formula_8">R n;1 ¼ R n;11 R n;12 R n;13 ð Þ ;<label>ð8Þ</label></formula><formula xml:id="formula_9">R n;1þ2 ¼ R n;11 R n;12 R n;13 R n;21 R n;22 R n;23 :</formula><p>In terms of this notation, and borrowing other notation from Kelejian and Prucha (1998) by letting " J n;1 ¼ W n;1 J n;1þ2 and " y n;1 ¼ W n;1 y n;1þ2 ;</p><p>the model in (1) implies that y n,1 is determined as</p><formula xml:id="formula_10">y n;1 ¼ X n;1 b 1 þ " J n;1 b 2 þ k" y n;1 þ u n;1 Z n;1 c þ u n;1<label>ð9Þ</label></formula><p>where</p><formula xml:id="formula_11">Z n;1 ¼ X n;1 ; " J n;1 ; " y n;1 À Á ; c 0 ¼ b 0 1 ; b 0 2 ; k À Á :</formula><p>The model in (1) implies furthermore that y n,1?2 is determined as</p><formula xml:id="formula_12">y n;1þ2 ¼ X n;1þ2 b 1 þ W n;1þ2 J n b 2 þ kW n;1þ2 y n þ u n;1þ2 :<label>ð10Þ</label></formula><p>Assuming W n,23 = 0, the regressors in the (10) are not all observed. Part of our large sample results reported below relate to conditions under which the unobserved parts of (10) are asymptotically negligible. That analysis is facilitated by separating the observed portions of the regressors in (10) from the unobserved portions. Hence, we define W n,1?2 o and W n,1?2 u as, respectively, those parts of W n,1?2 that relate to the observable and unobservable regressors, namely</p><formula xml:id="formula_13">W o n;1þ2 ¼ W n;11 W n;12 W n;21 W n;22 ! ; W u n;1þ2 ¼ 0 W n;23 !</formula><p>Given this notation, and again borrowing notation from <ref type="bibr" target="#b9">Kelejian and Prucha (1998)</ref> by letting " J n;1þ2 ¼ W o n;1þ2 J n;1þ2 and "</p><formula xml:id="formula_14">y n;1þ2 ¼ W o n;1þ2 y n;1þ2</formula><p>the model in ( <ref type="formula" target="#formula_12">10</ref>) can be rewritten as</p><formula xml:id="formula_15">y n;1þ2 ¼ X n;1þ2 b 1 þ " J n;1þ2 b 2 þ k" y n;1þ2 þ n n ¼ Z n;1þ2 c þ n n<label>ð11Þ</label></formula><p>where</p><formula xml:id="formula_16">Z n;1þ2 ¼ X n;1þ2 ; " J n;1þ2 ; " y n;1þ2 À Á n n ¼ W u n;1þ2 J n;3 b 2 þ kW u n;1þ2 y n;3 þ u n;1þ2 h i</formula><p>and where n n in (11) can be viewed as a ''contaminated'' error vector. Both ( <ref type="formula" target="#formula_10">9</ref>) and ( <ref type="formula" target="#formula_15">11</ref>) contain spatial lags in the dependent variable, and so our suggested estimators will involve instrument matrices. Consistent with our earlier notation, the instrument matrices for the estimation of ( <ref type="formula" target="#formula_10">9</ref>) and (11) are, respectively, the n 1 9 q 1 and n 1 ? n 2 9 q 2 matrices H n,1 and H n,1?2 . Ideally, we would like to use the conditional means of " y n;1 and " y n;1þ2 as instruments. These conditional means depend on X 3,n and are hence unobserved. Guided in part by suggestions in <ref type="bibr" target="#b9">Kelejian and Prucha (1998)</ref>, our recommendation here is to take as instruments the linearly independent columns of</p><formula xml:id="formula_17">H n;1 ¼ X n;1 ; W n;11 X n;1 ; . . .W s n;11 X n;1 ; " J n;1 ; W n;11 " J n;1 ; . . .W s n;11 " J n;1 h i H n;1þ2 ¼ X n;1þ2 ; W o n;1þ2 X n;1þ2 ; . . .ðW o n;1þ2 Þ s X n;1þ2 h i<label>ð12Þ</label></formula><p>where typically s B 2. Note that since (9) contains the n 1 9 1 endogenous regressor " y n;1 ¼ ½W n;11 y n;1 þ W n;12 y n;2 , one might also add W n,12 X n,2 to the columns of the instrument matrix H n,1 to help account for the mean of W n,12 y n,2 . Because W n,12 is an n 1 9 n 2 matrix and X n,1 is an n 1 9 s matrix, W n,12 is not conformable for postmultiplication by X n,1 . Typically, n 2 will be less than n 1 ; we do not suggest constructing further instruments by postmultiplying ''augmented'' versions of W n,12 by X n,1 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">The sample configurations</head><p>Our large sample results below relate to the relative sample sizes n i , i = 1, 2, 3. We consider three cases. Specifically, we assume the configuration of the space containing the n units expands in such a way that Case 1: n 1 ?? Case 2: n 1 ! 1; and</p><formula xml:id="formula_18">n 3 ðn 1 þn 2 Þ 1=2 ! 0 Case 3: n 1 ! 1; and n 3 ðn 1 þn 2 Þ 1=2 ! c [ 0:</formula><p>Case 1 relates to the use of y n,1 as the dependent variable. In this case, there is no assumption concerning the magnitudes of n 2 or n 3 and, hence, they both could increase of (any order) beyond limit! As a preview, the reason these magnitudes do not matter relates to our assumptions below concerning the weighting matrix, W n . Cases 2 and 3 relate to the use of y n,1?2 as the dependent variable. Note that case 2 does not rule out n 2 ??, n 3 ??, or even n i /n 1 ??, i = 2, 3. Case 3 differs from case 2 in that the ''missing'' portion of the sample, referenced here by n 3 , increases in the same order as the square root of the observed portion of the sample indexed here by n 1 ? n 2 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Assumptions</head><p>In this section, we state our assumptions; their interpretations are given in the following section. Let D n;1 ¼ X n;1 ; " J n;1 À Á and D n;1þ2 ¼ X n;1þ2 ; " J n;1þ2 À Á :</p><p>Our assumptions are given below.</p><p>Assumption 1 The elements of e n , namely {e i,n :1 B i B n, n C 1}, are identically distributed. Further, {e i,n :1 B i B n} are for each n distributed (jointly) independently with E(e i,n ) = 0, E(e i,n 2 ) = 1. Additionally, the innovations are assumed to possess a finite fourth moment.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 2</head><p>The elements of X n , H n,1 , and H n,1?2 are uniformly bound in absolute value; in addition, D n,1 and D n,1?2 have full column rank for n 1 and n 2 large enough.</p><p>In the limits below, no restrictions are placed on the magnitudes of n 2 and n 3 , which may be related to n 1 and so may also increase beyond limit.</p><formula xml:id="formula_19">Assumption 3 We assume (a) lim n 1 !1 n À1 1 D 0 n;1 D n;1 ¼ Q D 1 D 1 ; (b) lim n 1 !1 n À1 1 H 0 n;1 H n;1 ¼ Q H 1 H 1 ; (c) lim n 1 !1 ðn 1 þ n 2 Þ À1 D 0 n;1þ2 D n;1þ2 ¼ Q D 1þ2 D 1þ2 ; (d) lim n 1 !1 ðn 1 þ n 2 Þ À1 H 0 n;1þ2 H n;1þ2 ¼ Q H 1þ2 H 1þ2 ;</formula><p>where Q D 1 D 1 ; Q D 1þ2 D 1þ2 ; Q H 1 H 1 and Q H 1þ2 H 1þ2 are finite nonsingular matrices.</p><p>Assumption 4 (a) |k| \ 1 (b) The diagonal elements of W n are zero, and R n and (I n -kW n ) are nonsingular (c). The row and column sums of R n , W n and (I n -k W n ) -1 are uniformly bound in absolute value.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 5</head><p>We assume (a</p><formula xml:id="formula_20">) p lim n 1 !1 n À1 1 H 0 n;1 Z n;1 ¼ Q H 1 Z 1 (b) lim n 1 !1 n À1 1 H 0 n;1 R n;1 R 0 n;1 H n;1 ¼ Q H 1 R 1 R 1 H 1 (c) p lim n 1 !1 ðn 1 þ n 2 Þ À1 H 0 n;1þ2 Z n;1þ2 ¼ Q H 1þ2 Z 1þ2 (d) lim n 1 !1 ðn 1 þ n 2 Þ À1 H 0 n;1þ2 R n;1þ2 R 0 n;1þ2 H n;1þ2 ¼ Q H 1þ2 R 1þ2 R 1þ2 H 1þ2 where Q H 1 Z 1 ; Q H 1 R 1 R 1 H 1 ; Q H 1þ2 Z 1þ2 ; and Q H 1þ2 R 1þ2 R 1þ2 H 1þ2 are finite matrices with full column rank.</formula><p>The next assumption is only maintained under Case 3.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Assumption 6</head><p>For n 1 ?? and</p><formula xml:id="formula_21">n 3 ðn 1 þn 2 Þ 1=2 ! c; with 0 \ c \ ?, we assume (a) lim n 1 !1 ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 J n;3 ¼ F 1þ2 (b) lim n 1 !1 ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 ðI n À kW n Þ À1 n;3 X n ¼ L 1þ2 (c) lim n 1 !1 ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 ðI n À kW n Þ À1 n;3 W n J n ¼ S 1þ2</formula><p>where F 1?2 , L 1?2 , and S 1?2 are, respectively, q 2 9 r, q 2 9 s, and q 2 9 r finite matrices, and where (I n -kW n ) n,3</p><p>-1 is the n 3 9 n matrix consisting of the last n 3 rows of (I n -kW n ) -1 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.4">A brief discussion of the assumptions</head><p>First note from (3), Assumptions 1 and part (b) of Assumption 4 that</p><formula xml:id="formula_22">Ey n ¼ ðI n À kW n Þ À1 ½X n b 1 þ W n J n b 2 ð<label>13Þ</label></formula><p>Assumption 2 and part (c) of Assumption 4 imply that the elements of Ey n are uniformly bound in absolute value. Also note that Assumption 1 and part (c) of Assumption 4 imply that the row and column sums of the variance-covariance (henceforth, VC) matrix of y n , say VC y_n , are uniformly bound in absolute value, where</p><formula xml:id="formula_23">VC y n ¼ I n À kW n ð Þ À1 R n R 0 n I n À kW 0 n À Á À1 :<label>ð14Þ</label></formula><p>Assumptions 1, 2, 3(a), and 4 are standard-type conditions that have been discussed elsewhere in the literature, see e.g., <ref type="bibr" target="#b8">Kelejian and</ref><ref type="bibr">Prucha (1998, 2004)</ref>. Note also that the condition E(e i,n</p><p>2 ) = 1 in Assumption 1 is not restrictive, since the only assumption maintained for R n is that its row and column sums are uniformly bounded. Thus, the variance of the e i,n is a scale factor, which can be incorporated into R n . To see this, note that if E(e i,n</p><p>2 ) = r e 2 , the disturbance vector u n in (3) could be redefined as:</p><formula xml:id="formula_24">u n ¼ R n e n ¼ ½r e R n 1 r e e n ! ¼ R Ã n e Ã n ;</formula><p>where the row and column sums of R n * are again uniformly bounded, and the elements of e n * would have a variance of 1.0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Consider part (c) of Assumption 3. The assumption requires that ðn</head><formula xml:id="formula_25">1 þ n 2 Þ À1 X 0 n;1þ2 X n;1þ2 ; ðn 1 þ n 2 Þ À1 X 0 n;1þ2 W o n;1þ2 X n;1þ2 ; and ðn 1 þ n 2 Þ À1 X 0 n;1þ2 W o0 n;1þ2 W o n;1þ2</formula><p>X n;1þ2 converge. These limit assumptions are standard-type conditions. Given part (a) of Assumption 3, and if and if n 2 /n 1 ?0, then Q D 1þ2 D 1þ2 ¼ Q D 1 D 1 . Similar comments apply to parts (b) and (d) of Assumption 3. Now consider part (a) of Assumption 5, and note that</p><formula xml:id="formula_26">n À1 1 H 0 n;1 Z n;1 ¼ n À1 1 H 0 n;1 ðX n;1 ; W n;1 J n;1þ2 ; W n;1 y n;1þ2 Þ:<label>ð15Þ</label></formula><p>Since assumptions concerning the limit of terms such as n À1 1 H 0 n;1 X n;1 are standard, we will focus our attention on the other two components in (15), namely w n;1 ¼ n À1 1 H 0 n;1 W n;1 J n;1þ2 and / n;1 ¼ n À1 1 H 0 n;1 W n;1 y n;1þ2 : Recalling that the columns of J n,1?2 are a subset of those in X n,1?2 , it follows from Assumption 2 and part (c) of Assumption 4 that, regardless of the relative magnitudes of n 2 and n 1 , the elements of w n,1 are uniformly bound in absolute value. Hence, at this point, part (a) of Assumption 5 imposes the condition that the limits of the elements of w n,1 exist. Now, consider / n,1 and note</p><formula xml:id="formula_27">Eð/ n;1 Þ ¼ n À1 1 H 0 n;1 W n;1 E½y n;1þ2 ð<label>16Þ</label></formula><p>where E[y n,1?2 ] represents the first n 1 ? n 2 elements of Ey n , which is given in (13). Again, Assumption 2 and part (c) of Assumption 4 imply that the elements of E[y n,1?2 ] are uniformly bound in absolute value. Now note, using evident notation, that</p><formula xml:id="formula_28">VC / n;1 ¼ n À2 1 H 0 n;1 W n;1 VC y n;1þ2; W 0 n;1 h i H n;1<label>ð17Þ</label></formula><p>where VC y n;1þ2; is the upper n 1 ? n 2 9 n 1 ? n 2 block of VC y n , which is given in (14). Assumption 2 and part (c) of Assumption 4 imply that the elements of VC / n;1 are O(n -1 ) and therefore VC / n;1 ? 0, as n 1 ??. Hence, part (a) of Assumption 5 imposes the condition that the limits of the elements of E/ n,1 exist. Therefore, in essence, part (a) of Assumption 5 requires that E(/ n,1 ) converge to a limit, which is linearly independent of the limit of n À1 1 H 0 n;1 X n;1 . Similar arguments suggest that the other parts of Assumption 5 are reasonable.</p><p>Finally, consider Assumption 6, and recall that this assumption relates to the case in which n 1 ?? and n 3 ðn 1 þn 2 Þ 1=2 ! c, where c is a finite non-zero constant. In reference to part (a) of Assumption 6, note that Assumption 2 and part (c) of Assumption 4 imply that the elements of the q 2 9 r matrix H 0 n;1þ2 W u n;1þ2 J n;3 are O(n 3 ) or equivalently O((n 1 ? n 2 ) 1/2 ). Therefore, the elements of ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 J n;3 are O(1). Similarly, in parts (b) and (c) of Assumption 6, the elements of the q 2 9 s and q 2 9 r matrices, namely</p><formula xml:id="formula_29">ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 ðI n À kW n Þ À1 n;3 X n and ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 ðI n À kW n Þ À1</formula><p>n;3 W n J n ; respectively, are O(1). Given these results, the assumed limits in Assumption 6 are reasonable.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Suggested estimators</head><p>In this section, we suggest two estimators. One is based on the complete subset of the sample in which the dependent variable is y n,1 . In this case, the sample size is n 1 , and all observations on the regressors determining y n,1 are available. The other estimator is based on a larger subset of the sample, which involves missing data. In this case, the sample size is n 1 ? n 2 , and the dependent variable is y n,1?2 .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">The estimator based on y n,1</head><p>Consider the model in ( <ref type="formula" target="#formula_10">9</ref>), and let P n;H 1 ¼ H n;1 H 0 n;1 H n;1 À1 H n;1 and Ẑn;1 ¼ P n;H 1 Z n;1 : Our suggested estimator of c, which is based on the complete portion of the sample is</p><formula xml:id="formula_30">ĉ1 ¼ Ẑ0 n;1 Ẑn;1 À1 Ẑ0 n;1 y n;1<label>ð18Þ</label></formula><p>The proof of Theorem 1 is given in the ''Appendix''.</p><p>Theorem 1 Given (9), and Assumptions 1, 2, 3(a), (b), 4, and 5(a), (b)</p><formula xml:id="formula_31">n 1=2 1 ĉ1 À c ð Þ! D N 0; Q À1 Ẑ1 Ẑ1 X 1 Q À1 Ẑ1 Ẑ1<label>ð19Þ</label></formula><p>as n 1 ?? where</p><formula xml:id="formula_32">Q Ẑ1 Ẑ1 ¼ Q 0 H 1 Z 1 Q À1 H 1 H 1 Q H 1 Z 1<label>and</label></formula><formula xml:id="formula_33">X 1 ¼ Q 0 H 1 Z 1 Q À1 H 1 H 1 Q H 1 R 1 R 1 H 1 Q À1 H 1 H 1 Q H 1 Z 1:</formula><p>Small sample inferences could be based on</p><formula xml:id="formula_34">ĉ1 $ N c; V C ĉ1 À Á<label>where</label></formula><formula xml:id="formula_35">V C ĉ1 ¼ n 1 G 0 n;1 QH 1 R 1 R 1 H 1 G n;1<label>ð20Þ</label></formula><p>with</p><formula xml:id="formula_36">G n;1 ¼ H 0 n;1 H n;1 À1 H 0 n;1 Z n;1 Ẑ0 n;1 Ẑn;1 À1 ;</formula><p>and where</p><formula xml:id="formula_37">QH 1 R 1 H 1 R 1 is a consistent estimator of Q H 1 R 1 H 1 R 1 .</formula><p>Note, given further assumptions especially relating to distance measures, Q H 1 R 1 H 1 R 1 can be estimated non-parametrically as a SHAC estimator as considered in <ref type="bibr" target="#b11">Kelejian and Prucha (2007)</ref>, because R n;1 R 0 n;1 is the n 1 9 n 1 VC matrix of u n,1 , and u n,1 can be estimated via (9). <ref type="foot" target="#foot_4">5</ref> Of course, in the special case where the disturbances are not spatially correlated and thus</p><formula xml:id="formula_38">Q H 1 R 1 R 1 H 1 ¼ r 2 Q H 1 H 1 , we can employ the estimator QH 1 R 1 R 1 H 1 ¼ n À1 1 b u 0 n;1 b u n;1 n À1 H 0 n;1 H n;1</formula><p>; where b u n;1 denotes the estimated disturbances via (9).</p><p>Remark 1 Note that the result in ( <ref type="formula" target="#formula_35">20</ref>) relates to the model in ( <ref type="formula" target="#formula_10">9</ref>). The dependent variable in that model is y n,1 , which is an n 1 9 1 vector; on the other hand, the endogenous spatial lag in that model, namely " y n;1 ¼ W n;1 y n;1þ2 ; involves the (n 1 ? n 2 ) 9 1 vector y n,1?2 . The result in (20) holds for all possible values of n 2 including n 2 /n 1 ?? -i.e., the incomplete portion of the sample can be infinitely large relative to the complete portion. A crucial assumption underlying this result is part (c) of Assumption 4, namely that the row and column sums of the weighting matrix W n are uniformly bound in absolute value.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>3.2</head><p>The estimator based on y n,(1,2) and</p><formula xml:id="formula_39">n 3 ðn 1 þn 2 Þ 1=2 !c</formula><p>If n 2 is ''large'', a researcher might be tempted to estimate the parameters of the model in terms of a sample that is larger than just the first n 1 observations. Given the structure of the model, in such a case, the researcher might estimate the parameters of the model in terms of (11) instead of (9). In this case, however, it is clear from (11) that missing data problems arise if W n,23 = 0. In this section, we give results that correspond to two cases. In the first case, the missing data are of no consequence in the sense that they are asymptotically negligible. In this case, c = 0. In the second case, the missing data are of consequence. In this case, c is a finite non-zero constant.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.1">The case c = 0</head><p>Consider the model in (11), and let P n;</p><formula xml:id="formula_40">H 1þ2 ¼ H n;1þ2 H 0 n;1þ2 H n;1þ2 À1 H 0 n;1þ2<label>and</label></formula><formula xml:id="formula_41">Ẑn;1þ2 ¼ P n;H 1þ2 Z n;1þ2 : Our suggested estimator of c is the two-stage least squares estimator ĉ2 ¼ Ẑ0 n;1þ2 Ẑn;1þ2 À1 Ẑ0 n;1þ2 y n;1þ2<label>ð21Þ</label></formula><p>The proof of Theorem 2 is given in the ''Appendix''.</p><p>Theorem 2 Given Assumptions 1, 2, 3(c), (d), 4 and 5(c), (d)</p><formula xml:id="formula_42">ðn 1 þ n 2 Þ 1=2 ĉ2 À c ð Þ! D N 0; Q À1 Ẑ1þ2 Ẑ1þ2 X 2 Q À1 Ẑ1þ2 Ẑ1þ2<label>ð22Þ</label></formula><p>as n 1 ?? where</p><formula xml:id="formula_43">X 2 ¼ Q 0 H 1þ2 Z 1þ2 Q À1 H 1þ2 H 1þ2 Q H 1þ2 R 1þ2 R 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 Q H 1þ2 Z 1þ2<label>and</label></formula><formula xml:id="formula_44">Q Ẑ1þ2 Ẑ1þ2 ¼ Q 0 H 1þ2 Z 1þ2 Q À1 H 1þ2 H 1þ2 Q H 1þ2 Z 1þ2 h i</formula><p>Small sample inference can be based on</p><formula xml:id="formula_45">ĉ2 $ N c; V C ĉ2 À Á ;<label>ð23Þ</label></formula><p>where</p><formula xml:id="formula_46">Vĉ 2 ¼ ðn 1 þ n 2 ÞG 0 n;1þ2 QH 1þ2 R 1þ2 R 1þ2 H 1þ2 G n;1þ2<label>ð24Þ</label></formula><p>with</p><formula xml:id="formula_47">G n;1þ2 ¼ ðH 0 n;1þ2 H n;1þ2 Þ À1 H 0 n;1þ2 Z n;1þ2 Ẑ0 n;1þ2 Ẑn;1þ2 À1 ;</formula><p>and where</p><formula xml:id="formula_48">QH 1þ2 R 1þ2 R 1þ2 H 1þ2 is a consistent estimator of Q H1?2 R 1?2 R 1?2 H 1?2 .</formula><p>Remark 2 Observe that the difference between the disturbance vector and the residual vector in (11) is given by</p><formula xml:id="formula_49">n n À u n;1þ2 ¼ W u n;1þ2 J n;3 b 2 þ kW u n;1þ2 y n;3 :<label>ð25Þ</label></formula><p>We conjecture that given additional assumptions, we should again be able to estimate the matrix Q H 1þ2 R 1þ2 R 1þ2 H 1þ2 non-paramterically via the SHAC estimation approach put forward in <ref type="bibr" target="#b11">Kelejian and Prucha (2007)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2.2">The case c = 0</head><p>In this case, the large sample distribution ĉ2 is the same as in ( <ref type="formula" target="#formula_42">22</ref>) except that the mean of that large sample distribution is not zero. In particular, the proof of Theorem 3 is in the ''Appendix''.</p><p>Theorem 3 Given that n 3 ðn 1 þn 2 Þ 1=2 ! c 6 ¼ 0; and Assumptions 1, 2, 3(c), (d), 4, 5(c), (d), and Assumption 6</p><formula xml:id="formula_50">ðn 1 þ n 2 Þ 1=2 ðĉ 2 À cÞ ! D N l; Q À1 Ẑ1þ2 Ẑ1þ2 X 2 Q À1 Ẑ1þ2 Ẑ1þ2 l ¼ Q À1 Ẑ1þ2 Ẑ1þ2 Q 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 F 1þ2 b 2 h þkQ 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 ðL 1þ2 b 1 þ S 1þ2 b 2 Þ i<label>ð26Þ</label></formula><p>Remark 3 Note that (26) implies that ĉ2 is consistent. However, the mean of the large sample distribution involves limits that involve X n,3 , which, if X n,3 is not observed, suggests that the result in ( <ref type="formula" target="#formula_50">26</ref>) is of limited use for making inferences concerning c. Of course, if (n 1 ? n 2 ) is ''large'', small sample inferences can be based on ( <ref type="formula" target="#formula_45">23</ref>), which would be the approximation taken if l n 1 þn 2 ' 0.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Summary and suggestions for further research</head><p>In this paper, we suggest estimators for models that have a spatial lag in the dependent variable, a non-parametrically specified disturbance term, and missing observations. The specification of the disturbance term is such that it allows for both spatial correlation and heteroskedasticity. We consider various configurations of the missing observations. In one case, the missing observations are asymptotically negligible; in another case, they are not asymptotically negligible. One of our suggested estimators is based on a small but complete portion of the sample; our other suggested estimator is based on a larger sample that includes both the complete portion of the sample, as well as part of the incomplete portion. We give formal large sample results for our suggested estimators and suggest small distribution approximations that can be used for purposes of inference. Our large sample results account for the various configurations of the missing observations. Among other things, a Monte Carlo study that focuses on the small sample properties of our suggested estimators would be of interest. Our results suggest that such a study should consider various configurations of the missing observations, as well as various specifications of the disturbance term. Specifically, small sample results relating to our estimators for cases in which the complete portion of the sample is large, but yet small relative to the incomplete portion should be of particular interest. It should also be of interest to consider various specifications of the disturbance term involving spatial correlation, etc. and corresponding hypothesis tests relating to the regression parameters based on our small sample approximations.</p><formula xml:id="formula_51">ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 u n;1þ2 À Q 0 H1þ2Z1þ2 Q À1 H1þ2H1þ2 ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 R n;1þ2 e n ! P 0;<label>ð35Þ</label></formula><p>provided the last term on the r.h.s. converges in distribution. To see this, observe that Assumptions 2 and 4(c) imply that the elements of the q 2 9 n 1 ? n 2 ? n 3 matrix H 0 n;1þ2 R n;1þ2 are uniformly bound. Therefore, Assumptions 1, 5(d), and the central limit theorem in <ref type="bibr" target="#b9">Kelejian and Prucha (1998)</ref> imply that</p><formula xml:id="formula_52">ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 R n;1þ2 e n ! D Nð0; Q H 1þ2 R 1þ2 R 1þ2 H 1þ2 Þ ð<label>36Þ</label></formula><p>Theorem 2 follows from ( <ref type="formula">34</ref>) to ( <ref type="formula" target="#formula_52">36</ref>).</p><p>Proof that D n ! P 0: We now show that indeed D n defined in (32) converges in probability to zero as claimed. Recalling that Ẑn;1þ2 ¼ P n;H 1þ2 Z n;1þ2 ; Assumptions 3(d) and 5(c) imply</p><formula xml:id="formula_53">D n À D Ã n ! P 0 D Ã n ¼ D Ã n1 þ D Ã n2 D Ã n1 ¼ Q 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 J n;3 b 2 D Ã n2 ¼ kQ 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 y n;3<label>ð37Þ</label></formula><p>Recalling that the columns of J n are a subset of those in X n , Assumptions 2 and 4(c) imply that the elements of q 2 9 r nonstochastic matrix, H 0 n;1þ2 W u n;1þ2 J n;3 are O(n 3 ). Therefore, if</p><formula xml:id="formula_54">n 3 ðn 1 þn 2 Þ 1=2 ! 0, it follows that ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 J n;3 ! 0<label>ð38Þ</label></formula><p>and so</p><formula xml:id="formula_55">D Ã n1 ! 0:<label>ð39Þ</label></formula><formula xml:id="formula_56">Now consider D Ã n2 : From (13), ED Ã n2 ¼ kQ 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 Eðy n;3 Þ Eðy n;3 Þ ¼ ðI n À kW n Þ À1 n;3 ½X n b 1 þ W n J n b 2<label>ð40Þ</label></formula><p>where it should be recalled that (I n -kW n ) n,3 -1 is the last n 3 rows of (I n -kW n ) -1 , and E(y n,3 ) is an n 3 9 1 vector. Assumptions 2 and 4(c) imply that the elements of E(y n,3 ) are uniformly bound in absolute value; therefore, the elements of the q</p><formula xml:id="formula_57">2 9 1 vector ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 Eðy n;3 Þ are Oð n 3 ðn 1 þn 2 Þ 1=2 Þ and hence, lim n 1 !1 ED Ã n2 ¼ 0<label>ð41Þ</label></formula><formula xml:id="formula_58">if n 3 ðn 1 þn 2 Þ 1=2 ! 0. Now consider the variance-covariance matrix of D Ã n2 ; say VC D Ã n2 . In (37), let M 0 n ¼ Q 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 H 0 n;1þ2 W u n;1þ2</formula><p>, and note that Assumptions 2 and part (c) of 4 imply that the elements of the s ? r ? 1 9 n 3 matrix M 0 n are uniformly bound in absolute value. It follows from (37) that</p><formula xml:id="formula_59">VC D Ã n2 ¼ k 2 ðn 1 þ n 2 Þ À1 M 0 n VC y n;3 M n<label>ð42Þ</label></formula><p>where VC y n;3 is the lower n 3 9 n 3 block of VC y n given in (15). Assumption 4(c) implies that the row and column sums of VC y n;3 are uniformly bound in absolute value. Therefore, the elements of M 0 n VC y n;3 M n are O(n 3 ) and so</p><formula xml:id="formula_60">VC D Ã n2 ! 0<label>ð43Þ</label></formula><formula xml:id="formula_61">if n 3 ðn 1 þn 2 Þ 1=2 ! 0:</formula><p>The results in ( <ref type="formula" target="#formula_57">41</ref>) and ( <ref type="formula" target="#formula_60">43</ref>) imply, via Chebyshev's inequality, that</p><formula xml:id="formula_62">D Ã n2 ! P 0<label>ð44Þ</label></formula><p>It follows from ( <ref type="formula" target="#formula_53">37</ref>), (39), and (44) that D n ! P 0: h</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Theorem 3</head><p>Recall that under Theorem 3, we have c [ 0. In light of ( <ref type="formula">30</ref>)-( <ref type="formula">32</ref>), it should be clear that the large sample distribution of ðn 1 þ n 2 Þ 1=2 ðĉ 2 À cÞ differs when c = 0 when compared to when c = 0 only because if c = 0 the probability limit of D n is not zero. In this case, the large sample distribution of ðn 1 þ n 2 Þ 1=2 ðĉ 2 À cÞ has a nonzero mean, which is the probability limit of Q À1</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Ẑ1þ2 Ẑ1þ2</head><p>D n but is otherwise the same as in the case in which c = 0.</p><p>To determine this probability limit, first note that the limits in (37) do not depend upon the assumption that n 3 ðn 1 þn 2 Þ 1=2 ! 0. Hence, we determine the probability limit of D n in terms of those of D Ã n1 and D Ã n2 : Consider D Ã n1 , and note by Assumption 6(a) that ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 J n;3 b 2 ! F 1þ2 b 2 . Therefore, in light of (37),</p><formula xml:id="formula_63">D Ã n1 ! Q 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 F 1þ2 b 2 :<label>ð45Þ</label></formula><p>Now consider D Ã n2 : Assumption 6(b),(c) imply that</p><formula xml:id="formula_64">ED Ã n2 ¼ kQ 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 ðn 1 þ n 2 Þ À1=2 H 0 n;1þ2 W u n;1þ2 Â ðI n À kW n Þ À1 n;3 ½X n b 1 þ W n J n b 2 ! kQ 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 ½L 1þ2 b 1 þ S 1þ2 b 2 ;<label>ð46Þ</label></formula><p>which is a finite (s ? r) 9 1 vector. The variance of D Ã n2 was computed in the proof of Theorem 2. The expression for the variance of D Ã n2 is given in (42) and was shown to converge to zero since n 3 ðn 1 þn 2 Þ ! 0. Hence by Chebychev's inequality,</p><formula xml:id="formula_65">D Ã n2 ! P kQ 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 ½L 1þ2 b 1 þ S 1þ2 b 2 ð 47Þ</formula><p>Pulling results together, it now follows from ( <ref type="formula" target="#formula_53">37</ref>), (45), and (47) that</p><formula xml:id="formula_66">Q À1 Ẑ1þ2 Ẑ1þ2 D n ! P Q À1 Ẑ1þ2 Ẑ1þ2 Q 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 F 1þ2 b 2 h þkQ 0 Z 1þ2 H 1þ2 Q À1 H 1þ2 H 1þ2 ðL 1þ2 b 1 þ S 1þ2 b 2 Þ i<label>ð48Þ</label></formula><p>Theorem 3 follows from ( <ref type="formula">30</ref>)-( <ref type="formula">32</ref>), ( <ref type="formula">34</ref>), ( <ref type="formula" target="#formula_53">37</ref>), ( <ref type="formula" target="#formula_63">45</ref>), (47), and (48). h</p></div>			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_0"><p>As one example, in hedonic models of housing prices involving a spatially lagged dependent variable, the prices of unsold houses would not be known. In some of these cases, the problem would be to predict the prices of the unsold homes given their attributes and the spatial interdependence described by the weighting matrix-see e.g.,<ref type="bibr" target="#b7">LeSage and Pace (2004)</ref>. See also<ref type="bibr" target="#b11">Kelejian and Prucha (2007)</ref> for issues relating to such prediction.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="3" xml:id="foot_1"><p>See e.g., the review inAnselin (1988, pp. 172-176), the discussions in Cressie (1993) under the category ''edge effects'' in the index of that book, and the various procedures described by<ref type="bibr" target="#b6">Haining (2003)</ref>.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="4" xml:id="foot_2"><p>We note that the specification of the regression model is typically based on economic theoretical reasoning; the disturbance process is the ''residual'' in the model, and typically theoretical reasoning does not apply to it. Hence, a non-parametrically specified disturbance process should, perhaps, be considered more often than it is!</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" xml:id="foot_3"><p>n;3:</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="5" xml:id="foot_4"><p>The proof of the consistency of the SHAC estimator in<ref type="bibr" target="#b11">Kelejian and Prucha (2007)</ref> is based on the assumption that the disturbance vector and the innovation vector are of the same dimension. The VC matrix appearing in (22) relates to u n,1 which is n 1 9 1. However, from (1) it is clear that the innovation vector defining u n,1 has dimension n 1 ? n 2 ? n 3 9 1. This difference requires tedious, but straight forward, adjustments of the formal proof of consistency of the SHAC estimator given in<ref type="bibr" target="#b11">Kelejian and Prucha (2007)</ref>. Essentially, the reason for this is part (c) of Assumption 4.</p></note>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><p>Acknowledgments We gratefully acknowledge financial support from the <rs type="funder">National Institute of Health</rs> through the <rs type="funder">SBIR</rs> grants <rs type="grantNumber">R43 AG027622</rs> and <rs type="grantNumber">R44 AG027622</rs>. We would like to thank two referees for insightful comments on an earlier draft.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_jgdjvu3">
+					<idno type="grant-number">R43 AG027622</idno>
+				</org>
+				<org type="funding" xml:id="_95MW9qe">
+					<idno type="grant-number">R44 AG027622</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix</head><p>Proof of Theorem 1 It follows from (18) and from (9) that</p><formula xml:id="formula_67">n 1=2 1 ðĉ 1 À cÞ ¼ n 1 Ẑ0 n;1 Ẑn;1 À1 n À1=2 Ẑ0 n;1 u n;1 ¼ n À1 1 Ẑ0 n;1 Ẑn;1 À1 n À1 Z 0 n;1 H n;1 n À1 1 H 0 n;1 H n;1 À1 n À1=2 H 0 n;1 R n;1 e n<label>ð27Þ</label></formula><p>Observe that n À1</p><formula xml:id="formula_68">1 Ẑ0 n;1 Ẑn;1 ¼ n À1 1 Z 0 n;1 H n;1 h i n À1 1 H 0 n;1 H n;1 h i À1 n À1 1 H 0 n;1 Z n;1 h i : Assump- tions 3(a), (b) and 5(a) imply n À1 1 Ẑ0 n;1 Ẑn;1 ! P Q 0 H 1 Z 1 Q À1 H 1 H 1 Q H 1 Z 1 Q Ẑ1 Ẑ1 n À1 1 H 0 n;1 Z n;1 ! P Q H 1 Z 1 ; n À1 1 H 0 n;1 H n;1 ! Q H 1 H 1 ;<label>ð28Þ</label></formula><p>where Q Ẑ1 Ẑ1 is a positive definite matrix. Assumptions 2 and 4(c) imply that the elements of H 0 n;1 R n;1 are uniformly bound. Given this, and Assumptions 1 and 5(b), and the central limit theorem in <ref type="bibr" target="#b9">Kelejian and Prucha (1998)</ref>, it follows that</p><formula xml:id="formula_69">n À1=2 H 0 n;1 R n;1 e n ! D Nð0; Q H 1 R 1 R 1 H 1 Þ ð<label>29Þ</label></formula><p>The proof of Theorem 1 follows from ( <ref type="formula" target="#formula_67">27</ref>)-( <ref type="formula" target="#formula_69">29</ref>).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Theorem 2</head><p>Recall that under Theorem 2, we have c = 0. It follows from ( <ref type="formula">11</ref>) and ( <ref type="formula">21</ref>) that</p><formula xml:id="formula_70">ðn 1 þ n 2 Þ 1=2 ðĉ 2 À cÞ ¼ ðn 1 þ n 2 Þ Ẑ0 n;1þ2 Ẑn;1þ2 À1 ! ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 n n h i<label>ð30Þ</label></formula><p>where it should be recalled that n n = [W n,1?2 u J n,3 b 2 ? k W n,1?2 u y n,3 ? u n,1?2 ] and u n,1?2 = R n,1?2 e n . Consider the first bracketed term in (30). Assumptions 3(d) and 5(c) imply that</p><formula xml:id="formula_71">ðn 1 þ n 2 Þ À1 Ẑ0 n;1þ2 Ẑn;1þ2 ! P Q 0 H 1þ2 Z 1þ2 Q À1 H 1þ2 ;H 1þ2 Q H 1þ2 Z 1þ2 Q Ẑ1þ2 Ẑ1þ2 ; ðn 1 þ n 2 Þ À1 H 0 n;1þ2 Z n;1þ2 ! P Q H 1þ2 Z 1þ2 ; ðn 1 þ n 2 Þ À1 H 0 n;1þ2 H n;1þ2 ! Q H 1þ2 H 1þ2 ;<label>ð31Þ</label></formula><p>where Q Ẑ1þ2 Ẑ1þ2 is a finite and nonsingular matrix. Now, consider the second bracketed term in (30). In light of (11),</p><formula xml:id="formula_72">ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 n n ¼ ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 W u n;1þ2 J n;3 b 2 þ kW u n;1þ2 y n;3 þ u n;1þ2 h i ¼ ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 u n;1þ2 þ D n ; D n ¼ ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 W u n;1þ2 J n;3 b 2 þ kW u n;1þ2 y n;3 h i :<label>ð32Þ</label></formula><p>We show below that the term D n in (32) limits to zero in probability so that</p><formula xml:id="formula_73">ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 n n À ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 u n;1þ2 ! P 0<label>ð33Þ</label></formula><p>and so, from ( <ref type="formula" target="#formula_70">30</ref>) to ( <ref type="formula" target="#formula_73">33</ref>)</p><formula xml:id="formula_74">ðn 1 þ n 2 Þ 1=2 ðĉ 2 À cÞ À Q À1 Ẑ1þ2 Ẑ1þ2 ðn 1 þ n 2 Þ À1=2 Ẑ0 n;1þ2 u n;1þ2 ! P 0:<label>ð34Þ</label></formula><p>Consequently, the two terms on the l.h.s. of (34) have the same limiting distribution.</p><p>In determining this distribution, note from Assumptions 3(d) and 5(c) that</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Missing observations in multivariate statistics I. Review of the literature</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Afifi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Elashoff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">61</biblScope>
+			<biblScope unit="issue">315</biblScope>
+			<biblScope unit="page" from="595" to="604" />
+			<date type="published" when="1966">1966</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Missing observations in multivariate statistics II. Point estimation in simple linear regression</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Afifi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Elashoff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="issue">317</biblScope>
+			<biblScope unit="page" from="10" to="29" />
+			<date type="published" when="1967">1967</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Missing observations in multivariate statistics III</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Afifi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Elashoff</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">325</biblScope>
+			<biblScope unit="page" from="337" to="358" />
+			<date type="published" when="1969">1969</date>
+		</imprint>
+	</monogr>
+	<note>Large sample analysis of simple linear regression</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Maximum likelihood estimates for a multivariate distribution when some observations are missing</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Anderson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="issue">278</biblScope>
+			<biblScope unit="page" from="200" to="203" />
+			<date type="published" when="1957">1957</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<monogr>
+		<title level="m" type="main">Spatial econometrics: methods and models. Kluwer, Boston Cressie NAC (1993) Statistics of spatial data</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1988">1988</date>
+			<publisher>Wiley</publisher>
+			<pubPlace>New York</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">The interpolation of time series by related series</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Friedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">57</biblScope>
+			<biblScope unit="issue">300</biblScope>
+			<biblScope unit="page" from="729" to="757" />
+			<date type="published" when="1962">1962</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Missing data in regression analysis</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Haining</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Spatial data analysis</title>
+		<meeting><address><addrLine>Cambridge Haitovsky Y</addrLine></address></meeting>
+		<imprint>
+			<publisher>Cambridge University Press</publisher>
+			<date type="published" when="1968">2003. 1968</date>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="67" to="82" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Models for spatially dependent missing data</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Lesage</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Pace</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Real Estate Finan Econ</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="233" to="254" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Missing observations in multivariate regression: efficiency of a first order method</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Am Stat Assoc</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="issue">328</biblScope>
+			<biblScope unit="page" from="1609" to="1616" />
+			<date type="published" when="1969">1969</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">A generalized spatial two-stage least squares procedure for estimating a spatial autoregressive model with autoregressive disturbances</title>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Real Estate Finan Econ</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="99" to="121" />
+			<date type="published" when="1998">1998</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Estimation of simultaneous systems of spatially interrelated cross sectional equations</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econom</title>
+		<imprint>
+			<biblScope unit="volume">118</biblScope>
+			<biblScope unit="page" from="27" to="50" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">HAC estimation in a spatial framework</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Prucha</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">J Econom</title>
+		<imprint>
+			<biblScope unit="volume">140</biblScope>
+			<biblScope unit="page" from="31" to="154" />
+			<date type="published" when="2007">2007</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Spatial spillovers in the development of institutions</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Kelejian</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Murrell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Shepotylo</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+		<respStmt>
+			<orgName>University of Maryland</orgName>
+		</respStmt>
+	</monogr>
+	<note>Manuscript</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Statistical analysis with missing data, 2nd edn. Wily</title>
+		<author>
+			<persName><forename type="first">J ;</forename><surname>Kmenta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>York Little</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Rubin</forename><forename type="middle">D</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Mu ¨ller W (2007) Collecting spatial data</title>
+		<meeting><address><addrLine>New York Maddala GS; New York; Berlin</addrLine></address></meeting>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1977">1986. 2002. 1977</date>
+		</imprint>
+	</monogr>
+	<note>Elements of econometrics, 2nd edn. Macmiilan, New</note>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

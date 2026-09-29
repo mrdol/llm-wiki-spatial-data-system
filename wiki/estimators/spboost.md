@@ -623,6 +623,79 @@ Project update (2026-07-06):
 - The current tuning grid for `mstop` is expanded up to `1000`.
 - Tuning outputs are written as `.rds` objects, not CSV files.
 
+## Registry
+
+Machine-readable source for `available_benchmark_estimators()` -- read directly by `code/package_metadata/export_spatialtidymodels_metadata.py`. Editing this block changes the exported registry; the prose above is for human readers only and is not parsed.
+
+```yaml
+estimator_registry:
+  - estimator: "spboost"
+    package: "spboost"
+    backend: "spboost::spbgam(BSPA_SAR_ML)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/k_neighbors"
+    tunable_parameters: "mstop, k_neighbors"
+    family: "SAR"
+    role: "alias"
+    reference_estimator: "spboost_bspa_sar_ml"
+    variant_family: "boosting"
+    dashboard_group: "Boosting"
+    notes: "Alias historique: SpBoost BSPA SAR avec ML pour rho; nu reste fixe."
+  - estimator: "spboost_bspa_sar_ml"
+    package: "spboost"
+    backend: "spboost::spbgam(BSPA_SAR_ML)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/k_neighbors"
+    tunable_parameters: "mstop, k_neighbors"
+    family: "SAR"
+    role: "variant"
+    reference_estimator: "sar_lag"
+    variant_family: "boosting"
+    dashboard_group: "Boosting"
+    notes: "BSPA SAR; ML estime le parametre spatial rho; nu reste fixe."
+  - estimator: "spboost_bspa_sar_cfe"
+    package: "spboost"
+    backend: "spboost::spbgam(BSPA_SAR_CFE)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/k_neighbors"
+    tunable_parameters: "mstop, k_neighbors"
+    family: "SAR"
+    role: "variant"
+    reference_estimator: "sar_lag"
+    variant_family: "boosting"
+    dashboard_group: "Boosting"
+    notes: "BSPA SAR; CFE estime le parametre spatial rho; nu reste fixe."
+  - estimator: "spboost_bspa_sem_ml"
+    package: "spboost"
+    backend: "spboost::spbgam(BSPA_SEM_ML)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/k_neighbors"
+    tunable_parameters: "mstop, k_neighbors"
+    family: "SEM"
+    role: "variant"
+    reference_estimator: "sem_error"
+    variant_family: "boosting"
+    dashboard_group: "Boosting"
+    notes: "BSPA SEM; ML estime le parametre spatial lambda; nu reste fixe."
+  - estimator: "spboost_bspa_sem_cfe"
+    package: "spboost"
+    backend: "spboost::spbgam(BSPA_SEM_CFE)"
+    requires_coords: true
+    requires_W: false
+    spatial_args: "coords/k_neighbors"
+    tunable_parameters: "mstop, k_neighbors"
+    family: "SEM"
+    role: "variant"
+    reference_estimator: "sem_error"
+    variant_family: "boosting"
+    dashboard_group: "Boosting"
+    notes: "BSPA SEM; CFE estime le parametre spatial lambda; nu reste fixe."
+```
+
 ## Related Pages
 
 - [[restricted_estimator_policy_v1]]

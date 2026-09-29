@@ -1,0 +1,1755 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">STATISTICAL PLASMODE SIMULATIONS -POTENTIALS, CHALLENGES AND RECOMMENDATIONS</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2023-05-10">10 May 2023</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Nicholas</forename><surname>Schreck</surname></persName>
+							<email>nicholas.schreck@dkfz-heidelberg.de</email>
+						</author>
+						<author>
+							<persName><forename type="first">Alla</forename><surname>Slynko</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Maral</forename><surname>Saadati</surname></persName>
+						</author>
+						<author>
+							<persName><forename type="first">Axel</forename><surname>Benner</surname></persName>
+						</author>
+						<author>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Statistics and Actuarial Science</orgName>
+								<orgName type="institution">Biostatistics Division German Cancer Research Center</orgName>
+								<address>
+									<postCode>D-69120</postCode>
+									<settlement>Heidelberg</settlement>
+									<country key="DE">GERMANY</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff1">
+								<orgName type="institution">University of Waterloo Ontario</orgName>
+								<address>
+									<postCode>N2L 3G1</postCode>
+									<country key="CA">CANADA</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff2">
+								<orgName type="institution">Freelance Statistician Saadati Solutions</orgName>
+								<address>
+									<postCode>D-68526</postCode>
+									<settlement>Ladenburg</settlement>
+									<country key="DE">GERMANY</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<affiliation key="aff3">
+								<orgName type="institution">Biostatistics Division German Cancer Research Center</orgName>
+								<address>
+									<postCode>D-69120</postCode>
+									<settlement>Heidelberg</settlement>
+									<country key="DE">GERMANY</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">STATISTICAL PLASMODE SIMULATIONS -POTENTIALS, CHALLENGES AND RECOMMENDATIONS</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2023-05-10">10 May 2023</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">874A8F52431D462376AC88AD05B5249E</idno>
+					<idno type="arXiv">arXiv:2305.06028v1[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-14T13:11+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>Statistical data simulation is essential in the development of statistical models and methods as well as in their performance evaluation. To capture complex data structures, in particular for high-dimensional data, a variety of simulation approaches have been introduced including parametric and the so-called plasmode simulations. While there are concerns about the realism of parametrically simulated data, it is widely claimed that plasmodes come very close to reality with some aspects of the "truth" known. However, there are no explicit guidelines or state-of-the-art on how to perform plasmode data simulations. In the present paper, we first review existing literature and introduce the concept of statistical plasmode simulation. We then discuss advantages and challenges of statistical plasmodes and provide a step-wise procedure for their generation, including key steps to their implementation and reporting. Finally, we illustrate the concept of statistical plasmodes as well as the proposed plasmode generation procedure by means of a public real RNA dataset on breast carcinoma patients.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Data availability is a crucial issue that arises in the context of statistical model development and validation, inference derivation, introduction of statistical concepts and many others <ref type="bibr" target="#b0">1,</ref><ref type="bibr" target="#b1">2,</ref><ref type="bibr" target="#b2">3</ref> . In some cases, especially for high-dimensional data (HDD) where the number of features is substantially larger than the number of observations, the number of data samples and data sets is not large enough to properly and reliably perform all required tasks. To overcome that deficiency, alternative data generation approaches such as the generation of artificial data are required. The generated data should match as close as possible the real-life data underlying the research question of interest, in particular with respect to its probabilistic structure as well as possible dependencies.</p><p>A common approach for data generation is statistical data simulation. In this paper, we interpret data simulation as a data generation procedure that follows a data-generating process (DGP), with marginal distributions and a dependence structure as its basic components. For explanatory and prediction models being in focus of the present paper, data generation procedures should necessarily include some steps on the generation of outcome variable(s). To this end, outcome-generating models (OGMs) are usually utilized to generate the outcomes using the available covariate information. Parameters of the OGM are to be estimated from real data, taken from literature or just set based on investigator's choice. Examples for outcome data generation can be found in Reeb and Steibel <ref type="bibr" target="#b3">4</ref> , Franklin et al. <ref type="bibr" target="#b4">5</ref> , Schulz et al. <ref type="bibr" target="#b5">6</ref> , Atiquzzaman et al. <ref type="bibr" target="#b6">7</ref> and many others. Shmueli <ref type="bibr" target="#b7">8</ref> depicts the application of OGMs both for explaining and prediction purposes.</p><p>For simulated data, the "truth" is assumed to be known a priori, at least to a some extent <ref type="bibr" target="#b8">9</ref> . That "truth" can be represented by simulation parameters or prespecified effect sizes, and is used to reliably evaluate the obtained estimates or predictions.</p><p>The most detailed practical introduction to simulation studies that includes structural approaches for their planning and reporting as well as the discussion on the appropriate performance measures is presented in Morris et al. <ref type="bibr" target="#b1">2</ref> . In particular, the authors introduce a coherent terminology on simulation studies, data-generating mechanisms, and provide guidance on coding simulation studies. Most prominently, they introduce the Aims, Data-generating mechanisms, Estimands, Methods, and Performance (ADEMP) criteria as a guidance for the planning and performing of simulation studies.</p><p>For those researchers who use the results of simulation studies without being familiar with the entire simulation process, the discussion presented in Boulesteix et al. <ref type="bibr" target="#b9">10</ref> can be of great assistance. The paper not only contains many useful examples and applications, but also describes basic principles of simulation studies, gives insights into sampling variability and data generating processes, and demonstrates the role of statistical simulations in health research.</p><p>Two common approaches for data generation are parametric and plasmode simulation, with the first approach being the most extensively studied and widely used one. Parametric simulations assume that the parametric stochastic model used to generate data is realistic and representative, with parameters of interest estimated from real data, derived from the literature or even set up by the user, in order to model specific scenarios <ref type="bibr" target="#b0">1,</ref><ref type="bibr" target="#b1">2</ref> . Plasmode data generation usually begins by resampling covariate information from the original real data <ref type="bibr" target="#b10">11,</ref><ref type="bibr" target="#b11">12</ref> . External (parametric) "truth" such as effect sizes or model parameter values in explanatory or prediction models can then be added to the covariable data sets to define the relationship between the covariables and the outcome. With the OGM being a part of the plasmode data generation procedure, the resulting plasmode simulation can then be viewed as a semi-parametric data generation procedure. Of note, parametrically simulated data may often be considered to be purely artificial, whereas plasmode data is claimed to reflect reality in the most close way <ref type="bibr" target="#b8">9,</ref><ref type="bibr" target="#b10">11,</ref><ref type="bibr" target="#b12">13</ref> .</p><p>In the present paper, we provide an extensive literature overview of parametric and plasmode simulations. In particular, we discuss the difference between biological and statistical plasmodes. We address advantages and challenges of parametric and statistical plasmode simulation approaches in various contexts and provide step-by-step recommendations for the generation of statistical plasmodes.</p><p>At this point, we have no intention to demonstrate the superiority of a plasmode simulation over a parametric simulation or vice versa. We aim to analyze advantages and challenges of both data generation methods, and to illustrate the usefulness of plasmode simulations as a complement to and possible extension of parametric simulation studies.</p><p>The paper is organized as follows: Section 2 discusses parametric and plasmode simulations, compares their characteristics and provides an extensive literature review on both data generation methods. Section 3 analyzes statistical plasmodes in more detail by discussing their challenges. Section 4 provides recommendations for planning, performing and reporting of statistical plasmode simulations. In Section 5, we present a numerical example to illustrate the application of such a data generation approach. Section 6 concludes with a discussion.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">From Parametric to Plasmode Simulation Studies</head><p>This section provides a comparative introduction to parametric and plasmode simulations. In particular, we start with a description of the main properties of parametric simulations as one of the most well-established types of data generation. Then we move on to plasmode simulations which are often claimed to be a more close-to-reality approach for data generation.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Parametric Data Simulation</head><p>In cases where an underlying DGP is defined in closed form and represented by a parametric stochastic model, we speak of parametric simulations.</p><p>The main asset of parametric simulations is their flexibility in terms of the chosen DGP. That is, one can easily generate a variety of independent data sets by varying the assumptions imposed on the DGP and its crucial parameters. As a result, the simulated data sets can cover many complex but relevant scenarios as well as extreme situations that do not reflect reality. This feature becomes particularly important whenever we aim to analyze the behaviour and performance of different statistical methods. In addition, the knowledge of the DGP makes the corresponding parametric simulation more transparent and plausible.</p><p>Parametric simulations depreciate the sample size issue as an unlimited amount of data can be generated by means of a particular DGP. For instance, when applied to simulation of continuous random variables, an "infinite" number of distinct data points can be generated without much effort.</p><p>The corresponding DGP represents a cornerstone of any parametric simulation. However, the existence of an appropriate model for the DGP that best fits some underlying real data cannot be taken for granted. On the other hand, even with a DGP available, the conclusions based on parametric simulations might be limited or even biased by the parameters of the chosen DGP model.</p><p>Obviously, the quality of a parametric simulation depends on the level of our comprehension of the underlying processes, distributions and possible dependencies. For instance, Vaughan et al. <ref type="bibr" target="#b12">13</ref> state that simulations might not fully reflect the complexity of the biological data that originates from nonrandom mating, recombination, hot spots, and other genetic mechanisms. Boulesteix et al. <ref type="bibr" target="#b9">10</ref> provides a similar statement and claims that many simulation studies are too simplified to describe the complexity of the real life data and thus may lead to inaccurate or even misleading findings.</p><p>When generating new data, we strive to preserve not only the marginal distributions but also the underlying dependence structure. In this context, the specification of appropriate dependence metrics, such as correlation, emerge. One of the options for such a specification is estimation of the dependence structure from the data at hand. Computationally, such an estimation can be very expensive and time-consuming, especially in case of large data sets. For parametric simulations, this computational issue is one of possible reasons for making independence assumptions on certain variables that then leads to a block diagonal structure for the corresponding correlation matrix <ref type="bibr" target="#b10">11</ref> . Furthermore, a multivariate normal distribution provides the simplest model for multivariate covariate data with a pre-specified mean and correlation structure <ref type="bibr" target="#b0">1</ref> . For generating non-normal correlated data, diverse copulas or the extended Fleischman power method can be utilized <ref type="bibr" target="#b13">14</ref> . Obviously, certain concerns about the accuracy and realism of the underlying modelling assumptions emerge for all such approaches.</p><p>One of the assumptions imposed in the context of parametric simulations is that the "truth" must be known a priori. Such an assumption may not hold in both low-and high-dimensional situations. However, high-dimensionality may even exacerbate this issue making parametric simulations inapplicable. For instance, the "truth" about the set of biological markers truly associated with a given outcome may be unknown <ref type="bibr" target="#b14">15</ref> .</p><p>Within the framework of a parametric simulation, the underlying dependence structure has to be completely specified in advance. The specification of such a dependence structure for high-dimensional data may become a challenge. Possible reasons can be not only computational efficiency issue, but also spurious correlations <ref type="bibr" target="#b15">16</ref> , sparsity of the data, some nonlinear or even hidden dependencies and other issues related to large covariance matrices; for more discussion and examples see Fan and Li 17 , Johnstone and Titterington <ref type="bibr" target="#b17">18</ref> and the references therein. Pitfalls in the specification of the dependence structure may then lead to false research discoveries and incorrect statistical inferences.</p><p>Dimensionality reduction and feature extraction play pivotal roles and are often fundamental in many high-dimensional settings <ref type="bibr" target="#b16">17</ref> . However, it is not obvious how a parametric simulation may impact the findings of those procedures considering possible non-representativeness of parametrically generated covariate data sets.</p><p>Altogether, in many cases parametric simulations may turn out to be infeasible for high-dimensional data generation as it is not obvious how such simulations would cope with features of high-dimensionality.</p><p>A number of papers share our concerns on the applicability of parametric simulations for the generation of highdimensional data sets. For instance, Gadbury et al. <ref type="bibr" target="#b11">12</ref> question the applicability of standard simulations performed in a high-dimensional experiment where hundreds of hypotheses are to be tested. Also Franklin et al. <ref type="bibr" target="#b4">5</ref> sees the application of ordinary simulation methods as an issue when comparing high-dimensional variable selection strategies. In particular, the authors point out that the performance of those strategies depend "[. . . ] on the information richness and complexity of the underlying empirical data source" and it is doubtful whether a parametric simulation is able to capture the richness and complexity of the information.</p><p>To overcome, at least partially, the limitations of parametric simulations outlined above, plasmode simulations have been introduced <ref type="bibr" target="#b10">11,</ref><ref type="bibr" target="#b12">13,</ref><ref type="bibr" target="#b4">5</ref> .</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Plasmode Data Simulation</head><p>The term "plasmode" has been first introduced in Cattell and Jaspers <ref type="bibr" target="#b18">19</ref> , with a plasmode data set defined as " [. . . ] a set of numerical values fitting a mathematico-theoretical model". In their seminal work, the authors emphasized that the certainty for the produced plasmode data set to fit the model comes either because there is a real life experiment producing the data of that kind or because the simulated data is produced mathematically to fit the functions. Two different approaches for plasmode generation, performed either in a lab experiment or by resampling, were also mentioned in Mehta et al. <ref type="bibr" target="#b10">11</ref> . In the present paper, we refine the discussions provided by these authors, introduce the concept of statistical plasmodes and analyze their properties. From our perspective, the classification of plasmodes in biological and statistical depends on the procedure used for their generation. Biological plasmodes are those generated " [. . . ] by natural biological processes, under experimental conditions that allow some aspects of the truth to be known" <ref type="bibr" target="#b12">13</ref> . Such plasmodes may be created, e.g., in a wet lab by manipulating biological samples as in case of a "spike in" experiment <ref type="bibr" target="#b10">11,</ref><ref type="bibr" target="#b12">13</ref> . The latter paper provides a very illustrative introduction to biological plasmodes. In their detailed definition, the authors state that " [. . . ] a plasmode can be defined as a collection of data that (i) is the result of a real biological process and not merely the result of a computer simulation; (ii) has been constructed so that at least some aspect of the "truth" of the DGP is known".</p><p>A number of research papers such as Mehta et al. <ref type="bibr" target="#b8">9</ref> , Vaughan et al. <ref type="bibr" target="#b12">13</ref> deal with "spike in" experiments in microarray expression analysis as an example for a biological plasmode data set. As part of that experiment, real cases from one population are randomly assigned to two groups. Then, a known amount of transcript is added to serve as a positive control. As a result, distributions and correlations in the generated data are viewed as most realistic since being taken directly from real data. Besides others, Mehta et al. <ref type="bibr" target="#b10">11</ref> discusses application of plasmode data sets in high-dimensional biology. Vaughan et al. <ref type="bibr" target="#b12">13</ref> use plasmodes for the estimation of admixture, or the proportion of an individual's genome that originated from different founding populations and thus illustrates the utility of plasmodes in the evaluation of statistical genetics methodologies. Several authors such as Sokal et al. <ref type="bibr" target="#b19">20</ref> , Mehta et al. <ref type="bibr" target="#b10">11</ref> provide helpful insights into generation and application of biological plasmodes as those to be expected to incorporate valuable information on biological variation and capture biological reality. Biological plasmode data sets have also been utilized to evaluate the performance of statistical methods <ref type="bibr" target="#b20">21</ref> and their validity <ref type="bibr" target="#b8">9</ref> . Plasmode data sets were also used to investigate the validity of multiple factor analysis in a known biological model <ref type="bibr" target="#b19">20</ref> .</p><p>Despite their ability to create new and more advanced biological set-ups, e. g. , by crossing mice <ref type="bibr" target="#b12">13</ref> , sometimes biological plasmodes may become not only very time-consuming but also require high experimental costs. Researchers might eventually do not have a lab available to construct biological plasmodes. In some cases, ethical reasons may also speak against the construction of biological plasmodes. In all such situations, statistical plasmodes offer an advantageous alternative.</p><p>Statistical plasmodes, being in focus of the present paper, begin with generation of covariate information performed by applying resampling-based methods to real data set <ref type="bibr" target="#b21">22,</ref><ref type="bibr" target="#b3">4,</ref><ref type="bibr" target="#b4">5</ref> ; note that no biologically new samples are created in the context of such resampling procedure. Further, an appropriate OGM has to be applied to generate outcomes based on the resampled covariates <ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b22">23,</ref><ref type="bibr" target="#b23">24,</ref><ref type="bibr" target="#b24">25,</ref><ref type="bibr" target="#b25">26,</ref><ref type="bibr" target="#b26">27,</ref><ref type="bibr" target="#b27">28,</ref><ref type="bibr" target="#b6">7,</ref><ref type="bibr" target="#b28">29,</ref><ref type="bibr" target="#b29">30,</ref><ref type="bibr" target="#b30">31,</ref><ref type="bibr" target="#b31">32</ref> . In cases where the exposure modeling is also a part of the study <ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b22">23,</ref><ref type="bibr" target="#b23">24,</ref><ref type="bibr" target="#b26">27,</ref><ref type="bibr" target="#b28">29</ref> , some known "truth" such as e. g. treatment effects can be added manually <ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b27">28,</ref><ref type="bibr" target="#b25">26,</ref><ref type="bibr" target="#b6">7,</ref><ref type="bibr" target="#b28">29</ref> . For instance, in Franklin et al. <ref type="bibr" target="#b4">5</ref> the authors create statistical plasmode data sets by " [. . . ] resampling from the observed covariate and exposure data without modification to preserve the empirical associations among the variables." In that paper, the "true" treatment effect and the baseline hazard function are estimated from the empirical data. Further, the associations between outcome and the covariates as well as between censoring times and the covariates have been described by means of two Cox proportional hazard models. Such modeling approach corresponds to the application of a OGM in our terminology.</p><p>According to our interpretation, statistical plasmode simulations utilize aspects of resampling (when generating the covariate information) as well as parametric modeling (e.g., application of OGM, modeling of exposure etc.) and thus can be interpreted as semi-parametric methods.</p><p>There are numerous applications of plasmodes generated by certain methods of data modifications in the literature. Some of those applications are based on statistical approaches in the sense of our definition. For instance, Tibshirani <ref type="bibr" target="#b21">22</ref> utilize plasmodes to assess sample size requirements in microarray experiments when estimating the false discovery rate and false negative rate for a list of genes. Gadbury et al. <ref type="bibr" target="#b11">12</ref> illustrates use of plasmodes by comparing the performance of 15 statistical methods for estimating the false discovery rate in data from an high-dimensional experiment. Elobeid et al. <ref type="bibr" target="#b32">33</ref> employs plasmode data sets to analyze the performance of several statistical methods used to handle missing data in obesity randomized controlled trials. Reeb and Steibel <ref type="bibr" target="#b3">4</ref> suggest an interesting application of plasmode data sets to complement the evaluation of statistical models for RNA-seq data. In their subsequent paper, Reeb et al. <ref type="bibr" target="#b33">34</ref> then use plasmode data sets to assess dissimilarity measures for sample-based hierarchical clustering of RNA sequencing data. In Franklin et al. <ref type="bibr" target="#b4">5</ref> , plasmode-based studies are used for the evaluation of pharmacoepidemiologic methods in complex healthcare databases. Resampling in combination with outcome generation by a logistic model to compare the HDD propensity score method with ridge regression and lasso is used by Franklin et al. <ref type="bibr" target="#b22">23</ref> . Franklin et al. <ref type="bibr" target="#b23">24</ref> use plasmode-based studies to compare the performance of propensity score methods in the context of rare outcomes. In Desai et al. <ref type="bibr" target="#b25">26</ref> , the authors utilize plasmode data sets to analyze the uncertainty in using bootstrap methods for propensity score estimation whereas Liu et al. <ref type="bibr" target="#b27">28</ref> conducts a plasmode-based study to compare the validity and precision of marginal structural models estimates using complete case analysis, multiple imputation, and inverse probability weighting in the presence of missing data on time-independent and time-varying confounders. The issue of data imputation has also been addressed in Atiquzzaman et al. <ref type="bibr" target="#b6">7</ref> where the authors used plasmodes to compare two imputation techniques when imputing body mass index variable in osteoarthritis-cardiovascular disease relationship. In Ejima et al. <ref type="bibr" target="#b34">35</ref> , the authors use statistical plasmodes to assess type I and type II error rates of analyses commonly used in murine genetic models of obesity. Similarly, Alfaras et al. <ref type="bibr" target="#b35">36</ref> resample from the empirical distributions to create plasmode data sets for murine aging data. Those plasmodes are then utilized to compute type I error rates and power for commonly used statistical tests without assuming a normal distribution of residuals. In their most recent study, Hafermann et al. <ref type="bibr" target="#b30">31</ref> designs a plasmode simulation study to investigate how random forest and machine learning methods may benefit from external information provided by prior variable selection studies. Rodriguez et al. <ref type="bibr" target="#b31">32</ref> evaluate plasmodes as being useful for preserving the underlying dependencies among hundreds of variables in real-world data used to evaluate the potential utility of novel risk prediction models in clinical practice; the authors generate plasmodes when studying lung transplant referral decisions in cystic fibrosis.</p><p>To our understanding, two central steps in the statistical plasmode generation procedure can be derived, namely:</p><p>(i) Generation of the covariate structure by resampling from an original data set That discussion as well as the supporting literature imply that plasmodes provide an attractive supplement to parametric simulations in data-based research. In particular, it is expected that plasmode datasets resemble the reality most closely, especially regarding dependency structures. In the following, we will analyze plasmodes in detail to examine their strengths and weaknesses in more detail.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Challenges of Statistical Plasmode Simulations</head><p>Simulations studies are, at least in the scope of the present work, designed to enable the practical analysis of statistical methods. To this end, data generation should satisfy several criteria, such as, amongst others, to provide the basis for subsequent undistorted model comparisons or to enable a specific covariate dependence structure. Constructing, reporting and comprehending a parametric simulation study is mostly straightforward and transparent, as the resulting data is artificially generated in a target-oriented way. Critical steps in the construction of parametric simulations include, for instance, the investigator's choice of the outcome-covariable association. While this ambiguity is shared by statistical plasmode simulations, many of the properties of statistical plasmodes are typically less obvious and verifiable because statistical plasmodes are designed with the complex task to mimic reality in the closest way while simultaneously specifying some aspects of the truth. The main advantage of statistical plasmodes lies in their ability to generate data with specific distributions and dependence structures without the need for explicit assumptions. The assumption that statistical plasmodes can faithfully generate data that closely resemble reality has rarely been questioned. In practice, however, this assumption can present challenges. For instance, the lack of statistical analyses or simulations to verify the preservation of dependence structures can undermine the reliability of the generated data. Consequently, the advantages attributed to statistical plasmodes can also transform into challenges. Further potentially critical steps in the construction of plasmode data include the representativeness of the underlying data and the choice of the resampling scheme. Below, we theoretically discuss these potential pitfalls in more detail while also providing corresponding examples from literature.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Resampling of Covariate Information</head><p>In our concept of statistical plasmodes, the simulation is based on the generation of covariable information by resampling from a real data set. This has the intention to preserve the characteristics of the original underlying dataset such as, amongst others, the number and type of covariables and the corresponding dependence structure, see e. g. Franklin et al. <ref type="bibr" target="#b22">23</ref> , Atiquzzaman et al. <ref type="bibr" target="#b6">7</ref> , Conover et al. <ref type="bibr" target="#b28">29</ref> . This preservation is primarily achieved through the use of appropriate resampling techniques. Consequently, the applied resampling scheme, which consists of specifying the number of generated datasets (N ) and the resampling technique, has central importance for the generated plasmode (covariable) datasets.</p><p>Of note, while utilizing resampling, statistical plasmodes are arguably even more complicated to analyze because of the additional artificial outcome generation. Consequently, not all established theoretical results concerning resampling might be transferable to the full plasmode dataset but only to the plasmode covariable datasets. We use the terminology resampling and bootstrap interchangeably and indicate the concrete resampling/bootstrapping technique if necessary. The analysis of resampling methods is almost exclusively formulated in terms of the asymptotic performance of the bootstrap distribution L * of an estimator T (e. g. variance, confidence interval) applied to the empirical distribution of the resampled data 37 e.g.. For statistical plasmode covariable datasets, the estimator T could be, for example, some function of the covariance matrix of the covariables (preservation of correlation structure). When considering the statistical plasmode procedure as a whole, the estimator of interest T typically utilizes the artificial outcomes, e. g. T could be the linear predictor in ridge regression when investigating its performance compared to other models. The resampling is said to "have worked", if L * convergences weakly to L (the theoretical distribution of T ) for increasing sample size n of the underlying data 38 e.g.. Otherwise, one speaks of "bootstrap failure". In the following, we discuss the influence of the chosen resampling scheme on the generated plasmodes in more detail, focusing mainly on the preserveness of the covariable information.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Number of Plasmode Datasets N .</head><p>The specification of the number of resampled plasmode datasets N is often performed ad-hoc and potentially leads to different answers to the same question, in particular if N is specified as too small <ref type="bibr" target="#b38">39</ref> . In the framework of bootstrap tests, Davidson and MacKinnon <ref type="bibr" target="#b39">40</ref> propose a pretest procedure for choosing the number of bootstrap samples to minimize the loss of power due to N being finite. A more general, data-dependent three-step procedure is proposed by Andrews and Buchinsky <ref type="bibr" target="#b38">39</ref> who estimate N to achieve a desired accuracy of the approximation of the bootstrap to the ideal (N → ∞) distribution of the estimator of interest. However, to the best of our knowledge, there is no general guideline to theoretically specify the number N of datasets to be generated in a data-independent way (i. e. without already performing the resampling scheme) such that asymptotic resampling results hold with sufficient accuracy. Moreover, existing results might not be valid for statistical plasmodes due to the additional artificial outcome-generation procedure.</p><p>In the plasmode literature, N = 500 <ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b25">26,</ref><ref type="bibr" target="#b6">7</ref> e.g. and N = 1000 <ref type="bibr" target="#b27">28,</ref><ref type="bibr" target="#b26">27,</ref><ref type="bibr" target="#b30">31</ref> e.g. seem to be popular ad-hoc choices. We have not seen any application where the choice of N was explicitly justified or the convergence or stability of the subsequent analyses applied to the plasmode data have been checked for increasing N . In summary, the number of datasets can be critical aspect in the generation of statistical plasmodes, in particular if convergence of T is not reached. In Section 4 we provide some recommendations for determining N which we further illustrate in Section 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Resampling Technique.</head><p>Resampling can be performed without replacement as in the n-over-m bootstrap (subsampling with m &lt; n) and sample-splitting (cross-validation) bootstrap. Subsampling draws from the data-generating process of the original data <ref type="bibr" target="#b40">41</ref> and has been shown to lead to consistent estimators under minimal conditions, see Theorem 1 in Bickel et al. <ref type="bibr" target="#b36">37</ref> , as long as the subsampling size m and the size of the original dataset n are appropriately specified. Alternatively, resampling with replacement such as the n-out-of-n bootstrap (also called nonparametric bootstrap) can be utilized. Resampling schemes based on drawing with replacement draw from empirical probability distribution derived from the underlying data <ref type="bibr" target="#b40">41</ref> and require additional assumptions for consistent estimation, but are more efficient if the bootstrap "works" <ref type="bibr" target="#b36">37</ref> . However, the nonparametric bootstrap can fail, for example when the limiting distribution of the estimator has discontinuities, when estimating extrema and when setting critical values for some test statistics <ref type="bibr" target="#b36">37,</ref><ref type="bibr" target="#b41">42,</ref><ref type="bibr" target="#b42">43</ref> .</p><p>As a remedy, the m-out-of-n bootstrap (sampling m ≤ n with replacement) has been introduced to prevent bootstrap failure while losing efficiency if the nonparametric bootstrap was consistent. Sampling fewer than n observations has since been treated as a "cure-all" method (being asymptotically valid under weak assumptions and not failing) which has been critically discussed, for instance, in Andrews and Guggenberger <ref type="bibr" target="#b42">43</ref> . A comprehensive overview of resampling techniques is provided, e. g. , in Bickel et al. <ref type="bibr" target="#b36">37</ref> .</p><p>For increasing sample size n, estimators based on subsampling and the m-out-of-n bootstrap become more similar as the probability of repeating observations decreases. Note that, contrary to subsampling, resampling with replacement allows for m = n. The additional requirements for the consistency of sampling with replacement compared to sampling without replacement mainly state, informally speaking, that the influence of tied observations on the bootstrap estimator should be small <ref type="bibr" target="#b37">38</ref> .</p><p>In the majority of literature concerning plasmode generation, the m-out-of-n bootstrap has been used <ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b24">25,</ref><ref type="bibr" target="#b29">30</ref> e.g., whereas the nonparametric bootstrap has been used by Rodriguez et al. <ref type="bibr" target="#b31">32</ref> , the sample-split bootstrap by Gerard <ref type="bibr" target="#b43">44</ref> and subsampling by Hafermann et al. <ref type="bibr" target="#b30">31</ref> . In some publications we did not find indications whether resampling was performed with or without replacement, e. g. in Ju et al. <ref type="bibr" target="#b44">45</ref> , Ripollone et al. <ref type="bibr" target="#b26">27</ref> . All in total, the type of resampling technique influences asymptotic properties of the covariables and hence of the plasmode datasets, effects whether the resampling "has worked" and consequently impacts subsequent analyses on the generated plasmodes datasets. However, to the best of our knowledge, we have not seen any application in the literature concerning plasmode data generation in which the choice of a particular resampling technique has been explicitly justified.</p><p>Resampling Size m. Using resampling with replacement of size m, with m → ∞ and m/n → 0, typically resolves failure of the n-out-of-n bootstrap, but requires the specific choice of m as a key issue <ref type="bibr" target="#b37">38</ref> . An adaptive rule for the choice of m for subsampling and the m-out-of-n bootstrap in the case of independent observations has been proposed by Bickel and Sakov <ref type="bibr" target="#b37">38</ref> and is further illustrated in our example in Section 5. Informally speaking, if m is in the right range of values, the bootstrap distributions of the estimator for the similar m's are close to each other, indicating consistency of the estimator. The rule provides an adaptive estimator m * (n) and leads to optimal convergence rates of the estimator irrespective whether the nonparametric bootstrap would work in the example (then m * (n)/n → 1 as n → ∞) or would fail (then m * (n)/n → 0).</p><p>To the best of our knowledge, only fixed resampling sizes m have been chosen in the plasmode literature, and we have not observed any explicit justification of the specific value of m. In other words, m appeared to be chosen arbitrarily. For instance, Hafermann et al. <ref type="bibr" target="#b30">31</ref> used a selection of m s (250, 500, 1, 000, 2, 000, 4, 000) which are small compared to the number of observations n = 198, 895 while Liu et al. <ref type="bibr" target="#b27">28</ref> chose m = 500 for a dataset with n = 646 and Atiquzzaman et al. <ref type="bibr" target="#b6">7</ref> sampled m = 75, 000 out of n = 84, 452. Interestingly, different authors used different values of m which have been chosen without justification for the same underlying dataset, as exemplified for the NSAID dataset with n = 49, 653. While m = 30, 000 has been picked by Franklin et al. <ref type="bibr" target="#b4">5</ref> and Ripollone et al. <ref type="bibr" target="#b26">27</ref> used a comparably large m = 25, 000 as well, Ju et al. <ref type="bibr" target="#b44">45</ref> chose a much smaller value in m = 1, 000 and Wyss et al. <ref type="bibr" target="#b29">30</ref> set m = 10, 000. In summary, when applying subsampling or the m-out-of-n bootstrap, the value of m matters for the consistency of T , and should be properly justified and adapted to the underlying data and estimator(s) of interest.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Covariable Dependence Structure and HDD.</head><p>Resampling the covariable information has, amongst others, the aim of preserving the covariable dependence structure of the underlying dataset; see e. g. Franklin et al. <ref type="bibr" target="#b4">5</ref> , Karim et al. <ref type="bibr" target="#b24">25</ref> , Conover et al. <ref type="bibr" target="#b28">29</ref> . Under some assumptions such as i. i. d. observations and finite fourth moments of the covariables, Beran and Srivastava <ref type="bibr" target="#b45">46</ref> have shown that the resampled covariance matrix converges to the original covariance matrix for the nonparametric bootstrap when n increases and the number of covariables p is fixed (i. e. most HDD situations excluded, see also below). However, for other resampling schemes similar results have, to the best of our knowledge, not been shown. For the m-out-of-n bootstrap, the optimal m could be estimated with the estimator T specified to represent the covariable covariance matrix in order to investigate and ensure that the resampling scheme works (at least for that certain aspect of the data), see also our example in Section 5. However, other aspects of the covariable information, such as extreme values, might be more important in some applications.</p><p>A well-discussed issue, in particular in the context of HDD, is the occurrence of spurious correlations. Amongst others, Fan et al. <ref type="bibr" target="#b15">16</ref> have shown that sampling p independent normal n-vectors leads to empirical covariance structures strongly deviating from a diagonal matrix, in particular if p n. However, the risk of spurious correlations is not limited to parametric simulations. An increasing number of covariates p increases the risk that the underlying data sample suffers from spurious correlations, which may be propagated to the generated plasmode datasets by resampling. Further spurious correlation is likely to distort the empirical covariance structure of the statistical plasmodes, leading to even stronger deviations to the population covariance matrix.</p><p>For a fixed number of covariables p, the bootstrap has been shown to work in linear models if p/n is small <ref type="bibr" target="#b46">47</ref> . If the number of covariables growths with the number of observations, Mammen <ref type="bibr" target="#b47">48</ref> have shown that the bootstrap works for effect estimates in high-dimensional linear models if p(n) → ∞ and p(n)/n → 0 as n → ∞, and Karoui and Purdom <ref type="bibr" target="#b48">49</ref> have shown that the confidence intervals of the pairs and residual bootstrap in linear models are too wide if p(n)/n → c, c ∈ R.</p><p>In summary, the goal of preserving the covariable dependence structure can be used to determine an optimal resampling scheme. In particular in high-dimensions, the covariance structure could, however, be distorted by spurious correlations and whether resampling and subsequently statistical plasmodes work in these scenarios might require additional research.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Representativity of the Underlying Data Sample</head><p>One of the main assets attributed to statistical plasmode simulations is that they are expected to preserve the complex real-world data structure by resampling the covariable information from a real dataset. Naturally, an appropriate representative dataset has to be available and constitutes the basis for the entire plasmode simulation study. Parametric simulations, on the other hand, can be artificially constructed without requiring representative data. The data sample is expected to represent the population of interest. This limits the generalisability of the results of the analyses that the plasmode simulation study was designed for, which has been acknowledged, amongst other, by Franklin et al. <ref type="bibr" target="#b4">5</ref> , Liu et al. <ref type="bibr" target="#b27">28</ref> , Atiquzzaman et al. <ref type="bibr" target="#b6">7</ref> .</p><p>The data sample should satisfy the assumptions of the applied resampling technique. As a result, the choice of the resampling technique depends strongly on the underlying dataset at hand. Standard resampling techniques, such as discussed above, assume that the observations are independent 37 e.g.. This assumption is violated, for instance, if the observations show clusters, repeated measures, population structure or longitudinal measurements. In this context, more sophisticated resampling scheme including block-wise resampling have to be applied, for which most of the asymptotic results are not explicitly formulated <ref type="bibr" target="#b37">38</ref> .</p><p>Depending on the underlying data and the resampling scheme, the characteristics of the original dataset to be conserved might not be reflected by the generated data. This is acknowledged by Karim et al. <ref type="bibr" target="#b24">25</ref> who state that "[. . . ] it is possible that important confounders in the empirical study might not remain important in the plasmode samples".</p><p>In summary, the generated statistical plasmode datasets depend strongly on the representativeness of the underlying real data and are limited to the population represented by the data sample. The resampling scheme should be adaptive to the characteristics of the real data such as population structure, which have to be identified and reported.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.3">Investigator's Choice of the "Truth"</head><p>The concept of plasmode simulations is mainly based on preserving the complex but realistic structure of the underlying data while inserting some "truth" by investigator's choice. These specification can be manifold in type, and potentially distort the real-word characteristics of the generated plasmode data.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Artificial Covariables.</head><p>Additional to resampling covariable information, important covariables such as exposure or treatment variables can be artificially created to model some aspects of the simulation study. For instance, Franklin et al. <ref type="bibr" target="#b23">24</ref> and Conover et al. <ref type="bibr" target="#b28">29</ref> model a binary exposure variable in relation to confounder variables via logistic regression, while Rodriguez et al. <ref type="bibr" target="#b31">32</ref> simulate covariables at a later stage of a longitudinal study. Naturally, artificially generating covariables does not preserve the full real-world setting and should be performed with care.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Artificial Outcome Generation.</head><p>With the covariable information generated (by resampling or artificially), corresponding artificial outcomes are created, in our concept of statistical plasmodes, according to some outcome-covariable association specified by the investigator. A straightforward way to create a transparent association between resampled covariates and the artificial outcomes is to utilize regression models specified by the combination of a link function (type of OGM) and the linear predictor (effect structure).</p><p>The OGM determines the type of the artificial outcome (e. g. binary, survival) and strongly influences subsequent analyses on the generated data. For instance, if the aim of the study is the performance assessement of several models, the model closest to the chosen type of OGM has an advantage induced by the investigator, leading to potentially distorted comparisons. Most commonly, logistic regression is used for binary outcomes <ref type="bibr" target="#b23">24,</ref><ref type="bibr" target="#b24">25,</ref><ref type="bibr" target="#b6">7</ref> e.g. and the Cox model for survival endpoints <ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b22">23,</ref><ref type="bibr" target="#b25">26</ref> e.g., whereas Rodriguez et al. <ref type="bibr" target="#b31">32</ref> apply an exponential survival model. Normal linear regression is used by Liu et al. <ref type="bibr" target="#b27">28</ref> .</p><p>Besides the type of OGM, the determination of the effect structure of the corresponding linear predictor is vital. Parts of the effect vector have been specified by literature review <ref type="bibr" target="#b28">29</ref> , by sampling from independent standard normal distributions <ref type="bibr" target="#b44">45</ref> , by estimation on the original dataset <ref type="bibr" target="#b27">28,</ref><ref type="bibr" target="#b29">30</ref> or manually by investigator's choice <ref type="bibr" target="#b4">5,</ref><ref type="bibr" target="#b22">23,</ref><ref type="bibr" target="#b25">26</ref> . Some authors specify the treatment or exposure effect by hand while estimating the confounder effects on the original data 25 e.g.. Specifying the value of the effects of covariables might represent a strong intervention in the generation process of a realistic dataset. Potential problems include the creation of artificial outcome-covariate associations and invalidating or even nullifying existing "real" associations between the covariables and the novel, artificial outcomes, in particular if the effects are set manually by investigator's choice. If the effects are estimated, they depend on the underlying data sample and estimation uncertainty is ignored. Additionally, the specification of the type of OGM influences effect estimates and subsequent analyses might become problematic. For example, an effect vector estimated by a sparse method will induce advantages of sparse methods in model comparisons on the generated data.</p><p>In summary, a crucial assumption for both parametric and plasmode simulations is that the chosen outcome generation reflects realistic, natural or biological associations between outcome and covariables. Whereas the choice of the OGM and the effect structure is a natural aspect of parametric simulation studies, plasmodes are often described as closely depicting reality. However, the outcome data in statistical plasmodes are also artificially created while inducing some investigator's choice "truth". These manipulations of the real-data are harder to assess and less transparent than in parametric simulations studies as the structure of the data is typically more complex. In the end, plasmode generation also leads, at least in part, to artificial data and constructed associations.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Statistical Plasmodes: Step-by-step Recommendations</head><p>We provide a hands-on overview of our recommendations for the generation and reporting of our concept of statistical plasmodes in Figure <ref type="figure" target="#fig_0">1</ref>. This summary extends the basic plasmode generation procedure described in Section 2 and addresses the critical steps discussed in the previous section. We theoretically discuss our step-by-step procedure below and illustrate its application in a real data example in Section 5.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 1: Planning of the Simulation Study.</head><p>We recommend to clearly formulate the research problem and to plan the simulation study using the ADEMP criteria 2 . Fixing the aims and the data-generating processes aids in the choice whether statistical plasmodes are needed in the first place or whether a parametric simulation study might be more For instance, if we plan to assess the prediction performance of several models, we should make sure that the chosen OGM does not bias the subsequent model comparisons. Also, the choice of the OGM and data generating process determine the scenarios in which the properties of novel statistical methods can be empirically assessed in the context of the simulation study.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 2: Population of Interest.</head><p>The population of interest can be of primary interest and consequently be strongly connected to the aim of the simulation study and the data-generating processes determined in the previous step, in particular if methods are developed to deal with populations with certain characteristics (e. g. many missing values, complex covariance structure, high-dimensionality). However, we might also be mainly be interested in the analysis of statistical methods such that the population of interest serves mainly as an illustration and is not necessarily connected to Step 1. In the latter case, particular effort should be taken clarify why the chosen population covers those situations in which the methods under consideration are claimed to work. In any case, the hypothetical population should be stated and described as clearly as possible, e. g. the entity of interest, covariables and population structure. Since the datasets generated by the statistical plasmodes should be representative of the population of interest, this step influences several of the following steps, in particular Steps 3, 4 and 6.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 3: Representative Sample.</head><p>It is a central aspect of statistical plasmodes that the underlying sample is representative of the population of interest clarified in the previous step, refer also to the discussion in Section 3.2. Consequently, it is vital to investigate and communicate why the utilized data sample represents the population of interest and which potential limitations arise. In particular, it should be stated how the data was sampled, which covariables are included and what the endpoint of interest is. Additionally, the sample size should be justified and potential population structures investigated, as this can influence the choice of the resampling technique, see Steps 4 and 5 and the discussion in Section 3.1. Note that even if the sample is representative, the generated plasmode datasets might not be, e. g. as a result of a poor resampling plan or a outcome generation that distorts the relationship between the covariables or the outcome-covariable association.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Steps 4 &amp; 5: Resampling Scheme</head><p>The resampling scheme consists of the number of bootstrap samples, the type of resampling technique used and, if applicable, the justification of the resampling size, see also Section 3.1. It determines, together with the data sample, the plasmode covariable datasets. Each of the aspects of the resampling scheme plays a crucial role for the asymptotic properties of the estimators applied to the data generated by resampling and to properties such as the preserveness of the covariable correlation structure, see the discussions in Section 3.1. Unfortunately, the resampling scheme has to be decided on for each application individually, while keeping those research aims and properties of the population of interest, that should be preserved with high priority, in mind. Ensuring the plasmode sets are drawn from the hypothetical population is only possible by applying subsampling <ref type="bibr" target="#b40">41</ref> , whereas sampling with replacement draws from the empirical distribution of the data sample specified in Step 3. However, if the underlying dataset is representative of the population of interest, drawing with replacement might become preferable due to its increased efficiency and second-order properties <ref type="bibr" target="#b36">37</ref> . As described in Section 3.1, the nonparametric bootstrap potentially fails, although this is often impossible to know before the application. To avoid bootstrap failure, we recommend to utilize the m-out-of-n bootstrap although this might lead to efficiency losses. The optimal resampling size m can be determined by applying the algorithm introduced in Bickel and Sakov <ref type="bibr" target="#b37">38</ref> while using those properties of priority as estimator in Step 2 of the optimization algorithm for m. It has to be noted that the estimation of m might require high additional computational cost. In many applications it might be meaningful to opt for some function of the covariable covariance structure as an estimator, as it is often stressed that the empirical dependence structure of the original dataset should be preserved.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 6: Outcome Generating Model.</head><p>The choice of the OGM includes the type of model to determine the association between the resampled covariables and the novel artificial outcomes, as well as corresponding OGM components such as effect sizes, for example. The OGM determines the artificial outcomes in type and value, and is a crucial component for many research questions formulated in Step 1. Also, it gives the investigator the opportunity to fix some aspects of the "truth", see also the discussion in Section 3.3. Special care should be taken that the OGM does not bias the subsequent analyses that the statistical plasmode simulations are generated for. To do so, it might be helpful to investigate the models or methods to be compared in detail and contrast them with the OGM. For instance, a sparse OGM will most likely support sparse models in subsequent model comparisons. If the effect structure is chosen in a sparse way, a sparse model might be more likely to correctly estimate the effect sizes or perform valid predictions. Additionally, if important relationships between variables have been detected, the effect structure should be chosen accordingly to preserve these. For instance, in linear predictor models, the observed outcome variation depends on the (co-)variances of the covariables weighted by their corresponding effects, stressing their influence on the artifical outcomes of the plasmode datasets. </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 8: Quality Checks.</head><p>The quality of the covariables can be assured by appropriate resampling as described in Steps 4 and 5. It is, however, often not feasible to compare the original covariable covariance structure with those of the N statistical plasmode datasets. More research might be necessary to judge the distance of the original and the generated data. The original outcome values of the real dataset are, if at all, only explicitly used to determine the effect structure in Step 6. The quality of the simulated data could be checked by comparing the generated outcomes of (some of) the statistical plasmode datasets with the original outcome. The type of potentially meaningful checks depends on the type of outcome. For continuous observations, the distributions of the two outcomes could be compared by the empirical densities or histograms as is done e. g. in Franklin et al. <ref type="bibr" target="#b4">5</ref> . Additionally, the range of the data should be checked as well as potential outliers. For categorical (including binary) outcomes, the prevalence of the classes can be compared, see for example Franklin et al. <ref type="bibr" target="#b4">5</ref> . </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Statistical Plasmodes: A numerical example</head><p>The following example has been constructed to illustrate the step-by-step procedure introduced in the previous section.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 1.</head><p>Assume that we are interested in the aim (A) of investigating the application of ridge regression <ref type="bibr" target="#b49">50</ref> and the linear mixed model 51 e.g. in the context of high-dimensional RNA-expression data with sparse effects on a normal outcome (data-generating process, D). The estimands (E) are specified as the parameter vector and the linear predictor in the respective model. We split the sample once into training and test data (2 : 1), which we deem sufficient for our illustration purposes. The plasmode datasets are generated using the training data. Each plasmode dataset of size m and number of covariates p is analysed (methods, M) using ridge regression of the form</p><formula xml:id="formula_0">y = µ1 m + Xβ + ε, β 2 L2 ≤ λ, ε ∼ N (0, σ 2 I m×m )<label>(1)</label></formula><p>via penalized maximum likelihood with cross-validation for λ as implemented in the R-package glmnet ? , as well as the linear mixed model in the variance components form</p><formula xml:id="formula_1">y = µ1 m + Xβ + ε, β ∼ N (0, σ 2 β I p×p ), ε ∼ N (0, σ 2 ε I m×m )<label>(2)</label></formula><p>with restricted maximum likelihood estimation as implemented in the R-package sommer <ref type="bibr" target="#b51">52</ref> . Here, 1 m denotes the m-column vector of ones while I p×p denotes the identity matrix of dimension p. As performance measures, we utilize more precise estimate which is necessary because the covariate data are high-dimensional. The optimal resampling size m * is the one which minimizes the distance between the distributions of subsequent m's, where the distance is exemplarily measured by the Wasserstein metric. The optimal resampling size based on the Wasserstein metric using 100 iterations resulted in m * = 711.</p><p>We acknowledge that there is variety of optimal resampling sizes m * if any of the parameters of the algorithms would be changed (such as, amongst others, estimator, distance metric for empirical distributions and sequence of potential m's).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 5.</head><p>We apply resampling with replacement of size m * = 711 to the matrix of covariable information to obtain N = 500 statistical plasmode covariable datasets. As we have determined the subsampling size with optimality criterion as the L 2 -norm of the covariance matrix of the covariables, the empirical covariance structure of the original dataset should be sufficiently preserved.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 6.</head><p>We choose the LASSO <ref type="bibr" target="#b58">59</ref> as an appropriate OGM to represent the sparse effect structure associated with the high-dimensional data as required in Step 1. Additionally, the LASSO most likely does not distort the comparison between ridge regression and the linear mixed model as both of these methods are shrinkage methods used to model polygenic effects. The "true" effect structure for the LASSO is chosen as the vector of estimated effect sizes obtained after a LASSO had been fit to the original data. The proportion of non-zero estimated effects was 95.4% (4768 vs 232). This implies that 232 covariables are selected in the investigator's choice "truth" while 4768 genes are given a null effect. The effect sizes of the selected covariables has a median of -0.01 (range [-2.97, 2.05]).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 7.</head><p>We generate one artificial outcome vector of size m * = 711 for each of the N = 500 plasmode covariate datasets by calculating the linear predictor based on the combination of the resampled covariable information (step 5) and the "true" effects (step 6). Thus, we obtain statistical plasmode simulations based on real covariate information with an investigor's choice "truth".</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 8.</head><p>The artificial outcomes (of some of) the N = 500 plasmode datasets are compared with the original outcomes via histograms in Figure <ref type="figure" target="#fig_4">3</ref>. The distribution of the original and artificial outcomes is very similar in shape and mean. The range of the original outcomes is larger than the range of the artificial outcome which can be explained by the outcome generation via resampled covariables and effects determined by LASSO (sparse and shrunken effects) which most likely will not lead to more extreme outcome values than contained in the underlying dataset.</p><p>We conclude that the artificial outcome data come close to reality but might not properly reflect extreme values. The range of the artificial outcomes could be increased, e. g. , by manually altering some elements of the effect vector estimated by LASSO (as investigator's choice of the "truth"). By doing so, however, we would further alter the association between some of the covariables and the novel outcomes.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 9.</head><p>Finally, we compare the performance of ridge regression and the linear mixed model in our statistical plasmode simulations. The MAB of the Ridge regression is estimated as 0.025 while the estimate of the MAB of the linear mixed model is 0.022, see also equation ( <ref type="formula">5</ref>). The sample-split MSEP of ridge regression is estimated as 18.30 while the sample-split MSEP of the linear mixed model is 12.83, see also equation (5). In Figure <ref type="figure" target="#fig_5">4</ref> and 5 we depict the estimated values for each plasmode dataset via boxplots. This suggests that in our generated statistical plasmode simulations, which represent high-dimensional RNA expression data with sparse known effects and artificial normal outcomes, the linear mixed model performs superior to ridge regression.</p><p>Additionally, we illustrate in Figure <ref type="figure" target="#fig_7">6</ref> the convergence of the performance measures for increasing number of plasmode dataset. The estimators for MAB and MSEP for both ridge regression and the linear mixed model seem to have stabilized at about 300 generated simulations. Thus, we conclude that the generated number of statistical plasmode is sufficient to obtain stable estimates of the performance measures defined in step 1.</p><p>Normalized RNA expression at Gene VSIG10L2</p><p>RNA expression level Density -6 -4 -2 0 2 4 6 0.00 0.05 0.10 0.15 Normalized RNA expression at Gene COLGALT2 RNA expression level Density -4 -2 0 2 4 6 0.00 0.05 0.10 0.15 0.20 0.25 0.30 Normalized RNA expression at Gene HLTF RNA expression level Density -2 0 2 4 6 8 0.0 0.1 0.2 0.3 0.4 Normalized RNA expression at Gene KATNBL1 RNA expression level Density 3 4 5 6 0.0 0.2 0.4 0.6 0.8 1.0 Figure 2: Empirical distributions illustrated by histograms (15 breaks each) and smoothed densities for four genes selected at random to illustrate the differences in location and shape.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Conclusions and Outlook</head><p>Many simulation studies impose relatively strong assumptions regarding the nature of randomness in the data and its dependence structure. Mostly of theoretical kind, those assumptions primarily rely on the assumptions inherent in the statistical models applied to generate the data. Since not all assumptions can be justified in applied settings, the corresponding simulation studies may not be able to capture biologically meaningful relationships and thus result in misleading conclusions and research findings.</p><p>To avoid (at least some of) those issues, plasmode data sets are considered as an alternative data generation approach.</p><p>While parametric simulations are known to provide only a partial representation of reality <ref type="bibr" target="#b3">4</ref> , plasmodes have been declared to generate data that resemble reality in the closest way 9 e.g.. Highly appreciated for their ability to generate most realistic data, plasmode do not impose any specific model assumptions on their data generation process. Thus, no assumptions need to be justified to address the applicability of plasmodes. Nevertheless, a number of assumptions such as the representativeness of the underlying data sample have to be verified in order to guarantee the reliability of the generated plasmode data.</p><p>Plasmodes can accommodate unknown features such as dependence structure, distributions, and others, in particular, in the case of high-dimensional data. We recall that in case of parametric simulations most of those quantities are to be specified in advance. All in total, plasmode data sets may provide an attractive supplement to parametric simulations and can be applied in order to increase the reliability of the obtained research results. In the present paper, we first discuss the concept of statistical plasmodes as those created by resampling of covariate information from empirical data at hand and subsequent outcome generation using an appropriate outcome-generating model. This is what distinguishes them from biological plasmodes which are usually created by conducting lab experiments. We interpret statistical plasmodes as an intermediate step between the parametric and nonparametric simulations, with the parametric component represented by the chosen outcome-generating model. After the introduction of statistical plasmodes, we discuss their main advantages and challenges and propose a step-by-step scheme for their generation and reporting. That scheme is then illustrated by means of a numerical example. All discussions in the present paper are presented in the context of prediction and explanatory models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A: Original Outcomes (Age at Diagnosis)</head><note type="other">Age Density</note><p>Plasmodes are bounded to the sample they are based on, and thus cannot produce the same variety of different scenarios as parametric simulations do. In this context, questions on the data availability and representativeness arise. In particular, even if plasmodes offer a flexible data generation procedure which creates realistic data, the representativeness of the generated data still substantially depends on the representativeness of the underlying real data set. To address this limitation, some authors such as Ejima et al. <ref type="bibr" target="#b34">35</ref> assume that the empirical data at hand represents the entire population of interest. Of course, such an assumption cannot be satisfied in each particular situation.</p><p>Spurious correlations are another issue closely related to the question of representativeness. Although plasmodes do not specify the underlying dependence structure explicitly, they do reproduce it to a certain extent while generating new data. Thus, if the sample at hand does not adequately represent the population of interest, the existing spurious correlations may be increased or even distorted for the generated plasmode data sets. As a result, the corresponding generated dependence structure will not represent the real one.</p><p>Statistical plasmodes as introduced in the present paper incorporate features from both parametric simulations and resampling approaches, and, as a result, inherit the strengths and weaknesses of each data generation method. On one hand, statistical plasmodes offer the advantage of creating more realistic data by generating covariate information through resampling techniques. On the other hand, they may also introduce certain challenges with respect to the subsequent model comparisons, as compared to purely parametric simulations <ref type="bibr" target="#b29">30</ref> . Statistical plasmodes enable to control and manipulate certain aspects of the "truth" through the use of parametric OGMs, which can be advantageous over pure resampling methods. Nevertheless, asymptotic results established for resampling techniques may not be directly applicable to statistical plasmodes.</p><p>Our discussion points out several interesting options for future research. First, basic expectations placed on the plasmodes are related to their ability to preserve real data distributions, the underlying dependence structure and, as a result, the existing empirical associations. Those expectations are to be guaranteed by resampling from the observed covariate data at hand, without any additional data modification. However, it is not obvious how the choice of a particular resampling technique and specification of its parameters (such as the subsampling proportion in case of the subsampling technique) might impact the robustness of the obtained data generation results, e. g. , in the context of spurious correlations or sparse data. Additionally, the calculation of the optimal m might require high computational costs. A closer analysis of these impacts are possible topics for future research. Second, a data generation method is considered to be realistic if it reflects the real data structure and the existing dependencies in the most accurate way. Thus, appropriate distance measures need to be specified in advance and also included into the reporting step of the data generation procedure. Such measures can then be used to measure the closeness of the generated plasmode data set to the underlying real data set. The choice of an appropriate distance measure, as well as the robustness of the plamode generation procedure with respect to that choice, can also be an interesting research topic.</p><p>Finally, the outcome-generating models present the major obstacle for plasmodes to become a purely non-parametric data generation approach. In the future we intend to analyze the impact of an OGM on the performance of the plasmode data generation procedure and to construct examples where the replacement of a parametric OGM with a non-parametric one improves the obtained data generation results. It is also of great interest to address possible "plasmode failure" for data sets generated through statistical plasmodes.</p><p>In total, our paper presents a comprehensive analysis of statistical plasmode simulations, discusses their potentials and central challenges and provides step-by-step recommendations for their generation. Our future research aims to address (at least some of) the pitfalls in the most close way to potentially provide more understanding and further novel insights into statistical plasmode generation. </p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 :</head><label>1</label><figDesc>Figure 1: Statistical plasmode data generation procedure step-by-step</figDesc><graphic coords="11,79.02,72.00,453.97,332.64" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>appropriate. Additionally, it guides the choice of the population of interest in Step 2 and potentially the choice of the resampling technique in Step 4. Importantly, the methods and performance measures indicate the subsequent choice of the OGM in Step 6.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Step 7 :</head><label>7</label><figDesc>Outcome Generation. Each of the N plasmode covariable sampled in Steps 4 and 5 is combined with the OGM determined in Step 6 to create N corresponding artificial plasmode outcome vectors.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>Step 9 :</head><label>9</label><figDesc>Reporting. Each step of the statistical plasmode generation should be justified and reported to enhance reproducibility and transparency of the proposed data generation procedure. Whenever appropriate, plasmode generation should follow the scheme presented in Figure 1 and the corresponding descriptions provided in the present section. Additionally, the research question determined in Step 1 should be addressed.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 3 :</head><label>3</label><figDesc>Figure3: Empirical distributions illustrated by histograms (15 breaks each) and smoothed densities for A: the original outcome (age at diagnosis) and B-D: vs. artificial outcomes of three plasmode datasets selected at random.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 4 :</head><label>4</label><figDesc>Figure4: Boxplots of the mean absolute bias for both the linear mixed model and ridge regression in 500 statistical plasmode datasets.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>Figure 5 :</head><label>5</label><figDesc>Figure5: Boxplots of the sample-split mean squared error of prediction for both the linear mixed model and ridge regression in 500 statistical plasmode datasets.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 6 :</head><label>6</label><figDesc>Figure 6: Convergence of the performance measures MAB and MSEP for increasing number N of statistical plasmode datasets.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 :</head><label>1</label><figDesc>Choice of covariate effects either by individual specification or by estimation based on the original data (ii.3) Generation of new outcomes by applying the OGM chosen in (ii.1), with the effects specified in (ii.2) and applied to the covariates generated in (i) The discussion performed in this section is summarized in Table1that provides a comparative summary of parametric and plasmode simulation studies.Parametric simulations versus statistical plasmodes: Similarities and differences</figDesc><table><row><cell>Feature</cell><cell>Parametric Simulations</cell><cell>Statistical Plasmodes</cell></row><row><cell>Data-generating process (DGP)</cell><cell>DGP is to be specified in advance</cell><cell>No DGP specification is required</cell></row><row><cell cols="2">Outcome-generating model (OGM) Parameters of a chosen OGM to be</cell><cell>Parameters of a chosen OGM to be</cell></row><row><cell></cell><cell>estimated from data or derived</cell><cell>estimated from the original data or</cell></row><row><cell></cell><cell>from literature or set manually</cell><cell>derived from literature or set</cell></row><row><cell></cell><cell></cell><cell>manually</cell></row><row><cell>Range of possible scenarios</cell><cell>Arbitrary scenarios, in particular,</cell><cell>Only reality bounded to the sample</cell></row><row><cell></cell><cell>extreme and rare scenarios, can be</cell><cell>at hand can be generated</cell></row><row><cell></cell><cell>generated</cell><cell></cell></row><row><cell>Knowledge of "truth"</cell><cell>"Truth" must be completely known</cell><cell>At least some "truth" such as effect</cell></row><row><cell></cell><cell>in advance</cell><cell>sizes should be known a priori</cell></row><row><cell>Data availability and</cell><cell>Irrelevant for simulations based on</cell><cell>Crucial, as the simulated data is</cell></row><row><cell>representativeness</cell><cell>literature results or previous</cell><cell>always limited to the sample at</cell></row><row><cell></cell><cell>knowledge</cell><cell>hand</cell></row><row><cell>Reality reflection</cell><cell>Parametric simulations may not be</cell><cell>Plasmodes are expected to</cell></row><row><cell></cell><cell>able to capture the complexity of</cell><cell>resemble the reality in the most</cell></row><row><cell></cell><cell>real life data</cell><cell>accurate way</cell></row><row><cell cols="2">High-dimensional data simulations Usually time -and cost -</cell><cell>Mostly straightforward, as no</cell></row><row><cell></cell><cell>consuming. Latent dependencies</cell><cell>estimation of distributions and/or</cell></row><row><cell></cell><cell>may also become an issue</cell><cell>dependencies is required</cell></row><row><cell>Small sample sizes</cell><cell>Essentially uncomplicated, but may</cell><cell>Difficult due to resampling</cell></row><row><cell></cell><cell>become an issue in cases when</cell><cell></cell></row><row><cell></cell><cell>simulation parameters are to be</cell><cell></cell></row><row><cell></cell><cell>estimated from the real data at</cell><cell></cell></row><row><cell></cell><cell>hand</cell><cell></cell></row><row><cell>Dependence structure</cell><cell>Becomes a challenge with complex</cell><cell>No modeling/estimation of</cell></row><row><cell></cell><cell>dependencies</cell><cell>dependence structure is required</cell></row></table><note><p>(ii) Outcome generation that includes (ii.1) Choice of an appropriate outcome generating model (OGM) (ii.2)</p></note></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>The authors would like to thank <rs type="person">Jörg Rahnenführer</rs>, <rs type="person">Andrea Bommert</rs> and <rs type="person">Marieke Stolte</rs> for helpful discussions.</p></div>
+			</div>			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>the mean absolute bias</p><formula xml:id="formula_2">MAB = 1 p + 1 (μ, β) -(µ, β) L1<label>(3)</label></formula><p>where µ and β are known as part of the "truth", and the sample-split mean squared error of prediction</p><formula xml:id="formula_3">MSEP = 1 m ŷ -y test 2 L2 , ŷ = μ1 m + X test β<label>(4)</label></formula><p>where y corresponds to the artificial outcome in the test split. We estimate both measures using the mean of the estimates (indexed by superscript b) in the generated N statistical plasmode datasets</p><formula xml:id="formula_4">MAB = 1 N N b=1 1 p + 1 (μ, β) (b) -(µ, β) L1 , MSEP = 1 N N b=1 1 m ŷ(b) -y test 2 L2 .<label>(5)</label></formula><p>and visualize the N individual measures via boxplots, see Step 9 and Figures <ref type="figure">4</ref> and <ref type="figure">5</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 2.</head><p>In the scope of this example, we are interested in the model choice for high-dimensional RNA-expression data with normal outcomes for female breast cancer patients which constitutes the population of interest.</p><p>Step 3. The data sample underlying the statistical plasmode simulation was generated by The Cancer Genome Atlas (TCGA) Research Network (<ref type="url" target="https://www.cancer.gov/tcga">https://www.cancer.gov/tcga</ref>). The breast carcinoma (BRCA) cohort which provides a basis for the following numerical example was last updated on May 31, 2016.</p><p>We restrict the publicly available data to n = 1098 female patients with breast cancer with cancer tissue, i. e. excluding normal tissue and male patients. RNAseqV2 gene expression data and clinical data for BRCA were obtained from the TCGA Data Portal <ref type="bibr" target="#b52">53</ref> via the R/Bioconductor package TCGAbiolinks <ref type="bibr" target="#b53">54,</ref><ref type="bibr" target="#b54">55,</ref><ref type="bibr" target="#b55">56</ref> . For computational reasons, we choose p = 5000 out of the 25828 available genes at random. The R/Bioconductor package limma <ref type="bibr" target="#b56">57</ref> has been utilized to normalize the RNA gene expression data. The expression levels can be assumed to be measured continuously and they show different shapes and ranges. This is illustrated in Figure <ref type="figure">2</ref> using their empirical distributions at four randomly chosen genes.</p><p>The outcome of interest is age at diagnosis date which can be considered to be approximately normally distributed, see Figure <ref type="figure">3A</ref>. While the dataset can be considered to be representative of a female breast cancer population from the United States of America, we acknowledge that RNA expression data from other populations (e. g .different countries) might lead to different results for our research question.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Step 4.</head><p>Before the analysis, we set the number of plasmode datasets to be generated to N = 500. In the final step 9, we investigate the convergence of the estimators of the performance measures, see equation ( <ref type="formula" target="#formula_4">5</ref>), in the statistical plasmode datasets, see also Figure <ref type="figure">6</ref>.</p><p>We choose the m-out-of-n bootstrap in order to prevent potential bootstrap failure but with the potential drawback of losing estimation efficiency. Performance analysis of resampling method and the estimation of the optimal m requires the specification of an estimator which is applied to the generated data. Since resampling in statistical plasmodes is primarily concerned with the covariate information, already using the performance measures defined in equation ( <ref type="formula" target="#formula_4">5</ref>) as estimators is not feasible as they require the subsequent artificial outcome generation. Naturally, there are several reasonable estimators that could be considered. In this example, we opt for the covariate dependence structure as the measure of interest because the majority of publications which applied plasmodes referred to the advantage of the preserveness of the original covariable dependence structure.</p><p>We determine the resampling size m via the algorithm described in Bickel and Sakov <ref type="bibr" target="#b37">38</ref> . In particular, to adopt that algorithm to our problem formulation, we specify the sequence of potential m's by setting q = 0.97, choose the L 2 -norm of the covariance matrix (of the resampled covariate data) as a metric, and calculate the resulting empirical distribution functions. We estimate the covariance matrix using the Ledoit-Wolf linear shrinkage estimator <ref type="bibr" target="#b57">58</ref> to obtain a</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">The design of simulation studies in medical statistics</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Burton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Altman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Royston</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">L</forename><surname>Holder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="4279" to="4292" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Using simulation studies to evaluate statistical methods</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">R</forename><surname>White</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Crowther</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="page" from="2074" to="2102" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Combining clinical and molecular data in regression prediction models: insights from a simulation study</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">D</forename><surname>Bin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A.-L</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Benner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Becker</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Sauerbrei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Briefings in Bioinformatics</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="17" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Evaluating statistical analysis models for rna sequencing experiments</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Reeb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Steibel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">frontiers in Genetics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="1" to="9" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Plasmode simulation for the evaluation of pharmacoepidemiologic methods in complex healthcare databases</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Franklin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schneeweiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Polinski</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Rassen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics and Data Analysis</title>
+		<imprint>
+			<biblScope unit="page" from="219" to="226" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Simulation of complex data structures for planning of studies with focus on biomarker comparison</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Schulz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Zöller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Nickels</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Beutel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Blettner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">S</forename><surname>Wild</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Binder</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Medical Research Methodology</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Using external data to incorporate unmeasured confounders: A plasmode simulation study comparing alternative approaches to impute body max index in a study of the relationship between osteoarthritis and cardiovascular disease</title>
+		<author>
+			<persName><forename type="first">M</forename><surname>Atiquzzaman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Karim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Kopec</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Wong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Vera</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">H</forename><surname>Anis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Research</title>
+		<imprint>
+			<biblScope unit="volume">54</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="131" to="145" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">To explain or to predict?</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Shmueli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Science</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page" from="289" to="310" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Towards sound epistemological foundations of statistical methods for high-dimensional biology</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Mehta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tanik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Allison</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature genetics</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="943" to="947" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Introduction to statistical simulations in health research</title>
+		<author>
+			<persName><forename type="first">A.-L</forename><surname>Boulesteix</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">H</forename><surname>Groenwold</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Abrahamowicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Binder</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Briel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hornung</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Morris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Rahnenführer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Sauerbrei</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMJ Open</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Epistemological issues in omics and high-dimensional biology: give the people what they want</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Mehta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">O</forename><surname>Zakharkin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Gadbury</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Allison</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Physiol Genomics</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="24" to="32" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">Evaluating statistical methods using plasmode data sets in the age of massive public databses: an illustration using false discovery rates</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">L</forename><surname>Gadbury</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Xiang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Barnes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">P</forename><surname>Page</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Allison</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS Genetics</title>
+		<imprint>
+			<biblScope unit="volume">6</biblScope>
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">The use of plasmodes as a supplement to simulations: A simple example evaluating individual admixture estimation methodologies</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">K</forename><surname>Vaughan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Divers</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Padilla</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">T</forename><surname>Redden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Tiwari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Pomp</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Allison</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Computational Statistics and Data Analysis</title>
+		<imprint>
+			<biblScope unit="volume">53</biblScope>
+			<biblScope unit="page" from="1755" to="1766" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Simulating correlated multivariate nonnormal distributions: extending the fleschman power method</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C</forename><surname>Headrick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">S</forename><surname>Sawilowsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Psychometrika</title>
+		<imprint>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="25" to="35" />
+			<date type="published" when="1999">1999</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">A simple distribution-free algorithm for generating simulated high-dimensional correlated data with an autoregressive structure</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Azuero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">T</forename><surname>Redden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><forename type="middle">K</forename><surname>Tiwari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">G</forename><surname>Asmelash</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Piyathilake</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Commun Stat Simul Comput</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="89" to="98" />
+			<date type="published" when="2012">2012</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Challenges of big data analysis</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Han</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Liu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">National Science Review</title>
+		<imprint>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="293" to="314" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Statistical challenges with high dimensionality: feature selection in knowledge discovery</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the International Congress of Mathematicians</title>
+		<meeting>the International Congress of Mathematicians<address><addrLine>Madrid, Spain</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2006">2006</date>
+			<biblScope unit="page" from="595" to="622" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Statistical challenges of high-dimensional data</title>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">M</forename><surname>Johnstone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">M</forename><surname>Titterington</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Phil. Trans. R. Soc. A</title>
+		<imprint>
+			<biblScope unit="volume">367</biblScope>
+			<biblScope unit="page" from="4237" to="4253" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">A general plasmode (no. 30-10-5-2) for factor analytic exercises and research</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Cattell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Jaspers</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1967">1967</date>
+			<biblScope unit="volume">67</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">Reification in factor analysis: a plasmode based on human physiology-of-exercise variables</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">R</forename><surname>Sokal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">J</forename><surname>Rohlf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Zang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Osness</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Multivariate Behavioral Research</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<date type="published" when="1980">1980</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Exploration, normalization, and summaries of high density oligonucleotide array probe level data</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Irizarry</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Hobbs</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Collin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><forename type="middle">D</forename><surname>Beazer-Barclay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Antonellis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Scherf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">P</forename><surname>Speed</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biostatistics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="249" to="264" />
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">A simple method for assessing sample sizes in microarray experiments</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Bioinformatics</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">Regularized regression versus the high-dimensional propensity score for confounding adjustment in secondary database analyses</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Franklin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Eddings</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Glynn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schneeweiss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">American Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">182</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page" from="651" to="659" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">Comparing the performance of propensity score methods in healthcare database studies with rare outcomes</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Franklin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Eddings</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">C</forename><surname>Austin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">A</forename><surname>Stuart</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schneeweiss</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="1946" to="1963" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<analytic>
+		<title level="a" type="main">Can we train machine learning methods to outperform the high-dimensional propensity score algorithm</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Karim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Pang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">W</forename><surname>Platt</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Epidemiology</title>
+		<imprint>
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">Evaluating the use of bootstrapping in cohort studies conducted with 1:1 propensity score matching -a plasmode simulation study</title>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Desai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Wyss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Abdia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Toh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Johnson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Karami</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Major</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Nguyen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">V</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Franklin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">J</forename><surname>Gagne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Pharmacoepidemiol Drug Saf</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="879" to="886" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Evaluating the utility of coarsened exact matching for pharmacoepidemiology using real and simulated claims data</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">E</forename><surname>Ripollone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">F</forename><surname>Huybrechts</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Rothman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">E</forename><surname>Ferguson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Franklin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Practice of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">189</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="613" to="622" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Missing data in marginal structural models: A plasmode simulation study comparing multiple imputation and inverse probability weighting</title>
+		<author>
+			<persName><forename type="first">S.-H</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">A</forename><surname>Chrysanthopoulou</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Chang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">N</forename><surname>Hunnicutt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">L</forename><surname>Lapane</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Medical Care</title>
+		<imprint>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="237" to="243" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Propensity score trimming mitigates bias due to covariate measurement error in inverse probability of treatment weighted analyses: A plasmode simulation</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">M</forename><surname>Conover</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Rothman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Stürmer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">R</forename><surname>Ellis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Poole</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Funk</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics in Medicine</title>
+		<imprint>
+			<biblScope unit="volume">40</biblScope>
+			<biblScope unit="page" from="2101" to="2112" />
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<analytic>
+		<title level="a" type="main">Using super learner prediction modeling to improve high-dimensional propensity score estimation</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Wyss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schneeweiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Van Der Laan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">D</forename><surname>Lendle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ju</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Franklin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Epidemiology</title>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Using background knowledge from preceding studies for building a random forest prediction model: A plasmode simulation study</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Hafermann</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Klein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Rauch</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kammer</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Heinze</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Entropy</title>
+		<imprint>
+			<biblScope unit="volume">24</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">A framework for using real-world data and health outcomes modeling to evaluate machine learning based risk prediction models</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Rodriguez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Veenstra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Heagerty</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">H</forename><surname>Goss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">J</forename><surname>Ramos</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Bansal</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Value Health</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="350" to="358" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Missing data in randomized clinical trials for weight loss: Scope of the problem, state of the field, and performance of statistical methods</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Elobeid</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">A</forename><surname>Padilla</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Mcvie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Thomas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W</forename><surname>Brock</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Musser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Lu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">S</forename><surname>Coffey</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Desmond</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M.-P</forename><surname>St-Onge</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><forename type="middle">M</forename><surname>Gadde</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">B</forename><surname>Heymsfield</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Allison</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS One</title>
+		<imprint>
+			<biblScope unit="page">4</biblScope>
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<analytic>
+		<title level="a" type="main">Assessing dissimilarity measures for sample based hierarchical clustering of rna sequencing data using plasmode datasets</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">D</forename><surname>Reeb</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Bramardi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Steibel</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLOS Genetics</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Murine genetic models of obesity: type i error rates and the power of commonly used analyses as assessed by plasmode-based simulation</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ejima</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">W</forename><surname>Brown</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">L</forename><surname>Smith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">U</forename><surname>Beyaztas</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Allison</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Obesity</title>
+		<imprint>
+			<biblScope unit="volume">44</biblScope>
+			<biblScope unit="page" from="1440" to="1449" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Empirical versus theoretical power and type i error (false-positive) rates estimated from real murine aging research data</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Alfaras</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Ejima</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">V L</forename><surname>Teixeira</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">D</forename><surname>Germanio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">J</forename><surname>Mitchell</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Hamilton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Ferrucci</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">L</forename><surname>Price</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">B</forename><surname>Allison</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Bernier</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>De Cabo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Cell Reports</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page">2021</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Resampling fewer than n observations: gains, losses, and remedies for losses</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Bickel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Götze</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><forename type="middle">R</forename><surname>Van Zweet</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">7</biblScope>
+			<biblScope unit="page" from="1" to="31" />
+			<date type="published" when="1997">1997</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">On the choice of m in the m out of n bootstrap and confidence bounds for extrema</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Bickel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Sakov</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="volume">18</biblScope>
+			<biblScope unit="page" from="967" to="985" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">A three-step method for choosing the number of bootstrap repetitions</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W K</forename><surname>Andrews</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Buchinsky</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometrica</title>
+		<imprint>
+			<biblScope unit="volume">68</biblScope>
+			<biblScope unit="page" from="23" to="51" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">Bootstrap tests: How many bootstraps?</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Davidson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">G</forename><surname>Mackinnon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Reviews</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="55" to="68" />
+			<date type="published" when="2000">2000</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">D</forename><surname>Politis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Romano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Subsampling</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1999">1999</date>
+			<publisher>Springer</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">The bootstrap in hypothesis testing</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Bickel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-J</forename><surname>Ren</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">State of the Art in Probability and Statistics</title>
+		<title level="s">Lecture Notes-Monograph Series</title>
+		<imprint>
+			<date type="published" when="2001">2001</date>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="91" to="112" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Asymptotic size and a problem with subsampling and with the m out of n bootstrap</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">W K</forename><surname>Andrews</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Guggenberger</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Econometric Theory</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="426" to="468" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Data-based rna-seq simulations by binomial thinning</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gerard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">BMC Boinformatics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="206" to="220" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<analytic>
+		<title level="a" type="main">Collaborative-controlled LASSO for constructing propensity score-based estimators in high-dimensional data</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Ju</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Wyss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Franklin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Schneeweiss</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Häggström</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">J</forename><surname>Van Der Laan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical Methods in Medical Research</title>
+		<imprint>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="1044" to="1063" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Bootstrap tests and confidence regions for functions of a covariance matrix</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Beran</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Srivastava</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="page" from="95" to="115" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<analytic>
+		<title level="a" type="main">Bootstrapping regression models with many parameters</title>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">J</forename><surname>Bickel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">A</forename><surname>Freedman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">A Festschrift for Erich L. Lehmann in Honor of his Sixty-fith Birthday</title>
+		<imprint/>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Bootstrap and wild bootstrap for high dimensional linear models</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Mammen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="volume">21</biblScope>
+			<biblScope unit="page" from="255" to="285" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<analytic>
+		<title level="a" type="main">Can we trust the bootstrap in high-dimensions? the case of linear models</title>
+		<author>
+			<persName><forename type="first">N</forename><forename type="middle">E</forename><surname>Karoui</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Purdom</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Machine Learning Research</title>
+		<imprint>
+			<biblScope unit="volume">19</biblScope>
+			<biblScope unit="page" from="1" to="66" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">Ridge regression: Biased estimation for nonorthogonal problems</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">E</forename><surname>Hoerl</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">W</forename><surname>Kennard</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Technometrics</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="55" to="67" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<monogr>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">R</forename><surname>Searle</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Casella</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">E</forename><surname>Mcculloch</surname></persName>
+		</author>
+		<title level="m">Variance Components</title>
+		<meeting><address><addrLine>New Jersey</addrLine></address></meeting>
+		<imprint>
+			<publisher>Wiley Interscience</publisher>
+			<date type="published" when="1992">1992</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">Genome assisted prediction of quantitative traits using the R package sommer</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Covarrubias-Pazaran</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS ONE</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="page" from="1" to="15" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">The cancer genome atlas pan-cancer analysis project</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Weinstein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Collisson</surname></persName>
+		</author>
+		<idno type="DOI">10.1038/ng.2764</idno>
+		<ptr target="https://doi.org/10.1038/ng.2764" />
+	</analytic>
+	<monogr>
+		<title level="j">Nature Genetics</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="1113" to="1120" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Tcgabiolinks: An r/bioconductor package for integrative analysis of tcga data</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Colaprico</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C</forename><surname>Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Olsen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Garofano</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Cava</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Garolini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Sabedot</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Malta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Pagnotta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Castiglioni</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ceccarelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Bontempi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Noushmehr</surname></persName>
+		</author>
+		<idno type="DOI">10.1093/nar/gkv1507</idno>
+		<ptr target="http://doi.org/10.1093/nar/gkv1507" />
+	</analytic>
+	<monogr>
+		<title level="j">Nucleic Acids Research</title>
+		<imprint>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<monogr>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C</forename><surname>Silva</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Colaprico</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Antonio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Catharina</forename><surname>Olsen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D'</forename><surname>Angelo</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Fulvio</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Bontempi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Gianluca</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Michele</forename><surname>Ceccarelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Houtan</forename><surname>Noushmehr</surname></persName>
+		</author>
+		<title level="m">Tcga workflow: Analyze cancer genomics and epigenomics data using bioconductor packages. F1000Research</title>
+		<imprint>
+			<date type="published" when="2016">2016</date>
+			<biblScope unit="volume">5</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">New functionalities in the tcgabiolinks package for the study and integration of cancer data from gdc and gtex</title>
+		<author>
+			<persName><forename type="first">Mohamed</forename><surname>Mounir</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Lucchetta</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Marta</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">C</forename><surname>Silva</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Catharina</forename><surname>Olsen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Bontempi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Gianluca</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Xi</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Noushmehr</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Houtan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Antonio</forename><surname>Colaprico</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Papaleo</forename></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Elena</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">PLoS computational biology</title>
+		<imprint>
+			<biblScope unit="volume">15</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page">1006701</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">limma powers differential expression analyses for RNA-sequencing and microarray studies</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">E</forename><surname>Ritchie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Phipson</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">W</forename><surname>Law</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Shi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">K</forename><surname>Smyth</surname></persName>
+		</author>
+		<idno type="DOI">10.1093/nar/gkv007</idno>
+	</analytic>
+	<monogr>
+		<title level="j">Nucleic Acids Research</title>
+		<imprint>
+			<biblScope unit="volume">43</biblScope>
+			<biblScope unit="issue">7</biblScope>
+			<biblScope unit="page">47</biblScope>
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<analytic>
+		<title level="a" type="main">A well-conditioned estimator for large-dimensional covariance matrices</title>
+		<author>
+			<persName><forename type="first">O</forename><surname>Ledoit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Wolf</surname></persName>
+		</author>
+		<ptr target="https://www.sciencedirect.com/science/article/pii/S0047259X03000964" />
+	</analytic>
+	<monogr>
+		<title level="j">Analysis</title>
+		<imprint>
+			<biblScope unit="volume">88</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="365" to="411" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+	<note>Journal of Multivariate</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b58">
+	<analytic>
+		<title level="a" type="main">Regression shrinkage and selection via the lasso</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Tibshirani</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society B</title>
+		<imprint>
+			<biblScope unit="volume">58</biblScope>
+			<biblScope unit="page" from="267" to="288" />
+			<date type="published" when="1996">1996</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

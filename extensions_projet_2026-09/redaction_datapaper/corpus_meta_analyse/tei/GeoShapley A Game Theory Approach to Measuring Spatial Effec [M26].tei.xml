@@ -1,0 +1,1530 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">GeoShapley: A Game Theory Approach to Measuring Spatial Effects in Machine Learning Models</title>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability status="unknown"><licence/></availability>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Ziqi</forename><surname>Li</surname></persName>
+							<email>ziqi.li@fsu.edu</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Geography</orgName>
+								<orgName type="institution">Florida State University</orgName>
+								<address>
+									<settlement>Tallahassee</settlement>
+									<country key="US">United States</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">GeoShapley: A Game Theory Approach to Measuring Spatial Effects in Machine Learning Models</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date/>
+						</imprint>
+					</monogr>
+					<idno type="MD5">74BE6A444CC22A813F7073FC8BE233AD</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:58+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<textClass>
+				<keywords>
+					<term>Shapley</term>
+					<term>Explainable AI (XAI)</term>
+					<term>GeoAI</term>
+					<term>spatial processes</term>
+					<term>non-linear</term>
+					<term>interaction</term>
+					<term>spatial effects</term>
+				</keywords>
+			</textClass>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>This paper introduces GeoShapley, a game theory approach to measuring spatial effects in machine learning models. GeoShapley extends the Nobel Prize-winning Shapley value framework in game theory by conceptualizing location as a player in a model prediction game, which enables the quantification of the importance of location and the synergies between location and other features in a model. GeoShapley is a model-agnostic approach and can be applied to statistical or black-box machine learning models in various structures. The interpretation of GeoShapley is directly linked with spatially varying coefficient models for explaining spatial effects and additive models for explaining non-spatial effects. Using simulated data, GeoShapley values are validated against known data-generating processes and are used for cross-comparison of seven statistical and machine learning models. An empirical example of house price modeling is used to illustrate GeoShapley's utility and interpretation with real world data. The method is available as an open-source Python package named geoshapley.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Machine learning and AI have been increasingly used to model geospatial phenomena with promising performance across various domains. Its strength lies in the capacity to account for complex structures from vast and heterogenous datasets in a scalable, flexible, and accurate manner. Machine learning becomes the preferred choice when the primary goal is in achieving "predictive accuracy" in applications such as land cover classification <ref type="bibr" target="#b8">(Camps-Valls et al., 2013;</ref><ref type="bibr" target="#b57">Zhang et al., 2019)</ref>, weather forecast <ref type="bibr" target="#b16">(Espeholt et al., 2022;</ref><ref type="bibr" target="#b6">Bi et al., 2023)</ref>, traffic prediction <ref type="bibr" target="#b13">(Derrow-Pinion et al., 2021)</ref>, and object detection <ref type="bibr" target="#b32">(Li and Hsu, 2020;</ref><ref type="bibr" target="#b54">Xie et al., 2020)</ref>.</p><p>However, from a scientific discovery perspective, geographers are arguably more interested in seeking explanations, aiming to understand the relationships and processes underlying geospatial phenomena. To this end, the black-box nature of machine learning models begins to diminish their utility and overshadow their advantages compared to more interpretable statistical alternatives.</p><p>Recent advances in the field of eXplainable AI (XAI) provide a solution to explain black-box machine learning. XAI encompasses a set of processes and methods that enable human users to comprehend and trust the results generated by machine learning algorithms <ref type="bibr" target="#b12">(Das and Rad, 2020)</ref>. Its objectives are to improve understanding of the underlying decision processes, to enhance credibility and confidence in the model parameters and outcomes, to acknowledge limits and uncertainties, and to inform future model development <ref type="bibr" target="#b23">(Gunning et al., 2019;</ref><ref type="bibr">Murdoch et al., 2019)</ref>. While the term "XAI" is relatively recent (coined by the US Defense Advanced Research Projects Agency (DARPA) in 2017, <ref type="bibr">Gunning and Aha, 2019)</ref>, the concept of interpretable machine learning is not novel. Interpretation techniques like permutation feature importance and partial dependence plots have seen extensive application. Permutation feature importance quantifies a feature's contribution to the overall model's predictive accuracy. Removing or altering an important feature is expected to reduce model accuracy, whereas removing an irrelevant feature should have no impact <ref type="bibr" target="#b7">(Breiman, 2001)</ref>. The partial dependence plot illustrates the marginal effect that one or two features have on the predicted outcome of a machine learning model <ref type="bibr">(Friedman, 2001)</ref>. It can reveal whether the relationship between the outcome and a feature is linear, non-linear, monotonic, or more intricate. However, most of these interpretation methods are global, meaning they offer only an average explanation of model behavior. In the case of permutation feature importance, a global ranking may not be informative to individuals, as feature contributions may vary across different observations. For instance, an individual applying for a credit card would prefer personalized explanations for the application denial rather than generic statements. This is particularly crucial in cases where compliance with legal requirements is essential, such as the GDPR's right to explanation, which grants individuals the right to request explanations for automated decisions <ref type="bibr" target="#b22">(Goodman &amp; Flaxman, 2017)</ref>.</p><p>In this regard, much of the recent development in XAI focuses on local interpretation as opposed to global, aiming to explain model behaviors for each individual observation. Several Local XAI methods attracted the most attention. The first is LIME (Locally Interpretable Model-agnostic Explanations), and its principle is to consider every complex model as locally linear <ref type="bibr" target="#b47">(Ribeiro et al., 2016)</ref>. At each observation, by using a simple local surrogate model (e.g., linear regression) with perturbed data drawn from a local neighborhood, a relationship can be approximated locally. However, one of the biggest challenges in LIME is the lack of guidance on how to define a local proximity which the results may be sensitive to <ref type="bibr">(Molnar, 2022)</ref>. The second development is SHAP (SHapley Additive exPlanations) <ref type="bibr">(Lundberg and Lee, 2017)</ref>, which unifies several XAI methods (including LIME) into the same Shapley value framework from game theory <ref type="bibr" target="#b49">(Shapley, 1953)</ref>. Shapley fairly allocates the contribution of individual players in a coalition game with mathematically proven theory and properties. In the machine learning context, we can consider features (i.e., covariates or predictors) as players; the model is a game, and the prediction is the outcome. In this regard, Shapley values provide an additive breakdown of individual prediction to marginal contributions associated with each feature <ref type="bibr" target="#b52">(Štrumbelj and Kononenko, 2014</ref>). An expanded discussion on Shapley will be provided in Section 2. <ref type="bibr">Lundberg and Lee (2017)</ref> also developed a Shapley-compliant kernel to LIME, so the two methods converge to the same solution. SHAP is employed in industry-leading AI platforms such as Google Vertex and Amazon SageMaker and has been used in various fields. SHAP has also attracted attention in explaining models with geospatial data, including applications in house price modeling <ref type="bibr" target="#b9">(Chen et al., 2020)</ref>, urban climate <ref type="bibr" target="#b56">(Yuan et al., 2022)</ref>, travel behavior <ref type="bibr" target="#b30">(Kashifi et al., 2022;</ref><ref type="bibr" target="#b34">Li, 2023)</ref>, accident analysis <ref type="bibr" target="#b43">(Parsa et al., 2020)</ref>, disaster susceptibility <ref type="bibr" target="#b0">(Abdollahi and Pradhan, 2023;</ref><ref type="bibr" target="#b6">Zhang et al., 2023)</ref>, heat-related mortality <ref type="bibr" target="#b31">(Kim and Kim, 2022)</ref>, among others.</p><p>While these examples demonstrate the utility of local interpretation methods in geospatial related applications, it is important to note that most of them primarily focus on explaining non-spatial effects, such as global nonlinearity or variable interaction. As a result, the explanations are not explicitly spatial. The shared interest in the concept of 'local' between XAI and geography provides a means to quantify and visualize spatial effects that are intrinsically linked to location <ref type="bibr" target="#b33">(Li, 2022)</ref>. Spatial effects are inherently interaction effects, where locations interact with nearby ones, resulting in spatial autocorrelation, and location can interact with other features, resulting in spatially varying relationships. <ref type="bibr" target="#b33">Li (2022)</ref> found that SHAP, as a local interpretation method, can explain such interactive effects from a machine learning model. By using simulated data with known generating processes that embed true spatial effects, the study revealed that the SHAP-explained XGBoost model can approximate spatial effects in a manner remarkably similar to established spatial statistical methods, specifically the Spatial Lag Model <ref type="bibr" target="#b2">(Anselin, 1988)</ref> and Multi-scale Geographically Weighted Regression <ref type="bibr" target="#b18">(Fotheringham et al., 2017)</ref>. This suggests that XAI can act as a bridge, connecting and converging spatial statistical models with machine learning. It's worth noting that in scenarios where complex spatial and non-spatial effects coexist and are not well-understood, machine learning models may emerge as the preferred choice over traditional spatial statistical approaches. This is due to the challenges inherent in the latter, including assumptions of linearity, model specification and selection, and computational overhead. This discovery presents an opportunity to leverage the advantages of machine learning and XAI to explore more intricate spatial and non-spatial effects.</p><p>However, there are two major challenges in using the off-the-shelf SHAP method for geospatial data. First, since interaction effects are the key to spatial effects, SHAP only supports computing interaction values for tree-based methods (e.g., decision trees, random forest, gradient boosting trees). This poses a limitation in applying this method to other architectures such as neural networks, which shows promising result for modelling geospatial phenomena recently <ref type="bibr">(Derrow-Pinion et al., 2019;</ref><ref type="bibr">Zhu et al., 2021;</ref><ref type="bibr" target="#b55">Yao and Huang, 2023)</ref>.</p><p>Second, location features, such as pairs of coordinates or more complicated location embeddings, should be considered a single joint player in Shapley value calculations. Treating them as separate features would violate the theoretical properties of Shapley value as noted by <ref type="bibr">Harris et al. (2022)</ref>.</p><p>Consequently, this paper will address the aforementioned two challenges by developing GeoShapley, which considers both joint features and interaction effects. GeoShapley can measure spatial and non-spatial effects in a model-agnostic manner that can be applied to explain statistical and machine learning models. This paper will formulate GeoShapley, develop efficient estimation algorithms, and create an open-source Python package.</p><p>The paper is organized as follows: Section 2 introduces the basics of the Shapley value. Section 3 describes the principles and estimation methods of GeoShapley. Section 4 presents simulation examples to validate GeoShapley against ground truth and to demonstrate its utility across a wide range of statistical and machine learning methods. In Section 5, an empirical example of house price modeling for properties in Greater Seattle, USA, is presented. Section 6 discusses the opportunities and challenges that GeoShapley and XAI bring to geographers. The paper concludes in Section 7.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Shapley value basics</head><p>Shapley values, originate from the field of coalitional game theory, were named in honor of Nobel Prize Laureate Lloyd Shapley, who introduced the concept in his seminal work <ref type="bibr" target="#b49">Shapley (1953)</ref>. Note that the spelling of "Shapley" is similar to that of the popular GIS Python package "Shapely", and the two should not be confused. The Shapley value considers how to fairly distribute contribution among players participating in a coalition game, and the Shapley value for a player 𝑗 (denoted as 𝜑 ! ) in a game is given by:</p><formula xml:id="formula_0">𝜑 ! = $ 𝑠! (𝑝 -𝑠 -1)! 𝑝! ,𝑓(𝑆 ∪ {𝑗}) -𝑓(𝑆)2 "⊆$\{!} (<label>1</label></formula><formula xml:id="formula_1">)</formula><p>where 𝑝 is the total number of players, 𝑀\{𝑗} is a set of all possible combinations of players excluding 𝑗, 𝑆 is a player set in 𝑀\{𝑗} with a size of s, 𝑓(𝑆) is the outcome of 𝑆, and 𝑓(𝑆 ∪ {𝑗}) is the outcome with players in 𝑆 plus player 𝑖. The interpretation of Equation ( <ref type="formula" target="#formula_0">1</ref>) is that the Shapley value of a player is the weighted average of its marginal contribution to the game outcomes, taken over all possible combinations of players. To better illustrate the concept of Shapley value, we can consider a following example. There are three players: A, B, C participate in games and their outcomes are listed in Table <ref type="table">1</ref>. The total number of possible combinations is</p><formula xml:id="formula_2">2 p =8.</formula><p>Table 1. A simple example of Shapley value with three players Game Player set 𝑆 Outcome 𝑓(𝑆) 1 None 0 2 A 5 3 B 10 4 C 100 5 A, B 5 6 A, C 120 7 B, C 140 8 A, B, C 150 Following Equation (1), the Shapley value for Player A is calculated as follows: 𝜑 ( = 𝑓(𝐴) -𝑓(𝑁𝑜𝑛𝑒) 3 + 𝑓(𝐴, 𝐵) -𝑓(𝐵) 6 + 𝑓(𝐴, 𝐶) -𝑓(𝐶) 6 + 𝑓(𝐴, 𝐵, 𝐶) -𝑓(𝐵, 𝐶) 3 = 5 3 + -5 6 + 20 6 + 10 3 = 7.5</p><p>Reiterate the same calculation, Shapley values for player B and C can be obtained respectively as 𝜑 ) = 20 and 𝜑 * = 122.5. We can claim that Player C has the strongest contribution to this game.</p><p>The Shapley value possesses several useful properties, including efficiency, symmetry, null player, and additivity <ref type="bibr" target="#b49">(Shapley, 1953)</ref>. Efficiency describes that the sum of individual player contributions equals the outcome when all players participate. In the above example, this is represented as 𝑓(𝐴, 𝐵, 𝐶) = 𝜑 ( + 𝜑 ) + 𝜑 * = 150.</p><p>Symmetry means that two players will receive the same Shapley value if they have the same marginal contribution in all possible coalitions. Null player asserts that a feature's Shapley value is zero when its marginal contribution to all possible coalitions is zero. Additivity refers to the case when two types of games are combined, the Shapley value of the combined game is the sum of the Shapley values of the individual game. <ref type="bibr" target="#b49">Shapley (1953)</ref> formally demonstrated that a solution is both fair and unique under the fulfillment of all four properties.</p><p>The concept of Shapley value has been applied to other problems. For example, <ref type="bibr" target="#b35">Lipovetsky and Conklin (2001)</ref> extended the Shapley value to linear regression and proposed the</p><p>Shapley regression value, which determines the contribution from covariates (players) to the model's coefficient of determination (R 2 value, outcome). Separate linear regression models are estimated with combinations of covariates, yielding different R 2 values. Then, Shapley values can be calculated following Equation (1). This method can fairly evaluate covariate importance in the model under multicollinearity. Furthermore, Štrumbelj and Kononenko (2014) proposed using the Shapley value to explain individual predictions in a prediction model. Under the efficiency property of Shapley values, each single prediction 𝑦 H + can be expressed by: 𝑦 H + = 𝜑 , + $ 𝜑 !+ -!./</p><p>where 𝜑 !+ is the Shapley value for feature j of observation i, and 𝜑 , is a base value to adjust for the difference between Shapley values and the prediction value. This expression has a strong connection with additive models (e.g., a linear regression) in which each 𝜑 !+ represents how each feature j marginally contributes to the prediction 𝑦 H + . To further illustrate this connection, consider a simple linear system 𝑦 = 3 + 2𝑋 / + 𝑋 0 , where 𝑋 / and 𝑋 0 are randomly drawn from a uniform distribution U(0, 4). Figure <ref type="figure" target="#fig_0">1</ref> shows the feature values and their associated Shapley values, where the slopes of the lines represent the coefficients of the linear system. This conveniently links Shapley values to the additive model framework that we are familiar with and provides an intuitive local interpretation for any prediction models. However, the major challenge in adopting the Shapley value empirically, as indicated in Equation 1, is the computational complexity which is exponential in relation to the number of features due to the combinatorial nature of the algorithm. For instance, the calculation becomes intractable when the number of features in a model exceeds 15 (2 15 = 32,768 times the prediction function needs to be evaluated). <ref type="bibr" target="#b52">Štrumbelj and Kononenko (2014)</ref> developed a Monte Carlo-based approximation approach for estimating the Shapley value to avoid calculating all possible combinations. Furthermore, <ref type="bibr">Lundberg and Lee (2017)</ref> proposed a model-agnostic approach named Kernel SHAP, which unifies another popular local interpretation method LIME with Shapley using a Shapley-weighted kernel and can be formulated by solving a weighted least squares regression problem:</p><formula xml:id="formula_5">𝝋 𝒊 = ,𝒁 𝑻 𝑾𝒁2 3𝟏 𝒁 𝑻 𝑾𝒗<label>(4)</label></formula><p>where 𝝋 𝒊 is a row vector with a size of 1 by p+1 containing the Shapley values for all p features plus a constant for observation i; Z is a matrix with a size of 2 p by p+1, where each row represents a combination of features and is a binary vector with a value of 1 indicating a feature is present and 0 indicating the feature is not. The last column of Z is a constant of 1 used as an intercept when solving the equation which gives us 𝜑 , . 𝒗 is the model prediction when using the binary Z matrix to mask the original feature matrix X. W is a Shapley weight matrix with a size of 2 p by p+1. Each row of W, 𝒘 𝒔 for a feature set S, it is given by:</p><formula xml:id="formula_6">𝒘 𝒔 = 𝑝 -1 O 𝑠 𝑝 P * 𝑠 * (𝑝 -𝑠) (<label>5</label></formula><formula xml:id="formula_7">)</formula><p>where p is the total number of features, s is the number of features present in S, O 𝑠 𝑝 P represents the combination possibilities of choosing s out of p features. The intuition is that smaller and larger combinations can better isolate individual contributions and should receive higher weights in determining the Shapley value. This is also proportional to the weights in the classic Shapley equation. <ref type="bibr">Lundberg and Lee (2017)</ref> also showed that Kernel SHAP has better sample and computational efficiency than the classical Shapley equation and the approach from <ref type="bibr" target="#b52">Štrumbelj and Kononenko (2014)</ref>. <ref type="bibr">Covert and Lee (2011)</ref> further demonstrated that Kernel SHAP is a consistent Shapley value estimator with negligible bias.</p><p>Kernel SHAP requires a background dataset. When calculating v with the Z masked feature matrix X as input, it is essential to determine the values that should represent missing features in the pre-trained model, as most models do not explicitly handle missing features without retraining. Therefore, the background dataset is used to approximate the absence of features by replacing the masked-out features with values from this dataset.</p><p>Options for the background dataset include the entire data, a subset of randomly selected samples, selected representative samples, or a single reference value. The Shapley values computed are then averaged over the background dataset. It should be noted that a larger background dataset reduces the variance in Shapley value estimates but demands more computation. <ref type="bibr">Lundberg and Lee (2017)</ref> recommend using the entire dataset for small datasets, and for larger datasets, a single reference point such as the mean or median is preferable, or one may summarize the data with a clustering method such as k-means.</p><p>Other Shapley estimators that are worth mentioning include Tree SHAP, which offers the advantage of being significantly more computationally efficient than Kernel SHAP <ref type="bibr">(Lundberg et al., 2021)</ref>. However, it is only applicable to tree-based models, such as random forests and gradient-boosting trees. In addition to its speed, Tree SHAP can also estimate the Shapley interaction effect, formulated as follows:</p><formula xml:id="formula_8">𝜙(𝑖, 𝑗) = $ 𝑠! (𝑝 -𝑠 -2)! 2(𝑝 -1)! "⊆$\\{+,!} ∆ {+,!} ∆ {+,!} = 𝑓(𝑆 ∪ {𝑖, 𝑗}) -𝑓(𝑆 ∪ {𝑖}) -𝑓(𝑆 ∪ {𝑗}) + 𝑓(𝑆)<label>(6)</label></formula><p>The logic of Equation 6 is similar to Equation 1, but at every feature combination, the interaction effect is isolated from players, i and j, by removing their individual contributions, as indicated in ∆ {+,!} . This interaction effect is particularly useful in giving us an opportunity to measure the interaction between location features and other features and will manifest a location specific effect, as demonstrated in <ref type="bibr" target="#b33">Li (2022)</ref>. However, Tree SHAP only works for tree-based models. Implementations of various Shapley value estimators are available in opensource Python (shap) and R libraries (shapper and fastshap) and it has been included in popular machine learning packages such as scikit-learn and XGBoost. However, currently, there is no existing model-agnostic approach and tool to estimate Shapley interaction effects. This gap will be addressed in this paper and will be one of its contributions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">GeoShapley</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Principles</head><p>Extending from the Shapley value framework, the fundamental concept of GeoShapley, denoted as ϕ, involves considering location features as a single joint player in the model explanation stage. The concept is that joint players participate in the game together, rather than individually which can be used to combine the location features. Here, location features refer to model inputs that describe the location of a geo-referenced observation, which are often used to account for spatial effects such as spatial autocorrelation and spatial heterogeneity. The simplest case is to use the 2-dimensional coordinates, such as latitude and longitude, as the input in the model.</p><p>More sophisticated feature transformation methods derived from coordinates have also been found in the literature, such as the use of a combination of Moran eigenvectors <ref type="bibr">(Liu et al., 2017)</ref>, interactive basis expansions of coordinates <ref type="bibr">(Peaz et al., 2019)</ref>, Euclidean distance fields <ref type="bibr" target="#b4">(Behrens et al., 2018;</ref><ref type="bibr">Hengl et al., 2018)</ref>, and space2vec location encoding <ref type="bibr">(Mat et al., 2022)</ref>. In these cases, coordinates are used to generate high-dimensional features that allow downstream machine learning models to draw decision boundaries more effectively to better characterize the space and achieve higher accuracy. However, high-dimensional features, while useful in the modeling stage, often lack real-world meanings and are not easily interpretable. For instance, instead of understanding the isolated effect of an individual Moran eigenvector or a single high-dimensional feature embedding in the model, it is more relevant to consider their collective contribution to a particular location, analogous to our interpretation of the location effect. Therefore, special consideration is needed when applying the Shapley value framework to location features.</p><p>The original Shapley value considers only individual players, and Harris et al. (2021) extended it to accommodate joint players, termed the joint Shapley value, which also satisfies the properties of Shapley values. Following the joint Shapley value, we can calculate 𝝓 𝑮𝑬𝑶 as:</p><formula xml:id="formula_9">𝝓 𝑮𝑬𝑶 = $ 𝑠! (𝑝 -𝑠 -𝑔)! (𝑝 -𝑔 + 1)! ,𝑓(𝑆 ∪ {𝑮𝑬𝑶}) -𝑓(𝑆)2 "⊆$\\{𝑮𝑬𝑶} (<label>7</label></formula><formula xml:id="formula_10">)</formula><p>where GEO is a set of location features with a size of g. If g=1, Equation 7 reduces to the individual player situation as in the classic Shapley. g=2 if including the geographical coordinates (u, v) as the features in the model. This formula is also extendable when g&gt;2. The resulting interpretation of 𝝓 𝑮𝑬𝑶 is that it measures the marginal contribution to the model prediction from all location features while holding other features constant.</p><p>This explanation is analogous to a spatial fixed effect or a local intercept in a GWR model, and it is recently termed as an intrinsic contextual effect <ref type="bibr" target="#b17">(Fotheringham et al., 2023;</ref><ref type="bibr" target="#b17">Fotheringham and Li ,2023)</ref>.</p><p>Non-spatial effects can be globally linear or non-linear and are location invariant. For a feature 𝑋 ! , its GeoShapley value is formulated as:</p><formula xml:id="formula_11">𝝓 𝒋 = $ 𝑠! (𝑝 -𝑠 -𝑔)! (𝑝 -𝑔 + 1)! "⊆$\\{!} ,𝑓(𝑆 ∪ {𝑗}) -𝑓(𝑆)2 (<label>8</label></formula><formula xml:id="formula_12">)</formula><p>This interpretation is the same as that of the classic Shapley value, which represents the marginal contribution of feature 𝑋 ! to the model prediction.</p><p>Location and feature interaction effect can be calculated based on Shapley Interaction value which is defined as follows:</p><formula xml:id="formula_13">𝝓 (𝑮𝑬𝑶,𝒋) = $ 𝑠! (𝑝 -𝑠 -𝑔 -1)! (𝑝 -𝑔 + 1)! "⊆$\\{=&gt;?,!} ∆ {𝑮𝑬𝑶,!} ∆ {𝑮𝒆𝒐,𝒋} = 𝑓(𝑆 ∪ {𝑮𝑬𝑶, 𝑗}) -𝑓(𝑆 ∪ {𝑮𝑬𝑶}) -𝑓(𝑆 ∪ {𝑗}) + 𝑓(𝑆)<label>(9)</label></formula><p>𝝓 (𝑮𝑬𝑶,𝒋) measures the interaction effect between location and feature j, and its interpretation is directly related to a spatially varying coefficient (SVC) models such as GWR and Eigenvector Spatial Filtering. For instance, if</p><p>GeoShapley is used to explain a GWR model, then 𝝓 (𝑮𝑬𝑶,𝒋) would correspond to the spatially varying component in the model specification, and (𝝓(𝒋) + 𝝓 (𝑮𝑬𝑶,𝒋) )/(𝑿 -𝑬,𝑿 𝒋 2) gives GWR-type location specific coefficients 𝜷 𝒋 for feature 𝑿 𝒋 . This will be demonstrated in the simulation example discussed later. The formulated GeoShapley retains all the properties of Shapley values by directly applying the joint Shapley and Shapley interaction frameworks.</p><p>GeoShapley values are estimated by extending the Kernel SHAP method and are also solved using the weighted least squares framework. In Equation ( <ref type="formula" target="#formula_5">4</ref>), we need to change the binary matrix Z from a size of 2 p by p+1 to 2 p- g+1 by 2p-2. The reason is as follows: due to the joint nature of location features, they will be added to the model jointly. This way, we have a smaller combination space than the original one. The exponent represents the size of individual features, which goes from 2 p to 2 p-g+1 . The column dimension of Z is expanded to include possible interaction effects. Note that two features can only possibly interact if they are both present in the feature set.</p><p>To better illustrate this, consider that we have p=4 features: 2 non-location features, X1 and X2, and 2 location features (e.g., latitude and longitude), where g=2, collectively forming the GEO in a prediction model. So, the matrix Z in Equation ( <ref type="formula" target="#formula_5">4</ref>) will have a shape of 7 by 6, as shown in Table <ref type="table" target="#tab_0">2</ref>, where each row represents a possible feature combination, and each column indicates whether a certain feature/combination is present and possible. </p><formula xml:id="formula_14">0 0 0 1 X1 1 0 0 0 0 1 X2 0 1 0 0 0 1 GEO 0 0 0 0 1 1 X1, GEO 1 0 1 0 1 1 X2, GEO 0 1 0 1 1 1 X1, X2 1 1 0 0 0 1 X1, X2, GEO 1 1 1 1 1 1</formula><p>By following the same estimation procedure as Kernel SHAP, GeoShapley values can be calculated for each individual observation and then averaged over the background dataset. The final output of GeoShapley has four components that add up to the model prediction:</p><formula xml:id="formula_15">𝒚 ^ = 𝜙 , + 𝝓 𝑮𝑬𝑶 + $ 𝝓 𝒋 - !./ + $ 𝝓 (𝑮𝑬𝑶,𝒋) - !./<label>(10)</label></formula><p>where 1) 𝜙 , is a constant base value. This is the average prediction value given the background data and serves as the global intercept; 2) 𝝓 𝑮𝑬𝑶 is a vector with size n measuring the intrinsic location effect in the model; 3) 𝝓 𝒋 is a vector with size n for each non-location feature j giving location-invariant effect to the model; and 4) 𝝓 (𝑮𝑬𝑶,𝒋) is a vector with size n for each non-location feature j giving the spatially varying interaction effect to the model. If no spatial effects are in the model, then the term 𝝓 𝑮𝑬𝑶 and 𝝓 (𝑮𝑬𝑶,𝒋) will be zero, and Equation (10) will reduce to Equation (3) proposed by <ref type="bibr" target="#b52">Štrumbelj and Kononenko (2014)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Python package</head><p>GeoShapley is accessible as an open-source python package and is distributed in PyPI (The Python Package Index) that can be installed using command pip install geoshapley. The package is hosted at <ref type="url" target="https://github.com/Ziqi-Li/geoshapley">https://github.com/Ziqi-Li/geoshapley</ref>. The main function of the package is to compute GeoShapley values for a pre-trained predictive model. The package can be seamlessly integrated with popular machine learning libraries including scikit-learn, xgboost and tabnet. It also offers a variety of visualization tools for visualizing both spatial and non-spatial effects. Tutorials and examples are also included in the code repository. The package will be further maintained and updated as new technical developments of GeoShapley become available.</p><p>Additionally, data and code to reproduce all the results presented in this paper are also included in the package homepage.</p><p>4 Simulated examples</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Simulation design</head><p>This section validates GeoShapley values and their interpretations and provides an example of applying GeoShapley to explain a true model and machine learning models using simulated data. <ref type="bibr">Murdoch et al. (2019)</ref> suggested that the evaluation of an explanation method should include simulations to benchmark it against a true model with known Data Generating Processes (DGP). This method allows for the verification of models and explanations can accurately recover the true underlying processes. Following this recommendation, we use a simulation setup that involves a combination of three spatially varying processes, one linear process, and one nonlinear process. This represents a complex scenario encompassing both spatial and non-spatial effects, where spatial processes are location-specific and linear and nonlinear processes are global and location-invariant. The simulation setup largely draws from the work of <ref type="bibr" target="#b25">Harris et al. (2010)</ref> and <ref type="bibr" target="#b18">Fotheringham et al. (2017)</ref>. The approach to model validation and the DGP are shown in Figure <ref type="figure" target="#fig_2">2</ref>, with the specific formulas provided as follows:  </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">True model validation</head><p>Given the DGP, we then have a true model with known behaviors. With any input 𝑿, it will generate a true output 𝒚.</p><p>In this example, 𝑿 are randomly drawn from a uniform distribution of 𝑈(-2, 2) as the input to generate a true output 𝒚 as 𝒚 = 𝒇 𝟎 (𝒖, 𝒗) + 𝒇 𝟏 (𝑿 𝟏 , 𝒖, 𝒗) + 𝒇 𝟐 (𝑿 𝟐 , 𝒖, 𝒗) + 𝒇 𝟑 (𝑿 𝟑 ) + 𝒇 𝟒 (𝑿 𝟒 )</p><p>GeoShapley values are then computed to explain this true model. We expect the explanations to exactly match the true processes, thereby achieving 100% explanation accuracy. In Figure <ref type="figure" target="#fig_4">3</ref>, a summary plot displays the GeoShapley results, ranking the contributions of different features to the true model from top to bottom. The x-axis represents the GeoShapley values, while the feature values are denoted by color. For each feature row, a single dot represents the feature value of each data point (denoted by its color) and its corresponding GeoShapley value (denoted by its horizontal position). Dots accumulate along each feature row to indicate the density distribution. 'GEO' represents the aggregated contribution of location features. Contributions from non-location features are indicated by their respective names (e.g., X1), and the contribution of the interaction between a feature and location is denoted with a cross (e.g., X1 × GEO). In Figure <ref type="figure" target="#fig_4">3</ref>  Further calculations can be performed to align the raw GeoShapley values with the true DGP for easier comparison. The intrinsic location effect can be calculated as 𝜙 , + 𝝓 𝑮𝑬𝑶 , which corresponds to 𝒇 𝟎 (𝒖, 𝒗).</p><p>Spatially varying coefficients can be determined as 𝜷 + 𝒋 = 𝝓 𝒋 + 𝝓 (𝑮𝑬𝑶,𝒋) 𝑿-𝑬'𝑿 𝒋 (</p><p>. No additional calculation is needed for visualizing the non-spatial functions. The explanations resulting from these calculations are displayed in Figure <ref type="figure" target="#fig_5">4</ref>, which perfectly matches the original DGP 2 . This demonstrates that when GeoShapley is applied to a true model, it can achieve 100% explanation accuracy.   Empirically, as illustrated in Figure <ref type="figure" target="#fig_7">5</ref>, a true model is often unknown to us. Instead, we rely on the available data, such as features X and outcome y, to fit a model, generate predictions, and use explanation method to explain the model, thereby facilitating our understanding of the underlying processes of the unknown true model. To demonstrate this framework and the utility of GeoShapley, we apply GeoShapley to seven popular statistical and machine learning methods. This evaluation employs a simulated dataset from Equation ( <ref type="formula" target="#formula_16">12</ref>), with a standard normal error added to y. The models being compared encompass a wide array of model structures, including:</p><p>• Linear Regression (LR)</p><p>• Multi-scale Geographically Weighted Regression (MGWR)</p><p>• Gaussian Process (GP)</p><p>• Random Forest (RF)</p><p>• Extreme Gradient Boosting (XGBoost)</p><p>• Support Vector Machine (SVM)</p><formula xml:id="formula_17">• Neural Network (NN)</formula><p>Due to its model-agnostic nature, GeoShapley conceptually can be applied to any supervised statistical and machine learning models, provided that the original data, predictions, and prediction functions are available. In this comparison, all machine learning models are trained using scikit-learn <ref type="bibr" target="#b44">(Pedregosa, 2011)</ref>, with hyperparameters optimized by the Hyperopt Bayesian optimizer <ref type="bibr" target="#b5">(Bergstra, 2013)</ref> within the Hyperopt-sklearn library. Seventy-five percent of the data is randomly chosen for training, while the remaining twenty-five percent is set aside for testing. For all models, tuning involves 200 evaluations of hyperparameter combinations using the default search space in Hyperopt-sklearn. MGWR is estimated with the mgwr Python package <ref type="bibr" target="#b41">(Oshan et al., 2019)</ref>. The goal here is not necessarily to train the best model for the data but rather to evaluate the utility of GeoShapley across empirical models with varying structures. The out-of-sample R 2 value, which serves as an indicator of model accuracy, is reported for each model in Table <ref type="table" target="#tab_1">3</ref>. Since MGWR currently lacks an implementation for predicting out-of-sample data, the model R 2 is instead reported. The true R 2 value is computed based on the added error and the distribution of the y. From Table <ref type="table" target="#tab_1">3</ref>, we observe that linear regression performs the worst, which is anticipated due to its inability to account for spatial and non-linear effects. MGWR shows good predictive performance with an R 2 of 0.943, attributable to its capability to capture spatially varying effects. Among the machine learning models, Random Forest exhibits the lowest performance with an R² of 0.906, while the other models demonstrate comparable performances with R 2 values between 0.96 and 0.97, closely approximating the theoretical true R 2 . The accuracy measures indicate that ML models are very effective in capturing the spatial and non-spatial effects designed in this simulation.</p><p>GeoShapley values are calculated for all models, providing explanations for each marginal effect. As with the true model validation, spatial effects are visualized as spatially varying coefficients, making these explanations comparable across models as shown in Figure <ref type="figure" target="#fig_18">6</ref>. The first row of Figure <ref type="figure" target="#fig_18">6</ref> represents the true processes. The first three columns display the spatially varying coefficients derived from GeoShapley, while the final two columns show the raw GeoShapley values alongside their corresponding feature values. As expected, the linear regression model only captures constant global linear relationships. The Random Forest model struggles to estimate all effects, showing a noticeable level of noise and inaccuracy, yet it does capture some spatial or nonspatial structures. XGBoost, another tree-based method, outperforms Random Forest by accurately modeling both spatial trends and non-spatial effects. Surprisingly, SVM, GP, and NN perform exceptionally well, nearly perfectly capturing both spatial and non-spatial effects possibly due to their superior handling of continuous decision boundaries compared to XGBoost. The final row shows the coefficients from MGWR capturing the spatial effects and the global linear effect, but not the non-linear U-shaped effect. And it also seems that the inaccuracy in estimating the non-linear effect compromises the estimation of the spatially varying effects. With GeoShapley, this paper is the first to explain spatial effects from machine learning models using a modelagnostic approach, enabling the comparison of these estimated effects across different model structures, which was previously impossible.</p><p>Figure <ref type="figure" target="#fig_18">6</ref>. A cross-comparison of explanations obtained from GeoShapley for various models.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">An empirical example of house price modeling</head><p>To demonstrate the utility of GeoShapley empirically, we use a case study of housing price modeling in the Greater Seattle area, King County, Washington, USA. This case is selected due to the widely recognized importance of geographic location on home values. This data also has been widely used to demonstrate methodological development in geography (e.g., in <ref type="bibr">Sachdeva et al., 2022 and</ref><ref type="bibr" target="#b2">Anselin and</ref><ref type="bibr">Amaral, 2023)</ref>. By applying predictive machine learning models along with GeoShapley, we can explain both the effect of location and other features influencing house prices. The dataset, named "Home Sales," is obtained from GeoDa Lab   All previously used machine learning models have been trained, and their out-of-sample R² values are compared in Table <ref type="table" target="#tab_3">5</ref>. In this comparison, XGBoost outperforms all other models. Although the neural network (NN) is the best performer in our simulation example, it is commonly observed that XGBoost yields higher accuracies with real tabular data due to its scalability and flexibility <ref type="bibr" target="#b50">(Shwartz-Ziv and Armon, 2022)</ref>. The residuals from XGBoost show strong normality and have little-to-no spatial autocorrelation as indicated by a Moran's I value of 0.037. Consequently, we use the trained XGBoost model as our final model to compute GeoShapley values and to explain the effects. Given the size of the dataset, using the entire dataset as the background is computationally feasible yet challenging. Therefore, we use a representative sample of size 50 from k-means clustering. A bootstrap-based approach is adopted to construct confidence intervals around GeoShapley values to capture sampling variability and uncertainties in the model following the work of <ref type="bibr" target="#b14">Efron and Tibshirani (1994)</ref>.</p><p>Specifically, bootstrap samples are generated from training data with replacement, and model is re-fitted, and new GeoShapley values are calculated. This process repeats to generate a sampling distribution of GeoShapley values, and a 95% confidence interval can be obtained by finding the 2.5th and 97.5th percentiles of the distribution. Since GeoShapley values are in the unit of y, which is log-scaled house price, a transformation is applied to convert from the log scale to the percentage change in house price for ease of interpretation. The base value (𝜙 l , = 5.63) indicates that the transformed GeoShapley values are benchmarked against a base property with a price of 10 5.63 or $430,788. A summary plot ranking feature importance is subsequently presented in Figure <ref type="figure" target="#fig_10">8</ref>.</p><p>Summary statistics of the GeoShapley values are included in Appendix A. The contribution from the location (GEO) emerges as the most important feature affecting a house's price, decreasing it by up to 43% or increasing its value by as much as 123%, depending on the location and holding other factors constant. Housing characteristics, including the square footage of the living area and grade, follow in importance. Features such as a better view and the presence of waterfront can potentially increase a property's value by nearly 50%. There are interactions between location and housing attributes, but they are not as strong as the main non-spatial effects. For example, age shows some degree of interaction with location, suggesting that the impact of age on house price is partly dependent on the property's location. The main feature effects, which are independent of location, are shown in Figure <ref type="figure" target="#fig_11">9</ref>. Each figure illustrates the marginal contribution to house price in terms of percentage value change when all other features are held constant. These plots help to understand which features have a greater marginal effect on the price of a house and how these relationships are shaped. The bootstrap-based 95% confidence interval is shown as a grey shaded band, and GeoShapley values that have the interval including zero are masked out as grey dots, indicating no statistically significant contribution in the model. Most relationships exhibit a strong degree of non-linearity across the feature's value. For example, as the number of bathrooms increases between 1 and 3, the percentage change in price initially increases, then levels off and becomes non-significant. Increasing both the square footage of the living area and the lot size will significantly increase a property's value, but the impact of the living area is much more substantial than that of the lot size, as indicated by the magnitude of the y-axis. Having a higher grade and better condition will also increase a property's value. The best grade can increase the value by around 60%, while the highest condition can result in a 5-10% increase, ceteris paribus. Having a waterfront and the best view can increase the value by roughly 30-40%, respectively. Age generally shows a decreasing trend, with newer houses being valued more than older ones, and age becomes an insignificant factor for most of the houses older than 50.  The primary spatial effect in this model is the contribution of location to the percentage change in house prices, as measured by the GeoShapley value 𝝓 m 𝑮𝑬𝑶 . This contribution ranges from approximately -43% to +123% relative to the base value and is the strongest factor influencing house prices. Figure <ref type="figure" target="#fig_22">10a</ref> displays the geographic distribution of this effect. GeoShapley values for which their 95% bootstrap confidence intervals include zero are masked out in grey. The location is expected to act as a proxy for the multifaceted socio-physical context in which people live. It is evident that locations in central and northern Seattle, as well as the Bellevue regions around Lake Washington, substantially and positively influence property prices. These areas are desirable due to their proximity to attractions, businesses, transportation hubs and various physical and urban amenities.</p><p>Specifically, major employers such as Amazon have been shown to drive up house prices in surrounding neighborhoods (e.g., Bellevue, South Lake Union, Capitol Hill, Queen Anne) (Dowell, 2019). These places also offer good public transportation services and desired amenities such as parks, shopping centers, restaurants, and bars, which enhance the quality of life and contribute to their attractiveness. The University District also holds high location value due to the demand from the University of Washington. In addition, zoning regulations play an important role in housing prices because most residential areas in Seattle, especially north of downtown, are zoned for only single-family housing. This prohibits denser housing and controls supply while demand is increasing in these desirable areas <ref type="bibr" target="#b21">(Glaeser and Gyourko, 2002)</ref>. Other location-linked factors such as school districts also affect house prices <ref type="bibr" target="#b19">(Franklin and Waddell, 2003)</ref>, and high location values can be observed within the highly ranked school districts such as Bellevue School District and Mercer Island School District.</p><p>Conversely, location negatively impacts the price of properties in the southern outskirts of Seattle due to the opposite reasons. In fact, for two properties with identical housing attributes, one in Bellevue would be approximately 3 to 4 times more expensive than a comparable property in the southern rural area of Seattle, owing to the value of the location. The quantified locational value based on GeoShapley also shows very similar spatial pattern when compared to the local intercept estimated from an MGWR model in <ref type="bibr">Sachdeva et al. (2022, Figure 13</ref>) and the spatial fixed effect estimated based on a spatially constrained endogenous regimes model in <ref type="bibr">Anselin and Amaral (2023, Figure 2a</ref> and Table <ref type="table">7</ref>). However, it worth mentioning that the other two approaches are not able to account for the complex nonlinearities arising from the housing attributes compared to machine learning approach.</p><p>The second strongest spatial effect is the interaction between location and the age of the property, measured by 𝝓 m (𝑮𝑬𝑶,𝑨𝒈𝒆) . This is further converted to 𝜷 m O𝑮𝑬𝑶,𝚫 𝑨𝒈𝒆 Q and visualized in Figure <ref type="figure" target="#fig_22">10b</ref>, which shows how an increase in property age by one year will change the house price in terms of percentage. Similar to the Figure <ref type="figure" target="#fig_22">10a</ref>, estimates that are non-significant are masked out in grey. We can see that for most properties, the locationspecific age effect is not a significant factor in the model after controlling for its main effect (shown in the last plot of Figure <ref type="figure" target="#fig_11">9</ref>). However, a positive association between age and property price is found in neighborhoods such as Queen Anne, Capitol Hill, and West Seattle, indicating that older properties in these areas are valued more than older properties elsewhere. This finding is consistent with <ref type="bibr">Anselin and Amaral (2023)</ref>, who also found a positive correlation between age and house price in the downtown spatial regime. Additionally, this positive correlation is reported by <ref type="bibr" target="#b48">Rosenberg (2017)</ref>, who explained that these old homes are in desired neighborhoods and many of them have been recently remodeled that increased their values. Nevertheless, the overall contribution due to interaction between location and age is weak in terms of the magnitude.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Discussion</head><p>From both simulated and empirical examples, it is evident that the GeoShapley value provides a useful framework for explaining spatial and non-spatial effects from machine learning models, which helps to better understand complex processes and relationships underlying geospatial phenomena. The contributions and implications of GeoShapley are summarized below.</p><p>Firstly, GeoShapley is model agnostic and works independently of the underlying machine learning model, thanks to the Shapley framework and the Kernel SHAP estimator. This allows for cross-comparison between different methods, ranging from linear regression and spatial models such as MGWR, to more complex machine learning models like XGBoost and Neural Network. The model-agnostic nature also facilitates easier understanding, as it avoids delving into the internal workings of complicated model structures. Additionally, it can be easily integrated into existing machine learning pipelines. For instance, analysts can directly use the geoshapley Python package to explain models trained from scikit-learn.</p><p>Secondly, GeoShapley provides intuitive interpretations of spatial effects, directly linking to the interpretation of additive models and spatially varying coefficient models. This offers a familiar interface for geographers to explore the use of machine learning to understand more complicated spatial and non-linear processes. A notable limitation of many popular spatial statistical models is their assumption of linearity, which can neglect intricate non-spatial effects such as variable interactions and non-linearity. While some of these effects can be addressed through explicit inclusion of interaction terms, non-linear components and data transformations, this still presents a significant model specification and selection challenge, especially when spatial models are often computationally expensive to estimate for large dataset. On the other hand, machine learning models, which are scalable and flexible without strong assumptions about data distribution and functional forms, overcome many of these limitations. Combined with the explanatory capability of GeoShapley, we are better equipped to understand complex relationships in large geospatial datasets that were previously underexplored.</p><p>Thirdly, GeoShapley can serve as a diagnostic tool to improve existing machine learning methods for geospatial data. While many recent advancements in GeoAI methodology focus on image-related tasks, relatively few efforts (e.g., <ref type="bibr">Zhu et al., 2021;</ref><ref type="bibr" target="#b38">López and Kholodilin, 2023)</ref> have been dedicated to developing methods for tabular data regression, which arguably represents the most common data structure and task that geographers need. With enhanced explanatory capabilities, developers can more precisely identify issues within existing models and propose improvements aimed at enhancing process accuracy rather than just overall model accuracy.</p><p>Some limitations and future directions are noteworthy. Firstly, the current implementation of the GeoShapley value lacks formal inferential capabilities. The empirical example demonstrates how to use the bootstrap method to construct confidence intervals, which provides useful information on the uncertainties of the GeoShapley values. This approach inevitably incurs a large computational overhead since the model fitting and explanation need to be repeated many times. However, it is encouraged to do so when the data are moderate or small and if time and hardware allow. Alternatively, GeoShapley can suggest potential functional forms and data transformation that could be integrated into traditional statistical models when formal statistical inference is preferred. Furthermore, Joseph (2022) introduced a parametric inferential framework that uses the Shapley-Taylor decomposition combined with a surrogate parametric regression analysis. Additionally, <ref type="bibr" target="#b10">Covert and Lee (2021)</ref> proposed an approximate Kernel SHAP estimator and developed a method to calculate its uncertainties.</p><p>However, the extension of these approaches to GeoShapley remains an area for further exploration. Secondly, there has been increasing interest in spatial causality to better understand the 'why' question <ref type="bibr" target="#b1">(Akbari et al., 2023;</ref><ref type="bibr" target="#b11">Credit and Lehnert, 2023;</ref><ref type="bibr" target="#b20">Gao et al., 2023;</ref><ref type="bibr">Zhang and Wolf, 2023)</ref>. <ref type="bibr" target="#b28">Janzing et al. (2020)</ref> argued that the Shapley value inherently possesses a causal interpretation when using an interventional algorithm (what Kernel SHAP and GeoShapley use), which examines how a model behaves when the dependence among features is deliberately disrupted. The Shapley value also provides an interface to investigate more complex causal effects within machine learning models and has been shown to be effective in measuring heterogeneous treatment effects with instrumental variables <ref type="bibr" target="#b53">(Syrgkanis et al., 2019)</ref>. Furthermore, Heskes et al. (2020) introduced causal Shapley values, a model-agnostic approach to measure the direct and indirect effects from each feature to the model's prediction. It is useful to extend and apply these methods to geospatial tasks.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Conclusion</head><p>This paper introduces GeoShapley value as an explanation tool to measure spatial effects in machine learning models. GeoShapley extends from the classic Shapley value framework in game theory by considering location features as a player in a model prediction game. The GeoShapley value is formulated based on joint Shapley and Shapley interaction frameworks and is estimated by Kernel SHAP. GeoShapley is capable of quantifying the intrinsic location effect in the model, the interaction effect between location and other features, and the remaining linear or nonlinear effects. The interpretation of GeoShapley is directly linked with spatially varying coefficient models for explaining spatial effects. The explanation accuracy of GeoShapley is validated against a true model with known data-generating processes, and its utility is demonstrated in both simulated data and real-world data. GeoShapley is available as an open-source Python package geoshapley.</p><p>Zhang, J., &amp; Wolf, L. (2023). Rethinking" causality" in Quantitative Human Geography.</p><p>Zhang, J., Ma, X., Zhang, J., Sun, D., Zhou, X., Mi, C.</p><p>, &amp; Wen, H. (2023). Insights into geospatial heterogeneity of landslide susceptibility based on the SHAP-XGBoost model. Journal of Environmental Management, 332, 117357. Zhu, D., Liu, Y., Yao, X., &amp; Fischer, M. M. (2021). Spatial regression graph convolutional neural networks: A deep learning paradigm for spatial multivariate distributions. GeoInformatica, 1-32. Author Biographies ZIQI Li is an Assistant Professor in the Department of Geography at Florida State University, Tallahassee, FL 32306. E-mail: Ziqi.Li@fsu.edu. His research interests include spatial statistical modeling and interpretable machine learning.          </p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>List of Figure Captions</head></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Illustration of the Shapley value and feature value under a linear regression system.</figDesc><graphic coords="6,106.00,298.23,399.63,159.85" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><figDesc>(𝑿 𝟏 , 𝒖, 𝒗) = 𝜷 𝟏 (𝒖, 𝒗) ∘ 𝑿 𝟏 𝑤ℎ𝑒𝑟𝑒 𝜷 𝟏 (𝒖, 𝒗) = 2 49(𝒖 + 𝒗) 𝒇 𝟐 (𝑿 𝟐 , 𝒖, 𝒗) = 𝜷 𝟐 (𝒖, 𝒗) ∘ 𝑿 𝟐 𝑤ℎ𝑒𝑟𝑒 𝜷 𝟐 (𝒖, 𝒗) = 2 49,(49 -𝒖) + 𝒗2 𝒇 𝟑 (𝑿 𝟑 ) = 2𝑿 𝟑 𝒇 𝟒 (𝑿 𝟒 ) = 𝑿 𝟒 𝟐 (11) where 𝒖 and 𝒗, ranging from 0 to 49, represent the coordinates of a given location on a 50 by 50 grid, comprising a total of 2,500 geo-referenced observations. 𝑿 𝟏 , 𝑿 𝟐 , 𝑿 𝟑 , 𝑿 𝟒 are feature inputs. The function 𝒇 𝟎 (𝒖, 𝒗) depends solely on location and is a function of coordinates 𝒖 and 𝒗, serving as the intrinsic location effect. Functions 𝒇 𝟏 (𝑿 𝟏 , 𝒖, 𝒗) and 𝒇 𝟐 (𝑿 𝟐 , 𝒖, 𝒗) are functions of location and features 𝑿 𝟏 and 𝑿 𝟐 , respectively. They are denoted as an element-wise multiplication (∘) between spatially varying coefficients 𝜷 𝟏 (𝒖, 𝒗) and 𝜷 𝟐 (𝒖, 𝒗) and feature value 𝑿 𝟏 and 𝑿 𝟐 , which manifest as spatially varying effects. Given the challenge of visualizing four-dimensional partial dependence functions (with space as two dimensions, feature as the third, and partial dependence as the fourth), we instead visualize the 2D spatially varying coefficients 𝜷 𝟏 (𝒖, 𝒗) and 𝜷 𝟐 (𝒖, 𝒗), which is analogous to the interpretation of coefficients in a GWR model. 𝒇 𝟑 (𝑿 𝟑 ) and 𝒇 𝟒 (𝑿 𝟒 ) represent functions of a linear process (with a slope of 2) and a quadratic U-shaped non-linear effect, respectively.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. An illustration of the model validation approach and the designed true data generating processes.</figDesc><graphic coords="12,124.45,471.89,363.10,191.79" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><head>G</head><figDesc>, the GeoShapley values for 𝑿 𝟏 and 𝑿 𝟐 are very close in magnitude, suggesting they contribute similarly to the model. This similarity occurs because the data for both are drawn from the same distribution, and the designed location-invariant effect is the same, i.e., 𝐸(𝜷 𝟏 ) = 𝐸(𝜷 𝟐 ) = 3. The GeoShapley value of 𝑿 𝟑 is approximately two-thirds of that of 𝑿 𝟏 and 𝑿 𝟐 because the designed effect 𝛽 G = 2 = 0 𝐸(𝜷 𝟏 ) = 𝐸(𝜷 𝟐 ) . Location is the fourth most important feature, as indicated by the GeoShapley values of GEO. 𝑿 𝟒 has a positive-only contribution since the quadratic function maps all values positively. Regarding interaction effects, the interactions between 𝑿 𝟏 and location (X1 × GEO), and 𝑿 𝟐 and location (X2 × GEO), have similar magnitude because the designed spatial patterns in 𝜷 𝟏 and 𝜷 𝟐 are identical, except for the orientation. Interaction effects for 𝑿 𝟑 and 𝑿 𝟒 are not found. The summary plot is consistent with our expectations.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. A summary plot showing the feature contribution ranking and distribution of GeoShapley values.</figDesc><graphic coords="14,118.00,72.00,375.81,239.45" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Spatial and non-spatial processes measured by GeoShapley in the true model.</figDesc><graphic coords="14,72.00,501.44,468.00,87.10" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_6"><head>2</head><figDesc>Numerical evidence is available in the attached code repository.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_7"><head>Figure 5 .</head><label>5</label><figDesc>Figure5. An illustration of model explanation approach to understand true model behavior.</figDesc><graphic coords="15,149.93,72.00,312.12,178.30" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_8"><head>(</head><figDesc>Figure7shows inter-correlations among the features. Notably, the number of bedrooms, square footage of the living area, and the property grade exhibit moderate to strong bivariate correlations (&gt; 0.6), yet other features show a low level of correlation.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_9"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Correlation matrix of the features used in predictive models.</figDesc><graphic coords="20,174.50,215.68,262.99,251.40" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_10"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. A summary plot showing the feature contribution ranking and distribution of GeoShapley values in the house price model.</figDesc><graphic coords="22,143.27,72.00,325.44,337.30" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_11"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Marginal relationships between housing features and their contribution to the percentage change in house price.</figDesc><graphic coords="23,72.00,129.27,468.00,156.00" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_12"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. Percentage of change in house price due to location (a), and due to the interaction between location and age (b).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_13"><head>Figure 1 .</head><label>1</label><figDesc>Figure 1. Illustration of the Shapley value and feature value under a linear regression system.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_14"><head>Figure 2 .</head><label>2</label><figDesc>Figure 2. An illustration of the model validation approach and the designed true data generating processes.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_15"><head>Figure 3 .</head><label>3</label><figDesc>Figure 3. A summary plot showing the feature contribution ranking and distribution of GeoShapley values.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_16"><head>Figure 4 .</head><label>4</label><figDesc>Figure 4. Spatial and non-spatial processes measured by GeoShapley in the true model.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_17"><head>Figure 5 .</head><label>5</label><figDesc>Figure5. An illustration of model explanation approach to understand true model behavior.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_18"><head>Figure 6 .</head><label>6</label><figDesc>Figure6. A cross-comparison of explanations obtained from GeoShapley for various models.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_19"><head>Figure 7 .</head><label>7</label><figDesc>Figure 7. Correlation matrix of the features used in predictive models.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_20"><head>Figure 8 .</head><label>8</label><figDesc>Figure 8. A summary plot showing the feature contribution ranking and distribution of GeoShapley values in the house price model.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_21"><head>Figure 9 .</head><label>9</label><figDesc>Figure 9. Marginal relationships between housing features and their contribution to the percentage change in house price.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_22"><head>Figure 10 .</head><label>10</label><figDesc>Figure 10. Percentage of change in house price due to location (a), and due to the interaction between location and age (b).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_23"><graphic coords="34,177.50,140.06,256.65,198.43" type="bitmap" /></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 2 .</head><label>2</label><figDesc>An example showing the binary Z matrix.</figDesc><table><row><cell>Feature set</cell><cell>X1</cell><cell>X2 X1, GEO X2, GEO</cell><cell>GEO</cell><cell>Intercept</cell></row><row><cell>None</cell><cell>0</cell><cell>0</cell><cell></cell><cell></cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_1"><head>Table 3 .</head><label>3</label><figDesc>Model accuracy for the simulated data</figDesc><table><row><cell></cell><cell>Out-of-sample R 2</cell></row><row><cell>LR</cell><cell>0.757</cell></row><row><cell>RF</cell><cell>0.906</cell></row><row><cell>MGWR</cell><cell>0.943</cell></row><row><cell>XGBoost</cell><cell>0.964</cell></row><row><cell>SVM</cell><cell>0.969</cell></row><row><cell>GP</cell><cell>0.971</cell></row><row><cell>NN</cell><cell>0.971</cell></row><row><cell>True R 2</cell><cell>0.975</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_2"><head>Table 4 .</head><label>4</label><figDesc>Data used in the model and their descriptions.</figDesc><table><row><cell>Variable</cell><cell>Description</cell></row><row><cell>Dependent</cell><cell></cell></row><row><cell>log_price</cell><cell>The logarithm (base 10) of the sales price</cell></row><row><cell>Features</cell><cell></cell></row><row><cell>bathrooms</cell><cell>Number of bathrooms in the property 1</cell></row><row><cell>sqft_living</cell><cell>Square footage of living area</cell></row><row><cell>sqft_lot</cell><cell>Square footage of the lot</cell></row><row><cell>grade</cell><cell>A rank variable from 1 to 13 indicating the construction quality</cell></row><row><cell></cell><cell>of the property with 1 being the lowest and 13 the highest. 2 .</cell></row><row><cell>condition</cell><cell>A rank variable from 1 to 5 describing the property condition,</cell></row><row><cell></cell><cell>with 1 indicates poor and worn out, and 5 indicates very well</cell></row><row><cell></cell><cell>maintained</cell></row></table></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_3"><head>Table 5 .</head><label>5</label><figDesc>Model accuracy for the house price data.</figDesc><table><row><cell></cell><cell>Out-of-sample R 2</cell></row><row><cell>LR</cell><cell>0.763</cell></row><row><cell>NN</cell><cell>0.858</cell></row><row><cell>GP</cell><cell>0.869</cell></row><row><cell>SVM</cell><cell>0.878</cell></row><row><cell>RF</cell><cell>0.892</cell></row><row><cell>XGBoost</cell><cell>0.908</cell></row></table></figure>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="1" xml:id="foot_0"><p>Properties may have fractional bathrooms that do not have a full set of fixtures.</p></note>
+			<note xmlns="http://www.tei-c.org/ns/1.0" place="foot" n="2" xml:id="foot_1"><p>More information on the grade and condition definitions can be found at: https://info.kingcounty.gov/assessor/esales/Glossary.aspx</p></note>
+		</body>
+		<back>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix A</head><p>Table <ref type="table">A1</ref>: Summary statistics of GeoShapley values for the Seattle example.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>GeoShapley value</head><p>Min. 25% 50% 75% Max.</p><p>GEO -43.48 -24.68 0.02 33.21 123.17 bathrooms -7.60 -3.08 -0.07 1.25 7.30 sqft_living -36.45 -12.65 -3.61 6.84 59.53 sqft_lot -19.63 -2.63 0.57 2.65 12.13 grade -17.84 -5.75 -5.04 4.34 61.77 condition -21.82 -1.36 -1.16 2.84 10.39 waterfront 0.00 0.00 0.00 0.00 48.59 view -1.46 -1.26 -1.21 -1.13 41.44 age -5.90 -1.77 0.71 3.78 18.88 GEO, bathrooms -8.52 -0.59 0.06 0.93 12.14 GEO, sqft_living -20.51 -0.55 0.71 2.24 25.26 GEO, sqft_lot -17.85 -1.65 -0.20 1.16 15.95 GEO, grade -23.48 -1.34 -0.28 0.75 17.46 GEO, condition -36.83 -0.98 -0.09 0.44 8.46 GEO, waterfront -15.85 0.00 0.00 0.00 12.99 GEO, view -11.48 -0.59 -0.25 0.08 16.24 GEO, age -19.2 -1.07 0.97 3.07 19.26</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendix B</head><p>An experiment based on the validation dataset is conducted to examine the sampling variance of GeoShapley values as a function of background sample size. As can be seen in Figure <ref type="figure">B1</ref>, the sampling variance decreases drastically after sample size of 20 and becomes negligible after 50.</p><p>Figure <ref type="figure">B1</ref>. The effect of background sample size on sampling variance of 𝝓 𝑮𝑬𝑶</p></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Explainable artificial intelligence (XAI) for interpreting the contributing factors feed into the wildfire susceptibility prediction model</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Abdollahi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Pradhan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science of The Total Environment</title>
+		<imprint>
+			<biblScope unit="volume">879</biblScope>
+			<biblScope unit="page">163004</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">Spatial causality: A systematic review on spatial causal inference</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Akbari</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Winter</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Tomko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Geographical Analysis</title>
+		<imprint>
+			<biblScope unit="volume">55</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="56" to="89" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<monogr>
+		<author>
+			<persName><forename type="first">L</forename><surname>Anselin</surname></persName>
+		</author>
+		<title level="m">Spatial econometrics: methods and models</title>
+		<imprint>
+			<publisher>Springer Science &amp; Business Media</publisher>
+			<date type="published" when="1988">1988</date>
+			<biblScope unit="volume">4</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Modeling regional economic dynamics: Spatial dependence, spatial heterogeneity and nonlinearities</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Basile</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Durbán</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Mínguez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Montero</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Mur</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Economic Dynamics and Control</title>
+		<imprint>
+			<biblScope unit="volume">48</biblScope>
+			<biblScope unit="page" from="229" to="245" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">Spatial modelling with Euclidean distance fields and machine learning</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Behrens</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Schmidt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Viscarra Rossel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Gries</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Scholten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">A</forename><surname>Macmillan</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">European journal of soil science</title>
+		<imprint>
+			<biblScope unit="volume">69</biblScope>
+			<biblScope unit="issue">5</biblScope>
+			<biblScope unit="page" from="757" to="770" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Making a science of model search: Hyperparameter optimization in hundreds of dimensions for vision architectures</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Bergstra</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Yamins</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Cox</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">International conference on machine learning</title>
+		<imprint>
+			<date type="published" when="2013">2013</date>
+			<biblScope unit="page" from="115" to="123" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<analytic>
+		<title level="a" type="main">Accurate medium-range global weather forecasting with 3D neural networks</title>
+		<author>
+			<persName><surname>Pmlr</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Bi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Gu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Q</forename><surname>Tian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature</title>
+		<imprint>
+			<biblScope unit="issue">7970</biblScope>
+			<biblScope unit="page" from="533" to="538" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Random forests</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Breiman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Machine learning</title>
+		<imprint>
+			<biblScope unit="volume">45</biblScope>
+			<biblScope unit="page" from="5" to="32" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Advances in hyperspectral image classification: Earth monitoring with statistical learning methods</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Camps-Valls</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Tuia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bruzzone</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Benediktsson</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">IEEE signal processing magazine</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="45" to="54" />
+			<date type="published" when="2013">2013</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Measuring impacts of urban environmental elements on housing prices based on multisource data-a case study of Shanghai, China</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Yao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Zhao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Chi</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">9</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page">106</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Improving kernelshap: Practical shapley value estimation using linear regression</title>
+		<author>
+			<persName><forename type="first">I</forename><surname>Covert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">I</forename><surname>Lee</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on Artificial Intelligence and Statistics</title>
+		<imprint>
+			<date type="published" when="2021-03">2021. March</date>
+			<biblScope unit="page" from="3457" to="3465" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">A structured comparison of causal machine learning methods to assess heterogeneous treatment effects in spatial data</title>
+		<author>
+			<persName><forename type="first">K</forename><surname>Credit</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Lehnert</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Geographical Systems</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="28" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<monogr>
+		<title level="m" type="main">Opportunities and challenges in explainable artificial intelligence (xai): A survey</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Das</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Rad</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2006.11371</idno>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Eta prediction with graph neural networks in google maps</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Derrow-Pinion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>She</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Wong</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Lange</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hester</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Perez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">.</forename><forename type="middle">.</forename><surname>Velickovic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 30th ACM International Conference on Information &amp; Knowledge Management</title>
+		<meeting>the 30th ACM International Conference on Information &amp; Knowledge Management</meeting>
+		<imprint>
+			<date type="published" when="2021-10">2021, October</date>
+			<biblScope unit="page" from="3767" to="3776" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<monogr>
+		<title level="m" type="main">An introduction to the bootstrap</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Efron</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><forename type="middle">J</forename><surname>Tibshirani</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1994">1994</date>
+			<publisher>CRC press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">A working guide to boosted regression trees</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Elith</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">R</forename><surname>Leathwick</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Hastie</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of animal ecology</title>
+		<imprint>
+			<biblScope unit="volume">77</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="802" to="813" />
+			<date type="published" when="2008">2008</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Deep learning for twelve hour precipitation forecasts</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Espeholt</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Agrawal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Sønderby</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Kumar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Heek</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Bromberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">.</forename><forename type="middle">.</forename><surname>Kalchbrenner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature communications</title>
+		<imprint>
+			<biblScope unit="volume">13</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="1" to="10" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Measuring the Unmeasurable: Models of Geographical Context</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="18" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<analytic>
+		<title level="a" type="main">Multiscale geographically weighted regression (MGWR)</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="volume">107</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="1247" to="1265" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<analytic>
+		<title level="a" type="main">A hedonic regression of home prices in King County, Washington, using activity-specific accessibility measures</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">P</forename><surname>Franklin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Waddell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the transportation research board 82nd annual meeting</title>
+		<meeting>the transportation research board 82nd annual meeting<address><addrLine>Washington, DC</addrLine></address></meeting>
+		<imprint>
+			<date type="published" when="2003">2003</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b20">
+	<analytic>
+		<title level="a" type="main">Causal inference from crosssectional earth system data with geographical convergent cross mapping</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Gao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Yang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Sugihara</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Stein</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">.</forename><forename type="middle">.</forename><surname>Wang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature Communications</title>
+		<imprint>
+			<biblScope unit="volume">14</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">5875</biblScope>
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b21">
+	<analytic>
+		<title level="a" type="main">Zoning&apos;s steep price</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Glaeser</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Gyourko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Regulation</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page">24</biblScope>
+			<date type="published" when="2002">2002</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b22">
+	<analytic>
+		<title level="a" type="main">European Union regulations on algorithmic decision-making and a &quot;right to explanation</title>
+		<author>
+			<persName><forename type="first">B</forename><surname>Goodman</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Flaxman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">AI magazine</title>
+		<imprint>
+			<biblScope unit="volume">38</biblScope>
+			<biblScope unit="issue">3</biblScope>
+			<biblScope unit="page" from="50" to="57" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b23">
+	<analytic>
+		<title level="a" type="main">XAI-Explainable artificial intelligence</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Gunning</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Stefik</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Choi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Miller</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Stumpf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">Z</forename><surname>Yang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Science robotics</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="issue">37</biblScope>
+			<biblScope unit="page">7120</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b24">
+	<monogr>
+		<title level="m" type="main">Joint Shapley values: a measure of joint feature importance</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Pymar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Rowat</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:2107.11357</idno>
+		<imprint>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">ICLR 2022. arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b25">
+	<analytic>
+		<title level="a" type="main">The use of geographically weighted regression for spatial prediction: an evaluation of models using simulated data sets</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Harris</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Crespo</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Charlton</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Mathematical Geosciences</title>
+		<imprint>
+			<biblScope unit="volume">42</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page" from="657" to="680" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b26">
+	<analytic>
+		<title level="a" type="main">Location as a Factor in Geography</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Hartshorne</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the Association of American Geographers</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">2</biblScope>
+			<biblScope unit="page" from="92" to="99" />
+			<date type="published" when="1927">1927</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b27">
+	<analytic>
+		<title level="a" type="main">Causal shapley values: Exploiting causal knowledge to explain individual predictions of complex models</title>
+		<author>
+			<persName><forename type="first">T</forename><surname>Heskes</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Sijben</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><forename type="middle">G</forename><surname>Bucur</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Claassen</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in neural information processing systems</title>
+		<imprint>
+			<date type="published" when="2020">2020</date>
+			<biblScope unit="volume">33</biblScope>
+			<biblScope unit="page" from="4778" to="4789" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b28">
+	<analytic>
+		<title level="a" type="main">Feature relevance quantification in explainable AI: A causal problem</title>
+		<author>
+			<persName><forename type="first">D</forename><surname>Janzing</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Minorics</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Blöbaum</surname></persName>
+		</author>
+		<idno>PMLR</idno>
+	</analytic>
+	<monogr>
+		<title level="m">International Conference on artificial intelligence and statistics</title>
+		<imprint>
+			<date type="published" when="2020-06">2020. June</date>
+			<biblScope unit="page" from="2907" to="2916" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b29">
+	<monogr>
+		<author>
+			<persName><forename type="first">A</forename><surname>Joseph</surname></persName>
+		</author>
+		<idno type="arXiv">arXiv:1903.04209</idno>
+		<title level="m">Parametric inference with universal function approximators</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+	<note type="report_type">arXiv preprint</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b30">
+	<analytic>
+		<title level="a" type="main">Predicting the travel mode choice with interpretable machine learning techniques: A comparative study</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">T</forename><surname>Kashifi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Jamal</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">S</forename><surname>Kashefi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Almoshaogeh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Rahman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Travel Behaviour and Society</title>
+		<imprint>
+			<biblScope unit="volume">29</biblScope>
+			<biblScope unit="page" from="279" to="296" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b31">
+	<analytic>
+		<title level="a" type="main">Explainable heat-related mortality with random forest and SHapley Additive exPlanations (SHAP) models</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Kim</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Kim</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sustainable Cities and Society</title>
+		<imprint>
+			<biblScope unit="volume">79</biblScope>
+			<biblScope unit="page">103677</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b32">
+	<analytic>
+		<title level="a" type="main">Automated terrain feature identification from remote sensing imagery: a deep learning approach</title>
+		<author>
+			<persName><forename type="first">W</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">Y</forename><surname>Hsu</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="637" to="660" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b33">
+	<monogr>
+		<title level="m" type="main">Extracting spatial effects from machine learning model: using local interpretation method: an example of SHAP and XGBoost</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2022">2022</date>
+			<biblScope unit="page">96</biblScope>
+		</imprint>
+		<respStmt>
+			<orgName>Computers, Environment and Urban Systems</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b34">
+	<analytic>
+		<title level="a" type="main">Leveraging explainable artificial intelligence and big trip data to understand factors influencing willingness to ridesharing</title>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Travel Behaviour and Society</title>
+		<imprint>
+			<biblScope unit="volume">31</biblScope>
+			<biblScope unit="page" from="284" to="294" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b35">
+	<analytic>
+		<title level="a" type="main">Analysis of regression in game theory approach</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lipovetsky</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Conklin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Applied Stochastic Models in Business and Industry</title>
+		<imprint>
+			<biblScope unit="volume">17</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="319" to="330" />
+			<date type="published" when="2001">2001</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b36">
+	<analytic>
+		<title level="a" type="main">Incorporating spatial autocorrelation in machine learning models using spatial lag and eigenvector spatial filtering features</title>
+		<author>
+			<persName><forename type="first">X</forename><surname>Liu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Kounadi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Zurita-Milla</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">11</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page">242</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b37">
+	<analytic>
+		<title level="a" type="main">The effect of local amenities on house price appreciation amid market shocks: The case of school quality</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">R</forename><surname>Livy</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Housing Economics</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="page" from="62" to="72" />
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b38">
+	<analytic>
+		<title level="a" type="main">Putting MARS into space. Non-linearities and spatial effects in hedonic models</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>López</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Kholodilin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Papers in Regional Science</title>
+		<imprint>
+			<biblScope unit="volume">102</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="871" to="896" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b39">
+	<analytic>
+		<title level="a" type="main">From local explanations to global understanding with explainable AI for trees</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">M</forename><surname>Lundberg</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Erion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Degrave</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">M</forename><surname>Prutkin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Nair</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">.</forename><forename type="middle">.</forename><surname>Lee</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">I</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature machine intelligence</title>
+		<imprint>
+			<biblScope unit="volume">2</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page" from="56" to="67" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b40">
+	<analytic>
+		<title level="a" type="main">A review of location encoding for GeoAI: methods and applications</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Mai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Janowicz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Hu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Gao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Yan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Zhu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">.</forename><forename type="middle">.</forename><surname>Lao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">36</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="639" to="673" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b41">
+	<analytic>
+		<title level="a" type="main">mgwr: A Python implementation of multiscale geographically weighted regression for investigating process spatial heterogeneity and scale</title>
+		<author>
+			<persName><forename type="first">T</forename><forename type="middle">M</forename><surname>Oshan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">W</forename><surname>Kang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">J</forename><surname>Wolf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">S</forename><surname>Fotheringham</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">ISPRS International Journal of Geo-Information</title>
+		<imprint>
+			<biblScope unit="volume">8</biblScope>
+			<biblScope unit="issue">6</biblScope>
+			<biblScope unit="page">269</biblScope>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b42">
+	<analytic>
+		<title level="a" type="main">Inducing non-orthogonal and non-linear decision boundaries in decision trees via interactive basis functions</title>
+		<author>
+			<persName><forename type="first">A</forename><surname>Paez</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>López</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Ruiz</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Camacho</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Expert Systems with Applications</title>
+		<imprint>
+			<biblScope unit="volume">122</biblScope>
+			<biblScope unit="page" from="183" to="206" />
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b43">
+	<analytic>
+		<title level="a" type="main">Toward safer highways, application of XGBoost and SHAP for real-time accident detection and feature analysis</title>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">B</forename><surname>Parsa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Movahedi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Taghipour</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Derrible</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><forename type="middle">K</forename><surname>Mohammadian</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Accident Analysis &amp; Prevention</title>
+		<imprint>
+			<biblScope unit="volume">136</biblScope>
+			<biblScope unit="page">105405</biblScope>
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b44">
+	<monogr>
+		<title/>
+		<author>
+			<persName><forename type="first">F</forename><surname>Pedregosa</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Varoquaux</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gramfort</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Michel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Thirion</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">O</forename><surname>Grisel</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">.</forename><forename type="middle">.</forename><surname>Duchesnay</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">É</forename></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2011">2011</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b45">
+	<analytic>
+		<title level="a" type="main">Scikit-learn: Machine learning in Python</title>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of machine Learning research</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="page" from="2825" to="2830" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b46">
+	<monogr>
+		<title level="m" type="main">Combining Census Bureau and Zillow Housing Data Show Rise in Rental Prices and Home Values in Tech-Rich Areas. United States Census Bureau</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Powell</surname></persName>
+		</author>
+		<ptr target="https://www.census.gov/library/stories/2019/04/impact-of-tech-boom-on-housing.html" />
+		<imprint>
+			<date type="published" when="2019">2019</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b47">
+	<analytic>
+		<title level="a" type="main">Explaining the predictions of any classifier</title>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">T</forename><surname>Ribeiro</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Singh</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Guestrin</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Proceedings of the 22nd ACM SIGKDD international conference on knowledge discovery and data mining</title>
+		<meeting>the 22nd ACM SIGKDD international conference on knowledge discovery and data mining</meeting>
+		<imprint>
+			<date type="published" when="2016-08">2016. August</date>
+			<biblScope unit="page" from="1135" to="1144" />
+		</imprint>
+	</monogr>
+	<note>Why should i trust you?</note>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b48">
+	<monogr>
+		<title level="m" type="main">Seattle area home-price hikes lead the U.S. again; even century-old homes commanding top dollar</title>
+		<author>
+			<persName><surname>Rosenberg</surname></persName>
+		</author>
+		<ptr target="https://www.seattletimes.com/business/real-estate/seattle-home-price-hikes-lead-the-us-again-even-century-old-homes-commanding-top-dollar" />
+		<imprint>
+			<date type="published" when="2017">2017</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b49">
+	<analytic>
+		<title level="a" type="main">A value for n-person games</title>
+		<author>
+			<persName><forename type="first">L</forename><forename type="middle">S</forename><surname>Shapley</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Contributions to the Theory of Games 2</title>
+		<imprint>
+			<date type="published" when="1953">1953</date>
+			<biblScope unit="volume">28</biblScope>
+			<biblScope unit="page" from="307" to="317" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b50">
+	<analytic>
+		<title level="a" type="main">Tabular data: Deep learning is not all you need</title>
+		<author>
+			<persName><forename type="first">R</forename><surname>Shwartz-Ziv</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Armon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Information Fusion</title>
+		<imprint>
+			<biblScope unit="volume">81</biblScope>
+			<biblScope unit="page" from="84" to="90" />
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b51">
+	<analytic>
+		<title level="a" type="main">A deep gravity model for mobility flows generation</title>
+		<author>
+			<persName><forename type="first">F</forename><surname>Simini</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Barlacchi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Luca</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Pappalardo</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Nature communications</title>
+		<imprint>
+			<biblScope unit="volume">12</biblScope>
+			<biblScope unit="issue">1</biblScope>
+			<biblScope unit="page">6576</biblScope>
+			<date type="published" when="2021">2021</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b52">
+	<analytic>
+		<title level="a" type="main">Explaining prediction models and individual predictions with feature contributions</title>
+		<author>
+			<persName><forename type="first">E</forename><surname>Štrumbelj</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Kononenko</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Knowledge and information systems</title>
+		<imprint>
+			<biblScope unit="volume">41</biblScope>
+			<biblScope unit="page" from="647" to="665" />
+			<date type="published" when="2014">2014</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b53">
+	<analytic>
+		<title level="a" type="main">Machine learning estimation of heterogeneous treatment effects with instruments</title>
+		<author>
+			<persName><forename type="first">V</forename><surname>Syrgkanis</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Lei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Oprescu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Hei</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Battocchi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Lewis</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Advances in Neural Information Processing Systems</title>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="page">32</biblScope>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b54">
+	<analytic>
+		<title level="a" type="main">A locally-constrained YOLO framework for detecting small and densely-distributed building footprints</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Xie</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Cai</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">R</forename><surname>Bhojwani</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Shekhar</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Knight</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Geographical Information Science</title>
+		<imprint>
+			<biblScope unit="volume">34</biblScope>
+			<biblScope unit="issue">4</biblScope>
+			<biblScope unit="page" from="777" to="801" />
+			<date type="published" when="2020">2020</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b55">
+	<analytic>
+		<title level="a" type="main">Spatiotemporal Interpolation Using Graph Neural Network</title>
+		<author>
+			<persName><forename type="first">S</forename><surname>Yao</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><surname>Huang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Annals of the American Association of Geographers</title>
+		<imprint>
+			<biblScope unit="page" from="1" to="22" />
+			<date type="published" when="2023">2023</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b56">
+	<analytic>
+		<title level="a" type="main">Natural-anthropogenic environment interactively causes the surface urban heat island intensity variations in global climate zones</title>
+		<author>
+			<persName><forename type="first">Y</forename><surname>Yuan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Geng</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Yu</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">Z</forename><surname>Fan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Wang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environment international</title>
+		<imprint>
+			<biblScope unit="volume">170</biblScope>
+			<biblScope unit="page">107574</biblScope>
+			<date type="published" when="2022">2022</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b57">
+	<monogr>
+		<title level="m" type="main">Joint Deep Learning for land cover and land use classification. Remote sensing of environment</title>
+		<author>
+			<persName><forename type="first">C</forename><surname>Zhang</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Sargent</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">X</forename><surname>Pan</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H</forename><surname>Li</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Gardiner</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><surname>Hare</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><forename type="middle">M</forename><surname>Atkinson</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2019">2019</date>
+			<biblScope unit="volume">221</biblScope>
+			<biblScope unit="page" from="173" to="187" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>

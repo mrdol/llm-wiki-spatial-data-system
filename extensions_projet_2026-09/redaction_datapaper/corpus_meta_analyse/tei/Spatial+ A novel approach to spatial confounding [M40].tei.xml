@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xml:space="preserve" xmlns="http://www.tei-c.org/ns/1.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://www.tei-c.org/ns/1.0 https://raw.githubusercontent.com/kermitt2/grobid/master/grobid-home/schemas/xsd/Grobid.xsd"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<teiHeader xml:lang="en">
+		<fileDesc>
+			<titleStmt>
+				<title level="a" type="main">Spatial+: a novel approach to spatial confounding</title>
+				<funder ref="#_9X3gNHn">
+					<orgName type="full">EPSRC Centre for Doctoral Training in Statistical Applied Mathematics at Bath (SAMBa)</orgName>
+				</funder>
+			</titleStmt>
+			<publicationStmt>
+				<publisher/>
+				<availability  status="unknown">
+					<licence/>
+				</availability>
+				<date type="published" when="2020-09-20">20 Sep 2020</date>
+			</publicationStmt>
+			<sourceDesc>
+				<biblStruct status="extracted">
+					<analytic>
+						<author role="corresp">
+							<persName><forename type="first">Emiko</forename><surname>Dupont</surname></persName>
+							<email>e.dupont@bath.ac.uk</email>
+							<affiliation key="aff0">
+								<orgName type="department">Department of Mathematical Sciences</orgName>
+								<orgName type="institution">University of Bath</orgName>
+								<address>
+									<postCode>BA2 7AY</postCode>
+									<settlement>Bath</settlement>
+									<country key="GB">U.K</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Simon</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Mathematics</orgName>
+								<orgName type="institution">University of Edinburgh</orgName>
+								<address>
+									<addrLine>5500000 x y -0.05 -0.04 -0.04 -0.03 -0.0 3 -0.03 -0.02 -0.02 -0.01 -0.01 -0.01 0</addrLine>
+									<postBox>tminmay 3400000 3450000 3500000 3550000 3600000 5300000 5350000 5400000 5450000</postBox>
+									<postCode>EH9 3FD</postCode>
+									<settlement>Edinburgh</settlement>
+									<country key="GB">U.K</country>
+								</address>
+							</affiliation>
+						</author>
+						<author>
+							<persName><forename type="first">Nicole</forename><surname>Augustin</surname></persName>
+							<affiliation key="aff1">
+								<orgName type="department">School of Mathematics</orgName>
+								<orgName type="institution">University of Edinburgh</orgName>
+								<address>
+									<addrLine>5500000 x y -0.05 -0.04 -0.04 -0.03 -0.0 3 -0.03 -0.02 -0.02 -0.01 -0.01 -0.01 0</addrLine>
+									<postBox>tminmay 3400000 3450000 3500000 3550000 3600000 5300000 5350000 5400000 5450000</postBox>
+									<postCode>EH9 3FD</postCode>
+									<settlement>Edinburgh</settlement>
+									<country key="GB">U.K</country>
+								</address>
+							</affiliation>
+						</author>
+						<title level="a" type="main">Spatial+: a novel approach to spatial confounding</title>
+					</analytic>
+					<monogr>
+						<imprint>
+							<date type="published" when="2020-09-20">20 Sep 2020</date>
+						</imprint>
+					</monogr>
+					<idno type="MD5">377DE9DA689150FB90E59342CA23CC44</idno>
+					<idno type="arXiv">arXiv:2009.09420v1[stat.ME]</idno>
+				</biblStruct>
+			</sourceDesc>
+		</fileDesc>
+		<encodingDesc>
+			<appInfo>
+				<application version="0.9.1-SNAPSHOT" ident="GROBID" when="2026-09-28T15:59+0000">
+					<desc>GROBID - A machine learning software for extracting information from scholarly documents</desc>
+					<label type="revision">0.9.0-19-g62a9e9f89</label>
+					<label type="parameters">startPage=-1, endPage=-1, consolidateCitations=0, consolidateHeader=0, consolidateFunders=0, includeRawAffiliations=false, includeRawCitations=false, includeRawCopyrights=false, generateTeiIds=false, generateTeiCoordinates=[], flavor=null</label>
+					<ref target="https://github.com/kermitt2/grobid"/>
+				</application>
+			</appInfo>
+		</encodingDesc>
+		<profileDesc>
+			<abstract>
+<div xmlns="http://www.tei-c.org/ns/1.0"><p>In spatial regression models, collinearity between covariates and spatial effects can lead to significant bias in effect estimates. This problem, known as spatial confounding, is encountered modelling forestry data to assess the effect of temperature on tree health. Reliable inference is difficult as results depend on whether or not spatial effects are included in the model. The mechanism behind spatial confounding is poorly understood and methods for dealing with it are limited. We propose a novel approach, spatial+, in which collinearity is reduced by replacing the covariates in the spatial model by their residuals after spatial dependence has been regressed away. Using a thin plate spline model formulation, we recognise spatial confounding as a smoothing-induced bias identified by Rice (1986), and through asymptotic analysis of the effect estimates, we show that spatial+ avoids the bias problems of the spatial model. This is also demonstrated in a simulation study. Spatial+ is straight-forward to implement using existing software and, as the response variable is the same as that of the spatial model, standard model selection criteria can be used for comparisons. A major advantage of the method is also that it extends to models with non-Gaussian response distributions. Finally, while our results are derived in a thin plate spline setting, the spatial+ methodology transfers easily to other spatial model formulations.</p></div>
+			</abstract>
+		</profileDesc>
+	</teiHeader>
+	<text xml:lang="en">
+		<body>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="1">Introduction</head><p>Regression models for spatially referenced data use spatial random effects to capture residual spatial correlation that cannot be explained by the covariates in the model. While such models are an effective tool for predictions of the response variable, as first noted by <ref type="bibr" target="#b3">Clayton et al. (1993)</ref>, they can be problematic when estimation of individual covariate effects are of interest. So-called spatial confounding arises because spatial effects may have elements of collinearity with spatially dependent covariates and therefore interfere with their effect estimates. <ref type="bibr" target="#b12">Reich et al. (2006)</ref> analysed the issue using an example modelling the effect of socio-economic status on stomach cancer incidence in the municipalities of Slovenia. When spatial effects are added to the model, the covariate effect disappears, suggesting the spatial effects have taken over a disproportionate part of the explanatory power. While in this example, the spatial effects take the form of an Intrinsic Conditional Auto-Regressive (ICAR) random effect, spatial confounding is widely acknowledged as an issue that affects spatial models in general (see e.g. <ref type="bibr" target="#b9">Hodges and Reich, 2010;</ref><ref type="bibr" target="#b11">Paciorek, 2010)</ref>.</p><p>In this paper we model data from the Terrestrial Crown Condition Inventory (TCCI) forest health monitoring survey which has been carried out yearly since 1983 by the Forest Research Institute Baden-Württemberg. Crown defoliation (an indicator of poor tree health) has generally been worsening over time, and there is growing interest in understanding the effects of climate change in order to decide on forest management strategies for mitigation. Here, using a linear regression model, we consider the effect of temperature on crown defoliation. However, our results are highly dependent on whether or not we include spatial random effects in the model. As illustrated in Figure <ref type="figure" target="#fig_0">1</ref>, in the null model (with no spatial effects), the estimated covariate effect is positive but not significant, whereas in the corresponding spatial model, the covariate effect is significant and the effect size more than triples. This behaviour suggests there is spatial confounding and makes reliable inference difficult.</p><p>A commonly used method for dealing with spatial confounding is restricted spatial regression (RSR), introduced by <ref type="bibr" target="#b12">Reich et al. (2006)</ref> for the ICAR model, and further developed by <ref type="bibr" target="#b8">Hanks et al. (2015)</ref> for continuous space models. In RSR the spatial random effects are restricted to the orthogonal complement of the covariates while keeping the overall column space of the model matrix in the regression unchanged. RSR directly eliminates collinearity and is designed to preserve the covariate effect estimates of the null model. However, it is a general misconception that the estimates in the null model (and thus, RSR) are unbiased. In fact, each covariate effect estimate includes, not only the effect of the covariate, but also any unmeasured spatial effects with the same spatial pattern (see e.g. <ref type="bibr" target="#b8">Hanks et al., 2015)</ref>. Therefore, unless the unmeasured effects are independent of the covariates (a rather strong assumption), RSR introduces bias by construction.</p><p>Other methods for avoiding spatial confounding bias are limited, and with theoretical derivations often intractable, methodology tends to rely on simulations alone. Recently, <ref type="bibr" target="#b16">Thaden and Kneib (2018)</ref> proposed the geoadditive structural equations model (gSEM) based on the structural equations framework commonly used for causal inference problems. In this approach, spatial dependence is regressed away from both the response and the covariates, and a regression involving the residuals only is used to identify the original covariate effects. In a simulation study, Thaden and Kneib show that the gSEM approach appears to give unbiased estimates while the original spatial model gives biased results in some scenarios. However, it is not immediately clear why the method works, and in examples such as ours, where the variables of interest are naturally spatially dependent, it seems undesirable to eliminate all spatial information from the modelling.</p><p>Here, we propose a novel approach, the spatial+ model, and using asymptotic analysis as well as a simulation study, we show that the estimates in this model avoid the bias problems of the spatial model. Spatial+ is a simple modification of the spatial model where the covariates are replaced by their residuals after spatial dependence has been regressed away. Thus, spatial+ retains the column space of the model matrix but reduces collinearity between covariate and spatial effects. A practical advantage over gSEM is that, as the response variable is unchanged from the spatial model, standard model selection criteria can be used for comparisons with the spatial and null models. Moreover, while the main properties of spatial+ are studied for models with a Gaussian response variable, we show that the method generalises naturally to any response distribution from the exponential family of distributions.</p><p>Key to our analysis is that we formulate the spatial model as a partial thin plate spline model where spatial correlation is modelled by imposing a smoothing penalty on the spatial effects in the fitting process. We can then recognise spatial confounding as a smoothing-induced bias identified by <ref type="bibr" target="#b13">Rice (1986)</ref> for partial spline models (i.e. models where the domain of the spline, here the spatial domain, is one-dimensional). Spatial+ is a higher-dimensional version of a model introduced by <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> to overcome this type of bias in the one-dimensional case. Intuitively, as smoothing is only applied to the spatial part of the model, by making covariate effect estimates broadly independent of the spatial effects, they avoid this bias. For one-dimensional models, Rice, Chen and Shiau derived results for the asymptotic behaviour of estimates as the number of fitted data points n → ∞. Due to results by <ref type="bibr" target="#b17">Utreras (1988)</ref>, we are able to extend these derivations to models of arbitrary spatial dimension. We confirm that, as is the case in dimension one, the bias in the covariate effect estimates in the spatial model can become disproportionately large, while in the spatial+ model, the bias converges to 0 strictly faster than the standard deviation.</p><p>Using the thin plate spline model formulation, we also see that, in the one-dimensional case, the gSEM estimates are in fact the same as the partial residual estimates introduced by <ref type="bibr">Denby (1986)</ref> and independently by <ref type="bibr" target="#b15">Speckman (1988)</ref>. Like the spatial+ estimates, the partial residual estimates (in dimension one) are shown by <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> to avoid the disproportionate smoothing-induced bias identified by <ref type="bibr" target="#b13">Rice (1986)</ref>, and we can once again use <ref type="bibr" target="#b17">Utreras (1988)</ref> to generalise this result to arbitrary spatial dimensions.</p><p>For completeness, these derivations are included in Appendix D.</p><p>Finally, we note that, although our results are derived in the thin plate spline context, the methodology of spatial+, namely, the modification of the model matrix, can be directly applied to other commonly used spatial models, including, for example, Gaussian Markov random field (GMRF) models and the (discrete space) ICAR model. In fact, it can be shown that modelling spatial random effects through the use of a smoothing penalty is equivalent to a Bayesian model formulation in which the spatial correlation structure is determined by a prior distribution. This equivalence is explained, for example, in <ref type="bibr" target="#b10">Kimeldorf and Wahba (1970)</ref>, Section 6.1 of <ref type="bibr" target="#b14">Silverman (1985)</ref>, pages 239-240 of <ref type="bibr" target="#b19">Wood (2017)</ref> and <ref type="bibr" target="#b7">Fahrmeir et al. (2004)</ref>. Thus, while different spatial models correspond to different smoothing penalties, the underlying idea of reducing collinearity in this way to keep covariate effect estimates unaffected by spatial smoothing would apply in general.</p><p>This paper is structured as follows. In Section 2, we introduce the spatial and spatial+ models that form the basis of our analysis. Section 3 summarises the main theoretical results which show that the covariate effect estimates in the spatial model can become disproportionately biased due to spatial smoothing, while in the spatial+ model, bias is negligible. In Section 4, we illustrate these results in a simulation study which also compares spatial+ with RSR and the gSEM. In Section 5, we demonstrate how spatial+ can be implemented by applying it to our forestry example. Finally, in Section 6, we generalise the spatial+ methodology to non-Gaussian response distributions and confirm that the method works in simulations for three different distributions.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2">Method</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.1">Spatial model</head><p>Our starting point is a spatial model formulated as a partial thin plate spline model (see e.g. <ref type="bibr" target="#b18">Wahba, 1990)</ref> of the form</p><formula xml:id="formula_0">y i = βx i + f (t i ) + i , i ∼ iid N (0, σ 2 )<label>(1)</label></formula><p>where y = (y 1 , . . . , y n ) T is the response, x = (x 1 , . . . , x n ) T an observed covariate with unknown effect β and f ∈ H m (Ω) an unknown bounded function defined on an open bounded domain Ω ⊂ R d which includes the known values t 1 , . . . , t n . In the spatial context, t 1 , . . . , t n are the spatial locations of the observations. The estimates β and f in this model (known as the partial thin plate spline estimates of order m &gt; d/2) are obtained as the minimisers of</p><formula xml:id="formula_1">1 n n i=1 (y i -βx i -f (t i )) 2 + λ i 1 ,...,im R d ∂ m f (t) ∂t i 1 • • • ∂t im 2 dt</formula><p>where λ &gt; 0 is an unknown smoothing parameter. Minimisation here is over all β ∈ R and functions f ∈ H m (R d ) with</p><formula xml:id="formula_2">∂ m f ∂t i 1 •••∂t im ∈ L 2 (R d ) for all subsets i 1 , . . . , i m of 1, . . . , n.</formula><p>The first term encourages fitted values that are close to the data while the second term induces smoothing by penalising the wiggliness of the function f . <ref type="bibr" target="#b5">Duchon (1977)</ref> showed that the estimate of f can be obtained by estimating its coefficients in a basis known as the natural thin plate spline basis. This basis spans a finite-dimensional subspace in the space of functions defined on R d and has dimension N = M +n where M = m+d-1 d . Using this basis, the partial thin plate spline estimates β and f = ( f (t 1 ), . . . , f (t n )) T are the minimisers of</p><formula xml:id="formula_3">y -βx -f 2 + nλf T Γf<label>(2)</label></formula><p>with Γ an n × n penalty matrix. Solving the resulting normal equations, we see that</p><formula xml:id="formula_4">β = x T (I -S λ )x -1 x T (I -S λ )y, f = S λ (y -βx) (<label>3</label></formula><formula xml:id="formula_5">)</formula><p>where S λ = (I + nλΓ) -1 is known as the smoother matrix. S λ is the influence matrix for the model (1) with no covariate term, and S λ y is the thin plate spline fitted to the data y.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.2">Spatial+ model</head><p>Starting with the model (1), in line with <ref type="bibr" target="#b13">Rice (1986)</ref>, we assume the covariate x has the form</p><formula xml:id="formula_6">x i = f x (t i ) + x i , x i ∼ iid N (0, σ 2 x )<label>(4)</label></formula><p>where f x ∈ H m (Ω) is bounded. This means that x is correlated with the smooth term f through the component f x . Extending the two-stage smoothing spline model defined in <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> to models of dimension d ≥ 1, we define the spatial+ model as follows. Let f x = S λx x and r x = (I -S λx )x be the fitted values and residuals in the thin plate spline regression (4) with smoothing parameter λ x &gt; 0. The spatial+ model is then the partial thin plate spline model</p><formula xml:id="formula_7">y i = βr x i + f + (t i ) + i , i ∼ iid N (0, σ 2 ) (<label>5</label></formula><formula xml:id="formula_8">)</formula><p>where β is the unknown effect of r x = (r x 1 , . . . , r x n ) T and f + models the combined effect f + βf x in the original model (1). The spatial+ estimate β+ of β is its partial thin plate spline estimate in this model, i.e.</p><formula xml:id="formula_9">β+ = (r x ) T (I -S λ )r x -1 (r x ) T (I -S λ )y = x T (I -S λx )(I -S λ )(I -S λx )x -1 x T (I -S λx )(I -S λ )y, and the spatial+ estimate f + of f = (f (t 1 ), . . . , f (t n )) T is given by f + = f + -β+ f x = S λ (y -β+ x) -(I -S λ )S λx β+ x</formula><p>where f + denotes the partial thin plate spline estimate of f + = (f + (t 1 ), . . . , f + (t n )) T in (5).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="2.3">Smoothness selection</head><p>Smoothing penalties introduce bias in estimates but reduce variance. The smoothing parameters λ and λ x are usually estimated based on a separate smoothness selection criterion, that balances this bias-variance trade-off.</p><p>For the analysis in Section 3, in line with <ref type="bibr" target="#b13">Rice (1986)</ref>; <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref>, we choose the value of the smoothing parameter that minimises the average mean squared error (AMSE) of the estimated spatial effect. The AMSE for an estimated effect f = ( f1 , . . . , fn ) T of the function f evaluated at data points is defined as</p><formula xml:id="formula_10">AMSE( f ) = 1 n n i=1 E ( fi -f (t i )) 2 = B 2 (f, λ) + V (f, λ) where B 2 (f, λ) = 1 n n i=1 E( fi ) -f (t i ) 2 and V (f, λ) = 1 n n i=1</formula><p>Var( fi ) are the average squared bias and the average variance, respectively.</p><p>For the simulations in Section 4 and the example in Section 5 we use the generalized cross validation (GCV) criterion, which is the default option in the R-package mgcv used for implementation. Asymptotically (as the sample size n → ∞), GCV selects the optimal smoothing parameter for minimising prediction error. Thus, GCV is not dissimilar to the criterion used for the theoretical derivations. Indeed, <ref type="bibr" target="#b2">Chen and Shiau (1994)</ref> show that their asymptotic results in <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> for one-dimensional models also hold for GCV and Mallows' C L . In practice, the restricted maximum likelihood (REML) criterion is often used instead of GCV as, for finite samples, GCV usually has more uncertain estimates than REML and tends to undersmooth (i.e. overfit) the data <ref type="bibr" target="#b19">(Wood (2017)</ref> p. 266-267). Repeating the simulations and the data example using REML gave similar results to GCV.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3">Asymptotic results</head><p>In Sections 3.1 and 3.2 we derive asymptotic results for the models defined in Sections 2.1 and 2.2 with proofs provided in Appendix C. These results are based on a number of technical lemmas and assumptions, details of which are provided in Appendices A and B. For dimension d = 1, <ref type="bibr" target="#b13">Rice (1986)</ref>, <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> use the Demmler-Reinsch basis for natural splines to diagonalise the smoother matrix S λ . This enables them to explicitly study the asymptotic behaviour of model estimates. Our generalisation to dimensions d ≥ 1 is fascilitated by <ref type="bibr" target="#b17">Utreras (1988)</ref> who shows how the asymptotic properties of the Demmler-Reinsch basis generalise to higher dimensions (see Lemma 1 in Appendix A). Using this, we are able to prove results in a similar way to Rice, Chen and Shiau. Where possible, we have simplified the derivations and notation, particularly, we have adapted the structure of Rice's proofs to be more in line with the approach used by <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref>. For the rest of this paper, we assume that m &gt; d/2 and that the domain Ω and data locations t 1 , . . . , t n satisfy the conditions of Lemma 1 in Appendix A. We use the notation a(n) ≈ b(n) to mean that a(n)/b(n) is bounded away from zero and infinity as n → ∞.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.1">Asymptotic results for the spatial model</head><p>In the model (1), spatial correlation is modelled through smoothing of the term f . Without the smoothing penalty, the model is an ordinary linear model in which all effect estimates are unbiased. Therefore, bias in the covariate effect estimate arises as a direct result of smoothing. <ref type="bibr" target="#b13">Rice (1986)</ref> showed for dimension d = 1 that, while this bias is asymptotically 0 as n → ∞, the rate of convergence may be slow. More specifically, we cannot ensure that the bias converges faster than the standard deviation if the smoothing parameter λ converges at the optimal rate (minimising the AMSE of the estimated spatial effect). Therefore, the bias can in practice become disproportionately large. Here, we generalise Rice's results and see that the problem of potentially excessive bias in β persists in models where the spatial domain has dimension d ≥ 1. As an aside, we note that, as in the d = 1 case, the rate of convergence of the variance of β, is the same as that in a model with no smoothing penalty.</p><p>Theorem 3.1. Suppose λ ≈ n -δ for some 0 &lt; δ &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d. Then for the partial thin plate spline estimate of β we have that</p><formula xml:id="formula_11">(a) E( β) -β = o(n -1/2 ) + O(λ 1/2 ), (b) nVar( β) → σ 2 /σ 2</formula><p>x as n → ∞.</p><p>In particular, Var( β) = O(n -1 ) and we need λ = o(n -1 ) to ensure that the bias converges faster than the standard deviation of β.</p><p>Theorem 3.2. Suppose λ ≈ n -δ for some 0 &lt; δ &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d.</p><p>Then the average squared bias B 2 (f, λ) and average variance V (f, λ) of the partial thin plate spline estimate of f satisfy (a) B 2 (f, λ)</p><formula xml:id="formula_12">= n -1 i (E( fi ) -f (t i )) 2 = O(λ), (b) V (f, λ) = n -1 i Var( fi ) = O(n -1 λ -d/2m ).</formula><p>In particular, the optimal rate for λ in terms of minimising AMSE( f ) is λ = O(n -2m/(2m+d) ), and when λ converges at this optimal rate, AMSE( f ) = O(n -2m/(2m+d) ).</p><p>We have therefore proved the following result which shows that we cannot avoid the potential for excessive bias in β, unless λ converges at a rate slower than the optimal rate of convergence, i.e. unless the smooth term is undersmoothed.</p><p>Corollary 3.3. Suppose λ ≈ n -δ for some 0 &lt; δ &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d. The optimal rate of convergence for λ in terms of minimising AMSE( f ) is slower than the required rate of o(n -1 ) for ensuring that the bias of β converges faster than the standard deviation of the estimate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="3.2">Asymptotic results for the spatial+ model</head><p>In dimension d = 1, <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> show that for the model ( <ref type="formula" target="#formula_7">5</ref>), the problems identified by Rice disappear. That is, when the parameters λ and λ x converge at the optimal rate (for minimising the AMSE of the estimated spatial effect), the bias of the covariate effect estimate β+ converges to 0 faster than the standard deviation and, therefore, does not become disproportionately large. We now generalise these results to dimensions d ≥ 1.</p><p>Theorem 3.4. Suppose λ ≈ n -δ , λ x ≈ n -δx for some 0 &lt; δ, δ x &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d. Then for the spatial+ estimate of β we have that</p><formula xml:id="formula_13">(a) E( β+ ) -β = o(n -1/2 ) + O((λλ x ) 1/2 ), (b) nVar( β+ ) → σ 2 /σ 2</formula><p>x as n → ∞. In particular, Var( β+ ) = O(n -1 ) and we need λλ x = o(n -1 ) to ensure that the bias converges faster than the standard deviation of β+ .</p><p>Theorem 3.5. Suppose λ ≈ n -δ , λ x ≈ n -δx for some 0 &lt; δ, δ x &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d. Then the average squared bias B 2 + (f, λ, λ x ) and average variance</p><formula xml:id="formula_14">V + (f, λ, λ x ) of the spatial+ estimate of f satisfy (a) B 2 + (f, λ, λ x ) = n -1 i (E( f + i ) -f (t i )) 2 = O(λ) + O(n -1 λ -d/2m x log 2 n), (b) V + (f, λ, λ x ) = n -1 i Var( f + i ) = O(n -1 λ -d/2m ).</formula><p>In particular, the optimal rates for λ and λ x in terms of minimising AMSE( f + ) are given by λ = O(n -2m/(2m+d) ) and λ x = O(n -2m/(2m+d) (log n) 4m/d ), assuming the convergence rates for B 2 + (f, λ, λ) and V + (f, λ, λ x ) are equal. When λ and λ x converge at these rates,</p><formula xml:id="formula_15">AMSE( f + ) = O(n -2m/(2m+d) ).</formula><p>From this we obtain the following result which shows that, unlike β, the estimate β+ does not need undersmoothing to avoid excessive bias.</p><p>Corollary 3.6. Suppose λ ≈ n -δ , λ x ≈ n -δx for some 0 &lt; δ, δ x &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d. If λ and λ x converge at the optimal rates in terms of minimising AMSE( f + ), then λλ x = o(n -1 ). In particular, the optimal rates for λ and λ x ensure that the bias of the spatial+ estimate β+ converges faster than the standard deviation of the estimate.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4">Simulation</head><p>Partial thin plate spline models can be implemented in the R-package mgcv using the computationally efficient reduced rank approximation known as thin plate regression splines. We use this implementation (with GCV as the smoothness selection criterion) to compare the results of models fitted to simulated data for which we know the true underlying covariate and spatial dependence.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.1">Data</head><p>We generate 100 independent replicates of covariate data x = (x 1 , . . . , x n ) T and response data y = (y 1 , . . . , y n ) T , observed at n = 1000 randomly selected locations in the spatial domain [0, 10] × [0, 10] in R 2 (using a 50 × 50 grid), as follows. Let z = (z 1 , . . . , z n ) T and z = (z 1 , . . . , z n ) T denote observations at the selected locations of independently generated Gaussian spatial fields with an exponential and a spherical covariance structure, respectively. That is, each spatial field is sampled from a multivariate normal distribution centered at 0 with covariance structure defined by C(h) = exp(-(h/R) p ) with R = 5 and p = 1 for the exponential field and C(h) = -1 -1.5h/R + 0.5(h/R) 3 for h ≤ R, C(h) = 0 for h &gt; R with R = 1 for the spherical field (where h denotes Euclidean distance). To ensure that the fields lie in the span of the spatial basis vectors used for the models in Section 4.2, each is replaced by the fitted values of a spatial thin plate regression spline fitted to them. We then let</p><formula xml:id="formula_16">x = 0.5z + x where x ∼ N (0, σ 2 x I), y = βx + f + y where y ∼ N (0, σ 2 y I),</formula><p>with true covariate effect β = 3, true residual spatial effect f = -z -z and σ y = 1, σ x = 0.1. Thus, f is directly correlated with the spatial pattern 0.5z of the covariate. This approach is similar to <ref type="bibr" target="#b16">Thaden and Kneib (2018)</ref>, except we have added the component -z so that f could represent, for example, the combined effect of an unobserved covariate (with a similar spatial pattern to that of x) as well as an independent short-range spatial process. Also, rather than treating the spatial fields as fixed, we generate new fields for each replicate in the simulation. Finally, we have chosen σ x relatively small (such that the model matrix for the spatial model has nearly collinear columns) and σ y relatively large (to encourage smoothing). This is the situation in which we would expect spatial confounding issues to arise which is also confirmed by the simulations in <ref type="bibr" target="#b16">Thaden and Kneib (2018)</ref>.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.2">Models</head><p>To each replicate of simulated response data y and covariate data x, we fit the following models (with basis size k = 300 for the thin plate regression splines). Models 2 -5 are fitted twice: once with and once without smoothing penalties applied. In mgcv, smoothing penalties are applied by default but can be removed using the option fx=TRUE.</p><p>1. Null model: The model with no spatial effects given by</p><formula xml:id="formula_17">y i = βx i + i , ∼ N (0, σ 2 I)<label>(6)</label></formula><p>where β and σ 2 are estimated parameters.</p><p>2. Spatial model: The model given by</p><formula xml:id="formula_18">y i = βx i + f (t i ) + i , ∼ N (0, σ 2 I)<label>(7)</label></formula><p>where β and σ 2 are estimated parameters and f a thin plate regression spline with t 1 , . . . , t n the observed data locations.</p><p>3. RSR model: Let B sp be the matrix whose columns are the spatial basis vectors in the model matrix from (7) (i.e. the thin plate regression spline basis functions evaluated at the data locations) and let B sp = (I -x(x T x) -1 x T )B sp be the projection of this onto the orthogonal compliment of x. The RSR model is given by</p><formula xml:id="formula_19">y i = βx i + fi + i , ∼ N (0, σ 2 I)<label>(8)</label></formula><p>where β and σ 2 are estimated parameters and f = ( f1 , . . . , fn ) T is modelled the same way as the spatial effect in (7) but with B sp replaced by B sp in the model matrix.</p><p>4. gSEM: Let r x = (r x 1 , . . . , r x n ) T and r y = (r y 1 , . . . , r y n ) T denote the spatial residuals of x and y, that is, r x = xf x where f x are the fitted values in the regression</p><formula xml:id="formula_20">x i = f x (t i ) + x i , x ∼ N (0, σ 2 x I)<label>(9)</label></formula><p>where σ 2</p><p>x is estimated and f x a thin plate regression spline, and r y is the same but replacing x by y. The gSEM model is then the linear model given by</p><formula xml:id="formula_21">r y i = βr x i + i , ∼ N (0, σ 2 I),<label>(10)</label></formula><p>where β and σ 2 are estimated.</p><p>5. Spatial+: Let r x denote the spatial residuals of x as above. The spatial+ model is then</p><formula xml:id="formula_22">y i = βr x i + f + (t i ) + i , ∼ N (0, σ 2 I) (<label>11</label></formula><formula xml:id="formula_23">)</formula><p>where β and σ 2 are estimated parameters and f + a thin plate regression spline.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="4.3">Results</head><p>The results of the simulation are summarised in Figure <ref type="figure" target="#fig_1">2</ref>. For each data replicate, the output is the estimated covariate effect and the mean squared error (MSE) of fitted values for each model fit. For ease of notation, in this section, we use β to mean the estimated covariate effect in any of the fitted models (rather than the partial thin plate spline estimate alone). The MSE of fitted values is calculated as ŷ -(βx + f ) 2 where for models 1, 2, 3 and 5, ŷ is the fitted values in the regressions (6), ( <ref type="formula" target="#formula_18">7</ref>), ( <ref type="formula" target="#formula_19">8</ref>) and ( <ref type="formula" target="#formula_22">11</ref>), respectively, and for model 4, ŷ = f y + ry where f y and ry are the fitted values in the regressions ( <ref type="formula" target="#formula_20">9</ref>) and ( <ref type="formula" target="#formula_21">10</ref>). Here β = 3 and f = -z -z are the true values of the estimated effects with βx + f the true mean of y.</p><p>In the null model and the RSR model, the estimated covariate effect is the same and has a noticeably larger bias than the estimates in the other models. This is expected as for these models, β = (x T x) -1 x T y is the ordinary least squares estimate, which, in addition to the true effect β, includes a contribution from the part of f that is correlated with x. The fitted values in RSR, however, differ from those of the null model as the larger model matrix explains a part of y that is treated as random noise in the null model. In fact, the column space of the model matrix is the same as that of the spatial model, and it is therefore not surprising that the fitted values in these two models are similar.</p><p>If no smoothing penalty is applied, models 2, 4 and 5 are essentially the same: they have the same fitted values and the same unbiased estimate for the covariate effect. This illustrates that spatial confounding bias is due to the combined effect of collinearity and smoothing, rather than collinearity alone. The spatial model is, in this case, an ordinary linear model where the columns in the model matrix are the covariate x and the spatial basis vectors B sp . This is the model from which the data is generated and, therefore, it is not surprising that the spatial model is able to recapture the true effects. The spatial+ model is a reparametrisation of the spatial model which preserves the overall column space, and simple linear model theory shows that the covariate effect estimate is preserved. Similarly, it is straightforward to show that the gSEM covariate effect estimate agrees with the spatial model in this case. (Derivations are included in Appendix E).</p><p>In the unsmoothed versions of models 2 -5, the fitted values are all the same. When smoothing is applied, the MSE of fitted values reduces, indeed, this is the intended purpose of the smoothing penalty. Looking at the covariate effect estimate, in the RSR model, the (biased) ordinary least squares estimate is unaffected by smoothing. For the remaining three models, while the unsmoothed versions of the models give unbiased estimates of β, we see that smoothing introduces varying degrees of bias. In the spatial model, the bias is quite large illustrating our results in Section 3.1. In contrast, while the covariate effect estimate is no longer the same in the gSEM and the spatial+ model, for both models, the bias is still negligible. This behaviour is therefore also consistent with what we would expect from our theoretical results.</p><p>Note that our analysis gives some intuition for why spatial+ works. If no smoothing penalty is applied, we saw that spatial+ has the same unbiased estimate for the covariate effect as the spatial model. In fact, any decomposition x = v + r with v in the column space of the spatial basis vectors B sp gives a reparametrisation (replacing x by r) in which r captures the original covariate effect. However, by choosing r to be broadly orthogonal to the column space of B sp (as it is in the spatial+ model), the estimates of the covariate and spatial effects are broadly decorrelated. Thus, the covariate effect estimate is largely unaffected when smoothing is applied to the spatial term and thereby remains broadly unbiased.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5">Application</head><p>We illustrate how the spatial+ model can be used in practice by applying it to our forestry example. Details of the data can be found in <ref type="bibr" target="#b0">Augustin et al. (2009)</ref>; <ref type="bibr" target="#b6">Eichhorn et al. (2017)</ref>. We consider here the data for spruce for a single observation year, namely, 2013 which has measurements from n = 186 locations. We are interested in assessing the effect of the climate variable tminmay (minimum temperature in May) on the response variable ratio (crown defoliation expressed as a proportion). We expect a high minimum temperature in May to be indicative of a warmer and drier year in general which, in turn, is likely to lead to higher levels of tree defoliation (measured later in summer). We also expect older trees to have significantly more defoliation than younger trees and have therefore included the variable age (age of trees) as an additional covariate in the models. Scatterplots of the data (not shown here) indicate the relationships between the covariates and the response variable are broadly as expected.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.1">Models</head><p>A natural starting point is the null model</p><formula xml:id="formula_24">ratio i = α + β 1 age i + β 2 tminmay i + i ,<label>(12)</label></formula><p>where i ∼ N (0, σ 2 ) is iid noise and α, β 1 , β 2 and σ are estimated parameters. However, numerous spatially dependent predictors have not been included in the model, for example, soil characteristics such as soil depth and base saturation; other climatic variables such as those related to radiation and precipitation; water budget of the trees etc. Therefore, we would expect residual spatial correlation in the response variable, and a more appropriate model may therefore be a spatial model, which we define as</p><formula xml:id="formula_25">ratio i = α + β 1 age i + β 2 tminmay i + f (t i ) + i ,</formula><p>where i ∼ N (0, σ 2 ) is iid noise, α, β 1 , β 2 and σ are estimated parameters and f a thin plate regression spline (with basis size k = 100) with t 1 , . The covariate effects of interest are β 1 and β 2 but, as the results of Sections 3.1 and 4 show, the estimates of these effects may be highly biased in both the null model and the spatial model. This disproportionate bias is avoided in the spatial+ model. Let r 1 = (r 1 1 , . . . , r 1 n ) T and r 2 = (r 2 1 , . . . , r 2 n ) T be the residuals when a thin plate regression spline (with basis size k = 100) is fitted to age and tminmay, respectively. The spatial+ model is then</p><formula xml:id="formula_26">ratio i = α + β 1 r 1 i + β 2 r 2 i + f + (t i ) + i , where i ∼ N (0, σ 2</formula><p>) is iid noise, α, β 1 , β 2 and σ are estimated parameters and f + a thin plate regression spline (with basis size k = 100) with t 1 , . . . , t n the observed data locations.</p><p>Finally, for comparison, we fit the gSEM as an alternative method for avoiding spatial confounding bias. Let r y = (r y 1 , . . . , r y n ) T be the residuals when a thin plate regression spline (with basis size k = 100) is fitted to the response variable ratio. The gSEM is then r y i = β 1 r 1 i + β 2 r 2 i + i , where i ∼ N (0, σ 2 ) is iid noise and β 1 , β 2 and σ are estimated parameters.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="5.2">Results</head><p>The results of fitting the above four models to the data are summarised in Table <ref type="table" target="#tab_0">1</ref>.</p><p>The spatial term in the spatial model is significant, which confirms there is residual spatial correlation in the data as expected. Furthermore, as the spatial term allows for more of the residual variation to be explained, the deviance explained is higher and the estimated standard deviation is lower than in the null model. As the AIC is also lower, we conclude that the spatial model is an overall better fitting model than the null model for this data. However, while the spatial model may be appropriate for overall predictions of the response variable, the estimate of any individual covariate effect may be biased. Using the spatial+ model, we expect to obtain similar fitted values as the spatial model but with covariate effect estimates that have only negligible bias. Indeed, in terms of overall fit, we see that the deviance explained, estimated standard deviation and AIC in the spatial+ model are similar to those of the spatial model. For completeness, we have also included the gSEM. Note, however, that in the gSEM, since the response variable in the regression differs from that of the other three models, the deviance explained, estimated standard deviation and AIC cannot be directly compared to the other models.</p><p>The covariate age is highly significant and has a positive effect as expected. This covariate does not appear to be affected by spatial confounding as the estimated effect and its p-value are largely robust to the choice of model. This happens, for example, if a covariate is independent of the true underlying residual spatial effect. Also, in the case of age, not only is this a covariate that is not very well explained by spatial location (a spatial smooth fitted to this variable has deviance explained of only 13%), but its estimated spatial pattern looks dominated by linear spatial basis functions which are unpenalised in the spatial model. Therefore, penalisation of the spatial term f in the spatial model is less likely to interfere with the covariate effect estimate (see <ref type="bibr" target="#b13">Rice (1986)</ref> Proposition D).</p><p>In contrast, the estimated effect of the covariate tminmay is not significant in the null model but is significant in the spatial model and is even more significant in the spatial+ model. Furthermore, while in all models the effect estimate is positive as expected (i.e. higher temperature in May leads to more defoliation later in summer), the size of the estimate more than triples when a spatial effect is added to the null model and the estimate in the spatial+ model is more than double of that in the spatial model. This shows that, if we were to use the spatial model for our inference, the effect of temperature on crown defoliation would likely be underestimated in both size and significance due to spatial confounding. Note that, as expected, the gSEM gives similar results to spatial+.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6">Non-Gaussian response data</head><p>A distribution is in the exponential family of distributions if its probability density function p can be written in the form p(y) = exp {yθ -b(θ)}/a(φ) + c(y, φ) where θ and φ are parameters of the distribution and a, b and c are functions. This family includes a large number of commonly used distributions in applied statistics, e.g. Gaussian, Poisson, exponential and binomial.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.1">Spatial model</head><p>Suppose we have response data y = (y 1 , . . . , y n ) T where each y i is assumed to be an observation of a random variable Y i whose distribution is from the exponential family with E(Y i ) = µ i , and suppose x = (x 1 , . . . , x n ) T and t 1 , . . . , t n are covariate observations and spatial locations as before. A generalised version of (1) can then be formulated as</p><formula xml:id="formula_27">g(µ i ) = βx i + f (t i ) (<label>13</label></formula><formula xml:id="formula_28">)</formula><p>where β is an unknown parameter, f a thin plate spline and g : R → R a link function (i.e. a monotonic smooth function which ensures g(µ i ) is in the domain of the response variable). The partial thin plate spline estimates of β and f = (f (t 1 ), . . . , f (t n )) T are found using a penalised iterative re-weighted least squares (PIRLS) algorithm. Initialising the algorithm with μi = y i and ηi = g(μ i ), we define so-called pseudodata as</p><formula xml:id="formula_29">z i = g (μ i )(y i -μi ) + ηi and iterative weights w i = 1/(g (μ i ) 2 V (μ i )) where V (µ i ) = Var(Y i )φ = b i (θ)a i (φ)</formula><p>/φ is the variance function for the distribution of Y i . Let β and f be the minimisers of</p><formula xml:id="formula_30">√ W(z -βx -f ) 2 + nφλf T Γf<label>(14)</label></formula><p>where W = diag(w 1 , . . . , w n ) is the weights matrix, z = (z 1 , . . . , z n ) T , and λ &gt; 0 and Γ are as in (2). Now redefining ηi = βx + f and μi = g -1 (η i ), the algorithm is reiterated until convergence and the partial thin plate spline estimates β and f are then the minimisers of ( <ref type="formula" target="#formula_30">14</ref>) in the final iteration. Note that, if no smoothing is applied, β and f are the maximum likelihood estimates in a generalized linear model (GLM), which are asymptotically unbiased.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.2">Spatial+ model</head><p>Starting with the model (13), let W and z denote the weights matrix and pseudodata at convergence of the PIRLS algorithm. We then define the corresponding spatial+ model as follows. Let f x and r x = xf x = (r x 1 , . . . , r x n ) T denote the fitted values and residuals in the weighted thin plate regression (4) with weights W, i.e. f x is the minimiser of √ W(xf x ) 2 + nλ x f xT Γf x with smoothing parameter λ x &gt; 0 and Γ defined as before. The spatial+ model is then the partial thin plate spline model defined by</p><formula xml:id="formula_31">g(µ i ) = βr x i + f + (t i ) (<label>15</label></formula><formula xml:id="formula_32">)</formula><p>where β and f + are estimated as described in Section 6.1. From Section 6.1 we see that the estimates β and f in the spatial model ( <ref type="formula" target="#formula_27">13</ref>) are obtained as the minimisers of (2) if we replace y, x, f , Γ and λ by ỹ = √ Wz, x = √ Wx, f = √ Wf , Γ = √ W -1 Γ √ W -1 and λ = φλ. Thus, at convergence of the PIRLS algorithm, estimation corresponds to that of a Gaussian model for which the model matrix has columns x and √ WB sp . From our comment at the end of Section 4.3, the decorrelation trick that we used in Section 2.2 would therefore work if we replace x by r, obtained from a decomposition x = ṽ + r in which ṽ is in the column space of √ WB sp and r is broadly orthogonal to the columns of √ WB sp . By the properties of weighted thin plate spline regressions, √ Wr x is broadly orthogonal to √ WB sp . Therefore, letting ṽ = √ W f x and r = √ Wr x , the required decorrelation is achieved. Finally, replacing x by r is equivalent to replacing x by r x in the spatial model, leading to the model (15).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="6.3">Simulations</head><p>The models (13) and ( <ref type="formula" target="#formula_31">15</ref>) can once again be implemented using thin plate regression splines in mgcv. To test the performance of the spatial+ model (15), we repeat the simulations from Section 4 for three different response distributions, namely, the Poisson distribution with canonical link function g(µ) = log(µ), the exponential distribution with (non-canonical) link function g(µ) = log(µ) and the binomial distribution with size parameter n bin = 10 and canonical link function g(µ) = log(µ/(n bin -µ)).</p><p>For each response distribution, we simulate 100 replicates of the response data y = (y 1 , . . . , y n ) T by independently sampling each y i from the given distribution with mean µ i = g -1 (η i ) where η i = βx i + f i with x = (x 1 , . . . , x n ) T simulated as in Section 4.1, σ x = 0.1, and true effects β = 3, f = (f 1 , . . . , f n ) T = -z -z as before. The results of fitting the models (13) and ( <ref type="formula" target="#formula_31">15</ref>) are summarised in Figure <ref type="figure" target="#fig_2">3</ref>. For comparison we have also included the results of fitting the corresponding null model (i.e. the GLM defined by g(µ i ) = βx i ) and the models ( <ref type="formula" target="#formula_27">13</ref>) and ( <ref type="formula" target="#formula_31">15</ref>) with no smoothing penalty applied. Finally, we have fitted a generalised version of the RSR model (for details see Appendix E). Note that we have not included the gSEM here as it is not immediately clear how to generalise this model to non-Gaussian response distributions.</p><p>We see that for all three response distributions, the overall behaviour of the models is similar to what we saw in the Gaussian case. As before, the null model and RSR model both have highly biased covariate effect estimates, however, note that unlike the Gaussian case, the estimate is not the same in the two models. This is because, while in both models the estimate is given by β = (x T Wx) -1 x T Wz, the fitted values, and hence the weights and pseudodata at convergence, differ. Without smoothing, as expected, the spatial and spatial+ models give the same results, however, while the covariate effect estimate looks unbiased for the Poisson and exponential response distributions, it looks slightly biased for the binomial distribution, though not materially. This is not surprising as GLMs are only asymptotically unbiased and may have some bias in practice, particularly, when the number of estimated parameters is relatively large as it is in this case <ref type="bibr" target="#b4">(Cox and Snell, 1968</ref>). When smoothing is applied, MSE reduces as intended, but the covariate effect estimate in the spatial model becomes significantly biased while it remains broadly unbiased in the spatial+ model.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head n="7">Discussion</head><p>We have shown that the proposed spatial+ model can be used to avoid unreliable covariate effect estimates in spatial regression with clear advantages over existing methods. Our analysis also gives a clearer understanding of why spatial confounding happens. Spatial models, whether formulated in terms of spatially induced prior distributions or smoothing penalties, usually apply some form of spatial smoothing to reflect spatial correlation in the data and avoid overfitting. However, from the model formulation (1), we see that it is exactly this smoothing that causes spatial confounding bias. If spatial location is highly explanatory for a covariate in the model, the model matrix has nearly collinear columns, and therefore the smoothing penalty can heavily influence the way in which the "total covariate spatial effect" (i.e. the observed effect of the covariate spatial pattern, including any unmeasured effects) is split between the covariate term and the spatial term. As we have seen, this can lead to significantly biased results. The excessive smoothing-induced bias is avoided in both spatial+ and the gSEM. If no smoothing penalty is applied, both models give the same unbiased covariate effect estimates as the unsmoothed spatial model. Spatial+ reparametrises the spatial model so that, rather than splitting the total covariate spatial effect into two separate terms, it is fully contained in the term f + . This makes fixed effect estimates broadly independent of the spatial effects, in particular, they remain largely unbiased under spatial smoothing. The idea of decorrelating covariate and spatial terms is also used in RSR. But in RSR, as it is achieved by restricting the spatial effects, it is the covariate effect estimates that contain the total covariate spatial effects, leading to bias by construction. In the gSEM, the elimination of all spatial information means that fixed effect estimates are once again decorrelated from the spatial effects and thereby protected from spatial smoothing. The resulting model of residuals only, however, seems less intuitive than spatial+ and, the change in response variable means that standard model selection criteria cannot be used for comparisons with the other models. A major advantage of spatial+ is also that the method generalises easily to models with non-Gaussian response distributions and our simulations illustrate that the method still works well here.</p><p>Our above discussion shows that the decorrelation of effect estimates is the underlying reason why the spatial+ approach works. As mentioned in Section 1, the modification of the model matrix that achieves this is easily transferable to other spatial model formulations, and we would therefore expect the method to work well in general. However, as our theoretical derivations are specific to thin plate spline estimates, similar derivations or simulations could be done to confirm our results in other settings. One limitation to the spatial+ approach is that the covariate effects in the model must be linear. This assumption is needed for the spatial residuals to capture the true covariate effects. The spatial model (1) is easily extended, using the generalized additive model (GAM) framework, to include non-linear covariate terms in the form of smooths (i.e. unknown functions of the covariates estimated from the data). It would be interesting to see if any of the ideas of spatial+, as well as our increased understanding of spatial confounding, can be used to develop methods for avoiding spatial confounding in this context.</p><p>Finally, applying spatial+ to the forestry example, we see that the effect of temperature on crown defoliation appears to be positive and significant as expected, and that this effect would likely be underestimated in both size and significance in the spatial model (and even more so in the null model). The other covariate, age of trees, in this example also illustrates that, if a covariate is not spatially confounded, this can be confirmed by showing that its effect estimate in the spatial and spatial+ models agree. It is possible that this idea could be used to develop a diagnostic or test that practitioners could use to identify spatial confounding in applications.</p><p>We thank The Forest Institute Baden-Württemberg (Germany) for making the 2013 Terrestrial Crown Condition Inventory (TCCI) forest health monitoring survey data available.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Appendices</head><p>Appendices referenced in Sections 1, 3, 4 and 6 of the paper are included below.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>A Technical lemmas</head><p>In this appendix we set out the technical lemmas that we use for the derivations of the main results in Sections 3.2 and 3.3 of the paper which generalise the results of <ref type="bibr" target="#b13">Rice (1986)</ref>; Chen and Shiau (1991) from d = 1 to dimensions d ≥ 1. Key to this generalisation is the following result by <ref type="bibr" target="#b17">Utreras (1988)</ref> on the asymptotics of thin plate splines.</p><p>Lemma A.1. Suppose Ω has Lipschitz boundary and satisfies a uniform cone condition (as defined in <ref type="bibr" target="#b17">Utreras (1988)</ref>). Assume that the points {t 1 , . . . , t n } ⊂ Ω are regularly distributed in the sense that there exists a constant B &gt; 0 such that</p><formula xml:id="formula_33">h min h max ≤ B where h max = sup t∈Ω inf i |t -t i | and h min = min i =j |t i -t j |. Let µ 1 ≤ • • • ≤ µ n denote</formula><p>the eigenvalues of the matrix nΓ and assume m &gt; d/2. Then</p><formula xml:id="formula_34">µ 1 = • • • = µ M = 0</formula><p>and there exist constants C 1 , C 2 &gt; 0 such that</p><formula xml:id="formula_35">C 1 k 2m/d ≤ µ k ≤ C 2 k 2m/d for M + 1 ≤ k ≤ n.</formula><p>Proof. See the proof of Theorem 5.1 (a) and Theorem 5.3 of <ref type="bibr" target="#b17">Utreras (1988)</ref>.</p><p>Lemma A.1 provides us with a convenient basis in which the smoother matrix S λ = (I + nλΓ) -1 is diagonalised and, moreover, describes the asymptotic behaviour of its eigenvalues as the number of data points n → ∞. More specifically, if Φ is the matrix whose columns are 1 √ n φ 1 , . . . , 1 √ n φ n where φ k is an eigenvector of nΓ corresponding to the eigenvalue µ k , then (with appropriate scaling of the eigenvectors) Φ has orthonormal columns and</p><formula xml:id="formula_36">Φ T S λ Φ = diag 1/(1 + λµ 1 ), . . . , 1/(1 + λµ n ) , Φ T (I -S λ )Φ = diag (λµ 1 )/(1 + λµ 1 ), . . . , (λµ n )/(1 + λµ n ) .</formula><p>This representation allows us to explicitly evaluate the estimates in the models of dimension d ≥ 1 which, in turn, enables us to obtain asymptotic results in a similar way to <ref type="bibr" target="#b13">Rice (1986)</ref>; <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref>.</p><p>For the rest of these appendices, we assume that m &gt; d/2 and that the domain Ω and the data points t 1 , . . . , t n satisfy the conditions of Lemma A.1. We will also use the notation a(n) ≈ b(n) to mean that a(n)/b(n) is bounded away from zero and infinity as n → ∞.</p><p>Lemmas A.2 and A.3 link the asymptotic behaviour of the smoother matrix S λ to the convergence rate of the smoothing parameter λ. Lemma A.2 generalises Lemma 2 of <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> to dimensions d ≥ 1, and is proved using the asymptotic properties of the eigenvalues given in Lemma A.1. The result in Lemma A.3 is proved by <ref type="bibr" target="#b17">Utreras (1988)</ref>. Lemmas A.4 and A.5 prove a number of asymptotic results that are convenient for later proofs. Lemma A.4 shows how the results used by <ref type="bibr" target="#b13">Rice (1986)</ref> for the analysis in dimension d = 1 generalise to dimensions d ≥ 1, while Lemma A.5 generalises Lemma 3 of <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> to dimensions d ≥ 1. Proofs of Lemmas A.2, A.4 and A.5 are given in Appendix B.</p><formula xml:id="formula_37">Lemma A.2. Suppose λ ≈ n -δ for some 0 &lt; δ &lt; 1. Then (a) Tr(S λ ) = n k=1 (1 + λµ k ) -1 = M + O(λ -d/2m ), (b) Tr(S 2 λ ) = n k=1 (1 + λµ k ) -2 = M + O(λ -d/2m ).</formula><p>In particular, if m ≥ d, then both of these sums are of the form O(n 1/2-τ ) where 0 &lt; τ &lt; 1/2 depends only on δ.</p><p>Proof. See Appendix B.</p><formula xml:id="formula_38">Lemma A.3. For any g ∈ H m (Ω), let g = (g(t 1 ), . . . , g(t n )) T .</formula><p>The averaged squared bias B 2 tp (g, λ) of the thin plate spline S λ g (i.e. the fitted values in a model of the form (1) in our paper with β = 0) is given by</p><formula xml:id="formula_39">B 2 tp (g, λ) = 1 n g T (I -S λ ) 2 g = O(λ).</formula><p>Proof. See Utreras (1988) Lemma 2.2.</p><formula xml:id="formula_40">Lemma A.4. Suppose λ ≈ n -δ for some 0 &lt; δ &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d. Let f = (f (t 1 ), . . . , f (t n )) T . Then (a) n -1 x T (I -S λ )x = σ 2 x + o(1), (b) n -1 x T (I -S λ ) 2 x = σ 2 x + o(1), (c) n -1 x T (I -S λ )f = o(n -1/2 ) + O(λ -1/2 ), (d) n -1 x T S 2 λ x = O(1) Proof. See Appendix B. Lemma A.5. Suppose λ ≈ n -δ , λ x ≈ n -δx for some 0 &lt; δ, δ x &lt; 1, f, f x ∈ H m (Ω) and m ≥ d. Let f = (f (t 1 ), . . . , f (t n )) T . Then (a) n -1 x T (I -S λx )(I -S λ )(I -S λx )x = σ 2 x + o(1), (b) n -1 x T (I -S λx )(I -S λ ) 2 (I -S λx )x = σ 2 x + o(1), (c) n -1 x T (I -S λx )(I -S λ )f = o(n -1/2 ) + O((λ x λ) 1/2 ), (d) n -1 x T (I -S λx )(I -S λ )S λx x = o(n -1/2 ) + O((λ x λ) 1/2 ), (e) n -1 x T S λx (I -S λ ) 2 S λx x = O(λ) + O(n -1 λ -d/2m x log 2 n) (f ) n -1 x T [S λ + (I -S λ )S λx ] T [S λ + (I -S λ )S λx ]x = O(1), Proof. See Appendix B.</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>B Proofs of technical lemmas</head><p>In this appendix we prove the lemmas set out in Appendix A. We start by introducing some notation. Recall the assumption from our paper that</p><formula xml:id="formula_41">x i = f x (t i ) + x i , x i ∼ iid N (0, σ 2 x )</formula><p>which means that the covariate x is correlated with the smooth f in the spatial model. Therefore, x decomposes as</p><formula xml:id="formula_42">x = f x + x (B.1) with f x = (f x (t 1 ), . . . , f x (t n )) T and x = ( x 1 , . . . x n ) T .</formula><p>For the asymptotic analysis, it is often convenient to consider the behaviour of the components in this decomposition separately. Let c x = (c x 1 , . . . , c x n ) T and ξ x = (ξ x 1 , . . . , ξ x n ) T denote the coefficients of f x and x , respectively, in the basis Φ introduced in Appendix A, i.e.</p><formula xml:id="formula_43">f x = Φc x where c x = Φ T f x , x = Φξ x where ξ x = Φ T x .</formula><p>Note that since f x ∈ H m (Ω) is bounded, we have that</p><formula xml:id="formula_44">n -1 n k=1 (c x k ) 2 = n -1 (f x ) T (f x ) → 0 as n → ∞. (B.2)</formula><p>As in <ref type="bibr" target="#b13">Rice (1986)</ref> and <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref>, we also note that the following assumptions hold for the coefficients ξ x of the iid noise x .</p><formula xml:id="formula_45">(A1) n -1 n k=1 ξ x k → 0 as n → ∞, (A2) n -1 n k=1 (ξ x k ) 2 = n -1 ( x ) T x → σ 2 x &gt; 0 as n → ∞, (A3) sup 1≤k≤n |ξ x k | = O(log n).</formula><p>Proof of Lemma A.2</p><formula xml:id="formula_46">From Lemma A.1, µ k = 0 for k = 1, . . . , M , so M k=1 (1 + λµ k ) -1 = M . Split the remaining range of the summation into I 1 = [M + 1, λ -d/2m ], I 2 = [λ -d/2m , n]. I 1 : Since (1 + λµ k ) -1 ≤ 1 for all k I 1 (1 + λµ k ) -1 ≤ I 1 1 ≤ λ -d/2m . I 2 : By Lemma A.1, (1 + λµ k ) -1 ≤ (C 1 λk 2m/d ) -1 for all k in I 2 . Since {µ k } k is an increasing sequence, we have that I 2 (1 + λµ k ) -1 ≤ ∞ λ -d/2m (C 1 λx 2m/d ) -1 dx = Cλ -d/2m</formula><p>where C = (C 1 (2m/d -1)) -1 . This proves part (a).</p><p>For part (b) we note that M k=1 (1 + λµ k ) -2 = M as before and that (1 + λµ k ) -2 &lt; (1 + λµ k ) -1 for all the remaining k. Therefore (b) follows from (a).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Lemma A.4</head><p>To prove (a), we use the decomposition x = f x + x from (B.1) and the corresponding basis expansions in the basis Φ to get</p><formula xml:id="formula_47">n -1 x T (I -S λ )x = n -1 k (c x k + ξ x k ) 2 λµ k 1 + λµ k .</formula><p>We note that while (c x k + ξ x k ) 2 = (c x k ) 2 + (ξ x k ) 2 + 2c x k ξ x k , due to the Cauchy-Schwarz inequality, the term 2c x k ξ x k will never dominate the rate of convergence. Therefore, we only need to consider the parts of the sum relating to the other two terms. Using Cauchy-Schwarz again we see that</p><formula xml:id="formula_48">k (c x k ) 2 λµ k 1 + λµ k ≤ k (c x k ) 2 λµ k 1 + λµ k 2 1/2 k (c x k ) 2 1/2 = nB 2 tp (f x , λ) 1/2 k (c x k ) 2 1/2 = O(nλ 1/2 ) = O(n 1-δ/2 ) = o(n).</formula><p>Here we have used Lemma A.3 and (B.2).</p><p>For the term involving (ξ x k ) 2 we have that</p><formula xml:id="formula_49">k (ξ x k ) 2 - k (ξ x k ) 2 λµ k 1 + λµ k = k (ξ x k ) 2 1 1 + λµ k ≤ sup k (ξ x k ) 2 k 1 1 + λµ k = O(log 2 n)O(n 1/2-τ ) = o(n)</formula><p>by assumption (A3) and Lemma A.2. Hence, by assumption (A2),</p><formula xml:id="formula_50">n -1 k (ξ x k ) 2 λµ k 1 + λµ k → σ 2 x as n → ∞,</formula><p>and therefore (a) is proved. For (b) we write</p><formula xml:id="formula_51">n -1 x T (I -S λ ) 2 x = n -1 k (c x k + ξ x k ) 2 λµ k 1 + λµ k 2 .</formula><p>By Lemma A.3 we have that</p><formula xml:id="formula_52">n -1 k (c x k ) 2 λµ k 1 + λµ k 2 = B 2 tp (f x , λ) = O(λ) = o(1).</formula><p>For a &gt; 0 we have 1 1+a ≤ 1 and a 1+a ≤ 1 and therefore</p><formula xml:id="formula_53">1 - a 1 + a 2 = (1 + a) 2 -a 2 (1 + a) 2 = (1 + a) + a (1 + a) 2 ≤ 2 1 + a .</formula><p>Using this with a = λµ k we see from assumption (A3) and Lemma A.2 that</p><formula xml:id="formula_54">k (ξ x k ) 2 - k (ξ x k ) 2 λµ k 1 + λµ k 2 ≤ sup k (ξ x k ) 2 k 2 1 + λµ k = O (log 2 n)n 1/2-τ = o(n).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>So by assumption (A2), (b) is proved.</head><p>For (c) let c = Φ T f be the coefficients of f in the basis Φ. Then</p><formula xml:id="formula_55">n -1 x T (I -S λ )f = n -1 k (c x k c k + ξ x k c k ) λµ k 1 + λµ k .</formula><p>For the term involving c x k , we use Cauchy-Schwarz and (B.2) to see that</p><formula xml:id="formula_56">n -1 k c x k c k λµ k 1 + λµ k ≤ n -1 k (c x k ) 2 1/2 n -1 k c k λµ k 1 + λµ k 2 1/2 = O (B 2 tp (f, λ) 1/2 ) = O(λ 1/2 )</formula><p>by Lemma A.3. For the term involving ξ x k , we use Cauchy-Schwarz again to obtain</p><formula xml:id="formula_57">n -1 k ξ x k c k λµ k 1 + λµ k ≤ λ 1/2 sup k |ξ x k | n -1 k c k µ 1/2 k (λµ k ) 1/2 1 + λµ k ≤ λ 1/2 sup k |ξ x k | n -1 k c 2 k µ k 1/2 n -1 k λµ k (1 + λµ k ) 2 1/2 ≤ O(λ 1/2 log n)O(n -1/2 λ -d/4m ) = o(n -1/2 )</formula><p>Here we have used assumption (A3), Lemma A.2 (since λµ k (1+λµ k ) 2 ≤ 1 1+λµ k ) and the fact that</p><formula xml:id="formula_58">n -1 k c 2 k µ k = f T Γf ≤ |f | 2 m &lt; ∞</formula><p>since f ∈ H m (Ω). The rate of convergence of o(n -1/2 ) follows from the fact that</p><formula xml:id="formula_59">n -1/2 (log n)λ -d/4m+1/2 ≈ n -1/2 (log n)n -δ(1-d/2m)/2 = o(n -1/2 ) since 1 -d/2m &gt; 0. This proves (c).</formula><p>For (d) we have that</p><formula xml:id="formula_60">n -1 x T S 2 λ x = n 1 k (c x k + ξ x k ) 2 1 (1 + λ x µ k ) 2 .</formula><p>For the term involving (c x k ) 2 we see that</p><formula xml:id="formula_61">n -1 k (c x k ) 2 1 (1 + λ x µ k ) 2 ≤ n -1 k (c x k ) 2 = O(1)</formula><p>by (B.2). For the term involving (ξ x k ) 2 we see from assumption (A3) and Lemma A.2 that</p><formula xml:id="formula_62">n -1 k (ξ x k ) 2 1 (1 + λ x µ k ) 2 ≤ n -1 sup k (ξ x k ) 2 k 1 (1 + λ x µ k ) 2 = O (log 2 n)n -1/2-τ = O(1). Hence n -1 x T S 2 λ x = O(1).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Lemma A.5</head><p>As in the proof of Lemma A.4 we write</p><formula xml:id="formula_63">n -1 x T (I -S λx )(I -S λ )(I -S λx )x = n -1 k (c x k + ξ x k ) 2 λ x µ k 1 + λ x µ k 2 λµ k 1 + λµ k</formula><p>and once again, by Cauchy-Schwarz, we only need to consider the terms involving (c x k ) 2 and (ξ x k ) 2 . Since λµ k 1+λµ k ≤ 1, Lemma A.3 shows that</p><formula xml:id="formula_64">n -1 k (c x k ) 2 λ x µ k 1 + λ x µ k 2 λµ k 1 + λµ k ≤ n -1 (f x ) T (I-S λx ) 2 f x = B 2 tp (f x , λ x ) = O(λ x ) = o(1).</formula><p>For the term involving (ξ x k ) 2 , firstly note that if a 1 , a 2 , a 3 &gt; 0, then</p><formula xml:id="formula_65">1 - a 1 a 2 a 3 (1 + a 1 )(1 + a 2 )(1 + a 3 ) = (1 + a 1 )(1 + a 2 )(1 + a 3 ) -a 1 a 2 a 3 (1 + a 1 )(1 + a 2 )(1 + a 3 ) = 1 + a 1 + a 2 + a 3 + a 1 a 2 + a 1 a 3 + a 2 a 3 (1 + a 1 )(1 + a 2 )(1 + a 3 ) ≤ 3 1 + a 1 + 2 1 + a 2 + 2 1 + a 3</formula><p>where in the last step we have used the fact that 1 1+a i ≤ 1 and a i 1+a i ≤ 1 for all i. Using this with a 1 = a 2 = λ x µ k and a 3 = λµ k we see that</p><formula xml:id="formula_66">k (ξ x k ) 2 - k (ξ x k ) 2 λ x µ k 1 + λ x µ k 2 λµ k 1 + λµ k ≤ sup k (ξ x k ) 2 k 5 1 + λ x µ k + k 2 1 + λ x µ k = O(log 2 n)O(n 1/2-τ ) = o(n)</formula><p>by assumption (A3) and Lemma A.2. Therefore,</p><formula xml:id="formula_67">n -1 k (ξ x k ) 2 λ x µ k 1 + λ x µ k 2 λµ k 1 + λµ k → σ 2 x</formula><p>by assumption (A2). This shows (a). For (b) we have that</p><formula xml:id="formula_68">n -1 x T (I -S λx )(I -S λ ) 2 (I -S λx )x = n -1 k (c x k + ξ x k ) 2 λ x µ k 1 + λ x µ k 2 λµ k 1 + λµ k 2 .</formula><p>For the term involving (c x k ) 2 , the same argument as in (a) shows that this is o(1). For the (ξ x k ) 2 term we note that</p><formula xml:id="formula_69">1 - a 1 a 2 a 3 a 4 (1 + a 1 )(1 + a 2 )(1 + a 3 )(1 + a 4 ) ≤ 5 1 + a 1 + 4 1 + a 2 + 4 1 + a 3 + 2 1 + a 4</formula><p>for a 1 , a 2 , a 3 , a 4 &gt; 0 and using this with a 1 = a 2 = λ x µ k and a 3 = a 4 = λµ k shows that</p><formula xml:id="formula_70">n -1 k (ξ x k ) 2 λ x µ k 1 + λ x µ k 2 λµ k 1 + λµ k 2 → σ 2 x</formula><p>as in (a). This proves (b).</p><p>For (c) let c = Φ T f be the coefficients of f in the basis Φ. Then</p><formula xml:id="formula_71">n -1 x T (I -S λx )(I -S λ )f = n -1 k (c x k c k + ξ x k c k ) λ x µ k 1 + λ x µ k λµ k 1 + λµ k .</formula><p>For the term involving c x k , we use Cauchy-Schwarz to see that</p><formula xml:id="formula_72">n -1 k c x k c k λ x µ k 1 + λ x µ k λµ k 1 + λµ k ≤ n -1 k c x k λ x µ k 1 + λ x µ k 2 1/2 n -1 k c k λµ k 1 + λµ k 2 1/2 = B 2 tp (f x , λ x )B 2 tp (f, λ) 1/2 = O (λ x λ) 1/2 by Lemma A.3. For the term involving ξ x k , since λxµ k 1+λxµ k ≤ 1, n -1 k ξ x k c k λ x µ k 1 + λ x µ k λµ k 1 + λµ k ≤ n -1 k ξ x k c k λµ k 1 + λµ k = o(n -1/2 )</formula><p>by the proof of <ref type="bibr">Lemma A.4 (c)</ref>. This proves (c). For (d) we have that</p><formula xml:id="formula_73">n -1 x T (I -S λx )(I -S λ )S λx x = n -1 k (c x k + ξ x k ) 2 λ x µ k (1 + λ x µ k ) 2 λµ k 1 + λµ k .</formula><p>For the term involving (c x k ) 2 , Cauchy-Schwarz implies that</p><formula xml:id="formula_74">n -1 k (c x k ) 2 λ x µ k (1 + λ x µ k ) 2 λµ k 1 + λµ k ≤ n -1 k (c x k ) 2 λ x µ k 1 + λ x µ k λµ k 1 + λµ k ≤ B 2 tp (f x , λ x )B 2 tp (f x , λ) 1/2 = O (λλ x ) 1/2 )</formula><p>by Lemma A.3. For the term involving (ξ x k ) 2 we use (A3) and Lemma A.2 to see that</p><formula xml:id="formula_75">n -1 k (ξ x k ) 2 λ x µ k (1 + λ x µ k ) 2 λµ k 1 + λµ k ≤ sup k (ξ x k ) 2 n -1 k 1 1 + λ x µ k = O (log 2 n)n -1/2-τ = o(n -1/2 ).</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>This proves (d)</head><p>For (e) we have that</p><formula xml:id="formula_76">n -1 x T S λx (I -S λ ) 2 S λx x = n -1 k (c x k + ξ x k ) 2 1 (1 + λ x µ k ) 2 λµ k 1 + λµ k 2 .</formula><p>For the term involving (c x k ) 2 we see that</p><formula xml:id="formula_77">n -1 k (c x k ) 2 1 (1 + λ x µ k ) 2 λµ k 1 + λµ k 2 ≤ n -1 k (c x k ) 2 λµ k 1 + λµ k 2 = B 2 tp (f x , λ) = O(λ).</formula><p>For the term involving (ξ</p><formula xml:id="formula_78">x k ) 2 n -1 k (ξ x k ) 2 1 (1 + λ x µ k ) 2 λµ k 1 + λµ k 2 ≤ n -1 sup k (ξ x k ) 2 k 1 (1 + λ x µ k ) 2 = O n -1 (log 2 n)λ -d/2m</formula><p>x by assumption (A3) and Lemma A.2. This proves (e).</p><p>For (f) we write</p><formula xml:id="formula_79">n -1 x T S λ + (I -S λ )S λx ] T [S λ + (I -S λ )S λx x (B.3) = n -1 x T S 2 λ x + 2x T S λ (I -S λ )S λx x + x T S λx (I -S λ ) 2 S λx . For the first term in (B.3), n -1 x T S 2 λ x = O</formula><p>(1) by Lemma A.4 (d). For the second term in (B.3) we see that</p><formula xml:id="formula_80">n -1 x T S λ (I -S λ )S λx x = n -1 k (c x k + ξ x k ) 2 1 1 + λ x µ k λµ k (1 + λµ k ) 2 ≤ n -1 k (c x k + ξ x k ) 2 λµ k 1 + λµ k = n -1 x T (I -S λ )x = O(1)</formula><p>by <ref type="bibr">Lemma A.4 (a)</ref>. From (e), the third term in (B.3) is given by</p><formula xml:id="formula_81">n -1 x T S λx (I -S λ ) 2 S λx = O(λ) + O(n -1 λ -d/2m x log 2 n) ≈ O(n -δ ) + O(n -(1-δxd/2m) log 2 n) = O(1).</formula><p>This proves (f).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>C Proofs of main results</head><p>In this appendix we prove the results given in Sections 3.2 and 3.3 of the paper.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Theorem 1</head><p>Let</p><formula xml:id="formula_82">f = (f (t 1 ), . . . , f (t n )) T . Since E(y) = βx + f , the expression (3) in the paper shows that E( β) -β = x T (I -S λ )x -1 x T (I -S λ )(βx + f ) -β = n -1 x T (I -S λ )x -1 n -1 x T (I -S λ )f = o(n -1/2 ) + O(λ 1/2 )</formula><p>by Lemma A.4 (a) and (c). Similarly, since Var(y) = σ 2 I, (3) in the paper shows that</p><formula xml:id="formula_83">nVar( β) = nσ 2 x T (I -S λ )x -1 x T (I -S λ ) 2 x x T (I -S λ )x -1 = σ 2 n -1 x T (I -S λ )x -1 n -1 x T (I -S λ ) 2 x n -1 x T (I -S λ )x -1 → σ 2 /σ 2</formula><p>x as n → ∞ by <ref type="bibr">Lemma A.4 (a)</ref> and (b).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Theorem 2</head><p>Let f = (f (t 1 ), . . . , f (t n )) T and = ( 1 , . . . , n ) T so that y = βx + f + .</p><p>Since f = S λ (y -βx) by (3) in the paper,</p><formula xml:id="formula_84">E( f ) -f = -E( β) -β S λ x -(I -S λ )f .</formula><p>We therefore see that</p><formula xml:id="formula_85">B 2 (f, λ) = n -1 E( f ) -f 2 ≤ n -1 E( β) -β S λ x 2 + n -1 (I -S λ )f 2 = E( β) -β 2 n -1 x T S 2 λ x + B 2 tp (f, λ) = o(n -1 ) + O(λ) O(1) + O(λ) = O(λ)</formula><p>by Theorem 1(a), Lemma A.4 (d) and Lemma A.3. This proves part (a).</p><p>For (b), firstly note that</p><formula xml:id="formula_86">f -E( f ) = S λ -β -E( β) S λ x.</formula><p>We therefore see that Finally, recall that AMSE( f ) = B 2 (f, λ) + V (f, λ).</p><formula xml:id="formula_87">V (f, λ) = n -1 E f -E( f ) 2 ≤ n -1 E( T S 2 λ ) + E ( β -E( β)) 2 n -1 x T S 2 λ x = n -1 σ 2 Tr(S 2 λ ) + Var( β)O(1) = O(n -1 λ -d/2m ) + O(n -1 ) = O(n -1 λ -d/2m</formula><p>From the above, we see that the bias term increases with λ while the variance term decreases with λ so that the optimal rate for minimising AMSE( f ) is achieved when O(λ) = O(n -1 λ -d/2m ). This leads to an optimal rate of λ = O(n -2m/(2m+d) ). At this rate for λ, B 2 (f, λ) and V (f, λ) converge at the same rate of O(n -2m/(2m+d) ).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Theorem 3</head><p>Let</p><formula xml:id="formula_88">b = (I -S λ )(I -S λx )x a 1 = n -1 b T (I -S λx )x = n -1 x T (I -S λx )(I -S λ )(I -S λx )x a 2 = n -1 b T b = n -1 x T (I -S λx )(I -S λ ) 2 (I -S λx )x.</formula><p>By Lemma A.5 (a) and (b), a 1 → σ 2 x and a 2 → σ 2 x as n → ∞. From (7) in the paper we see that β+ = (na 1 ) -1 b T y.</p><p>Therefore, since E(y) = βx + f where f = (f (t 1 ), . .</p><formula xml:id="formula_89">. , f (t n )), E( β+ ) -β = (na 1 ) -1 (b T x -na 1 )β + b T f = (na 1 ) -1 b T S λx xβ + b T f = a -1 1 n -1 x T (I -S λx )(I -S λ )S λx xβ + n -1 x T (I -S λx )(I -S λ )f = o(n -1/2 ) + O((λλ x ) 1/2 )</formula><p>by Lemma A.5 (d) and (c). This proves part (a). For part (b), since Var(y) = σ 2 I, we see that</p><formula xml:id="formula_90">nVar( β+ ) = n(na 1 ) -2 b T (σ 2 I)b = (σ 2 a 2 )/a 2 1 → σ 2 /σ 2 x as n → ∞.</formula><p>This proves (b).</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Theorem 4</head><p>Let</p><formula xml:id="formula_91">f = (f (t 1 ), . . . , f (t n )) T and = ( 1 , . . . , n ) T so that y = βx + f + . Since by (8) in the paper f + = S λ y -S λ + (I -S λ )S λx β+ x, we have that E( f + ) -f = -(I -S λ )f -(E( β+ ) -β) S λ + (I -S λ )S λx x -β(I -S λ )S λx x.</formula><p>Since n -1 (I -S λ )f 2 = B 2 tp (f, λ), we therefore see that</p><formula xml:id="formula_92">B 2 + (f, λ, λ x ) = n -1 E( f + ) -f 2 ≤ n -1 (I -S λ )f 2 + E( β+ ) -β 2 n -1 S λ + (I -S λ )S λx x 2 +β 2 n -1 (I -S λ )S λx x 2 = O(λ) + o(n -1 ) + O(λλ x ) O(1) + O(λ) + O(n -1 λ d/2m x log 2 n) = O(λ) + O(n -1 λ -d/2m x log 2 n)</formula><p>by Lemma A.3, Theorem 3(a) and Lemma A.4 (f) and (e). This proves part (a). For (b), note that</p><formula xml:id="formula_93">f + -E( f + ) = S λ -β+ -E( β+ ) S λ + (I -S λ )S λx x.</formula><p>We therefore see that Finally, recall that</p><formula xml:id="formula_94">V + (f, λ, λ x ) = n -1 E f + -E( f + ) 2 ≤ n -1 E[ T S 2 λ ] -E ( β+ -E( β+ )) 2 n -1 S λ + (I -S λ )S λx x 2 = n -1 σ 2 Tr(S 2 λ ) + Var( β+ )O(1) = O(n -1 λ -d/2m ) + O(n -1 ) = O(n -1 λ -d/2m</formula><formula xml:id="formula_95">AMSE( f + ) = B 2 + (f, λ, λ x ) + V + (f, λ, λ x ).</formula><p>From the above we see that the bias term increases with λ while the variance term decreases with λ so that the optimal rate for minimising AMSE( f + ) is achieved when O(λ) = O(n -1 λ -d/2m ). This leads to an optimal rate of λ = O(n -2m/( <ref type="formula" target="#formula_3">2m+d</ref>) ). Since we have assumed that the convergence rates for B 2 + (f, λ, λ x ) and V + (f, λ, λ x ) are equal, the optimal rate for λ x is then obtained when O(n -1 λ</p><formula xml:id="formula_96">-d/2m x log 2 n) = O(n -2m/(2m+d) ) which leads to O(λ x ) = n -2m/(2m+d) (log n) 4m/d .</formula></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>Proof of Corollary 2</head><p>Theorem 3(b) shows that we need E( β+ )-β = o(n -1/2 ) to ensure that the bias converges faster than the standard deviation. Part (a) of the same theorem shows that this required rate can be achieved if λλ x = o(n -1 ). Suppose λ and λ x converge at their optimal rates from Theorem 4. Then since for any &gt; 0,</p><formula xml:id="formula_97">n -2m/(2m+d) (log n) 4m/d = o(n -2m/(2m+d)+ ), we have that λλ x = o(n -4m/(2m+d)+ ) = o(n -1 )</formula><p>if we choose = 2m-d 2m+d . This proves the result.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>D Partial residual estimates</head><p>In this appendix we consider, as an aside, the asymptotic behaviour of the partial residual estimates introduced by Denby (1986) and, independently, by <ref type="bibr" target="#b15">Speckman (1988)</ref>, which are the estimates we obtain using the gSEM approach of <ref type="bibr" target="#b16">Thaden and Kneib (2018)</ref>. Here we adapt the method used in Sections 3.2 and 3.3 of the paper for estimates in the spatial and spatial+ models to show how the asymptotic results in <ref type="bibr" target="#b1">Chen and Shiau (1991)</ref> for the partial residual estimates generalise from the one-dimensional model to dimensions d ≥ 1. We show that, as is the case for the spatial+ model, the smoothing-induced bias in the covariate effect estimate goes to 0 faster than the standard deviation, i.e. the partial residual estimates also avoid the problem of disproportionate smoothing-induced bias.</p><p>For a given value λ &gt; 0 of the smoothing parameter, the partial residual estimates for the covariate effect β and the unknown smooth effect f = (f (t 1 ), . . . , f (t n )) T in the model (1) of the paper, are defined as</p><formula xml:id="formula_98">βpr = x T (I -S λ ) 2 x -1 x T (I -S λ ) 2 y, (D.1) fpr = S λ (y -βpr x)</formula><p>where S λ is the smoother matrix. A similar argument to that of Section 2.2 of the paper shows that these estimates are the ones we would obtain in the gSEM if, for simplicity, we used the same smoothing parameter in all regressions. That is, the estimate βpr is the same as the estimated effect in the linear model given by</p><formula xml:id="formula_99">r y i = βr x i + i , i ∼ iid N (0, σ 2 )</formula><p>where r x = (I -S λ )x and r y = (I -S λ )y are the residuals after fitting a thin plate spline to x and y, respectively.</p><p>Minor adjustments to the proofs of Theorems 1 and 2 and Corollary 1 for the spatial model estimates lead to the following results. These results show that the asymptotic behaviour of the estimates βpr and fpr is the same as that of the corresponding spatial model estimates, except for the rate of convergence of the bias of the covariate effect estimate βpr . More specifically, E( βpr ) -β = o(n -1/2 ) + O(λ), whereas E( β) -β = o(n -1/2 ) + O(λ 1/2 ) and this difference is enough to ensure that the bias converges faster than the standard deviation when λ converges at the optimal rate (for minimising the AMSE of the estimated spatial effect).</p><p>Theorem D.1. Suppose λ ≈ n -δ for some 0 &lt; δ &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d. Then for the partial residual estimate of β we have that</p><formula xml:id="formula_100">(a) E( βpr ) -β = o(n -1/2 ) + O(λ), (b) nVar( βpr ) → σ 2 /σ 2</formula><p>x as n → ∞.</p><p>In particular, Var( βpr ) = O(n -1 ) and we need λ = o(n -1/2 ) to ensure that the bias converges faster than the standard deviation of βpr .</p><p>Proof. Let f = (f (t 1 ), . . . , f (t n )) T . Since E(y) = βx + f , the expression (D.1) shows that</p><formula xml:id="formula_101">E( βpr ) -β = x T (I -S λ ) 2 x -1 x T (I -S λ ) 2 (βx + f ) -β = n -1 x T (I -S λ ) 2 x -1 n -1 x T (I -S λ ) 2 f = o(n -1/2 ) + O(λ)</formula><p>by <ref type="bibr">Lemma A.4 (b)</ref> and <ref type="bibr">Lemma A.5 (c)</ref>. Similarly, since Var(y) = σ 2 I, (D.1) shows that Theorem D.2. Suppose λ ≈ n -δ for some 0 &lt; δ &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d.</p><formula xml:id="formula_102">nVar( βpr ) = nσ 2 x T (I -S λ ) 2 x -1 x T (I -S λ ) 4 x x T (I -S λ ) 2 x -1 = σ 2 n -1 x T (I -S λ ) 2 x -1 n -1 x T (I -S λ ) 4 x n -1 x T (I -S λ ) 2 x -1 → σ 2 /σ 2 x as n → ∞</formula><p>Then the average squared bias B 2 pr (f, λ) and average variance V pr (f, λ) of the partial residual estimate of f satisfy (a) B 2 pr (f, λ) = n -1 i (E(( fpr</p><formula xml:id="formula_103">) i ) -f (t i )) 2 = O(λ), (b) V pr (f, λ) = n -1 i Var(( fpr ) i ) = O(n -1 λ -d/2m</formula><p>). In particular, the optimal rate for λ in terms of minimising AMSE( fpr ) is λ = O(n -2m/(2m+d) ), and when λ converges at this optimal rate, AMSE( fpr ) = O(n -2m/(2m+d) ).</p><p>Proof. Let f = (f (t 1 ), . . . , f (t n )) T and = ( 1 , . . . , n ) T so that y = βx + f + .</p><p>By (D.1), fpr = S λ (y -βpr x) has the same format as the corresponding partial thin plate spline estimate, and therefore,</p><formula xml:id="formula_104">E( fpr ) -f = -E( βpr ) -β S λ x -(I -S λ )f and fpr -E( fpr ) = S λ -βpr -E( βpr ) S λ x.</formula><p>as in the proof of Theorem 2. For the derivation of B 2 pr (f, λ) and V pr (f, λ), we can therefore apply the same proof where the only adjustment needed is the rate of convergence of the bias E( βpr ) -β.</p><formula xml:id="formula_105">B 2 pr (f, λ) = n -1 E( fpr ) -f 2 ≤ n -1 E( βpr ) -β S λ x 2 + n -1 (I -S λ )f 2 = E( βpr ) -β 2 n -1 x T S 2 λ x + B 2 tp (f, λ) = o(n -1 ) + O(λ 2 ) O(1) + O(λ) = O(λ)</formula><p>by Theorem D.1 (a), Lemma A.4 (d) and Lemma A.3. This proves part (a).</p><formula xml:id="formula_106">V pr (f, λ) = n -1 E fpr -E( fpr ) 2 ≤ n -1 E( T S 2 λ ) + E β -E( βpr ) 2 n -1 x T S 2 λ x = n -1 σ 2 Tr(S 2 λ ) + Var( βpr )O(1) = O(n -1 λ -d/2m ) + O(n -1 ) = O(n -1 λ -d/2m )</formula><p>by Lemma A.2, Theorem D.1 (b) and <ref type="bibr">Lemma A.4 (d)</ref>. This proves part (b).</p><p>The same argument as we used for the partial thin plate spline estimate f shows that the optimal rate of convergence for minimising AMSE( fpr ) is achieved when O(λ) = O(n -1 λ -d/2m ), which leads to λ = O(n -2m/(2m+d) ) and AMSE( fpr ) = O(n -2m/(2m+d) ).</p><p>Corollary D.3. Suppose λ ≈ n -δ for some 0 &lt; δ &lt; 1, f, f x ∈ H m (Ω) are bounded and m ≥ d. If λ converges at the optimal rate in terms of minimising AMSE( fpr ), then λ = o(n -1/2 ).</p><p>In particular, the optimal rate for λ ensures that the bias of the partial residual estimate βpr converges faster than the standard deviation of the estimate.</p></div><figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_0"><head>Figure 1 -</head><label>1</label><figDesc>Figure 1 -Forestry example. Estimated effect of minimum temperature in May on crown defoliation in the null model (left) and the spatial model (middle), where for each model the plot shows the contribution of the centered covariate to the predicted response (with two times standard error bands). Estimated spatial effect in the spatial model (right) with the border of Baden-Württemberg outlined and dots showing the data locations.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_1"><head>Figure 2 -</head><label>2</label><figDesc>Figure2-Estimated covariate effect β (left) and MSE of fitted values (right) for each model fitted to 100 data replicates, where the true covariate effect is β = 3. Subscript fx refers to a model in which no smoothing penalties were applied whereas no subscript models were smoothed. Results in grey are the three models that correspond to those used in Thaden and Kneib's simulation study.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_2"><head>Figure 3 -</head><label>3</label><figDesc>Figure 3 -For each of the distributions Poisson (top), exponential (middle), binomial (bottom): the estimated covariate effect β (left) and log(MSE) of fitted values (right) for each model fitted to 100 data replicates, where the true covariate effect is β = 3. Subscript fx refers to a model in which no smoothing penalties were applied.</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_3"><figDesc>) by Lemma A.2, Theorem 1(b) andLemma A.4 (d). This proves part (b).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_4"><figDesc>) by Lemma A.5 (f), Lemma A.2 and Theorem 3(b). This proves part (b).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" xml:id="fig_5"><head>by</head><figDesc>Lemma A.4 (b)  andLemma A.5 (b).</figDesc></figure>
+<figure xmlns="http://www.tei-c.org/ns/1.0" type="table" xml:id="tab_0"><head>Table 1 -</head><label>1</label><figDesc>. . , t n the observed data locations.Forestry example: results of fitting models to the data. For each covariate: the estimate of the covariate effect β and its p-value. s(x,y) refers to the thin plate regression splines fitted to f in the spatial model and f + in the spatial+ model. For each of these: the effective degrees of freedom (edf) and the p-value. For each significant p-value we write *** if it is &lt; 0.001, ** if &lt; 0.01 and * if &lt; 0.05. Note that in the gSEM, deviance explained, estimated standard deviation and AIC do not compare directly with the other models as the response variable is different.</figDesc><table><row><cell></cell><cell></cell><cell>age</cell><cell></cell><cell>tminmay</cell><cell></cell><cell>s(x,y)</cell><cell>Dev</cell></row><row><cell></cell><cell>β</cell><cell>p-value</cell><cell cols="2">β p-value</cell><cell>edf</cell><cell>p-value</cell><cell>expl</cell><cell>σ AIC</cell></row><row><cell>Null</cell><cell cols="3">0.00247 &lt; 10 -16 *** 0.0042</cell><cell>0.5049</cell><cell></cell><cell></cell><cell>0.490 0.00940 -335</cell></row><row><cell>Spatial</cell><cell cols="3">0.00237 &lt; 10 -16 *** 0.0149</cell><cell>0.0307</cell><cell>* 14.2</cell><cell>0.0243</cell><cell>* 0.605 0.00789 -355</cell></row><row><cell cols="4">Spatial+ 0.00237 &lt; 10 -16 *** 0.0316</cell><cell cols="4">0.0073 ** 12.0 3.32e-05 *** 0.598 0.00793 -356</cell></row><row><cell>gSEM</cell><cell cols="3">0.00232 &lt; 10 -16 *** 0.0317</cell><cell cols="2">0.0058 **</cell><cell></cell></row></table></figure>
+		</body>
+		<back>
+
+			<div type="acknowledgement">
+<div><head>Acknowledgements</head><p>Emiko Dupont is supported by a scholarship from the <rs type="funder">EPSRC Centre for Doctoral Training in Statistical Applied Mathematics at Bath (SAMBa)</rs>, under the project <rs type="grantNumber">EP/L015684/1</rs>.</p></div>
+			</div>
+			<listOrg type="funding">
+				<org type="funding" xml:id="_9X3gNHn">
+					<idno type="grant-number">EP/L015684/1</idno>
+				</org>
+			</listOrg>
+			<div type="annex">
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>E Additional derivations for simulation results</head></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>E.1 Estimated effects in the unsmoothed spatial+ and gSEM models</head><p>If no smoothing penalty is applied, the the spatial model, the gSEM and the spatial+ model are essentially the same, i.e. they have the same fitted values and the same unbiased estimate for the covariate effect. The spatial model is in this case an ordinary linear model where the columns in the model matrix are the covariate x and the spatial basis vectors B sp .</p><p>The unsmoothed spatial+ model is a reparametrisation of the spatial model where the column x in the model matrix is replaced by the spatial residuals r x = xf x (where f x are the fitted values of a spatial thin plate spline fitted to x). This does not change the overall column space as the difference f x lies in the column space of B sp . By the data generation process,</p><formula xml:id="formula_107">y = βx + f + y = βr x + β f x -z -z + y ,</formula><p>with β f xzz in the column space of B sp and, therefore, the true effect of r x is the same as that of x. In fact, since r x is orthogonal to the spatial basis vectors, the estimated effect β in the spatial+ model ( <ref type="formula">14</ref>) of the paper (and therefore in the spatial model ( <ref type="formula">10</ref>) of the paper) is obtained as</p><formula xml:id="formula_108">β = (r x ) T r x -1 (r x ) T y = β + (r x ) T r x -1 (r x ) T y .</formula><p>Similarly, for the unsmoothed gSEM, since r y = yf y = βr x + β f xzzf y + y , with β f xzzf y in the column space of B sp , the estimated effect β of r x in the gSEM model (13) of the paper is the same, namely,</p><formula xml:id="formula_109">β = (r x ) T r x -1 (r x ) T r y = β + (r x ) T r x -1 (r x ) T y .</formula><p>Note that, since r x and y are independent, E( β) = β, i.e. the the estimated covariate effect is unbiased.</p></div>
+<div xmlns="http://www.tei-c.org/ns/1.0"><head>E.2 Non-Gaussian version of RSR</head><p>Recall that in the Gaussian version of RSR, correlation between the covariate and spatial effect estimates is eliminated by restricting the spatial effect to the orthogonal complement of x. In Section 6.2, we saw that estimation in the generalised version of the spatial model (i.e. (16) in the paper) corresponds to that of a Gaussian model in which the model matrix has columns x = √ Wx and √ WB sp with W the weights matrix at convergence of the PIRLS algorithm. We can therefore define the generalised RSR model to be the same as the generalised spatial model but with the spatial basis vectors B sp in the model matrix replaced by</p><formula xml:id="formula_110">B sp = (I -x(x T Wx) -1 x T W)B sp .</formula><p>Then, by construction, the generalised RSR model corresponds to a Gaussian model for which the columns x = √ Wx and √ W B sp are orthogonal:</p><formula xml:id="formula_111">xT √ W B sp = x T W B sp = 0.</formula></div>			</div>
+			<div type="references">
+
+				<listBibl>
+
+<biblStruct status="extracted" xml:id="b0">
+	<analytic>
+		<title level="a" type="main">Modeling spatiotemporal forest health monitoring data</title>
+		<author>
+			<persName><forename type="first">N</forename><surname>Augustin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Musio</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">K</forename><surname>Von Wilpert</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><surname>Kublin</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wood</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><surname>Schumacher</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the American Statistical Association</title>
+		<imprint>
+			<biblScope unit="volume">104</biblScope>
+			<biblScope unit="page" from="899" to="911" />
+			<date type="published" when="2009">2009</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b1">
+	<analytic>
+		<title level="a" type="main">A two-stage spline smoothing method for partially linear models</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-J</forename><forename type="middle">H</forename><surname>Shiau</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of Statistical Planning and Inference</title>
+		<imprint>
+			<biblScope unit="volume">27</biblScope>
+			<biblScope unit="page" from="187" to="201" />
+			<date type="published" when="1991">1991</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b2">
+	<analytic>
+		<title level="a" type="main">Data-driven efficient estimators for a partially linear model</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Chen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J.-J</forename><forename type="middle">H</forename><surname>Shiau</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The Annals of Statistics</title>
+		<imprint>
+			<biblScope unit="page" from="211" to="237" />
+			<date type="published" when="1994">1994</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b3">
+	<analytic>
+		<title level="a" type="main">Spatial correlation in ecological analysis</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">G</forename><surname>Clayton</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">L</forename><surname>Bernardinelli</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">C</forename><surname>Montomoli</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">International Journal of Epidemiology</title>
+		<imprint>
+			<biblScope unit="volume">22</biblScope>
+			<biblScope unit="page" from="1193" to="1202" />
+			<date type="published" when="1993">1993</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b4">
+	<analytic>
+		<title level="a" type="main">A general definition of residuals</title>
+		<author>
+			<persName><forename type="first">D</forename><forename type="middle">R</forename><surname>Cox</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">J</forename><surname>Snell</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">30</biblScope>
+			<biblScope unit="page" from="248" to="265" />
+			<date type="published" when="1968">1968</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b5">
+	<analytic>
+		<title level="a" type="main">Splines minimizing rotation-invariant semi-norms in sobolev spaces</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Duchon</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="m">Constructive theory of functions of several variables</title>
+		<imprint>
+			<publisher>Springer</publisher>
+			<date type="published" when="1977">1977</date>
+			<biblScope unit="page" from="85" to="100" />
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b6">
+	<monogr>
+		<title level="m" type="main">ICP Forests manual on methods and criteria for harmonized sampling, assessment, monitoring and analysis of the effects of air pollution on forests</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Eichhorn</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Roskams</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">N</forename><surname>Potocic</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Timmermann</surname></persName>
+		</author>
+		<author>
+			<persName><surname>Ferretti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Mues</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">A</forename><surname>Szepesi</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">D</forename><surname>Durrant</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">I</forename><surname>Seletković</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">H-W</forename><surname>Schröck</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Nevalainen</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">F</forename><surname>Bussotti</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">P</forename><surname>Garcia</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Wulff</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<pubPlace>Eberswalde,Germany</pubPlace>
+		</imprint>
+		<respStmt>
+			<orgName>Thünen Institute of Forest Ecosystems</orgName>
+		</respStmt>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b7">
+	<analytic>
+		<title level="a" type="main">Penalized structured additive regression for space-time data: a bayesian perspective</title>
+		<author>
+			<persName><forename type="first">L</forename><surname>Fahrmeir</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">S</forename><surname>Lang</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistica Sinica</title>
+		<imprint>
+			<biblScope unit="page" from="731" to="761" />
+			<date type="published" when="2004">2004</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b8">
+	<analytic>
+		<title level="a" type="main">Restricted spatial regression in practice: geostatistical models, confounding, and robustness under model misspecification</title>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Hanks</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">E</forename><forename type="middle">M</forename><surname>Schliep</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">M</forename><forename type="middle">B</forename><surname>Hooten</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">A</forename><surname>Hoeting</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Environmetrics</title>
+		<imprint>
+			<biblScope unit="volume">26</biblScope>
+			<biblScope unit="page" from="243" to="254" />
+			<date type="published" when="2015">2015</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b9">
+	<analytic>
+		<title level="a" type="main">Adding spatially-correlated errors can mess up the fixed effect you love</title>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">64</biblScope>
+			<biblScope unit="page" from="325" to="334" />
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b10">
+	<analytic>
+		<title level="a" type="main">Spline functions and stochastic processes</title>
+		<author>
+			<persName><forename type="first">G</forename><forename type="middle">S</forename><surname>Kimeldorf</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wahba</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Sankhyā: The Indian Journal of Statistics</title>
+		<imprint>
+			<biblScope unit="page" from="173" to="180" />
+			<date type="published" when="1970">1970</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b11">
+	<analytic>
+		<title level="a" type="main">The importance of scale for spatial-confounding bias and precision of spatial regression estimators</title>
+		<author>
+			<persName><forename type="first">C</forename><forename type="middle">J</forename><surname>Paciorek</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistical science: a review journal of the Institute of Mathematical Statistics</title>
+		<imprint>
+			<biblScope unit="volume">25</biblScope>
+			<biblScope unit="page">107</biblScope>
+			<date type="published" when="2010">2010</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b12">
+	<analytic>
+		<title level="a" type="main">Effects of residual smoothing on the posterior of the fixed effects in disease-mapping models</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">J</forename><surname>Reich</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">J</forename><forename type="middle">S</forename><surname>Hodges</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">V</forename><surname>Zadnik</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Biometrics</title>
+		<imprint>
+			<biblScope unit="volume">62</biblScope>
+			<biblScope unit="page" from="1197" to="1206" />
+			<date type="published" when="2006">2006</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b13">
+	<analytic>
+		<title level="a" type="main">Convergence rates for partially splined models</title>
+		<author>
+			<persName><forename type="first">J</forename><surname>Rice</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Statistics &amp; probability letters</title>
+		<imprint>
+			<biblScope unit="volume">4</biblScope>
+			<biblScope unit="page" from="203" to="208" />
+			<date type="published" when="1986">1986</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b14">
+	<analytic>
+		<title level="a" type="main">Some aspects of the spline smoothing approach to nonparametric regression curve fitting</title>
+		<author>
+			<persName><forename type="first">B</forename><forename type="middle">W</forename><surname>Silverman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">47</biblScope>
+			<biblScope unit="page" from="1" to="21" />
+			<date type="published" when="1985">1985</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b15">
+	<analytic>
+		<title level="a" type="main">Kernel smoothing in partial linear models</title>
+		<author>
+			<persName><forename type="first">P</forename><surname>Speckman</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of the Royal Statistical Society: Series B (Methodological)</title>
+		<imprint>
+			<biblScope unit="volume">50</biblScope>
+			<biblScope unit="page" from="413" to="436" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b16">
+	<analytic>
+		<title level="a" type="main">Structural equation models for dealing with spatial confounding</title>
+		<author>
+			<persName><forename type="first">H</forename><surname>Thaden</surname></persName>
+		</author>
+		<author>
+			<persName><forename type="first">T</forename><surname>Kneib</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">The American Statistician</title>
+		<imprint>
+			<biblScope unit="volume">72</biblScope>
+			<biblScope unit="page" from="239" to="252" />
+			<date type="published" when="2018">2018</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b17">
+	<analytic>
+		<title level="a" type="main">Convergence rates for multivariate smoothing spline functions</title>
+		<author>
+			<persName><forename type="first">F</forename><forename type="middle">I</forename><surname>Utreras</surname></persName>
+		</author>
+	</analytic>
+	<monogr>
+		<title level="j">Journal of approximation theory</title>
+		<imprint>
+			<biblScope unit="volume">52</biblScope>
+			<biblScope unit="page" from="1" to="27" />
+			<date type="published" when="1988">1988</date>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b18">
+	<monogr>
+		<title level="m" type="main">Spline models for observational data</title>
+		<author>
+			<persName><forename type="first">G</forename><surname>Wahba</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="1990">1990</date>
+			<biblScope unit="volume">59</biblScope>
+			<pubPlace>Siam</pubPlace>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+<biblStruct status="extracted" xml:id="b19">
+	<monogr>
+		<title level="m" type="main">Generalized additive models: an introduction with R</title>
+		<author>
+			<persName><forename type="first">S</forename><forename type="middle">N</forename><surname>Wood</surname></persName>
+		</author>
+		<imprint>
+			<date type="published" when="2017">2017</date>
+			<publisher>CRC press</publisher>
+		</imprint>
+	</monogr>
+</biblStruct>
+
+				</listBibl>
+			</div>
+		</back>
+	</text>
+</TEI>
